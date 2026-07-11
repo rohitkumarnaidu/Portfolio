@@ -20,9 +20,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Sections"
-        ]
+        "tags": ["Portfolio - Sections"]
       }
     },
     "/portfolio/sections/{idOrKey}": {
@@ -44,9 +42,7 @@
             "description": "Section not found"
           }
         },
-        "tags": [
-          "Portfolio - Sections"
-        ]
+        "tags": ["Portfolio - Sections"]
       }
     },
     "/portfolio/projects": {
@@ -92,9 +88,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Projects"
-        ]
+        "tags": ["Portfolio - Projects"]
       }
     },
     "/portfolio/projects/{slugOrId}": {
@@ -116,9 +110,7 @@
             "description": "Project not found"
           }
         },
-        "tags": [
-          "Portfolio - Projects"
-        ]
+        "tags": ["Portfolio - Projects"]
       }
     },
     "/portfolio/skills": {
@@ -140,9 +132,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Skills"
-        ]
+        "tags": ["Portfolio - Skills"]
       }
     },
     "/portfolio/experiences": {
@@ -155,9 +145,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Experiences"
-        ]
+        "tags": ["Portfolio - Experiences"]
       }
     },
     "/portfolio/blog": {
@@ -195,9 +183,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Blog"
-        ]
+        "tags": ["Portfolio - Blog"]
       }
     },
     "/portfolio/blog/{slugOrId}": {
@@ -219,9 +205,7 @@
             "description": "Blog post not found"
           }
         },
-        "tags": [
-          "Portfolio - Blog"
-        ]
+        "tags": ["Portfolio - Blog"]
       }
     },
     "/portfolio/testimonials": {
@@ -234,9 +218,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Testimonials"
-        ]
+        "tags": ["Portfolio - Testimonials"]
       }
     },
     "/portfolio/services": {
@@ -249,9 +231,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Services"
-        ]
+        "tags": ["Portfolio - Services"]
       }
     },
     "/portfolio/faqs": {
@@ -273,9 +253,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - FAQs"
-        ]
+        "tags": ["Portfolio - FAQs"]
       }
     },
     "/portfolio/leads": {
@@ -298,9 +276,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Leads"
-        ]
+        "tags": ["Portfolio - Leads"]
       }
     },
     "/portfolio/analytics/events": {
@@ -323,9 +299,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Portfolio - Analytics"
-        ]
+        "tags": ["Portfolio - Analytics"]
       }
     },
     "/admin/auth/login": {
@@ -348,9 +322,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Auth"
-        ]
+        "tags": ["Admin - Auth"]
       }
     },
     "/admin/auth/register": {
@@ -373,9 +345,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Auth"
-        ]
+        "tags": ["Admin - Auth"]
       }
     },
     "/admin/auth/refresh": {
@@ -398,9 +368,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Auth"
-        ]
+        "tags": ["Admin - Auth"]
       }
     },
     "/admin/auth/logout": {
@@ -423,9 +391,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Auth"
-        ],
+        "tags": ["Admin - Auth"],
         "security": [
           {
             "bearer": []
@@ -443,9 +409,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Dashboard"
-        ],
+        "tags": ["Admin - Dashboard"],
         "security": [
           {
             "bearer": []
@@ -495,10 +459,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string"
             }
           }
@@ -508,9 +469,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -536,9 +495,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -565,9 +522,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -602,9 +557,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -629,9 +582,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -662,9 +613,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -691,9 +640,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -720,9 +667,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -740,9 +685,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -760,9 +703,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Sections"
-        ],
+        "tags": ["Admin - Sections"],
         "security": [
           {
             "bearer": []
@@ -797,9 +738,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -825,9 +764,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -854,9 +791,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -893,9 +828,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -920,9 +853,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -949,9 +880,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -978,9 +907,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -998,9 +925,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -1018,9 +943,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Projects"
-        ],
+        "tags": ["Admin - Projects"],
         "security": [
           {
             "bearer": []
@@ -1070,10 +993,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string"
             }
           }
@@ -1083,9 +1003,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1111,9 +1029,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1140,9 +1056,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1177,9 +1091,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1204,9 +1116,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1233,9 +1143,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1262,9 +1170,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1282,9 +1188,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Skills"
-        ],
+        "tags": ["Admin - Skills"],
         "security": [
           {
             "bearer": []
@@ -1334,10 +1238,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string"
             }
           }
@@ -1347,9 +1248,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1375,9 +1274,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1404,9 +1301,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1441,9 +1336,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1468,9 +1361,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1497,9 +1388,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1526,9 +1415,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1546,9 +1433,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1566,9 +1451,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Experiences"
-        ],
+        "tags": ["Admin - Experiences"],
         "security": [
           {
             "bearer": []
@@ -1586,9 +1469,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1614,9 +1495,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1643,9 +1522,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1682,9 +1559,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1709,9 +1584,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1738,9 +1611,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1767,9 +1638,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1787,9 +1656,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1807,9 +1674,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Blog"
-        ],
+        "tags": ["Admin - Blog"],
         "security": [
           {
             "bearer": []
@@ -1859,10 +1724,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string"
             }
           }
@@ -1872,9 +1734,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -1900,9 +1760,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -1929,9 +1787,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -1966,9 +1822,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -1993,9 +1847,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -2022,9 +1874,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -2051,9 +1901,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -2071,9 +1919,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -2091,9 +1937,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Testimonials"
-        ],
+        "tags": ["Admin - Testimonials"],
         "security": [
           {
             "bearer": []
@@ -2143,10 +1987,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string"
             }
           }
@@ -2156,9 +1997,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2184,9 +2023,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2213,9 +2050,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2250,9 +2085,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2277,9 +2110,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2306,9 +2137,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2335,9 +2164,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2355,9 +2182,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Services"
-        ],
+        "tags": ["Admin - Services"],
         "security": [
           {
             "bearer": []
@@ -2407,10 +2232,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "asc",
-                "desc"
-              ],
+              "enum": ["asc", "desc"],
               "type": "string"
             }
           }
@@ -2420,9 +2242,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2448,9 +2268,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2477,9 +2295,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2514,9 +2330,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2541,9 +2355,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2570,9 +2382,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2599,9 +2409,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2619,9 +2427,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2639,9 +2445,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - FAQs"
-        ],
+        "tags": ["Admin - FAQs"],
         "security": [
           {
             "bearer": []
@@ -2692,9 +2496,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2712,9 +2514,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2741,9 +2541,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2778,9 +2576,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2805,9 +2601,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2834,9 +2628,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2861,9 +2653,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2890,9 +2680,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2919,9 +2707,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2939,9 +2725,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2959,9 +2743,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Leads"
-        ],
+        "tags": ["Admin - Leads"],
         "security": [
           {
             "bearer": []
@@ -2979,12 +2761,7 @@
             "required": false,
             "in": "query",
             "schema": {
-              "enum": [
-                "24h",
-                "7d",
-                "30d",
-                "90d"
-              ],
+              "enum": ["24h", "7d", "30d", "90d"],
               "type": "string"
             }
           }
@@ -2994,9 +2771,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Analytics"
-        ],
+        "tags": ["Admin - Analytics"],
         "security": [
           {
             "bearer": []
@@ -3023,9 +2798,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Analytics"
-        ],
+        "tags": ["Admin - Analytics"],
         "security": [
           {
             "bearer": []
@@ -3068,9 +2841,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3088,9 +2859,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3108,9 +2877,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3137,9 +2904,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3164,9 +2929,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3193,9 +2956,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3222,9 +2983,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3242,9 +3001,7 @@
             "description": ""
           }
         },
-        "tags": [
-          "Admin - Activities"
-        ],
+        "tags": ["Admin - Activities"],
         "security": [
           {
             "bearer": []
@@ -3254,9 +3011,7 @@
     },
     "/portfolio/achievements": {
       "get": {
-        "tags": [
-          "Portfolio - Achievements"
-        ],
+        "tags": ["Portfolio - Achievements"],
         "summary": "Get achievements, optionally filtered by category",
         "operationId": "getAchievements",
         "parameters": [
@@ -3293,9 +3048,7 @@
     },
     "/portfolio/case-studies": {
       "get": {
-        "tags": [
-          "Portfolio - Case Studies"
-        ],
+        "tags": ["Portfolio - Case Studies"],
         "summary": "Get case studies, optionally by projectId",
         "operationId": "getCaseStudies",
         "parameters": [
@@ -3332,9 +3085,7 @@
     },
     "/portfolio/case-studies/{id}": {
       "get": {
-        "tags": [
-          "Portfolio - Case Studies"
-        ],
+        "tags": ["Portfolio - Case Studies"],
         "summary": "Get case study by ID",
         "operationId": "getCaseStudy",
         "parameters": [
@@ -3368,9 +3119,7 @@
     },
     "/portfolio/press-features": {
       "get": {
-        "tags": [
-          "Portfolio - Press Features"
-        ],
+        "tags": ["Portfolio - Press Features"],
         "summary": "Get all press features",
         "operationId": "getPressFeatures",
         "responses": {
@@ -3397,9 +3146,7 @@
     },
     "/portfolio/guest-appearances": {
       "get": {
-        "tags": [
-          "Portfolio - Guest Appearances"
-        ],
+        "tags": ["Portfolio - Guest Appearances"],
         "summary": "Get all guest appearances",
         "operationId": "getGuestAppearances",
         "responses": {
@@ -3426,9 +3173,7 @@
     },
     "/portfolio/reading-list-items": {
       "get": {
-        "tags": [
-          "Portfolio - Reading List"
-        ],
+        "tags": ["Portfolio - Reading List"],
         "summary": "Get reading list items, optionally filtered by category",
         "operationId": "getReadingListItems",
         "parameters": [
@@ -3465,9 +3210,7 @@
     },
     "/portfolio/availability-status": {
       "get": {
-        "tags": [
-          "Portfolio - Availability"
-        ],
+        "tags": ["Portfolio - Availability"],
         "summary": "Get availability status",
         "operationId": "getAvailabilityStatus",
         "responses": {
@@ -3491,9 +3234,7 @@
     },
     "/portfolio/feature-flags/{key}": {
       "get": {
-        "tags": [
-          "Portfolio - Feature Flags"
-        ],
+        "tags": ["Portfolio - Feature Flags"],
         "summary": "Check if a feature flag is enabled",
         "operationId": "getFeatureFlag",
         "parameters": [
@@ -3535,9 +3276,7 @@
     },
     "/portfolio/chat/messages": {
       "post": {
-        "tags": [
-          "Portfolio - Chat"
-        ],
+        "tags": ["Portfolio - Chat"],
         "summary": "Send a chat message (public, SSE stream)",
         "operationId": "sendChatMessage",
         "requestBody": {
@@ -3559,9 +3298,7 @@
     },
     "/admin/auth/google": {
       "get": {
-        "tags": [
-          "Admin - Auth"
-        ],
+        "tags": ["Admin - Auth"],
         "summary": "Login with Google OAuth",
         "operationId": "googleAuth",
         "responses": {
@@ -3573,9 +3310,7 @@
     },
     "/admin/auth/google/callback": {
       "get": {
-        "tags": [
-          "Admin - Auth"
-        ],
+        "tags": ["Admin - Auth"],
         "summary": "Google OAuth callback",
         "operationId": "googleAuthCallback",
         "responses": {
@@ -3599,9 +3334,7 @@
     },
     "/admin/auth/github": {
       "get": {
-        "tags": [
-          "Admin - Auth"
-        ],
+        "tags": ["Admin - Auth"],
         "summary": "Login with GitHub OAuth",
         "operationId": "githubAuth",
         "responses": {
@@ -3613,9 +3346,7 @@
     },
     "/admin/auth/github/callback": {
       "get": {
-        "tags": [
-          "Admin - Auth"
-        ],
+        "tags": ["Admin - Auth"],
         "summary": "GitHub OAuth callback",
         "operationId": "githubAuthCallback",
         "responses": {
@@ -3639,9 +3370,7 @@
     },
     "/admin/sandbox": {
       "get": {
-        "tags": [
-          "Admin - Sandbox"
-        ],
+        "tags": ["Admin - Sandbox"],
         "summary": "Get sandbox session",
         "security": [
           {
@@ -3656,9 +3385,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Admin - Sandbox"
-        ],
+        "tags": ["Admin - Sandbox"],
         "summary": "Create sandbox session",
         "security": [
           {
@@ -3675,9 +3402,7 @@
     },
     "/admin/cleanup": {
       "post": {
-        "tags": [
-          "Admin - Cleanup"
-        ],
+        "tags": ["Admin - Cleanup"],
         "summary": "Run cleanup tasks",
         "security": [
           {
@@ -3694,9 +3419,7 @@
     },
     "/admin/export": {
       "get": {
-        "tags": [
-          "Admin - Export"
-        ],
+        "tags": ["Admin - Export"],
         "summary": "Export data",
         "security": [
           {
@@ -3713,9 +3436,7 @@
     },
     "/admin/api-keys": {
       "get": {
-        "tags": [
-          "Admin - API Keys"
-        ],
+        "tags": ["Admin - API Keys"],
         "summary": "List API keys",
         "security": [
           {
@@ -3730,9 +3451,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Admin - API Keys"
-        ],
+        "tags": ["Admin - API Keys"],
         "summary": "Generate new API key",
         "security": [
           {
@@ -3749,9 +3468,7 @@
     },
     "/admin/api-keys/{id}": {
       "delete": {
-        "tags": [
-          "Admin - API Keys"
-        ],
+        "tags": ["Admin - API Keys"],
         "summary": "Revoke an API key",
         "security": [
           {
@@ -3778,9 +3495,7 @@
     },
     "/admin/system-settings": {
       "get": {
-        "tags": [
-          "Admin - System Settings"
-        ],
+        "tags": ["Admin - System Settings"],
         "summary": "Get system settings",
         "security": [
           {
@@ -3795,9 +3510,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Admin - System Settings"
-        ],
+        "tags": ["Admin - System Settings"],
         "summary": "Update system settings",
         "security": [
           {
@@ -3814,9 +3527,7 @@
     },
     "/admin/notifications": {
       "get": {
-        "tags": [
-          "Admin - Notifications"
-        ],
+        "tags": ["Admin - Notifications"],
         "summary": "Get notifications",
         "security": [
           {
@@ -3833,9 +3544,7 @@
     },
     "/admin/feature-flags": {
       "get": {
-        "tags": [
-          "Admin - Feature Flags"
-        ],
+        "tags": ["Admin - Feature Flags"],
         "summary": "Get all feature flags",
         "security": [
           {
@@ -3852,9 +3561,7 @@
     },
     "/admin/chat/messages": {
       "post": {
-        "tags": [
-          "Admin - Chat"
-        ],
+        "tags": ["Admin - Chat"],
         "summary": "Send chat message as admin",
         "security": [
           {
@@ -3871,9 +3578,7 @@
     },
     "/admin/users": {
       "get": {
-        "tags": [
-          "Admin - Users"
-        ],
+        "tags": ["Admin - Users"],
         "summary": "Get all users",
         "security": [
           {
@@ -3905,9 +3610,7 @@
     },
     "/admin/media": {
       "get": {
-        "tags": [
-          "Admin - Media"
-        ],
+        "tags": ["Admin - Media"],
         "summary": "List all media assets",
         "security": [
           {
@@ -3939,9 +3642,7 @@
     },
     "/admin/media/{id}": {
       "delete": {
-        "tags": [
-          "Admin - Media"
-        ],
+        "tags": ["Admin - Media"],
         "summary": "Delete a media asset",
         "security": [
           {
@@ -3968,9 +3669,7 @@
     },
     "/health": {
       "get": {
-        "tags": [
-          "Health"
-        ],
+        "tags": ["Health"],
         "summary": "Health check",
         "operationId": "healthCheck",
         "responses": {
@@ -3982,9 +3681,7 @@
     },
     "/ready": {
       "get": {
-        "tags": [
-          "Health"
-        ],
+        "tags": ["Health"],
         "summary": "Readiness check",
         "operationId": "readinessCheck",
         "responses": {
@@ -4217,22 +3914,13 @@
           },
           "source": {
             "type": "string",
-            "enum": [
-              "contact_form",
-              "ai_chat",
-              "referral",
-              "direct"
-            ]
+            "enum": ["contact_form", "ai_chat", "referral", "direct"]
           },
           "metadata": {
             "type": "object"
           }
         },
-        "required": [
-          "name",
-          "email",
-          "message"
-        ]
+        "required": ["name", "email", "message"]
       },
       "TrackEventDto": {
         "type": "object",
@@ -4256,12 +3944,7 @@
             "type": "object"
           }
         },
-        "required": [
-          "eventName",
-          "pageUrl",
-          "sessionId",
-          "visitorId"
-        ]
+        "required": ["eventName", "pageUrl", "sessionId", "visitorId"]
       },
       "LoginDto": {
         "type": "object",
@@ -4275,10 +3958,7 @@
             "example": "Admin123!"
           }
         },
-        "required": [
-          "email",
-          "password"
-        ]
+        "required": ["email", "password"]
       },
       "RegisterDto": {
         "type": "object",
@@ -4296,11 +3976,7 @@
             "example": "Admin User"
           }
         },
-        "required": [
-          "email",
-          "password",
-          "display_name"
-        ]
+        "required": ["email", "password", "display_name"]
       },
       "RefreshTokenDto": {
         "type": "object",
@@ -4309,9 +3985,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "refresh_token"
-        ]
+        "required": ["refresh_token"]
       },
       "CreateSectionDto": {
         "type": "object",
@@ -4358,10 +4032,7 @@
             "type": "object"
           }
         },
-        "required": [
-          "section_key",
-          "section_label"
-        ]
+        "required": ["section_key", "section_label"]
       },
       "UpdateSectionDto": {
         "type": "object",
@@ -4443,22 +4114,13 @@
           },
           "category": {
             "type": "string",
-            "enum": [
-              "web",
-              "mobile",
-              "ai",
-              "devops",
-              "design",
-              "other"
-            ]
+            "enum": ["web", "mobile", "ai", "devops", "design", "other"]
           },
           "display_order": {
             "type": "number"
           }
         },
-        "required": [
-          "title"
-        ]
+        "required": ["title"]
       },
       "UpdateProjectDto": {
         "type": "object",
@@ -4533,11 +4195,7 @@
             "default": false
           }
         },
-        "required": [
-          "name",
-          "category",
-          "proficiency"
-        ]
+        "required": ["name", "category", "proficiency"]
       },
       "UpdateSkillDto": {
         "type": "object",
@@ -4708,13 +4366,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "title",
-          "excerpt",
-          "content",
-          "category",
-          "author"
-        ]
+        "required": ["title", "excerpt", "content", "category", "author"]
       },
       "UpdateBlogPostDto": {
         "type": "object",
@@ -4791,13 +4443,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "name",
-          "role",
-          "company",
-          "content",
-          "rating"
-        ]
+        "required": ["name", "role", "company", "content", "rating"]
       },
       "UpdateTestimonialDto": {
         "type": "object",
@@ -4853,12 +4499,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "title",
-          "description",
-          "icon",
-          "features"
-        ]
+        "required": ["title", "description", "icon", "features"]
       },
       "UpdateServiceDto": {
         "type": "object",
@@ -4905,10 +4546,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "question",
-          "answer"
-        ]
+        "required": ["question", "answer"]
       },
       "UpdateFaqDto": {
         "type": "object",
@@ -4935,22 +4573,11 @@
         "properties": {
           "status": {
             "type": "string",
-            "enum": [
-              "new",
-              "read",
-              "replied",
-              "converted",
-              "archived"
-            ]
+            "enum": ["new", "read", "replied", "converted", "archived"]
           },
           "priority": {
             "type": "string",
-            "enum": [
-              "low",
-              "normal",
-              "high",
-              "urgent"
-            ]
+            "enum": ["low", "normal", "high", "urgent"]
           },
           "note": {
             "type": "string"
@@ -5015,30 +4642,15 @@
           },
           "source": {
             "type": "string",
-            "enum": [
-              "contact_form",
-              "ai_chat",
-              "referral",
-              "direct"
-            ]
+            "enum": ["contact_form", "ai_chat", "referral", "direct"]
           },
           "status": {
             "type": "string",
-            "enum": [
-              "new",
-              "read",
-              "replied",
-              "converted",
-              "archived"
-            ]
+            "enum": ["new", "read", "replied", "converted", "archived"]
           },
           "priority": {
             "type": "string",
-            "enum": [
-              "low",
-              "medium",
-              "high"
-            ]
+            "enum": ["low", "medium", "high"]
           },
           "metadata": {
             "type": "object"
@@ -5271,11 +4883,7 @@
           },
           "role": {
             "type": "string",
-            "enum": [
-              "admin",
-              "editor",
-              "viewer"
-            ]
+            "enum": ["admin", "editor", "viewer"]
           },
           "createdAt": {
             "type": "string",
