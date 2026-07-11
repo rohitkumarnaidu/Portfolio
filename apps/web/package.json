@@ -21,7 +21,7 @@
     "@portfolio/shared": "1.0.0",
     "@portfolio/ui": "1.0.0",
     "@react-three/drei": "^9.122.0",
-    "@react-three/fiber": "^8.18.0",
+    "@react-three/fiber": "^9.6.1",
     "@react-three/postprocessing": "^2.19.1",
     "@sentry/nextjs": "^10.59.0",
     "@sentry/profiling-node": "^10.59.0",
