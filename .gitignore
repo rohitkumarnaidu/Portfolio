@@ -1,0 +1,94 @@
+# Git ignore patterns for node, python, build outputs
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Build
+.next/
+out/
+build/
+dist/
+
+# Testing
+coverage/
+
+# Misc
+.DS_Store
+*.pem
+*.log
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
+.idea/
+.opencode/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Build outputs per workspace
+apps/web/.next/
+apps/web/out/
+apps/api/dist/
+
+# Python
+apps/ai/__pycache__/
+
+# Supabase
+supabase/.branches/
+supabase/functions/*/index.ts
+
+# Turborepo
+.turbo/
+
+# OS / Temporary files
+nul
+docx_content.json
+rename_script.*
+rename_web.ps1
+
+# Documents (tracked — see docs/MASTER-INDEX.md)
+documents/
+
+apps/api/.env
+
+# Additional local files and data
+.npmrc
+*.db
+*.db-journal
+apps/api/data/
+apps/web/test.js
+test.js
+
+# Specific path ignoring for cases where standard patterns didn't match
+apps/ai/venv/
+apps/web/.vscode/
+**/.venv/
+**/venv/
