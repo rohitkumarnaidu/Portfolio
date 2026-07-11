@@ -1,0 +1,1 @@
+export { LightingSystem } from './LightingSystem';
