@@ -958,7 +958,7 @@ graph TB
 
 ### 11.1 Objectives
 
-1. Implement admin authentication (NextAuth.js + JWT + OAuth)
+1. Implement admin authentication (NestJS Passport + JWT + OAuth)
 2. Build admin layout (sidebar, header, route protection)
 3. Implement Dashboard overview (stats, charts, recent leads)
 4. Implement Section Manager (CRUD, visibility, reorder)
@@ -971,7 +971,7 @@ graph TB
 
 | ID | Deliverable | Constitution § | Est. Effort |
 |----|------------|---------------|-------------|
-| P9-D01 | NextAuth.js configuration (email/password + Google OAuth) | §11 SEC-001 | 4h |
+| P9-D01 | NestJS Passport configuration (email/password + Google OAuth) | §11 SEC-001 | 4h |
 | P9-D02 | Login page with validation, OAuth buttons, error states | §12 A11Y-012 | 3h |
 | P9-D03 | Admin layout (sidebar, header, route protection middleware) | §8 NEXT-001, §11 SEC | 4h |
 | P9-D04 | Admin auth guard + JWT refresh handling | §11 SEC-001 | 3h |
@@ -1502,7 +1502,7 @@ graph LR
 | P8 | `apps/web/src/components/` | `Chatbot.tsx`, `ChatWidget.tsx`, `ChatMessage.tsx`, `ChatInput.tsx` | 4 |
 | P9 | `apps/web/src/app/admin/` | `layout.tsx`, `page.tsx`, `login/page.tsx`, `cms/page.tsx`, `cms/[id]/page.tsx`, `leads/page.tsx`, `leads/[id]/page.tsx`, `settings/page.tsx`, `analytics/page.tsx` | 9 |
 | P9 | `apps/web/src/components/admin/` | `Sidebar.tsx`, `RichTextEditor.tsx`, `ImageUploader.tsx`, `LeadDetail.tsx`, `SectionEditor.tsx`, `RevalidateButton.tsx` | 6 |
-| P9 | `apps/web/src/app/api/auth/` | `[...nextauth]/route.ts` | 1 |
+| P9 | `apps/api/src/modules/auth/` | `auth.service.ts` | 1 |
 | P9 | `apps/web/src/middleware.ts` | — | 1 |
 | P10 | `apps/web/src/lib/` | `analytics.ts` | 1 |
 | P10 | `apps/web/src/app/admin/analytics/` | `page.tsx` | 1 |
