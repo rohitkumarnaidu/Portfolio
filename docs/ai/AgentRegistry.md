@@ -90,13 +90,13 @@ The registry solves these problems through a structured, API-driven approach to 
 
 ### 1.3 Key Design Goals
 
-| Goal | Description | Success Metric |
-|------|-------------|----------------|
-| **Liveness** | Every agent must be reachable at its registered endpoint | Heartbeat success rate > 99.5% |
-| **Freshness** | Registry state must reflect reality within bounded staleness | Stale agent detection < 30s |
-| **Discoverability** | Any agent can find any other agent by capability | Query latency < 50ms |
-| **Resilience** | Registry survives instance failure without data loss | RPO < 1s, RTO < 5s |
-| **Security** | Only authenticated agents can register; queries respect RBAC | Zero unauthorized registration attempts succeed |
+| Goal                | Description                                                  | Success Metric                                  |
+| ------------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| **Liveness**        | Every agent must be reachable at its registered endpoint     | Heartbeat success rate > 99.5%                  |
+| **Freshness**       | Registry state must reflect reality within bounded staleness | Stale agent detection < 30s                     |
+| **Discoverability** | Any agent can find any other agent by capability             | Query latency < 50ms                            |
+| **Resilience**      | Registry survives instance failure without data loss         | RPO < 1s, RTO < 5s                              |
+| **Security**        | Only authenticated agents can register; queries respect RBAC | Zero unauthorized registration attempts succeed |
 
 ### 1.4 System Relationship Diagram
 
@@ -158,20 +158,20 @@ graph TB
 
 ## 2. Terminology & Definitions
 
-| Term | Definition |
-|------|------------|
-| **Agent** | A specialized AI worker with a defined domain, capabilities, and endpoint |
-| **Agent Record** | The registry's persistent representation of a single agent |
-| **Agent ID** | A globally unique identifier assigned at registration (UUIDv7) |
-| **Capability** | A named, versioned function or service an agent exposes |
-| **Endpoint** | The base URL at which an agent's API is reachable |
-| **Heartbeat** | A periodic liveness signal sent from an agent to the registry |
-| **Health State** | The current operational status of an agent (healthy/degraded/unhealthy/unknown) |
-| **Stale Agent** | An agent whose heartbeat has not been received within the configured interval |
-| **Registration Token** | A pre-shared secret used to authenticate registration requests |
-| **Agent Manifest** | A machine-readable document describing an agent's identity and capabilities |
-| **Discovery Query** | A structured request to find agents matching capability or metadata filters |
-| **Marketplace** | The catalog system that surfaces available agents for installation, defined in `docs/ai/AgentMarketplace.md` |
+| Term                   | Definition                                                                                                   |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Agent**              | A specialized AI worker with a defined domain, capabilities, and endpoint                                    |
+| **Agent Record**       | The registry's persistent representation of a single agent                                                   |
+| **Agent ID**           | A globally unique identifier assigned at registration (UUIDv7)                                               |
+| **Capability**         | A named, versioned function or service an agent exposes                                                      |
+| **Endpoint**           | The base URL at which an agent's API is reachable                                                            |
+| **Heartbeat**          | A periodic liveness signal sent from an agent to the registry                                                |
+| **Health State**       | The current operational status of an agent (healthy/degraded/unhealthy/unknown)                              |
+| **Stale Agent**        | An agent whose heartbeat has not been received within the configured interval                                |
+| **Registration Token** | A pre-shared secret used to authenticate registration requests                                               |
+| **Agent Manifest**     | A machine-readable document describing an agent's identity and capabilities                                  |
+| **Discovery Query**    | A structured request to find agents matching capability or metadata filters                                  |
+| **Marketplace**        | The catalog system that surfaces available agents for installation, defined in `docs/ai/AgentMarketplace.md` |
 
 ---
 
@@ -201,15 +201,15 @@ graph TB
 
 ## 4. Design Principles
 
-| Principle | Rationale |
-|-----------|-----------|
-| **API-first** | All registry operations are exposed via versioned REST APIs |
-| **Eventually consistent** | Replication across instances favors availability over strict consistency |
-| **Self-healing** | Stale agents are automatically deregistered and alerted |
-| **Immutable audit trail** | All record changes produce append-only audit entries |
-| **Least privilege** | Registration requires scoped tokens; queries enforce RBAC |
-| **Bounded staleness** | No agent state is considered fresh beyond 3 missed heartbeats |
-| **Idempotent registration** | Re-registering the same agent_id updates rather than duplicates |
+| Principle                   | Rationale                                                                |
+| --------------------------- | ------------------------------------------------------------------------ |
+| **API-first**               | All registry operations are exposed via versioned REST APIs              |
+| **Eventually consistent**   | Replication across instances favors availability over strict consistency |
+| **Self-healing**            | Stale agents are automatically deregistered and alerted                  |
+| **Immutable audit trail**   | All record changes produce append-only audit entries                     |
+| **Least privilege**         | Registration requires scoped tokens; queries enforce RBAC                |
+| **Bounded staleness**       | No agent state is considered fresh beyond 3 missed heartbeats            |
+| **Idempotent registration** | Re-registering the same agent_id updates rather than duplicates          |
 
 ---
 
@@ -340,13 +340,13 @@ stateDiagram-v2
     ARCHIVED --> [*]: Purge after retention period
 ```
 
-| Status | Definition | Transition Triggers |
-|--------|------------|---------------------|
-| **ACTIVE** | Agent is registered, authenticated, and accepting requests | Registration, heartbeat, unsuspend |
-| **INACTIVE** | Agent failed to send heartbeat; considered potentially unreachable | Heartbeat timeout (3 consecutive misses) |
-| **SUSPENDED** | Administrative hold — agent is blocked from receiving traffic | Admin API, security incident |
-| **DEREGISTERED** | Agent explicitly removed or cleaned up after prolonged inactivity | Deregister API, stale cleanup |
-| **ARCHIVED** | Historical record retained for audit; no longer queryable | Automatic after DEREGISTERED TTL |
+| Status           | Definition                                                         | Transition Triggers                      |
+| ---------------- | ------------------------------------------------------------------ | ---------------------------------------- |
+| **ACTIVE**       | Agent is registered, authenticated, and accepting requests         | Registration, heartbeat, unsuspend       |
+| **INACTIVE**     | Agent failed to send heartbeat; considered potentially unreachable | Heartbeat timeout (3 consecutive misses) |
+| **SUSPENDED**    | Administrative hold — agent is blocked from receiving traffic      | Admin API, security incident             |
+| **DEREGISTERED** | Agent explicitly removed or cleaned up after prolonged inactivity  | Deregister API, stale cleanup            |
+| **ARCHIVED**     | Historical record retained for audit; no longer queryable          | Automatic after DEREGISTERED TTL         |
 
 ---
 
@@ -368,12 +368,12 @@ stateDiagram-v2
     UNHEALTHY --> UNKNOWN: Heartbeat interval expires
 ```
 
-| Health State | Meaning | Effect on Routing |
-|--------------|---------|-------------------|
-| **HEALTHY** | Agent operating normally with all capabilities available | Full routing eligibility |
-| **DEGRADED** | Agent operational but some capabilities unavailable or degraded | Partial routing; Supervisor avoids degraded capabilities |
-| **UNHEALTHY** | Agent not functioning; may still send heartbeats with error payloads | No routing; alerts triggered |
-| **UNKNOWN** | No heartbeat received within expected window | No routing; cleanup timer starts |
+| Health State  | Meaning                                                              | Effect on Routing                                        |
+| ------------- | -------------------------------------------------------------------- | -------------------------------------------------------- |
+| **HEALTHY**   | Agent operating normally with all capabilities available             | Full routing eligibility                                 |
+| **DEGRADED**  | Agent operational but some capabilities unavailable or degraded      | Partial routing; Supervisor avoids degraded capabilities |
+| **UNHEALTHY** | Agent not functioning; may still send heartbeats with error payloads | No routing; alerts triggered                             |
+| **UNKNOWN**   | No heartbeat received within expected window                         | No routing; cleanup timer starts                         |
 
 ---
 
@@ -406,11 +406,7 @@ Agents can attach arbitrary key-value metadata during registration and update. T
       "temperature": 0.3,
       "max_tokens": 4096
     },
-    "knowledge_bases": [
-      "lead-scoring-rules",
-      "qualification-criteria",
-      "industry-verticals"
-    ],
+    "knowledge_bases": ["lead-scoring-rules", "qualification-criteria", "industry-verticals"],
     "owner": {
       "team": "ai-platform",
       "contact": "ai-team@example.com",
@@ -423,14 +419,14 @@ Agents can attach arbitrary key-value metadata during registration and update. T
 
 ### Reserved Metadata Keys
 
-| Key | Type | Purpose |
-|-----|------|---------|
-| `runtime` | object | Agent runtime environment details |
-| `deployment` | object | Infrastructure deployment context |
-| `llm` | object | LLM provider and model configuration |
-| `knowledge_bases` | array[string] | References to KB collections used |
-| `owner` | object | Team ownership and contact information |
-| `marketplace` | object | Marketplace-specific listing metadata (see §42) |
+| Key               | Type          | Purpose                                         |
+| ----------------- | ------------- | ----------------------------------------------- |
+| `runtime`         | object        | Agent runtime environment details               |
+| `deployment`      | object        | Infrastructure deployment context               |
+| `llm`             | object        | LLM provider and model configuration            |
+| `knowledge_bases` | array[string] | References to KB collections used               |
+| `owner`           | object        | Team ownership and contact information          |
+| `marketplace`     | object        | Marketplace-specific listing metadata (see §42) |
 
 ---
 
@@ -613,16 +609,16 @@ sequenceDiagram
 
 ## 15. Registration Validation Rules
 
-| Rule | Validation | Error Code |
-|------|-----------|------------|
-| agent_name uniqueness | No duplicate active agent_name | `AGENT_NAME_TAKEN` |
-| agent_name format | Must match `^[a-zA-Z0-9_-]{2,128}$` | `INVALID_AGENT_NAME` |
-| Version format | Must be valid semver (`\d+.\d+.\d+`) | `INVALID_VERSION` |
-| Endpoint reachability | Registry performs initial connectivity check (optional, configurable) | `ENDPOINT_UNREACHABLE` |
-| Capability names | Each capability name must be unique per agent and match `^[a-z][a-z0-9_-]*$` | `INVALID_CAPABILITY_NAME` |
-| Auth mechanism | Must be one of: `api_key`, `jwt`, `mtls`, `none` | `INVALID_AUTH_MECHANISM` |
-| Heartbeat interval | Must be between 5 and 300 seconds | `INVALID_HEARTBEAT_INTERVAL` |
-| JWT scope | Token `agent_name` claim must match request `agent_name` | `TOKEN_SCOPE_MISMATCH` |
+| Rule                  | Validation                                                                   | Error Code                   |
+| --------------------- | ---------------------------------------------------------------------------- | ---------------------------- |
+| agent_name uniqueness | No duplicate active agent_name                                               | `AGENT_NAME_TAKEN`           |
+| agent_name format     | Must match `^[a-zA-Z0-9_-]{2,128}$`                                          | `INVALID_AGENT_NAME`         |
+| Version format        | Must be valid semver (`\d+.\d+.\d+`)                                         | `INVALID_VERSION`            |
+| Endpoint reachability | Registry performs initial connectivity check (optional, configurable)        | `ENDPOINT_UNREACHABLE`       |
+| Capability names      | Each capability name must be unique per agent and match `^[a-z][a-z0-9_-]*$` | `INVALID_CAPABILITY_NAME`    |
+| Auth mechanism        | Must be one of: `api_key`, `jwt`, `mtls`, `none`                             | `INVALID_AUTH_MECHANISM`     |
+| Heartbeat interval    | Must be between 5 and 300 seconds                                            | `INVALID_HEARTBEAT_INTERVAL` |
+| JWT scope             | Token `agent_name` claim must match request `agent_name`                     | `TOKEN_SCOPE_MISMATCH`       |
 
 ---
 
@@ -630,25 +626,25 @@ sequenceDiagram
 
 All endpoints are prefixed with `/api/v1/agents` unless otherwise noted. The API uses standard HTTP methods, JSON request/response bodies, and Bearer JWT authentication.
 
-| Method | Path | Description |
-|--------|------|-------------|
-| POST | `/api/v1/agents/register` | Register a new agent or re-register an existing one |
-| PUT | `/api/v1/agents/{agent_id}` | Full update of an agent record |
-| GET | `/api/v1/agents/{agent_id}` | Retrieve a single agent record |
-| GET | `/api/v1/agents` | List agents with optional filters |
-| DELETE | `/api/v1/agents/{agent_id}` | Deregister an agent |
-| PATCH | `/api/v1/agents/{agent_id}/heartbeat` | Send a heartbeat signal |
-| POST | `/api/v1/agents/query` | Capability-based agent discovery |
-| GET | `/api/v1/agents/health` | Registry health check endpoint |
+| Method | Path                                  | Description                                         |
+| ------ | ------------------------------------- | --------------------------------------------------- |
+| POST   | `/api/v1/agents/register`             | Register a new agent or re-register an existing one |
+| PUT    | `/api/v1/agents/{agent_id}`           | Full update of an agent record                      |
+| GET    | `/api/v1/agents/{agent_id}`           | Retrieve a single agent record                      |
+| GET    | `/api/v1/agents`                      | List agents with optional filters                   |
+| DELETE | `/api/v1/agents/{agent_id}`           | Deregister an agent                                 |
+| PATCH  | `/api/v1/agents/{agent_id}/heartbeat` | Send a heartbeat signal                             |
+| POST   | `/api/v1/agents/query`                | Capability-based agent discovery                    |
+| GET    | `/api/v1/agents/health`               | Registry health check endpoint                      |
 
 ### Standard Headers
 
-| Header | Required | Description |
-|--------|----------|-------------|
-| `Authorization` | Yes | Bearer JWT for registration; optional for discovery queries depending on RBAC |
-| `Content-Type` | Yes | `application/json` |
-| `X-Request-Id` | Recommended | Idempotency key for registration and heartbeat |
-| `X-Agent-Id` | Recommended | Agent identifier for audit trail attribution |
+| Header          | Required    | Description                                                                   |
+| --------------- | ----------- | ----------------------------------------------------------------------------- |
+| `Authorization` | Yes         | Bearer JWT for registration; optional for discovery queries depending on RBAC |
+| `Content-Type`  | Yes         | `application/json`                                                            |
+| `X-Request-Id`  | Recommended | Idempotency key for registration and heartbeat                                |
+| `X-Agent-Id`    | Recommended | Agent identifier for audit trail attribution                                  |
 
 ### Standard Error Response
 
@@ -676,15 +672,15 @@ Creates a new agent record or reacts an existing one (matched by `agent_name`).
 
 **Response Codes:**
 
-| Code | Condition |
-|------|-----------|
-| 201 | New agent registered successfully |
-| 200 | Existing agent updated successfully (agent_name matched) |
-| 400 | Validation failure (missing fields, invalid format) |
-| 401 | Missing or invalid Authorization header |
-| 403 | JWT scope mismatch (token `agent_name` != request `agent_name`) |
-| 409 | agent_name taken and token scope does not match existing owner |
-| 422 | Capability schema validation failure |
+| Code | Condition                                                       |
+| ---- | --------------------------------------------------------------- |
+| 201  | New agent registered successfully                               |
+| 200  | Existing agent updated successfully (agent_name matched)        |
+| 400  | Validation failure (missing fields, invalid format)             |
+| 401  | Missing or invalid Authorization header                         |
+| 403  | JWT scope mismatch (token `agent_name` != request `agent_name`) |
+| 409  | agent_name taken and token scope does not match existing owner  |
+| 422  | Capability schema validation failure                            |
 
 **Idempotency:** If the same `X-Request-Id` is sent within 5 minutes for the same `agent_name`, the registry returns the existing record without modification.
 
@@ -774,19 +770,19 @@ Lists agents with optional query parameters. Supports pagination, filtering, and
 
 ### Query Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `status` | string | `active` | Filter by status: `active`, `inactive`, `suspended`, `all` |
-| `health` | string | — | Filter by health state: `healthy`, `degraded`, `unhealthy`, `unknown` |
-| `capability` | string | — | Filter agents that declare a capability matching this name |
-| `tag` | string | — | Filter agents having this tag |
-| `owner` | string | — | Filter by owner team |
-| `search` | string | — | Full-text search across agent_name, display_name, description |
-| `page` | int | 1 | Page number (1-indexed) |
-| `page_size` | int | 20 | Items per page (1-100) |
-| `sort_by` | string | `agent_name` | Sort field: `agent_name`, `version`, `health_state`, `registered_at`, `last_heartbeat_at` |
-| `sort_order` | string | `asc` | Sort direction: `asc`, `desc` |
-| `fields` | string | — | Comma-separated subset of fields to return |
+| Parameter    | Type   | Default      | Description                                                                               |
+| ------------ | ------ | ------------ | ----------------------------------------------------------------------------------------- |
+| `status`     | string | `active`     | Filter by status: `active`, `inactive`, `suspended`, `all`                                |
+| `health`     | string | —            | Filter by health state: `healthy`, `degraded`, `unhealthy`, `unknown`                     |
+| `capability` | string | —            | Filter agents that declare a capability matching this name                                |
+| `tag`        | string | —            | Filter agents having this tag                                                             |
+| `owner`      | string | —            | Filter by owner team                                                                      |
+| `search`     | string | —            | Full-text search across agent_name, display_name, description                             |
+| `page`       | int    | 1            | Page number (1-indexed)                                                                   |
+| `page_size`  | int    | 20           | Items per page (1-100)                                                                    |
+| `sort_by`    | string | `agent_name` | Sort field: `agent_name`, `version`, `health_state`, `registered_at`, `last_heartbeat_at` |
+| `sort_order` | string | `asc`        | Sort direction: `asc`, `desc`                                                             |
+| `fields`     | string | —            | Comma-separated subset of fields to return                                                |
 
 ### Example Response
 
@@ -969,15 +965,15 @@ Each agent sends a heartbeat via `PATCH /api/v1/agents/{agent_id}/heartbeat` at 
 
 ### 25.2 Heartbeat Timing
 
-| Metric | Value |
-|--------|-------|
-| Default heartbeat interval | 30 seconds |
-| Minimum interval | 5 seconds |
-| Maximum interval | 300 seconds |
-| Missed heartbeats before INACTIVE | 3 |
-| Missed heartbeats before UNHEALTHY | 2 (if degraded), 1 (if previously healthy with degraded capabilities) |
-| Cleanup grace period after INACTIVE | 24 hours |
-| Registry ticker check interval | 5 seconds |
+| Metric                              | Value                                                                 |
+| ----------------------------------- | --------------------------------------------------------------------- |
+| Default heartbeat interval          | 30 seconds                                                            |
+| Minimum interval                    | 5 seconds                                                             |
+| Maximum interval                    | 300 seconds                                                           |
+| Missed heartbeats before INACTIVE   | 3                                                                     |
+| Missed heartbeats before UNHEALTHY  | 2 (if degraded), 1 (if previously healthy with degraded capabilities) |
+| Cleanup grace period after INACTIVE | 24 hours                                                              |
+| Registry ticker check interval      | 5 seconds                                                             |
 
 ### 25.3 Heartbeat Processing Flow
 
@@ -1046,12 +1042,12 @@ Agents may optionally report per-capability health in their heartbeat payload. T
 
 ## 26. Health State Definitions
 
-| State | Definition | Heartbeat Requirement | Routing Eligibility |
-|-------|-----------|----------------------|---------------------|
-| **HEALTHY** | All capabilities operational; agent responding within expected latency | Recent heartbeat received (within 1x interval) | Full |
-| **DEGRADED** | Agent operational with one or more capabilities reporting unhealthy; or response latency exceeds 2x baseline | Recent heartbeat received | Partial (healthy capabilities only) |
-| **UNHEALTHY** | Agent reporting critical failures; or no heartbeat for 2x interval; or endpoint unreachable on probe | Heartbeat received but payload declares critical failure, OR no heartbeat for 2 intervals | None |
-| **UNKNOWN** | Agent registered but no heartbeat ever received, or heartbeat not received for 3x interval | No heartbeat received in 3x the configured interval | None |
+| State         | Definition                                                                                                   | Heartbeat Requirement                                                                     | Routing Eligibility                 |
+| ------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- | ----------------------------------- |
+| **HEALTHY**   | All capabilities operational; agent responding within expected latency                                       | Recent heartbeat received (within 1x interval)                                            | Full                                |
+| **DEGRADED**  | Agent operational with one or more capabilities reporting unhealthy; or response latency exceeds 2x baseline | Recent heartbeat received                                                                 | Partial (healthy capabilities only) |
+| **UNHEALTHY** | Agent reporting critical failures; or no heartbeat for 2x interval; or endpoint unreachable on probe         | Heartbeat received but payload declares critical failure, OR no heartbeat for 2 intervals | None                                |
+| **UNKNOWN**   | Agent registered but no heartbeat ever received, or heartbeat not received for 3x interval                   | No heartbeat received in 3x the configured interval                                       | None                                |
 
 ---
 
@@ -1086,14 +1082,14 @@ graph TD
 
 The stale agent cleanup process runs every 60 seconds and identifies agents that have not sent heartbeats within their configured timeout window.
 
-| Time Since Last Heartbeat | Action |
-|---------------------------|--------|
-| 1x interval | No action (within normal window) |
-| 2x interval | Transition health_state to UNHEALTHY (if currently HEALTHY or DEGRADED) |
-| 3x interval | Transition status to INACTIVE; publish `agent.stale` event |
-| 24 hours after INACTIVE | Transition status to DEREGISTERED; publish `agent.deregistered` event |
-| 30 days after DEREGISTERED | Transition to ARCHIVED; soft-delete record data |
-| 90 days after ARCHIVED | Hard-delete record; purge from database |
+| Time Since Last Heartbeat  | Action                                                                  |
+| -------------------------- | ----------------------------------------------------------------------- |
+| 1x interval                | No action (within normal window)                                        |
+| 2x interval                | Transition health_state to UNHEALTHY (if currently HEALTHY or DEGRADED) |
+| 3x interval                | Transition status to INACTIVE; publish `agent.stale` event              |
+| 24 hours after INACTIVE    | Transition status to DEREGISTERED; publish `agent.deregistered` event   |
+| 30 days after DEREGISTERED | Transition to ARCHIVED; soft-delete record data                         |
+| 90 days after ARCHIVED     | Hard-delete record; purge from database                                 |
 
 ### 28.2 Cleanup Implementation
 
@@ -1171,14 +1167,14 @@ When an agent transitions to an unhealthy or inactive state, the registry publis
 
 ### Event Types
 
-| Event | Trigger | Payload |
-|-------|---------|---------|
-| `agent.heartbeat.missed` | 1st missed heartbeat | agent_id, agent_name, interval, last_heartbeat_at |
-| `agent.health.degraded` | Transition to DEGRADED | agent_id, agent_name, previous_state, new_state, reason |
-| `agent.health.unhealthy` | Transition to UNHEALTHY | agent_id, agent_name, previous_state, new_state, reason |
-| `agent.stale` | Transition to INACTIVE | agent_id, agent_name, last_heartbeat_at, missed_count |
-| `agent.deregistered` | Transition to DEREGISTERED | agent_id, agent_name, reason |
-| `agent.recovered` | Transition back to HEALTHY | agent_id, agent_name, previous_state, downtime_seconds |
+| Event                    | Trigger                    | Payload                                                 |
+| ------------------------ | -------------------------- | ------------------------------------------------------- |
+| `agent.heartbeat.missed` | 1st missed heartbeat       | agent_id, agent_name, interval, last_heartbeat_at       |
+| `agent.health.degraded`  | Transition to DEGRADED     | agent_id, agent_name, previous_state, new_state, reason |
+| `agent.health.unhealthy` | Transition to UNHEALTHY    | agent_id, agent_name, previous_state, new_state, reason |
+| `agent.stale`            | Transition to INACTIVE     | agent_id, agent_name, last_heartbeat_at, missed_count   |
+| `agent.deregistered`     | Transition to DEREGISTERED | agent_id, agent_name, reason                            |
+| `agent.recovered`        | Transition back to HEALTHY | agent_id, agent_name, previous_state, downtime_seconds  |
 
 ```python
 # Example: event publishing on state transition
@@ -1212,12 +1208,12 @@ Agent discovery enables the Supervisor (and other authorized agents) to find age
 
 ### Discovery Methods
 
-| Method | Latency | Use Case |
-|--------|---------|----------|
-| Direct DB query (POST /query) | < 100ms | Complex capability queries |
-| Redis cache lookup | < 5ms | High-frequency routing decisions |
-| Local in-memory cache | < 1ms | Hot-path Supervisor routing |
-| Registry replication sync | Eventually consistent | Cross-instance discovery |
+| Method                        | Latency               | Use Case                         |
+| ----------------------------- | --------------------- | -------------------------------- |
+| Direct DB query (POST /query) | < 100ms               | Complex capability queries       |
+| Redis cache lookup            | < 5ms                 | High-frequency routing decisions |
+| Local in-memory cache         | < 1ms                 | Hot-path Supervisor routing      |
+| Registry replication sync     | Eventually consistent | Cross-instance discovery         |
 
 ---
 
@@ -1312,11 +1308,11 @@ POST /api/v1/agents/query
 
 ### 33.1 Cache Hierarchy
 
-| Level | Store | TTL | Invalidation |
-|-------|-------|-----|--------------|
-| L1 | Supervisor in-memory | 30s | Event-driven + TTL expiry |
-| L2 | Redis cluster | 60s | TTL expiry + write-through on mutation |
-| L3 | PostgreSQL | — | Source of truth |
+| Level | Store                | TTL | Invalidation                           |
+| ----- | -------------------- | --- | -------------------------------------- |
+| L1    | Supervisor in-memory | 30s | Event-driven + TTL expiry              |
+| L2    | Redis cluster        | 60s | TTL expiry + write-through on mutation |
+| L3    | PostgreSQL           | —   | Source of truth                        |
 
 ### 33.2 Cache Key Format
 
@@ -1353,13 +1349,13 @@ To ensure high availability, the registry can be deployed across multiple instan
 
 ### 34.1 Replication Triggers
 
-| Trigger | Description |
-|---------|-------------|
-| Registration | New agent record created |
-| Update | Agent record modified |
-| Deregistration | Agent status changed to deregistered |
-| Heartbeat | Health state or last_heartbeat_at changed |
-| Cleanup | Stale agent automatically deregistered |
+| Trigger        | Description                               |
+| -------------- | ----------------------------------------- |
+| Registration   | New agent record created                  |
+| Update         | Agent record modified                     |
+| Deregistration | Agent status changed to deregistered      |
+| Heartbeat      | Health state or last_heartbeat_at changed |
+| Cleanup        | Stale agent automatically deregistered    |
 
 ### 34.2 Replication Scope
 
@@ -1412,9 +1408,7 @@ sequenceDiagram
     "version": "2.1.0",
     "status": "active",
     "health_state": "unknown",
-    "capabilities": [
-      {"name": "score-lead", "version": "2.1.0"}
-    ],
+    "capabilities": [{ "name": "score-lead", "version": "2.1.0" }],
     "endpoint": "https://agents.internal.example.com/lead-qualification",
     "last_heartbeat_at": null,
     "registered_at": "2026-06-18T10:30:00Z",
@@ -1454,11 +1448,11 @@ class ConflictResolver:
 
 ### 36.2 Conflict Scenarios
 
-| Scenario | Resolution |
-|----------|-----------|
-| Two instances register same agent_name simultaneously | First to commit wins; second gets AGENT_NAME_TAKEN |
-| Concurrent heartbeat + capability update | Heartbeat (updated_at newer) wins; capability change preserved in metadata merge |
-| Re-registration during network partition | Last heartbeat wins on reconnection; capability set from latest registration |
+| Scenario                                              | Resolution                                                                       |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Two instances register same agent_name simultaneously | First to commit wins; second gets AGENT_NAME_TAKEN                               |
+| Concurrent heartbeat + capability update              | Heartbeat (updated_at newer) wins; capability change preserved in metadata merge |
+| Re-registration during network partition              | Last heartbeat wins on reconnection; capability set from latest registration     |
 
 ---
 
@@ -1525,15 +1519,15 @@ graph TB
 
 ### 38.2 Security Policies
 
-| Policy | Description |
-|--------|-------------|
-| All inter-service communication requires mTLS | Certificates issued by internal CA with 90-day rotation |
-| Registration requires JWT with `agent:register` scope | Token must include `agent_name` claim matching request |
-| Heartbeat requires JWT with `agent:heartbeat` scope | Token scoped to specific agent_id |
-| Discovery queries require JWT with `agent:discover` scope | Supervisor-issued tokens only |
-| Admin operations require JWT with `admin:*` scope | Human operators via SSO |
-| All mutations are logged to immutable audit store | Append-only log with cryptographic chain |
-| Rate limiting: 100 req/s per agent, 1000 req/s aggregate | Implemented via Redis sliding window counter |
+| Policy                                                    | Description                                             |
+| --------------------------------------------------------- | ------------------------------------------------------- |
+| All inter-service communication requires mTLS             | Certificates issued by internal CA with 90-day rotation |
+| Registration requires JWT with `agent:register` scope     | Token must include `agent_name` claim matching request  |
+| Heartbeat requires JWT with `agent:heartbeat` scope       | Token scoped to specific agent_id                       |
+| Discovery queries require JWT with `agent:discover` scope | Supervisor-issued tokens only                           |
+| Admin operations require JWT with `admin:*` scope         | Human operators via SSO                                 |
+| All mutations are logged to immutable audit store         | Append-only log with cryptographic chain                |
+| Rate limiting: 100 req/s per agent, 1000 req/s aggregate  | Implemented via Redis sliding window counter            |
 
 ---
 
@@ -1565,14 +1559,14 @@ sequenceDiagram
 
 ### 39.2 Token Requirements
 
-| Requirement | Specification |
-|-------------|---------------|
-| Token type | JWT (RFC 7519) |
-| Signing algorithm | RS256 (asymmetric, 4096-bit RSA key) |
-| Token expiry | Maximum 1 hour (registration), 24 hours (heartbeat) |
-| JWKS endpoint | `https://auth.internal.example.com/.well-known/jwks.json` |
-| Required claims | `sub`, `iss`, `aud`, `exp`, `iat`, `scope` |
-| Scope format | `agent:{operation}` where operation is `register`, `heartbeat`, `discover`, or `admin` |
+| Requirement       | Specification                                                                          |
+| ----------------- | -------------------------------------------------------------------------------------- |
+| Token type        | JWT (RFC 7519)                                                                         |
+| Signing algorithm | RS256 (asymmetric, 4096-bit RSA key)                                                   |
+| Token expiry      | Maximum 1 hour (registration), 24 hours (heartbeat)                                    |
+| JWKS endpoint     | `https://auth.internal.example.com/.well-known/jwks.json`                              |
+| Required claims   | `sub`, `iss`, `aud`, `exp`, `iat`, `scope`                                             |
+| Scope format      | `agent:{operation}` where operation is `register`, `heartbeat`, `discover`, or `admin` |
 
 ---
 
@@ -1580,13 +1574,13 @@ sequenceDiagram
 
 ### 40.1 RBAC Model
 
-| Role | Permitted Operations | Typical Holder |
-|------|---------------------|----------------|
-| `agent` | Heartbeat on own record, read own record | Individual agent instances |
-| `supervisor` | Discovery queries, read any active record | Supervisor Agent |
-| `admin` | All operations including suspension, force-deregister | Human operators, CI/CD pipelines |
-| `marketplace` | List active agents with marketplace metadata | Marketplace service |
-| `auditor` | Read-only access to agent records and audit logs | Compliance tooling |
+| Role          | Permitted Operations                                  | Typical Holder                   |
+| ------------- | ----------------------------------------------------- | -------------------------------- |
+| `agent`       | Heartbeat on own record, read own record              | Individual agent instances       |
+| `supervisor`  | Discovery queries, read any active record             | Supervisor Agent                 |
+| `admin`       | All operations including suspension, force-deregister | Human operators, CI/CD pipelines |
+| `marketplace` | List active agents with marketplace metadata          | Marketplace service              |
+| `auditor`     | Read-only access to agent records and audit logs      | Compliance tooling               |
 
 ### 40.2 Scope Enforcement
 
@@ -1659,17 +1653,17 @@ All registry mutations produce an immutable audit entry. The audit log is append
     "version": "2.1.0",
     "health_state": "healthy",
     "status": "active",
-    "capabilities": [{"name": "score-lead", "version": "2.1.0"}]
+    "capabilities": [{ "name": "score-lead", "version": "2.1.0" }]
   },
   "new_state": {
     "version": "2.2.0",
     "health_state": "healthy",
     "status": "active",
-    "capabilities": [{"name": "score-lead", "version": "2.2.0"}]
+    "capabilities": [{ "name": "score-lead", "version": "2.2.0" }]
   },
   "diff": {
-    "version": {"old": "2.1.0", "new": "2.2.0"},
-    "capabilities/0/version": {"old": "2.1.0", "new": "2.2.0"}
+    "version": { "old": "2.1.0", "new": "2.2.0" },
+    "capabilities/0/version": { "old": "2.1.0", "new": "2.2.0" }
   },
   "previous_hash": "a1b2c3d4...",
   "hash": "e5f6g7h8...",
@@ -1679,11 +1673,11 @@ All registry mutations produce an immutable audit entry. The audit log is append
 
 ### 41.2 Audit Retention
 
-| Tier | Retention | Storage |
-|------|-----------|---------|
-| Hot (queryable via API) | 90 days | PostgreSQL partitioned table |
-| Warm (downloadable archive) | 1 year | S3 / GCS compressed JSONL |
-| Cold (compliance backup) | 7 years | Glacier / Archive with cryptographic proof |
+| Tier                        | Retention | Storage                                    |
+| --------------------------- | --------- | ------------------------------------------ |
+| Hot (queryable via API)     | 90 days   | PostgreSQL partitioned table               |
+| Warm (downloadable archive) | 1 year    | S3 / GCS compressed JSONL                  |
+| Cold (compliance backup)    | 7 years   | Glacier / Archive with cryptographic proof |
 
 ---
 
@@ -1778,11 +1772,11 @@ GET /api/v1/agents/marketplace-feed
 
 ### 43.3 Feed Sync Schedule
 
-| Sync Type | Cadence | Mechanism |
-|-----------|---------|-----------|
-| Full catalog sync | Every 5 minutes | Marketplace pulls from registry feed endpoint |
-| Incremental updates | Real-time (event-driven) | Registry publishes `marketplace.agent.updated` event per change |
-| Health state sync | On every health transition | Registry publishes `marketplace.agent.health_changed` event |
+| Sync Type           | Cadence                    | Mechanism                                                       |
+| ------------------- | -------------------------- | --------------------------------------------------------------- |
+| Full catalog sync   | Every 5 minutes            | Marketplace pulls from registry feed endpoint                   |
+| Incremental updates | Real-time (event-driven)   | Registry publishes `marketplace.agent.updated` event per change |
+| Health state sync   | On every health transition | Registry publishes `marketplace.agent.health_changed` event     |
 
 ---
 
@@ -1822,17 +1816,17 @@ sequenceDiagram
 
 ### 45.1 Key Metrics
 
-| Metric | Type | Description | Alert Threshold |
-|--------|------|-------------|-----------------|
-| `registry.agents.total` | Gauge | Total registered agents (by status) | — |
-| `registry.agents.healthy` | Gauge | Count of healthy agents | < 80% of total active |
-| `registry.heartbeats.received` | Counter | Heartbeats received per second | < expected rate * 0.5 |
-| `registry.heartbeats.latency_ms` | Histogram | Heartbeat processing latency | p99 > 500ms |
-| `registry.api.requests` | Counter | API request volume per endpoint | — |
-| `registry.api.latency_ms` | Histogram | API response time | p99 > 1000ms |
-| `registry.stale.cleaned` | Counter | Stale agents cleaned up per cycle | — |
-| `registry.replication.lag_ms` | Gauge | Replication latency between instances | > 2000ms |
-| `registry.discovery.cache_hit_ratio` | Gauge | Cache hit ratio for discovery queries | < 0.90 |
+| Metric                               | Type      | Description                           | Alert Threshold        |
+| ------------------------------------ | --------- | ------------------------------------- | ---------------------- |
+| `registry.agents.total`              | Gauge     | Total registered agents (by status)   | —                      |
+| `registry.agents.healthy`            | Gauge     | Count of healthy agents               | < 80% of total active  |
+| `registry.heartbeats.received`       | Counter   | Heartbeats received per second        | < expected rate \* 0.5 |
+| `registry.heartbeats.latency_ms`     | Histogram | Heartbeat processing latency          | p99 > 500ms            |
+| `registry.api.requests`              | Counter   | API request volume per endpoint       | —                      |
+| `registry.api.latency_ms`            | Histogram | API response time                     | p99 > 1000ms           |
+| `registry.stale.cleaned`             | Counter   | Stale agents cleaned up per cycle     | —                      |
+| `registry.replication.lag_ms`        | Gauge     | Replication latency between instances | > 2000ms               |
+| `registry.discovery.cache_hit_ratio` | Gauge     | Cache hit ratio for discovery queries | < 0.90                 |
 
 ### 45.2 Health Check Endpoint
 
@@ -1865,14 +1859,14 @@ GET /api/v1/agents/health
 
 ## 46. Failure Modes & Recovery
 
-| Failure Mode | Impact | Detection | Recovery |
-|-------------|--------|-----------|----------|
-| Registry instance crash | Writes unavailable on that instance | Health check failure, LB detects | Other instances serve reads; crashed instance restarts and syncs via replication |
-| Database unavailable | All registry operations fail | Connection pool errors, health check fails | Circuit breaker engages; reads served from Redis cache (stale); writes queued to dead-letter |
-| Heartbeat burst | Overload on heartbeat endpoint | Request latency spikes, CPU high | Rate limiter engages; heartbeat processing scaled horizontally |
-| Network partition | Replication lag; partial writes | Peer health checks fail; anti-entropy detects divergence | On reconnection: full anti-entropy sync, conflict resolution |
-| Message queue down | Replication paused | Producer/consumer errors | In-memory queue (bounded, 10k events); replay on reconnect |
-| Corrupted agent record | Discovery returns bad endpoint | Validation error on routing; agent health check fails | Record quarantined; admin alerted; repair from audit log |
+| Failure Mode            | Impact                              | Detection                                                | Recovery                                                                                     |
+| ----------------------- | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Registry instance crash | Writes unavailable on that instance | Health check failure, LB detects                         | Other instances serve reads; crashed instance restarts and syncs via replication             |
+| Database unavailable    | All registry operations fail        | Connection pool errors, health check fails               | Circuit breaker engages; reads served from Redis cache (stale); writes queued to dead-letter |
+| Heartbeat burst         | Overload on heartbeat endpoint      | Request latency spikes, CPU high                         | Rate limiter engages; heartbeat processing scaled horizontally                               |
+| Network partition       | Replication lag; partial writes     | Peer health checks fail; anti-entropy detects divergence | On reconnection: full anti-entropy sync, conflict resolution                                 |
+| Message queue down      | Replication paused                  | Producer/consumer errors                                 | In-memory queue (bounded, 10k events); replay on reconnect                                   |
+| Corrupted agent record  | Discovery returns bad endpoint      | Validation error on routing; agent health check fails    | Record quarantined; admin alerted; repair from audit log                                     |
 
 ### Graceful Degradation
 
@@ -1911,11 +1905,11 @@ The registry API uses URL-based versioning (`/api/v1/agents/...`). API versions 
 
 ### 47.2 Version Lifecycle
 
-| Phase | Duration | Behavior |
-|-------|----------|----------|
-| Active | Indefinite | Full support, all features |
-| Deprecated | 90 days | Returns `Warning: 299 registry "v1 will be removed after YYYY-MM-DD"` header |
-| Sunset | After deprecation period | Returns 410 Gone with migration link |
+| Phase      | Duration                 | Behavior                                                                     |
+| ---------- | ------------------------ | ---------------------------------------------------------------------------- |
+| Active     | Indefinite               | Full support, all features                                                   |
+| Deprecated | 90 days                  | Returns `Warning: 299 registry "v1 will be removed after YYYY-MM-DD"` header |
+| Sunset     | After deprecation period | Returns 410 Gone with migration link                                         |
 
 ### 47.3 Backward Compatibility
 
@@ -1930,76 +1924,76 @@ When breaking changes are necessary, the registry supports a migration window:
 
 ## 48. Related Documents
 
-| Document | Relation |
-|----------|----------|
-| `docs/ai/18-AGENTS.md` | Defines the multi-agent architecture that the registry supports |
-| `docs/ai/AgentMarketplace.md` | Defines the marketplace catalog that consumes registry data |
-| `docs/ai/AgentCapabilities.md` | Defines the capability declaration format used in agent records |
-| `docs/ai/17-AI_INSTRUCTIONS.md` | AI Operating Model that governs agent behavior |
-| `docs/ai/19-RAG.md` | RAG pipeline configuration referenced in agent metadata |
-| `docs/security/SecurityArchitecture.md` | Enterprise security policies that registry authentication implements |
-| `docs/operations/22-OBSERVABILITY.md` | Observability framework for registry metrics and alerting |
-| `docs/operations/55-DISASTER-RECOVERY.md` | DR procedures that cover registry failure scenarios |
-| `docs/api/44-API-STANDARDS.md` | API conventions followed by the registry endpoints |
-| `docs/security/43-DATA-GOVERNANCE.md` | Data governance policies for registry data retention |
+| Document                                  | Relation                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------- |
+| `docs/ai/18-AGENTS.md`                    | Defines the multi-agent architecture that the registry supports      |
+| `docs/ai/AgentMarketplace.md`             | Defines the marketplace catalog that consumes registry data          |
+| `docs/ai/AgentCapabilities.md`            | Defines the capability declaration format used in agent records      |
+| `docs/ai/17-AI_INSTRUCTIONS.md`           | AI Operating Model that governs agent behavior                       |
+| `docs/ai/19-RAG.md`                       | RAG pipeline configuration referenced in agent metadata              |
+| `docs/security/SecurityArchitecture.md`   | Enterprise security policies that registry authentication implements |
+| `docs/operations/22-OBSERVABILITY.md`     | Observability framework for registry metrics and alerting            |
+| `docs/operations/55-DISASTER-RECOVERY.md` | DR procedures that cover registry failure scenarios                  |
+| `docs/api/44-API-STANDARDS.md`            | API conventions followed by the registry endpoints                   |
+| `docs/security/43-DATA-GOVERNANCE.md`     | Data governance policies for registry data retention                 |
 
 ---
 
 ## 48.1 Decision Log
 
-| ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
-|----|----------|---------|-----------|------------------------|---------------|--------------|
-| REG-DEC-001 | Versioned registry API with content negotiation (Accept header) | API versioning strategy | URL-less versioning avoids cluttered endpoints; enables gradual client migration; Accept header routing is standard REST practice | URL path versioning (`/v1/agents`) — simpler but forces client updates on version bump; Query parameter versioning — non-standard, easily overlooked | Jun 2026 | Dec 2026 |
-| REG-DEC-002 | Strict semantic versioning (MAJOR.MINOR.PATCH) with pre-release labels | Version schema | Semver provides machine-readable compatibility guarantees; pre-release labels enable canary testing; industry standard for package ecosystems | CalVer (date-based, no compatibility signaling), ZeroVer (no semantic meaning, inappropriate for enterprise) | Jun 2026 | Dec 2026 |
-| REG-DEC-003 | PostgreSQL with JSONB for agent metadata storage over document database | Storage backend | JSONB provides flexible schema for heterogeneous agent metadata while maintaining relational integrity for queries (version ranges, dependency resolution) | MongoDB (operational overhead of additional database), DynamoDB (lock-in, complex query limitations) | Jun 2026 | Dec 2026 |
-| REG-DEC-004 | Webhook-based notification on registration and update events | Event propagation | Enables real-time marketplace catalog refresh, monitoring integration, and CI/CD pipeline triggers without polling | Polling (increased latency, wasted compute on empty checks), Message queue publish (additional infrastructure complexity) | Jun 2026 | Sep 2026 |
-| REG-DEC-005 | Signed attestation stored alongside agent metadata in registry | Provenance storage | Stores verifiable build provenance as part of agent record; enables audit trail without external artifact repository lookup | External attestation storage (additional lookup latency, split-brain risk), Attestation in package only (not available before download) | Jun 2026 | Dec 2026 |
+| ID          | Decision                                                                | Context                 | Rationale                                                                                                                                                  | Alternatives Considered                                                                                                                              | Decision Date | Revisit Date |
+| ----------- | ----------------------------------------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------ |
+| REG-DEC-001 | Versioned registry API with content negotiation (Accept header)         | API versioning strategy | URL-less versioning avoids cluttered endpoints; enables gradual client migration; Accept header routing is standard REST practice                          | URL path versioning (`/v1/agents`) — simpler but forces client updates on version bump; Query parameter versioning — non-standard, easily overlooked | Jun 2026      | Dec 2026     |
+| REG-DEC-002 | Strict semantic versioning (MAJOR.MINOR.PATCH) with pre-release labels  | Version schema          | Semver provides machine-readable compatibility guarantees; pre-release labels enable canary testing; industry standard for package ecosystems              | CalVer (date-based, no compatibility signaling), ZeroVer (no semantic meaning, inappropriate for enterprise)                                         | Jun 2026      | Dec 2026     |
+| REG-DEC-003 | PostgreSQL with JSONB for agent metadata storage over document database | Storage backend         | JSONB provides flexible schema for heterogeneous agent metadata while maintaining relational integrity for queries (version ranges, dependency resolution) | MongoDB (operational overhead of additional database), DynamoDB (lock-in, complex query limitations)                                                 | Jun 2026      | Dec 2026     |
+| REG-DEC-004 | Webhook-based notification on registration and update events            | Event propagation       | Enables real-time marketplace catalog refresh, monitoring integration, and CI/CD pipeline triggers without polling                                         | Polling (increased latency, wasted compute on empty checks), Message queue publish (additional infrastructure complexity)                            | Jun 2026      | Sep 2026     |
+| REG-DEC-005 | Signed attestation stored alongside agent metadata in registry          | Provenance storage      | Stores verifiable build provenance as part of agent record; enables audit trail without external artifact repository lookup                                | External attestation storage (additional lookup latency, split-brain risk), Attestation in package only (not available before download)              | Jun 2026      | Dec 2026     |
 
 ## 48.2 Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation | Owner | Status |
-|----|------|------------|--------|------------|-------|--------|
-| REG-RSK-001 | Registry becomes single point of failure for agent discovery and deployment | Low | Critical (all agent operations blocked) | Multi-region active-passive deployment; read replicas for catalog queries; local catalog replica on each agent node for offline operation | Platform Engineer | Active |
-| REG-RSK-002 | Version conflict causes dependency resolution failure during agent deployment | Medium | High (deployment pipeline blocked) | Backtracking resolver with conflict reporting; `dry-run` mode for pre-deployment validation; dependency freeze file for reproducible deployments | Platform Engineer | Active |
-| REG-RSK-003 | Registry API is overwhelmed by concurrent agent sync requests | Medium | Medium (degraded performance, timeouts) | Client-side sync scheduling with jitter; read-through caching with 1h TTL; rate limiting per agent node; auto-scaling for API layer | Platform Engineer | Active |
-| REG-RSK-004 | Malformed agent metadata causes parsing failures in downstream consumers | Low | Medium (partial agent catalog unavailability) | Richer manifest validation (JSON Schema + custom rules); required fields enforcement at API layer; backwards-compatible schema versioning | Platform Engineer | Active |
-| REG-RSK-005 | Registry data loss due to database corruption or operational error | Low | Critical (complete agent catalog loss) | Point-in-time recovery with 5-minute RPO; hourly automated backups to separate region; disaster recovery runbook with 1-hour RTO | Platform Engineer | Active |
+| ID          | Risk                                                                          | Likelihood | Impact                                        | Mitigation                                                                                                                                       | Owner             | Status |
+| ----------- | ----------------------------------------------------------------------------- | ---------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- | ------ |
+| REG-RSK-001 | Registry becomes single point of failure for agent discovery and deployment   | Low        | Critical (all agent operations blocked)       | Multi-region active-passive deployment; read replicas for catalog queries; local catalog replica on each agent node for offline operation        | Platform Engineer | Active |
+| REG-RSK-002 | Version conflict causes dependency resolution failure during agent deployment | Medium     | High (deployment pipeline blocked)            | Backtracking resolver with conflict reporting; `dry-run` mode for pre-deployment validation; dependency freeze file for reproducible deployments | Platform Engineer | Active |
+| REG-RSK-003 | Registry API is overwhelmed by concurrent agent sync requests                 | Medium     | Medium (degraded performance, timeouts)       | Client-side sync scheduling with jitter; read-through caching with 1h TTL; rate limiting per agent node; auto-scaling for API layer              | Platform Engineer | Active |
+| REG-RSK-004 | Malformed agent metadata causes parsing failures in downstream consumers      | Low        | Medium (partial agent catalog unavailability) | Richer manifest validation (JSON Schema + custom rules); required fields enforcement at API layer; backwards-compatible schema versioning        | Platform Engineer | Active |
+| REG-RSK-005 | Registry data loss due to database corruption or operational error            | Low        | Critical (complete agent catalog loss)        | Point-in-time recovery with 5-minute RPO; hourly automated backups to separate region; disaster recovery runbook with 1-hour RTO                 | Platform Engineer | Active |
 
 ## 48.3 Glossary
 
-| Term | Definition |
-|------|------------|
-| **Agent Record** | The full set of metadata stored in the registry for a single agent, including manifest, versions, signatures, and attestations |
-| **Attestation** | A signed statement about how and when an agent artifact was built, typically conforming to SLSA provenance format |
-| **Backtracking Resolver** | A dependency resolver that, on encountering a conflict, undoes previous decisions and tries alternative version combinations |
-| **Canary Channel** | A pre-release distribution channel for testing new versions on a limited set of agents before stable rollout |
-| **Content Negotiation** | An HTTP mechanism where client and server agree on a response format via Accept headers |
-| **Dependency Freeze** | A pinned set of exact dependency versions that ensures reproducible deployments |
-| **JSONB** | PostgreSQL's binary JSON storage format, supporting indexing and querying while preserving JSON document structure |
-| **Provenance** | Verifiable metadata describing the build process, including builder identity, build parameters, and source references |
-| **Registry Replica** | A local copy of the registry's agent catalog stored on each agent node for offline operation and reduced latency |
-| **Semver** | Semantic Versioning (MAJOR.MINOR.PATCH) with machine-readable compatibility semantics |
+| Term                      | Definition                                                                                                                     |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Agent Record**          | The full set of metadata stored in the registry for a single agent, including manifest, versions, signatures, and attestations |
+| **Attestation**           | A signed statement about how and when an agent artifact was built, typically conforming to SLSA provenance format              |
+| **Backtracking Resolver** | A dependency resolver that, on encountering a conflict, undoes previous decisions and tries alternative version combinations   |
+| **Canary Channel**        | A pre-release distribution channel for testing new versions on a limited set of agents before stable rollout                   |
+| **Content Negotiation**   | An HTTP mechanism where client and server agree on a response format via Accept headers                                        |
+| **Dependency Freeze**     | A pinned set of exact dependency versions that ensures reproducible deployments                                                |
+| **JSONB**                 | PostgreSQL's binary JSON storage format, supporting indexing and querying while preserving JSON document structure             |
+| **Provenance**            | Verifiable metadata describing the build process, including builder identity, build parameters, and source references          |
+| **Registry Replica**      | A local copy of the registry's agent catalog stored on each agent node for offline operation and reduced latency               |
+| **Semver**                | Semantic Versioning (MAJOR.MINOR.PATCH) with machine-readable compatibility semantics                                          |
 
 ---
 
 ## 49. ## Glossary
 
-| Term | Definition |
-|------|------------|
-| Agent Registry | Central catalog of all AI agents with capability manifests, knowledge sources, and permissions |
-| Capability Manifest | JSON document declaring an agent's domain, tools, knowledge sources, and constraints |
-| Model Assignment | The specific LLM model allocated to each agent (GPT-4, Claude, GPT-3.5) based on task complexity |
-| Permission Model | 3-tier access control: Public (read-only), Operational (read+write leads/cache), Admin (full system access) |
-| Knowledge Source | Document collection or database table an agent is authorized to query via RAG |
-| Per-Agent Metrics | Performance tracking per agent: accuracy, latency, confidence, fallback rate |
+| Term                | Definition                                                                                                  |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Agent Registry      | Central catalog of all AI agents with capability manifests, knowledge sources, and permissions              |
+| Capability Manifest | JSON document declaring an agent's domain, tools, knowledge sources, and constraints                        |
+| Model Assignment    | The specific LLM model allocated to each agent (GPT-4, Claude, GPT-3.5) based on task complexity            |
+| Permission Model    | 3-tier access control: Public (read-only), Operational (read+write leads/cache), Admin (full system access) |
+| Knowledge Source    | Document collection or database table an agent is authorized to query via RAG                               |
+| Per-Agent Metrics   | Performance tracking per agent: accuracy, latency, confidence, fallback rate                                |
 
 ---
 
 ## Change Log
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | 2026-06-18 | Chief AI Architect | Initial release — comprehensive agent registry specification |
+| Version | Date       | Author             | Changes                                                      |
+| ------- | ---------- | ------------------ | ------------------------------------------------------------ |
+| 1.0     | 2026-06-18 | Chief AI Architect | Initial release — comprehensive agent registry specification |
 
 ---
 
