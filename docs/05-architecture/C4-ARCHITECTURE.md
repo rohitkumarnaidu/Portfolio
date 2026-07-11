@@ -147,7 +147,7 @@ C4Component
 
 ### API Container Components
 
-The NestJS API follows a strict three-layer pattern. Business logic lives in `src/modules/` (27 services), public read-only delivery in `src/portfolio/controllers/` (18 controllers), and authenticated CRUD in `src/admin/controllers/` (29 controllers). Cross-cutting concerns are centralized in `src/common/`.
+The NestJS API follows a strict three-layer pattern. Business logic lives in `src/modules/` (27 services), public read-only delivery in `src/portfolio/controllers/` (18 controllers), and authenticated CRUD in `src/admin/controllers/` (26 admin controllers + 18 portfolio controllers). Cross-cutting concerns are centralized in `src/common/`.
 
 ```mermaid
 C4Component
@@ -445,7 +445,7 @@ C4Container
     Container(api_deploy, "NestJS Serverless", "Vercel Serverless Functions", "API functions auto-scale to 1000 concurrent; 10s timeout (Hobby)")
   }
 
-  ContainerDb(ai_deploy, "FastAPI Container", "Render/Fly.io (Docker)", "Long-running container for SSE streaming; 512MB RAM, shared CPU")
+  ContainerDb(ai_deploy, "FastAPI Container", "Railway (Docker)", "Long-running container for SSE streaming; 512MB RAM, shared CPU")
 
   System_Boundary(supabase, "Supabase (AWS us-east-1)") {
     ContainerDb(pg, "PostgreSQL 15 + pgvector", "Micro (2 vCPU, 1GB RAM)", "Core data + embeddings; PgBouncer connection pool; RLS enabled")
@@ -539,7 +539,7 @@ npm run dev:ai     # FastAPI on :8000
 |-----------|----------|------|------|
 | Frontend + API Compute | Vercel | Hobby | $0 |
 | Database + Auth + Storage | Supabase | Free | $0 |
-| AI Container | Render / Fly.io | Free | $0 |
+| AI Container | Railway | Free | $0 |
 | Redis | Upstash | Free | $0 |
 | Email | Resend | Free | $0 |
 | Analytics | PostHog | Free | $0 |
