@@ -88,6 +88,6 @@
     "prisma": "^7.8.0",
     "supertest": "^7.2.2",
     "ts-jest": "^29.4.11",
-    "typescript": "^5.5.0"
+    "typescript": "^7.0.2"
   }
 }
