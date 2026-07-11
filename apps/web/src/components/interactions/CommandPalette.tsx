@@ -27,11 +27,7 @@ export const CommandPalette = ({ open, onClose, scopedCommands }: CommandPalette
     onEscape: onClose,
   });
 
-  useKeyboardShortcut(
-    { key: 'k', meta: true },
-    onClose,
-    { enabled: open, ignoreInputs: false }
-  );
+  useKeyboardShortcut({ key: 'k', meta: true }, onClose, { enabled: open, ignoreInputs: false });
 
   useEffect(() => {
     if (open) {
@@ -89,7 +85,7 @@ export const CommandPalette = ({ open, onClose, scopedCommands }: CommandPalette
             onClose();
           },
           predicate: undefined,
-        }))
+        })),
       );
     }
 
@@ -123,18 +119,14 @@ export const CommandPalette = ({ open, onClose, scopedCommands }: CommandPalette
           break;
       }
     },
-    [filteredCommands, selectedIndex]
+    [filteredCommands, selectedIndex],
   );
 
   if (!open) return null;
 
   return (
     <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]">
-      <div
-        className="absolute inset-0 bg-black/40"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
 
       <div
         ref={containerRef}
@@ -144,13 +136,23 @@ export const CommandPalette = ({ open, onClose, scopedCommands }: CommandPalette
         className={cn(
           'relative w-full max-w-lg rounded-xl shadow-2xl overflow-hidden',
           'bg-surface-primary border border-border-accent',
-          reducedMotion ? '' : 'animate-fade-in'
+          reducedMotion ? '' : 'animate-fade-in',
         )}
         style={reducedMotion ? undefined : { animationDuration: '150ms' }}
       >
         <div className="flex items-center gap-3 px-4 py-3 border-b border-border-accent">
-          <svg className="w-4 h-4 text-text-tertiary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          <svg
+            className="w-4 h-4 text-text-tertiary shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
           </svg>
           <input
             ref={inputRef}
@@ -189,7 +191,7 @@ export const CommandPalette = ({ open, onClose, scopedCommands }: CommandPalette
                     'text-sm text-text-primary',
                     index === selectedIndex
                       ? 'bg-accent-500/10 text-accent-500'
-                      : 'hover:bg-surface-elevated'
+                      : 'hover:bg-surface-elevated',
                   )}
                 >
                   <span className="flex-1 truncate">{cmd.label}</span>
