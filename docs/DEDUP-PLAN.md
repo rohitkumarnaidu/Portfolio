@@ -1,7 +1,7 @@
 # Docs Deduplication & Consolidation Plan
 
-> **Version:** 2.0 | **Status:** ✅ Executed  
-> **Total docs:** 228 .md files (162 active + 47 archived + 18 adr/ceremony/features + 1 MASTER-INDEX) | **Duplicate pairs resolved:** 30+ | **Net reduction:** 47 files archived, 5 moved, 1 merged
+> **Version:** 3.0 | **Status:** ✅ Executed (All Phases Complete)  
+> **Total docs:** 238 .md files (172 active + 47 archived + 18 adr/ceremony/features + 1 MASTER-INDEX) | **Duplicate pairs resolved:** 30+ | **Net reduction:** 47 files archived, 5 moved, 1 merged, 10 ghost stubs created
 
 ---
 
@@ -117,8 +117,8 @@ These files are referenced in existing docs but don't exist. Decide if you want 
 | 2                 | Archive superseded v4.0 originals | -24 files                                           |
 | 3                 | Archive superseded overviews      | -17 files                                           |
 | 4                 | Move/consolidate                  | 5 moves + 1 merge                                   |
-| 5                 | Create ghost stubs (optional)     | +11 files                                           |
-| **Net reduction** |                                   | **~40 files removed, 5 moved, 11 optional creates** |
+| 5 | Create ghost stubs | +10 files |
+| **Net change** | | **47 files archived, 5 moved, 1 merged, 10 created** |
 
 ### Estimated time: 2-3 hours
 
@@ -134,5 +134,5 @@ These files are referenced in existing docs but don't exist. Decide if you want 
 2. **Phase 2** — archive v4.0 originals (verify v5.0 files are truly supersets first)
 3. **Phase 4** — move misplaced files (location fixes)
 4. **Phase 3** — archive superseded overviews (verify coverage)
-5. **Phase 5** — optional ghost file creation
-6. **Final** — update MASTER-INDEX.md and cross-references
+5. **Phase 5** — optional ghost file creation ✅ (10 stubs created, CONTRIBUTING.md already exists at root)
+6. **Final** — update MASTER-INDEX.md and cross-references ✅
