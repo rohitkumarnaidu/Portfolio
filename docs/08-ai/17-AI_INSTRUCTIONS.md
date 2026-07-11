@@ -1,5 +1,8 @@
-> ⚠️ **PARTIALLY IMPLEMENTED — Contains Design Spec Content**
-> This document blends implemented features with aspirational design content. Sections marked with [DESIGN SPEC] describe future work that does **not** yet exist in the codebase. See [`docs/ai/README.md`](./README.md) for the current AI implementation status.
+> **Status:** 🟡 PARTIALLY IMPLEMENTED
+> This document blends implemented features with aspirational design content. Sections marked with [DESIGN SPEC] describe future work that does **not** yet exist in the codebase.
+> For current AI implementation documentation, see:
+> - [AI Strategy](../docs/ai/strategy.md)
+> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
 
 # AI Operating Model — Enterprise-Grade AI Instructions
 
