@@ -22,9 +22,9 @@ flowchart LR
     ERR -->|Yes| ERROR[Error Response]
     ERROR --> LOG[Log + Monitor]
 ```
-The API Standards establish a consistent enterprise-grade design framework across all portfolio API endpoints. This document defines five core standards: URL-prefix versioning (`/v1/`) with 6-month deprecation policy, cursor-based pagination for all public endpoints (with offset pagination for admin), a standardized error response format with application error codes, `snake_case` naming conventions with an envelope-based response structure, and five-tier rate limiting (per-IP, per-session, per-JWT). These standards ensure every API consumer — from the frontend application to third-party integrations — receives a predictable, well-documented interface.
+The API Standards establish a consistent enterprise-grade design framework across all portfolio API endpoints. This document defines five core standards: Accept-header versioning (`application/vnd.portfolio.v{n}+json`) with 6-month deprecation policy, cursor-based pagination for all public endpoints (with offset pagination for admin), a standardized error response format with application error codes, `snake_case` naming conventions with an envelope-based response structure, and five-tier rate limiting (per-IP, per-session, per-JWT). These standards ensure every API consumer — from the frontend application to third-party integrations — receives a predictable, well-documented interface.
 
-**Key Design Decisions:** URL-prefix versioning over header-based for discoverability | Cursor-based pagination over offset for consistency | Structured error objects with trace IDs for debuggability | Snake_case for broad framework compatibility | Per-tier rate limiting for fine-grained traffic control.
+**Key Design Decisions:** Header-based versioning over URL-prefix for clean URL design | Cursor-based pagination over offset for consistency | Structured error objects with trace IDs for debuggability | Snake_case for broad framework compatibility | Per-tier rate limiting for fine-grained traffic control.
 
 ---
 
@@ -40,14 +40,23 @@ The API Standards establish a consistent enterprise-grade design framework acros
 
 ## 1. Versioning Strategy
 
-### 1.1 URL-Prefix Versioning
+### 1.1 Accept-Header Versioning
 
-All API endpoints use URL-prefix versioning with the format `/v{N}/`:
+All API endpoints use Accept-header versioning with the format `application/vnd.portfolio.v{N}+json`:
 
+```http
+GET /sections
+Accept: application/vnd.portfolio.v1+json
 ```
-https://api.portfolio.dev/v1/sections
-https://api.portfolio.dev/v1/projects
-https://api.portfolio.dev/v1/leads
+
+```http
+GET /projects
+Accept: application/vnd.portfolio.v1+json
+```
+
+```http
+GET /leads
+Accept: application/vnd.portfolio.v1+json
 ```
 
 ### 1.2 Versioning Rules
@@ -55,8 +64,8 @@ https://api.portfolio.dev/v1/leads
 | Rule | Detail |
 |------|--------|
 | **Current version** | `v1` |
-| **Version location** | URL path prefix (`/v1/`) — not header-based |
-| **Breaking changes** | Increment major version (`/v2/`) |
+| **Version location** | Accept header (`application/vnd.portfolio.v{N}+json`) — not URL prefix |
+| **Breaking changes** | Increment major version (`v2` in header) |
 | **Non-breaking changes** | Same version, additive fields only |
 | **Deprecation notice** | `Sunset` header + `Deprecation` header on old version |
 | **Sunset policy** | 6 months after new version release |
@@ -68,7 +77,7 @@ https://api.portfolio.dev/v1/leads
 HTTP/1.1 200 OK
 Deprecation: true
 Sunset: Sat, 01 Jan 2027 00:00:00 GMT
-Link: <https://api.portfolio.dev/v2/sections>; rel="successor-version"
+Link: <https://api.portfolio.dev/sections>; rel="successor-version"
 ```
 
 ### 1.4 What Constitutes a Breaking Change
@@ -95,7 +104,7 @@ Used for all list endpoints (public and admin).
 
 **Request:**
 ```http
-GET /v1/projects?cursor=eyJpZCI6IjEyMzQ1Njc4In0&limit=20
+GET /projects?cursor=eyJpZCI6IjEyMzQ1Njc4In0&limit=20
 ```
 
 **Response:**
@@ -128,7 +137,7 @@ GET /v1/projects?cursor=eyJpZCI6IjEyMzQ1Njc4In0&limit=20
 Used for admin dashboards where "jump to page N" is needed.
 
 ```http
-GET /v1/admin/leads?offset=40&limit=20
+GET /admin/leads?offset=40&limit=20
 ```
 
 ```json
@@ -147,8 +156,8 @@ GET /v1/admin/leads?offset=40&limit=20
 ### 2.4 Filtering & Search
 
 ```http
-GET /v1/projects?category=web&tech=react&search=dashboard&is_featured=true
-GET /v1/admin/leads?status=new&priority=high&search=john&date_from=2026-01-01
+GET /projects?category=web&tech=react&search=dashboard&is_featured=true
+GET /admin/leads?status=new&priority=high&search=john&date_from=2026-01-01
 ```
 
 | Filter Type | Syntax | Example |
@@ -405,7 +414,7 @@ ThrottlerModule.forRoot([
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-API-001 | Use URL-prefix versioning (`/v1/`) instead of header-based versioning | Maximum discoverability — visible in URLs, curl output, browser dev tools; no custom header required | Header-based (`Accept-version: v1`) (rejected — invisible, requires tooling); query-param versioning (rejected — pollutes URLs) | Jun 2026 | Staff Backend Architect |
+| D-API-001 | Use Accept-header versioning (`application/vnd.portfolio.v1+json`) instead of URL-prefix versioning | Clean URLs, no path pollution, explicit content negotiation | URL-prefix `/v1/` (rejected — pollutes URLs, harder to maintain); query-param versioning (rejected — pollutes URLs) | Jul 2026 | Staff Backend Architect |
 | D-API-002 | Adopt cursor-based pagination as default for public endpoints | Consistent behavior regardless of data mutations; no page drift; better performance on large datasets | Offset-based only (rejected — page drift with concurrent writes); keyset pagination (rejected — requires sort-field coupling) | Jun 2026 | Staff Backend Architect |
 | D-API-003 | Use structured error objects with application error codes and trace IDs | Enables programmatic error handling, correlation across logs, and self-documenting error catalog | HTTP status-only (rejected — insufficient detail); plain text messages (rejected — not machine-readable); no trace IDs (rejected — debugging impossible) | Jun 2026 | Staff Backend Architect |
 | D-API-004 | Enforce snake_case for all API fields | Matches PostgreSQL column naming, NestJS conventions, and common API tooling | camelCase (rejected — mismatch with DB/schema); PascalCase (rejected — uncommon for APIs); kebab-case (rejected — cannot use in JS objects without quotes) | Jun 2026 | Staff Backend Architect |
@@ -416,7 +425,7 @@ ThrottlerModule.forRoot([
 
 | ID | Risk | Likelihood | Impact | Mitigation |
 |----|------|------------|--------|------------|
-| R-API-001 | API consumers hardcode `/v1/` prefix and break when v2 is released | High | Medium | Implement version negotiation via `Accept` header as secondary mechanism; provide `Link` header with `rel="successor-version"` in deprecation responses; maintain v1 for 6-month sunset period |
+| R-API-001 | API consumers forget to set `Accept` header and default to wrong version | High | Medium | Implement version negotiation via `Accept` header as primary mechanism; provide `Link` header with `rel="successor-version"` in deprecation responses; maintain v1 for 6-month sunset period |
 | R-API-002 | Cursor-based pagination confuses frontend developers accustomed to page-based pagination | Medium | Low | Provide clear documentation with example code; implement helper utilities in shared packages; support offset pagination for admin dashboards where page-jumping is required |
 | R-API-003 | Rate limiting blocks legitimate traffic during traffic spikes or flash sales | Low | High | Implement graduated rate limiting (burst → sustained → block); return `Retry-After` header for precise retry timing; monitor rate limit hit rates; provide admin override for verified traffic sources |
 | R-API-004 | Error response format inconsistencies across endpoints due to developer oversight | Medium | Medium | Implement NestJS interceptors to enforce consistent error formatting; add automated contract tests that validate error shape; include `docs_url` field for self-documenting errors |
@@ -435,7 +444,7 @@ ThrottlerModule.forRoot([
 
 | Term | Definition |
 |------|------------|
-| **URL-Prefix Versioning** | A versioning strategy where the API version is included in the URL path (e.g., `/v1/projects`) |
+| **Accept-Header Versioning** | A versioning strategy where the API version is specified in the `Accept` header (e.g., `application/vnd.portfolio.v1+json`) |
 | **Cursor-Based Pagination** | A pagination method that uses an opaque cursor to mark position in a dataset, avoiding page drift from concurrent data changes |
 | **Offset Pagination** | A pagination method that uses row offset and limit (e.g., `OFFSET 40 LIMIT 20`), subject to page drift |
 | **Opaque Cursor** | An encoded string that represents a position in a dataset, without exposing internal row identifiers |
