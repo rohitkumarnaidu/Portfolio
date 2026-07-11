@@ -1,5 +1,8 @@
-> ⚠️ **DESIGN SPEC — NOT IMPLEMENTED**
-> This document describes an aspirational design for a future AI system. The features, architecture, agents, and workflows documented here do **not** currently exist in the codebase. See [`docs/ai/README.md`](./README.md) for the current AI implementation status.
+> **Status:** 🎯 DESIGN SPEC — Not Implemented
+> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
+> For current AI implementation documentation, see:
+> - [AI Strategy](../docs/ai/strategy.md)
+> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
 
 # Agent Marketplace
 
@@ -1597,11 +1600,11 @@ The marketplace connects to the registry via the following REST endpoints:
 | AGENTS.md | Agent lifecycle management, states, transitions | `docs/ai/18-AGENTS.md` |
 | AGENT-REGISTRY.md | Agent Registry service architecture and API | `docs/ai/AgentRegistry.md` |
 | AGENT-CAPABILITIES.md | Agent capability model, discovery, and negotiation | `docs/ai/AgentCapabilities.md` |
-| AGENT-SECURITY.md | Agent security model, sandboxing, auditing | `docs/AGENT-SECURITY.md` |
-| AGENT-NETWORKING.md | Agent-to-agent and agent-to-service communication | `docs/AGENT-NETWORKING.md` |
-| MARKETPLACE-API-SPEC.md | Full OpenAPI specification | `docs/MARKETPLACE-API-SPEC.md` |
-| DEPLOYMENT-GUIDE.md | Marketplace deployment and operations guide | `docs/DEPLOYMENT-GUIDE.md` |
-| PACKAGE-DEVELOPMENT.md | Guide for developing and publishing agent packages | `docs/PACKAGE-DEVELOPMENT.md` |
+| AGENT-SECURITY.md | Agent security model, sandboxing, auditing | `docs/security/AGENT-SECURITY.md` |
+| AGENT-NETWORKING.md | Agent-to-agent and agent-to-service communication | `docs/ai/AGENT-NETWORKING.md` |
+| MARKETPLACE-API-SPEC.md | Full OpenAPI specification | `docs/ai/MARKETPLACE-API-SPEC.md` |
+| DEPLOYMENT-GUIDE.md | Marketplace deployment and operations guide | `docs/api/DEPLOYMENT-GUIDE.md` |
+| PACKAGE-DEVELOPMENT.md | Guide for developing and publishing agent packages | `docs/ai/PACKAGE-DEVELOPMENT.md` |
 
 ---
 
