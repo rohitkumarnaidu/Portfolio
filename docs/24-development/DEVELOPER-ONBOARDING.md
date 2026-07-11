@@ -86,7 +86,7 @@ Then edit `config/.env`. Below is what each variable group does:
 | Variable | Description |
 |----------|-------------|
 | `JWT_SECRET` | JWT signing secret. Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `NEXTAUTH_SECRET` | NextAuth.js secret (same generator) |
+| `JWT_SECRET` | NestJS Passport JWT signing secret (same generator) |
 | `NEXTAUTH_URL` | Frontend URL for OAuth callbacks (`http://localhost:3000`) |
 
 **AI Service (optional for local dev):**
