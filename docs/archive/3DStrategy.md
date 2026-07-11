@@ -6,4 +6,3 @@
 
 This document was originally a stub-level (v4.0) architectural design sketch.
 For current documentation, see the corresponding v5.0 documents in docs/.
-
