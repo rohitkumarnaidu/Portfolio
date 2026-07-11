@@ -1738,7 +1738,7 @@ A user story is considered **Done** when:
 **Total Stories:** 3 | **Points:** 16  
 **Persona:** Admin (Portfolio Owner)
 
-### US-301: Admin Login with NextAuth.js (F-700)
+### US-301: Admin Login with NestJS Passport (F-700)
 
 > **As an** admin  
 > **I want** to securely log in with email/password or OAuth (Google, GitHub)  
@@ -1810,7 +1810,7 @@ A user story is considered **Done** when:
 | **Priority** | P0 |
 | **Story Points** | 5 |
 | **Phase** | 08 |
-| **Dependencies** | US-301 (NextAuth.js) |
+| **Dependencies** | US-301 (NestJS Passport) |
 
 #### Acceptance Criteria
 
@@ -1853,7 +1853,7 @@ A user story is considered **Done** when:
 | **Priority** | P0 |
 | **Story Points** | 3 |
 | **Phase** | 08 |
-| **Dependencies** | US-301 (NextAuth.js) |
+| **Dependencies** | US-301 (NestJS Passport) |
 
 #### Acceptance Criteria
 
@@ -2769,7 +2769,7 @@ A user story is considered **Done** when:
 | F-802 | CSV Export | US-203 | E3 | P1 | 2 |
 | F-803 | Auto-Reply Email | US-204 | E3 | P1 | 3 |
 | F-804 | Telegram Notification | US-205 | E3 | P2 | 3 |
-| F-700 | Admin Auth (NextAuth) | US-301 | E4 | P0 | 8 |
+| F-700 | Admin Auth (NestJS Passport) | US-301 | E4 | P0 | 8 |
 | F-701 | JWT API Auth | US-302 | E4 | P0 | 5 |
 | F-702 | Admin Registration | US-303 | E4 | P0 | 3 |
 | F-900 | Analytics Dashboard | US-401 | E5 | P1 | 8 |
