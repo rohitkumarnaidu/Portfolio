@@ -251,7 +251,22 @@ npx prisma studio    # Navigate to Users table, update your role
 
 **Solution:** Wait 60 seconds. Check `Retry-After` header in the response.
 
-### 3.4 500 Internal Server Error
+### 3.4 CORS Errors
+
+**Symptoms:** Browser console shows CORS errors when making API requests from the frontend
+
+**Causes:** Request origin not whitelisted in the API's CORS configuration
+
+**Solutions:**
+```
+□ Check CORS_ORIGIN env variable in config/.env
+  - Development: NEXT_PUBLIC_API_URL should be a relative path ("/api")
+  - Make sure your frontend origin (e.g., http://localhost:3000) is in the allowed origins list
+□ Restart the API server after changing CORS_ORIGIN
+□ For custom domains, add them to the CORS_ORIGIN comma-separated list
+```
+
+### 3.5 500 Internal Server Error
 
 **Diagnostic steps:**
 ```
@@ -328,7 +343,24 @@ Press the **Toggle Devtools** button (bottom-left corner, looks like a bug icon)
 - You're in development mode
 - `NEXT_PUBLIC_DEBUG=true` is set in your environment
 
-### 4.5 API Connection Refused (Client-Side)
+### 4.5 TypeScript Build Errors
+
+**Symptoms:** `npx tsc --noEmit` fails, build process reports type errors
+
+**Causes:** Strict TypeScript configuration catching type issues
+
+**Solutions:**
+```powershell
+# Check type errors
+npx tsc --noEmit
+
+# Common issues:
+# - Missing types for external packages (install @types/package-name)
+# - `any` usage where explicit types are required
+# - Null checks on optional properties
+```
+
+### 4.6 API Connection Refused (Client-Side)
 
 **Symptom:** Fetch calls to `/api/...` fail, but the API is running.
 
@@ -359,7 +391,22 @@ Press the **Toggle Devtools** button (bottom-left corner, looks like a bug icon)
 □ Check NestJS logs          → Look for "Error proxying chat stream" messages
 ```
 
-### 5.2 API Key Errors
+### 5.2 Chat Responses Are Slow
+
+**Symptoms:** AI responses take a long time (>10s) to start or complete
+
+**Causes:** Model inference time, network latency, API rate limiting
+
+**Solutions:**
+```
+□ Check if streaming is working (Accept: text/event-stream)
+□ Verify no rate limiting on the AI provider (check response headers)
+□ Check cache hit rate — repeated identical queries should be cached
+□ Verify the selected model — larger models (Sonnet, GPT-4) are slower than smaller ones (Haiku, GPT-4o-mini)
+□ Check network latency to the AI provider's API endpoint
+```
+
+### 5.3 API Key Errors
 
 **Symptoms:** `401 Unauthorized` from OpenAI, `AuthenticationError`, empty responses
 
