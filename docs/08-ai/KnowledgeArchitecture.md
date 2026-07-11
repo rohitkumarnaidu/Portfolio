@@ -1,5 +1,8 @@
-> ⚠️ **DESIGN SPEC — NOT IMPLEMENTED**
-> This document describes an aspirational design for a future AI system. The features, architecture, agents, and workflows documented here do **not** currently exist in the codebase. See [`docs/ai/README.md`](./README.md) for the current AI implementation status.
+> **Status:** 🎯 DESIGN SPEC — Not Implemented
+> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
+> For current AI implementation documentation, see:
+> - [AI Strategy](../docs/ai/strategy.md)
+> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
 
 # Knowledge Architecture
 
@@ -1801,11 +1804,11 @@ async def classify_query(query: str) -> str:
 | MEMORY-ARCHITECTURE.md  | `docs/ai/MemoryArchitecture.md`           | Agent memory system including episodic, semantic, and procedural memory |
 | CONTEXT-ARCHITECTURE.md | `docs/ai/ContextArchitecture.md`          | Context window management, token budgeting, and priority scheduling     |
 | SYSTEM-ARCHITECTURE.md  | `docs/architecture/SystemArchitecture.md` | Overall platform architecture and service topology                      |
-| DATA-MODEL.md           | `docs/DATA-MODEL.md`                      | Canonical data models for all entities across the platform              |
+| DATA-MODEL.md           | `docs/api/DATA-MODEL.md`                  | Canonical data models for all entities across the platform              |
 | SECURITY.md             | `docs/security/SecurityArchitecture.md`   | Authentication, authorization, and encryption standards                 |
 | DEPLOYMENT.md           | `docs/operations/DeploymentGuide.md`      | Infrastructure provisioning and deployment runbooks                     |
-| OPERATIONS.md           | `docs/OPERATIONS.md`                      | Monitoring, alerting, and incident response procedures                  |
-| CONTRIBUTING.md         | `docs/CONTRIBUTING.md`                    | Development workflow and contribution guidelines                        |
+| OPERATIONS.md           | `docs/operations/OPERATIONS.md`           | Monitoring, alerting, and incident response procedures                  |
+| CONTRIBUTING.md         | `../CONTRIBUTING.md`                      | Development workflow and contribution guidelines                        |
 
 ---
 
