@@ -17,15 +17,15 @@ The Knowledge Architecture defines the complete knowledge management infrastruct
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/ai/19-RAG.md` | RAG pipeline — retrieval, context assembly, source attribution |
-| `docs/ai/18-AGENTS.md` | Multi-agent architecture — each agent's knowledge sources |
-| `docs/ai/17-AI_INSTRUCTIONS.md` | AI Operating Model — knowledge governance rules |
-| `docs/database/DatabaseArchitecture.md` | pgvector schema for vector storage |
-| `docs/architecture/SystemArchitecture.md` | System architecture — AI service layer |
-| `docs/architecture/13-INTEGRATIONS.md` | OpenAI embedding service configuration |
-| `docs/security/43-DATA-GOVERNANCE.md` | Data quality and lifecycle management |
+| Reference                                 | Description                                                    |
+| ----------------------------------------- | -------------------------------------------------------------- |
+| `docs/ai/19-RAG.md`                       | RAG pipeline — retrieval, context assembly, source attribution |
+| `docs/ai/18-AGENTS.md`                    | Multi-agent architecture — each agent's knowledge sources      |
+| `docs/ai/17-AI_INSTRUCTIONS.md`           | AI Operating Model — knowledge governance rules                |
+| `docs/database/DatabaseArchitecture.md`   | pgvector schema for vector storage                             |
+| `docs/architecture/SystemArchitecture.md` | System architecture — AI service layer                         |
+| `docs/architecture/13-INTEGRATIONS.md`    | OpenAI embedding service configuration                         |
+| `docs/security/43-DATA-GOVERNANCE.md`     | Data quality and lifecycle management                          |
 
 ## Knowledge Pipeline Flow
 
@@ -103,23 +103,23 @@ flowchart LR
 
 ## 1. Document Control and Metadata
 
-| Property | Value |
-|---|---|
-| Document ID | ARC-KA-v1.0 |
-| Version | 1.0 |
-| Status | Active |
-| Author | Chief AI Architect, Enterprise Architecture |
-| Approver | Architecture Review Board |
-| Effective Date | 2026-06-18 |
-| Review Cycle | Quarterly |
-| Classification | Enterprise Internal |
-| Storage Location | `docs/ai/KnowledgeArchitecture.md` |
+| Property         | Value                                       |
+| ---------------- | ------------------------------------------- |
+| Document ID      | ARC-KA-v1.0                                 |
+| Version          | 1.0                                         |
+| Status           | Active                                      |
+| Author           | Chief AI Architect, Enterprise Architecture |
+| Approver         | Architecture Review Board                   |
+| Effective Date   | 2026-06-18                                  |
+| Review Cycle     | Quarterly                                   |
+| Classification   | Enterprise Internal                         |
+| Storage Location | `docs/ai/KnowledgeArchitecture.md`          |
 
 **Revision History**
 
-| Version | Date | Author | Changes |
-|---|---|---|---|
-| 1.0 | 2026-06-18 | Chief AI Architect | Initial release |
+| Version | Date       | Author             | Changes         |
+| ------- | ---------- | ------------------ | --------------- |
+| 1.0     | 2026-06-18 | Chief AI Architect | Initial release |
 
 ---
 
@@ -140,15 +140,15 @@ This document covers the end-to-end knowledge architecture for the portfolio int
 
 ## 3. Design Principles
 
-| Principle | Description |
-|---|---|
-| Separation of Concerns | Knowledge ingestion, storage, retrieval, and consumption are independently deployable services. |
-| Polyglot Persistence | Different knowledge modalities use the most appropriate store (graph for relationships, vector for semantics, relational for structured metadata). |
-| Event-Driven Freshness | Knowledge is refreshed reactively on content change, not on a fixed poll cycle, to minimize staleness. |
-| Defense in Depth | Access control is enforced at the API, service, and database layers simultaneously. |
-| Observability by Default | Every retrieval, ingestion, and refresh operation emits structured telemetry for quality monitoring. |
-| Cost Proportionality | Embedding and storage costs scale with content value; high-priority content uses higher-dimension models and more frequent refresh. |
-| Backward Compatibility | All knowledge API contracts are versioned; breaking changes require a minimum six-month deprecation window. |
+| Principle                | Description                                                                                                                                        |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Separation of Concerns   | Knowledge ingestion, storage, retrieval, and consumption are independently deployable services.                                                    |
+| Polyglot Persistence     | Different knowledge modalities use the most appropriate store (graph for relationships, vector for semantics, relational for structured metadata). |
+| Event-Driven Freshness   | Knowledge is refreshed reactively on content change, not on a fixed poll cycle, to minimize staleness.                                             |
+| Defense in Depth         | Access control is enforced at the API, service, and database layers simultaneously.                                                                |
+| Observability by Default | Every retrieval, ingestion, and refresh operation emits structured telemetry for quality monitoring.                                               |
+| Cost Proportionality     | Embedding and storage costs scale with content value; high-priority content uses higher-dimension models and more frequent refresh.                |
+| Backward Compatibility   | All knowledge API contracts are versioned; breaking changes require a minimum six-month deprecation window.                                        |
 
 ---
 
@@ -197,105 +197,105 @@ The taxonomy is a strict three-level hierarchy: **Domain** > **Category** > **Su
 
 ### 6.1 Domain: Portfolio Content
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Projects | Personal | "Portfolio platform v2" |
-| Projects | Client | "E-commerce migration for Acme Corp" |
-| Projects | Open Source | "pgvector-hs" |
-| Showcases | Featured | Hero section project cards |
-| Showcases | Archived | Deprecated demos |
+| Category  | Sub-Type    | Example                              |
+| --------- | ----------- | ------------------------------------ |
+| Projects  | Personal    | "Portfolio platform v2"              |
+| Projects  | Client      | "E-commerce migration for Acme Corp" |
+| Projects  | Open Source | "pgvector-hs"                        |
+| Showcases | Featured    | Hero section project cards           |
+| Showcases | Archived    | Deprecated demos                     |
 
 ### 6.2 Domain: Technical Skills
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Languages | Programming | TypeScript, Python, Go |
-| Languages | Query | SQL, GraphQL, SPARQL |
-| Frameworks | Frontend | React, Next.js, Vue |
-| Frameworks | Backend | FastAPI, Express, Django |
-| Platforms | Cloud | AWS, GCP, Azure |
-| Platforms | Container | Docker, Kubernetes, Nomad |
-| Tools | Productivity | VS Code, Obsidian, Linear |
-| Tools | DevOps | GitHub Actions, Terraform, Pulumi |
+| Category   | Sub-Type     | Example                           |
+| ---------- | ------------ | --------------------------------- |
+| Languages  | Programming  | TypeScript, Python, Go            |
+| Languages  | Query        | SQL, GraphQL, SPARQL              |
+| Frameworks | Frontend     | React, Next.js, Vue               |
+| Frameworks | Backend      | FastAPI, Express, Django          |
+| Platforms  | Cloud        | AWS, GCP, Azure                   |
+| Platforms  | Container    | Docker, Kubernetes, Nomad         |
+| Tools      | Productivity | VS Code, Obsidian, Linear         |
+| Tools      | DevOps       | GitHub Actions, Terraform, Pulumi |
 
 ### 6.3 Domain: Project Artifacts
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Documentation | Architecture | System design docs, ADRs |
-| Documentation | API | OpenAPI specs, GraphQL schemas |
-| Source | Modules | Core libraries, utilities |
-| Source | Tests | Unit, integration, e2e tests |
+| Category      | Sub-Type       | Example                            |
+| ------------- | -------------- | ---------------------------------- |
+| Documentation | Architecture   | System design docs, ADRs           |
+| Documentation | API            | OpenAPI specs, GraphQL schemas     |
+| Source        | Modules        | Core libraries, utilities          |
+| Source        | Tests          | Unit, integration, e2e tests       |
 | Configuration | Infrastructure | Dockerfile, compose, k8s manifests |
-| Configuration | Application | env vars, feature flags |
+| Configuration | Application    | env vars, feature flags            |
 
 ### 6.4 Domain: Professional Experience
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Employment | Full-time | Staff Engineer at example.io |
-| Employment | Contract | API modernization project |
-| Education | Degree | M.S. Computer Science |
-| Education | Certification | AWS Solutions Architect |
-| Speaking | Conference | "Knowledge Graphs at Scale" |
-| Speaking | Meetup | Local AI/ML meetup talk |
+| Category   | Sub-Type      | Example                      |
+| ---------- | ------------- | ---------------------------- |
+| Employment | Full-time     | Staff Engineer at example.io |
+| Employment | Contract      | API modernization project    |
+| Education  | Degree        | M.S. Computer Science        |
+| Education  | Certification | AWS Solutions Architect      |
+| Speaking   | Conference    | "Knowledge Graphs at Scale"  |
+| Speaking   | Meetup        | Local AI/ML meetup talk      |
 
 ### 6.5 Domain: Published Content
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Blog | Technical | "Hybrid Search with pgvector" |
-| Blog | Thought Leadership | "Future of AI Engineering" |
-| Video | Tutorial | "Build a RAG pipeline" |
-| Video | Walkthrough | Code review screencast |
-| Newsletter | Edition | Monthly engineering digest |
+| Category   | Sub-Type           | Example                       |
+| ---------- | ------------------ | ----------------------------- |
+| Blog       | Technical          | "Hybrid Search with pgvector" |
+| Blog       | Thought Leadership | "Future of AI Engineering"    |
+| Video      | Tutorial           | "Build a RAG pipeline"        |
+| Video      | Walkthrough        | Code review screencast        |
+| Newsletter | Edition            | Monthly engineering digest    |
 
 ### 6.6 Domain: Case Studies
 
-| Category | Sub-Type | Example |
-|---|---|---|
+| Category  | Sub-Type     | Example                               |
+| --------- | ------------ | ------------------------------------- |
 | Technical | Architecture | "Migrating monolith to microservices" |
-| Technical | Performance | "Reducing p99 latency by 60%" |
-| Business | ROI | "Automation saved 200 engineer-hours" |
-| Business | Migration | "Cloud migration TCO analysis" |
+| Technical | Performance  | "Reducing p99 latency by 60%"         |
+| Business  | ROI          | "Automation saved 200 engineer-hours" |
+| Business  | Migration    | "Cloud migration TCO analysis"        |
 
 ### 6.7 Domain: System Configuration
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Agent Defs | Skills | graphify skill definition |
-| Agent Defs | Sub-agents | Domain-specific agent configs |
-| Settings | Retrieval | Chunk size, overlap, top-k |
-| Settings | Access | RLS policy definitions |
-| Prompts | System | Base system prompts for agents |
-| Prompts | Templates | Few-shot example templates |
+| Category   | Sub-Type   | Example                        |
+| ---------- | ---------- | ------------------------------ |
+| Agent Defs | Skills     | graphify skill definition      |
+| Agent Defs | Sub-agents | Domain-specific agent configs  |
+| Settings   | Retrieval  | Chunk size, overlap, top-k     |
+| Settings   | Access     | RLS policy definitions         |
+| Prompts    | System     | Base system prompts for agents |
+| Prompts    | Templates  | Few-shot example templates     |
 
 ### 6.8 Domain: External References
 
-| Category | Sub-Type | Example |
-|---|---|---|
-| Papers | Academic | "Attention Is All You Need" |
-| Papers | Industry | "RAG for Enterprise" tech report |
-| Documentation | Third-party | pgvector docs, OpenAI API ref |
-| Standards | Protocols | MCP spec, OpenAPI 3.1 |
+| Category      | Sub-Type    | Example                          |
+| ------------- | ----------- | -------------------------------- |
+| Papers        | Academic    | "Attention Is All You Need"      |
+| Papers        | Industry    | "RAG for Enterprise" tech report |
+| Documentation | Third-party | pgvector docs, OpenAI API ref    |
+| Standards     | Protocols   | MCP spec, OpenAPI 3.1            |
 
 ---
 
 ## 7. Knowledge Sources Inventory
 
-| Source Name | Table(s) | Estimated Chunks | Refresh Trigger | Priority | Content Type |
-|---|---|---|---|---|---|
-| Projects | `projects` | 500 | On commit + daily | Critical | Structured + Narrative |
-| Skills | `skills` | 200 | On commit | High | Structured |
-| Experience | `experience` | 300 | On commit + weekly | Critical | Narrative |
-| Blog Posts | `blog_posts` | 800 | On publish + daily | High | Narrative |
-| Case Studies | `case_studies` | 400 | On publish | Critical | Narrative |
-| Services | `services` | 150 | On change | Medium | Structured |
-| Testimonials | `testimonials` | 100 | On change | Medium | Short Text |
-| Press Features | `press_features` | 200 | On publish | Low | Narrative |
-| About / Resume | `about_resume` | 50 | On change | Critical | Narrative |
-| System Settings | `system_settings` | 30 | On save | High | Structured |
-| Agent Definitions | `agent_definitions` | 60 | On deploy | Critical | Structured + Prompt |
+| Source Name       | Table(s)            | Estimated Chunks | Refresh Trigger    | Priority | Content Type           |
+| ----------------- | ------------------- | ---------------- | ------------------ | -------- | ---------------------- |
+| Projects          | `projects`          | 500              | On commit + daily  | Critical | Structured + Narrative |
+| Skills            | `skills`            | 200              | On commit          | High     | Structured             |
+| Experience        | `experience`        | 300              | On commit + weekly | Critical | Narrative              |
+| Blog Posts        | `blog_posts`        | 800              | On publish + daily | High     | Narrative              |
+| Case Studies      | `case_studies`      | 400              | On publish         | Critical | Narrative              |
+| Services          | `services`          | 150              | On change          | Medium   | Structured             |
+| Testimonials      | `testimonials`      | 100              | On change          | Medium   | Short Text             |
+| Press Features    | `press_features`    | 200              | On publish         | Low      | Narrative              |
+| About / Resume    | `about_resume`      | 50               | On change          | Critical | Narrative              |
+| System Settings   | `system_settings`   | 30               | On save            | High     | Structured             |
+| Agent Definitions | `agent_definitions` | 60               | On deploy          | Critical | Structured + Prompt    |
 
 **Priority Definitions**
 
@@ -310,42 +310,42 @@ The taxonomy is a strict three-level hierarchy: **Domain** > **Category** > **Su
 
 ### 8.1 Entity Types
 
-| Entity Type | Properties | Identity Key |
-|---|---|---|
-| Person | `name`, `title`, `email`, `github`, `linkedin`, `bio`, `avatar_url` | `email` (unique) |
-| Project | `name`, `slug`, `description`, `status`, `start_date`, `end_date`, `repo_url`, `live_url`, `tech_stack` | `slug` (unique) |
-| Skill | `name`, `category`, `proficiency`, `years_exp`, `last_used` | `name` (unique) |
-| Technology | `name`, `version`, `type`, `official_site`, `docs_url`, `license` | `name` (unique) |
-| Company | `name`, `domain`, `industry`, `size`, `location` | `domain` (unique) |
-| BlogPost | `title`, `slug`, `published_date`, `tags`, `reading_time`, `word_count` | `slug` (unique) |
-| CaseStudy | `title`, `slug`, `client`, `industry`, `outcome`, `roi_metrics` | `slug` (unique) |
+| Entity Type | Properties                                                                                              | Identity Key      |
+| ----------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
+| Person      | `name`, `title`, `email`, `github`, `linkedin`, `bio`, `avatar_url`                                     | `email` (unique)  |
+| Project     | `name`, `slug`, `description`, `status`, `start_date`, `end_date`, `repo_url`, `live_url`, `tech_stack` | `slug` (unique)   |
+| Skill       | `name`, `category`, `proficiency`, `years_exp`, `last_used`                                             | `name` (unique)   |
+| Technology  | `name`, `version`, `type`, `official_site`, `docs_url`, `license`                                       | `name` (unique)   |
+| Company     | `name`, `domain`, `industry`, `size`, `location`                                                        | `domain` (unique) |
+| BlogPost    | `title`, `slug`, `published_date`, `tags`, `reading_time`, `word_count`                                 | `slug` (unique)   |
+| CaseStudy   | `title`, `slug`, `client`, `industry`, `outcome`, `roi_metrics`                                         | `slug` (unique)   |
 
 ### 8.2 Relationship Types
 
-| Relationship | Source | Target | Properties |
-|---|---|---|---|
-| WORKED_ON | Person | Project | `role`, `start_date`, `end_date`, `contribution_pct` |
-| USES | Project | Technology | `purpose`, `version`, `is_core` |
-| EMPLOYED_BY | Person | Company | `title`, `start_date`, `end_date`, `is_current` |
-| AUTHORED | Person | BlogPost | `is_primary`, `contribution_type` |
-| AUTHORED | Person | CaseStudy | `is_primary`, `contribution_type` |
-| FEATURES | Project | Technology | `relationship` (e.g., "built_with", "deployed_on") |
-| MENTIONS | BlogPost | Project | `context`, `sentiment` |
-| MENTIONS | BlogPost | Skill | `context`, `sentiment` |
-| PREREQUISITE | Skill | Skill | `relationship_type` (e.g., "requires", "recommends") |
-| SIMILAR_TO | Project | Project | `similarity_score`, `basis` |
+| Relationship | Source   | Target     | Properties                                           |
+| ------------ | -------- | ---------- | ---------------------------------------------------- |
+| WORKED_ON    | Person   | Project    | `role`, `start_date`, `end_date`, `contribution_pct` |
+| USES         | Project  | Technology | `purpose`, `version`, `is_core`                      |
+| EMPLOYED_BY  | Person   | Company    | `title`, `start_date`, `end_date`, `is_current`      |
+| AUTHORED     | Person   | BlogPost   | `is_primary`, `contribution_type`                    |
+| AUTHORED     | Person   | CaseStudy  | `is_primary`, `contribution_type`                    |
+| FEATURES     | Project  | Technology | `relationship` (e.g., "built_with", "deployed_on")   |
+| MENTIONS     | BlogPost | Project    | `context`, `sentiment`                               |
+| MENTIONS     | BlogPost | Skill      | `context`, `sentiment`                               |
+| PREREQUISITE | Skill    | Skill      | `relationship_type` (e.g., "requires", "recommends") |
+| SIMILAR_TO   | Project  | Project    | `similarity_score`, `basis`                          |
 
 ### 8.3 Graph Storage Approach
 
 The knowledge graph is stored in PostgreSQL using the **adjacency list with JSONB** pattern, not a dedicated graph database. Rationale:
 
-| Consideration | Decision |
-|---|---|
+| Consideration             | Decision                                                             |
+| ------------------------- | -------------------------------------------------------------------- |
 | Transactional consistency | PostgreSQL provides ACID guarantees across graph and relational data |
-| Operational simplicity | Single database to manage, backup, and monitor |
-| Query expressiveness | Recursive CTEs reach depth 10+ with acceptable performance |
-| Property flexibility | JSONB allows schema-on-read for relationship properties |
-| Cost | No additional licensing or infrastructure for Neo4j/JanusGraph |
+| Operational simplicity    | Single database to manage, backup, and monitor                       |
+| Query expressiveness      | Recursive CTEs reach depth 10+ with acceptable performance           |
+| Property flexibility      | JSONB allows schema-on-read for relationship properties              |
+| Cost                      | No additional licensing or infrastructure for Neo4j/JanusGraph       |
 
 **Entities Table**
 
@@ -465,15 +465,15 @@ Entity resolution reconciles references across sources into canonical entities.
 
 **Resolution Strategy by Entity Type**
 
-| Entity Type | Resolution Method | Match Threshold | Merge Policy |
-|---|---|---|---|
-| Person | Email + GitHub + LinkedIn profile links | Exact | Merge properties, prefer latest |
-| Project | Slug + repo URL | Exact | Merge, prefer enriched source |
-| Skill | Name (case-insensitive normalized) | Exact | Merge proficiency stats |
-| Technology | Name + official site domain | 0.95 (Jaro-Winkler) | Merge, prefer package registry |
-| Company | Domain name | Exact | Merge, prefer LinkedIn/Crunchbase |
-| BlogPost | Slug + canonical URL | Exact | Keep latest version |
-| CaseStudy | Slug | Exact | Keep latest version |
+| Entity Type | Resolution Method                       | Match Threshold     | Merge Policy                      |
+| ----------- | --------------------------------------- | ------------------- | --------------------------------- |
+| Person      | Email + GitHub + LinkedIn profile links | Exact               | Merge properties, prefer latest   |
+| Project     | Slug + repo URL                         | Exact               | Merge, prefer enriched source     |
+| Skill       | Name (case-insensitive normalized)      | Exact               | Merge proficiency stats           |
+| Technology  | Name + official site domain             | 0.95 (Jaro-Winkler) | Merge, prefer package registry    |
+| Company     | Domain name                             | Exact               | Merge, prefer LinkedIn/Crunchbase |
+| BlogPost    | Slug + canonical URL                    | Exact               | Keep latest version               |
+| CaseStudy   | Slug                                    | Exact               | Keep latest version               |
 
 **Resolution Pipeline**
 
@@ -587,19 +587,19 @@ CREATE INDEX idx_chunks_hash ON document_chunks (chunk_text_hash);
 
 ## 14. Chunking Strategy
 
-| Source | Chunk Size (tokens) | Overlap (tokens) | Splitter Strategy | Notes |
-|---|---|---|---|---|
-| Projects | 512 | 64 | RecursiveCharacterTextSplitter | Split on `##`, `###` headers first |
-| Skills | 256 | 32 | CharacterTextSplitter | Each skill is one chunk |
-| Experience | 512 | 64 | RecursiveCharacterTextSplitter | Preserve role/date boundaries |
-| Blog Posts | 768 | 128 | RecursiveCharacterTextSplitter | Split on `##`, `###`, preserve code blocks |
-| Case Studies | 1024 | 128 | RecursiveCharacterTextSplitter | Longer context for narrative flow |
-| Services | 256 | 32 | CharacterTextSplitter | Per-service description |
-| Testimonials | 128 | 16 | No split | Each testimonial is one chunk |
-| Press Features | 768 | 128 | RecursiveCharacterTextSplitter | Preserve quotation attribution |
-| About/Resume | 512 | 64 | RecursiveCharacterTextSplitter | Section-based splitting |
-| System Settings | 256 | 32 | CharacterTextSplitter | Key-value pair preservation |
-| Agent Definitions | 512 | 64 | RecursiveCharacterTextSplitter | Preserve YAML/JSON structure |
+| Source            | Chunk Size (tokens) | Overlap (tokens) | Splitter Strategy              | Notes                                      |
+| ----------------- | ------------------- | ---------------- | ------------------------------ | ------------------------------------------ |
+| Projects          | 512                 | 64               | RecursiveCharacterTextSplitter | Split on `##`, `###` headers first         |
+| Skills            | 256                 | 32               | CharacterTextSplitter          | Each skill is one chunk                    |
+| Experience        | 512                 | 64               | RecursiveCharacterTextSplitter | Preserve role/date boundaries              |
+| Blog Posts        | 768                 | 128              | RecursiveCharacterTextSplitter | Split on `##`, `###`, preserve code blocks |
+| Case Studies      | 1024                | 128              | RecursiveCharacterTextSplitter | Longer context for narrative flow          |
+| Services          | 256                 | 32               | CharacterTextSplitter          | Per-service description                    |
+| Testimonials      | 128                 | 16               | No split                       | Each testimonial is one chunk              |
+| Press Features    | 768                 | 128              | RecursiveCharacterTextSplitter | Preserve quotation attribution             |
+| About/Resume      | 512                 | 64               | RecursiveCharacterTextSplitter | Section-based splitting                    |
+| System Settings   | 256                 | 32               | CharacterTextSplitter          | Key-value pair preservation                |
+| Agent Definitions | 512                 | 64               | RecursiveCharacterTextSplitter | Preserve YAML/JSON structure               |
 
 **Chunking Validation Rules**
 
@@ -612,17 +612,17 @@ CREATE INDEX idx_chunks_hash ON document_chunks (chunk_text_hash);
 
 ## 15. Embedding Model Configuration
 
-| Parameter | Value |
-|---|---|
-| Model | `text-embedding-3-small` |
-| Provider | OpenAI |
-| Dimensions | 1536 |
-| Max Input Tokens | 8192 |
-| Truncation Strategy | End (left truncation preferred for longer documents) |
-| Batch Size | 128 embeddings per API call |
-| Retry Policy | Exponential backoff, max 5 retries, base delay 1s |
-| Rate Limit | 3000 RPM (subject to OpenAI tier) |
-| Cache | In-memory LRU cache for repeated chunk texts (TTL: 24h, max: 10000 entries) |
+| Parameter           | Value                                                                       |
+| ------------------- | --------------------------------------------------------------------------- |
+| Model               | `text-embedding-3-small`                                                    |
+| Provider            | OpenAI                                                                      |
+| Dimensions          | 1536                                                                        |
+| Max Input Tokens    | 8192                                                                        |
+| Truncation Strategy | End (left truncation preferred for longer documents)                        |
+| Batch Size          | 128 embeddings per API call                                                 |
+| Retry Policy        | Exponential backoff, max 5 retries, base delay 1s                           |
+| Rate Limit          | 3000 RPM (subject to OpenAI tier)                                           |
+| Cache               | In-memory LRU cache for repeated chunk texts (TTL: 24h, max: 10000 entries) |
 
 **Dimension Reduction**
 
@@ -643,21 +643,21 @@ CREATE INDEX idx_chunks_embedding_ivfflat
 
 **Index Parameters**
 
-| Parameter | Value | Rationale |
-|---|---|---|
-| Index Type | IVFFlat | Best trade-off for recall vs. query speed at dataset scale (< 1M rows) |
-| Distance Metric | Cosine | Preferred for text embeddings; equivalent to normalized dot product |
-| Lists | 100 | Rule of thumb: `sqrt(n_rows)`; for ~10k rows, 100 lists. Tune if dataset grows. |
-| Probes (query-time) | 10 | Default; increase for higher recall, decrease for lower latency |
+| Parameter           | Value   | Rationale                                                                       |
+| ------------------- | ------- | ------------------------------------------------------------------------------- |
+| Index Type          | IVFFlat | Best trade-off for recall vs. query speed at dataset scale (< 1M rows)          |
+| Distance Metric     | Cosine  | Preferred for text embeddings; equivalent to normalized dot product             |
+| Lists               | 100     | Rule of thumb: `sqrt(n_rows)`; for ~10k rows, 100 lists. Tune if dataset grows. |
+| Probes (query-time) | 10      | Default; increase for higher recall, decrease for lower latency                 |
 
 ### 16.2 Index Tuning Guide
 
-| Dataset Size | Lists | Probes (query) | Expected Recall@10 |
-|---|---|---|---|
-| < 1,000 | 10 | 5 | 0.98 |
-| 1,000 - 10,000 | 100 | 10 | 0.95 |
-| 10,000 - 100,000 | 500 | 20 | 0.92 |
-| 100,000 - 1,000,000 | 1000 | 40 | 0.88 |
+| Dataset Size        | Lists | Probes (query) | Expected Recall@10 |
+| ------------------- | ----- | -------------- | ------------------ |
+| < 1,000             | 10    | 5              | 0.98               |
+| 1,000 - 10,000      | 100   | 10             | 0.95               |
+| 10,000 - 100,000    | 500   | 20             | 0.92               |
+| 100,000 - 1,000,000 | 1000  | 40             | 0.88               |
 
 ### 16.3 Reindex Schedule
 
@@ -845,13 +845,13 @@ $$;
 
 The fused results are passed to a cross-encoder reranker for final ordering.
 
-| Parameter | Value |
-|---|---|
-| Reranker Model | `cross-encoder/ms-marco-MiniLM-L-6-v2` |
-| Max Input Length | 512 tokens per (query, passage) pair |
-| Batch Size | 4 pairs per inference |
-| Execution | Local ONNX runtime (no external API call) |
-| Fallback | RRF order is used if reranker is unavailable |
+| Parameter        | Value                                        |
+| ---------------- | -------------------------------------------- |
+| Reranker Model   | `cross-encoder/ms-marco-MiniLM-L-6-v2`       |
+| Max Input Length | 512 tokens per (query, passage) pair         |
+| Batch Size       | 4 pairs per inference                        |
+| Execution        | Local ONNX runtime (no external API call)    |
+| Fallback         | RRF order is used if reranker is unavailable |
 
 ---
 
@@ -861,12 +861,12 @@ The reranked results are assembled into a final context window, prioritized by t
 
 **Priority Tiers**
 
-| Tier | Priority Value | Max Chunks | Max Tokens | Examples |
-|---|---|---|---|---|
-| Critical | 3 | 5 | 2048 | Agent definitions, current project context |
-| High | 2 | 8 | 4096 | Active projects, skills, experience |
-| Medium | 1 | 12 | 6144 | Blog posts, case studies, services |
-| Low | 0 | 15 | 8192 | Press features, archived content |
+| Tier     | Priority Value | Max Chunks | Max Tokens | Examples                                   |
+| -------- | -------------- | ---------- | ---------- | ------------------------------------------ |
+| Critical | 3              | 5          | 2048       | Agent definitions, current project context |
+| High     | 2              | 8          | 4096       | Active projects, skills, experience        |
+| Medium   | 1              | 12         | 6144       | Blog posts, case studies, services         |
+| Low      | 0              | 15         | 8192       | Press features, archived content           |
 
 **Assembly Algorithm**
 
@@ -923,14 +923,14 @@ sequenceDiagram
 
 Triggers for incremental refresh:
 
-| Event | Source | Action | Latency Target |
-|---|---|---|---|
-| `content.created` | CMS Webhook | Ingest new document | < 30s |
-| `content.updated` | CMS Webhook | Re-ingest updated document | < 30s |
-| `content.deleted` | CMS Webhook | Soft-delete chunks + entities | < 30s |
-| `git.push` | GitHub Webhook | Re-index changed markdown files | < 60s |
-| `agent.deployed` | CI/CD Pipeline | Re-index agent definitions | < 120s |
-| `skill.updated` | Admin API | Re-index single skill | < 10s |
+| Event             | Source         | Action                          | Latency Target |
+| ----------------- | -------------- | ------------------------------- | -------------- |
+| `content.created` | CMS Webhook    | Ingest new document             | < 30s          |
+| `content.updated` | CMS Webhook    | Re-ingest updated document      | < 30s          |
+| `content.deleted` | CMS Webhook    | Soft-delete chunks + entities   | < 30s          |
+| `git.push`        | GitHub Webhook | Re-index changed markdown files | < 60s          |
+| `agent.deployed`  | CI/CD Pipeline | Re-index agent definitions      | < 120s         |
+| `skill.updated`   | Admin API      | Re-index single skill           | < 10s          |
 
 **Event Payload Schema**
 
@@ -959,10 +959,10 @@ A daily scheduled job ensures completeness and repairs any drift from missed eve
 
 ```yaml
 # Airflow DAG or scheduled job configuration
-schedule: "0 3 * * *"        # Daily at 3 AM UTC
-timeout: 3600                 # Max 1 hour
+schedule: '0 3 * * *' # Daily at 3 AM UTC
+timeout: 3600 # Max 1 hour
 retries: 2
-concurrency: 1                # Prevent overlapping runs
+concurrency: 1 # Prevent overlapping runs
 
 steps:
   - name: fetch_all_sources
@@ -1014,13 +1014,13 @@ steps:
 
 **Service Configuration**
 
-| Property | Value |
-|---|---|
-| Runtime | Python 3.12 + FastAPI |
-| Queue | RabbitMQ (persistent delivery, DLQ for failed) |
-| Concurrency | 8 workers per ingestion instance |
+| Property    | Value                                            |
+| ----------- | ------------------------------------------------ |
+| Runtime     | Python 3.12 + FastAPI                            |
+| Queue       | RabbitMQ (persistent delivery, DLQ for failed)   |
+| Concurrency | 8 workers per ingestion instance                 |
 | Autoscaling | Based on queue depth (min: 2, max: 10 instances) |
-| Idempotency | Content hash-based dedup at chunk level |
+| Idempotency | Content hash-based dedup at chunk level          |
 
 ---
 
@@ -1030,15 +1030,15 @@ The Knowledge Hub exposes REST and GraphQL endpoints for programmatic access.
 
 **REST Endpoints**
 
-| Method | Path | Description |
-|---|---|---|
-| POST | `/knowledge/search` | Hybrid search query |
-| GET | `/knowledge/entities/{type}/{key}` | Get single entity |
-| GET | `/knowledge/entities/{type}` | List entities by type |
-| GET | `/knowledge/graph/traverse/{entity_id}` | Graph traversal from entity |
-| POST | `/knowledge/ingest` | Trigger manual ingestion |
-| GET | `/knowledge/health` | Health check |
-| GET | `/knowledge/metrics` | Quality metrics snapshot |
+| Method | Path                                    | Description                 |
+| ------ | --------------------------------------- | --------------------------- |
+| POST   | `/knowledge/search`                     | Hybrid search query         |
+| GET    | `/knowledge/entities/{type}/{key}`      | Get single entity           |
+| GET    | `/knowledge/entities/{type}`            | List entities by type       |
+| GET    | `/knowledge/graph/traverse/{entity_id}` | Graph traversal from entity |
+| POST   | `/knowledge/ingest`                     | Trigger manual ingestion    |
+| GET    | `/knowledge/health`                     | Health check                |
+| GET    | `/knowledge/metrics`                    | Quality metrics snapshot    |
 
 **Search Request Schema**
 
@@ -1077,8 +1077,8 @@ The Knowledge Hub exposes REST and GraphQL endpoints for programmatic access.
       "similarity": 0.92,
       "rerank_score": 8.74,
       "graph_context": {
-        "entities": [{"type": "Project", "id": "uuid", "name": "Portfolio v2"}],
-        "relationships": [{"type": "USES", "target": "...", "properties": {}}]
+        "entities": [{ "type": "Project", "id": "uuid", "name": "Portfolio v2" }],
+        "relationships": [{ "type": "USES", "target": "...", "properties": {} }]
       }
     }
   ],
@@ -1093,14 +1093,14 @@ The Knowledge Hub exposes REST and GraphQL endpoints for programmatic access.
 
 The query planner dynamically selects execution strategy based on query characteristics.
 
-| Query Pattern | Optimal Strategy | Reason |
-|---|---|---|
-| Short (< 5 words) | Keyword-first, then vector | Keyword precision for specific terms |
-| Long (> 20 words) | Vector-first, then keyword | Semantic understanding of complex queries |
-| Entity-focused (name match) | Graph traversal + keyword | Exact entity lookup |
-| Multi-intent (ambiguous) | Vector-first with high top-k | Broad recall for disambiguation |
-| Code/syntax queries | Keyword (trigram) | Exact syntax matching |
-| Agent definition queries | Graph traversal + keyword | Structured YAML/JSON lookup |
+| Query Pattern               | Optimal Strategy             | Reason                                    |
+| --------------------------- | ---------------------------- | ----------------------------------------- |
+| Short (< 5 words)           | Keyword-first, then vector   | Keyword precision for specific terms      |
+| Long (> 20 words)           | Vector-first, then keyword   | Semantic understanding of complex queries |
+| Entity-focused (name match) | Graph traversal + keyword    | Exact entity lookup                       |
+| Multi-intent (ambiguous)    | Vector-first with high top-k | Broad recall for disambiguation           |
+| Code/syntax queries         | Keyword (trigram)            | Exact syntax matching                     |
+| Agent definition queries    | Graph traversal + keyword    | Structured YAML/JSON lookup               |
 
 **Query Plan Cache**
 
@@ -1124,12 +1124,12 @@ Cache TTL: 24 hours for identical queries, 1 hour for templates with variable pa
 
 Multi-level cache to reduce latency and embedding API costs.
 
-| Cache Level | Storage | TTL | Capacity | Invalidation |
-|---|---|---|---|---|
-| L1: Query Results | Redis | 5 minutes | 10,000 entries | On knowledge.refreshed event for affected sources |
-| L2: Embeddings | Local LRU (process) | 24 hours | 10,000 chunks | Process restart |
-| L3: Entity Lookups | Redis | 1 hour | 50,000 entities | On entity.resolved event |
-| L4: Graph Traversals | Redis | 30 minutes | 5,000 paths | On entity.updated event for traversal root |
+| Cache Level          | Storage             | TTL        | Capacity        | Invalidation                                      |
+| -------------------- | ------------------- | ---------- | --------------- | ------------------------------------------------- |
+| L1: Query Results    | Redis               | 5 minutes  | 10,000 entries  | On knowledge.refreshed event for affected sources |
+| L2: Embeddings       | Local LRU (process) | 24 hours   | 10,000 chunks   | Process restart                                   |
+| L3: Entity Lookups   | Redis               | 1 hour     | 50,000 entities | On entity.resolved event                          |
+| L4: Graph Traversals | Redis               | 30 minutes | 5,000 paths     | On entity.updated event for traversal root        |
 
 **Cache Key Convention**
 
@@ -1145,26 +1145,26 @@ Example: `knowledge:v1:search:query:sha256hex`
 
 ### 29.1 Tiered Access Model
 
-| Tier | Visibility | Example Content | Auth Requirement |
-|---|---|---|---|
-| Public | Anyone | Projects, Skills, Public Blog Posts | None |
-| Authenticated | Logged-in users | Resume contact details, private posts | JWT + role claim |
-| Admin | Admin users | System Settings, Agent Definitions | JWT + admin role claim |
+| Tier           | Visibility         | Example Content                        | Auth Requirement            |
+| -------------- | ------------------ | -------------------------------------- | --------------------------- |
+| Public         | Anyone             | Projects, Skills, Public Blog Posts    | None                        |
+| Authenticated  | Logged-in users    | Resume contact details, private posts  | JWT + role claim            |
+| Admin          | Admin users        | System Settings, Agent Definitions     | JWT + admin role claim      |
 | Agent-Internal | Agent runtime only | Raw prompts, embedding pipeline config | mTLS + agent identity token |
 
 ### 29.2 Access Matrix
 
-| Resource / Role | Anonymous | Authenticated | Admin | Agent |
-|---|---|---|---|---|
-| Public Projects | R | R | R | R |
-| Private Projects | - | R | R | R |
-| Skills | R | R | R | R |
-| Experience (public) | R | R | R | R |
-| Experience (contact details) | - | R | R | R |
-| Agent Definitions | - | - | R | R |
-| System Settings | - | - | R | R |
-| Quality Metrics | - | - | R | R |
-| Raw Chunks (debug) | - | - | R | R |
+| Resource / Role              | Anonymous | Authenticated | Admin | Agent |
+| ---------------------------- | --------- | ------------- | ----- | ----- |
+| Public Projects              | R         | R             | R     | R     |
+| Private Projects             | -         | R             | R     | R     |
+| Skills                       | R         | R             | R     | R     |
+| Experience (public)          | R         | R             | R     | R     |
+| Experience (contact details) | -         | R             | R     | R     |
+| Agent Definitions            | -         | -             | R     | R     |
+| System Settings              | -         | -             | R     | R     |
+| Quality Metrics              | -         | -             | R     | R     |
+| Raw Chunks (debug)           | -         | -             | R     | R     |
 
 ---
 
@@ -1229,41 +1229,41 @@ SET app.role = 'admin';  -- Set by connection pooler after JWT validation
 
 Measures what percentage of content sources are indexed and retrievable.
 
-| Metric | Formula | Target | Measurement |
-|---|---|---|---|
-| Source Coverage | (indexed_sources / total_sources) * 100 | 100% | Per-source inventory check |
-| Chunk Coverage | (chunks_with_embeddings / total_chunks) * 100 | 99.5% | COUNT query |
-| Graph Coverage | (entities_with_relationships / total_entities) * 100 | 90% | COUNT query |
+| Metric          | Formula                                               | Target | Measurement                |
+| --------------- | ----------------------------------------------------- | ------ | -------------------------- |
+| Source Coverage | (indexed_sources / total_sources) \* 100              | 100%   | Per-source inventory check |
+| Chunk Coverage  | (chunks_with_embeddings / total_chunks) \* 100        | 99.5%  | COUNT query                |
+| Graph Coverage  | (entities_with_relationships / total_entities) \* 100 | 90%    | COUNT query                |
 
 ### 31.2 Freshness
 
 Tracks staleness of indexed content relative to source.
 
-| Metric | Formula | Target | Measurement |
-|---|---|---|---|
-| Max Staleness | MAX(now() - last_indexed_at) per source | < 5 min (critical), < 1 hr (high), < 24 hr (medium) | Query |
-| Mean Staleness | AVG(now() - last_indexed_at) | < 30 min overall | Query |
-| Staleness P95 | 95th percentile of staleness | < 2 hr | Query |
+| Metric         | Formula                                 | Target                                              | Measurement |
+| -------------- | --------------------------------------- | --------------------------------------------------- | ----------- |
+| Max Staleness  | MAX(now() - last_indexed_at) per source | < 5 min (critical), < 1 hr (high), < 24 hr (medium) | Query       |
+| Mean Staleness | AVG(now() - last_indexed_at)            | < 30 min overall                                    | Query       |
+| Staleness P95  | 95th percentile of staleness            | < 2 hr                                              | Query       |
 
 ### 31.3 Accuracy
 
 Measures retrieval accuracy against ground truth.
 
-| Metric | Formula | Target | Measurement |
-|---|---|---|---|
-| Hallucination Rate | (incorrect_facts / total_facts_in_response) * 100 | < 3% | Human eval + LLM-as-judge |
-| Factual Precision | correct_facts / retrieved_chunks | > 0.95 | Human eval |
-| Source Attribution Rate | chunks_with_source_attribution / total_chunks | 100% | Code check |
+| Metric                  | Formula                                            | Target | Measurement               |
+| ----------------------- | -------------------------------------------------- | ------ | ------------------------- |
+| Hallucination Rate      | (incorrect_facts / total_facts_in_response) \* 100 | < 3%   | Human eval + LLM-as-judge |
+| Factual Precision       | correct_facts / retrieved_chunks                   | > 0.95 | Human eval                |
+| Source Attribution Rate | chunks_with_source_attribution / total_chunks      | 100%   | Code check                |
 
 ### 31.4 Retrieval Performance
 
-| Metric | Formula | Target | Measurement |
-|---|---|---|---|
-| Recall@10 | relevant_in_top_10 / total_relevant | > 0.85 | Test query set (100 queries) |
-| Precision@10 | relevant_in_top_10 / 10 | > 0.70 | Test query set (100 queries) |
-| MRR | Mean Reciprocal Rank of first relevant result | > 0.80 | Test query set (100 queries) |
-| P95 Latency | 95th percentile of search latency | < 500 ms | Production monitoring |
-| P99 Latency | 99th percentile of search latency | < 2000 ms | Production monitoring |
+| Metric       | Formula                                       | Target    | Measurement                  |
+| ------------ | --------------------------------------------- | --------- | ---------------------------- |
+| Recall@10    | relevant_in_top_10 / total_relevant           | > 0.85    | Test query set (100 queries) |
+| Precision@10 | relevant_in_top_10 / 10                       | > 0.70    | Test query set (100 queries) |
+| MRR          | Mean Reciprocal Rank of first relevant result | > 0.80    | Test query set (100 queries) |
+| P95 Latency  | 95th percentile of search latency             | < 500 ms  | Production monitoring        |
+| P99 Latency  | 99th percentile of search latency             | < 2000 ms | Production monitoring        |
 
 **Quality Dashboard Schema**
 
@@ -1283,26 +1283,26 @@ CREATE TABLE quality_snapshots (
 
 ### 32.1 Key Metrics (Prometheus)
 
-| Metric Name | Type | Labels | Description |
-|---|---|---|---|
-| `knowledge_search_latency_ms` | Histogram | mode, status, priority | Search latency in ms |
-| `knowledge_ingestion_latency_s` | Histogram | source, status | Ingestion latency in seconds |
-| `knowledge_chunks_total` | Gauge | source, is_active | Total chunk count |
-| `knowledge_entities_total` | Gauge | entity_type | Total entity count |
-| `knowledge_embeddings_failed_total` | Counter | source, error | Failed embedding calls |
-| `knowledge_cache_hit_ratio` | Gauge | cache_level | Cache hit ratio (0-1) |
-| `knowledge_quality_coverage` | Gauge | source | Coverage percentage |
+| Metric Name                         | Type      | Labels                 | Description                  |
+| ----------------------------------- | --------- | ---------------------- | ---------------------------- |
+| `knowledge_search_latency_ms`       | Histogram | mode, status, priority | Search latency in ms         |
+| `knowledge_ingestion_latency_s`     | Histogram | source, status         | Ingestion latency in seconds |
+| `knowledge_chunks_total`            | Gauge     | source, is_active      | Total chunk count            |
+| `knowledge_entities_total`          | Gauge     | entity_type            | Total entity count           |
+| `knowledge_embeddings_failed_total` | Counter   | source, error          | Failed embedding calls       |
+| `knowledge_cache_hit_ratio`         | Gauge     | cache_level            | Cache hit ratio (0-1)        |
+| `knowledge_quality_coverage`        | Gauge     | source                 | Coverage percentage          |
 
 ### 32.2 Critical Alerts
 
-| Alert Condition | Severity | Action |
-|---|---|---|
-| P95 search latency > 1000 ms for 5 min | Warning | Scale hybrid search service |
-| P95 search latency > 2000 ms for 5 min | Critical | Page on-call |
-| Embedding failure rate > 5% for 5 min | Critical | Check OpenAI API status, failover to cache |
-| Chunk coverage drops below 95% | Warning | Trigger full reindex |
-| Knowledge refresh queue depth > 1000 for 10 min | Warning | Scale ingestion workers |
-| Hallucination rate exceeds 5% in eval | Critical | Lock knowledge version, alert ML team |
+| Alert Condition                                 | Severity | Action                                     |
+| ----------------------------------------------- | -------- | ------------------------------------------ |
+| P95 search latency > 1000 ms for 5 min          | Warning  | Scale hybrid search service                |
+| P95 search latency > 2000 ms for 5 min          | Critical | Page on-call                               |
+| Embedding failure rate > 5% for 5 min           | Critical | Check OpenAI API status, failover to cache |
+| Chunk coverage drops below 95%                  | Warning  | Trigger full reindex                       |
+| Knowledge refresh queue depth > 1000 for 10 min | Warning  | Scale ingestion workers                    |
+| Hallucination rate exceeds 5% in eval           | Critical | Lock knowledge version, alert ML team      |
 
 ### 32.3 Structured Logging
 
@@ -1331,30 +1331,30 @@ All knowledge services emit structured JSON logs:
 
 ### 33.1 Search Latency (p95, ms)
 
-| Dataset Size | Vector Only | Keyword Only | Hybrid | Hybrid + Rerank |
-|---|---|---|---|---|
-| 1,000 chunks | 15 | 8 | 22 | 85 |
-| 10,000 chunks | 45 | 20 | 65 | 210 |
-| 100,000 chunks | 180 | 65 | 250 | 750 |
-| 1,000,000 chunks | 800 | 200 | 1050 | 2800 |
+| Dataset Size     | Vector Only | Keyword Only | Hybrid | Hybrid + Rerank |
+| ---------------- | ----------- | ------------ | ------ | --------------- |
+| 1,000 chunks     | 15          | 8            | 22     | 85              |
+| 10,000 chunks    | 45          | 20           | 65     | 210             |
+| 100,000 chunks   | 180         | 65           | 250    | 750             |
+| 1,000,000 chunks | 800         | 200          | 1050   | 2800            |
 
 ### 33.2 Ingestion Throughput
 
-| Operation | Chunks / Second (single worker) | Chunks / Second (8 workers) |
-|---|---|---|
-| Chunking (text) | 500 | 3,800 |
-| Embedding (API) | 25 | 185 |
-| Database Upsert | 1,200 | 8,500 |
-| Graph Upsert | 800 | 5,200 |
+| Operation       | Chunks / Second (single worker) | Chunks / Second (8 workers) |
+| --------------- | ------------------------------- | --------------------------- |
+| Chunking (text) | 500                             | 3,800                       |
+| Embedding (API) | 25                              | 185                         |
+| Database Upsert | 1,200                           | 8,500                       |
+| Graph Upsert    | 800                             | 5,200                       |
 
 ### 33.3 Scalability Limits
 
-| Component | Limit | Mitigation |
-|---|---|---|
-| pgvector (single node) | ~10M embeddings with IVFFlat | Partition by source; upgrade to pgvector scale for > 10M |
-| Knowledge Graph | ~500K entities with recursive CTE depth < 6 | Materialized path for deeper traversals |
-| Embedding API | 3,000 RPM (OpenAI Tier 3) | Cache + batch; request tier upgrade if sustained > 2,000 RPM |
-| Redis Cache | 50 GB (single instance) | Cluster mode for > 50 GB |
+| Component              | Limit                                       | Mitigation                                                   |
+| ---------------------- | ------------------------------------------- | ------------------------------------------------------------ |
+| pgvector (single node) | ~10M embeddings with IVFFlat                | Partition by source; upgrade to pgvector scale for > 10M     |
+| Knowledge Graph        | ~500K entities with recursive CTE depth < 6 | Materialized path for deeper traversals                      |
+| Embedding API          | 3,000 RPM (OpenAI Tier 3)                   | Cache + batch; request tier upgrade if sustained > 2,000 RPM |
+| Redis Cache            | 50 GB (single instance)                     | Cluster mode for > 50 GB                                     |
 
 ---
 
@@ -1362,22 +1362,22 @@ All knowledge services emit structured JSON logs:
 
 ### 34.1 Monthly Cost Projection (10K chunks, 10K entities)
 
-| Component | Cost/Month | Optimization |
-|---|---|---|
-| Embedding API (text-embedding-3-small) | $0.13 per 1M tokens * ~15M tokens = $1.95 | Cache repeated chunks; only re-embed changed content |
-| PostgreSQL (RDS db.r6g.large) | ~$175 | Reserved instance; single instance covers vector, graph, relational |
-| Redis (cache.r6g.large) | ~$130 | Use only for L1-L4 query cache; evaluate hit ratio monthly |
-| RabbitMQ (mq.t3.micro) | ~$25 | Use for ingestion queue only |
-| Total Baseline | ~$332 | Without reserved pricing |
+| Component                              | Cost/Month                                 | Optimization                                                        |
+| -------------------------------------- | ------------------------------------------ | ------------------------------------------------------------------- |
+| Embedding API (text-embedding-3-small) | $0.13 per 1M tokens \* ~15M tokens = $1.95 | Cache repeated chunks; only re-embed changed content                |
+| PostgreSQL (RDS db.r6g.large)          | ~$175                                      | Reserved instance; single instance covers vector, graph, relational |
+| Redis (cache.r6g.large)                | ~$130                                      | Use only for L1-L4 query cache; evaluate hit ratio monthly          |
+| RabbitMQ (mq.t3.micro)                 | ~$25                                       | Use for ingestion queue only                                        |
+| Total Baseline                         | ~$332                                      | Without reserved pricing                                            |
 
 ### 34.2 Optimization Levers
 
-| Lever | Savings | Impact |
-|---|---|---|
-| Reduce embedding dimensions to 512 | -40% storage, -25% API cost | Slight recall degradation (est. -0.02 recall@10) |
-| Increase cache TTL to 1 hour | -30% API calls for repeated queries | Stale results for rapidly changing content |
-| Archive low-priority content after 90 days | -20% storage | Requires content policy decision |
-| Use spot instances for full reindex workers | -60% compute for reindex | Requires interruption handling |
+| Lever                                       | Savings                             | Impact                                           |
+| ------------------------------------------- | ----------------------------------- | ------------------------------------------------ |
+| Reduce embedding dimensions to 512          | -40% storage, -25% API cost         | Slight recall degradation (est. -0.02 recall@10) |
+| Increase cache TTL to 1 hour                | -30% API calls for repeated queries | Stale results for rapidly changing content       |
+| Archive low-priority content after 90 days  | -20% storage                        | Requires content policy decision                 |
+| Use spot instances for full reindex workers | -60% compute for reindex            | Requires interruption handling                   |
 
 ---
 
@@ -1385,21 +1385,21 @@ All knowledge services emit structured JSON logs:
 
 ### 35.1 Backup Strategy
 
-| Component | Method | Frequency | Retention | RPO | RTO |
-|---|---|---|---|---|---|
-| PostgreSQL (all knowledge tables) | pg_dump + WAL archiving | Continuous (WAL) + Daily (full) | 30 days | 5 min | 1 hour |
-| Embedding Cache (Redis) | RDB snapshots | Every 6 hours | 7 days | 6 hours | 30 min |
-| Ingestion Queue (RabbitMQ) | Queue mirroring + Persistent messages | Real-time | 14 days | 0 (mirrored) | 5 min |
+| Component                         | Method                                | Frequency                       | Retention | RPO          | RTO    |
+| --------------------------------- | ------------------------------------- | ------------------------------- | --------- | ------------ | ------ |
+| PostgreSQL (all knowledge tables) | pg_dump + WAL archiving               | Continuous (WAL) + Daily (full) | 30 days   | 5 min        | 1 hour |
+| Embedding Cache (Redis)           | RDB snapshots                         | Every 6 hours                   | 7 days    | 6 hours      | 30 min |
+| Ingestion Queue (RabbitMQ)        | Queue mirroring + Persistent messages | Real-time                       | 14 days   | 0 (mirrored) | 5 min  |
 
 ### 35.2 Recovery Procedures
 
-| Scenario | Procedure | Expected RTO |
-|---|---|---|
-| Single table corruption | Restore from pg_dump, replay WAL to point of corruption | 30 min |
-| Full database loss | Launch new RDS instance from latest snapshot + WAL | 1 hour |
-| Embedding model deprecation | Re-embed all chunks with new model; update index | 4 hours (10K chunks) |
-| Redis cluster failure | Restore from latest RDB; cache will warm naturally | 30 min |
-| RabbitMQ cluster failure | Redeploy from persistent queue definitions; consumers redeliver unacked | 15 min |
+| Scenario                    | Procedure                                                               | Expected RTO         |
+| --------------------------- | ----------------------------------------------------------------------- | -------------------- |
+| Single table corruption     | Restore from pg_dump, replay WAL to point of corruption                 | 30 min               |
+| Full database loss          | Launch new RDS instance from latest snapshot + WAL                      | 1 hour               |
+| Embedding model deprecation | Re-embed all chunks with new model; update index                        | 4 hours (10K chunks) |
+| Redis cluster failure       | Restore from latest RDB; cache will warm naturally                      | 30 min               |
+| RabbitMQ cluster failure    | Redeploy from persistent queue definitions; consumers redeliver unacked | 15 min               |
 
 ### 35.3 Business Continuity
 
@@ -1416,12 +1416,12 @@ The knowledge architecture supports **active-passive** DR:
 
 ### 36.1 Data Classification
 
-| Classification | Definition | Examples | Controls |
-|---|---|---|---|
-| Public | No harm if disclosed | Project names, skill lists, published blog posts | No special controls |
-| Internal | Limited harm | Resume details, non-critical config | RLS authenticated tier |
-| Confidential | Significant harm | Agent prompts, system prompts, API keys | RLS admin tier, encryption at rest |
-| Restricted | Severe harm | Secrets, database credentials, vendor tokens | Vault integration, never stored in knowledge base |
+| Classification | Definition           | Examples                                         | Controls                                          |
+| -------------- | -------------------- | ------------------------------------------------ | ------------------------------------------------- |
+| Public         | No harm if disclosed | Project names, skill lists, published blog posts | No special controls                               |
+| Internal       | Limited harm         | Resume details, non-critical config              | RLS authenticated tier                            |
+| Confidential   | Significant harm     | Agent prompts, system prompts, API keys          | RLS admin tier, encryption at rest                |
+| Restricted     | Severe harm          | Secrets, database credentials, vendor tokens     | Vault integration, never stored in knowledge base |
 
 ### 36.2 Privacy Controls
 
@@ -1431,11 +1431,11 @@ The knowledge architecture supports **active-passive** DR:
 
 ### 36.3 Regulatory Mapping
 
-| Regulation | Applicability | Controls |
-|---|---|---|
-| GDPR | Personal data of EU residents | Deletion API, data portability export, PII redaction |
-| CCPA | Personal data of CA residents | Opt-out flag on entities, deletion API |
-| SOC 2 | General enterprise security | Access controls, audit logging, encryption, change management |
+| Regulation | Applicability                 | Controls                                                      |
+| ---------- | ----------------------------- | ------------------------------------------------------------- |
+| GDPR       | Personal data of EU residents | Deletion API, data portability export, PII redaction          |
+| CCPA       | Personal data of CA residents | Opt-out flag on entities, deletion API                        |
+| SOC 2      | General enterprise security   | Access controls, audit logging, encryption, change management |
 
 ---
 
@@ -1506,28 +1506,28 @@ rerankers:
 
 ### 38.1 Unit Tests
 
-| Component | Coverage Target | Key Test Scenarios |
-|---|---|---|
-| Chunking Engine | 95% | Boundary splits, code block preservation, list integrity |
-| Embedding Client | 90% | Retry logic, rate limiting, cache behavior |
-| Fusion Engine | 95% | RRF scoring, empty result sets, duplicate IDs |
-| Context Assembly | 95% | Priority ordering, token limit truncation, tier allocation |
+| Component        | Coverage Target | Key Test Scenarios                                         |
+| ---------------- | --------------- | ---------------------------------------------------------- |
+| Chunking Engine  | 95%             | Boundary splits, code block preservation, list integrity   |
+| Embedding Client | 90%             | Retry logic, rate limiting, cache behavior                 |
+| Fusion Engine    | 95%             | RRF scoring, empty result sets, duplicate IDs              |
+| Context Assembly | 95%             | Priority ordering, token limit truncation, tier allocation |
 
 ### 38.2 Integration Tests
 
-| Test | Frequency | Description |
-|---|---|---|
-| Source Ingestion | Per PR | Ingest one document from each source type; verify chunks, entities, embeddings |
-| Hybrid Search | Per PR | Execute 20 benchmark queries; verify recall@10 >= 0.85 |
-| Graph Traversal | Per PR | Traverse from known entity; verify depth and relationship correctness |
-| Access Control | Per PR | Query as each role; verify rows returned match policy |
+| Test             | Frequency | Description                                                                    |
+| ---------------- | --------- | ------------------------------------------------------------------------------ |
+| Source Ingestion | Per PR    | Ingest one document from each source type; verify chunks, entities, embeddings |
+| Hybrid Search    | Per PR    | Execute 20 benchmark queries; verify recall@10 >= 0.85                         |
+| Graph Traversal  | Per PR    | Traverse from known entity; verify depth and relationship correctness          |
+| Access Control   | Per PR    | Query as each role; verify rows returned match policy                          |
 
 ### 38.3 End-to-End Tests
 
 ```yaml
 # e2e-test-suite.yml
 tests:
-  - name: "Full lifecycle: create -> ingest -> search -> archive"
+  - name: 'Full lifecycle: create -> ingest -> search -> archive'
     steps:
       - Create project in CMS (API call)
       - Wait for knowledge.refreshed event (max 60s)
@@ -1536,7 +1536,7 @@ tests:
       - Delete project in CMS
       - Wait for refresh
       - Query search: expected to NOT return project
-  - name: "Agent knowledge retrieval"
+  - name: 'Agent knowledge retrieval'
     steps:
       - Agent sends /graphify query
       - Verify Knowledge Agent returns context
@@ -1733,79 +1733,79 @@ async def classify_query(query: str) -> str:
 
 ## 43. Glossary
 
-| Term | Definition |
-|---|---|
-| Chunk | A contiguous segment of text from a source document, typically 256-1024 tokens |
-| Context Assembly | The process of selecting and ordering retrieved chunks into a final context window |
-| Cross-Encoder | A transformer model that jointly encodes query-passage pairs to compute relevance |
-| Embedding | A dense vector representation of text produced by a neural network |
-| Entity | A distinct, identifiable object in the knowledge graph (Person, Project, Skill, etc.) |
-| Fusion | The combination of results from multiple retrieval modalities into a single ranked list |
-| Hybrid Search | A search strategy combining vector similarity, keyword matching, and graph traversal |
-| Ingestion | The process of reading, normalizing, chunking, embedding, and storing content |
-| IVFFlat | Inverted File with Flat Compression; an approximate nearest-neighbor index algorithm |
-| Knowledge Agent | A specialized sub-agent that mediates all knowledge access for other agents |
-| pg_trgm | PostgreSQL extension for trigram-based fuzzy string matching |
-| pgvector | PostgreSQL extension for vector similarity search |
-| Recall@k | The proportion of relevant documents retrieved in the top-k results |
-| Reranking | The process of reordering initial retrieval results using a more expensive but more accurate model |
-| RLS | Row-Level Security; PostgreSQL feature for per-row access control |
-| RRF | Reciprocal Rank Fusion; a method for combining ranked lists from multiple sources |
-| Staleness | The time elapsed since a knowledge artifact was last synchronized with its source |
+| Term             | Definition                                                                                         |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| Chunk            | A contiguous segment of text from a source document, typically 256-1024 tokens                     |
+| Context Assembly | The process of selecting and ordering retrieved chunks into a final context window                 |
+| Cross-Encoder    | A transformer model that jointly encodes query-passage pairs to compute relevance                  |
+| Embedding        | A dense vector representation of text produced by a neural network                                 |
+| Entity           | A distinct, identifiable object in the knowledge graph (Person, Project, Skill, etc.)              |
+| Fusion           | The combination of results from multiple retrieval modalities into a single ranked list            |
+| Hybrid Search    | A search strategy combining vector similarity, keyword matching, and graph traversal               |
+| Ingestion        | The process of reading, normalizing, chunking, embedding, and storing content                      |
+| IVFFlat          | Inverted File with Flat Compression; an approximate nearest-neighbor index algorithm               |
+| Knowledge Agent  | A specialized sub-agent that mediates all knowledge access for other agents                        |
+| pg_trgm          | PostgreSQL extension for trigram-based fuzzy string matching                                       |
+| pgvector         | PostgreSQL extension for vector similarity search                                                  |
+| Recall@k         | The proportion of relevant documents retrieved in the top-k results                                |
+| Reranking        | The process of reordering initial retrieval results using a more expensive but more accurate model |
+| RLS              | Row-Level Security; PostgreSQL feature for per-row access control                                  |
+| RRF              | Reciprocal Rank Fusion; a method for combining ranked lists from multiple sources                  |
+| Staleness        | The time elapsed since a knowledge artifact was last synchronized with its source                  |
 
 ---
 
 ## 43.1 Decision Log
 
-| ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
-|----|----------|---------|-----------|------------------------|---------------|--------------|
-| KNO-DEC-001 | Graph-based knowledge representation over pure vector search | Knowledge architecture | Graph enables entity relationship traversal (e.g., "Which projects use React AND are case studies?"), entity resolution for ambiguous queries, and multi-hop reasoning | Pure vector search (no relationship awareness, single-hop only), Relational-only (rigid schema, poor at semantic matching) | Jun 2026 | Dec 2026 |
-| KNO-DEC-002 | Hybrid search with three modalities (vector, keyword, graph traversal) | Retrieval strategy | Combines semantic understanding (vectors), exact matching (keyword), and relationship traversal (graph) for comprehensive retrieval coverage | Vector-only (misses exact matches and relationship queries), Keyword-only (no semantic understanding), Graph-only (requires structured query, misses fuzzy matches) | Jun 2026 | Dec 2026 |
-| KNO-DEC-003 | RRF (Reciprocal Rank Fusion) for hybrid result merging | Fusion strategy | RRF requires no training data, no parameter tuning, and is proven in information retrieval literature; robust across all three modalities | Weighted linear combination (tuning required per dataset), Learning-to-rank (training data not available at launch) | Jun 2026 | Sep 2026 |
-| KNO-DEC-004 | Cross-encoder reranking for top-10 candidate results | Precision improvement | Cross-encoder provides high-accuracy relevance scoring on initial retrieval candidates; applied only to top-10 to manage latency | Bi-encoder only (lower reranking accuracy), Full cross-encoder on all results (too slow, exceeds latency budget) | Jun 2026 | Sep 2026 |
-| KNO-DEC-005 | Knowledge Agent as sole mediator of all knowledge access | Access pattern | Centralizes knowledge governance: single point for freshness tracking, gap analysis, permission enforcement; simplifies audit | Direct agent-to-vector-store access (bypasses governance, inconsistent freshness), Distributed knowledge management (coordination overhead) | Jun 2026 | Dec 2026 |
+| ID          | Decision                                                               | Context                | Rationale                                                                                                                                                              | Alternatives Considered                                                                                                                                             | Decision Date | Revisit Date |
+| ----------- | ---------------------------------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------ |
+| KNO-DEC-001 | Graph-based knowledge representation over pure vector search           | Knowledge architecture | Graph enables entity relationship traversal (e.g., "Which projects use React AND are case studies?"), entity resolution for ambiguous queries, and multi-hop reasoning | Pure vector search (no relationship awareness, single-hop only), Relational-only (rigid schema, poor at semantic matching)                                          | Jun 2026      | Dec 2026     |
+| KNO-DEC-002 | Hybrid search with three modalities (vector, keyword, graph traversal) | Retrieval strategy     | Combines semantic understanding (vectors), exact matching (keyword), and relationship traversal (graph) for comprehensive retrieval coverage                           | Vector-only (misses exact matches and relationship queries), Keyword-only (no semantic understanding), Graph-only (requires structured query, misses fuzzy matches) | Jun 2026      | Dec 2026     |
+| KNO-DEC-003 | RRF (Reciprocal Rank Fusion) for hybrid result merging                 | Fusion strategy        | RRF requires no training data, no parameter tuning, and is proven in information retrieval literature; robust across all three modalities                              | Weighted linear combination (tuning required per dataset), Learning-to-rank (training data not available at launch)                                                 | Jun 2026      | Sep 2026     |
+| KNO-DEC-004 | Cross-encoder reranking for top-10 candidate results                   | Precision improvement  | Cross-encoder provides high-accuracy relevance scoring on initial retrieval candidates; applied only to top-10 to manage latency                                       | Bi-encoder only (lower reranking accuracy), Full cross-encoder on all results (too slow, exceeds latency budget)                                                    | Jun 2026      | Sep 2026     |
+| KNO-DEC-005 | Knowledge Agent as sole mediator of all knowledge access               | Access pattern         | Centralizes knowledge governance: single point for freshness tracking, gap analysis, permission enforcement; simplifies audit                                          | Direct agent-to-vector-store access (bypasses governance, inconsistent freshness), Distributed knowledge management (coordination overhead)                         | Jun 2026      | Dec 2026     |
 
 ## 43.2 Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation | Owner | Status |
-|----|------|------------|--------|------------|-------|--------|
-| KNO-RSK-001 | Knowledge graph becomes stale as entities are added/removed without graph updates | Medium | High (relationship traversal returns incomplete or incorrect results) | Content CRUD triggers graph edge recalculation; periodic full graph rebuild (nightly); staleness metric per entity type | AI Engineer | Active |
-| KNO-RSK-002 | Cross-encoder reranking exceeds 200ms latency budget under load | Medium | Medium (end-to-end response time SLA breach) | Cross-encoder applied to top-10 candidates only; async reranking pipeline; cache reranking results (5-min TTL); monitor p99 latency | AI Engineer | Active |
-| KNO-RSK-003 | Knowledge Agent becomes bottleneck under high query concurrency | Medium | Medium (all agent queries depend on single mediation point) | RAG query result caching (1h TTL); parallel processing for unrelated queries; auto-scaling for Knowledge Agent service | Platform Engineer | Active |
-| KNO-RSK-004 | Entity disambiguation errors cause incorrect knowledge retrieval | Low | Medium (wrong project/skill referenced in response) | Context-aware disambiguation using surrounding query terms; confidence threshold for entity resolution; fallback to keyword search on low confidence | AI Engineer | Active |
-| KNO-RSK-005 | Graph traversal queries degrade as entity count grows beyond 1000 nodes | Low | Low (increased query latency, potential timeouts) | Graph indexing on entity types and relationships; query depth limits (max 3 hops); paginated traversal results | AI Engineer | Active |
+| ID          | Risk                                                                              | Likelihood | Impact                                                                | Mitigation                                                                                                                                           | Owner             | Status |
+| ----------- | --------------------------------------------------------------------------------- | ---------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------ |
+| KNO-RSK-001 | Knowledge graph becomes stale as entities are added/removed without graph updates | Medium     | High (relationship traversal returns incomplete or incorrect results) | Content CRUD triggers graph edge recalculation; periodic full graph rebuild (nightly); staleness metric per entity type                              | AI Engineer       | Active |
+| KNO-RSK-002 | Cross-encoder reranking exceeds 200ms latency budget under load                   | Medium     | Medium (end-to-end response time SLA breach)                          | Cross-encoder applied to top-10 candidates only; async reranking pipeline; cache reranking results (5-min TTL); monitor p99 latency                  | AI Engineer       | Active |
+| KNO-RSK-003 | Knowledge Agent becomes bottleneck under high query concurrency                   | Medium     | Medium (all agent queries depend on single mediation point)           | RAG query result caching (1h TTL); parallel processing for unrelated queries; auto-scaling for Knowledge Agent service                               | Platform Engineer | Active |
+| KNO-RSK-004 | Entity disambiguation errors cause incorrect knowledge retrieval                  | Low        | Medium (wrong project/skill referenced in response)                   | Context-aware disambiguation using surrounding query terms; confidence threshold for entity resolution; fallback to keyword search on low confidence | AI Engineer       | Active |
+| KNO-RSK-005 | Graph traversal queries degrade as entity count grows beyond 1000 nodes           | Low        | Low (increased query latency, potential timeouts)                     | Graph indexing on entity types and relationships; query depth limits (max 3 hops); paginated traversal results                                       | AI Engineer       | Active |
 
 ## 43.3 Glossary (Extended)
 
-| Term | Definition |
-|------|------------|
-| **Bi-Encoder** | A dual-encoder model that independently encodes query and passage into separate vectors for efficient similarity search |
-| **Cross-Encoder** | A joint encoder model that processes query-passage pairs together for high-accuracy relevance scoring (slower but more accurate than bi-encoder) |
-| **Entity** | A distinct, identifiable object in the knowledge graph (Person, Project, Skill, Company, Technology) |
-| **Entity Disambiguation** | The process of resolving which specific entity a query refers to when names are ambiguous |
-| **Entity Relationship** | A typed connection between two entities (e.g., Person → WORKS_AT → Company, Project → USES → Technology) |
-| **Fusion Strategy** | The algorithm for combining ranked results from multiple retrieval modalities into a single coherent list |
-| **Graph Traversal** | The process of navigating entity relationships to answer multi-hop queries (e.g., "What projects did person X build using technology Y?") |
-| **Knowledge Gap Analysis** | The process of identifying topics visitors ask about that have no or insufficient coverage in the knowledge base |
-| **Multi-Hop Reasoning** | Answering a query that requires traversing multiple entity relationships (e.g., "Find projects by developers who worked at Company Z") |
-| **Staleness Metric** | A time-based measurement of how current a knowledge artifact is; used to trigger refresh decisions |
+| Term                       | Definition                                                                                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Bi-Encoder**             | A dual-encoder model that independently encodes query and passage into separate vectors for efficient similarity search                          |
+| **Cross-Encoder**          | A joint encoder model that processes query-passage pairs together for high-accuracy relevance scoring (slower but more accurate than bi-encoder) |
+| **Entity**                 | A distinct, identifiable object in the knowledge graph (Person, Project, Skill, Company, Technology)                                             |
+| **Entity Disambiguation**  | The process of resolving which specific entity a query refers to when names are ambiguous                                                        |
+| **Entity Relationship**    | A typed connection between two entities (e.g., Person → WORKS_AT → Company, Project → USES → Technology)                                         |
+| **Fusion Strategy**        | The algorithm for combining ranked results from multiple retrieval modalities into a single coherent list                                        |
+| **Graph Traversal**        | The process of navigating entity relationships to answer multi-hop queries (e.g., "What projects did person X build using technology Y?")        |
+| **Knowledge Gap Analysis** | The process of identifying topics visitors ask about that have no or insufficient coverage in the knowledge base                                 |
+| **Multi-Hop Reasoning**    | Answering a query that requires traversing multiple entity relationships (e.g., "Find projects by developers who worked at Company Z")           |
+| **Staleness Metric**       | A time-based measurement of how current a knowledge artifact is; used to trigger refresh decisions                                               |
 
 ---
 
 ## 44. Related Documents
 
-| Document | Path | Description |
-|---|---|---|
-| AGENTS.md | `docs/ai/18-AGENTS.md` | Agent system architecture, including Knowledge Agent definition |
-| RAG.md | `docs/ai/19-RAG.md` | Retrieval-Augmented Generation pipeline details and prompt strategies |
-| MEMORY-ARCHITECTURE.md | `docs/ai/MemoryArchitecture.md` | Agent memory system including episodic, semantic, and procedural memory |
-| CONTEXT-ARCHITECTURE.md | `docs/ai/ContextArchitecture.md` | Context window management, token budgeting, and priority scheduling |
-| SYSTEM-ARCHITECTURE.md | `docs/architecture/SystemArchitecture.md` | Overall platform architecture and service topology |
-| DATA-MODEL.md | `docs/DATA-MODEL.md` | Canonical data models for all entities across the platform |
-| SECURITY.md | `docs/security/SecurityArchitecture.md` | Authentication, authorization, and encryption standards |
-| DEPLOYMENT.md | `docs/operations/DeploymentGuide.md` | Infrastructure provisioning and deployment runbooks |
-| OPERATIONS.md | `docs/OPERATIONS.md` | Monitoring, alerting, and incident response procedures |
-| CONTRIBUTING.md | `docs/CONTRIBUTING.md` | Development workflow and contribution guidelines |
+| Document                | Path                                      | Description                                                             |
+| ----------------------- | ----------------------------------------- | ----------------------------------------------------------------------- |
+| AGENTS.md               | `docs/ai/18-AGENTS.md`                    | Agent system architecture, including Knowledge Agent definition         |
+| RAG.md                  | `docs/ai/19-RAG.md`                       | Retrieval-Augmented Generation pipeline details and prompt strategies   |
+| MEMORY-ARCHITECTURE.md  | `docs/ai/MemoryArchitecture.md`           | Agent memory system including episodic, semantic, and procedural memory |
+| CONTEXT-ARCHITECTURE.md | `docs/ai/ContextArchitecture.md`          | Context window management, token budgeting, and priority scheduling     |
+| SYSTEM-ARCHITECTURE.md  | `docs/architecture/SystemArchitecture.md` | Overall platform architecture and service topology                      |
+| DATA-MODEL.md           | `docs/DATA-MODEL.md`                      | Canonical data models for all entities across the platform              |
+| SECURITY.md             | `docs/security/SecurityArchitecture.md`   | Authentication, authorization, and encryption standards                 |
+| DEPLOYMENT.md           | `docs/operations/DeploymentGuide.md`      | Infrastructure provisioning and deployment runbooks                     |
+| OPERATIONS.md           | `docs/OPERATIONS.md`                      | Monitoring, alerting, and incident response procedures                  |
+| CONTRIBUTING.md         | `docs/CONTRIBUTING.md`                    | Development workflow and contribution guidelines                        |
 
 ---
 
@@ -1815,33 +1815,33 @@ async def classify_query(query: str) -> str:
 
 ```yaml
 migrations:
-  - V001_create_extensions.sql          # pgvector, pg_trgm
-  - V002_create_document_chunks.sql     # document_chunks table + indexes
-  - V003_create_knowledge_entities.sql  # knowledge_entities table
-  - V004_create_knowledge_relationships.sql  # knowledge_relationships table
-  - V005_create_rls_policies.sql        # Row-Level Security policies
-  - V006_create_search_functions.sql    # search_vector, search_keyword, rrf_fusion
-  - V007_create_quality_tables.sql      # quality_snapshots table
-  - V008_create_cache_tables.sql        # query_plan_cache table
-  - V009_create_versioned_tables.sql    # knowledge_entities_versioned
+  - V001_create_extensions.sql # pgvector, pg_trgm
+  - V002_create_document_chunks.sql # document_chunks table + indexes
+  - V003_create_knowledge_entities.sql # knowledge_entities table
+  - V004_create_knowledge_relationships.sql # knowledge_relationships table
+  - V005_create_rls_policies.sql # Row-Level Security policies
+  - V006_create_search_functions.sql # search_vector, search_keyword, rrf_fusion
+  - V007_create_quality_tables.sql # quality_snapshots table
+  - V008_create_cache_tables.sql # query_plan_cache table
+  - V009_create_versioned_tables.sql # knowledge_entities_versioned
 ```
 
 ### 45.2 Environment Variables Reference
 
-| Variable | Default | Description |
-|---|---|---|
-| `KNOWLEDGE_DB_URL` | - | PostgreSQL connection string |
-| `KNOWLEDGE_REDIS_URL` | - | Redis connection string |
-| `KNOWLEDGE_RABBITMQ_URL` | - | RabbitMQ connection string |
-| `OPENAI_API_KEY` | - | OpenAI API key (embedding model) |
-| `KNOWLEDGE_EMBEDDING_MODEL` | `text-embedding-3-small` | Embedding model name |
-| `KNOWLEDGE_EMBEDDING_DIMS` | `1536` | Embedding dimension |
-| `KNOWLEDGE_CHUNK_SIZE` | `512` | Default chunk size (tokens) |
-| `KNOWLEDGE_CHUNK_OVERLAP` | `64` | Default chunk overlap (tokens) |
-| `KNOWLEDGE_TOP_K` | `20` | Default top-k results |
-| `KNOWLEDGE_RERANK_ENABLED` | `true` | Enable cross-encoder reranking |
-| `KNOWLEDGE_LOG_LEVEL` | `INFO` | Logging level |
-| `KNOWLEDGE_AGENT_TOKEN` | - | mTLS token for agent authentication |
+| Variable                    | Default                  | Description                         |
+| --------------------------- | ------------------------ | ----------------------------------- |
+| `KNOWLEDGE_DB_URL`          | -                        | PostgreSQL connection string        |
+| `KNOWLEDGE_REDIS_URL`       | -                        | Redis connection string             |
+| `KNOWLEDGE_RABBITMQ_URL`    | -                        | RabbitMQ connection string          |
+| `OPENAI_API_KEY`            | -                        | OpenAI API key (embedding model)    |
+| `KNOWLEDGE_EMBEDDING_MODEL` | `text-embedding-3-small` | Embedding model name                |
+| `KNOWLEDGE_EMBEDDING_DIMS`  | `1536`                   | Embedding dimension                 |
+| `KNOWLEDGE_CHUNK_SIZE`      | `512`                    | Default chunk size (tokens)         |
+| `KNOWLEDGE_CHUNK_OVERLAP`   | `64`                     | Default chunk overlap (tokens)      |
+| `KNOWLEDGE_TOP_K`           | `20`                     | Default top-k results               |
+| `KNOWLEDGE_RERANK_ENABLED`  | `true`                   | Enable cross-encoder reranking      |
+| `KNOWLEDGE_LOG_LEVEL`       | `INFO`                   | Logging level                       |
+| `KNOWLEDGE_AGENT_TOKEN`     | -                        | mTLS token for agent authentication |
 
 ### 45.3 Quick Reference: Common Operations
 
@@ -1871,24 +1871,24 @@ curl /knowledge/metrics
 
 ### 45.4 Architecture Decision Records
 
-| ADR | Title | Decision | Date |
-|---|---|---|---|
-| ADR-001 | Graph Storage: Adjacency list vs Dedicated graph DB | Adjacency list + JSONB in PostgreSQL | 2026-06-18 |
-| ADR-002 | Embedding Model: text-embedding-3-small vs 3-large | 3-small (cost/performance sweet spot) | 2026-06-18 |
-| ADR-003 | Index: IVFFlat vs HNSW | IVFFlat (faster build time, acceptable recall at scale) | 2026-06-18 |
-| ADR-004 | Reranker: Local ONNX vs API-based | Local ONNX (no external dependency, lower latency) | 2026-06-18 |
-| ADR-005 | Queue: RabbitMQ vs Redis Streams | RabbitMQ (persistent delivery, DLQ, monitoring maturity) | 2026-06-18 |
-| ADR-006 | Priority System: 4-tier vs continuous score | 4-tier (simpler to configure, debug, and tune) | 2026-06-18 |
+| ADR     | Title                                               | Decision                                                 | Date       |
+| ------- | --------------------------------------------------- | -------------------------------------------------------- | ---------- |
+| ADR-001 | Graph Storage: Adjacency list vs Dedicated graph DB | Adjacency list + JSONB in PostgreSQL                     | 2026-06-18 |
+| ADR-002 | Embedding Model: text-embedding-3-small vs 3-large  | 3-small (cost/performance sweet spot)                    | 2026-06-18 |
+| ADR-003 | Index: IVFFlat vs HNSW                              | IVFFlat (faster build time, acceptable recall at scale)  | 2026-06-18 |
+| ADR-004 | Reranker: Local ONNX vs API-based                   | Local ONNX (no external dependency, lower latency)       | 2026-06-18 |
+| ADR-005 | Queue: RabbitMQ vs Redis Streams                    | RabbitMQ (persistent delivery, DLQ, monitoring maturity) | 2026-06-18 |
+| ADR-006 | Priority System: 4-tier vs continuous score         | 4-tier (simpler to configure, debug, and tune)           | 2026-06-18 |
 
 ---
 
-*End of Document -- Knowledge Architecture v1.0*
+_End of Document -- Knowledge Architecture v1.0_
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial knowledge architecture | Chief AI Architect |
+| Version | Date     | Changes                        | Author             |
+| ------- | -------- | ------------------------------ | ------------------ |
+| 1.0     | Jun 2026 | Initial knowledge architecture | Chief AI Architect |
 
 ---
 
