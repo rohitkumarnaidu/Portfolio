@@ -794,7 +794,7 @@ graph TB
 - App Router (`app/` directory) with file-based routing
 - Incremental Static Regeneration (ISR) with 60s revalidation
 - Server Components (RSC) for data-fetching pages
-- API Routes for NextAuth.js and revalidation
+- API Routes for NestJS Passport and revalidation
 - Middleware for route protection and redirects
 - next/image for automatic image optimization
 - next/font for font optimization (Inter, JetBrains Mono, Cabinet Grotesk)
