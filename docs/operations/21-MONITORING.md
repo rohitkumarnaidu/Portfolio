@@ -8,6 +8,7 @@
 ---
 
 ## Executive Summary
+
 This document outlines the FAANG-grade full-stack observability and Incident Response framework. Utilizing Datadog, Sentry, Vercel Analytics, and custom LLM instrumentation, it guarantees sub-second anomaly detection, dynamic scaling alerts, and 99.99% uptime for core services.
 
 ## Table of Contents
@@ -42,46 +43,46 @@ The monitoring system provides **complete, real-time visibility** into every lay
 
 ### 1.2 Monitoring Stack
 
-| Tool | Purpose | Monitors | Cost | Alert Channel |
-|------|---------|----------|------|---------------|
-| **Sentry** | Error tracking + APM | App errors, performance traces, crash reporting | 🆓 Free (5K events/mo) | Telegram + Email |
-| **Better Uptime** | External uptime monitoring | Service availability, SSL expiry, response time | 🆓 Free (5-min checks) | Telegram + SMS + Email |
-| **Vercel Analytics** | Core Web Vitals | LCP, CLS, INP, TTFB, FCP | 🆓 Free | Dashboard |
-| **PostHog** | Product analytics + UX | Session replays, heatmaps, feature flag usage | 🆓 Free (1M events/mo) | Email |
-| **Umami** | Traffic analytics | Visitors, page views, referrers, devices | 🆓 Free (self-hosted) | Dashboard |
-| **Cloudflare** | Edge/WAF monitoring | DDoS, WAF events, traffic anomalies | 🆓 Free | Email |
-| **Custom DB (Supabase)** | Application-specific metrics | AI costs, RAG quality, agent performance, lead tracking | Included | Telegram |
+| Tool                     | Purpose                      | Monitors                                                | Cost                   | Alert Channel          |
+| ------------------------ | ---------------------------- | ------------------------------------------------------- | ---------------------- | ---------------------- |
+| **Sentry**               | Error tracking + APM         | App errors, performance traces, crash reporting         | 🆓 Free (5K events/mo) | Telegram + Email       |
+| **Better Uptime**        | External uptime monitoring   | Service availability, SSL expiry, response time         | 🆓 Free (5-min checks) | Telegram + SMS + Email |
+| **Vercel Analytics**     | Core Web Vitals              | LCP, CLS, INP, TTFB, FCP                                | 🆓 Free                | Dashboard              |
+| **PostHog**              | Product analytics + UX       | Session replays, heatmaps, feature flag usage           | 🆓 Free (1M events/mo) | Email                  |
+| **Umami**                | Traffic analytics            | Visitors, page views, referrers, devices                | 🆓 Free (self-hosted)  | Dashboard              |
+| **Cloudflare**           | Edge/WAF monitoring          | DDoS, WAF events, traffic anomalies                     | 🆓 Free                | Email                  |
+| **Custom DB (Supabase)** | Application-specific metrics | AI costs, RAG quality, agent performance, lead tracking | Included               | Telegram               |
 
 ### 1.3 Key Metrics at a Glance
 
-| Metric | Target | Current | Tool | Measurement Method |
-|--------|--------|---------|------|-------------------|
-| Frontend uptime | > 99.9% | — | Better Uptime | 1-min interval health checks |
-| API uptime | > 99.9% | — | Better Uptime | 1-min interval /health endpoint |
-| AI service uptime | > 99.5% | — | Better Uptime | 5-min interval /api/health |
-| p95 page load (CDN hit) | < 100ms | — | Vercel Analytics | RUM data |
-| p95 API response | < 200ms | — | Sentry | Distributed tracing |
-| p95 AI response | < 3s | — | Custom DB | Per-request timing |
-| Error rate (all services) | < 1% | — | Sentry | Rolling 24h window |
-| Database query p95 | < 50ms | — | Custom DB | pg_stat_statements |
-| AI monthly cost | < $10 | — | Custom DB | Per-request cost tracking |
-| Error budget consumption | < 100% | — | Automated | Monthly calculation |
+| Metric                    | Target  | Current | Tool             | Measurement Method              |
+| ------------------------- | ------- | ------- | ---------------- | ------------------------------- |
+| Frontend uptime           | > 99.9% | —       | Better Uptime    | 1-min interval health checks    |
+| API uptime                | > 99.9% | —       | Better Uptime    | 1-min interval /health endpoint |
+| AI service uptime         | > 99.5% | —       | Better Uptime    | 5-min interval /api/health      |
+| p95 page load (CDN hit)   | < 100ms | —       | Vercel Analytics | RUM data                        |
+| p95 API response          | < 200ms | —       | Sentry           | Distributed tracing             |
+| p95 AI response           | < 3s    | —       | Custom DB        | Per-request timing              |
+| Error rate (all services) | < 1%    | —       | Sentry           | Rolling 24h window              |
+| Database query p95        | < 50ms  | —       | Custom DB        | pg_stat_statements              |
+| AI monthly cost           | < $10   | —       | Custom DB        | Per-request cost tracking       |
+| Error budget consumption  | < 100%  | —       | Automated        | Monthly calculation             |
 
 ### 1.4 Alignment with Other Documents
 
-| Document | Relationship |
-|----------|-------------|
+| Document                                          | Relationship                                                                                   |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `docs/operations/AnalyticsArchitecture.md` (v5.0) | Analytics event tracking feeds monitoring dashboards; monitoring alerts on analytics anomalies |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Three pillars (logs, metrics, traces) are the foundation that monitoring operates on |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0) | §19 AI Monitoring — 10 alert rules, health check endpoints, AI-specific metrics |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | §10 Monitoring Architecture — observability stack diagram, alert severity matrix |
-| `docs/security/SecurityArchitecture.md` (v5.0) | §29 Security Monitoring — security event monitoring, alert rules, audit logging |
-| `docs/quality/PerformanceArchitecture.md` (v3.0) | Performance budgets and targets that monitoring measures against |
-| `docs/operations/DevOpsArchitecture.md` (v3.0) | DevOps metrics (build time, CI failure rate) monitored in this framework |
-| `docs/operations/25-CICD.md` (v3.0) | CI/CD pipeline health monitored as part of infrastructure monitoring |
-| `docs/operations/DeploymentGuide.md` (v3.0) | Deployment health checks and rollback monitoring |
-| `docs/security/16-COMPLIANCE.md` (v3.0) | Compliance monitoring requirements (GDPR, OWASP) |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database performance metrics, connection monitoring, backup verification |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0)      | Three pillars (logs, metrics, traces) are the foundation that monitoring operates on           |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)            | §19 AI Monitoring — 10 alert rules, health check endpoints, AI-specific metrics                |
+| `docs/architecture/SystemArchitecture.md` (v5.0)  | §10 Monitoring Architecture — observability stack diagram, alert severity matrix               |
+| `docs/security/SecurityArchitecture.md` (v5.0)    | §29 Security Monitoring — security event monitoring, alert rules, audit logging                |
+| `docs/quality/PerformanceArchitecture.md` (v3.0)  | Performance budgets and targets that monitoring measures against                               |
+| `docs/operations/DevOpsArchitecture.md` (v3.0)    | DevOps metrics (build time, CI failure rate) monitored in this framework                       |
+| `docs/operations/25-CICD.md` (v3.0)               | CI/CD pipeline health monitored as part of infrastructure monitoring                           |
+| `docs/operations/DeploymentGuide.md` (v3.0)       | Deployment health checks and rollback monitoring                                               |
+| `docs/security/16-COMPLIANCE.md` (v3.0)           | Compliance monitoring requirements (GDPR, OWASP)                                               |
+| `docs/database/DatabaseArchitecture.md` (v5.0)    | Database performance metrics, connection monitoring, backup verification                       |
 
 ---
 
@@ -181,10 +182,10 @@ sequenceDiagram
     S->>SDK: Emit event (error, metric, trace)
     SDK->>Platform: Send structured event
     Platform->>Platform: Process & aggregate
-    
+
     Platform->>Rules: Evaluate against alert rules
     Rules->>Rules: Check thresholds, windows, severity
-    
+
     alt No Threshold Breached
         Rules-->>Platform: OK - no action
     else Threshold Breached
@@ -201,17 +202,17 @@ sequenceDiagram
 
 ### 2.3 Monitoring Ownership Model
 
-| Monitoring Domain | Owner | Review Cadence | Tools Owned |
-|------------------|-------|----------------|-------------|
-| **Application Monitoring** | Backend Lead | Weekly | Sentry |
-| **Infrastructure Monitoring** | DevOps Lead | Weekly | Better Uptime, Cloudflare |
-| **Performance Monitoring** | Frontend Lead | Monthly | Vercel Analytics, Sentry |
-| **AI Monitoring** | AI Architect | Daily | Custom DB, Sentry |
-| **Database Monitoring** | Backend Lead | Weekly | Custom DB, Supabase Dashboard |
-| **API Monitoring** | Backend Lead | Weekly | Sentry, Better Uptime |
-| **Security Monitoring** | Security Lead | Daily | Sentry, Cloudflare, Audit Logs |
-| **UX Monitoring** | Product Owner | Monthly | PostHog, Umami |
-| **SLO Compliance** | DevOps Lead | Monthly | All Tools |
+| Monitoring Domain             | Owner         | Review Cadence | Tools Owned                    |
+| ----------------------------- | ------------- | -------------- | ------------------------------ |
+| **Application Monitoring**    | Backend Lead  | Weekly         | Sentry                         |
+| **Infrastructure Monitoring** | DevOps Lead   | Weekly         | Better Uptime, Cloudflare      |
+| **Performance Monitoring**    | Frontend Lead | Monthly        | Vercel Analytics, Sentry       |
+| **AI Monitoring**             | AI Architect  | Daily          | Custom DB, Sentry              |
+| **Database Monitoring**       | Backend Lead  | Weekly         | Custom DB, Supabase Dashboard  |
+| **API Monitoring**            | Backend Lead  | Weekly         | Sentry, Better Uptime          |
+| **Security Monitoring**       | Security Lead | Daily          | Sentry, Cloudflare, Audit Logs |
+| **UX Monitoring**             | Product Owner | Monthly        | PostHog, Umami                 |
+| **SLO Compliance**            | DevOps Lead   | Monthly        | All Tools                      |
 
 ---
 
@@ -221,15 +222,15 @@ sequenceDiagram
 
 #### What We Monitor
 
-| Monitor | Tool | Metric | Threshold | Alert Severity |
-|---------|------|--------|-----------|----------------|
-| **JavaScript errors** | Sentry | Error count, error rate | > 10/day or > 1% rate | 🟡 High |
-| **React render errors** | Sentry | Error boundaries triggered | > 5/day | 🟡 High |
-| **API call failures** | Sentry | Failed API requests | > 5% of requests | 🟡 High |
-| **Page load errors** | Sentry | Pages with errors | Any page consistently failing | 🟡 High |
-| **Client-side crashes** | Sentry | Crash rate | > 0.1% of sessions | 🔴 Critical |
-| **Unhandled promise rejections** | Sentry | Count | > 3/day | 🟢 Medium |
-| **Source map errors** | Sentry | Unmapped errors | > 1% of errors | 🟢 Medium |
+| Monitor                          | Tool   | Metric                     | Threshold                     | Alert Severity |
+| -------------------------------- | ------ | -------------------------- | ----------------------------- | -------------- |
+| **JavaScript errors**            | Sentry | Error count, error rate    | > 10/day or > 1% rate         | 🟡 High        |
+| **React render errors**          | Sentry | Error boundaries triggered | > 5/day                       | 🟡 High        |
+| **API call failures**            | Sentry | Failed API requests        | > 5% of requests              | 🟡 High        |
+| **Page load errors**             | Sentry | Pages with errors          | Any page consistently failing | 🟡 High        |
+| **Client-side crashes**          | Sentry | Crash rate                 | > 0.1% of sessions            | 🔴 Critical    |
+| **Unhandled promise rejections** | Sentry | Count                      | > 3/day                       | 🟢 Medium      |
+| **Source map errors**            | Sentry | Unmapped errors            | > 1% of errors                | 🟢 Medium      |
 
 #### Implementation
 
@@ -240,9 +241,9 @@ import * as Sentry from '@sentry/nextjs';
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   environment: process.env.NODE_ENV,
-  tracesSampleRate: 0.25,          // 25% sampling for performance
-  replaysSessionSampleRate: 0.1,    // 10% session replays
-  replaysOnErrorSampleRate: 1.0,    // 100% replays on error
+  tracesSampleRate: 0.25, // 25% sampling for performance
+  replaysSessionSampleRate: 0.1, // 10% session replays
+  replaysOnErrorSampleRate: 1.0, // 100% replays on error
   enabled: process.env.NODE_ENV === 'production',
   integrations: [
     Sentry.browserTracingIntegration(),
@@ -254,7 +255,10 @@ Sentry.init({
   beforeSend(event) {
     // Never send PII to Sentry
     if (event.request?.url) {
-      event.request.url = event.request.url.replace(/[?&](token|secret|key|password)=[^&]+/g, '$1=[REDACTED]');
+      event.request.url = event.request.url.replace(
+        /[?&](token|secret|key|password)=[^&]+/g,
+        '$1=[REDACTED]',
+      );
     }
     return event;
   },
@@ -263,26 +267,26 @@ Sentry.init({
 
 #### Error Grouping Strategy
 
-| Error Category | Grouping Rule | Action | Owner |
-|---------------|--------------|--------|-------|
-| **Network errors** | Group by HTTP status + endpoint | Auto-create issue in GitHub | Backend Lead |
-| **React errors** | Group by component + error message | Auto-create issue with stack trace | Frontend Lead |
-| **Third-party CDN failures** | Group by external domain | Monitor for broader outage | DevOps Lead |
-| **Browser extension conflicts** | Group by error pattern | Low priority - note in known issues | Frontend Lead |
+| Error Category                  | Grouping Rule                      | Action                              | Owner         |
+| ------------------------------- | ---------------------------------- | ----------------------------------- | ------------- |
+| **Network errors**              | Group by HTTP status + endpoint    | Auto-create issue in GitHub         | Backend Lead  |
+| **React errors**                | Group by component + error message | Auto-create issue with stack trace  | Frontend Lead |
+| **Third-party CDN failures**    | Group by external domain           | Monitor for broader outage          | DevOps Lead   |
+| **Browser extension conflicts** | Group by error pattern             | Low priority - note in known issues | Frontend Lead |
 
 ### 3.2 Backend Monitoring (NestJS 10)
 
 #### What We Monitor
 
-| Monitor | Tool | Metric | Threshold | Alert Severity |
-|---------|------|--------|-----------|----------------|
-| **HTTP 5xx errors** | Sentry | Rate per endpoint | > 1% of requests | 🔴 Critical |
-| **HTTP 4xx errors** | Sentry | Rate per endpoint | > 5% of requests | 🟡 High |
-| **Unhandled exceptions** | Sentry | Count | > 0 (zero tolerance) | 🔴 Critical |
-| **Slow endpoints** | Sentry | p95 response time | > 500ms | 🟡 High |
-| **Database query errors** | Custom DB | Failed queries | > 5/min | 🟡 High |
-| **Auth failures** | Sentry | Failed auth attempts | > 5/15min per IP | 🟡 High |
-| **Rate limit hits** | Custom DB | 429 responses | > 100/day | 🟢 Medium |
+| Monitor                   | Tool      | Metric               | Threshold            | Alert Severity |
+| ------------------------- | --------- | -------------------- | -------------------- | -------------- |
+| **HTTP 5xx errors**       | Sentry    | Rate per endpoint    | > 1% of requests     | 🔴 Critical    |
+| **HTTP 4xx errors**       | Sentry    | Rate per endpoint    | > 5% of requests     | 🟡 High        |
+| **Unhandled exceptions**  | Sentry    | Count                | > 0 (zero tolerance) | 🔴 Critical    |
+| **Slow endpoints**        | Sentry    | p95 response time    | > 500ms              | 🟡 High        |
+| **Database query errors** | Custom DB | Failed queries       | > 5/min              | 🟡 High        |
+| **Auth failures**         | Sentry    | Failed auth attempts | > 5/15min per IP     | 🟡 High        |
+| **Rate limit hits**       | Custom DB | 429 responses        | > 100/day            | 🟢 Medium      |
 
 #### NestJS Monitoring Configuration
 
@@ -338,15 +342,15 @@ async healthCheck() {
 
 #### What We Monitor
 
-| Monitor | Tool | Metric | Threshold | Alert Severity |
-|---------|------|--------|-----------|----------------|
-| **LLM API errors** | Sentry | 5xx from OpenAI/Anthropic | > 5/hour | 🔴 Critical |
-| **RAG retrieval failures** | Sentry | pgvector query failures | > 3/hour | 🟡 High |
-| **Model fallback events** | Custom DB | Fallback rate | > 10% of requests | 🟡 High |
-| **Response time p95** | Custom DB | Chat response latency | > 5s | 🟡 High |
-| **Memory usage** | Railway | RAM consumption | > 80% (400MB) | 🟡 High |
-| **Concurrent requests** | Custom DB | Active sessions | > 5 | 🟡 High |
-| **Token usage anomaly** | Custom DB | Sudden spike | > 3x normal | 🟡 High |
+| Monitor                    | Tool      | Metric                    | Threshold         | Alert Severity |
+| -------------------------- | --------- | ------------------------- | ----------------- | -------------- |
+| **LLM API errors**         | Sentry    | 5xx from OpenAI/Anthropic | > 5/hour          | 🔴 Critical    |
+| **RAG retrieval failures** | Sentry    | pgvector query failures   | > 3/hour          | 🟡 High        |
+| **Model fallback events**  | Custom DB | Fallback rate             | > 10% of requests | 🟡 High        |
+| **Response time p95**      | Custom DB | Chat response latency     | > 5s              | 🟡 High        |
+| **Memory usage**           | Railway   | RAM consumption           | > 80% (400MB)     | 🟡 High        |
+| **Concurrent requests**    | Custom DB | Active sessions           | > 5               | 🟡 High        |
+| **Token usage anomaly**    | Custom DB | Sudden spike              | > 3x normal       | 🟡 High        |
 
 #### AI Health Check Endpoint
 
@@ -358,7 +362,7 @@ async def health_check():
     openai_status = await check_openai()
     pgvector_status = await check_pgvector()
     cache_status = check_cache()
-    
+
     return {
         "status": "healthy" if all([
             openai_status["status"] == "available",
@@ -385,16 +389,16 @@ async def health_check():
 
 ### 4.1 Infrastructure Component Monitoring
 
-| Component | Provider | What We Monitor | Tool | Check Interval | Alert Severity |
-|-----------|----------|----------------|------|----------------|----------------|
-| **Frontend Hosting** | Vercel | Site availability, SSL, CDN status | Better Uptime | 1 min | 🔴 Critical |
-| **API Hosting** | Vercel (Serverless) | /health endpoint, response time | Better Uptime + Sentry | 1 min | 🔴 Critical |
-| **AI Service Hosting** | Railway | Container health, memory, CPU | Railway Dashboard + Better Uptime | 5 min | 🔴 Critical |
-| **Database** | Supabase | Connection count, storage, query perf | Supabase Dashboard + Custom DB | 5 min | 🟡 High |
-| **DNS** | Cloudflare | DNS resolution, DNSSEC | Better Uptime | 5 min | 🔴 Critical |
-| **CDN** | Vercel Edge | Cache hit rate, origin latency | Vercel Analytics | 15 min | 🟢 Medium |
-| **Email Service** | Resend | Delivery rate, bounce rate | Resend Dashboard | Daily | 🟢 Medium |
-| **CI/CD** | GitHub Actions | Build success rate, duration | GitHub Actions | Per push | 🟡 High |
+| Component              | Provider            | What We Monitor                       | Tool                              | Check Interval | Alert Severity |
+| ---------------------- | ------------------- | ------------------------------------- | --------------------------------- | -------------- | -------------- |
+| **Frontend Hosting**   | Vercel              | Site availability, SSL, CDN status    | Better Uptime                     | 1 min          | 🔴 Critical    |
+| **API Hosting**        | Vercel (Serverless) | /health endpoint, response time       | Better Uptime + Sentry            | 1 min          | 🔴 Critical    |
+| **AI Service Hosting** | Railway             | Container health, memory, CPU         | Railway Dashboard + Better Uptime | 5 min          | 🔴 Critical    |
+| **Database**           | Supabase            | Connection count, storage, query perf | Supabase Dashboard + Custom DB    | 5 min          | 🟡 High        |
+| **DNS**                | Cloudflare          | DNS resolution, DNSSEC                | Better Uptime                     | 5 min          | 🔴 Critical    |
+| **CDN**                | Vercel Edge         | Cache hit rate, origin latency        | Vercel Analytics                  | 15 min         | 🟢 Medium      |
+| **Email Service**      | Resend              | Delivery rate, bounce rate            | Resend Dashboard                  | Daily          | 🟢 Medium      |
+| **CI/CD**              | GitHub Actions      | Build success rate, duration          | GitHub Actions                    | Per push       | 🟡 High        |
 
 ### 4.2 Infrastructure Health Dashboard
 
@@ -424,47 +428,47 @@ async def health_check():
 
 ### 4.3 Infrastructure Resource Thresholds
 
-| Resource | Provider | Warning | Critical | Action at Critical |
-|----------|----------|---------|----------|-------------------|
-| Database storage | Supabase | > 350MB (70%) | > 450MB (90%) | Archive old data, upgrade plan |
-| Database connections | Supabase | > 12 (80%) | > 14 (93%) | Review connection pooling, kill idle |
-| Railway memory | Railway | > 400MB (80%) | > 480MB (95%) | Increase memory, optimize code |
-| Railway CPU | Railway | > 70% (5 min avg) | > 90% (5 min avg) | Scale replicas, optimize queries |
-| Vercel bandwidth | Vercel | > 80GB (80%) | > 95GB (95%) | Optimize images, enable caching |
-| GitHub Actions minutes | GitHub | > 1,600 (80%) | > 1,800 (90%) | Optimize workflows, reduce triggers |
+| Resource               | Provider | Warning           | Critical          | Action at Critical                   |
+| ---------------------- | -------- | ----------------- | ----------------- | ------------------------------------ |
+| Database storage       | Supabase | > 350MB (70%)     | > 450MB (90%)     | Archive old data, upgrade plan       |
+| Database connections   | Supabase | > 12 (80%)        | > 14 (93%)        | Review connection pooling, kill idle |
+| Railway memory         | Railway  | > 400MB (80%)     | > 480MB (95%)     | Increase memory, optimize code       |
+| Railway CPU            | Railway  | > 70% (5 min avg) | > 90% (5 min avg) | Scale replicas, optimize queries     |
+| Vercel bandwidth       | Vercel   | > 80GB (80%)      | > 95GB (95%)      | Optimize images, enable caching      |
+| GitHub Actions minutes | GitHub   | > 1,600 (80%)     | > 1,800 (90%)     | Optimize workflows, reduce triggers  |
 
 ### 4.4 Better Uptime Configuration
 
 ```yaml
 # Better Uptime monitors (configured via dashboard or API)
 monitors:
-  - name: "Portfolio Frontend"
-    url: "https://portfolioowner.com"
-    check_interval: 60          # 1 minute
-    regions: ["us-east", "eu-west", "ap-southeast"]
+  - name: 'Portfolio Frontend'
+    url: 'https://portfolioowner.com'
+    check_interval: 60 # 1 minute
+    regions: ['us-east', 'eu-west', 'ap-southeast']
     expected_status: 200
-    ssl_expiry_threshold: 30    # Alert 30 days before expiry
+    ssl_expiry_threshold: 30 # Alert 30 days before expiry
     alerts:
-      - type: "telegram"
-      - type: "email"
-    
-  - name: "NestJS API Health"
-    url: "https://api.portfolioowner.com/health"
-    check_interval: 60          # 1 minute
-    regions: ["us-east", "eu-west"]
+      - type: 'telegram'
+      - type: 'email'
+
+  - name: 'NestJS API Health'
+    url: 'https://api.portfolioowner.com/health'
+    check_interval: 60 # 1 minute
+    regions: ['us-east', 'eu-west']
     expected_status: 200
     alerts:
-      - type: "telegram"
-      - type: "email"
-    
-  - name: "FastAPI AI Health"
-    url: "https://ai.portfolioowner.com/api/health"
-    check_interval: 300         # 5 minutes
-    regions: ["us-east"]
+      - type: 'telegram'
+      - type: 'email'
+
+  - name: 'FastAPI AI Health'
+    url: 'https://ai.portfolioowner.com/api/health'
+    check_interval: 300 # 5 minutes
+    regions: ['us-east']
     expected_body_contains: '"status": "healthy"'
     alerts:
-      - type: "telegram"
-      - type: "email"
+      - type: 'telegram'
+      - type: 'email'
 ```
 
 ---
@@ -475,30 +479,30 @@ monitors:
 
 > **Note:** Targets here follow Google CrUX (Chrome User Experience Report) thresholds used by Vercel Analytics. The in-code performance budgets in `docs/quality/PerformanceArchitecture.md` (v3.0) define more aggressive targets (LCP < 2.0s, CLS < 0.05, FID < 50ms) for development optimization. Monitoring targets represent the outer acceptable bounds; performance budgets represent the aspirational targets.
 
-| Metric | Definition | Target (Good) | Needs Improvement | Poor | Tool |
-|--------|-----------|---------------|-------------------|------|------|
-| **LCP** | Largest Contentful Paint | < 2.5s | 2.5s - 4.0s | > 4.0s | Vercel Analytics |
-| **CLS** | Cumulative Layout Shift | < 0.1 | 0.1 - 0.25 | > 0.25 | Vercel Analytics |
-| **INP** | Interaction to Next Paint | < 200ms | 200ms - 500ms | > 500ms | Vercel Analytics |
-| **TTFB** | Time to First Byte | < 800ms | 800ms - 1.8s | > 1.8s | Vercel Analytics |
-| **FCP** | First Contentful Paint | < 1.8s | 1.8s - 3.0s | > 3.0s | Vercel Analytics |
+| Metric   | Definition                | Target (Good) | Needs Improvement | Poor    | Tool             |
+| -------- | ------------------------- | ------------- | ----------------- | ------- | ---------------- |
+| **LCP**  | Largest Contentful Paint  | < 2.5s        | 2.5s - 4.0s       | > 4.0s  | Vercel Analytics |
+| **CLS**  | Cumulative Layout Shift   | < 0.1         | 0.1 - 0.25        | > 0.25  | Vercel Analytics |
+| **INP**  | Interaction to Next Paint | < 200ms       | 200ms - 500ms     | > 500ms | Vercel Analytics |
+| **TTFB** | Time to First Byte        | < 800ms       | 800ms - 1.8s      | > 1.8s  | Vercel Analytics |
+| **FCP**  | First Contentful Paint    | < 1.8s        | 1.8s - 3.0s       | > 3.0s  | Vercel Analytics |
 
 ### 5.2 Service-Specific Performance Metrics
 
-| Service | Metric | Target (p95) | Warning (p95) | Critical (p95) | Tool |
-|---------|--------|-------------|---------------|----------------|------|
-| **Frontend** | Page load (CDN hit) | < 100ms | < 300ms | > 500ms | Vercel Analytics |
-| **Frontend** | Page load (CDN miss) | < 500ms | < 1s | > 2s | Vercel Analytics |
-| **API** | GET requests | < 100ms | < 300ms | > 500ms | Sentry |
-| **API** | POST requests | < 300ms | < 500ms | > 1s | Sentry |
-| **API** | Auth operations | < 200ms | < 500ms | > 1s | Sentry |
-| **AI** | Chat first token | < 1.5s | < 3s | > 5s | Custom DB |
-| **AI** | Chat full response | < 3s | < 5s | > 8s | Custom DB |
-| **AI** | RAG retrieval | < 50ms | < 100ms | > 200ms | Custom DB |
-| **AI** | Content analysis | < 5s | < 8s | > 12s | Custom DB |
-| **Database** | Simple SELECT | < 5ms | < 20ms | > 50ms | Custom DB |
-| **Database** | Vector search (k=3) | < 50ms | < 100ms | > 200ms | Custom DB |
-| **Database** | INSERT | < 20ms | < 50ms | > 100ms | Custom DB |
+| Service      | Metric               | Target (p95) | Warning (p95) | Critical (p95) | Tool             |
+| ------------ | -------------------- | ------------ | ------------- | -------------- | ---------------- |
+| **Frontend** | Page load (CDN hit)  | < 100ms      | < 300ms       | > 500ms        | Vercel Analytics |
+| **Frontend** | Page load (CDN miss) | < 500ms      | < 1s          | > 2s           | Vercel Analytics |
+| **API**      | GET requests         | < 100ms      | < 300ms       | > 500ms        | Sentry           |
+| **API**      | POST requests        | < 300ms      | < 500ms       | > 1s           | Sentry           |
+| **API**      | Auth operations      | < 200ms      | < 500ms       | > 1s           | Sentry           |
+| **AI**       | Chat first token     | < 1.5s       | < 3s          | > 5s           | Custom DB        |
+| **AI**       | Chat full response   | < 3s         | < 5s          | > 8s           | Custom DB        |
+| **AI**       | RAG retrieval        | < 50ms       | < 100ms       | > 200ms        | Custom DB        |
+| **AI**       | Content analysis     | < 5s         | < 8s          | > 12s          | Custom DB        |
+| **Database** | Simple SELECT        | < 5ms        | < 20ms        | > 50ms         | Custom DB        |
+| **Database** | Vector search (k=3)  | < 50ms       | < 100ms       | > 200ms        | Custom DB        |
+| **Database** | INSERT               | < 20ms       | < 50ms        | > 100ms        | Custom DB        |
 
 ### 5.3 Performance Monitoring Implementation
 
@@ -514,7 +518,7 @@ export class PerformanceInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         const duration = Date.now() - start;
-        
+
         // Log slow requests
         if (duration > 500) {
           logger.warn(`Slow request detected`, {
@@ -523,7 +527,7 @@ export class PerformanceInterceptor implements NestInterceptor {
             method: request.method,
             query: request.query,
           });
-          
+
           // Send to Sentry as performance issue
           Sentry.addBreadcrumb({
             category: 'performance',
@@ -532,7 +536,7 @@ export class PerformanceInterceptor implements NestInterceptor {
             level: 'warning',
           });
         }
-        
+
         // Store in custom metrics DB for dashboard
         this.metricsService.recordLatency(endpoint, duration);
       }),
@@ -547,7 +551,7 @@ const withWebVitals = require('@vercel/analytics/next');
 module.exports = withSpeedInsights(
   withWebVitals({
     // ... rest of config
-  })
+  }),
 );
 ```
 
@@ -588,20 +592,20 @@ module.exports = withSpeedInsights(
 
 ### 6.1 AI Service Metrics
 
-| Metric | Definition | Target | Warning | Critical | Tool |
-|--------|-----------|--------|---------|----------|------|
-| **Chat sessions** | Sessions initiated per day | — | — | — | Custom DB |
-| **Messages per session** | Avg. messages per chat | > 3 | < 2 | < 1 | Custom DB |
-| **Response time p95** | 95th percentile latency | < 3s | < 5s | > 5s | Custom DB |
-| **First token latency** | Time to first token | < 1.5s | < 3s | > 5s | Custom DB |
-| **Error rate** | Failed requests / total | < 2% | < 5% | > 5% | Sentry |
-| **Fallback rate** | Claude fallback usage | < 5% | < 10% | > 10% | Custom DB |
-| **Cache hit rate** | Response cache hits | > 40% | < 30% | < 20% | Custom DB |
-| **Cost per session** | Avg. cost per chat | < $0.02 | < $0.05 | > $0.05 | Custom DB |
-| **Daily cost** | Total daily AI spend | < $0.50 | < $1.00 | > $1.00 | Custom DB |
-| **Monthly cost** | Total monthly AI spend | < $10 | < $15 | > $20 | Custom DB |
-| **Hallucination rate** | Flagged responses / total | < 1% | < 3% | > 3% | Custom DB |
-| **RAG similarity score** | Avg. retrieval similarity | > 0.75 | < 0.70 | < 0.65 | Custom DB |
+| Metric                   | Definition                 | Target  | Warning | Critical | Tool      |
+| ------------------------ | -------------------------- | ------- | ------- | -------- | --------- |
+| **Chat sessions**        | Sessions initiated per day | —       | —       | —        | Custom DB |
+| **Messages per session** | Avg. messages per chat     | > 3     | < 2     | < 1      | Custom DB |
+| **Response time p95**    | 95th percentile latency    | < 3s    | < 5s    | > 5s     | Custom DB |
+| **First token latency**  | Time to first token        | < 1.5s  | < 3s    | > 5s     | Custom DB |
+| **Error rate**           | Failed requests / total    | < 2%    | < 5%    | > 5%     | Sentry    |
+| **Fallback rate**        | Claude fallback usage      | < 5%    | < 10%   | > 10%    | Custom DB |
+| **Cache hit rate**       | Response cache hits        | > 40%   | < 30%   | < 20%    | Custom DB |
+| **Cost per session**     | Avg. cost per chat         | < $0.02 | < $0.05 | > $0.05  | Custom DB |
+| **Daily cost**           | Total daily AI spend       | < $0.50 | < $1.00 | > $1.00  | Custom DB |
+| **Monthly cost**         | Total monthly AI spend     | < $10   | < $15   | > $20    | Custom DB |
+| **Hallucination rate**   | Flagged responses / total  | < 1%    | < 3%    | > 3%     | Custom DB |
+| **RAG similarity score** | Avg. retrieval similarity  | > 0.75  | < 0.70  | < 0.65   | Custom DB |
 
 ### 6.2 AI Cost Tracking
 
@@ -609,24 +613,24 @@ module.exports = withSpeedInsights(
 # AI Service cost tracking module (e.g., apps/ai/app/services/cost_tracker.py)
 class AICostTracker:
     """Tracks AI costs per request and enforces budget limits."""
-    
+
     def __init__(self):
         self.daily_budget_cents = 50     # $0.50/day
         self.monthly_budget_cents = 1000  # $10.00/month
         self.cache = {}  # In-memory cache of current spend
-    
-    async def track_request(self, model: str, prompt_tokens: int, 
+
+    async def track_request(self, model: str, prompt_tokens: int,
                               completion_tokens: int, session_id: str):
         """Track a single AI request and check budget compliance."""
         cost = self.calculate_cost(model, prompt_tokens, completion_tokens)
-        
+
         # Log to custom DB
         await self.db.execute(
             "INSERT INTO ai_cost_log (model, prompt_tokens, completion_tokens, "
             "cost_cents, session_id, created_at) VALUES ($1, $2, $3, $4, $5, NOW())",
             model, prompt_tokens, completion_tokens, int(cost * 100), session_id
         )
-        
+
         # Check daily budget
         daily_spend = await self.get_daily_spend()
         if daily_spend >= self.daily_budget_cents:
@@ -635,7 +639,7 @@ class AICostTracker:
                 "spend": daily_spend,
                 "budget": self.daily_budget_cents,
             })
-        
+
         # Check monthly budget
         monthly_spend = await self.get_monthly_spend()
         if monthly_spend >= self.monthly_budget_cents:
@@ -645,10 +649,10 @@ class AICostTracker:
                 "spend": monthly_spend,
                 "budget": self.monthly_budget_cents,
             })
-        
+
         return cost
-    
-    def calculate_cost(self, model: str, prompt_tokens: int, 
+
+    def calculate_cost(self, model: str, prompt_tokens: int,
                         completion_tokens: int) -> float:
         """Calculate cost based on model pricing."""
         pricing = {
@@ -698,17 +702,17 @@ class AICostTracker:
 
 ### 6.4 AI Alert Rules
 
-| Rule | Metric | Threshold | Window | Severity | Action |
-|------|--------|-----------|--------|----------|--------|
-| High error rate | AI error count | > 10/day | 24h rolling | 🟡 High | Investigate Sentry |
-| Latency spike | p95 response | > 5s | 5 min | 🟡 High | Check model availability |
-| Cost anomaly | Daily cost | > $0.50 | Instant | 🟡 High | Check for abuse |
-| Budget exceeded | Monthly cost | > $10 | Instant | 🔴 Critical | Disable AI chat |
-| Service down | Health endpoint | Non-200 | 1 min | 🔴 Critical | Trigger fallback |
-| RAG degradation | Avg similarity | < 0.6 | 1 hour | 🟡 High | Check knowledge base |
-| Cache efficiency | Cache hit rate | < 20% | 1 hour | 🟢 Medium | Adjust cache TTL |
-| Fallback spike | Fallback events | > 3/day | Instant | 🟡 High | Investigate primary model |
-| Hallucination flag | Flagged responses | > 3/day | Instant | 🟡 High | Review RAG pipeline |
+| Rule               | Metric            | Threshold | Window      | Severity    | Action                    |
+| ------------------ | ----------------- | --------- | ----------- | ----------- | ------------------------- |
+| High error rate    | AI error count    | > 10/day  | 24h rolling | 🟡 High     | Investigate Sentry        |
+| Latency spike      | p95 response      | > 5s      | 5 min       | 🟡 High     | Check model availability  |
+| Cost anomaly       | Daily cost        | > $0.50   | Instant     | 🟡 High     | Check for abuse           |
+| Budget exceeded    | Monthly cost      | > $10     | Instant     | 🔴 Critical | Disable AI chat           |
+| Service down       | Health endpoint   | Non-200   | 1 min       | 🔴 Critical | Trigger fallback          |
+| RAG degradation    | Avg similarity    | < 0.6     | 1 hour      | 🟡 High     | Check knowledge base      |
+| Cache efficiency   | Cache hit rate    | < 20%     | 1 hour      | 🟢 Medium   | Adjust cache TTL          |
+| Fallback spike     | Fallback events   | > 3/day   | Instant     | 🟡 High     | Investigate primary model |
+| Hallucination flag | Flagged responses | > 3/day   | Instant     | 🟡 High     | Review RAG pipeline       |
 
 ---
 
@@ -716,16 +720,16 @@ class AICostTracker:
 
 ### 7.1 Database Metrics
 
-| Metric | Definition | Target | Warning | Critical | Tool |
-|--------|-----------|--------|---------|----------|------|
-| **Connection count** | Active DB connections | < 10 | > 12 (80%) | > 14 (93%) | Supabase Dashboard |
-| **Storage usage** | Total DB size | < 350MB | > 400MB (80%) | > 450MB (90%) | Supabase Dashboard |
-| **Query latency p95** | Slowest 5% of queries | < 20ms | < 50ms | > 100ms | Custom DB |
-| **Query error rate** | Failed queries / total | < 0.1% | < 1% | > 1% | Custom DB |
-| **Vector search latency** | pgvector similarity search | < 50ms | < 100ms | > 200ms | Custom DB |
-| **Auth request latency** | Supabase Auth requests | < 100ms | < 200ms | > 500ms | Custom DB |
-| **Realtime message count** | Realtime events per min | < 100 | < 500 | > 1000 | Supabase Dashboard |
-| **Table bloat** | Estimated dead tuples | < 10% | < 20% | > 20% | pg_stat_user_tables |
+| Metric                     | Definition                 | Target  | Warning       | Critical      | Tool                |
+| -------------------------- | -------------------------- | ------- | ------------- | ------------- | ------------------- |
+| **Connection count**       | Active DB connections      | < 10    | > 12 (80%)    | > 14 (93%)    | Supabase Dashboard  |
+| **Storage usage**          | Total DB size              | < 350MB | > 400MB (80%) | > 450MB (90%) | Supabase Dashboard  |
+| **Query latency p95**      | Slowest 5% of queries      | < 20ms  | < 50ms        | > 100ms       | Custom DB           |
+| **Query error rate**       | Failed queries / total     | < 0.1%  | < 1%          | > 1%          | Custom DB           |
+| **Vector search latency**  | pgvector similarity search | < 50ms  | < 100ms       | > 200ms       | Custom DB           |
+| **Auth request latency**   | Supabase Auth requests     | < 100ms | < 200ms       | > 500ms       | Custom DB           |
+| **Realtime message count** | Realtime events per min    | < 100   | < 500         | > 1000        | Supabase Dashboard  |
+| **Table bloat**            | Estimated dead tuples      | < 10%   | < 20%         | > 20%         | pg_stat_user_tables |
 
 ### 7.2 Database Monitoring Implementation
 
@@ -734,15 +738,15 @@ class AICostTracker:
 -- Run via scheduled task or Supabase Dashboard
 
 -- 1. Connection count
-SELECT count(*) AS active_connections 
-FROM pg_stat_activity 
+SELECT count(*) AS active_connections
+FROM pg_stat_activity
 WHERE state = 'active';
 
 -- 2. Database size
 SELECT pg_database_size('postgres') / (1024 * 1024) AS size_mb;
 
 -- 3. Slow queries (runs > 500ms)
-SELECT query, calls, 
+SELECT query, calls,
        mean_exec_time / 1000 AS mean_seconds,
        max_exec_time / 1000 AS max_seconds,
        rows
@@ -752,14 +756,14 @@ ORDER BY mean_exec_time DESC
 LIMIT 10;
 
 -- 4. Index usage
-SELECT schemaname, tablename, indexname, 
+SELECT schemaname, tablename, indexname,
        idx_scan, idx_tup_read, idx_tup_fetch
 FROM pg_stat_user_indexes
 ORDER BY idx_scan ASC
 LIMIT 10;
 
 -- 5. Table bloat estimate
-SELECT schemaname, tablename, 
+SELECT schemaname, tablename,
        n_live_tup, n_dead_tup,
        round(n_dead_tup * 100.0 / GREATEST(n_live_tup + n_dead_tup, 1), 2) AS bloat_pct
 FROM pg_stat_user_tables
@@ -797,15 +801,15 @@ ORDER BY bloat_pct DESC;
 
 ### 7.4 Database Monitoring Schedule
 
-| Database Check | Frequency | Action on Issue | Owner |
-|---------------|-----------|-----------------|-------|
-| Connection count | Every 5 min | Alert if > 80% | Backend Lead |
-| Storage usage | Every 15 min | Alert if > 80% | DevOps Lead |
-| Query performance | Every 1 hour | Log slow queries, review indexes | Backend Lead |
-| Table bloat | Daily | Schedule VACUUM if > 20% | Backend Lead |
-| Backup verification | Weekly | Verify backup integrity | DevOps Lead |
-| Index usage analysis | Weekly | Drop unused indexes | Backend Lead |
-| Full performance review | Monthly | Review query patterns | Backend Lead |
+| Database Check          | Frequency    | Action on Issue                  | Owner        |
+| ----------------------- | ------------ | -------------------------------- | ------------ |
+| Connection count        | Every 5 min  | Alert if > 80%                   | Backend Lead |
+| Storage usage           | Every 15 min | Alert if > 80%                   | DevOps Lead  |
+| Query performance       | Every 1 hour | Log slow queries, review indexes | Backend Lead |
+| Table bloat             | Daily        | Schedule VACUUM if > 20%         | Backend Lead |
+| Backup verification     | Weekly       | Verify backup integrity          | DevOps Lead  |
+| Index usage analysis    | Weekly       | Drop unused indexes              | Backend Lead |
+| Full performance review | Monthly      | Review query patterns            | Backend Lead |
 
 ---
 
@@ -813,30 +817,30 @@ ORDER BY bloat_pct DESC;
 
 ### 8.1 API Endpoint Monitoring
 
-| Endpoint Group | Method | Monitored Metrics | SLA (p95) | Alert Threshold |
-|---------------|--------|------------------|-----------|-----------------|
-| `/api/v1/sections` | GET | Latency, error rate, cache hit | < 100ms | > 500ms or > 5% errors |
-| `/api/v1/projects` | GET | Latency, error rate | < 100ms | > 500ms or > 5% errors |
-| `/api/v1/skills` | GET | Latency, error rate | < 100ms | > 500ms or > 5% errors |
-| `/api/v1/leads` | POST | Latency, error rate, validation errors | < 500ms | > 1s or > 10% errors |
-| `/api/v1/leads` | GET (admin) | Latency, error rate | < 300ms | > 1s or > 5% errors |
-| `/api/v1/auth/*` | All | Latency, error rate, rate limit hits | < 200ms | > 500ms or > 10% errors |
-| `/api/v1/ai/chat` | POST | Latency, error rate, token count | < 3s | > 5s or > 5% errors |
-| `/api/v1/ai/analyze` | POST | Latency, error rate | < 5s | > 8s or > 5% errors |
-| `/api/health` | GET | Response time, status | < 50ms | > 200ms or non-200 |
-| `/api/webhooks/*` | POST | Latency, error rate, retry count | < 1s | > 2s or > 10% errors |
+| Endpoint Group       | Method      | Monitored Metrics                      | SLA (p95) | Alert Threshold         |
+| -------------------- | ----------- | -------------------------------------- | --------- | ----------------------- |
+| `/api/v1/sections`   | GET         | Latency, error rate, cache hit         | < 100ms   | > 500ms or > 5% errors  |
+| `/api/v1/projects`   | GET         | Latency, error rate                    | < 100ms   | > 500ms or > 5% errors  |
+| `/api/v1/skills`     | GET         | Latency, error rate                    | < 100ms   | > 500ms or > 5% errors  |
+| `/api/v1/leads`      | POST        | Latency, error rate, validation errors | < 500ms   | > 1s or > 10% errors    |
+| `/api/v1/leads`      | GET (admin) | Latency, error rate                    | < 300ms   | > 1s or > 5% errors     |
+| `/api/v1/auth/*`     | All         | Latency, error rate, rate limit hits   | < 200ms   | > 500ms or > 10% errors |
+| `/api/v1/ai/chat`    | POST        | Latency, error rate, token count       | < 3s      | > 5s or > 5% errors     |
+| `/api/v1/ai/analyze` | POST        | Latency, error rate                    | < 5s      | > 8s or > 5% errors     |
+| `/api/health`        | GET         | Response time, status                  | < 50ms    | > 200ms or non-200      |
+| `/api/webhooks/*`    | POST        | Latency, error rate, retry count       | < 1s      | > 2s or > 10% errors    |
 
 ### 8.2 API Error Pattern Monitoring
 
-| Error Pattern | HTTP Status | Root Cause | Monitoring | Auto-Remediation |
-|--------------|-------------|------------|------------|------------------|
-| **Validation errors** | 400 | Malformed input from client | Track by field + error type | Return clear error message |
-| **Auth failures** | 401 | Expired/invalid JWT | Track by token type | Return refresh hint |
-| **Permission denied** | 403 | Insufficient role | Track by endpoint + role | Log to audit |
-| **Not found** | 404 | Invalid resource ID | Track by endpoint | Return standardized error |
-| **Rate limited** | 429 | Too many requests | Track by tier + IP | Return Retry-After header |
-| **Internal errors** | 500 | Server-side exceptions | Track by error group | Alert Sentry immediately |
-| **Service unavailable** | 503 | Dependency failure | Track by dependency | Trigger circuit breaker |
+| Error Pattern           | HTTP Status | Root Cause                  | Monitoring                  | Auto-Remediation           |
+| ----------------------- | ----------- | --------------------------- | --------------------------- | -------------------------- |
+| **Validation errors**   | 400         | Malformed input from client | Track by field + error type | Return clear error message |
+| **Auth failures**       | 401         | Expired/invalid JWT         | Track by token type         | Return refresh hint        |
+| **Permission denied**   | 403         | Insufficient role           | Track by endpoint + role    | Log to audit               |
+| **Not found**           | 404         | Invalid resource ID         | Track by endpoint           | Return standardized error  |
+| **Rate limited**        | 429         | Too many requests           | Track by tier + IP          | Return Retry-After header  |
+| **Internal errors**     | 500         | Server-side exceptions      | Track by error group        | Alert Sentry immediately   |
+| **Service unavailable** | 503         | Dependency failure          | Track by dependency         | Trigger circuit breaker    |
 
 ### 8.3 API Monitoring Code
 
@@ -882,7 +886,7 @@ export class ApiMonitoringInterceptor implements NestInterceptor {
         },
         error: (error) => {
           const duration = Date.now() - start;
-          
+
           // Record failed metric
           this.metricsService.recordApiCall({
             endpoint,
@@ -922,18 +926,18 @@ export class ApiMonitoringInterceptor implements NestInterceptor {
 
 ### 9.1 Security Event Monitoring
 
-| Security Event | Detection Method | Tool | Alert Severity | Response |
-|---------------|-----------------|------|----------------|----------|
-| **Failed login attempts** | Rate limit threshold exceeded | Sentry + Custom DB | 🟡 High | Check for brute force |
-| **Suspicious admin access** | Unusual IP/location | Audit logs | 🟡 High | Verify with admin |
-| **API key leakage** | GitHub secret scanning | GitHub Alerts | 🔴 Critical | Rotate keys immediately |
-| **SQL injection attempt** | WAF rule match | Cloudflare | 🟡 High | Block IP, review logs |
-| **XSS attempt** | WAF rule match + CSP report | Cloudflare + Sentry | 🟡 High | Block IP, sanitize input |
-| **CSRF violation** | CSRF token mismatch | Application logs | 🟢 Medium | Log for investigation |
-| **Rate limit abuse** | Multiple 429 responses | Custom DB | 🟢 Medium | Review patterns |
-| **DDoS attack** | Traffic anomaly | Cloudflare | 🔴 Critical | Enable Under Attack mode |
-| **Prompt injection** | Injection pattern detected | AI sanitization | 🟡 High | Block session, log for review |
-| **Data exfiltration attempt** | Unusual outbound traffic | Cloudflare + Vercel | 🔴 Critical | Block outbound, investigate |
+| Security Event                | Detection Method              | Tool                | Alert Severity | Response                      |
+| ----------------------------- | ----------------------------- | ------------------- | -------------- | ----------------------------- |
+| **Failed login attempts**     | Rate limit threshold exceeded | Sentry + Custom DB  | 🟡 High        | Check for brute force         |
+| **Suspicious admin access**   | Unusual IP/location           | Audit logs          | 🟡 High        | Verify with admin             |
+| **API key leakage**           | GitHub secret scanning        | GitHub Alerts       | 🔴 Critical    | Rotate keys immediately       |
+| **SQL injection attempt**     | WAF rule match                | Cloudflare          | 🟡 High        | Block IP, review logs         |
+| **XSS attempt**               | WAF rule match + CSP report   | Cloudflare + Sentry | 🟡 High        | Block IP, sanitize input      |
+| **CSRF violation**            | CSRF token mismatch           | Application logs    | 🟢 Medium      | Log for investigation         |
+| **Rate limit abuse**          | Multiple 429 responses        | Custom DB           | 🟢 Medium      | Review patterns               |
+| **DDoS attack**               | Traffic anomaly               | Cloudflare          | 🔴 Critical    | Enable Under Attack mode      |
+| **Prompt injection**          | Injection pattern detected    | AI sanitization     | 🟡 High        | Block session, log for review |
+| **Data exfiltration attempt** | Unusual outbound traffic      | Cloudflare + Vercel | 🔴 Critical    | Block outbound, investigate   |
 
 ### 9.2 Security Monitoring Dashboard
 
@@ -973,16 +977,16 @@ export class ApiMonitoringInterceptor implements NestInterceptor {
 
 ### 9.3 Security Alert Rules
 
-| Rule | Metric | Threshold | Window | Severity | Action |
-|------|--------|-----------|--------|----------|--------|
-| Brute force detection | Failed logins per IP | > 5 | 15 min | 🟡 High | Block IP, notify admin |
-| Mass registration | New account attempts | > 10 | 1 hour | 🟡 High | Review source, block if spam |
-| API key usage anomaly | API key calls | > 3x normal | 1 hour | 🟡 High | Check for compromised key |
-| WAF bypass attempts | WAF rule matches | > 5 | 1 hour | 🟡 High | Review WAF rules |
-| CSP violation | CSP report count | > 3 | 1 hour | 🟢 Medium | Review violation source |
-| Data volume anomaly | Outbound data transfer | > 5x normal | 1 hour | 🔴 Critical | Check for exfiltration |
-| Unusual admin access | Admin login from new IP | Any | Instant | 🟡 High | Verify with admin |
-| Dependabot critical | Critical vulnerability | Any | Instant | 🟡 High | Patch immediately |
+| Rule                  | Metric                  | Threshold   | Window  | Severity    | Action                       |
+| --------------------- | ----------------------- | ----------- | ------- | ----------- | ---------------------------- |
+| Brute force detection | Failed logins per IP    | > 5         | 15 min  | 🟡 High     | Block IP, notify admin       |
+| Mass registration     | New account attempts    | > 10        | 1 hour  | 🟡 High     | Review source, block if spam |
+| API key usage anomaly | API key calls           | > 3x normal | 1 hour  | 🟡 High     | Check for compromised key    |
+| WAF bypass attempts   | WAF rule matches        | > 5         | 1 hour  | 🟡 High     | Review WAF rules             |
+| CSP violation         | CSP report count        | > 3         | 1 hour  | 🟢 Medium   | Review violation source      |
+| Data volume anomaly   | Outbound data transfer  | > 5x normal | 1 hour  | 🔴 Critical | Check for exfiltration       |
+| Unusual admin access  | Admin login from new IP | Any         | Instant | 🟡 High     | Verify with admin            |
+| Dependabot critical   | Critical vulnerability  | Any         | Instant | 🟡 High     | Patch immediately            |
 
 ### 9.4 Audit Log Monitoring
 
@@ -1027,30 +1031,30 @@ HAVING COUNT(*) > 50;
 
 ### 10.1 UX Metrics
 
-| Metric | Definition | Target | Tool | Collection Method |
-|--------|-----------|--------|------|-------------------|
-| **Session duration** | Time per session | > 3 min | Umami | Browser RUM |
-| **Bounce rate** | Single-page sessions | < 40% | Umami | Browser RUM |
-| **Pages per session** | Pages viewed per visit | > 3 | Umami | Browser RUM |
-| **Scroll depth** | Average scroll % per page | > 60% | PostHog | Scroll events |
-| **Click heatmap density** | Interaction concentration | Even distribution | PostHog | Click events |
-| **Form abandonment rate** | Started but not submitted | < 40% | PostHog | Form events |
-| **Error experience rate** | Users who encounter errors | < 1% | Sentry | Error events |
-| **AI chat satisfaction** | Post-chat rating (1-5) | > 4.0 | Custom DB | Feedback widget |
-| **Mobile vs Desktop ratio** | Device type distribution | > 30% mobile | Umami | User agent |
-| **Dark mode adoption** | Users using dark mode | > 40% | PostHog | Theme preference |
+| Metric                      | Definition                 | Target            | Tool      | Collection Method |
+| --------------------------- | -------------------------- | ----------------- | --------- | ----------------- |
+| **Session duration**        | Time per session           | > 3 min           | Umami     | Browser RUM       |
+| **Bounce rate**             | Single-page sessions       | < 40%             | Umami     | Browser RUM       |
+| **Pages per session**       | Pages viewed per visit     | > 3               | Umami     | Browser RUM       |
+| **Scroll depth**            | Average scroll % per page  | > 60%             | PostHog   | Scroll events     |
+| **Click heatmap density**   | Interaction concentration  | Even distribution | PostHog   | Click events      |
+| **Form abandonment rate**   | Started but not submitted  | < 40%             | PostHog   | Form events       |
+| **Error experience rate**   | Users who encounter errors | < 1%              | Sentry    | Error events      |
+| **AI chat satisfaction**    | Post-chat rating (1-5)     | > 4.0             | Custom DB | Feedback widget   |
+| **Mobile vs Desktop ratio** | Device type distribution   | > 30% mobile      | Umami     | User agent        |
+| **Dark mode adoption**      | Users using dark mode      | > 40%             | PostHog   | Theme preference  |
 
 ### 10.2 Session Replay Monitoring
 
 PostHog session replays are reviewed regularly:
 
-| Review Type | Frequency | What to Look For | Action Required |
-|-------------|-----------|-----------------|-----------------|
-| **Daily spot check** | Daily | Navigation issues, broken UI, confusing layouts | Fix identified issues |
-| **Weekly funnel review** | Weekly | Where users drop off in conversion funnels | Optimize drop-off pages |
-| **Monthly heatmap review** | Monthly | Which sections get most/least engagement | Content reorganization |
-| **Post-deployment review** | Per deploy | Regressions in user experience | Rollback if critical |
-| **Error replay analysis** | Per error cluster | What caused the error from user perspective | Fix root cause |
+| Review Type                | Frequency         | What to Look For                                | Action Required         |
+| -------------------------- | ----------------- | ----------------------------------------------- | ----------------------- |
+| **Daily spot check**       | Daily             | Navigation issues, broken UI, confusing layouts | Fix identified issues   |
+| **Weekly funnel review**   | Weekly            | Where users drop off in conversion funnels      | Optimize drop-off pages |
+| **Monthly heatmap review** | Monthly           | Which sections get most/least engagement        | Content reorganization  |
+| **Post-deployment review** | Per deploy        | Regressions in user experience                  | Rollback if critical    |
+| **Error replay analysis**  | Per error cluster | What caused the error from user perspective     | Fix root cause          |
 
 ### 10.3 UX Monitoring Dashboard
 
@@ -1088,20 +1092,20 @@ PostHog session replays are reviewed regularly:
 
 ### 11.1 SLO Table
 
-| SLO ID | Service | SLI | Target | Measurement Window | Calculation Method |
-|--------|---------|-----|--------|-------------------|-------------------|
-| **SLO-001** | Frontend Availability | Uptime percentage | 99.9% | Rolling 30 days | (Successful checks / Total checks) × 100 |
-| **SLO-002** | API Availability | Uptime percentage | 99.9% | Rolling 30 days | (Successful health checks / Total checks) × 100 |
-| **SLO-003** | AI Service Availability | Uptime percentage | 99.5% | Rolling 30 days | (Successful health checks / Total checks) × 100 |
-| **SLO-004** | Frontend Performance | Page load (p95) | < 500ms | Rolling 7 days | 95th percentile of page load times |
-| **SLO-005** | API Performance | Response time (p95) | < 300ms | Rolling 7 days | 95th percentile of API response times |
-| **SLO-006** | AI Performance | Chat response (p95) | < 3s | Rolling 7 days | 95th percentile of chat response times |
-| **SLO-007** | Error Rate | Error percentage | < 1% | Rolling 24 hours | (Error requests / Total requests) × 100 |
-| **SLO-008** | Database Performance | Query latency (p95) | < 50ms | Rolling 7 days | 95th percentile of query execution times |
-| **SLO-009** | API Error Rate | API 5xx percentage | < 0.1% | Rolling 24 hours | (5xx responses / Total responses) × 100 |
-| **SLO-010** | AI Cost | Monthly spend | < $10.00 | Rolling 30 days | Sum of all AI costs for the month |
-| **SLO-011** | Lead Response | Time to first reply | < 24 hours | Rolling 30 days | Average time from lead creation to first reply |
-| **SLO-012** | Deployment Success | Build success rate | > 99% | Rolling 30 days | (Successful builds / Total builds) × 100 |
+| SLO ID      | Service                 | SLI                 | Target     | Measurement Window | Calculation Method                              |
+| ----------- | ----------------------- | ------------------- | ---------- | ------------------ | ----------------------------------------------- |
+| **SLO-001** | Frontend Availability   | Uptime percentage   | 99.9%      | Rolling 30 days    | (Successful checks / Total checks) × 100        |
+| **SLO-002** | API Availability        | Uptime percentage   | 99.9%      | Rolling 30 days    | (Successful health checks / Total checks) × 100 |
+| **SLO-003** | AI Service Availability | Uptime percentage   | 99.5%      | Rolling 30 days    | (Successful health checks / Total checks) × 100 |
+| **SLO-004** | Frontend Performance    | Page load (p95)     | < 500ms    | Rolling 7 days     | 95th percentile of page load times              |
+| **SLO-005** | API Performance         | Response time (p95) | < 300ms    | Rolling 7 days     | 95th percentile of API response times           |
+| **SLO-006** | AI Performance          | Chat response (p95) | < 3s       | Rolling 7 days     | 95th percentile of chat response times          |
+| **SLO-007** | Error Rate              | Error percentage    | < 1%       | Rolling 24 hours   | (Error requests / Total requests) × 100         |
+| **SLO-008** | Database Performance    | Query latency (p95) | < 50ms     | Rolling 7 days     | 95th percentile of query execution times        |
+| **SLO-009** | API Error Rate          | API 5xx percentage  | < 0.1%     | Rolling 24 hours   | (5xx responses / Total responses) × 100         |
+| **SLO-010** | AI Cost                 | Monthly spend       | < $10.00   | Rolling 30 days    | Sum of all AI costs for the month               |
+| **SLO-011** | Lead Response           | Time to first reply | < 24 hours | Rolling 30 days    | Average time from lead creation to first reply  |
+| **SLO-012** | Deployment Success      | Build success rate  | > 99%      | Rolling 30 days    | (Successful builds / Total builds) × 100        |
 
 ### 11.2 SLO Status Dashboard
 
@@ -1142,14 +1146,14 @@ def calculate_slo_compliance():
             "measurement_window": "30 days",
         },
         "SLO-002": {
-            "service": "API Availability", 
+            "service": "API Availability",
             "target": 99.9,
             "current": calculate_uptime("api", 30),
             "measurement_window": "30 days",
         },
         # ... all 12 SLOs
     }
-    
+
     # Generate compliance report
     report = {
         "overall_compliance": sum(
@@ -1159,10 +1163,10 @@ def calculate_slo_compliance():
         "errors_budget_consumed": calculate_error_budget_consumption(),
         "generated_at": datetime.utcnow().isoformat(),
     }
-    
+
     # Store in DB for dashboard
     store_slo_report(report)
-    
+
     # Alert if any SLO is at risk
     for slo_id, slo in slos.items():
         remaining_budget = calculate_remaining_budget(slo_id)
@@ -1172,7 +1176,7 @@ def calculate_slo_compliance():
                 "service": slo["service"],
                 "remaining_budget_pct": remaining_budget,
             })
-    
+
     return report
 ```
 
@@ -1182,23 +1186,23 @@ def calculate_slo_compliance():
 
 ### 12.1 SLI Definitions
 
-| SLI ID | Name | Definition | Measurement Method | Data Source | Unit |
-|--------|------|-----------|-------------------|-------------|------|
-| **SLI-001** | Frontend Uptime | % of time frontend is accessible | HTTP health check (200 OK) | Better Uptime | Percentage |
-| **SLI-002** | API Uptime | % of time API responds | GET /health returns 200 | Better Uptime | Percentage |
-| **SLI-003** | AI Uptime | % of time AI service responds | GET /api/health returns healthy | Better Uptime | Percentage |
-| **SLI-004** | Page Load Speed | p95 page load time | Browser RUM | Vercel Analytics | Milliseconds |
-| **SLI-005** | API Response Time | p95 API response time | Server-side timing | Sentry APM | Milliseconds |
-| **SLI-006** | AI Response Time | p95 chat response time | Server-side timing | Custom DB | Milliseconds |
-| **SLI-007** | Request Error Rate | % of requests with 5xx | Error tracking | Sentry | Percentage |
-| **SLI-008** | Database Query Time | p95 query execution time | pg_stat_statements | Custom DB | Milliseconds |
-| **SLI-009** | API Error Rate | % of API responses with 5xx | Status code tracking | Sentry | Percentage |
-| **SLI-010** | AI Cost | Total monthly AI spend | Cost tracking | Custom DB | USD |
-| **SLI-011** | Lead Response Time | Avg time to first reply | Activity tracking | Custom DB | Hours |
-| **SLI-012** | Build Success Rate | % successful builds | CI/CD pipeline | GitHub Actions | Percentage |
-| **SLI-013** | Cache Hit Rate | % CDN cache hits | CDN analytics | Vercel Analytics | Percentage |
-| **SLI-014** | RAG Retrieval Speed | p95 vector search time | Server-side timing | Custom DB | Milliseconds |
-| **SLI-015** | Auth Response Time | p95 auth request time | Server-side timing | Sentry APM | Milliseconds |
+| SLI ID      | Name                | Definition                       | Measurement Method              | Data Source      | Unit         |
+| ----------- | ------------------- | -------------------------------- | ------------------------------- | ---------------- | ------------ |
+| **SLI-001** | Frontend Uptime     | % of time frontend is accessible | HTTP health check (200 OK)      | Better Uptime    | Percentage   |
+| **SLI-002** | API Uptime          | % of time API responds           | GET /health returns 200         | Better Uptime    | Percentage   |
+| **SLI-003** | AI Uptime           | % of time AI service responds    | GET /api/health returns healthy | Better Uptime    | Percentage   |
+| **SLI-004** | Page Load Speed     | p95 page load time               | Browser RUM                     | Vercel Analytics | Milliseconds |
+| **SLI-005** | API Response Time   | p95 API response time            | Server-side timing              | Sentry APM       | Milliseconds |
+| **SLI-006** | AI Response Time    | p95 chat response time           | Server-side timing              | Custom DB        | Milliseconds |
+| **SLI-007** | Request Error Rate  | % of requests with 5xx           | Error tracking                  | Sentry           | Percentage   |
+| **SLI-008** | Database Query Time | p95 query execution time         | pg_stat_statements              | Custom DB        | Milliseconds |
+| **SLI-009** | API Error Rate      | % of API responses with 5xx      | Status code tracking            | Sentry           | Percentage   |
+| **SLI-010** | AI Cost             | Total monthly AI spend           | Cost tracking                   | Custom DB        | USD          |
+| **SLI-011** | Lead Response Time  | Avg time to first reply          | Activity tracking               | Custom DB        | Hours        |
+| **SLI-012** | Build Success Rate  | % successful builds              | CI/CD pipeline                  | GitHub Actions   | Percentage   |
+| **SLI-013** | Cache Hit Rate      | % CDN cache hits                 | CDN analytics                   | Vercel Analytics | Percentage   |
+| **SLI-014** | RAG Retrieval Speed | p95 vector search time           | Server-side timing              | Custom DB        | Milliseconds |
+| **SLI-015** | Auth Response Time  | p95 auth request time            | Server-side timing              | Sentry APM       | Milliseconds |
 
 ### 12.2 SLI Collection Methodology
 
@@ -1208,37 +1212,37 @@ class SLICollector {
   async collectSLIs(): Promise<SLIReport> {
     const slis = {
       // Uptime SLIs (from Better Uptime)
-      "SLI-001": await this.collectFrontendUptime(),
-      "SLI-002": await this.collectAPIUptime(),
-      "SLI-003": await this.collectAIUptime(),
-      
+      'SLI-001': await this.collectFrontendUptime(),
+      'SLI-002': await this.collectAPIUptime(),
+      'SLI-003': await this.collectAIUptime(),
+
       // Performance SLIs
-      "SLI-004": await this.collectPageLoadSpeed(),    // Vercel Analytics API
-      "SLI-005": await this.collectAPIResponseTime(),  // Sentry API
-      "SLI-006": await this.collectAIResponseTime(),   // Custom DB
-      
+      'SLI-004': await this.collectPageLoadSpeed(), // Vercel Analytics API
+      'SLI-005': await this.collectAPIResponseTime(), // Sentry API
+      'SLI-006': await this.collectAIResponseTime(), // Custom DB
+
       // Error SLIs
-      "SLI-007": await this.collectErrorRate(),        // Sentry API
-      "SLI-009": await this.collectAPIErrorRate(),     // Sentry API
-      
+      'SLI-007': await this.collectErrorRate(), // Sentry API
+      'SLI-009': await this.collectAPIErrorRate(), // Sentry API
+
       // Database SLIs
-      "SLI-008": await this.collectDBQueryTime(),      // Custom DB
-      
+      'SLI-008': await this.collectDBQueryTime(), // Custom DB
+
       // Business SLIs
-      "SLI-010": await this.collectAICost(),           // Custom DB
-      "SLI-011": await this.collectLeadResponseTime(), // Custom DB
-      
+      'SLI-010': await this.collectAICost(), // Custom DB
+      'SLI-011': await this.collectLeadResponseTime(), // Custom DB
+
       // DevOps SLIs
-      "SLI-012": await this.collectBuildSuccessRate(), // GitHub API
-      
+      'SLI-012': await this.collectBuildSuccessRate(), // GitHub API
+
       // Infrastructure SLIs
-      "SLI-013": await this.collectCacheHitRate(),     // Vercel API
-      
+      'SLI-013': await this.collectCacheHitRate(), // Vercel API
+
       // AI Specific SLIs
-      "SLI-014": await this.collectRAGSpeed(),         // Custom DB
-      
+      'SLI-014': await this.collectRAGSpeed(), // Custom DB
+
       // Auth SLIs
-      "SLI-015": await this.collectAuthSpeed(),        // Sentry API
+      'SLI-015': await this.collectAuthSpeed(), // Sentry API
     };
 
     return {
@@ -1256,27 +1260,27 @@ class SLICollector {
 
 ### 13.1 Error Budget Calculation
 
-| SLO ID | Service | SLO Target | Error Budget (30 days) | Current Consumption | Remaining |
-|--------|---------|-----------|----------------------|---------------------|-----------|
-| **SLO-001** | Frontend Uptime | 99.9% | 43.2 minutes downtime | 0.6 minutes (1.4%) | 42.6 minutes |
-| **SLO-002** | API Uptime | 99.9% | 43.2 minutes downtime | 2.2 minutes (5.1%) | 41.0 minutes |
-| **SLO-003** | AI Uptime | 99.5% | 216 minutes downtime | 8.6 minutes (4.0%) | 207.4 minutes |
-| **SLO-004** | Frontend Perf | < 500ms | 5% of slow pages | 2.1% (42% used) | 2.9% |
-| **SLO-005** | API Perf | < 300ms | 5% of slow requests | 1.8% (36% used) | 3.2% |
-| **SLO-006** | AI Perf | < 3s | 5% of slow responses | 4.2% (84% used) | 0.8% ⚠️ |
-| **SLO-007** | Error Rate | < 1% | 0.3% of error budget | 0.1% (33% used) | 0.2% |
-| **SLO-009** | API Error Rate | < 0.1% | 0.03% of error budget | 0.008% (26% used) | 0.022% |
-| **SLO-012** | Deploy Success | > 99% | 0.3 failed builds | 0 failures (0% used) | 0.3 builds |
+| SLO ID      | Service         | SLO Target | Error Budget (30 days) | Current Consumption  | Remaining     |
+| ----------- | --------------- | ---------- | ---------------------- | -------------------- | ------------- |
+| **SLO-001** | Frontend Uptime | 99.9%      | 43.2 minutes downtime  | 0.6 minutes (1.4%)   | 42.6 minutes  |
+| **SLO-002** | API Uptime      | 99.9%      | 43.2 minutes downtime  | 2.2 minutes (5.1%)   | 41.0 minutes  |
+| **SLO-003** | AI Uptime       | 99.5%      | 216 minutes downtime   | 8.6 minutes (4.0%)   | 207.4 minutes |
+| **SLO-004** | Frontend Perf   | < 500ms    | 5% of slow pages       | 2.1% (42% used)      | 2.9%          |
+| **SLO-005** | API Perf        | < 300ms    | 5% of slow requests    | 1.8% (36% used)      | 3.2%          |
+| **SLO-006** | AI Perf         | < 3s       | 5% of slow responses   | 4.2% (84% used)      | 0.8% ⚠️       |
+| **SLO-007** | Error Rate      | < 1%       | 0.3% of error budget   | 0.1% (33% used)      | 0.2%          |
+| **SLO-009** | API Error Rate  | < 0.1%     | 0.03% of error budget  | 0.008% (26% used)    | 0.022%        |
+| **SLO-012** | Deploy Success  | > 99%      | 0.3 failed builds      | 0 failures (0% used) | 0.3 builds    |
 
 ### 13.2 Error Budget Policy
 
-| Policy | Rule | Enforcement | Exception Process |
-|--------|------|-------------|-------------------|
-| **Deployment freeze** | If error budget < 20% remaining | Block production deploys except critical fixes | VP Engineering approval |
-| **Accelerated deploys** | If error budget > 80% remaining | Allow multiple deploys per day | Automatic |
-| **SLO breach review** | If SLO target missed for month | Mandatory post-mortem within 1 week | DevOps Lead review |
-| **Budget replenishment** | Resets monthly (first day of month) | Automatic | N/A |
-| **Error budget tracking** | Tracked in SLO dashboard | Real-time visibility | N/A |
+| Policy                    | Rule                                | Enforcement                                    | Exception Process       |
+| ------------------------- | ----------------------------------- | ---------------------------------------------- | ----------------------- |
+| **Deployment freeze**     | If error budget < 20% remaining     | Block production deploys except critical fixes | VP Engineering approval |
+| **Accelerated deploys**   | If error budget > 80% remaining     | Allow multiple deploys per day                 | Automatic               |
+| **SLO breach review**     | If SLO target missed for month      | Mandatory post-mortem within 1 week            | DevOps Lead review      |
+| **Budget replenishment**  | Resets monthly (first day of month) | Automatic                                      | N/A                     |
+| **Error budget tracking** | Tracked in SLO dashboard            | Real-time visibility                           | N/A                     |
 
 ### 13.3 Error Budget Enforcement
 
@@ -1284,24 +1288,24 @@ class SLICollector {
 // Error budget enforcement for CI/CD
 async function checkErrorBudgetBeforeDeploy(): Promise<boolean> {
   const errorBudgets = await getCurrentErrorBudgets();
-  
+
   for (const [slo_id, budget] of Object.entries(errorBudgets)) {
     if (budget.remaining_percentage < 20) {
       logger.warn(
-        `Deploy blocked: ${slo_id} has only ${budget.remaining_percentage}% error budget remaining`
+        `Deploy blocked: ${slo_id} has only ${budget.remaining_percentage}% error budget remaining`,
       );
-      
+
       // Notify team
       await sendTelegramAlert({
-        type: "deploy_blocked",
+        type: 'deploy_blocked',
         slo_id,
         remaining: budget.remaining_percentage,
       });
-      
+
       return false; // Block the deploy
     }
   }
-  
+
   return true; // Allow the deploy
 }
 ```
@@ -1312,37 +1316,37 @@ async function checkErrorBudgetBeforeDeploy(): Promise<boolean> {
 
 ### 14.1 Alert Severity Matrix
 
-| Severity | Definition | Response Time | Notification Channel | Escalation |
-|----------|-----------|---------------|---------------------|------------|
-| **🔴 Critical** | Service down, data loss, security breach | < 15 min | Telegram + SMS + Email | Owner + All team |
-| **🟡 High** | Feature degraded, potential data exposure, high error rate | < 1 hour | Telegram + Email | Owner |
-| **🟢 Medium** | Non-critical feature broken, performance regression | < 1 day | Email + Dashboard | Owner (next business day) |
-| **⚪ Low** | Cosmetic, informational, usage milestone | < 1 week | Dashboard | None |
+| Severity        | Definition                                                 | Response Time | Notification Channel   | Escalation                |
+| --------------- | ---------------------------------------------------------- | ------------- | ---------------------- | ------------------------- |
+| **🔴 Critical** | Service down, data loss, security breach                   | < 15 min      | Telegram + SMS + Email | Owner + All team          |
+| **🟡 High**     | Feature degraded, potential data exposure, high error rate | < 1 hour      | Telegram + Email       | Owner                     |
+| **🟢 Medium**   | Non-critical feature broken, performance regression        | < 1 day       | Email + Dashboard      | Owner (next business day) |
+| **⚪ Low**      | Cosmetic, informational, usage milestone                   | < 1 week      | Dashboard              | None                      |
 
 ### 14.2 Complete Alert Rules Catalog
 
-| Alert ID | Rule Name | SLI/SLO | Threshold | Duration | Severity | Auto-Remediation | Runbook |
-|----------|-----------|---------|-----------|----------|----------|-----------------|---------|
-| **ALR-001** | Frontend Down | SLI-001 | 5xx on health check | 1 min | 🔴 Critical | Auto-restart Vercel | RB-001 |
-| **ALR-002** | API Down | SLI-002 | Non-200 on /health | 1 min | 🔴 Critical | Auto-restart Vercel | RB-002 |
-| **ALR-003** | AI Service Down | SLI-003 | Non-200 on /api/health | 1 min | 🔴 Critical | Trigger fallback model | RB-003 |
-| **ALR-004** | SSL Expiring | — | Certificate < 30 days | Daily check | 🟡 High | Auto-renewal | RB-004 |
-| **ALR-005** | High Error Rate | SLI-007 | Error rate > 5% | 5 min | 🔴 Critical | Investigate Sentry | RB-005 |
-| **ALR-006** | Slow API Response | SLI-005 | p95 > 500ms | 5 min | 🟡 High | Check Sentry traces | RB-006 |
-| **ALR-007** | Slow AI Response | SLI-006 | p95 > 5s | 5 min | 🟡 High | Check model availability | RB-007 |
-| **ALR-008** | Database Connection | SLI-008 | Connections > 80% | Instant | 🟡 High | Kill idle connections | RB-008 |
-| **ALR-009** | Database Storage | — | Storage > 80% | Instant | 🟡 High | Archive old data | RB-009 |
-| **ALR-010** | AI Cost Spike | SLI-010 | Daily cost > $0.50 | Instant | 🟡 High | Check for abuse | RB-010 |
-| **ALR-011** | AI Budget Exceeded | SLI-010 | Monthly cost > $10 | Instant | 🔴 Critical | Disable AI chat | RB-011 |
-| **ALR-012** | Auth Failure Spike | SLI-015 | > 5 failures/15min | Instant | 🟡 High | Check for brute force | RB-012 |
-| **ALR-013** | DDoS Detected | — | Traffic > 5x normal | Instant | 🔴 Critical | Enable Under Attack mode | RB-013 |
-| **ALR-014** | Build Failure | SLI-012 | Build failed | Instant | 🟡 High | Fix build | RB-014 |
-| **ALR-015** | Cache Hit Rate Drop | SLI-013 | Cache hit < 20% | 1 hour | 🟢 Medium | Review cache config | RB-015 |
-| **ALR-016** | RAG Quality Drop | SLI-014 | Avg similarity < 0.6 | 1 hour | 🟡 High | Check knowledge base | RB-016 |
-| **ALR-017** | Rate Limit Spike | — | 429 responses > 100/day | 24h rolling | 🟢 Medium | Review rate limit config | RB-017 |
-| **ALR-018** | Fallback Rate High | — | Fallback > 10% | 1 hour | 🟡 High | Investigate primary model | RB-018 |
-| **ALR-019** | Lead Response SLA | SLI-011 | No reply > 24h | Per lead | 🟢 Medium | Send reminder | RB-019 |
-| **ALR-020** | Pgvector Index Health | — | Index bloat > 20% | Weekly | 🟢 Medium | REINDEX | RB-020 |
+| Alert ID    | Rule Name             | SLI/SLO | Threshold               | Duration    | Severity    | Auto-Remediation          | Runbook |
+| ----------- | --------------------- | ------- | ----------------------- | ----------- | ----------- | ------------------------- | ------- |
+| **ALR-001** | Frontend Down         | SLI-001 | 5xx on health check     | 1 min       | 🔴 Critical | Auto-restart Vercel       | RB-001  |
+| **ALR-002** | API Down              | SLI-002 | Non-200 on /health      | 1 min       | 🔴 Critical | Auto-restart Vercel       | RB-002  |
+| **ALR-003** | AI Service Down       | SLI-003 | Non-200 on /api/health  | 1 min       | 🔴 Critical | Trigger fallback model    | RB-003  |
+| **ALR-004** | SSL Expiring          | —       | Certificate < 30 days   | Daily check | 🟡 High     | Auto-renewal              | RB-004  |
+| **ALR-005** | High Error Rate       | SLI-007 | Error rate > 5%         | 5 min       | 🔴 Critical | Investigate Sentry        | RB-005  |
+| **ALR-006** | Slow API Response     | SLI-005 | p95 > 500ms             | 5 min       | 🟡 High     | Check Sentry traces       | RB-006  |
+| **ALR-007** | Slow AI Response      | SLI-006 | p95 > 5s                | 5 min       | 🟡 High     | Check model availability  | RB-007  |
+| **ALR-008** | Database Connection   | SLI-008 | Connections > 80%       | Instant     | 🟡 High     | Kill idle connections     | RB-008  |
+| **ALR-009** | Database Storage      | —       | Storage > 80%           | Instant     | 🟡 High     | Archive old data          | RB-009  |
+| **ALR-010** | AI Cost Spike         | SLI-010 | Daily cost > $0.50      | Instant     | 🟡 High     | Check for abuse           | RB-010  |
+| **ALR-011** | AI Budget Exceeded    | SLI-010 | Monthly cost > $10      | Instant     | 🔴 Critical | Disable AI chat           | RB-011  |
+| **ALR-012** | Auth Failure Spike    | SLI-015 | > 5 failures/15min      | Instant     | 🟡 High     | Check for brute force     | RB-012  |
+| **ALR-013** | DDoS Detected         | —       | Traffic > 5x normal     | Instant     | 🔴 Critical | Enable Under Attack mode  | RB-013  |
+| **ALR-014** | Build Failure         | SLI-012 | Build failed            | Instant     | 🟡 High     | Fix build                 | RB-014  |
+| **ALR-015** | Cache Hit Rate Drop   | SLI-013 | Cache hit < 20%         | 1 hour      | 🟢 Medium   | Review cache config       | RB-015  |
+| **ALR-016** | RAG Quality Drop      | SLI-014 | Avg similarity < 0.6    | 1 hour      | 🟡 High     | Check knowledge base      | RB-016  |
+| **ALR-017** | Rate Limit Spike      | —       | 429 responses > 100/day | 24h rolling | 🟢 Medium   | Review rate limit config  | RB-017  |
+| **ALR-018** | Fallback Rate High    | —       | Fallback > 10%          | 1 hour      | 🟡 High     | Investigate primary model | RB-018  |
+| **ALR-019** | Lead Response SLA     | SLI-011 | No reply > 24h          | Per lead    | 🟢 Medium   | Send reminder             | RB-019  |
+| **ALR-020** | Pgvector Index Health | —       | Index bloat > 20%       | Weekly      | 🟢 Medium   | REINDEX                   | RB-020  |
 
 ### 14.3 Alert Routing Configuration
 
@@ -1351,54 +1355,54 @@ async function checkErrorBudgetBeforeDeploy(): Promise<boolean> {
 alert_routing:
   telegram:
     enabled: true
-    bot_token: "${TELEGRAM_BOT_TOKEN}"
-    chat_id: "${TELEGRAM_CHAT_ID}"
-    severities: ["critical", "high"]
-    rate_limit: "5 messages per minute"
-  
+    bot_token: '${TELEGRAM_BOT_TOKEN}'
+    chat_id: '${TELEGRAM_CHAT_ID}'
+    severities: ['critical', 'high']
+    rate_limit: '5 messages per minute'
+
   email:
     enabled: true
-    to: "admin@portfolioowner.com"
-    severities: ["critical", "high", "medium"]
-    digest: "daily"  # Non-critical alerts bundled into daily digest
-  
+    to: 'admin@portfolioowner.com'
+    severities: ['critical', 'high', 'medium']
+    digest: 'daily' # Non-critical alerts bundled into daily digest
+
   sms:
     enabled: true
-    to: "+12345678900"
-    severities: ["critical"]
-    provider: "Better Uptime"  # When Better Uptime triggers
-  
+    to: '+12345678900'
+    severities: ['critical']
+    provider: 'Better Uptime' # When Better Uptime triggers
+
   dashboard:
     enabled: true
-    location: "/admin/alerts"
-    severities: ["critical", "high", "medium", "low"]
-    retention: "30 days"
+    location: '/admin/alerts'
+    severities: ['critical', 'high', 'medium', 'low']
+    retention: '30 days'
 ```
 
 ### 14.4 Alert Escalation Matrix
 
-| Alert ID | Alert | First Responder | Response Time | Escalation 1 | Escalation 2 | Final Escalation |
-|----------|-------|----------------|---------------|--------------|--------------|-----------------|
-| ALR-001 | Frontend down | DevOps Lead | 15 min | 30 min: Owner | 1 hr: All team | Vendor support |
-| ALR-002 | API down | Backend Lead | 15 min | 30 min: DevOps | 1 hr: Owner | Vendor support |
-| ALR-003 | AI service down | AI Architect | 15 min | 30 min: DevOps | 1 hr: Owner | Railway support |
-| ALR-004 | SSL expiry | DevOps Lead | 7 days (email) | 1 day (SMS) | — | Certificate issuer |
-| ALR-005 | High error rate | Backend Lead | 30 min | 1 hr: DevOps | 2 hr: Owner | Sentry support |
-| ALR-006 | Slow API response | Backend Lead | 1 hour | 2 hr: DevOps | 4 hr: Owner | — |
-| ALR-007 | Slow AI response | AI Architect | 1 hour | 2 hr: DevOps | 4 hr: Owner | Provider support |
-| ALR-008 | Database connections high | Backend Lead | 30 min | 1 hr: DevOps | 2 hr: Owner | Supabase support |
-| ALR-009 | Database storage high | DevOps Lead | 1 hour | 4 hr: Owner | — | Supabase support |
-| ALR-010 | AI cost spike | Owner | 1 hour | 4 hr: DevOps | — | OpenAI support |
-| ALR-011 | AI budget exceeded | Owner | 15 min | 30 min: DevOps | — | Disable AI chat |
-| ALR-012 | Auth failure spike | Security Lead | 15 min | 30 min: Owner | 1 hr: All team | — |
-| ALR-013 | DDoS detected | Security Lead | 5 min | 15 min: DevOps | 30 min: Owner | Cloudflare support |
-| ALR-014 | Build failure | DevOps Lead | 1 hour | 4 hr: Owner | — | — |
-| ALR-015 | Cache hit rate drop | DevOps Lead | 1 day | — | — | — |
-| ALR-016 | RAG quality drop | AI Architect | 2 hours | 4 hr: DevOps | — | — |
-| ALR-017 | Rate limit spike | DevOps Lead | 1 day | — | — | — |
-| ALR-018 | Model fallback high | AI Architect | 2 hours | 4 hr: DevOps | — | Provider support |
-| ALR-019 | Lead response SLA miss | Owner | 1 hour | 4 hr: Admin | — | — |
-| ALR-020 | Pgvector index bloat | Backend Lead | 1 day | — | — | — |
+| Alert ID | Alert                     | First Responder | Response Time  | Escalation 1   | Escalation 2   | Final Escalation   |
+| -------- | ------------------------- | --------------- | -------------- | -------------- | -------------- | ------------------ |
+| ALR-001  | Frontend down             | DevOps Lead     | 15 min         | 30 min: Owner  | 1 hr: All team | Vendor support     |
+| ALR-002  | API down                  | Backend Lead    | 15 min         | 30 min: DevOps | 1 hr: Owner    | Vendor support     |
+| ALR-003  | AI service down           | AI Architect    | 15 min         | 30 min: DevOps | 1 hr: Owner    | Railway support    |
+| ALR-004  | SSL expiry                | DevOps Lead     | 7 days (email) | 1 day (SMS)    | —              | Certificate issuer |
+| ALR-005  | High error rate           | Backend Lead    | 30 min         | 1 hr: DevOps   | 2 hr: Owner    | Sentry support     |
+| ALR-006  | Slow API response         | Backend Lead    | 1 hour         | 2 hr: DevOps   | 4 hr: Owner    | —                  |
+| ALR-007  | Slow AI response          | AI Architect    | 1 hour         | 2 hr: DevOps   | 4 hr: Owner    | Provider support   |
+| ALR-008  | Database connections high | Backend Lead    | 30 min         | 1 hr: DevOps   | 2 hr: Owner    | Supabase support   |
+| ALR-009  | Database storage high     | DevOps Lead     | 1 hour         | 4 hr: Owner    | —              | Supabase support   |
+| ALR-010  | AI cost spike             | Owner           | 1 hour         | 4 hr: DevOps   | —              | OpenAI support     |
+| ALR-011  | AI budget exceeded        | Owner           | 15 min         | 30 min: DevOps | —              | Disable AI chat    |
+| ALR-012  | Auth failure spike        | Security Lead   | 15 min         | 30 min: Owner  | 1 hr: All team | —                  |
+| ALR-013  | DDoS detected             | Security Lead   | 5 min          | 15 min: DevOps | 30 min: Owner  | Cloudflare support |
+| ALR-014  | Build failure             | DevOps Lead     | 1 hour         | 4 hr: Owner    | —              | —                  |
+| ALR-015  | Cache hit rate drop       | DevOps Lead     | 1 day          | —              | —              | —                  |
+| ALR-016  | RAG quality drop          | AI Architect    | 2 hours        | 4 hr: DevOps   | —              | —                  |
+| ALR-017  | Rate limit spike          | DevOps Lead     | 1 day          | —              | —              | —                  |
+| ALR-018  | Model fallback high       | AI Architect    | 2 hours        | 4 hr: DevOps   | —              | Provider support   |
+| ALR-019  | Lead response SLA miss    | Owner           | 1 hour         | 4 hr: Admin    | —              | —                  |
+| ALR-020  | Pgvector index bloat      | Backend Lead    | 1 day          | —              | —              | —                  |
 
 ---
 
@@ -1406,12 +1410,12 @@ alert_routing:
 
 ### 15.1 Incident Classification
 
-| Tier | Name | Definition | Examples | Response Team |
-|------|------|-----------|----------|--------------|
-| **Tier 1** | Critical Incident | Service unavailable, data loss, security breach | Site down, DB compromised, API key leaked | Full team |
-| **Tier 2** | Major Incident | Feature degradation, performance issue | Slow AI responses, contact form errors | DevOps + relevant lead |
-| **Tier 3** | Minor Incident | Non-critical issue, cosmetic | Dashboard widgets stale, CSP violation | Owner |
-| **Tier 4** | Informational | No user impact | Usage milestone, budget warning | Owner |
+| Tier       | Name              | Definition                                      | Examples                                  | Response Team          |
+| ---------- | ----------------- | ----------------------------------------------- | ----------------------------------------- | ---------------------- |
+| **Tier 1** | Critical Incident | Service unavailable, data loss, security breach | Site down, DB compromised, API key leaked | Full team              |
+| **Tier 2** | Major Incident    | Feature degradation, performance issue          | Slow AI responses, contact form errors    | DevOps + relevant lead |
+| **Tier 3** | Minor Incident    | Non-critical issue, cosmetic                    | Dashboard widgets stale, CSP violation    | Owner                  |
+| **Tier 4** | Informational     | No user impact                                  | Usage milestone, budget warning           | Owner                  |
 
 ### 15.2 Incident Response Lifecycle
 
@@ -1420,16 +1424,16 @@ flowchart TD
     A[🔍 Detection] --> B{Automated or Manual?}
     B -->|Automated| C[Alert Triggered]
     B -->|Manual| D[User/Bot Reports]
-    
+
     C --> E[Triage: 5 min]
     D --> E
-    
+
     E --> F{Severity Assessment}
     F -->|Tier 1 Critical| G[🚨 Incident Declared]
     F -->|Tier 2 Major| H[⚠️ Incident Logged]
     F -->|Tier 3 Minor| I[📝 Task Created]
     F -->|Tier 4 Info| J[📊 Noted for Review]
-    
+
     G --> K[Assign Incident Owner]
     K --> L[Create Incident Channel]
     L --> M[Begin Mitigation]
@@ -1438,25 +1442,25 @@ flowchart TD
     N -->|No| P[Escalate]
     P --> Q[Re-assess Strategy]
     Q --> M
-    
+
     O --> R[Verify Resolution]
     R --> S{Resolved?}
     S -->|Yes| T[✅ Incident Closed]
     S -->|No| M
-    
+
     T --> U[Post-Mortem: 1 Week]
     U --> V[Document Root Cause]
     V --> W[Define Prevention]
     W --> X[Update Runbooks]
     X --> Y[Share Learnings]
-    
+
     H --> Z[Assign Owner]
     Z --> AA[Fix within SLA]
     AA --> T
-    
+
     I --> AB[Add to Backlog]
     AB --> T
-    
+
     J --> AC[Review in Weekly]
     AC --> T
 ```
@@ -1519,6 +1523,7 @@ PHASE 5: POST-MORTEM (within 1 week)
 # Incident Report: [INCIDENT TITLE]
 
 ## Summary
+
 - **Incident ID:** INC-{YYYY}-{NNN}
 - **Severity:** Tier {1-4}
 - **Detected:** {timestamp}
@@ -1527,36 +1532,43 @@ PHASE 5: POST-MORTEM (within 1 week)
 - **Impact:** {services affected, users affected, data affected}
 
 ## Timeline
-| Time (UTC) | Event |
-|------------|-------|
-| HH:MM | Detection: {how it was detected} |
-| HH:MM | Triage: {severity assessment} |
-| HH:MM | Containment: {action taken} |
-| HH:MM | Mitigation: {fix applied} |
-| HH:MM | Resolution: {verified fixed} |
-| HH:MM | Monitoring: {observation period} |
+
+| Time (UTC) | Event                            |
+| ---------- | -------------------------------- |
+| HH:MM      | Detection: {how it was detected} |
+| HH:MM      | Triage: {severity assessment}    |
+| HH:MM      | Containment: {action taken}      |
+| HH:MM      | Mitigation: {fix applied}        |
+| HH:MM      | Resolution: {verified fixed}     |
+| HH:MM      | Monitoring: {observation period} |
 
 ## Root Cause
+
 {detailed explanation of root cause}
 
 ## Contributing Factors
+
 - Factor 1: {description}
 - Factor 2: {description}
 
 ## Corrective Actions
-| Action | Owner | Deadline | Status |
-|--------|-------|----------|--------|
-| {action} | {owner} | {date} | {status} |
+
+| Action   | Owner   | Deadline | Status   |
+| -------- | ------- | -------- | -------- |
+| {action} | {owner} | {date}   | {status} |
 
 ## Lessons Learned
+
 - Lesson 1: {what we learned}
 - Lesson 2: {what we learned}
 
 ## Prevention
+
 - {how we will prevent recurrence}
 - {monitoring/alerting improvements}
 
 ## Attachments
+
 - {link to Sentry issue}
 - {link to deployment}
 - {link to related PRs}
@@ -1568,28 +1580,28 @@ PHASE 5: POST-MORTEM (within 1 week)
 
 ### 16.1 Runbook Index
 
-| Runbook ID | Title | Trigger | Estimated RTO | Complexity | Last Tested |
-|-----------|-------|---------|---------------|------------|-------------|
-| **RB-001** | Frontend Service Recovery | Frontend down or returning 5xx | < 10 min | 🟢 Low | Monthly |
-| **RB-002** | API Service Recovery | API down or returning 5xx | < 10 min | 🟢 Low | Monthly |
-| **RB-003** | AI Service Recovery | AI service unhealthy | < 15 min | 🟡 Medium | Monthly |
-| **RB-004** | SSL Certificate Renewal | Certificate expiring < 30 days | < 1 hour | 🟢 Low | Quarterly |
-| **RB-005** | High Error Rate Investigation | Error rate > 5% | < 1 hour | 🟡 Medium | Monthly |
-| **RB-006** | API Performance Degradation | p95 response > 500ms | < 2 hours | 🟡 Medium | Quarterly |
-| **RB-007** | AI Performance Degradation | p95 chat > 5s | < 1 hour | 🟡 Medium | Monthly |
-| **RB-008** | Database Connection Exhaustion | Connections > 80% | < 30 min | 🟡 Medium | Quarterly |
-| **RB-009** | Database Storage Full | Storage > 90% | < 1 hour | 🟢 Low | Quarterly |
-| **RB-010** | AI Cost Spike Response | Daily cost > $0.50 | < 1 hour | 🟢 Low | Monthly |
-| **RB-011** | AI Budget Exceeded | Monthly cost > $10 | < 15 min | 🟢 Low | Monthly |
-| **RB-012** | Brute Force Attack Response | > 5 failed logins/15min | < 30 min | 🟡 Medium | Quarterly |
-| **RB-013** | DDoS Mitigation | Traffic anomaly detected | < 5 min | 🟡 Medium | Quarterly |
-| **RB-014** | Build Failure Recovery | CI/CD pipeline failed | < 1 hour | 🟡 Medium | Per incident |
-| **RB-015** | Cache Miss Rate High | Cache hit < 20% | < 2 hours | 🟢 Low | Quarterly |
-| **RB-016** | RAG Quality Degradation | Avg similarity < 0.6 | < 2 hours | 🟡 Medium | Quarterly |
-| **RB-017** | Rate Limit Abuse Response | 429 responses spike | < 1 hour | 🟢 Low | Quarterly |
-| **RB-018** | Model Fallback Spike | Fallback > 10% | < 1 hour | 🟢 Low | Monthly |
-| **RB-019** | Lead Response SLA Miss | No reply > 24h | Immediate | 🟢 Low | Weekly |
-| **RB-020** | Database Backup Restore | Data loss or corruption | < 4 hours | 🔴 High | Quarterly |
+| Runbook ID | Title                          | Trigger                        | Estimated RTO | Complexity | Last Tested  |
+| ---------- | ------------------------------ | ------------------------------ | ------------- | ---------- | ------------ |
+| **RB-001** | Frontend Service Recovery      | Frontend down or returning 5xx | < 10 min      | 🟢 Low     | Monthly      |
+| **RB-002** | API Service Recovery           | API down or returning 5xx      | < 10 min      | 🟢 Low     | Monthly      |
+| **RB-003** | AI Service Recovery            | AI service unhealthy           | < 15 min      | 🟡 Medium  | Monthly      |
+| **RB-004** | SSL Certificate Renewal        | Certificate expiring < 30 days | < 1 hour      | 🟢 Low     | Quarterly    |
+| **RB-005** | High Error Rate Investigation  | Error rate > 5%                | < 1 hour      | 🟡 Medium  | Monthly      |
+| **RB-006** | API Performance Degradation    | p95 response > 500ms           | < 2 hours     | 🟡 Medium  | Quarterly    |
+| **RB-007** | AI Performance Degradation     | p95 chat > 5s                  | < 1 hour      | 🟡 Medium  | Monthly      |
+| **RB-008** | Database Connection Exhaustion | Connections > 80%              | < 30 min      | 🟡 Medium  | Quarterly    |
+| **RB-009** | Database Storage Full          | Storage > 90%                  | < 1 hour      | 🟢 Low     | Quarterly    |
+| **RB-010** | AI Cost Spike Response         | Daily cost > $0.50             | < 1 hour      | 🟢 Low     | Monthly      |
+| **RB-011** | AI Budget Exceeded             | Monthly cost > $10             | < 15 min      | 🟢 Low     | Monthly      |
+| **RB-012** | Brute Force Attack Response    | > 5 failed logins/15min        | < 30 min      | 🟡 Medium  | Quarterly    |
+| **RB-013** | DDoS Mitigation                | Traffic anomaly detected       | < 5 min       | 🟡 Medium  | Quarterly    |
+| **RB-014** | Build Failure Recovery         | CI/CD pipeline failed          | < 1 hour      | 🟡 Medium  | Per incident |
+| **RB-015** | Cache Miss Rate High           | Cache hit < 20%                | < 2 hours     | 🟢 Low     | Quarterly    |
+| **RB-016** | RAG Quality Degradation        | Avg similarity < 0.6           | < 2 hours     | 🟡 Medium  | Quarterly    |
+| **RB-017** | Rate Limit Abuse Response      | 429 responses spike            | < 1 hour      | 🟢 Low     | Quarterly    |
+| **RB-018** | Model Fallback Spike           | Fallback > 10%                 | < 1 hour      | 🟢 Low     | Monthly      |
+| **RB-019** | Lead Response SLA Miss         | No reply > 24h                 | Immediate     | 🟢 Low     | Weekly       |
+| **RB-020** | Database Backup Restore        | Data loss or corruption        | < 4 hours     | 🔴 High    | Quarterly    |
 
 ### 16.2 Key Runbooks
 
@@ -1763,7 +1775,7 @@ STEP 2: KILL IDLE CONNECTIONS (2 minutes)
       FROM pg_stat_activity
       WHERE state = 'idle'
       AND pid <> pg_backend_pid();
-  
+
   □ Kill long-running queries (> 5 minutes):
     → SELECT pg_terminate_backend(pid)
       FROM pg_stat_activity
@@ -1923,59 +1935,59 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 ### 17.1 Monitoring Governance Framework
 
-| Governance Area | Policy | Owner | Review Cadence |
-|----------------|--------|-------|----------------|
-| **Alert Rule Review** | All alert rules reviewed quarterly for relevance and thresholds | DevOps Lead | Quarterly |
-| **SLO Target Review** | SLO targets reviewed annually against actual performance | DevOps Lead | Annually |
-| **Runbook Testing** | Critical runbooks tested monthly; all runbooks tested quarterly | DevOps Lead | Monthly/Quarterly |
-| **Monitoring Coverage** | All services and endpoints must have monitoring; new services added within 1 week of deployment | Architecture Lead | Per deploy |
-| **Dashboard Ownership** | Each dashboard has an owner who reviews it at least weekly | Per dashboard | Weekly |
-| **Incident Post-Mortem** | All Tier 1 and Tier 2 incidents require post-mortem within 1 week | Incident Owner | Per incident |
-| **Monitoring Tool Evaluation** | Annual evaluation of monitoring tools against requirements | DevOps Lead | Annually |
-| **On-Call Rotation** | Documented on-call schedule with clear escalation paths | DevOps Lead | Monthly |
+| Governance Area                | Policy                                                                                          | Owner             | Review Cadence    |
+| ------------------------------ | ----------------------------------------------------------------------------------------------- | ----------------- | ----------------- |
+| **Alert Rule Review**          | All alert rules reviewed quarterly for relevance and thresholds                                 | DevOps Lead       | Quarterly         |
+| **SLO Target Review**          | SLO targets reviewed annually against actual performance                                        | DevOps Lead       | Annually          |
+| **Runbook Testing**            | Critical runbooks tested monthly; all runbooks tested quarterly                                 | DevOps Lead       | Monthly/Quarterly |
+| **Monitoring Coverage**        | All services and endpoints must have monitoring; new services added within 1 week of deployment | Architecture Lead | Per deploy        |
+| **Dashboard Ownership**        | Each dashboard has an owner who reviews it at least weekly                                      | Per dashboard     | Weekly            |
+| **Incident Post-Mortem**       | All Tier 1 and Tier 2 incidents require post-mortem within 1 week                               | Incident Owner    | Per incident      |
+| **Monitoring Tool Evaluation** | Annual evaluation of monitoring tools against requirements                                      | DevOps Lead       | Annually          |
+| **On-Call Rotation**           | Documented on-call schedule with clear escalation paths                                         | DevOps Lead       | Monthly           |
 
 ### 17.2 Compliance Mapping
 
-| Standard / Regulation | Monitoring Requirement | Implementation | Evidence |
-|----------------------|----------------------|----------------|----------|
-| **SOC 2 (Security)** | Continuous security monitoring | Sentry + Audit logs + Cloudflare WAF | Security dashboard |
-| **SOC 2 (Availability)** | Uptime monitoring with alerting | Better Uptime + SLO tracking | Uptime dashboard |
-| **SOC 2 (Confidentiality)** | Access monitoring and audit trails | Audit logs + Admin activity interceptor | Audit log queries |
-| **GDPR Art. 5** | Data minimization in monitoring | No PII in Sentry/PostHog events | Sentry beforeSend config |
-| **GDPR Art. 32** | Security of processing | Real-time security monitoring + incident response | Incident reports |
-| **OWASP Top 10:2025** | Security monitoring coverage | WAF monitoring, CSP violation reports, audit logs | Security compliance dashboard |
-| **WCAG 2.2 AA** | Accessibility monitoring | axe-core scans in CI, manual reviews | Accessibility reports |
+| Standard / Regulation       | Monitoring Requirement             | Implementation                                    | Evidence                      |
+| --------------------------- | ---------------------------------- | ------------------------------------------------- | ----------------------------- |
+| **SOC 2 (Security)**        | Continuous security monitoring     | Sentry + Audit logs + Cloudflare WAF              | Security dashboard            |
+| **SOC 2 (Availability)**    | Uptime monitoring with alerting    | Better Uptime + SLO tracking                      | Uptime dashboard              |
+| **SOC 2 (Confidentiality)** | Access monitoring and audit trails | Audit logs + Admin activity interceptor           | Audit log queries             |
+| **GDPR Art. 5**             | Data minimization in monitoring    | No PII in Sentry/PostHog events                   | Sentry beforeSend config      |
+| **GDPR Art. 32**            | Security of processing             | Real-time security monitoring + incident response | Incident reports              |
+| **OWASP Top 10:2025**       | Security monitoring coverage       | WAF monitoring, CSP violation reports, audit logs | Security compliance dashboard |
+| **WCAG 2.2 AA**             | Accessibility monitoring           | axe-core scans in CI, manual reviews              | Accessibility reports         |
 
 ### 17.3 Monitoring Maturity Model
 
-| Level | Name | Characteristics | Current State | Target |
-|-------|------|----------------|---------------|--------|
-| **Level 1** | Reactive | Manual monitoring, no alerting, firefighting mode | — | — |
-| **Level 2** | Basic | Automated checks on critical services, email alerts | ✅ Current | — |
-| **Level 3** | Standard | All services monitored, defined SLOs, dashboard visibility | 🎯 Target | Q3 2026 |
-| **Level 4** | Proactive | Error budgets, predictive alerting, automated remediation | 📋 Planned | Q1 2027 |
-| **Level 5** | Autonomous | Self-healing systems, ML-based anomaly detection | 🔮 Vision | 2028 |
+| Level       | Name       | Characteristics                                            | Current State | Target  |
+| ----------- | ---------- | ---------------------------------------------------------- | ------------- | ------- |
+| **Level 1** | Reactive   | Manual monitoring, no alerting, firefighting mode          | —             | —       |
+| **Level 2** | Basic      | Automated checks on critical services, email alerts        | ✅ Current    | —       |
+| **Level 3** | Standard   | All services monitored, defined SLOs, dashboard visibility | 🎯 Target     | Q3 2026 |
+| **Level 4** | Proactive  | Error budgets, predictive alerting, automated remediation  | 📋 Planned    | Q1 2027 |
+| **Level 5** | Autonomous | Self-healing systems, ML-based anomaly detection           | 🔮 Vision     | 2028    |
 
 ### 17.4 Monitoring Review Cadence
 
-| Review Type | Frequency | Participants | Artifacts |
-|-------------|-----------|--------------|-----------|
-| **Daily monitoring check** | Daily | DevOps Lead | Brief dashboard review |
-| **Weekly SLO review** | Weekly | DevOps Lead + Team Leads | SLO compliance report |
-| **Monthly incident review** | Monthly | Full team | Incident trends, top issues |
-| **Quarterly runbook test** | Quarterly | DevOps Lead | Runbook test results |
-| **Quarterly alert audit** | Quarterly | DevOps Lead | Alert rule inventory, stale rule cleanup |
-| **Annual tool evaluation** | Annually | Architecture + DevOps Lead | Tool evaluation report |
-| **Post-incident review** | Per incident | Incident team | Post-mortem document |
+| Review Type                 | Frequency    | Participants               | Artifacts                                |
+| --------------------------- | ------------ | -------------------------- | ---------------------------------------- |
+| **Daily monitoring check**  | Daily        | DevOps Lead                | Brief dashboard review                   |
+| **Weekly SLO review**       | Weekly       | DevOps Lead + Team Leads   | SLO compliance report                    |
+| **Monthly incident review** | Monthly      | Full team                  | Incident trends, top issues              |
+| **Quarterly runbook test**  | Quarterly    | DevOps Lead                | Runbook test results                     |
+| **Quarterly alert audit**   | Quarterly    | DevOps Lead                | Alert rule inventory, stale rule cleanup |
+| **Annual tool evaluation**  | Annually     | Architecture + DevOps Lead | Tool evaluation report                   |
+| **Post-incident review**    | Per incident | Incident team              | Post-mortem document                     |
 
 ### 17.5 On-Call Responsibilities
 
-| Role | Responsibility | Coverage | Response Time SLA |
-|------|---------------|----------|-------------------|
-| **Primary on-call** | First responder for all alerts | 24/7 | 15 min (critical), 1 hour (high) |
-| **Secondary on-call** | Backup for primary; handles escalations | 24/7 | 30 min (critical), 2 hours (high) |
-| **DevOps Lead** | Final escalation point; runbook ownership | Business hours | 1 hour (critical) |
-| **Architecture Lead** | System-level decisions during incidents | On-call rotation | 1 hour (critical) |
+| Role                  | Responsibility                            | Coverage         | Response Time SLA                 |
+| --------------------- | ----------------------------------------- | ---------------- | --------------------------------- |
+| **Primary on-call**   | First responder for all alerts            | 24/7             | 15 min (critical), 1 hour (high)  |
+| **Secondary on-call** | Backup for primary; handles escalations   | 24/7             | 30 min (critical), 2 hours (high) |
+| **DevOps Lead**       | Final escalation point; runbook ownership | Business hours   | 1 hour (critical)                 |
+| **Architecture Lead** | System-level decisions during incidents   | On-call rotation | 1 hour (critical)                 |
 
 ---
 
@@ -1983,16 +1995,16 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 ### 18.1 Dashboard Inventory
 
-| Dashboard | Location | Owner | Refresh Rate | Purpose |
-|-----------|----------|-------|-------------|---------|
-| **Infrastructure Health** | `/admin/monitoring/infrastructure` | DevOps Lead | 30s | Service uptime, resource usage |
-| **Performance** | `/admin/monitoring/performance` | Frontend Lead | 1 min | CWV, API latency, bundle sizes |
-| **AI Monitoring** | `/admin/monitoring/ai` | AI Architect | 1 min | Chat metrics, costs, RAG quality |
-| **Database** | `/admin/monitoring/database` | Backend Lead | 5 min | Connections, storage, query perf |
-| **Security** | `/admin/monitoring/security` | Security Lead | Real-time | Auth failures, WAF events, audit |
-| **User Experience** | `/admin/monitoring/ux` | Product Owner | 5 min | Session replays, heatmaps, funnels |
-| **SLO Dashboard** | `/admin/monitoring/slos` | DevOps Lead | 1 hour | SLO compliance, error budgets |
-| **Alert History** | `/admin/monitoring/alerts` | DevOps Lead | Real-time | Alert timeline, resolved incidents |
+| Dashboard                 | Location                           | Owner         | Refresh Rate | Purpose                            |
+| ------------------------- | ---------------------------------- | ------------- | ------------ | ---------------------------------- |
+| **Infrastructure Health** | `/admin/monitoring/infrastructure` | DevOps Lead   | 30s          | Service uptime, resource usage     |
+| **Performance**           | `/admin/monitoring/performance`    | Frontend Lead | 1 min        | CWV, API latency, bundle sizes     |
+| **AI Monitoring**         | `/admin/monitoring/ai`             | AI Architect  | 1 min        | Chat metrics, costs, RAG quality   |
+| **Database**              | `/admin/monitoring/database`       | Backend Lead  | 5 min        | Connections, storage, query perf   |
+| **Security**              | `/admin/monitoring/security`       | Security Lead | Real-time    | Auth failures, WAF events, audit   |
+| **User Experience**       | `/admin/monitoring/ux`             | Product Owner | 5 min        | Session replays, heatmaps, funnels |
+| **SLO Dashboard**         | `/admin/monitoring/slos`           | DevOps Lead   | 1 hour       | SLO compliance, error budgets      |
+| **Alert History**         | `/admin/monitoring/alerts`         | DevOps Lead   | Real-time    | Alert timeline, resolved incidents |
 
 ### 18.2 Main Monitoring Dashboard
 
@@ -2028,90 +2040,89 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 ## Decision Log
 
-| Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
-|-------------|------|----------|-----------|------------------------|---------|
-| DEC-MON-001 | Jun 2026 | Use Sentry as primary APM and error tracker | Deep integration with Next.js, NestJS, FastAPI; free tier covers 5K events | Datadog (cost), New Relic (cost), Grafana (setup overhead) | Adopted — 25% frontend / 10% backend sampling |
-| DEC-MON-002 | Jun 2026 | Better Uptime for external monitoring | Free 5-min checks, Telegram integration, status page | Pingdom (cost), UptimeRobot (limited features) | Adopted — 3 monitors with 1-5 min intervals |
-| DEC-MON-003 | Jun 2026 | 4-tier severity matrix (Critical/High/Medium/Low) with 15-min Critical response SLA | Proportional response to impact; prevents alert fatigue | 3-tier (too coarse), 5-tier (too granular) | Adopted — 20 alert rules mapped to tiers |
-| DEC-MON-004 | Jun 2026 | Error budget system with deployment freeze at 20% remaining | Governs deployment velocity based on reliability; aligns dev and ops | Manual approval gates (slower), no freeze (risky) | Adopted — automated CI gate |
-| DEC-MON-005 | Jun 2026 | 12 SLOs covering all critical services + 15 SLIs | Comprehensive coverage; measurable reliability targets | Single SLO (insufficient), per-endpoint SLOs (too complex) | Implemented — monthly review cadence |
-| DEC-MON-006 | Jun 2026 | Custom DB for application-specific metrics (AI costs, RAG quality) | Free-tier friendly; full control over schema and retention | Prometheus (infra overhead), Grafana Cloud (cost) | Adopted — Supabase-based metrics store |
+| Decision ID | Date     | Decision                                                                            | Rationale                                                                  | Alternatives Considered                                    | Outcome                                       |
+| ----------- | -------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------- |
+| DEC-MON-001 | Jun 2026 | Use Sentry as primary APM and error tracker                                         | Deep integration with Next.js, NestJS, FastAPI; free tier covers 5K events | Datadog (cost), New Relic (cost), Grafana (setup overhead) | Adopted — 25% frontend / 10% backend sampling |
+| DEC-MON-002 | Jun 2026 | Better Uptime for external monitoring                                               | Free 5-min checks, Telegram integration, status page                       | Pingdom (cost), UptimeRobot (limited features)             | Adopted — 3 monitors with 1-5 min intervals   |
+| DEC-MON-003 | Jun 2026 | 4-tier severity matrix (Critical/High/Medium/Low) with 15-min Critical response SLA | Proportional response to impact; prevents alert fatigue                    | 3-tier (too coarse), 5-tier (too granular)                 | Adopted — 20 alert rules mapped to tiers      |
+| DEC-MON-004 | Jun 2026 | Error budget system with deployment freeze at 20% remaining                         | Governs deployment velocity based on reliability; aligns dev and ops       | Manual approval gates (slower), no freeze (risky)          | Adopted — automated CI gate                   |
+| DEC-MON-005 | Jun 2026 | 12 SLOs covering all critical services + 15 SLIs                                    | Comprehensive coverage; measurable reliability targets                     | Single SLO (insufficient), per-endpoint SLOs (too complex) | Implemented — monthly review cadence          |
+| DEC-MON-006 | Jun 2026 | Custom DB for application-specific metrics (AI costs, RAG quality)                  | Free-tier friendly; full control over schema and retention                 | Prometheus (infra overhead), Grafana Cloud (cost)          | Adopted — Supabase-based metrics store        |
 
 ## Risk Register
 
-| Risk ID | Description | Probability | Impact | Severity | Mitigation | Owner |
-|---------|-------------|-------------|--------|----------|------------|-------|
-| RSK-MON-001 | Sentry free tier (5K events/mo) exceeded during traffic spikes | Medium | Medium | Amber | Sampling rates (25% frontend, 10% backend); filter health check noise; monthly usage review | DevOps Lead |
-| RSK-MON-002 | Alert fatigue from noisy or misconfigured alert rules | Medium | High | Amber | Annual alert audit; severity-based routing; cooldown and deduplication | DevOps Lead |
-| RSK-MON-003 | Runbook becomes stale or untested, delaying incident response | Medium | High | Amber | Monthly critical runbook testing; quarterly full runbook audit; per-incident updates | DevOps Lead |
-| RSK-MON-004 | SLO breach goes undetected due to monitoring blind spot | Low | Critical | Red | Quarterly monitoring coverage review; post-incident coverage gap analysis | Architecture Lead |
-| RSK-MON-005 | Database monitoring queries impact production performance | Low | Medium | Green | Run monitoring queries on read replica; limit to 5-min intervals; use pg_stat_* views | Backend Lead |
+| Risk ID     | Description                                                    | Probability | Impact   | Severity | Mitigation                                                                                  | Owner             |
+| ----------- | -------------------------------------------------------------- | ----------- | -------- | -------- | ------------------------------------------------------------------------------------------- | ----------------- |
+| RSK-MON-001 | Sentry free tier (5K events/mo) exceeded during traffic spikes | Medium      | Medium   | Amber    | Sampling rates (25% frontend, 10% backend); filter health check noise; monthly usage review | DevOps Lead       |
+| RSK-MON-002 | Alert fatigue from noisy or misconfigured alert rules          | Medium      | High     | Amber    | Annual alert audit; severity-based routing; cooldown and deduplication                      | DevOps Lead       |
+| RSK-MON-003 | Runbook becomes stale or untested, delaying incident response  | Medium      | High     | Amber    | Monthly critical runbook testing; quarterly full runbook audit; per-incident updates        | DevOps Lead       |
+| RSK-MON-004 | SLO breach goes undetected due to monitoring blind spot        | Low         | Critical | Red      | Quarterly monitoring coverage review; post-incident coverage gap analysis                   | Architecture Lead |
+| RSK-MON-005 | Database monitoring queries impact production performance      | Low         | Medium   | Green    | Run monitoring queries on read replica; limit to 5-min intervals; use pg*stat*\* views      | Backend Lead      |
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **APM** | Application Performance Monitoring — tracking response times, error rates, and throughput |
-| **Error Budget** | The allowable amount of downtime or errors within an SLO period (100% - SLO target) |
-| **MTTR** | Mean Time to Resolve — average time from incident detection to resolution |
-| **P95** | 95th percentile — the value below which 95% of observations fall |
-| **Runbook** | A documented procedure for handling a specific incident or operational task |
-| **SLO** | Service Level Objective — a target reliability level for a service (e.g., 99.9% uptime) |
-| **SLI** | Service Level Indicator — a measured metric that feeds into an SLO calculation |
-| **Sentry** | An open-source error tracking and performance monitoring platform |
-| **Synthetic Monitoring** | Automated external checks that simulate user requests to verify service availability |
-| **TTFB** | Time to First Byte — the time between a request and the first byte of the response |
-| **Uptime** | The percentage of time a service is accessible and responding correctly |
-| **WAF** | Web Application Firewall — filters and monitors HTTP traffic between a web app and the Internet |
+| Term                     | Definition                                                                                      |
+| ------------------------ | ----------------------------------------------------------------------------------------------- |
+| **APM**                  | Application Performance Monitoring — tracking response times, error rates, and throughput       |
+| **Error Budget**         | The allowable amount of downtime or errors within an SLO period (100% - SLO target)             |
+| **MTTR**                 | Mean Time to Resolve — average time from incident detection to resolution                       |
+| **P95**                  | 95th percentile — the value below which 95% of observations fall                                |
+| **Runbook**              | A documented procedure for handling a specific incident or operational task                     |
+| **SLO**                  | Service Level Objective — a target reliability level for a service (e.g., 99.9% uptime)         |
+| **SLI**                  | Service Level Indicator — a measured metric that feeds into an SLO calculation                  |
+| **Sentry**               | An open-source error tracking and performance monitoring platform                               |
+| **Synthetic Monitoring** | Automated external checks that simulate user requests to verify service availability            |
+| **TTFB**                 | Time to First Byte — the time between a request and the first byte of the response              |
+| **Uptime**               | The percentage of time a service is accessible and responding correctly                         |
+| **WAF**                  | Web Application Firewall — filters and monitors HTTP traffic between a web app and the Internet |
 
 ---
 
 ## 19. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | **Complete Enterprise-Grade Rewrite**: Upgraded from minimal v3.0 to comprehensive enterprise monitoring architecture with 19 major sections. Added: Full Monitoring Architecture (2 Mermaid diagrams — high-level architecture + data flow, ownership model), 8 monitoring domains (Application, Infrastructure, Performance, AI, Database, API, Security, UX) each with: what-we-monitor tables, implementation code, and dashboards. Added 12 SLOs with compliance dashboard, 15 SLIs with collection methodology, error budgets with policy enforcement. Added 20 alert rules with severity matrix, routing config, and escalation matrix. Complete incident management lifecycle with response runbook and post-mortem template. 20 runbooks (RB-001 through RB-020) with full procedures. Disaster recovery and backup/restore procedures. Enterprise governance framework with maturity model, on-call responsibilities, compliance mapping (SOC 2, GDPR, OWASP), and review cadence. Dashboard inventory with 8 specialized dashboards. | DevOps Lead / SRE |
-| 3.0 | Jun 2026 | Added executive summary, alert escalation matrix (7 alerts), change log | DevOps Lead |
-| 2.0 | Jun 2026 | Updated for enterprise structure; added Mermaid diagrams, runbook | DevOps Lead |
-| 1.0 | Mar 2026 | Initial monitoring documentation | DevOps Lead |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Author            |
+| ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| 4.0     | Jun 2026 | **Complete Enterprise-Grade Rewrite**: Upgraded from minimal v3.0 to comprehensive enterprise monitoring architecture with 19 major sections. Added: Full Monitoring Architecture (2 Mermaid diagrams — high-level architecture + data flow, ownership model), 8 monitoring domains (Application, Infrastructure, Performance, AI, Database, API, Security, UX) each with: what-we-monitor tables, implementation code, and dashboards. Added 12 SLOs with compliance dashboard, 15 SLIs with collection methodology, error budgets with policy enforcement. Added 20 alert rules with severity matrix, routing config, and escalation matrix. Complete incident management lifecycle with response runbook and post-mortem template. 20 runbooks (RB-001 through RB-020) with full procedures. Disaster recovery and backup/restore procedures. Enterprise governance framework with maturity model, on-call responsibilities, compliance mapping (SOC 2, GDPR, OWASP), and review cadence. Dashboard inventory with 8 specialized dashboards. | DevOps Lead / SRE |
+| 3.0     | Jun 2026 | Added executive summary, alert escalation matrix (7 alerts), change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | DevOps Lead       |
+| 2.0     | Jun 2026 | Updated for enterprise structure; added Mermaid diagrams, runbook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | DevOps Lead       |
+| 1.0     | Mar 2026 | Initial monitoring documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | DevOps Lead       |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/operations/AnalyticsArchitecture.md` (v5.0) | Enterprise-Grade Analytics Strategy — event taxonomy, metric definitions, conversion funnels, dashboard specs |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Enterprise-Grade Observability Architecture — structured logs, distributed traces, correlation IDs, 20-core metric catalog, debugging workflows, cost management |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0) | AI Operating Model — §19 AI Monitoring (10 alert rules, health checks), §20 Failure Recovery (5 procedures + runbook) |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System Architecture — §10 Monitoring Architecture (observability stack, alert severity matrix) |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security Architecture — §29 Security Monitoring (monitoring stack, alert rules, security dashboard) |
-| `docs/quality/PerformanceArchitecture.md` (v3.0) | Performance — budgets, targets, optimization techniques |
-| `docs/operations/DevOpsArchitecture.md` (v3.0) | DevOps — build metrics, CI/CD health |
-| `docs/operations/25-CICD.md` (v3.0) | CI/CD — pipeline configuration, quality gates |
-| `docs/operations/DeploymentGuide.md` (v3.0) | Deployment — environment matrix, rollback procedures |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database — schema, indexing, backup strategy |
-| `docs/security/16-COMPLIANCE.md` (v3.0) | Compliance — GDPR, OWASP, WCAG requirements |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Tech Stack — all monitoring tools listed with versions |
-| `docs/MASTER-INDEX.md` (v3.0) | Master Index — document dependency graph, version history |
-| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint — monitoring setup, uptime monitoring, error tracking |
-| Better Uptime Docs | https://docs.betteruptime.com |
-| Sentry Docs | https://docs.sentry.io |
-| Vercel Analytics Docs | https://vercel.com/docs/analytics |
-| PostHog Docs | https://posthog.com/docs |
+| Reference                                         | Description                                                                                                                                                      |
+| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/operations/AnalyticsArchitecture.md` (v5.0) | Enterprise-Grade Analytics Strategy — event taxonomy, metric definitions, conversion funnels, dashboard specs                                                    |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0)      | Enterprise-Grade Observability Architecture — structured logs, distributed traces, correlation IDs, 20-core metric catalog, debugging workflows, cost management |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)            | AI Operating Model — §19 AI Monitoring (10 alert rules, health checks), §20 Failure Recovery (5 procedures + runbook)                                            |
+| `docs/architecture/SystemArchitecture.md` (v5.0)  | System Architecture — §10 Monitoring Architecture (observability stack, alert severity matrix)                                                                   |
+| `docs/security/SecurityArchitecture.md` (v5.0)    | Security Architecture — §29 Security Monitoring (monitoring stack, alert rules, security dashboard)                                                              |
+| `docs/quality/PerformanceArchitecture.md` (v3.0)  | Performance — budgets, targets, optimization techniques                                                                                                          |
+| `docs/operations/DevOpsArchitecture.md` (v3.0)    | DevOps — build metrics, CI/CD health                                                                                                                             |
+| `docs/operations/25-CICD.md` (v3.0)               | CI/CD — pipeline configuration, quality gates                                                                                                                    |
+| `docs/operations/DeploymentGuide.md` (v3.0)       | Deployment — environment matrix, rollback procedures                                                                                                             |
+| `docs/database/DatabaseArchitecture.md` (v5.0)    | Database — schema, indexing, backup strategy                                                                                                                     |
+| `docs/security/16-COMPLIANCE.md` (v3.0)           | Compliance — GDPR, OWASP, WCAG requirements                                                                                                                      |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)        | Tech Stack — all monitoring tools listed with versions                                                                                                           |
+| `docs/MASTER-INDEX.md` (v3.0)                     | Master Index — document dependency graph, version history                                                                                                        |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`            | Complete portfolio blueprint — monitoring setup, uptime monitoring, error tracking                                                                               |
+| Better Uptime Docs                                | https://docs.betteruptime.com                                                                                                                                    |
+| Sentry Docs                                       | https://docs.sentry.io                                                                                                                                           |
+| Vercel Analytics Docs                             | https://vercel.com/docs/analytics                                                                                                                                |
+| PostHog Docs                                      | https://posthog.com/docs                                                                                                                                         |
 
 ---
 
-
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | Enterprise-grade rewrite - 12 SLOs, 20 alerts, 20 runbooks, incident management, DR | DevOps Lead |
-| 3.0 | Jun 2026 | Added executive summary, alert escalation matrix, change log | DevOps Lead |
-| 2.0 | Jun 2026 | Updated for enterprise structure; added Mermaid, runbook | DevOps Lead |
-| 1.0 | Mar 2026 | Initial monitoring documentation | DevOps Lead |
+| Version | Date     | Changes                                                                             | Author      |
+| ------- | -------- | ----------------------------------------------------------------------------------- | ----------- |
+| 4.0     | Jun 2026 | Enterprise-grade rewrite - 12 SLOs, 20 alerts, 20 runbooks, incident management, DR | DevOps Lead |
+| 3.0     | Jun 2026 | Added executive summary, alert escalation matrix, change log                        | DevOps Lead |
+| 2.0     | Jun 2026 | Updated for enterprise structure; added Mermaid, runbook                            | DevOps Lead |
+| 1.0     | Mar 2026 | Initial monitoring documentation                                                    | DevOps Lead |
 
-*Document Version: 4.0 — Enterprise-Grade Monitoring Architecture*  
-*Supersedes v3.0 (June 2026) and all previous versions*  
-*Next Review Date: July 2026*
+_Document Version: 4.0 — Enterprise-Grade Monitoring Architecture_  
+_Supersedes v3.0 (June 2026) and all previous versions_  
+_Next Review Date: July 2026_
