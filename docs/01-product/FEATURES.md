@@ -1955,7 +1955,7 @@ Provide a central admin dashboard with key metrics, recent activity, and quick-a
 
 | Requirement | Implementation | Severity |
 |-------------|----------------|----------|
-| Authentication required | NextAuth.js session check on layout | Critical |
+| Authentication required | NestJS Passport session check on layout | Critical |
 | Session timeout | Auto-logout after 24h inactivity | High |
 | No sensitive data in URLs | POST for mutations, GET for reads only | Medium |
 
@@ -2337,7 +2337,7 @@ Provide a centralized inbox for viewing, filtering, and managing contact form su
 
 | Requirement | Implementation | Severity |
 |-------------|----------------|----------|
-| Auth required | NextAuth.js session check | Critical |
+| Auth required | NestJS Passport session check | Critical |
 | Data access control | Admin can only see own portfolio leads | High |
 | Lead deletion | Soft delete or confirmation | Medium |
 
@@ -2620,7 +2620,7 @@ Provide a comprehensive analytics dashboard with real-time visitor data, page vi
 
 | Requirement | Implementation | Severity |
 |-------------|----------------|----------|
-| Auth required | NextAuth.js session check | Critical |
+| Auth required | NestJS Passport session check | Critical |
 | No PII in dashboards | Aggregate data only, no individual IPs | High |
 
 #### Acceptance Criteria
@@ -2847,7 +2847,7 @@ Monitor Core Web Vitals (LCP, FID, CLS), API response times, and bundle sizes wi
 
 ## 11. Authentication & Authorization
 
-### F-700: Admin Authentication (NextAuth.js)
+### F-700: Admin Authentication (NestJS Passport)
 
 | Field | Value |
 |-------|-------|
@@ -2877,10 +2877,10 @@ Provide secure authentication for the admin dashboard with email/password login,
 #### Dependencies
 - **Upstream:** Supabase Auth
 - **Downstream:** All admin features (F-400, F-600, F-800, F-900)
-- **External:** NextAuth.js, Supabase Auth
+- **External:** NestJS Passport, Supabase Auth
 
 #### Technical Requirements
-- **Files:** `apps/web/src/app/api/auth/[...nextauth]/route.ts`, `apps/web/src/app/admin/login/page.tsx`, `apps/api/src/modules/auth/`
+- **Files:** `apps/api/src/modules/auth/`, `apps/web/src/app/admin/login/page.tsx`
 - **Components:** `LoginForm`, `OAuthButtons`, `PasswordResetForm`, `SessionProvider`
 - **Data Model:** Users table (Supabase Auth)
 - **Config:** `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `JWT_SECRET`, OAuth client IDs/secrets
@@ -2903,7 +2903,7 @@ Provide secure authentication for the admin dashboard with email/password login,
 | JWT tokens | 15-min access, 7-day refresh | Critical |
 | Account lockout | 5 failed attempts → 15-min cooldown | Critical |
 | Rate limiting (auth) | 5 requests / 15 min | Critical |
-| CSRF protection | NextAuth.js built-in | Critical |
+| CSRF protection | NestJS Passport built-in | Critical |
 | Session timeout | 24 hours inactivity | High |
 | Secure cookies | httpOnly, secure, sameSite=lax | Critical |
 | Password requirements | 8+ chars, upper, number, special | High |
@@ -2937,7 +2937,7 @@ Provide secure authentication for the admin dashboard with email/password login,
 | **Epic** | E4: Admin Authentication |
 | **Phase** | 08 |
 | **Story Points** | 5 |
-| **Dependencies** | F-700 (NextAuth.js) |
+| **Dependencies** | F-700 (NestJS Passport) |
 | **Feature Flag** | — |
 
 #### Purpose
