@@ -39,7 +39,7 @@ The policy applies to all **8 tracked ecosystems** used by the platform:
 | **config** | `packages/config/package.json` | ESLint, TypeScript configs | Shared config |
 | **root** | `package.json` | Turborepo, Husky, lint-staged | Monorepo root |
 
-### 2.1 Dependency Count by Workspace
+### 2.2 Dependency Count by Workspace
 
 | Workspace | Direct Dependencies | Transitive Dependencies | Total |
 |-----------|-------------------|------------------------|-------|
@@ -67,76 +67,7 @@ The policy applies to all **8 tracked ecosystems** used by the platform:
 | **CodeQL** | All code | Custom query packs | Every PR | Blocking gate |
 | **GitHub Dependabot** | All ecosystems | Version alerts | Daily | Auto-PR + Slack notification |
 
-### 2.1 CI Gate Configuration
-
-```yaml
-# CI gate: npm audit (blocking for high+)
-- name: npm audit
-  run: |
-    npm audit --audit-level=high
-  # Fails CI if any high or critical vulnerability found
-
-# CI gate: pip audit
-- name: pip audit
-  run: |
-    pip-audit --desc on --severity high
-  # Fails CI if any high or critical vulnerability found
-```
-
----
-
-## 3. Vulnerability Scanning
-
-### 3.1 Dependabot Configuration
-
-```yaml
-# .github/dependabot.yml
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "06:00"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "security"
-    reviewers:
-      - "security-team"
-
-  - package-ecosystem: "pip"
-    directory: "/apps/ai"
-    schedule:
-      interval: "daily"
-      time: "06:00"
-    open-pull-requests-limit: 5
-
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-```
-
-### 2.1 Alert Triage
-
-| Alert Type | Action | SLA | Escalation |
-|------------|--------|-----|------------|
-| Critical CVE (CVSS ≥ 9.0) | Immediate patch PR | 24h | Security Lead |
-| High CVE (CVSS 7.0-8.9) | Patch within 72h | 72h | Engineering Lead |
-| Medium CVE (CVSS 4.0-6.9) | Patch within 14 days | 14d | Team Lead |
-| Low CVE (CVSS < 4.0) | Patch within 30 days | 30d | Regular sprint |
-
----
-
-## 3. Vulnerability Scanning
-
-### 3.1 Dependabot Configuration
+### 3.2 Dependabot Configuration
 
 ```yaml
 # .github/dependabot.yml
@@ -177,7 +108,45 @@ updates:
       interval: "weekly"
 ```
 
-### 3.1 Alert Triage
+### 3.3 CI Gate Configuration
+
+```yaml
+# CI gate: npm audit (blocking for high+)
+- name: npm audit
+  run: |
+    npm audit --audit-level=high
+  # Fails CI if any high or critical vulnerability found
+
+# CI gate: pip audit
+- name: pip audit
+  run: |
+    pip-audit --desc on --severity high
+  # Fails CI if any high or critical vulnerability found
+```
+
+### 3.4 CI Gate Rules
+
+```yaml
+# CI pipeline security gates
+security-gates:
+  npm-audit:
+    command: npm audit --audit-level=high
+    action: blocking  # Fails CI if high+ vulnerabilities
+    exceptions:
+      - package: "some-package"
+        reason: "No patch available"
+        expiry: "2026-08-01"
+
+  pip-audit:
+    command: pip-audit --desc on --severity high
+    action: blocking
+
+  trivy:
+    command: trivy fs --severity CRITICAL,HIGH .
+    action: non-blocking (report only)
+```
+
+### 3.5 Alert Triage
 
 | Alert Type | Action | SLA | Owner |
 |------------|--------|-----|-------|
@@ -200,7 +169,7 @@ updates:
 | **Dev Dependency** | Dev-only packages | Within 90 days | 90 days | Lower priority |
 | **Docker Base Image** | OS-level packages | Within 14 days (security) | 14 days | Rebuild + deploy |
 
-### 4.1 Update SLA by Severity
+### 4.2 Update SLA by Severity
 
 | Update Type | SLA | Auto-Merge | Review Required |
 |-------------|-----|------------|----------------|
@@ -209,22 +178,7 @@ updates:
 | Minor update | 30 days | ❌ | Manual review |
 | Major update | 90 days | ❌ | Breaking change assessment |
 
----
-
-## 4. Update Cadence
-
-### 4.1 Update Schedule
-
-| Update Type | Definition | Cadence | SLA | Auto-Merge |
-|-------------|-----------|---------|-----|------------|
-| **Security Patch (Critical)** | CVE ≥ 9.0 CVSS | Within 7 days | 7 days | ✅ (after CI) |
-| **Security Patch (High)** | CVE 7.0-8.9 CVSS | Within 14 days | 14 days | ✅ (after CI) |
-| **Minor Update** | x.y.z → x.y+1.0 | Within 30 days | 30 days | ❌ |
-| **Major Update** | x.y.z → x+1.0.0 | Within 90 days | 90 days | ❌ |
-| **Dev Dependency** | devDependencies | Within 90 days | 90 days | ❌ |
-| **Docker Base Image** | FROM node:20-alpine | Within 14 days (security) | 14 days | Rebuild |
-
-### 2.2 Dependency Graph
+### 4.3 Dependency Graph
 
 ```mermaid
 graph TD
@@ -259,7 +213,7 @@ graph TD
     WEB --> UI
 ```
 
-### 2.2 Key Dependencies by Risk Tier
+### 4.4 Key Dependencies by Risk Tier
 
 | Tier | Criteria | Examples | Count |
 |------|----------|---------|-------|
@@ -268,85 +222,7 @@ graph TD
 | **🟠 Medium** | Utility, logging, formatting | Pino, Zod, class-validator | ~50 |
 | **🟢 Low** | Dev tools, linting, testing | ESLint, Jest, Prettier | ~160 |
 
----
-
-## 3. Vulnerability Scanning
-
-### 3.1 Dependabot Configuration
-
-```yaml
-# .github/dependabot.yml
-version: 2
-updates:
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "daily"
-      time: "06:00"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "security"
-    reviewers:
-      - "security-team"
-    allow:
-      - dependency-type: "direct"
-
-  - package-ecosystem: "pip"
-    directory: "/apps/ai"
-    schedule:
-      interval: "daily"
-      time: "06:00"
-    open-pull-requests-limit: 5
-
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-```
-
-### 3.2 CI Gate Rules
-
-```yaml
-# CI pipeline security gates
-security-gates:
-  npm-audit:
-    command: npm audit --audit-level=high
-    action: blocking  # Fails CI if high+ vulnerabilities
-    exceptions:
-      - package: "some-package"
-        reason: "No patch available"
-        expiry: "2026-08-01"
-
-  pip-audit:
-    command: pip-audit --desc on --severity high
-    action: blocking
-
-  trivy:
-    command: trivy fs --severity CRITICAL,HIGH .
-    action: non-blocking (report only)
-```
-
----
-
-## 4. Update Cadence
-
-### 4.1 Update SLA
-
-| Update Type | Definition | SLA | Auto-Merge | Process |
-|-------------|-----------|-----|------------|---------|
-| **Security Patch (Critical)** | CVE ≥ 9.0 | 7 days | ✅ (after CI) | Dependabot PR → CI → Auto-merge |
-| **Security Patch (High)** | CVE 7.0-8.9 | 14 days | ✅ (after CI) | Dependabot PR → CI → Auto-merge |
-| **Minor Update** | x.y.z → x.y+1.0 | 30 days | ❌ | Manual review → CI → Merge |
-| **Major Update** | x.y.z → x+1.0.0 | 90 days | ❌ | Breaking change assessment |
-| **Dev Dependency** | devDependencies | 90 days | ❌ | Manual review |
-
-### 4.1 Update Process
+### 4.5 Update Process
 
 ```mermaid
 graph TD
@@ -369,21 +245,7 @@ graph TD
     P --> Q[Merge]
 ```
 
----
-
-## 4. Update Cadence
-
-### 4.1 Update SLA by Severity
-
-| Update Type | Definition | SLA | Auto-Merge | Process |
-|-------------|-----------|-----|------------|---------|
-| **Security Patch (Critical)** | CVE ≥ 9.0 | 7 days | ✅ | Dependabot PR → CI → Auto-merge → Deploy |
-| **Security Patch (High)** | CVE 7.0-8.9 | 14 days | ✅ | Dependabot PR → CI → Auto-merge → Deploy |
-| **Minor Update** | x.y.z → x.y+1.0 | 30 days | ❌ | Manual review → CI → Merge |
-| **Major Update** | x.y.z → x+1.0.0 | 90 days | ❌ | Breaking change assessment |
-| **Dev Dependency** | devDependencies | 90 days | ❌ | Manual review |
-
-### 4.2 Update Prioritization Matrix
+### 4.6 Update Prioritization Matrix
 
 | Factor | Weight | High Priority | Low Priority |
 |--------|--------|---------------|--------------|
@@ -413,7 +275,7 @@ When a major version update is proposed, the following assessment is required:
 | 9 | Monitor for regressions | QA | 7 days |
 | 10 | Close update ticket | Engineer | — |
 
-### 4.2 Breaking Change Decision Matrix
+### 5.2 Breaking Change Decision Matrix
 
 | Factor | Proceed with Update | Delay Update | Block Update |
 |--------|-------------------|--------------|--------------|
@@ -423,47 +285,7 @@ When a major version update is proposed, the following assessment is required:
 | **Deprecation notice** | ≥ 6 months notice | < 6 months notice | No notice |
 | **Alternative available** | No better alternative | Comparable alternative | Better alternative exists |
 
----
-
-## 5. Breaking Change Process
-
-### 5.1 Breaking Change Workflow
-
-```mermaid
-graph TD
-    A[Major Update Proposed] --> B[Review Changelog]
-    B --> C{Breaking Changes?}
-    C -->|No| D[Standard Update Process]
-    C -->|Yes| E[Document Breaking Changes]
-    E --> F[Assess Impact]
-    F --> G[Create Migration Plan]
-    G --> H[Update All Usages]
-    H --> I[Run Full Test Suite]
-    I --> J[Run Typecheck]
-    J --> K[Deploy to Staging]
-    K --> L[Staged Rollout]
-    L --> M[Monitor 7 Days]
-    M --> N[Close Update Ticket]
-```
-
-### 4.2 Breaking Change Checklist
-
-| Item | Description | Completed |
-|------|-------------|-----------|
-| Changelog reviewed | Read CHANGELOG.md or release notes | ☐ |
-| Migration guide followed | Follow official migration guide | ☐ |
-| All usages updated | Grep for all affected imports/APIs | ☐ |
-| TypeScript types verified | `tsc --noEmit` passes | ☐ |
-| Full test suite passes | `npm test` across all workspaces | ☐ |
-| E2E tests pass | Playwright tests | ☐ |
-| Staged rollout completed | 10% → 50% → 100% | ☐ |
-| Rollback plan documented | Steps to revert | ☐ |
-
----
-
-## 5. Breaking Change Process
-
-### 5.1 Breaking Change Workflow
+### 5.3 Breaking Change Workflow
 
 ```mermaid
 graph TD
@@ -480,7 +302,7 @@ graph TD
     K --> L[Close Update Ticket]
 ```
 
-### 5.1 Breaking Change Checklist
+### 5.4 Breaking Change Checklist
 
 | Item | Description | Owner |
 |------|-------------|-------|
@@ -495,9 +317,9 @@ graph TD
 
 ---
 
-## 5. SLSA Level
+## 6. SLSA Level
 
-### 5.1 Current State: SLSA Level 1
+### 6.1 Current State: SLSA Level 1
 
 | SLSA Requirement | Status | Evidence |
 |-----------------|--------|----------|
@@ -509,7 +331,7 @@ graph TD
 | **L4: Two-person review** | ⚠️ Partial | PR review required, not enforced for all |
 | **L4: Hermetic builds** | ❌ | Not yet implemented |
 
-### 5.1 SLSA Roadmap
+### 6.2 SLSA Roadmap
 
 | Quarter | Target | Actions Required |
 |---------|--------|-----------------|
@@ -521,9 +343,9 @@ graph TD
 
 ---
 
-## 6. Prohibited Dependencies
+## 7. Prohibited Dependencies
 
-### 6.1 Prohibited Categories
+### 7.1 Prohibited Categories
 
 | Category | Rationale | Examples |
 |----------|-----------|----------|
@@ -534,7 +356,7 @@ graph TD
 | **GPL-licensed (copyleft)** | License incompatibility with MIT project | GPLv3, AGPLv3 |
 | **Unnecessary large dependencies** | > 10MB for trivial functionality | moment.js (use date-fns) |
 
-### 6.1 Dependency Approval Process
+### 7.2 Dependency Approval Process
 
 | Risk Level | Approval Required | Review Type |
 |------------|------------------|-------------|
@@ -543,22 +365,7 @@ graph TD
 | Major version bump | Engineering Lead | Breaking change assessment |
 | Deprecated dependency replacement | Security Lead | Migration plan review |
 
----
-
-## 7. Prohibited Dependencies
-
-### 7.1 Prohibited Categories
-
-| Category | Rationale | Examples |
-|----------|-----------|----------|
-| **Unmaintained (> 2 years)** | No security patches | left-pad, unmaintained forks |
-| **Known CVEs (≥ 7.0)** | Active security risk | Check via npm audit |
-| **Telemetry-heavy** | Privacy concerns, GDPR | FullStory, HotJar |
-| **Malicious history** | Typosquatting, dependency confusion | event-stream (historical) |
-| **Copyleft license** | License incompatibility | GPLv3, AGPLv3, SSPL |
-| **Unnecessary bloat** | > 10MB for trivial function | moment.js, lodash (partial) |
-
-### 6.1 Dependency Vetting Checklist
+### 7.3 Dependency Vetting Checklist
 
 | Check | Description | Tool |
 |-------|-------------|------|
@@ -571,9 +378,9 @@ graph TD
 
 ---
 
-## 7. Audit Trail
+## 8. Audit Trail
 
-### 7.1 SBOM Generation
+### 8.1 SBOM Generation
 
 ```yaml
 # .github/workflows/sbom.yml
@@ -606,7 +413,7 @@ jobs:
           path: sbom-*.json
 ```
 
-### 7.1 SBOM Retention
+### 8.2 SBOM Retention
 
 | Environment | Retention | Format | Storage |
 |-------------|-----------|--------|---------|
@@ -614,7 +421,7 @@ jobs:
 | Staging builds | 90 days | CycloneDX JSON | Build artifacts |
 | Development | Not retained | — | — |
 
-### 7.2 Changelog Requirements
+### 8.3 Changelog Requirements
 
 All dependency updates must be documented in the project changelog:
 
@@ -631,35 +438,7 @@ All dependency updates must be documented in the project changelog:
 
 ---
 
-## 8. Audit Trail
-
-### 8.1 SBOM Retention
-
-| Environment | Retention | Format | Storage Location |
-|-------------|-----------|--------|-----------------|
-| Production releases | Indefinite | CycloneDX JSON | GitHub Releases |
-| Staging builds | 90 days | CycloneDX JSON | Build artifacts |
-| Development | Not retained | — | — |
-
-### 8.2 Dependency Change Log
-
-All dependency changes must be tracked in the project changelog:
-
-```markdown
-## [1.2.0] - 2026-07-15
-
-### Dependency Updates
-- Updated `next` from 14.2.0 to 14.2.5 (security: CVE-2026-1234)
-- Updated `@prisma/client` from 5.10.0 to 5.12.0 (minor)
-- Updated `bcrypt` from 5.1.0 to 5.1.1 (patch)
-- Added `speakeasy` 2.0.0 (new dependency for MFA)
-- Removed `moment` 2.29.4 (replaced by date-fns)
-- Updated Docker base image `node:20.11-alpine` to `node:20.15-alpine`
-```
-
----
-
-## 8. Policy Review
+## 9. Policy Review
 
 | Review Cycle | Next Review | Owner |
 |-------------|-------------|-------|
@@ -667,7 +446,7 @@ All dependency changes must be tracked in the project changelog:
 
 ---
 
-## 9. Change Log
+## 10. Change Log
 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
