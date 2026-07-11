@@ -165,7 +165,7 @@ sequenceDiagram
 | **A05: Security Misconfiguration** | Security headers on all responses | HSTS, CSP, XFO, X-Content-Type-Options | CI header check | ✅ |
 | **A06: Vulnerable Components** | Weekly npm audit, Dependabot | GitHub Dependabot, CI audit gate | Dependabot alerts ≤ 24h | ✅ |
 | **A07: Authentication Failures** | Rate limit on login, account lockout | @nestjs/throttler, 5-attempt lockout | Load test auth endpoint | ✅ |
-| **A08: Data Integrity Failures** | CSRF protection, transactions | NextAuth.js CSRF, DB transactions | CSRF token verification | ✅ |
+| **A08: Data Integrity Failures** | CSRF protection, transactions | NestJS Passport CSRF, DB transactions | CSRF token verification | ✅ |
 | **A09: Logging Failures** | Structured logging, correlation IDs | Pino logger, correlation middleware | Log audit quarterly | ✅ |
 | **A10: SSRF** | Outbound request allowlist | URL validation middleware | Code review | ✅ |
 
