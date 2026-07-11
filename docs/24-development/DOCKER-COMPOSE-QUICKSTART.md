@@ -74,7 +74,7 @@ web ──depends-on──▶ api ──(calls)──▶ ai
 ```
 
 **Not included in Docker Compose:**
-- **Redis** — not required for basic operation. The `CacheService` is a stub. Add Redis manually if implementing caching features.
+- **Redis** — Redis is required for caching and queues; see the architecture docs for details. The `CacheService` and BullMQ queues depend on Redis.
 - **pgvector** — the `content_embeddings` table uses pgvector, but it must be enabled separately in your PostgreSQL instance. Run `CREATE EXTENSION IF NOT EXISTS vector;`.
 
 ### Default URLs
