@@ -16,7 +16,7 @@ A 14-event validation framework ensures data quality with automated monitoring a
 | `docs/operations/22-OBSERVABILITY.md` | Observability stack (logging, metrics, tracing) |
 | `docs/database/DatabaseArchitecture.md` | Database schema for custom analytics tables |
 | `docs/api/12-API.md` | Analytics API endpoints |
-| `docs/PRIVACY.md` | Data privacy and GDPR compliance |
+| `docs/security/PRIVACY.md` | Data privacy and GDPR compliance |
 | `docs/product/37-IMPLEMENTATION_PLAN.md` | Implementation sequencing |
 | `docs/quality/TestingArchitecture.md` | Analytics QA and validation |---
 ## Table of Contents1. [Purpose & Scope](#1-purpose--scope)2. [Event Schema Registry](#2-event-schema-registry)3. [Validation & Testing](#3-validation--testing)4. [Tracking Plan Process](#4-tracking-plan-process)5. [Implementation Patterns](#5-implementation-patterns)6. [Funnel Analytics](#6-funnel-analytics)7. [Lead Analytics](#7-lead-analytics)8. [AI & Agent Analytics](#8-ai--agent-analytics)9. [SEO Analytics](#9-seo-analytics)10. [Content & Portfolio Analytics](#10-content--portfolio-analytics)11. [Performance Analytics](#11-performance-analytics)12. [Executive & Business Metrics](#12-executive--business-metrics)13. [Data Quality Monitoring](#13-data-quality-monitoring)14. [Dashboard Implementation](#14-dashboard-implementation)15. [Enterprise Governance](#15-enterprise-governance)16. [Change Log](#16-change-log)
