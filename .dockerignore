@@ -1,0 +1,49 @@
+# Dependencies
+node_modules
+.pnpm-store
+.npm
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Build output
+dist
+.next
+build
+turbo-build
+coverage
+
+# IDE & OS
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Cache
+.eslintcache
+.turbo
+*.tsbuildinfo
+
+# Documentation (not needed in runtime images)
+**/*.md
+docs
+*.md
+
+# Test artifacts
+test-results
+playwright-report
