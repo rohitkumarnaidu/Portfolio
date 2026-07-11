@@ -31,6 +31,7 @@ Link: [link to incident channel thread]
 ```
 
 **Example:**
+
 ```
 🚨 SEV-1: Database Unreachable — All API Endpoints Returning 500
 Impact: All users unable to access portfolio website and admin dashboard
@@ -55,6 +56,7 @@ Next update: [Time in UTC]
 ```
 
 **Example:**
+
 ```
 🔄 UPDATE: Database Unreachable — 12 minutes elapsed
 Status: Investigating
@@ -79,6 +81,7 @@ Postmortem: [Link to postmortem doc — added within 48h]
 ```
 
 **Example:**
+
 ```
 ✅ RESOLVED: Database Unreachable
 Duration: 37 minutes
@@ -102,6 +105,7 @@ Channel: #ops-incident (for SEV-2 only)
 ```
 
 **Example (SEV-2):**
+
 ```
 ⚠️ SEV-2: Contact Form Submissions Failing
 Impact: Users unable to submit contact form. Error 400 on POST /api/contact.
@@ -112,6 +116,7 @@ Channel: #ops-incident
 ```
 
 **Example (SEV-3):**
+
 ```
 ⚠️ SEV-3: Blog Search Returning Empty Results
 Impact: Blog search query returns no results. Recent 3 posts not indexed.
@@ -181,6 +186,7 @@ Posted: [Time in UTC]
 ```
 
 **Example:**
+
 ```
 API — Investigating
 
@@ -210,6 +216,7 @@ Posted: [Time in UTC]
 ```
 
 **Example:**
+
 ```
 API — Identified
 
@@ -238,6 +245,7 @@ Posted: [Time in UTC]
 ```
 
 **Example:**
+
 ```
 API — Resolved
 
@@ -337,6 +345,7 @@ Full postmortem: [Link to postmortem document]
 ```
 
 **Example:**
+
 ```
 Subject: Postmortem: Database Connection Pool Exhaustion — July 10, 2026
 
@@ -447,15 +456,15 @@ Please join #ops-incident on Slack or take a call with [current lead]."
 
 ## 6. Communication Cadence Summary
 
-| Severity | Initial | Updates | Resolution | Postmortem |
-|----------|---------|---------|------------|------------|
-| **SEV-1** | Immediate (#ops-alerts) | Every 30 min (#ops-incident) | When stable | Within 5 days |
-| **SEV-2** | Immediate (#ops-alerts) | Every 60 min (#ops-incident) | When stable | Within 10 days |
-| **SEV-3** | Direct message to team lead | As needed | When fixed | Not required |
-| **SEV-4** | Issue comment / PR | On merge | On merge | Not required |
+| Severity  | Initial                     | Updates                      | Resolution  | Postmortem     |
+| --------- | --------------------------- | ---------------------------- | ----------- | -------------- |
+| **SEV-1** | Immediate (#ops-alerts)     | Every 30 min (#ops-incident) | When stable | Within 5 days  |
+| **SEV-2** | Immediate (#ops-alerts)     | Every 60 min (#ops-incident) | When stable | Within 10 days |
+| **SEV-3** | Direct message to team lead | As needed                    | When fixed  | Not required   |
+| **SEV-4** | Issue comment / PR          | On merge                     | On merge    | Not required   |
 
 ---
 
-*Document Version: 1.0 — Incident Communication Templates*
-*Last Updated: July 2026*
-*Next Review Date: October 2026*
+_Document Version: 1.0 — Incident Communication Templates_
+_Last Updated: July 2026_
+_Next Review Date: October 2026_
