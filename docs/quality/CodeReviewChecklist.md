@@ -1,18 +1,21 @@
 # Code Review Checklist — FAANG Enterprise Standard
 
-> **Document:** `CodeReviewChecklist.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
+> **Document:** `CodeReviewChecklist.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026
 > **Status:** ✅ Active | **Owner:** Principal Staff Engineer | **Review Cadence:** Quarterly
 
 ## 1. Executive Summary
+
 This document enforces the rigorous FAANG-level code review process used across all repositories in the monorepo. It serves as a mandate for reviewers to ensure high code quality, security, performance, and adherence to architecture guidelines.
 
 ## 2. Reviewer Mindset
+
 - **Empathy:** Be respectful and constructive. Assume good intent.
 - **Rigor:** Do not compromise on architectural boundaries, type safety, or test coverage.
 - **Velocity:** Review within 4 business hours for small PRs (<100 lines), 24 hours for large PRs.
 - **Ownership:** Every reviewer is accountable for the code they approve.
 
 ## 3. Functionality Checklist
+
 - [ ] **Edge cases:** Are empty states, null inputs, and boundary values handled? Test string max length, array bounds, file size limits.
 - [ ] **Error handling:** Are try/catch blocks present around fallible operations? Are errors logged with sufficient context?
 - [ ] **Input validation:** Does the code validate all external inputs (API params, form fields, URL query params) via Zod schemas?
@@ -24,6 +27,7 @@ This document enforces the rigorous FAANG-level code review process used across 
 - [ ] **Type guards:** Are runtime type checks (Zod parse, instanceof) used at API boundaries to catch malformed data?
 
 ## 4. Security Checklist
+
 - [ ] **Authentication:** Are all admin routes guarded by `@UseGuards(JwtAuthGuard, RolesGuard)`? Is `@Public()` explicitly applied to public routes?
 - [ ] **Authorization:** Do role checks (`@Roles('admin')`) match the least-privilege principle? Can a viewer escalate to admin via API manipulation?
 - [ ] **XSS prevention:** Is user-generated content sanitized before rendering (React dangerouslySetInnerHTML avoided)?
@@ -36,6 +40,7 @@ This document enforces the rigorous FAANG-level code review process used across 
 - [ ] **Logging sensitivity:** Are passwords, tokens, and PII excluded from log output?
 
 ## 5. Performance Checklist
+
 - [ ] **Bundle size:** Did the PR add a new dependency? Could tree-shaking be affected? Check `@next/bundle-analyzer` output.
 - [ ] **Memoization:** Are expensive computations wrapped in `useMemo` or `useCallback`? Is `React.memo` applied to heavy components?
 - [ ] **Lazy loading:** Are route segments and heavy components (3D scenes, chart libraries) lazy-loaded with `next/dynamic`?
@@ -46,6 +51,7 @@ This document enforces the rigorous FAANG-level code review process used across 
 - [ ] **Database indexing:** Do new query patterns have the appropriate database indexes?
 
 ## 6. Testing Checklist
+
 - [ ] **Unit tests:** Are new functions covered by unit tests? Are they testing behavior, not implementation?
 - [ ] **Edge cases in tests:** Do tests cover empty/null inputs, error responses, boundary values, and loading states?
 - [ ] **Integration tests:** Do tests verify the interaction between components/services, not just isolated units?
@@ -54,6 +60,7 @@ This document enforces the rigorous FAANG-level code review process used across 
 - [ ] **Snapshot scope:** Are snapshots as small as possible (specific UI fragment, not entire page)?
 
 ## 7. Style & Maintainability Checklist
+
 - [ ] **Naming:** Do variable, function, and component names clearly convey intent? Are abbreviations avoided unless universally understood?
 - [ ] **Formatting:** Does the code pass `npm run format` (Prettier) and `npm run lint` (ESLint)?
 - [ ] **Dead code:** Are there commented-out code blocks, unused imports, or unreachable branches?
@@ -63,6 +70,7 @@ This document enforces the rigorous FAANG-level code review process used across 
 - [ ] **Consistency:** Does the code follow the same patterns as adjacent modules (same error handling, same import style)?
 
 ## 8. Documentation Checklist
+
 - [ ] **JSDoc/TSDoc:** Are public APIs, complex algorithms, and non-obvious logic documented with JSDoc?
 - [ ] **README updates:** If the PR changes setup steps, environment variables, or architecture, is the README updated?
 - [ ] **Changelog:** Does the PR description include a changelog entry? For significant changes, is the changelog file updated?
@@ -70,7 +78,9 @@ This document enforces the rigorous FAANG-level code review process used across 
 - [ ] **Cross-references:** Are links to related docs, ADRs, and design specs included in the PR description?
 
 ## 9. PR Description Requirements
+
 Every PR description MUST include:
+
 - **What:** Summary of the change (2-3 sentences)
 - **Why:** Business or technical rationale
 - **How:** Approach taken, key implementation details
@@ -79,7 +89,26 @@ Every PR description MUST include:
 - **Checklist:** Links to related issues, docs, and dependency PRs
 
 ## 10. Domain-Specific Checks
-- **Frontend:** WCAG 2.1 AA accessibility, mobile responsiveness, Lighthouse score impact, animation performance (60 FPS).
-- **Backend:** Transactional integrity, caching strategies, rate limiting, connection pool management.
-- **AI/LLM:** Prompt injection defenses, fallback mechanisms, hallucination checks, cost analysis for new LLM calls.
-- **Database:** Migration safety (no destructive changes without review), query plan analysis for new joins.
+
+- **Frontend:** WCAG 2.1 AA accessibility, mobile responsiveness, Lighthouse score impact, animation performance (60 FPS), image optimization with next/image.
+- **Backend:** Transactional integrity, caching strategies, rate limiting, connection pool management, webhook idempotency keys.
+- **AI/LLM:** Prompt injection defenses, fallback mechanisms, hallucination checks, cost analysis for new LLM calls, token usage tracking.
+- **Database:** Migration safety (no destructive changes without review), query plan analysis for new joins, index coverage for new query patterns.
+
+## 11. Common Anti-Patterns to Flag
+
+- **Magic numbers:** Replace with named constants.
+- **God objects:** Split large classes/modules.
+- **Copy-paste code:** Extract into reusable utilities.
+- **Premature optimization:** Profile before optimizing; document why optimization is needed.
+- **Over-engineering:** Solve today's problem, not next year's unknown problem.
+- **Deeply nested callbacks:** Prefer async/await over callback pyramids.
+- **Mutating function parameters:** Functions should not mutate their arguments.
+
+## 12. Quick Reference: Review SLAs
+
+| PR Size       | Target Review Time           | Reviewer                |
+| ------------- | ---------------------------- | ----------------------- |
+| < 100 lines   | 4 business hours             | 1 domain expert         |
+| 100-400 lines | 24 business hours            | 1-2 reviewers           |
+| > 400 lines   | 48 hours (split recommended) | Tech lead + 2 reviewers |
