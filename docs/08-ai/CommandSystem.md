@@ -1,5 +1,8 @@
-> ⚠️ **DESIGN SPEC — NOT IMPLEMENTED**
-> This document describes an aspirational design for a future AI system. The features, architecture, agents, and workflows documented here do **not** currently exist in the codebase. See [`docs/ai/README.md`](./README.md) for the current AI implementation status.
+> **Status:** 🎯 DESIGN SPEC — Not Implemented
+> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
+> For current AI implementation documentation, see:
+> - [AI Strategy](../docs/ai/strategy.md)
+> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
 
 # Command System
 
