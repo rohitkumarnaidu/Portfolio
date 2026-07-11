@@ -8,6 +8,7 @@
 ---
 
 ## Executive Summary
+
 This document enforces strict, non-negotiable FAANG-level accessibility standards across the platform. Combining Radix UI primitives, robust semantic HTML, aggressive keyboard testing, and specialized multi-LLM screen reader adaptations, we guarantee 100% WCAG 2.2 AA compliance by design, not as an afterthought.
 
 ---
@@ -61,6 +62,7 @@ This document defines the complete accessibility architecture for the portfolio 
 | Color Contrast (UI Components) | ≥ 3:1 | Token-level verification |
 
 **Compliance Framework:**
+
 - **Level AA (All 35 criteria):** Mandatory — enforced in CI/CD pipeline
 - **Level AAA (Feasible subset):** Enhanced — 18 of 25 applicable AAA criteria targeted
   - Enhanced contrast (7:1): Primary text, navigation
@@ -69,6 +71,7 @@ This document defines the complete accessibility architecture for the portfolio 
   - Extended audio descriptions: Not applicable (limited video content)
 
 **Legal & Regulatory Alignment:**
+
 - **US:** Section 508, ADA Title III
 - **EU:** EN 301 549, European Accessibility Act (2025)
 - **International:** WCAG 2.2 ISO/IEC 40500
@@ -83,18 +86,18 @@ This document defines the complete accessibility architecture for the portfolio 
 
 ### 2.2 Core Principles
 
-| # | Principle | Definition | Implementation |
-|---|-----------|------------|---------------|
-| P1 | **Equal Experience** | No user receives a degraded or different experience | All features accessible; no "accessible version" — one inclusive version |
-| P2 | **Inclusive by Default** | Accessibility is built in from design, not bolted on | Accessible design tokens, semantic HTML, progressive ARIA |
-| P3 | **Progressive Enhancement** | Core content works without JS; enhancements layered on | Skip links, semantic HTML base, JS animations as enhancement |
-| P4 | **Respect User Preferences** | System respects OS-level accessibility settings | `prefers-reduced-motion`, `prefers-color-scheme`, `prefers-contrast`, forced colors |
-| P5 | **Keyboard-First Interaction** | All functionality operable through keyboard alone | Native `<button>` and `<a>` elements; no custom click-only handlers |
-| P6 | **Error Prevention & Recovery** | Prevent errors where possible; make recovery easy | Confirmation dialogs, undo actions, descriptive error messages |
-| P7 | **Content Clarity** | Content is readable, understandable, and well-structured | Plain language, descriptive headings, consistent labeling |
-| P8 | **Continuous Compliance** | Accessibility is verified continuously, not just at launch | CI pipeline gates, automated audits, quarterly manual reviews |
-| P9 | **Developer Empowerment** | Tools and documentation enable developers to build accessibly | Component-level a11y specs, reusable hooks, test patterns |
-| P10 | **Community Accountability** | Public feedback mechanism for accessibility issues | `#accessibility` tag in contact form, response SLA of 48 hours |
+| #   | Principle                       | Definition                                                    | Implementation                                                                      |
+| --- | ------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| P1  | **Equal Experience**            | No user receives a degraded or different experience           | All features accessible; no "accessible version" — one inclusive version            |
+| P2  | **Inclusive by Default**        | Accessibility is built in from design, not bolted on          | Accessible design tokens, semantic HTML, progressive ARIA                           |
+| P3  | **Progressive Enhancement**     | Core content works without JS; enhancements layered on        | Skip links, semantic HTML base, JS animations as enhancement                        |
+| P4  | **Respect User Preferences**    | System respects OS-level accessibility settings               | `prefers-reduced-motion`, `prefers-color-scheme`, `prefers-contrast`, forced colors |
+| P5  | **Keyboard-First Interaction**  | All functionality operable through keyboard alone             | Native `<button>` and `<a>` elements; no custom click-only handlers                 |
+| P6  | **Error Prevention & Recovery** | Prevent errors where possible; make recovery easy             | Confirmation dialogs, undo actions, descriptive error messages                      |
+| P7  | **Content Clarity**             | Content is readable, understandable, and well-structured      | Plain language, descriptive headings, consistent labeling                           |
+| P8  | **Continuous Compliance**       | Accessibility is verified continuously, not just at launch    | CI pipeline gates, automated audits, quarterly manual reviews                       |
+| P9  | **Developer Empowerment**       | Tools and documentation enable developers to build accessibly | Component-level a11y specs, reusable hooks, test patterns                           |
+| P10 | **Community Accountability**    | Public feedback mechanism for accessibility issues            | `#accessibility` tag in contact form, response SLA of 48 hours                      |
 
 ### 2.3 Accessibility Promise
 
@@ -111,15 +114,15 @@ As the owner of this portfolio, I commit to:
 
 ### 2.4 North Star Metrics
 
-| Metric | Current Baseline | 6-Month Target | 12-Month Target |
-|--------|-----------------|----------------|-----------------|
-| WCAG 2.2 AA Pass Rate | 92% | 100% | 100% |
-| Lighthouse Accessibility | 88 | ≥ 95 | ≥ 97 |
-| axe Violations | 3 | 0 | 0 |
-| Keyboard Coverage | 95% | 100% | 100% |
-| Screen Reader Tests Passed | 85% | 100% | 100% |
-| User-Reported Issues | — | < 3/year | < 1/year |
-| Time to Fix A11y Bugs | — | < 24 hours (critical) | < 12 hours (critical) |
+| Metric                     | Current Baseline | 6-Month Target        | 12-Month Target       |
+| -------------------------- | ---------------- | --------------------- | --------------------- |
+| WCAG 2.2 AA Pass Rate      | 92%              | 100%                  | 100%                  |
+| Lighthouse Accessibility   | 88               | ≥ 95                  | ≥ 97                  |
+| axe Violations             | 3                | 0                     | 0                     |
+| Keyboard Coverage          | 95%              | 100%                  | 100%                  |
+| Screen Reader Tests Passed | 85%              | 100%                  | 100%                  |
+| User-Reported Issues       | —                | < 3/year              | < 1/year              |
+| Time to Fix A11y Bugs      | —                | < 24 hours (critical) | < 12 hours (critical) |
 
 ---
 
@@ -129,120 +132,121 @@ As the owner of this portfolio, I commit to:
 
 #### Principle 1: Perceivable — Information and user interface components must be presentable to users in ways they can perceive.
 
-| ID | Criterion | Level | Status | Implementation | Test Method |
-|----|-----------|-------|--------|----------------|-------------|
-| 1.1.1 | **Non-text Content** | A | ✅ | All images have meaningful `alt`; icons have `aria-label` or `aria-hidden="true"`; decorative images use `alt=""`; SVGs have `role="img"` + `aria-label`; complex graphics have long descriptions | axe DevTools + Manual |
-| 1.2.1 | **Audio-only and Video-only (Prerecorded)** | A | ✅ N/A | No audio/video content without text alternative | N/A |
-| 1.2.2 | **Captions (Prerecorded)** | A | ✅ N/A | No video with audio | N/A |
-| 1.2.3 | **Audio Description or Media Alternative (Prerecorded)** | A | ✅ N/A | No video content | N/A |
-| 1.2.4 | **Captions (Live)** | AA | ✅ N/A | No live audio/video | N/A |
-| 1.2.5 | **Audio Description (Prerecorded)** | AA | ✅ N/A | No video content | N/A |
-| 1.3.1 | **Info and Relationships** | A | ✅ | Semantic HTML ( `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`, `<footer>` ), properly nested headings, `<ul>`/`<ol>` for lists, `<table>` for tabular data, ARIA landmarks, `aria-labelledby`/`aria-describedby` relationships | axe DevTools + Manual |
-| 1.3.2 | **Meaningful Sequence** | A | ✅ | DOM order matches visual order; CSS `order` not used for reordering; z-index independent of DOM | Manual review |
-| 1.3.3 | **Sensory Characteristics** | A | ✅ | Instructions never rely solely on shape, size, visual location, or sound | Manual review |
-| 1.3.4 | **Orientation** | AA | ✅ | Content not locked to portrait or landscape; both orientations supported | Manual test |
-| 1.3.5 | **Identify Input Purpose** | AA | ✅ | `autocomplete` attribute on all form fields according to 7.4.1 Input Purposes | axe DevTools |
-| 1.3.6 | **Identify Purpose** | AAA | ⬆️ | ARIA landmarks present; `aria-label` on sections for identification | Manual audit |
-| 1.4.1 | **Use of Color** | A | ✅ | Color not the sole visual means of conveying information; icons + text + patterns supplement color | axe DevTools |
-| 1.4.2 | **Audio Control** | A | ✅ N/A | No auto-playing audio | N/A |
-| 1.4.3 | **Contrast (Minimum)** | AA | ✅ | Normal text ≥ 4.5:1; large text ≥ 3:1; all token pairs verified (see §8.2) | axe DevTools + Token audit |
-| 1.4.4 | **Resize Text** | AA | ✅ | Text can resize to 200% without loss of content or functionality; responsive units (`rem`, `em`, `vw`); no horizontal scroll at 200% | Manual test |
-| 1.4.5 | **Images of Text** | AA | ✅ | No images of text used; all text is real text via CSS/HTML | Manual review |
-| 1.4.6 | **Contrast (Enhanced)** | AAA | ⬆️ | Primary text ≥ 7:1; navigation text ≥ 7:1 (see §8.2 for extended contrast pairs) | Token audit |
-| 1.4.7 | **Low or No Background Audio** | AAA | ✅ N/A | No audio content | N/A |
-| 1.4.8 | **Visual Presentation** | AAA | ⬆️ | Text spacing controls available; foreground/background color selection; width ≤ 80 characters; text not justified | Targeted AAA |
-| 1.4.9 | **Images of Text (No Exception)** | AAA | ✅ | No images of text anywhere | Manual review |
-| 1.4.10 | **Reflow** | AA | ✅ | Content reflows without horizontal scroll at 320px width; responsive grid adapts; no fixed-width containers | Manual test + Playwright |
-| 1.4.11 | **Non-text Contrast** | AA | ✅ | UI components and graphical objects ≥ 3:1 contrast ratio against adjacent colors | axe DevTools |
-| 1.4.12 | **Text Spacing** | AA | ✅ | No loss of content or functionality when text spacing overridden: line height 1.5x, paragraph spacing 2x, word spacing 0.16x, letter spacing 0.12x | Manual test + Bookmarklet |
-| 1.4.13 | **Content on Hover or Focus** | AA | ✅ | Dismissible (Esc), hoverable (pointer can move to content), persistent (no auto-dismiss) | Manual test |
+| ID     | Criterion                                                | Level | Status | Implementation                                                                                                                                                                                                                                      | Test Method                |
+| ------ | -------------------------------------------------------- | ----- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| 1.1.1  | **Non-text Content**                                     | A     | ✅     | All images have meaningful `alt`; icons have `aria-label` or `aria-hidden="true"`; decorative images use `alt=""`; SVGs have `role="img"` + `aria-label`; complex graphics have long descriptions                                                   | axe DevTools + Manual      |
+| 1.2.1  | **Audio-only and Video-only (Prerecorded)**              | A     | ✅ N/A | No audio/video content without text alternative                                                                                                                                                                                                     | N/A                        |
+| 1.2.2  | **Captions (Prerecorded)**                               | A     | ✅ N/A | No video with audio                                                                                                                                                                                                                                 | N/A                        |
+| 1.2.3  | **Audio Description or Media Alternative (Prerecorded)** | A     | ✅ N/A | No video content                                                                                                                                                                                                                                    | N/A                        |
+| 1.2.4  | **Captions (Live)**                                      | AA    | ✅ N/A | No live audio/video                                                                                                                                                                                                                                 | N/A                        |
+| 1.2.5  | **Audio Description (Prerecorded)**                      | AA    | ✅ N/A | No video content                                                                                                                                                                                                                                    | N/A                        |
+| 1.3.1  | **Info and Relationships**                               | A     | ✅     | Semantic HTML ( `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<aside>`, `<footer>` ), properly nested headings, `<ul>`/`<ol>` for lists, `<table>` for tabular data, ARIA landmarks, `aria-labelledby`/`aria-describedby` relationships | axe DevTools + Manual      |
+| 1.3.2  | **Meaningful Sequence**                                  | A     | ✅     | DOM order matches visual order; CSS `order` not used for reordering; z-index independent of DOM                                                                                                                                                     | Manual review              |
+| 1.3.3  | **Sensory Characteristics**                              | A     | ✅     | Instructions never rely solely on shape, size, visual location, or sound                                                                                                                                                                            | Manual review              |
+| 1.3.4  | **Orientation**                                          | AA    | ✅     | Content not locked to portrait or landscape; both orientations supported                                                                                                                                                                            | Manual test                |
+| 1.3.5  | **Identify Input Purpose**                               | AA    | ✅     | `autocomplete` attribute on all form fields according to 7.4.1 Input Purposes                                                                                                                                                                       | axe DevTools               |
+| 1.3.6  | **Identify Purpose**                                     | AAA   | ⬆️     | ARIA landmarks present; `aria-label` on sections for identification                                                                                                                                                                                 | Manual audit               |
+| 1.4.1  | **Use of Color**                                         | A     | ✅     | Color not the sole visual means of conveying information; icons + text + patterns supplement color                                                                                                                                                  | axe DevTools               |
+| 1.4.2  | **Audio Control**                                        | A     | ✅ N/A | No auto-playing audio                                                                                                                                                                                                                               | N/A                        |
+| 1.4.3  | **Contrast (Minimum)**                                   | AA    | ✅     | Normal text ≥ 4.5:1; large text ≥ 3:1; all token pairs verified (see §8.2)                                                                                                                                                                          | axe DevTools + Token audit |
+| 1.4.4  | **Resize Text**                                          | AA    | ✅     | Text can resize to 200% without loss of content or functionality; responsive units (`rem`, `em`, `vw`); no horizontal scroll at 200%                                                                                                                | Manual test                |
+| 1.4.5  | **Images of Text**                                       | AA    | ✅     | No images of text used; all text is real text via CSS/HTML                                                                                                                                                                                          | Manual review              |
+| 1.4.6  | **Contrast (Enhanced)**                                  | AAA   | ⬆️     | Primary text ≥ 7:1; navigation text ≥ 7:1 (see §8.2 for extended contrast pairs)                                                                                                                                                                    | Token audit                |
+| 1.4.7  | **Low or No Background Audio**                           | AAA   | ✅ N/A | No audio content                                                                                                                                                                                                                                    | N/A                        |
+| 1.4.8  | **Visual Presentation**                                  | AAA   | ⬆️     | Text spacing controls available; foreground/background color selection; width ≤ 80 characters; text not justified                                                                                                                                   | Targeted AAA               |
+| 1.4.9  | **Images of Text (No Exception)**                        | AAA   | ✅     | No images of text anywhere                                                                                                                                                                                                                          | Manual review              |
+| 1.4.10 | **Reflow**                                               | AA    | ✅     | Content reflows without horizontal scroll at 320px width; responsive grid adapts; no fixed-width containers                                                                                                                                         | Manual test + Playwright   |
+| 1.4.11 | **Non-text Contrast**                                    | AA    | ✅     | UI components and graphical objects ≥ 3:1 contrast ratio against adjacent colors                                                                                                                                                                    | axe DevTools               |
+| 1.4.12 | **Text Spacing**                                         | AA    | ✅     | No loss of content or functionality when text spacing overridden: line height 1.5x, paragraph spacing 2x, word spacing 0.16x, letter spacing 0.12x                                                                                                  | Manual test + Bookmarklet  |
+| 1.4.13 | **Content on Hover or Focus**                            | AA    | ✅     | Dismissible (Esc), hoverable (pointer can move to content), persistent (no auto-dismiss)                                                                                                                                                            | Manual test                |
 
 #### Principle 2: Operable — User interface components and navigation must be operable.
 
-| ID | Criterion | Level | Status | Implementation | Test Method |
-|----|-----------|-------|--------|----------------|-------------|
-| 2.1.1 | **Keyboard** | A | ✅ | All functionality available via keyboard; no keyboard traps; native elements preferred | Manual test + Playwright |
-| 2.1.2 | **No Keyboard Trap** | A | ✅ | Focus never trapped in component without keyboard method to exit (Esc on modal, drawer) | Manual test + Playwright |
-| 2.1.3 | **Keyboard (No Exception)** | AAA | ⬆️ | All functionality via keyboard (extended coverage) | Manual test |
-| 2.1.4 | **Character Key Shortcuts** | A | ✅ N/A | No single-character keyboard shortcuts | N/A |
-| 2.2.1 | **Timing Adjustable** | A | ✅ | Any time limit has option to turn off, adjust, or extend | Manual review |
-| 2.2.2 | **Pause, Stop, Hide** | A | ✅ | Auto-playing carousels paused on hover/focus; no auto-updating content without pause | Manual test |
-| 2.2.3 | **No Timing** | AAA | ✅ | No time limits on any interaction | Manual review |
-| 2.3.1 | **Three Flashes or Below Threshold** | A | ✅ | No flashing content; GSAP/Framer Motion animations tested for flash safety | Manual review |
-| 2.3.2 | **Three Flashes** | AAA | ✅ | No flashing content at any threshold | Manual review |
-| 2.4.1 | **Bypass Blocks** | A | ✅ | Skip link to main content on every page; ARIA landmarks for navigation | Manual test |
-| 2.4.2 | **Page Titled** | A | ✅ | Unique, descriptive `<title>` per page; `document.title` updated on SPA routes | axe DevTools |
-| 2.4.3 | **Focus Order** | A | ✅ | Tab order matches visual order; `tabindex` values only 0 or -1; no positive `tabindex` values | Manual test + axe |
-| 2.4.4 | **Link Purpose (In Context)** | A | ✅ | Link text describes destination; ARIA labels used when link text is ambiguous | axe DevTools |
-| 2.4.5 | **Multiple Ways** | AA | ✅ | Site map, navigation, search (AI chat) — multiple ways to locate content | Manual review |
-| 2.4.6 | **Headings and Labels** | AA | ✅ | All sections have descriptive headings; all form fields have labels | axe DevTools |
-| 2.4.7 | **Focus Visible** | AA | ✅ | 2px accent-color ring with 2px offset on all interactive elements via `:focus-visible` | axe DevTools + Manual |
-| 2.4.8 | **Location** | AAA | ⬆️ | Breadcrumbs on detail pages; current page indicator in navigation | Targeted AAA |
-| 2.4.9 | **Link Purpose (Link Only)** | AAA | ⬆️ | Every link conveys purpose from text alone (no generic "click here") | Manual audit |
-| 2.4.10 | **Section Headings** | AAA | ⬆️ | Every section has a heading; organized with proper heading hierarchy | Manual audit |
-| 2.4.11 | **Focus Not Obscured (AA)** | AA | ✅ | Focused element not completely hidden by other content; sticky header accounted for with `scroll-margin-top` | Manual test |
-| 2.4.12 | **Focus Not Obscured (AAA)** | AAA | ⬆️ | Focused element not partially hidden | Targeted AAA |
-| 2.4.13 | **Focus Appearance** | AAA | ⬆️ | Focus indicator ≥ 2px thick, contrast ratio ≥ 3:1 between focused/unfocused | Manual audit |
-| 2.5.1 | **Pointer Gestures** | A | ✅ | All path-based and multi-point gestures have single-pointer alternative | Manual test |
-| 2.5.2 | **Pointer Cancellation** | A | ✅ | Down-event never executes action; up-event required (no down-only activation) | Manual test |
-| 2.5.3 | **Label in Name** | A | ✅ | Visible label text matches accessible name; `aria-label` includes visible text | axe DevTools |
-| 2.5.4 | **Motion Actuation** | A | ✅ | Device motion (shake, tilt) not required for operation; UI alternatives always present | Manual test |
-| 2.5.5 | **Target Size (AAA)** | AAA | ⬆️ | All targets ≥ 44×44px on mobile | Design review |
-| 2.5.6 | **Concurrent Input Mechanisms** | AAA | ✅ | Multiple input methods (keyboard + mouse + touch) can be used simultaneously | Manual test |
-| 2.5.7 | **Dragging Movements** | AA | ✅ | All drag interactions have pointer alternative (click, long press) | Manual test |
-| 2.5.8 | **Target Size (Minimum)** | AA | ✅ | All targets ≥ 24×24px | Playwright test |
+| ID     | Criterion                            | Level | Status | Implementation                                                                                               | Test Method              |
+| ------ | ------------------------------------ | ----- | ------ | ------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| 2.1.1  | **Keyboard**                         | A     | ✅     | All functionality available via keyboard; no keyboard traps; native elements preferred                       | Manual test + Playwright |
+| 2.1.2  | **No Keyboard Trap**                 | A     | ✅     | Focus never trapped in component without keyboard method to exit (Esc on modal, drawer)                      | Manual test + Playwright |
+| 2.1.3  | **Keyboard (No Exception)**          | AAA   | ⬆️     | All functionality via keyboard (extended coverage)                                                           | Manual test              |
+| 2.1.4  | **Character Key Shortcuts**          | A     | ✅ N/A | No single-character keyboard shortcuts                                                                       | N/A                      |
+| 2.2.1  | **Timing Adjustable**                | A     | ✅     | Any time limit has option to turn off, adjust, or extend                                                     | Manual review            |
+| 2.2.2  | **Pause, Stop, Hide**                | A     | ✅     | Auto-playing carousels paused on hover/focus; no auto-updating content without pause                         | Manual test              |
+| 2.2.3  | **No Timing**                        | AAA   | ✅     | No time limits on any interaction                                                                            | Manual review            |
+| 2.3.1  | **Three Flashes or Below Threshold** | A     | ✅     | No flashing content; GSAP/Framer Motion animations tested for flash safety                                   | Manual review            |
+| 2.3.2  | **Three Flashes**                    | AAA   | ✅     | No flashing content at any threshold                                                                         | Manual review            |
+| 2.4.1  | **Bypass Blocks**                    | A     | ✅     | Skip link to main content on every page; ARIA landmarks for navigation                                       | Manual test              |
+| 2.4.2  | **Page Titled**                      | A     | ✅     | Unique, descriptive `<title>` per page; `document.title` updated on SPA routes                               | axe DevTools             |
+| 2.4.3  | **Focus Order**                      | A     | ✅     | Tab order matches visual order; `tabindex` values only 0 or -1; no positive `tabindex` values                | Manual test + axe        |
+| 2.4.4  | **Link Purpose (In Context)**        | A     | ✅     | Link text describes destination; ARIA labels used when link text is ambiguous                                | axe DevTools             |
+| 2.4.5  | **Multiple Ways**                    | AA    | ✅     | Site map, navigation, search (AI chat) — multiple ways to locate content                                     | Manual review            |
+| 2.4.6  | **Headings and Labels**              | AA    | ✅     | All sections have descriptive headings; all form fields have labels                                          | axe DevTools             |
+| 2.4.7  | **Focus Visible**                    | AA    | ✅     | 2px accent-color ring with 2px offset on all interactive elements via `:focus-visible`                       | axe DevTools + Manual    |
+| 2.4.8  | **Location**                         | AAA   | ⬆️     | Breadcrumbs on detail pages; current page indicator in navigation                                            | Targeted AAA             |
+| 2.4.9  | **Link Purpose (Link Only)**         | AAA   | ⬆️     | Every link conveys purpose from text alone (no generic "click here")                                         | Manual audit             |
+| 2.4.10 | **Section Headings**                 | AAA   | ⬆️     | Every section has a heading; organized with proper heading hierarchy                                         | Manual audit             |
+| 2.4.11 | **Focus Not Obscured (AA)**          | AA    | ✅     | Focused element not completely hidden by other content; sticky header accounted for with `scroll-margin-top` | Manual test              |
+| 2.4.12 | **Focus Not Obscured (AAA)**         | AAA   | ⬆️     | Focused element not partially hidden                                                                         | Targeted AAA             |
+| 2.4.13 | **Focus Appearance**                 | AAA   | ⬆️     | Focus indicator ≥ 2px thick, contrast ratio ≥ 3:1 between focused/unfocused                                  | Manual audit             |
+| 2.5.1  | **Pointer Gestures**                 | A     | ✅     | All path-based and multi-point gestures have single-pointer alternative                                      | Manual test              |
+| 2.5.2  | **Pointer Cancellation**             | A     | ✅     | Down-event never executes action; up-event required (no down-only activation)                                | Manual test              |
+| 2.5.3  | **Label in Name**                    | A     | ✅     | Visible label text matches accessible name; `aria-label` includes visible text                               | axe DevTools             |
+| 2.5.4  | **Motion Actuation**                 | A     | ✅     | Device motion (shake, tilt) not required for operation; UI alternatives always present                       | Manual test              |
+| 2.5.5  | **Target Size (AAA)**                | AAA   | ⬆️     | All targets ≥ 44×44px on mobile                                                                              | Design review            |
+| 2.5.6  | **Concurrent Input Mechanisms**      | AAA   | ✅     | Multiple input methods (keyboard + mouse + touch) can be used simultaneously                                 | Manual test              |
+| 2.5.7  | **Dragging Movements**               | AA    | ✅     | All drag interactions have pointer alternative (click, long press)                                           | Manual test              |
+| 2.5.8  | **Target Size (Minimum)**            | AA    | ✅     | All targets ≥ 24×24px                                                                                        | Playwright test          |
 
 #### Principle 3: Understandable — Information and the operation of user interface must be understandable.
 
-| ID | Criterion | Level | Status | Implementation | Test Method |
-|----|-----------|-------|--------|----------------|-------------|
-| 3.1.1 | **Language of Page** | A | ✅ | `<html lang="en">` | axe DevTools |
-| 3.1.2 | **Language of Parts** | AA | ✅ | `lang` attribute on content in other languages | Manual review |
-| 3.1.3 | **Unusual Words** | AAA | ⬆️ | Glossary for technical terms, jargon, idioms | Targeted AAA |
-| 3.1.4 | **Abbreviations** | AAA | ⬆️ | `<abbr>` with `title` attribute for all abbreviations | Targeted AAA |
-| 3.1.5 | **Reading Level** | AAA | ⬆️ | Content at lower secondary education level (age 12-14) | Manual audit |
-| 3.1.6 | **Pronunciation** | AAA | ⬆️ | Pronunciation guidance for ambiguous words | Targeted AAA |
-| 3.2.1 | **On Focus** | A | ✅ | No context change when element receives focus | Manual test |
-| 3.2.2 | **On Input** | A | ✅ | No context change on input change; submit button required for form submission | Manual test |
-| 3.2.3 | **Consistent Navigation** | AA | ✅ | Navigation order and labeling consistent across all pages | Manual review |
-| 3.2.4 | **Consistent Identification** | AA | ✅ | Same components/functionality labeled consistently across pages | Manual review |
-| 3.2.5 | **Change on Request** | AAA | ✅ | No automatic updates without user request | Manual review |
-| 3.2.6 | **Consistent Help** | A | ✅ | AI chat help available from consistent location across pages | Manual review |
-| 3.3.1 | **Error Identification** | A | ✅ | Input errors identified and described to user; `aria-describedby` links to error message | axe DevTools |
-| 3.3.2 | **Labels or Instructions** | A | ✅ | All inputs have `<label>` with `for` attribute; instructions provided where needed | axe DevTools |
-| 3.3.3 | **Error Suggestion** | AA | ✅ | Error messages suggest how to fix (e.g., "Email must contain '@'") | Manual review |
-| 3.3.4 | **Error Prevention (Legal, Financial, Data)** | AA | ✅ | Confirmation on destructive actions (delete, archive); undo available | Manual test |
-| 3.3.5 | **Help** | AAA | ⬆️ | Context-sensitive help available for complex forms | Targeted AAA |
-| 3.3.6 | **Error Prevention (All)** | AAA | ⬆️ | Error prevention for all user input | Targeted AAA |
-| 3.3.7 | **Accessible Authentication** | AA | ✅ | Cognitive function test (password) has alternative (WebAuthn); no puzzle/recollection required | Manual review |
-| 3.3.8 | **Accessible Authentication (No Exception)** | AAA | ⬆️ | No cognitive function test required at all (password managers supported) | Manual review |
+| ID    | Criterion                                     | Level | Status | Implementation                                                                                 | Test Method   |
+| ----- | --------------------------------------------- | ----- | ------ | ---------------------------------------------------------------------------------------------- | ------------- |
+| 3.1.1 | **Language of Page**                          | A     | ✅     | `<html lang="en">`                                                                             | axe DevTools  |
+| 3.1.2 | **Language of Parts**                         | AA    | ✅     | `lang` attribute on content in other languages                                                 | Manual review |
+| 3.1.3 | **Unusual Words**                             | AAA   | ⬆️     | Glossary for technical terms, jargon, idioms                                                   | Targeted AAA  |
+| 3.1.4 | **Abbreviations**                             | AAA   | ⬆️     | `<abbr>` with `title` attribute for all abbreviations                                          | Targeted AAA  |
+| 3.1.5 | **Reading Level**                             | AAA   | ⬆️     | Content at lower secondary education level (age 12-14)                                         | Manual audit  |
+| 3.1.6 | **Pronunciation**                             | AAA   | ⬆️     | Pronunciation guidance for ambiguous words                                                     | Targeted AAA  |
+| 3.2.1 | **On Focus**                                  | A     | ✅     | No context change when element receives focus                                                  | Manual test   |
+| 3.2.2 | **On Input**                                  | A     | ✅     | No context change on input change; submit button required for form submission                  | Manual test   |
+| 3.2.3 | **Consistent Navigation**                     | AA    | ✅     | Navigation order and labeling consistent across all pages                                      | Manual review |
+| 3.2.4 | **Consistent Identification**                 | AA    | ✅     | Same components/functionality labeled consistently across pages                                | Manual review |
+| 3.2.5 | **Change on Request**                         | AAA   | ✅     | No automatic updates without user request                                                      | Manual review |
+| 3.2.6 | **Consistent Help**                           | A     | ✅     | AI chat help available from consistent location across pages                                   | Manual review |
+| 3.3.1 | **Error Identification**                      | A     | ✅     | Input errors identified and described to user; `aria-describedby` links to error message       | axe DevTools  |
+| 3.3.2 | **Labels or Instructions**                    | A     | ✅     | All inputs have `<label>` with `for` attribute; instructions provided where needed             | axe DevTools  |
+| 3.3.3 | **Error Suggestion**                          | AA    | ✅     | Error messages suggest how to fix (e.g., "Email must contain '@'")                             | Manual review |
+| 3.3.4 | **Error Prevention (Legal, Financial, Data)** | AA    | ✅     | Confirmation on destructive actions (delete, archive); undo available                          | Manual test   |
+| 3.3.5 | **Help**                                      | AAA   | ⬆️     | Context-sensitive help available for complex forms                                             | Targeted AAA  |
+| 3.3.6 | **Error Prevention (All)**                    | AAA   | ⬆️     | Error prevention for all user input                                                            | Targeted AAA  |
+| 3.3.7 | **Accessible Authentication**                 | AA    | ✅     | Cognitive function test (password) has alternative (WebAuthn); no puzzle/recollection required | Manual review |
+| 3.3.8 | **Accessible Authentication (No Exception)**  | AAA   | ⬆️     | No cognitive function test required at all (password managers supported)                       | Manual review |
 
 #### Principle 4: Robust — Content must be robust enough to be interpreted by a wide variety of user agents, including assistive technologies.
 
-| ID | Criterion | Level | Status | Implementation | Test Method |
-|----|-----------|-------|--------|----------------|-------------|
-| 4.1.1 | **Parsing** | A | ✅ | Valid HTML; no duplicate IDs; elements properly nested | W3C Validator + axe |
-| 4.1.2 | **Name, Role, Value** | A | ✅ | All custom controls have appropriate ARIA roles, states, and properties | axe DevTools |
-| 4.1.3 | **Status Messages** | AA | ✅ | Status messages use `role="status"` (polite) or `role="alert"` (assertive); no focus loss | VoiceOver test |
+| ID    | Criterion             | Level | Status | Implementation                                                                            | Test Method         |
+| ----- | --------------------- | ----- | ------ | ----------------------------------------------------------------------------------------- | ------------------- |
+| 4.1.1 | **Parsing**           | A     | ✅     | Valid HTML; no duplicate IDs; elements properly nested                                    | W3C Validator + axe |
+| 4.1.2 | **Name, Role, Value** | A     | ✅     | All custom controls have appropriate ARIA roles, states, and properties                   | axe DevTools        |
+| 4.1.3 | **Status Messages**   | AA    | ✅     | Status messages use `role="status"` (polite) or `role="alert"` (assertive); no focus loss | VoiceOver test      |
 
 **Key:**
+
 - ✅ = Fully compliant and implemented
 - ⬆️ = AAA criterion — targeted where feasible
 - ✅ N/A = Not applicable to this platform
 
 ### 3.2 Scope & Exclusions
 
-| Included | Excluded / Not Applicable |
-|----------|--------------------------|
-| All public pages (Home, Projects, Blog, About, Contact, Services) | Live audio/video content |
-| Admin dashboard (Dashboard, Analytics, Leads, CMS, Settings) | Real-time captions |
-| AI Chat Assistant | Sign language interpretation |
-| All interactive components (Modals, Tabs, Carousels, Forms, etc.) | Physical environment controls |
-| All content types (Text, Images, Code blocks, Videos) | Virtual reality / immersive environments |
-| All device types (Desktop, Tablet, Mobile) | Hardware-specific features |
-| All input methods (Keyboard, Mouse, Touch, Voice) | Brain-computer interfaces |
-| Dark + Light themes | Document authoring tools |
-| All third-party integrations (Supabase, PostHog, Keystatic embeds) | Third-party content outside our control |
+| Included                                                           | Excluded / Not Applicable                |
+| ------------------------------------------------------------------ | ---------------------------------------- |
+| All public pages (Home, Projects, Blog, About, Contact, Services)  | Live audio/video content                 |
+| Admin dashboard (Dashboard, Analytics, Leads, CMS, Settings)       | Real-time captions                       |
+| AI Chat Assistant                                                  | Sign language interpretation             |
+| All interactive components (Modals, Tabs, Carousels, Forms, etc.)  | Physical environment controls            |
+| All content types (Text, Images, Code blocks, Videos)              | Virtual reality / immersive environments |
+| All device types (Desktop, Tablet, Mobile)                         | Hardware-specific features               |
+| All input methods (Keyboard, Mouse, Touch, Voice)                  | Brain-computer interfaces                |
+| Dark + Light themes                                                | Document authoring tools                 |
+| All third-party integrations (Supabase, PostHog, Keystatic embeds) | Third-party content outside our control  |
 
 ---
 
@@ -295,52 +299,52 @@ graph TD
 
 ### 4.2 Accessibility Infrastructure
 
-| Layer | Technology | Role |
-|-------|-----------|------|
-| **Semantic Foundation** | HTML5 semantic elements | Structural meaning without ARIA |
-| **Component Primitives** | Radix UI (via shadcn/ui) | Accessible, unstressed UI primitives with built-in keyboard nav, focus management, ARIA |
-| **Design Tokens** | CSS Custom Properties | Theme-adaptive color tokens with guaranteed contrast ratios |
-| **Animation** | CSS + Framer Motion | Animated interfaces that respect reduced motion preferences |
-| **Focus Management** | CSS `:focus-visible` + React hooks | Consistent, visible focus indicators |
-| **Screen Reader** | ARIA attributes + live regions | Dynamic content announced without stealing focus |
-| **Automated Testing** | axe-core + Playwright | CI pipeline gates for accessibility violations |
-| **Manual Testing** | VoiceOver (macOS), NVDA (Windows) | Real-world assistive technology verification |
-| **Performance Monitoring** | Lighthouse CI | Accessibility score tracking over time |
+| Layer                      | Technology                         | Role                                                                                    |
+| -------------------------- | ---------------------------------- | --------------------------------------------------------------------------------------- |
+| **Semantic Foundation**    | HTML5 semantic elements            | Structural meaning without ARIA                                                         |
+| **Component Primitives**   | Radix UI (via shadcn/ui)           | Accessible, unstressed UI primitives with built-in keyboard nav, focus management, ARIA |
+| **Design Tokens**          | CSS Custom Properties              | Theme-adaptive color tokens with guaranteed contrast ratios                             |
+| **Animation**              | CSS + Framer Motion                | Animated interfaces that respect reduced motion preferences                             |
+| **Focus Management**       | CSS `:focus-visible` + React hooks | Consistent, visible focus indicators                                                    |
+| **Screen Reader**          | ARIA attributes + live regions     | Dynamic content announced without stealing focus                                        |
+| **Automated Testing**      | axe-core + Playwright              | CI pipeline gates for accessibility violations                                          |
+| **Manual Testing**         | VoiceOver (macOS), NVDA (Windows)  | Real-world assistive technology verification                                            |
+| **Performance Monitoring** | Lighthouse CI                      | Accessibility score tracking over time                                                  |
 
 ### 4.3 Accessibility Hooks & Utilities
 
-| Hook / Utility | File | Purpose |
-|---------------|------|---------|
-| `useFocusTrap` | `hooks/useFocusTrap.ts` | Traps focus within modals, drawers, and menus |
-| `useReducedMotion` | `hooks/useReducedMotion.ts` | Detects OS-level reduced motion preference |
-| `useFocusOnMount` | `hooks/useFocusOnMount.ts` | Moves focus to heading/content on route change |
-| `useAnnounce` | `hooks/useAnnounce.ts` | Announces dynamic content changes to screen readers |
-| `useFocusVisible` | `hooks/useFocusVisible.ts` | Manages `:focus-visible` polyfill for keyboard-only focus |
-| `useAutoFocus` | `hooks/useAutoFocus.ts` | Focuses first invalid field on form error |
-| `cn()` | `lib/utils.ts` | Tailwind class merge with accessible style resolution |
-| `SkipLink` | `components/SkipLink.tsx` | Skip-to-content link, first tabbable element |
-| `ScreenReaderAnnouncement` | `components/ScreenReaderAnnouncement.tsx` | Live region for status/alert messages |
-| `VisuallyHidden` | `components/VisuallyHidden.tsx` | Screen reader-only text (accessible label) |
+| Hook / Utility             | File                                      | Purpose                                                   |
+| -------------------------- | ----------------------------------------- | --------------------------------------------------------- |
+| `useFocusTrap`             | `hooks/useFocusTrap.ts`                   | Traps focus within modals, drawers, and menus             |
+| `useReducedMotion`         | `hooks/useReducedMotion.ts`               | Detects OS-level reduced motion preference                |
+| `useFocusOnMount`          | `hooks/useFocusOnMount.ts`                | Moves focus to heading/content on route change            |
+| `useAnnounce`              | `hooks/useAnnounce.ts`                    | Announces dynamic content changes to screen readers       |
+| `useFocusVisible`          | `hooks/useFocusVisible.ts`                | Manages `:focus-visible` polyfill for keyboard-only focus |
+| `useAutoFocus`             | `hooks/useAutoFocus.ts`                   | Focuses first invalid field on form error                 |
+| `cn()`                     | `lib/utils.ts`                            | Tailwind class merge with accessible style resolution     |
+| `SkipLink`                 | `components/SkipLink.tsx`                 | Skip-to-content link, first tabbable element              |
+| `ScreenReaderAnnouncement` | `components/ScreenReaderAnnouncement.tsx` | Live region for status/alert messages                     |
+| `VisuallyHidden`           | `components/VisuallyHidden.tsx`           | Screen reader-only text (accessible label)                |
 
 ### 4.4 Radix UI Accessibility Guarantees
 
 All interactive components in this portfolio use **shadcn/ui** components, which are built on top of **Radix UI Primitives**. Radix provides the following accessibility features by default:
 
-| Radix Primitive | A11y Features Built In |
-|----------------|----------------------|
-| **Dialog** | Focus trap, `aria-modal`, `aria-labelledby`, `aria-describedby`, Esc to close, return focus to trigger |
-| **Popover** | Focus management, `aria-expanded`, Esc to close, portal to end of body |
-| **DropdownMenu** | Arrow key navigation, `aria-expanded`, `aria-orientation`, Home/End keys |
-| **Select** | Listbox pattern, `aria-selected`, arrow key navigation, type-ahead |
-| **Tabs** | Tab list pattern, `aria-selected`, `aria-controls`, `aria-labelledby`, arrow key navigation |
-| **Accordion** | `aria-expanded`, `aria-controls`, Enter/Space to toggle |
-| **Switch** | `aria-checked`, `role="switch"`, toggle on Enter/Space |
-| **Checkbox** | `aria-checked` (mixed state support), native form participation |
-| **RadioGroup** | `role="radiogroup"`, arrow key navigation, `aria-checked` |
-| **Tooltip** | `role="tooltip"`, `aria-describedby`, keyboard hover emulation |
-| **Toast** | `role="status"` / `role="alert"`, `aria-live`, `aria-atomic` |
-| **AlertDialog** | Focus trap, `role="alertdialog"`, `aria-describedby`, confirmation pattern |
-| **NavigationMenu** | `aria-orientation`, arrow key navigation, `aria-expanded` for submenus |
+| Radix Primitive    | A11y Features Built In                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| **Dialog**         | Focus trap, `aria-modal`, `aria-labelledby`, `aria-describedby`, Esc to close, return focus to trigger |
+| **Popover**        | Focus management, `aria-expanded`, Esc to close, portal to end of body                                 |
+| **DropdownMenu**   | Arrow key navigation, `aria-expanded`, `aria-orientation`, Home/End keys                               |
+| **Select**         | Listbox pattern, `aria-selected`, arrow key navigation, type-ahead                                     |
+| **Tabs**           | Tab list pattern, `aria-selected`, `aria-controls`, `aria-labelledby`, arrow key navigation            |
+| **Accordion**      | `aria-expanded`, `aria-controls`, Enter/Space to toggle                                                |
+| **Switch**         | `aria-checked`, `role="switch"`, toggle on Enter/Space                                                 |
+| **Checkbox**       | `aria-checked` (mixed state support), native form participation                                        |
+| **RadioGroup**     | `role="radiogroup"`, arrow key navigation, `aria-checked`                                              |
+| **Tooltip**        | `role="tooltip"`, `aria-describedby`, keyboard hover emulation                                         |
+| **Toast**          | `role="status"` / `role="alert"`, `aria-live`, `aria-atomic`                                           |
+| **AlertDialog**    | Focus trap, `role="alertdialog"`, `aria-describedby`, confirmation pattern                             |
+| **NavigationMenu** | `aria-orientation`, arrow key navigation, `aria-expanded` for submenus                                 |
 
 ---
 
@@ -400,26 +404,26 @@ Every page follows this semantic structure:
 
 ### 5.2 Heading Hierarchy Rules
 
-| Rule | Implementation | WCAG |
-|------|---------------|------|
-| One `<h1>` per page | Page title in `<h1>` with class `sr-only` | 1.3.1 |
-| No skipped levels | `h1 → h2 → h3` never `h1 → h3` | 1.3.1 |
-| Descriptive headings | "Featured Projects" not "Section 2" | 2.4.6 |
-| Heading order matches visual | DOM order matches hierarchy | 1.3.2 |
-| Sections without headings use `aria-labelledby` | Skip link, aside, nav landmarks | 4.1.2 |
+| Rule                                            | Implementation                            | WCAG  |
+| ----------------------------------------------- | ----------------------------------------- | ----- |
+| One `<h1>` per page                             | Page title in `<h1>` with class `sr-only` | 1.3.1 |
+| No skipped levels                               | `h1 → h2 → h3` never `h1 → h3`            | 1.3.1 |
+| Descriptive headings                            | "Featured Projects" not "Section 2"       | 2.4.6 |
+| Heading order matches visual                    | DOM order matches hierarchy               | 1.3.2 |
+| Sections without headings use `aria-labelledby` | Skip link, aside, nav landmarks           | 4.1.2 |
 
 ### 5.3 Landmarks & Regions
 
-| Landmark | When to Use | ARIA Fallback |
-|----------|-------------|---------------|
-| `<header>` | Top of every page | `role="banner"` |
-| `<nav>` | Navigation blocks | `aria-label="Main navigation"` |
-| `<main>` | Primary content (one per page) | `role="main"` |
-| `<section>` | Thematic grouping | `aria-labelledby` with heading ID |
-| `<article>` | Self-contained composition (blog post, project) | `role="article"` |
-| `<aside>` | Complementary content | `role="complementary"` |
-| `<footer>` | Bottom of page | `role="contentinfo"` |
-| `<form>` | Form elements | `aria-label` or `aria-labelledby` |
+| Landmark    | When to Use                                     | ARIA Fallback                     |
+| ----------- | ----------------------------------------------- | --------------------------------- |
+| `<header>`  | Top of every page                               | `role="banner"`                   |
+| `<nav>`     | Navigation blocks                               | `aria-label="Main navigation"`    |
+| `<main>`    | Primary content (one per page)                  | `role="main"`                     |
+| `<section>` | Thematic grouping                               | `aria-labelledby` with heading ID |
+| `<article>` | Self-contained composition (blog post, project) | `role="article"`                  |
+| `<aside>`   | Complementary content                           | `role="complementary"`            |
+| `<footer>`  | Bottom of page                                  | `role="contentinfo"`              |
+| `<form>`    | Form elements                                   | `aria-label` or `aria-labelledby` |
 
 ### 5.4 List Structure
 
@@ -506,47 +510,47 @@ graph TD
 
 ### 6.2 Keyboard Support Matrix
 
-| Component | Tab | Enter / Space | Arrow Keys | Escape | Home / End | Other |
-|-----------|-----|--------------|-----------|--------|-----------|-------|
-| **Skip Link** | First tab → visible | Navigate to main | — | — | — | — |
-| **Navigation** | Through links | Navigate | — | — | — | `aria-current` |
-| **Mobile Menu** | Trap inside | Activate item | — | Close | — | Focus trap |
-| **Modal** | Trap inside | Activate button | — | Close | — | Focus trap |
-| **Dropdown** | Open/close | Select item | Up/Down navigate | Close | — | Type-ahead |
-| **Tabs** | Into/out of tablist | Activate tab | Left/Right switch | — | First/Last tab | — |
-| **Carousel** | Into/out of | N/A | Left/Right slide | — | First/Last slide | — |
-| **Accordion** | Through buttons | Toggle panel | — | — | — | `aria-expanded` |
-| **Form Inputs** | Through fields | Submit (in active field) | — | Close autocomplete | — | `autocomplete` |
-| **Select** | Open dropdown | Select | Up/Down | Close | First/Last | Type-ahead |
-| **Toast** | Focus dismiss button | Dismiss | — | — | — | Auto-dismiss |
-| **Tooltip** | Show on focus | — | — | Dismiss | — | Hover + focus |
-| **AI Chat** | Through messages | Send message | Scroll history | Close panel | — | — |
-| **Image Gallery** | Through images | Open lightbox | Prev/Next | Close lightbox | — | — |
-| **Breadcrumbs** | Through links | Navigate | — | — | — | `aria-current="page"` |
-| **Pagination** | Through links | Navigate page | — | — | First/Last | — |
-| **Admin Table** | Through cells | Edit/select | Up/Down rows | Close inline editor | First/Last row | Shift+Click multi-select |
-| **Admin Sidebar** | Through links | Navigate | — | Close on mobile | — | Collapse toggle |
+| Component         | Tab                  | Enter / Space            | Arrow Keys        | Escape              | Home / End       | Other                    |
+| ----------------- | -------------------- | ------------------------ | ----------------- | ------------------- | ---------------- | ------------------------ |
+| **Skip Link**     | First tab → visible  | Navigate to main         | —                 | —                   | —                | —                        |
+| **Navigation**    | Through links        | Navigate                 | —                 | —                   | —                | `aria-current`           |
+| **Mobile Menu**   | Trap inside          | Activate item            | —                 | Close               | —                | Focus trap               |
+| **Modal**         | Trap inside          | Activate button          | —                 | Close               | —                | Focus trap               |
+| **Dropdown**      | Open/close           | Select item              | Up/Down navigate  | Close               | —                | Type-ahead               |
+| **Tabs**          | Into/out of tablist  | Activate tab             | Left/Right switch | —                   | First/Last tab   | —                        |
+| **Carousel**      | Into/out of          | N/A                      | Left/Right slide  | —                   | First/Last slide | —                        |
+| **Accordion**     | Through buttons      | Toggle panel             | —                 | —                   | —                | `aria-expanded`          |
+| **Form Inputs**   | Through fields       | Submit (in active field) | —                 | Close autocomplete  | —                | `autocomplete`           |
+| **Select**        | Open dropdown        | Select                   | Up/Down           | Close               | First/Last       | Type-ahead               |
+| **Toast**         | Focus dismiss button | Dismiss                  | —                 | —                   | —                | Auto-dismiss             |
+| **Tooltip**       | Show on focus        | —                        | —                 | Dismiss             | —                | Hover + focus            |
+| **AI Chat**       | Through messages     | Send message             | Scroll history    | Close panel         | —                | —                        |
+| **Image Gallery** | Through images       | Open lightbox            | Prev/Next         | Close lightbox      | —                | —                        |
+| **Breadcrumbs**   | Through links        | Navigate                 | —                 | —                   | —                | `aria-current="page"`    |
+| **Pagination**    | Through links        | Navigate page            | —                 | —                   | First/Last       | —                        |
+| **Admin Table**   | Through cells        | Edit/select              | Up/Down rows      | Close inline editor | First/Last row   | Shift+Click multi-select |
+| **Admin Sidebar** | Through links        | Navigate                 | —                 | Close on mobile     | —                | Collapse toggle          |
 
 ### 6.3 Tab Order Rules
 
-| Rule | Implementation | Rationale |
-|------|---------------|-----------|
-| **No positive tabindex** | Only `tabindex="0"` (natural order) or `tabindex="-1"` (programmatic focus) | Positive `tabindex` breaks natural order |
-| **DOM order = Tab order** | Visual order matches DOM order | WCAG 2.4.3 |
-| **Skip link first** | First tabbable element on every page | WCAG 2.4.1 |
-| **Sticky header consideration** | Main content starts below header | Focus doesn't get trapped in header |
-| **Modals trap focus** | `useFocusTrap` hook cycles within modal | WCAG 2.1.2 |
-| **Drawers trap focus** | Same as modal pattern | WCAG 2.1.2 |
-| **Toast never steals focus** | Adds `role="status"` but no focus change | WCAG 4.1.3 |
-| **Form errors** | Focus goes to first invalid field | WCAG 3.3.1 |
-| **Route changes** | Focus moves to `<h1>` of new page | WCAG 2.4.3 |
-| **Tab key restores after overlay** | Focus returns to trigger element | WCAG 2.4.3 |
+| Rule                               | Implementation                                                              | Rationale                                |
+| ---------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------- |
+| **No positive tabindex**           | Only `tabindex="0"` (natural order) or `tabindex="-1"` (programmatic focus) | Positive `tabindex` breaks natural order |
+| **DOM order = Tab order**          | Visual order matches DOM order                                              | WCAG 2.4.3                               |
+| **Skip link first**                | First tabbable element on every page                                        | WCAG 2.4.1                               |
+| **Sticky header consideration**    | Main content starts below header                                            | Focus doesn't get trapped in header      |
+| **Modals trap focus**              | `useFocusTrap` hook cycles within modal                                     | WCAG 2.1.2                               |
+| **Drawers trap focus**             | Same as modal pattern                                                       | WCAG 2.1.2                               |
+| **Toast never steals focus**       | Adds `role="status"` but no focus change                                    | WCAG 4.1.3                               |
+| **Form errors**                    | Focus goes to first invalid field                                           | WCAG 3.3.1                               |
+| **Route changes**                  | Focus moves to `<h1>` of new page                                           | WCAG 2.4.3                               |
+| **Tab key restores after overlay** | Focus returns to trigger element                                            | WCAG 2.4.3                               |
 
 ### 6.4 Skip Link Implementation
 
 ```tsx
 // components/SkipLink.tsx
-"use client";
+'use client';
 
 export function SkipLink() {
   return (
@@ -580,7 +584,7 @@ The skip link is placed as the **first child of `<body>`** in the root layout, b
 
 ```typescript
 // hooks/useFocusTrap.ts
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
 const FOCUSABLE_SELECTORS = [
   'a[href]',
@@ -590,7 +594,7 @@ const FOCUSABLE_SELECTORS = [
   'select:not([disabled])',
   '[tabindex]:not([tabindex="-1"]):not([disabled])',
   '[contenteditable="true"]',
-].join(", ");
+].join(', ');
 
 export function useFocusTrap(isActive: boolean) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -612,7 +616,7 @@ export function useFocusTrap(isActive: boolean) {
     }
 
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key !== "Tab" || !container) return;
+      if (e.key !== 'Tab' || !container) return;
 
       const focusableElements = container.querySelectorAll(FOCUSABLE_SELECTORS);
       if (!focusableElements.length) return;
@@ -635,10 +639,10 @@ export function useFocusTrap(isActive: boolean) {
       }
     }
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
       // Restore focus to trigger element on close
       previousFocusRef.current?.focus();
     };
@@ -654,14 +658,14 @@ export function useFocusTrap(isActive: boolean) {
 
 ### 7.1 Screen Reader Compatibility Targets
 
-| Screen Reader | OS | Browser | Version | Test Frequency | Status |
-|--------------|----|---------|---------|----------------|--------|
-| **VoiceOver** | macOS | Safari | Latest | Every PR | 🟢 Supported |
-| **VoiceOver** | iOS | Safari | Latest | Every release | 🟢 Supported |
-| **NVDA** | Windows | Firefox | Latest | Every PR | 🟢 Supported |
-| **JAWS** | Windows | Chrome | Latest | Quarterly | 🟡 Monitored |
-| **TalkBack** | Android | Chrome | Latest | Every release | 🟡 Monitored |
-| **Narrator** | Windows | Edge | Latest | Quarterly | 🟢 Supported |
+| Screen Reader | OS      | Browser | Version | Test Frequency | Status       |
+| ------------- | ------- | ------- | ------- | -------------- | ------------ |
+| **VoiceOver** | macOS   | Safari  | Latest  | Every PR       | 🟢 Supported |
+| **VoiceOver** | iOS     | Safari  | Latest  | Every release  | 🟢 Supported |
+| **NVDA**      | Windows | Firefox | Latest  | Every PR       | 🟢 Supported |
+| **JAWS**      | Windows | Chrome  | Latest  | Quarterly      | 🟡 Monitored |
+| **TalkBack**  | Android | Chrome  | Latest  | Every release  | 🟡 Monitored |
+| **Narrator**  | Windows | Edge    | Latest  | Quarterly      | 🟢 Supported |
 
 ### 7.2 Screen Reader Optimization Strategies
 
@@ -755,20 +759,22 @@ function ToastContainer() {
 // Loading state
 <div role="status" aria-live="polite" aria-atomic="true">
   Loading projects...
-</div>
+</div>;
 
 // Loaded state announcement
-{isLoaded && (
-  <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
-    {projects.length} projects loaded
-  </div>
-)}
+{
+  isLoaded && (
+    <div role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+      {projects.length} projects loaded
+    </div>
+  );
+}
 
 // Error state
 <div role="alert" aria-live="assertive">
   Failed to load projects. Please try again.
   <button onClick={retry}>Retry</button>
-</div>
+</div>;
 ```
 
 #### 7.2.4 Carousel & Slider Announcements
@@ -810,18 +816,18 @@ function Carousel({ slides, ariaLabel }: CarouselProps) {
 
 #### 7.2.5 Live Region Strategy
 
-| Use Case | Role | aria-live | aria-atomic | Focus Change? |
-|----------|------|-----------|-------------|---------------|
-| **Toast success** | `status` | `polite` | `true` | No |
-| **Toast error** | `alert` | `assertive` | `true` | No |
-| **Form validation error** | `alert` | `assertive` | `true` | Yes (to first error) |
-| **Loading complete** | `status` | `polite` | `true` | No |
-| **Content updated** | `status` | `polite` | `false` | No |
-| **Search results** | `status` | `polite` | `true` | Yes (to results) |
-| **AI streaming response** | `status` | `polite` | `false` | No |
-| **Page transition** | `status` | `polite` | `true` | Yes (to h1) |
-| **Modal opened** | — | — | — | Yes (trap inside) |
-| **Countdown / timer** | `status` | `polite` | `true` | No |
+| Use Case                  | Role     | aria-live   | aria-atomic | Focus Change?        |
+| ------------------------- | -------- | ----------- | ----------- | -------------------- |
+| **Toast success**         | `status` | `polite`    | `true`      | No                   |
+| **Toast error**           | `alert`  | `assertive` | `true`      | No                   |
+| **Form validation error** | `alert`  | `assertive` | `true`      | Yes (to first error) |
+| **Loading complete**      | `status` | `polite`    | `true`      | No                   |
+| **Content updated**       | `status` | `polite`    | `false`     | No                   |
+| **Search results**        | `status` | `polite`    | `true`      | Yes (to results)     |
+| **AI streaming response** | `status` | `polite`    | `false`     | No                   |
+| **Page transition**       | `status` | `polite`    | `true`      | Yes (to h1)          |
+| **Modal opened**          | —        | —           | —           | Yes (trap inside)    |
+| **Countdown / timer**     | `status` | `polite`    | `true`      | No                   |
 
 ---
 
@@ -835,39 +841,39 @@ The color system is designed **contrast-first**: tokens are engineered to mainta
 
 #### Verified Light Theme Pairs
 
-| Foreground | Background | Contrast Ratio | WCAG Level | Usage |
-|-----------|-----------|----------------|------------|-------|
-| `text-primary` (#18181B) | `surface-primary` (#FAFAFA) | **15.3:1** | ✅ AAA | Body text on page background |
-| `text-primary` (#18181B) | `surface-secondary` (#FFFFFF) | **17.3:1** | ✅ AAA | Body text on cards |
-| `text-secondary` (#52525B) | `surface-primary` (#FAFAFA) | **7.2:1** | ✅ AAA | Secondary text on page |
-| `text-secondary` (#52525B) | `surface-secondary` (#FFFFFF) | **8.4:1** | ✅ AAA | Secondary text on cards |
-| `text-tertiary` (#71717A) | `surface-primary` (#FAFAFA) | **4.8:1** | ✅ AA | Captions, placeholders |
-| `text-tertiary` (#71717A) | `surface-secondary` (#FFFFFF) | **5.6:1** | ✅ AA | Captions on cards |
-| `text-link` (#4F46E5) | `surface-primary` (#FAFAFA) | **4.9:1** | ✅ AA | Link text |
-| `text-link` (#4F46E5) | `surface-secondary` (#FFFFFF) | **5.7:1** | ✅ AA | Link text on cards |
-| `text-inverse` (#FAFAFA) | `accent-500` (#6366F1) | **6.5:1** | ✅ AAA | Button text on primary |
-| `accent-500` (#6366F1) | `surface-primary` (#FAFAFA) | **4.3:1** | ✅ AA | Accent elements on page |
-| `semantic-error` (#EF4444) | `surface-primary` (#FAFAFA) | **4.6:1** | ✅ AA | Error text on page |
-| `semantic-success` (#22C55E) | `surface-primary` (#FAFAFA) | **3.0:1** | ✅ AA (large) | Success icons (large) |
-| `border-primary` (#E4E4E7) | `surface-primary` (#FAFAFA) | **1.3:1** | — | Borders (no text) |
-| `surface-elevated` (#F4F4F5) | `surface-primary` (#FAFAFA) | **1.2:1** | — | Elevated surfaces |
+| Foreground                   | Background                    | Contrast Ratio | WCAG Level    | Usage                        |
+| ---------------------------- | ----------------------------- | -------------- | ------------- | ---------------------------- |
+| `text-primary` (#18181B)     | `surface-primary` (#FAFAFA)   | **15.3:1**     | ✅ AAA        | Body text on page background |
+| `text-primary` (#18181B)     | `surface-secondary` (#FFFFFF) | **17.3:1**     | ✅ AAA        | Body text on cards           |
+| `text-secondary` (#52525B)   | `surface-primary` (#FAFAFA)   | **7.2:1**      | ✅ AAA        | Secondary text on page       |
+| `text-secondary` (#52525B)   | `surface-secondary` (#FFFFFF) | **8.4:1**      | ✅ AAA        | Secondary text on cards      |
+| `text-tertiary` (#71717A)    | `surface-primary` (#FAFAFA)   | **4.8:1**      | ✅ AA         | Captions, placeholders       |
+| `text-tertiary` (#71717A)    | `surface-secondary` (#FFFFFF) | **5.6:1**      | ✅ AA         | Captions on cards            |
+| `text-link` (#4F46E5)        | `surface-primary` (#FAFAFA)   | **4.9:1**      | ✅ AA         | Link text                    |
+| `text-link` (#4F46E5)        | `surface-secondary` (#FFFFFF) | **5.7:1**      | ✅ AA         | Link text on cards           |
+| `text-inverse` (#FAFAFA)     | `accent-500` (#6366F1)        | **6.5:1**      | ✅ AAA        | Button text on primary       |
+| `accent-500` (#6366F1)       | `surface-primary` (#FAFAFA)   | **4.3:1**      | ✅ AA         | Accent elements on page      |
+| `semantic-error` (#EF4444)   | `surface-primary` (#FAFAFA)   | **4.6:1**      | ✅ AA         | Error text on page           |
+| `semantic-success` (#22C55E) | `surface-primary` (#FAFAFA)   | **3.0:1**      | ✅ AA (large) | Success icons (large)        |
+| `border-primary` (#E4E4E7)   | `surface-primary` (#FAFAFA)   | **1.3:1**      | —             | Borders (no text)            |
+| `surface-elevated` (#F4F4F5) | `surface-primary` (#FAFAFA)   | **1.2:1**      | —             | Elevated surfaces            |
 
 #### Verified Dark Theme Pairs
 
-| Foreground | Background | Contrast Ratio | WCAG Level | Usage |
-|-----------|-----------|----------------|------------|-------|
-| `text-primary` (#FAFAFA) | `surface-primary` (#09090B) | **15.3:1** | ✅ AAA | Body text on page |
-| `text-primary` (#FAFAFA) | `surface-secondary` (#18181B) | **17.3:1** | ✅ AAA | Body text on cards |
-| `text-secondary` (#A1A1AA) | `surface-primary` (#09090B) | **7.2:1** | ✅ AAA | Secondary text on page |
-| `text-secondary` (#A1A1AA) | `surface-secondary` (#18181B) | **8.4:1** | ✅ AAA | Secondary text on cards |
-| `text-tertiary` (#71717A) | `surface-primary` (#09090B) | **4.8:1** | ✅ AA | Captions, placeholders |
-| `text-tertiary` (#71717A) | `surface-secondary` (#18181B) | **5.6:1** | ✅ AA | Captions on cards |
-| `text-link` (#818CF8) | `surface-primary` (#09090B) | **8.7:1** | ✅ AAA | Link text |
-| `text-link` (#818CF8) | `surface-secondary` (#18181B) | **10.0:1** | ✅ AAA | Link text on cards |
-| `text-inverse` (#18181B) | `accent-500` (#6366F1) | **6.5:1** | ✅ AAA | Button text on primary |
-| `accent-500` (#6366F1) | `surface-primary` (#09090B) | **6.5:1** | ✅ AAA | Accent elements on dark |
-| `semantic-error` (#EF4444) | `surface-primary` (#09090B) | **4.8:1** | ✅ AA | Error text on dark |
-| `semantic-success` (#22C55E) | `surface-primary` (#09090B) | **3.9:1** | ✅ AA | Success text on dark |
+| Foreground                   | Background                    | Contrast Ratio | WCAG Level | Usage                   |
+| ---------------------------- | ----------------------------- | -------------- | ---------- | ----------------------- |
+| `text-primary` (#FAFAFA)     | `surface-primary` (#09090B)   | **15.3:1**     | ✅ AAA     | Body text on page       |
+| `text-primary` (#FAFAFA)     | `surface-secondary` (#18181B) | **17.3:1**     | ✅ AAA     | Body text on cards      |
+| `text-secondary` (#A1A1AA)   | `surface-primary` (#09090B)   | **7.2:1**      | ✅ AAA     | Secondary text on page  |
+| `text-secondary` (#A1A1AA)   | `surface-secondary` (#18181B) | **8.4:1**      | ✅ AAA     | Secondary text on cards |
+| `text-tertiary` (#71717A)    | `surface-primary` (#09090B)   | **4.8:1**      | ✅ AA      | Captions, placeholders  |
+| `text-tertiary` (#71717A)    | `surface-secondary` (#18181B) | **5.6:1**      | ✅ AA      | Captions on cards       |
+| `text-link` (#818CF8)        | `surface-primary` (#09090B)   | **8.7:1**      | ✅ AAA     | Link text               |
+| `text-link` (#818CF8)        | `surface-secondary` (#18181B) | **10.0:1**     | ✅ AAA     | Link text on cards      |
+| `text-inverse` (#18181B)     | `accent-500` (#6366F1)        | **6.5:1**      | ✅ AAA     | Button text on primary  |
+| `accent-500` (#6366F1)       | `surface-primary` (#09090B)   | **6.5:1**      | ✅ AAA     | Accent elements on dark |
+| `semantic-error` (#EF4444)   | `surface-primary` (#09090B)   | **4.8:1**      | ✅ AA      | Error text on dark      |
+| `semantic-success` (#22C55E) | `surface-primary` (#09090B)   | **3.9:1**      | ✅ AA      | Success text on dark    |
 
 ### 8.3 Focus Indicator Contrast
 
@@ -882,43 +888,43 @@ The focus indicator system uses a **2px accent-colored ring with 2px offset**:
 }
 ```
 
-| State | Ring Color | Background | Contrast Ratio | Level |
-|-------|-----------|-----------|----------------|-------|
-| Light theme focus | `accent-500` (#6366F1) | `surface-secondary` (#FFFFFF) | **5.7:1** | ✅ AA |
-| Dark theme focus | `accent-500` (#6366F1) | `surface-secondary` (#18181B) | **6.5:1** | ✅ AAA |
+| State             | Ring Color             | Background                    | Contrast Ratio | Level  |
+| ----------------- | ---------------------- | ----------------------------- | -------------- | ------ |
+| Light theme focus | `accent-500` (#6366F1) | `surface-secondary` (#FFFFFF) | **5.7:1**      | ✅ AA  |
+| Dark theme focus  | `accent-500` (#6366F1) | `surface-secondary` (#18181B) | **6.5:1**      | ✅ AAA |
 
 ### 8.4 Non-Text Contrast (UI Components)
 
-| Component | Element | Foreground | Background | Ratio | WCAG |
-|-----------|---------|-----------|-----------|-------|------|
-| **Button (primary)** | Icon | #FAFAFA | #6366F1 | 6.5:1 | ✅ AAA |
-| **Button (outline)** | Border | #E4E4E7 | #18181B | 4.5:1 | ✅ AA |
-| **Badge (default)** | Background | #E0E7FF | #FAFAFA | 3.6:1 | ✅ AA |
-| **Badge (error)** | Background | #FEE2E2 | #FAFAFA | 3.2:1 | ✅ AA |
-| **Toggle switch** | Knob | #FAFAFA | #6366F1 | 6.5:1 | ✅ AAA |
-| **Toggle switch (off)** | Track | #E4E4E7 | #FAFAFA | 1.3:1 | — (informal) |
-| **Progress bar** | Fill | #6366F1 | #E4E4E7 | 4.3:1 | ✅ AA |
-| **Input border** | Border | #E4E4E7 | #FAFAFA | 1.3:1 | — (informal) |
-| **Input focus** | Border | #6366F1 | #FAFAFA | 4.3:1 | ✅ AA |
-| **Error border** | Border | #EF4444 | #FAFAFA | 4.6:1 | ✅ AA |
-| **Star rating (filled)** | Icon | #F59E0B | #FAFAFA | 3.5:1 | ✅ AA |
+| Component                | Element    | Foreground | Background | Ratio | WCAG         |
+| ------------------------ | ---------- | ---------- | ---------- | ----- | ------------ |
+| **Button (primary)**     | Icon       | #FAFAFA    | #6366F1    | 6.5:1 | ✅ AAA       |
+| **Button (outline)**     | Border     | #E4E4E7    | #18181B    | 4.5:1 | ✅ AA        |
+| **Badge (default)**      | Background | #E0E7FF    | #FAFAFA    | 3.6:1 | ✅ AA        |
+| **Badge (error)**        | Background | #FEE2E2    | #FAFAFA    | 3.2:1 | ✅ AA        |
+| **Toggle switch**        | Knob       | #FAFAFA    | #6366F1    | 6.5:1 | ✅ AAA       |
+| **Toggle switch (off)**  | Track      | #E4E4E7    | #FAFAFA    | 1.3:1 | — (informal) |
+| **Progress bar**         | Fill       | #6366F1    | #E4E4E7    | 4.3:1 | ✅ AA        |
+| **Input border**         | Border     | #E4E4E7    | #FAFAFA    | 1.3:1 | — (informal) |
+| **Input focus**          | Border     | #6366F1    | #FAFAFA    | 4.3:1 | ✅ AA        |
+| **Error border**         | Border     | #EF4444    | #FAFAFA    | 4.6:1 | ✅ AA        |
+| **Star rating (filled)** | Icon       | #F59E0B    | #FAFAFA    | 3.5:1 | ✅ AA        |
 
 ### 8.5 Color-Only Information Prevention
 
 No information is conveyed using color alone. Every color-coded state is supplemented by:
 
-| Pattern | Color Indicator | Non-Color Supplement |
-|---------|----------------|---------------------|
-| **Success badge** | Green background | ✅ Checkmark icon + "Success" text |
-| **Error badge** | Red background | ❌ X icon + "Error" text |
-| **Warning badge** | Amber background | ⚠️ Warning icon + "Warning" text |
-| **Info badge** | Blue background | ℹ️ Info icon + "Info" text |
-| **Active nav link** | Accent underline | `aria-current="page"` attribute |
-| **Form error field** | Red border | Error icon + error text message |
-| **Form success field** | Green border | Checkmark icon |
-| **Availability status** | Green/red dot | "Available" / "Busy" text label |
-| **Chart data** | Colored lines | Patterns + direct labels on data points |
-| **Link styling** | Accent color | Underline on hover, different from body text |
+| Pattern                 | Color Indicator  | Non-Color Supplement                         |
+| ----------------------- | ---------------- | -------------------------------------------- |
+| **Success badge**       | Green background | ✅ Checkmark icon + "Success" text           |
+| **Error badge**         | Red background   | ❌ X icon + "Error" text                     |
+| **Warning badge**       | Amber background | ⚠️ Warning icon + "Warning" text             |
+| **Info badge**          | Blue background  | ℹ️ Info icon + "Info" text                   |
+| **Active nav link**     | Accent underline | `aria-current="page"` attribute              |
+| **Form error field**    | Red border       | Error icon + error text message              |
+| **Form success field**  | Green border     | Checkmark icon                               |
+| **Availability status** | Green/red dot    | "Available" / "Busy" text label              |
+| **Chart data**          | Colored lines    | Patterns + direct labels on data points      |
+| **Link styling**        | Accent color     | Underline on hover, different from body text |
 
 ### 8.6 Forced Colors Mode Support
 
@@ -926,7 +932,8 @@ The portfolio supports Windows High Contrast Mode and forced colors by using `fo
 
 ```css
 /* Buttons — maintain structure in forced colors */
-button, .btn {
+button,
+.btn {
   forced-color-adjust: auto;
 }
 
@@ -937,7 +944,8 @@ button, .btn {
 }
 
 /* Decorative elements — hide when colors are forced */
-.decorative-bg, .gradient-overlay {
+.decorative-bg,
+.gradient-overlay {
   forced-color-adjust: none;
 }
 
@@ -955,7 +963,7 @@ button, .btn {
 @media (prefers-contrast: more) {
   :root {
     --text-tertiary: var(--text-secondary); /* Upgrade caption to secondary */
-    --border-primary: var(--border-accent);  /* Darker borders */
+    --border-primary: var(--border-accent); /* Darker borders */
   }
 
   /* Increase focus indicator thickness */
@@ -964,7 +972,9 @@ button, .btn {
   }
 
   /* Reduce decorative transparency */
-  .glass-subtle, .glass-medium, .glass-prominent {
+  .glass-subtle,
+  .glass-medium,
+  .glass-prominent {
     background: var(--surface-elevated);
     backdrop-filter: none;
   }
@@ -989,23 +999,23 @@ button, .btn {
 
 The portfolio fully respects `prefers-reduced-motion: reduce` at both the CSS and JavaScript levels. When reduced motion is detected:
 
-| Animation Type | Normal Behavior | Reduced Motion Behavior |
-|---------------|----------------|------------------------|
-| **Section reveals (scroll)** | Fade up 20px, 600ms ease-out | Static — content fully visible on load |
-| **Staggered grid reveals** | Items fade up with 80ms delay | All items visible immediately |
-| **Number counters** | Animated count from 0 to target | Static number displayed |
-| **3D hero element** | Continuous rotation, mouse response | Static — no rotation, no mouse interaction |
-| **Parallax backgrounds** | Slow movement on scroll | No movement, static background |
-| **Skeleton shimmer** | 1.5s shimmer animation | Static gray placeholder, no shimmer |
-| **Carousel auto-play** | Auto-advances every 5s | No auto-play, manual navigation only |
-| **Particle backgrounds** | Continuous particle animation | Static image or disabled completely |
-| **Hover lift effects** | Card lifts 2px with shadow increase | Color change only, no transform |
-| **Button press** | Scale 0.97 → 1.0 | Instant state change, no scale |
-| **Toast entrance** | Slide in from top-right (300ms) | Fade in only (100ms) |
-| **Modal entrance** | Scale 0.95→1 + fade (200ms) | Fade in only (100ms) |
-| **Page transitions** | Barba.js cinematic transition | Instant swap, no transition |
-| **Cursor trail** | Animated cursor ring following mouse | Standard cursor, no trail |
-| **Loading spinner** | Continuous rotation | Static indicator (dots or text) |
+| Animation Type               | Normal Behavior                      | Reduced Motion Behavior                    |
+| ---------------------------- | ------------------------------------ | ------------------------------------------ |
+| **Section reveals (scroll)** | Fade up 20px, 600ms ease-out         | Static — content fully visible on load     |
+| **Staggered grid reveals**   | Items fade up with 80ms delay        | All items visible immediately              |
+| **Number counters**          | Animated count from 0 to target      | Static number displayed                    |
+| **3D hero element**          | Continuous rotation, mouse response  | Static — no rotation, no mouse interaction |
+| **Parallax backgrounds**     | Slow movement on scroll              | No movement, static background             |
+| **Skeleton shimmer**         | 1.5s shimmer animation               | Static gray placeholder, no shimmer        |
+| **Carousel auto-play**       | Auto-advances every 5s               | No auto-play, manual navigation only       |
+| **Particle backgrounds**     | Continuous particle animation        | Static image or disabled completely        |
+| **Hover lift effects**       | Card lifts 2px with shadow increase  | Color change only, no transform            |
+| **Button press**             | Scale 0.97 → 1.0                     | Instant state change, no scale             |
+| **Toast entrance**           | Slide in from top-right (300ms)      | Fade in only (100ms)                       |
+| **Modal entrance**           | Scale 0.95→1 + fade (200ms)          | Fade in only (100ms)                       |
+| **Page transitions**         | Barba.js cinematic transition        | Instant swap, no transition                |
+| **Cursor trail**             | Animated cursor ring following mouse | Standard cursor, no trail                  |
+| **Loading spinner**          | Continuous rotation                  | Static indicator (dots or text)            |
 
 ### 9.2 CSS Implementation
 
@@ -1122,16 +1132,16 @@ function useGSAPAnimation(ref: React.RefObject<HTMLElement>) {
 
 ### 9.4 Animation Safety Guidelines
 
-| Rule | Implementation | WCAG |
-|------|---------------|------|
-| **No flashing content** | All animations tested with PEAT (Photosensitive Epilepsy Analysis Tool) | 2.3.1 |
-| **No auto-play without pause** | Carousels pause on hover/focus, provide play/pause button | 2.2.2 |
-| **Animation duration within limits** | No animation > 5 seconds (except ambient) | 2.2.2 |
-| **All animations respect reduced motion** | CSS `@media (prefers-reduced-motion: reduce)` + JS hook | 1.4.4 |
-| **No essential content via animation** | Content not conveyed through motion alone | 1.4.1 |
-| **60fps target** | Only `transform` and `opacity` animated | Performance |
-| **Motion triggers** | No motion triggered by device motion (shake, tilt) | 2.5.4 |
-| **Animation weight budget** | All animations total < 50KB JS | Performance |
+| Rule                                      | Implementation                                                          | WCAG        |
+| ----------------------------------------- | ----------------------------------------------------------------------- | ----------- |
+| **No flashing content**                   | All animations tested with PEAT (Photosensitive Epilepsy Analysis Tool) | 2.3.1       |
+| **No auto-play without pause**            | Carousels pause on hover/focus, provide play/pause button               | 2.2.2       |
+| **Animation duration within limits**      | No animation > 5 seconds (except ambient)                               | 2.2.2       |
+| **All animations respect reduced motion** | CSS `@media (prefers-reduced-motion: reduce)` + JS hook                 | 1.4.4       |
+| **No essential content via animation**    | Content not conveyed through motion alone                               | 1.4.1       |
+| **60fps target**                          | Only `transform` and `opacity` animated                                 | Performance |
+| **Motion triggers**                       | No motion triggered by device motion (shake, tilt)                      | 2.5.4       |
+| **Animation weight budget**               | All animations total < 50KB JS                                          | Performance |
 
 ### 9.5 GSAP-Specific Accessibility Configuration
 
@@ -1142,16 +1152,16 @@ gsap.registerPlugin(ScrollTrigger);
 // Defaults for all GSAP animations
 gsap.defaults({
   duration: 0.6,
-  ease: "power2.out",
+  ease: 'power2.out',
 });
 
 // Check for reduced motion before creating ScrollTrigger instances
 function createAccessibleScrollTrigger(target: string | Element, config: gsap.TweenVars) {
-  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   if (prefersReduced) {
     // Skip animation, set final state directly
-    gsap.set(target, { opacity: 1, y: 0, clearProps: "all" });
+    gsap.set(target, { opacity: 1, y: 0, clearProps: 'all' });
     return () => {};
   }
 
@@ -1160,7 +1170,7 @@ function createAccessibleScrollTrigger(target: string | Element, config: gsap.Tw
     y: 20,
     scrollTrigger: {
       trigger: target,
-      start: "top 85%",
+      start: 'top 85%',
       once: true,
     },
     ...config,
@@ -1210,20 +1220,20 @@ graph TD
 
 ### 10.2 Focus Order Specifications
 
-| Page / Component | First Focusable | Last Focusable | Notes |
-|-----------------|-----------------|----------------|-------|
-| **Homepage** | Skip link | Footer link | Tab wraps to skip link |
-| **Projects Page** | Skip link → "All" filter button | Footer social link | Filter bar first interactive |
-| **Project Detail** | Skip link → Hero CTA | Related project card | Breadcrumbs before hero |
-| **Blog Listing** | Skip link → Search input | Pagination "Last" | Search before posts |
-| **Blog Article** | Skip link → TOC (if desktop) | Related articles | TOC sidebar on desktop |
-| **About Page** | Skip link | Footer | — |
-| **Contact Page** | Skip link → Name input | Send button | Form fields in order |
-| **AI Chat** | Skip link → Chat input | Close button | Messages non-focusable |
-| **Admin Dashboard** | Skip link → First stat card | Logout | Dashboard widgets tabbable |
-| **Admin Leads** | Skip link → Search | Export CSV | Table rows tabbable |
-| **Modal** | Close button (X) | Confirm button | First and last trap |
-| **Mobile Menu** | Close button | Last nav link | First focus = close |
+| Page / Component    | First Focusable                 | Last Focusable       | Notes                        |
+| ------------------- | ------------------------------- | -------------------- | ---------------------------- |
+| **Homepage**        | Skip link                       | Footer link          | Tab wraps to skip link       |
+| **Projects Page**   | Skip link → "All" filter button | Footer social link   | Filter bar first interactive |
+| **Project Detail**  | Skip link → Hero CTA            | Related project card | Breadcrumbs before hero      |
+| **Blog Listing**    | Skip link → Search input        | Pagination "Last"    | Search before posts          |
+| **Blog Article**    | Skip link → TOC (if desktop)    | Related articles     | TOC sidebar on desktop       |
+| **About Page**      | Skip link                       | Footer               | —                            |
+| **Contact Page**    | Skip link → Name input          | Send button          | Form fields in order         |
+| **AI Chat**         | Skip link → Chat input          | Close button         | Messages non-focusable       |
+| **Admin Dashboard** | Skip link → First stat card     | Logout               | Dashboard widgets tabbable   |
+| **Admin Leads**     | Skip link → Search              | Export CSV           | Table rows tabbable          |
+| **Modal**           | Close button (X)                | Confirm button       | First and last trap          |
+| **Mobile Menu**     | Close button                    | Last nav link        | First focus = close          |
 
 ### 10.3 Route Change Focus Management
 
@@ -1240,7 +1250,7 @@ export function useFocusOnMount() {
     if (headingRef.current) {
       // Make heading focusable programmatically
       headingRef.current.setAttribute("tabindex", "-1");
-      
+
       // Small delay to let DOM settle
       requestAnimationFrame(() => {
         headingRef.current?.focus({ preventScroll: false });
@@ -1276,10 +1286,10 @@ function ProjectsPage() {
 
 ```tsx
 // components/Modal.tsx
-"use client";
+'use client';
 
-import { useEffect, useRef } from "react";
-import { useReducedMotion } from "@/hooks/useReducedMotion";
+import { useEffect, useRef } from 'react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface ModalProps {
   isOpen: boolean;
@@ -1304,22 +1314,25 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     if (!content) return;
 
     const focusableSelectors = [
-      'a[href]', 'button:not([disabled])', 'input:not([disabled])',
-      'textarea:not([disabled])', 'select:not([disabled])',
+      'a[href]',
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'textarea:not([disabled])',
+      'select:not([disabled])',
       '[tabindex]:not([tabindex="-1"]):not([disabled])',
-    ].join(", ");
+    ].join(', ');
 
     // Focus close button or first focusable
     const firstFocusable = content.querySelector(focusableSelectors) as HTMLElement;
     firstFocusable?.focus();
 
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         onClose();
         return;
       }
 
-      if (e.key !== "Tab" || !content) return;
+      if (e.key !== 'Tab' || !content) return;
 
       const focusable = content.querySelectorAll(focusableSelectors);
       if (!focusable.length) return;
@@ -1337,13 +1350,13 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
     }
 
     // Prevent background scroll
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow = 'hidden';
 
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
       triggerRef.current?.focus(); // Return focus
     };
   }, [isOpen, onClose]);
@@ -1370,11 +1383,13 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
         className={`
           relative z-10 w-full max-w-lg rounded-xl
           bg-surface-secondary p-6 shadow-xl
-          ${prefersReduced ? "" : "animate-scale-in"}
+          ${prefersReduced ? '' : 'animate-scale-in'}
         `}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 id="modal-title" className="text-h4">{title}</h2>
+          <h2 id="modal-title" className="text-h4">
+            {title}
+          </h2>
           <button
             onClick={onClose}
             aria-label="Close dialog"
@@ -1415,32 +1430,32 @@ Detecting keyboard vs mouse interaction:
 
 ```typescript
 // hooks/useKeyboardUser.ts
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export function useKeyboardUser() {
   const [isKeyboard, setIsKeyboard] = useState(false);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if (e.key === "Tab") {
+      if (e.key === 'Tab') {
         setIsKeyboard(true);
-        document.documentElement.classList.add("keyboard-user");
+        document.documentElement.classList.add('keyboard-user');
       }
     }
 
     function handleMouseDown() {
       setIsKeyboard(false);
-      document.documentElement.classList.remove("keyboard-user");
+      document.documentElement.classList.remove('keyboard-user');
     }
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleMouseDown);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleMouseDown);
     };
   }, []);
 
@@ -1458,9 +1473,9 @@ Every form in the portfolio follows these mandatory patterns:
 
 ```tsx
 // components/ui/FormField.tsx — Reusable accessible form field
-"use client";
+'use client';
 
-import { useId } from "react";
+import { useId } from 'react';
 
 interface FormFieldProps {
   label: string;
@@ -1477,13 +1492,12 @@ export function FormField({ label, error, helper, required, children }: FormFiel
 
   return (
     <div className="space-y-1.5">
-      <label
-        htmlFor={id}
-        className="block text-body-sm font-medium text-primary"
-      >
+      <label htmlFor={id} className="block text-body-sm font-medium text-primary">
         {label}
         {required && (
-          <span aria-hidden="true" className="text-error ml-0.5">*</span>
+          <span aria-hidden="true" className="text-error ml-0.5">
+            *
+          </span>
         )}
         {required && <span className="sr-only">(required)</span>}
       </label>
@@ -1491,13 +1505,9 @@ export function FormField({ label, error, helper, required, children }: FormFiel
       <div className="relative">
         {React.cloneElement(children as React.ReactElement, {
           id,
-          "aria-invalid": error ? true : undefined,
-          "aria-describedby": error
-            ? errorId
-            : helper
-              ? helperId
-              : undefined,
-          "aria-required": required || undefined,
+          'aria-invalid': error ? true : undefined,
+          'aria-describedby': error ? errorId : helper ? helperId : undefined,
+          'aria-required': required || undefined,
         })}
       </div>
 
@@ -1529,55 +1539,55 @@ export function FormField({ label, error, helper, required, children }: FormFiel
     placeholder="you@example.com"
     autoComplete="email"
     inputMode="email"
-    {...register("email")}
+    {...register('email')}
   />
-</FormField>
+</FormField>;
 ```
 
 ### 11.2 Form Field Accessibility Requirements
 
-| Requirement | Implementation | WCAG |
-|-------------|---------------|------|
-| **Visible labels** | `<label>` with `htmlFor` matching input `id` | 3.3.2 |
-| **No placeholder-as-label** | Placeholder only supplemental | 3.3.2 |
-| **Required fields** | Asterisk `*` with `aria-required="true"` + sr-only "(required)" | 3.3.2 |
-| **Autocomplete** | `autocomplete` attribute per WCAG 1.3.5 input purposes | 1.3.5 |
-| **Input mode** | Appropriate `inputMode` for mobile keyboard type | 1.3.5 |
-| **Error association** | `aria-describedby` linking to error message ID | 3.3.1 |
-| **Error identification** | `aria-invalid="true"` on invalid fields | 3.3.1 |
-| **Inline validation** | Validate on blur, show error below field | 3.3.1 |
-| **Error recovery** | Keep entered data on error; highlight field | 3.3.3 |
-| **Error suggestion** | Specific fix instruction ("Email must contain '@'") | 3.3.3 |
-| **Confirmation dialogs** | Destructive actions require confirmation | 3.3.4 |
-| **Undo support** | Optimistic updates can be rolled back | 3.3.4 |
-| **Character count** | Show remaining for textareas | — |
-| **Submit feedback** | Success/error toast after submission | 4.1.3 |
+| Requirement                 | Implementation                                                  | WCAG  |
+| --------------------------- | --------------------------------------------------------------- | ----- |
+| **Visible labels**          | `<label>` with `htmlFor` matching input `id`                    | 3.3.2 |
+| **No placeholder-as-label** | Placeholder only supplemental                                   | 3.3.2 |
+| **Required fields**         | Asterisk `*` with `aria-required="true"` + sr-only "(required)" | 3.3.2 |
+| **Autocomplete**            | `autocomplete` attribute per WCAG 1.3.5 input purposes          | 1.3.5 |
+| **Input mode**              | Appropriate `inputMode` for mobile keyboard type                | 1.3.5 |
+| **Error association**       | `aria-describedby` linking to error message ID                  | 3.3.1 |
+| **Error identification**    | `aria-invalid="true"` on invalid fields                         | 3.3.1 |
+| **Inline validation**       | Validate on blur, show error below field                        | 3.3.1 |
+| **Error recovery**          | Keep entered data on error; highlight field                     | 3.3.3 |
+| **Error suggestion**        | Specific fix instruction ("Email must contain '@'")             | 3.3.3 |
+| **Confirmation dialogs**    | Destructive actions require confirmation                        | 3.3.4 |
+| **Undo support**            | Optimistic updates can be rolled back                           | 3.3.4 |
+| **Character count**         | Show remaining for textareas                                    | —     |
+| **Submit feedback**         | Success/error toast after submission                            | 4.1.3 |
 
 ### 11.3 Autocomplete Attribute Map
 
 ```tsx
 // Form field — autocomplete values per WCAG 1.3.5
 const AUTOCOMPLETE_MAP = {
-  name: "name",
-  email: "email",
-  phone: "tel",
-  company: "organization",
-  subject: "subject", // Custom
-  message: "", // No standard autocomplete
+  name: 'name',
+  email: 'email',
+  phone: 'tel',
+  company: 'organization',
+  subject: 'subject', // Custom
+  message: '', // No standard autocomplete
   // Admin
-  adminEmail: "email",
-  adminPassword: "current-password",
-  newPassword: "new-password",
-  confirmPassword: "new-password",
+  adminEmail: 'email',
+  adminPassword: 'current-password',
+  newPassword: 'new-password',
+  confirmPassword: 'new-password',
   // Search
-  search: "search",
+  search: 'search',
   // Address (future)
-  addressLine1: "address-line1",
-  addressLine2: "address-line2",
-  city: "address-level2",
-  state: "address-level1",
-  zip: "postal-code",
-  country: "country-name",
+  addressLine1: 'address-line1',
+  addressLine2: 'address-line2',
+  city: 'address-level2',
+  state: 'address-level1',
+  zip: 'postal-code',
+  country: 'country-name',
 } as const;
 ```
 
@@ -1586,18 +1596,18 @@ const AUTOCOMPLETE_MAP = {
 ```tsx
 // Input mode for mobile keyboard optimization
 const INPUT_MODE_MAP = {
-  email: "email",
-  phone: "tel",
-  url: "url",
-  search: "search",
-  numeric: "numeric",
-  decimal: "decimal",
-  text: "text",
+  email: 'email',
+  phone: 'tel',
+  url: 'url',
+  search: 'search',
+  numeric: 'numeric',
+  decimal: 'decimal',
+  text: 'text',
   // Custom
-  projectName: "text",
-  message: "text",
-  price: "decimal",
-  quantity: "numeric",
+  projectName: 'text',
+  message: 'text',
+  price: 'decimal',
+  quantity: 'numeric',
 } as const;
 ```
 
@@ -1605,20 +1615,23 @@ const INPUT_MODE_MAP = {
 
 ```tsx
 // components/ContactForm.tsx
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { FormField } from "@/components/ui/FormField";
-import { Button } from "@/components/ui/Button";
-import { useAnnounce } from "@/hooks/useAnnounce";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { FormField } from '@/components/ui/FormField';
+import { Button } from '@/components/ui/Button';
+import { useAnnounce } from '@/hooks/useAnnounce';
 
 const contactSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  subject: z.string().min(5, "Subject must be at least 5 characters"),
-  message: z.string().min(10, "Message must be at least 10 characters").max(2000, "Message cannot exceed 2000 characters"),
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  subject: z.string().min(5, 'Subject must be at least 5 characters'),
+  message: z
+    .string()
+    .min(10, 'Message must be at least 10 characters')
+    .max(2000, 'Message cannot exceed 2000 characters'),
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -1637,37 +1650,35 @@ export function ContactForm() {
 
   async function onSubmit(data: ContactFormData) {
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Failed to send");
+      if (!response.ok) throw new Error('Failed to send');
 
-      announce("Message sent successfully! I'll respond within 24 hours.", "polite");
+      announce("Message sent successfully! I'll respond within 24 hours.", 'polite');
       reset();
     } catch {
-      announce("Failed to send message. Please try again.", "assertive");
+      announce('Failed to send message. Please try again.', 'assertive');
     }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate aria-label="Contact form">
       <div className="space-y-6" role="group" aria-labelledby="form-heading">
-        <h2 id="form-heading" className="sr-only">Contact form</h2>
+        <h2 id="form-heading" className="sr-only">
+          Contact form
+        </h2>
 
-        <FormField
-          label="Name"
-          error={errors.name?.message}
-          required
-        >
+        <FormField label="Name" error={errors.name?.message} required>
           <input
             type="text"
             autoComplete="name"
             placeholder="Your name"
             className="..."
-            {...register("name")}
+            {...register('name')}
           />
         </FormField>
 
@@ -1683,48 +1694,35 @@ export function ContactForm() {
             inputMode="email"
             placeholder="you@example.com"
             className="..."
-            {...register("email")}
+            {...register('email')}
           />
         </FormField>
 
-        <FormField
-          label="Subject"
-          error={errors.subject?.message}
-          required
-        >
+        <FormField label="Subject" error={errors.subject?.message} required>
           <input
             type="text"
             autoComplete="off"
             placeholder="What's this about?"
             className="..."
-            {...register("subject")}
+            {...register('subject')}
           />
         </FormField>
 
-        <FormField
-          label="Message"
-          error={errors.message?.message}
-          required
-        >
+        <FormField label="Message" error={errors.message?.message} required>
           <textarea
             rows={5}
             placeholder="Your message..."
             maxLength={2000}
             className="..."
-            {...register("message")}
+            {...register('message')}
           />
           <p className="text-body-sm text-tertiary mt-1" aria-live="polite">
             {2000 - (watchMessage?.length || 0)} characters remaining
           </p>
         </FormField>
 
-        <Button
-          type="submit"
-          variant="primary"
-          isLoading={isSubmitting}
-          aria-busy={isSubmitting}
-        >
-          {isSubmitting ? "Sending..." : "Send Message"}
+        <Button type="submit" variant="primary" isLoading={isSubmitting} aria-busy={isSubmitting}>
+          {isSubmitting ? 'Sending...' : 'Send Message'}
         </Button>
 
         {isSubmitSuccessful && (
@@ -1766,36 +1764,36 @@ graph TD
 
 ### 12.2 Error Message Guidelines
 
-| Guideline | Correct | Incorrect |
-|-----------|---------|-----------|
-| **Be specific** | "Email must contain '@' symbol, like name@domain.com" | "Invalid input" |
-| **Be human** | "Hmm, something went wrong on our end. We're on it!" | "500 Internal Server Error" |
-| **Be actionable** | "Try again in a few moments, or contact me directly" | "An error occurred" |
-| **Show the fix** | "Password must be at least 8 characters with one number" | "Invalid password format" |
-| **Don't blame** | "This field is required" | "You forgot to fill this in" |
-| **Keep it brief** | "Network error. Check your connection and retry." | "The system encountered a network connectivity issue preventing operation completion..." |
-| **Contextual** | "Message is limited to 2000 characters. You have 150 remaining." | "Too long" |
+| Guideline         | Correct                                                          | Incorrect                                                                                |
+| ----------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **Be specific**   | "Email must contain '@' symbol, like name@domain.com"            | "Invalid input"                                                                          |
+| **Be human**      | "Hmm, something went wrong on our end. We're on it!"             | "500 Internal Server Error"                                                              |
+| **Be actionable** | "Try again in a few moments, or contact me directly"             | "An error occurred"                                                                      |
+| **Show the fix**  | "Password must be at least 8 characters with one number"         | "Invalid password format"                                                                |
+| **Don't blame**   | "This field is required"                                         | "You forgot to fill this in"                                                             |
+| **Keep it brief** | "Network error. Check your connection and retry."                | "The system encountered a network connectivity issue preventing operation completion..." |
+| **Contextual**    | "Message is limited to 2000 characters. You have 150 remaining." | "Too long"                                                                               |
 
 ### 12.3 Error Message Pattern Library
 
-| Error Type | Icon | Title | Description | Action | ARIA |
-|-----------|------|-------|-------------|--------|------|
-| **Validation** | ❌ | "Invalid input" | "Please check the highlighted fields and try again." | Fix first error | `role="alert"` |
-| **Network** | 📡 | "Connection lost" | "Unable to reach our servers. Check your internet connection." | Retry | `role="alert"` |
-| **Server error** | ⚠️ | "Something went wrong" | "We've been notified and are working on it. Please try again." | Retry / Contact | `role="alert"` |
-| **Rate limit** | ⏳ | "Too many requests" | "Please wait a moment before trying again." | Wait / Retry | `role="alert"` |
-| **Upload fail** | 📁 | "Upload failed" | "The file couldn't be uploaded. Try a different file format or size." | Retry / Different | `role="alert"` |
-| **Save fail** | 💾 | "Save failed" | "Changes couldn't be saved. Your work is preserved locally." | Retry | `role="alert"` |
-| **Not found** | 🔍 | "Page not found" | "The page you're looking for doesn't exist or has been moved." | Go home / Search | `role="alert"` |
-| **AI unavailable** | 🤖 | "AI assistant unavailable" | "The AI service is temporarily unavailable. Try the contact form instead." | Retry / Contact | `role="status"` |
+| Error Type         | Icon | Title                      | Description                                                                | Action            | ARIA            |
+| ------------------ | ---- | -------------------------- | -------------------------------------------------------------------------- | ----------------- | --------------- |
+| **Validation**     | ❌   | "Invalid input"            | "Please check the highlighted fields and try again."                       | Fix first error   | `role="alert"`  |
+| **Network**        | 📡   | "Connection lost"          | "Unable to reach our servers. Check your internet connection."             | Retry             | `role="alert"`  |
+| **Server error**   | ⚠️   | "Something went wrong"     | "We've been notified and are working on it. Please try again."             | Retry / Contact   | `role="alert"`  |
+| **Rate limit**     | ⏳   | "Too many requests"        | "Please wait a moment before trying again."                                | Wait / Retry      | `role="alert"`  |
+| **Upload fail**    | 📁   | "Upload failed"            | "The file couldn't be uploaded. Try a different file format or size."      | Retry / Different | `role="alert"`  |
+| **Save fail**      | 💾   | "Save failed"              | "Changes couldn't be saved. Your work is preserved locally."               | Retry             | `role="alert"`  |
+| **Not found**      | 🔍   | "Page not found"           | "The page you're looking for doesn't exist or has been moved."             | Go home / Search  | `role="alert"`  |
+| **AI unavailable** | 🤖   | "AI assistant unavailable" | "The AI service is temporarily unavailable. Try the contact form instead." | Retry / Contact   | `role="status"` |
 
 ### 12.4 Error Boundary Implementation
 
 ```tsx
 // components/ErrorBoundary.tsx
-"use client";
+'use client';
 
-import { Component, ErrorInfo, ReactNode } from "react";
+import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -1817,7 +1815,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log to Sentry
-    console.error("ErrorBoundary caught:", error, errorInfo);
+    console.error('ErrorBoundary caught:', error, errorInfo);
     this.props.onError?.(error, errorInfo);
   }
 
@@ -1830,34 +1828,28 @@ export class ErrorBoundary extends Component<Props, State> {
       if (this.props.fallback) return this.props.fallback;
 
       return (
-        <div
-          role="alert"
-          className="flex flex-col items-center justify-center p-8 text-center"
-        >
+        <div role="alert" className="flex flex-col items-center justify-center p-8 text-center">
           <WarningIcon aria-hidden="true" className="w-12 h-12 text-error mb-4" />
           <h2 className="text-h3 mb-2">Something went wrong</h2>
           <p className="text-body text-secondary mb-6 max-w-md">
             An unexpected error occurred. We've been notified and are looking into it.
           </p>
           <div className="flex gap-4">
-            <button
-              onClick={this.handleRetry}
-              className="btn btn-primary"
-            >
+            <button onClick={this.handleRetry} className="btn btn-primary">
               Try again
             </button>
             <a href="/" className="btn btn-secondary">
               Go home
             </a>
           </div>
-          {process.env.NODE_ENV === "development" && (
+          {process.env.NODE_ENV === 'development' && (
             <details className="mt-6 text-left w-full max-w-lg">
               <summary className="text-body-sm text-tertiary cursor-pointer">
                 Technical details (dev only)
               </summary>
               <pre className="mt-2 p-4 bg-surface-elevated rounded-lg text-body-sm overflow-auto">
                 {this.state.error?.message}
-                {"\n"}
+                {'\n'}
                 {this.state.error?.stack}
               </pre>
             </details>
@@ -1877,50 +1869,50 @@ export class ErrorBoundary extends Component<Props, State> {
 
 ### 13.1 Responsive Accessibility Requirements
 
-| Requirement | Implementation | WCAG |
-|-------------|---------------|------|
-| **No horizontal scroll at 320px** | Fluid grids, responsive images, `overflow-x: hidden` only as last resort | 1.4.10 |
-| **200% zoom without loss** | `rem`/`em` units for all sizing; `vw` limited to non-text | 1.4.4 |
-| **Orientation not locked** | Both portrait and landscape supported | 1.3.4 |
-| **Touch targets ≥ 44×44px (mobile)** | Minimum hit area; padding extends beyond visual | 2.5.8 |
-| **Touch targets ≥ 24×24px (all)** | Minimum hit area for all devices | 2.5.8 |
-| **Content reflow** | Grid/flexbox reflows naturally; no fixed-width containers | 1.4.10 |
-| **Readable font size** | Body text ≥ 16px prevents iOS auto-zoom | 1.4.4 |
-| **Spacing override** | Text spacing bookmarklet passes with no content loss | 1.4.12 |
+| Requirement                          | Implementation                                                           | WCAG   |
+| ------------------------------------ | ------------------------------------------------------------------------ | ------ |
+| **No horizontal scroll at 320px**    | Fluid grids, responsive images, `overflow-x: hidden` only as last resort | 1.4.10 |
+| **200% zoom without loss**           | `rem`/`em` units for all sizing; `vw` limited to non-text                | 1.4.4  |
+| **Orientation not locked**           | Both portrait and landscape supported                                    | 1.3.4  |
+| **Touch targets ≥ 44×44px (mobile)** | Minimum hit area; padding extends beyond visual                          | 2.5.8  |
+| **Touch targets ≥ 24×24px (all)**    | Minimum hit area for all devices                                         | 2.5.8  |
+| **Content reflow**                   | Grid/flexbox reflows naturally; no fixed-width containers                | 1.4.10 |
+| **Readable font size**               | Body text ≥ 16px prevents iOS auto-zoom                                  | 1.4.4  |
+| **Spacing override**                 | Text spacing bookmarklet passes with no content loss                     | 1.4.12 |
 
 ### 13.2 Touch Target Specifications
 
-| Element | Visual Size | Hit Area | Padding | 
-|---------|-----------|----------|---------|
-| **Primary button** | 40×40px (icon) / auto (text) | 44×44px | 2px extra on each side |
-| **Icon button** | 32×32px | 44×44px | 6px extra on each side |
-| **Nav link** | Auto height | 44px min height | `py-3` (12px) |
-| **Form input** | 40px height | 44px | 2px extra |
-| **Toggle switch** | 20px visible knob | 44×44px | `p-3` (12px) around knob |
-| **Checkbox** | 18×18px visible | 44×44px | `p-3` (13px) around checkbox |
-| **Radio button** | 18×18px visible | 44×44px | `p-3` (13px) around radio |
-| **Carousel arrow** | 36×36px visible | 44×44px | 4px extra |
-| **Mobile menu item** | Auto | 48px min height | `py-4` (16px) |
-| **Toast dismiss** | 20×20px icon | 44×44px | `p-3` (12px) |
-| **Chip / Tag** | Auto | 44px min height | `py-2 px-3` |
-| **Badge** | Auto | 44px min height (interactive) | `py-2 px-3` |
-| **Pagination** | Auto | 44×44px per page number | Equal padding |
+| Element              | Visual Size                  | Hit Area                      | Padding                      |
+| -------------------- | ---------------------------- | ----------------------------- | ---------------------------- |
+| **Primary button**   | 40×40px (icon) / auto (text) | 44×44px                       | 2px extra on each side       |
+| **Icon button**      | 32×32px                      | 44×44px                       | 6px extra on each side       |
+| **Nav link**         | Auto height                  | 44px min height               | `py-3` (12px)                |
+| **Form input**       | 40px height                  | 44px                          | 2px extra                    |
+| **Toggle switch**    | 20px visible knob            | 44×44px                       | `p-3` (12px) around knob     |
+| **Checkbox**         | 18×18px visible              | 44×44px                       | `p-3` (13px) around checkbox |
+| **Radio button**     | 18×18px visible              | 44×44px                       | `p-3` (13px) around radio    |
+| **Carousel arrow**   | 36×36px visible              | 44×44px                       | 4px extra                    |
+| **Mobile menu item** | Auto                         | 48px min height               | `py-4` (16px)                |
+| **Toast dismiss**    | 20×20px icon                 | 44×44px                       | `p-3` (12px)                 |
+| **Chip / Tag**       | Auto                         | 44px min height               | `py-2 px-3`                  |
+| **Badge**            | Auto                         | 44px min height (interactive) | `py-2 px-3`                  |
+| **Pagination**       | Auto                         | 44×44px per page number       | Equal padding                |
 
 ### 13.3 Reflow Test Matrix
 
 Test every page at these viewport widths with 200% zoom:
 
-| Viewport Width | Zoom | Expected Behavior | Test Frequency |
-|---------------|------|-------------------|----------------|
-| **1280px** | 100% | Full layout, no changes | Every PR |
-| **1280px** | 200% | Single column, content stacked | Every release |
-| **1024px** | 100% | 2-column grids, sidebar collapses | Every PR |
-| **768px** | 100% | Single column, hamburger menu | Every PR |
-| **768px** | 200% | Single column, no horizontal scroll | Every release |
-| **414px** (iPhone) | 100% | Mobile layout, touch-friendly | Every release |
-| **414px** | 200% | Content stacked, readable text | Quarterly |
-| **375px** (iPhone SE) | 100% | Smallest supported, no cut-off | Every release |
-| **320px** | 100% | Minimum supported, no horizontal scroll | Every release |
+| Viewport Width        | Zoom | Expected Behavior                       | Test Frequency |
+| --------------------- | ---- | --------------------------------------- | -------------- |
+| **1280px**            | 100% | Full layout, no changes                 | Every PR       |
+| **1280px**            | 200% | Single column, content stacked          | Every release  |
+| **1024px**            | 100% | 2-column grids, sidebar collapses       | Every PR       |
+| **768px**             | 100% | Single column, hamburger menu           | Every PR       |
+| **768px**             | 200% | Single column, no horizontal scroll     | Every release  |
+| **414px** (iPhone)    | 100% | Mobile layout, touch-friendly           | Every release  |
+| **414px**             | 200% | Content stacked, readable text          | Quarterly      |
+| **375px** (iPhone SE) | 100% | Smallest supported, no cut-off          | Every release  |
+| **320px**             | 100% | Minimum supported, no horizontal scroll | Every release  |
 
 ### 13.4 Text Spacing Test (WCAG 1.4.12)
 
@@ -1940,6 +1932,7 @@ p {
 ```
 
 Test results must show:
+
 - No content clipping or overflow
 - No overlapping text
 - No truncated content
@@ -1980,9 +1973,17 @@ Test results must show:
 ```tsx
 <nav aria-label="Main navigation">
   <ul role="list">
-    <li><a href="/" aria-current="page">Home</a></li>
-    <li><a href="/projects">Projects</a></li>
-    <li><a href="/blog">Blog</a></li>
+    <li>
+      <a href="/" aria-current="page">
+        Home
+      </a>
+    </li>
+    <li>
+      <a href="/projects">Projects</a>
+    </li>
+    <li>
+      <a href="/blog">Blog</a>
+    </li>
   </ul>
 </nav>
 ```
@@ -1991,23 +1992,16 @@ Test results must show:
 
 ```tsx
 // When open:
-<aside
-  role="dialog"
-  aria-modal="true"
-  aria-label="Navigation menu"
-  className="fixed inset-0 z-50"
->
+<aside role="dialog" aria-modal="true" aria-label="Navigation menu" className="fixed inset-0 z-50">
   {/* Backdrop */}
   <div aria-hidden="true" className="absolute inset-0 bg-black/50" onClick={close} />
-  
+
   {/* Panel */}
   <div className="absolute right-0 top-0 h-full w-80 bg-surface-secondary p-6">
     <button onClick={close} aria-label="Close navigation menu">
       <XIcon aria-hidden="true" />
     </button>
-    <nav aria-label="Mobile navigation">
-      {/* Links */}
-    </nav>
+    <nav aria-label="Mobile navigation">{/* Links */}</nav>
   </div>
 </aside>
 ```
@@ -2024,15 +2018,10 @@ Test results must show:
       onClick={toggle}
     >
       <span>{title}</span>
-      <ChevronIcon aria-hidden="true" className={isOpen ? "rotate-180" : ""} />
+      <ChevronIcon aria-hidden="true" className={isOpen ? 'rotate-180' : ''} />
     </button>
   </h3>
-  <div
-    id={`panel-${id}`}
-    role="region"
-    aria-labelledby={`trigger-${id}`}
-    hidden={!isOpen}
-  >
+  <div id={`panel-${id}`} role="region" aria-labelledby={`trigger-${id}`} hidden={!isOpen}>
     {content}
   </div>
 </div>
@@ -2058,7 +2047,7 @@ Test results must show:
       </button>
     ))}
   </div>
-  
+
   {tabs.map((tab) => (
     <div
       key={tab.id}
@@ -2140,17 +2129,17 @@ Test results must show:
 
 ### 14.3 ARIA Anti-Patterns to Avoid
 
-| Anti-Pattern | Why It's Bad | Correct Approach |
-|-------------|-------------|-----------------|
-| `role="button"` on `<div>` with JS click handler | Not keyboard accessible, no native button behavior | Use `<button>` or `<a>` |
-| `tabindex="1"` (positive values) | Breaks natural tab order | Only `tabindex="0"` or `tabindex="-1"` |
-| `aria-label` on every `<div>` | Clutters screen reader output | Use native HTML semantics first |
-| `role="navigation"` on every `<nav>` | Redundant — `<nav>` already implies role | Just use `<nav>` |
-| `aria-hidden="false"` | Invalid — element must be hidden for aria-hidden to exist | Remove `aria-hidden` attribute |
-| `role="alert"` on persistent content | Screen reader announces on page load | Use `role="alert"` only for dynamic errors |
-| `aria-live="assertive"` on non-critical updates | Interrupts screen reader flow | Use `polite` for non-critical updates |
-| Role duplication (`<button role="button">`) | Redundant, unnecessary markup | Just use `<button>` |
-| Empty `alt` on non-decorative images | Missing information | Provide meaningful `alt` text |
+| Anti-Pattern                                     | Why It's Bad                                              | Correct Approach                           |
+| ------------------------------------------------ | --------------------------------------------------------- | ------------------------------------------ |
+| `role="button"` on `<div>` with JS click handler | Not keyboard accessible, no native button behavior        | Use `<button>` or `<a>`                    |
+| `tabindex="1"` (positive values)                 | Breaks natural tab order                                  | Only `tabindex="0"` or `tabindex="-1"`     |
+| `aria-label` on every `<div>`                    | Clutters screen reader output                             | Use native HTML semantics first            |
+| `role="navigation"` on every `<nav>`             | Redundant — `<nav>` already implies role                  | Just use `<nav>`                           |
+| `aria-hidden="false"`                            | Invalid — element must be hidden for aria-hidden to exist | Remove `aria-hidden` attribute             |
+| `role="alert"` on persistent content             | Screen reader announces on page load                      | Use `role="alert"` only for dynamic errors |
+| `aria-live="assertive"` on non-critical updates  | Interrupts screen reader flow                             | Use `polite` for non-critical updates      |
+| Role duplication (`<button role="button">`)      | Redundant, unnecessary markup                             | Just use `<button>`                        |
+| Empty `alt` on non-decorative images             | Missing information                                       | Provide meaningful `alt` text              |
 
 ---
 
@@ -2158,70 +2147,63 @@ Test results must show:
 
 ### 15.1 Image Alt Text Standards
 
-| Image Type | alt Attribute | Example |
-|-----------|--------------|---------|
-| **Decorative** | `alt=""` (empty string) | Background patterns, separator lines, decorative icons |
-| **Informative (simple)** | Short description (under 125 chars) | `alt="Project dashboard showing sales chart"` |
-| **Informative (complex)** | Concise description + long description via `aria-describedby` or `<figcaption>` | See infographic pattern below |
-| **Functional (link)** | Describes link destination | `alt="View Alex's GitHub profile"` |
-| **Functional (button)** | Describes button action | `alt="Download resume PDF"` |
-| **Logo** | Company/brand name | `alt="GitHub"` |
-| **Icon** | `aria-hidden="true"` + visible or sr-only text label | Icon decorative, label separate |
-| **Avatar** | Person's name | `alt="John Smith"` |
-| **Screenshot** | Key visual information | `alt="Project gallery showing 3 mobile screenshots"` |
-| **Code screenshot** | Code language + purpose | `alt="Code example showing React component structure"` |
+| Image Type                | alt Attribute                                                                   | Example                                                |
+| ------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| **Decorative**            | `alt=""` (empty string)                                                         | Background patterns, separator lines, decorative icons |
+| **Informative (simple)**  | Short description (under 125 chars)                                             | `alt="Project dashboard showing sales chart"`          |
+| **Informative (complex)** | Concise description + long description via `aria-describedby` or `<figcaption>` | See infographic pattern below                          |
+| **Functional (link)**     | Describes link destination                                                      | `alt="View Alex's GitHub profile"`                     |
+| **Functional (button)**   | Describes button action                                                         | `alt="Download resume PDF"`                            |
+| **Logo**                  | Company/brand name                                                              | `alt="GitHub"`                                         |
+| **Icon**                  | `aria-hidden="true"` + visible or sr-only text label                            | Icon decorative, label separate                        |
+| **Avatar**                | Person's name                                                                   | `alt="John Smith"`                                     |
+| **Screenshot**            | Key visual information                                                          | `alt="Project gallery showing 3 mobile screenshots"`   |
+| **Code screenshot**       | Code language + purpose                                                         | `alt="Code example showing React component structure"` |
 
 ### 15.2 Alt Text Generation Guidelines
 
-| Rule | Good | Bad |
-|------|------|-----|
-| **Be concise but complete** | `alt="Bar chart showing 75% increase in page views from Q1 to Q2"` | `alt="Chart"` |
-| **Don't start with "Image of"** | `alt="Sunset over mountain range"` | `alt="Image of sunset over mountain range"` |
-| **Include text in images** | `alt="Welcome slide with text: Full Stack Developer available for projects"` | `alt="Welcome slide"` |
-| **Context-dependent** | Same image may need different alt in different contexts | N/A |
-| **Functional images** | `alt="Download PDF resume (2.4 MB)"` | `alt="Download"` |
-| **End with period** | Improves screen reader pause | `alt="Person smiling"` (no period) |
+| Rule                            | Good                                                                         | Bad                                         |
+| ------------------------------- | ---------------------------------------------------------------------------- | ------------------------------------------- |
+| **Be concise but complete**     | `alt="Bar chart showing 75% increase in page views from Q1 to Q2"`           | `alt="Chart"`                               |
+| **Don't start with "Image of"** | `alt="Sunset over mountain range"`                                           | `alt="Image of sunset over mountain range"` |
+| **Include text in images**      | `alt="Welcome slide with text: Full Stack Developer available for projects"` | `alt="Welcome slide"`                       |
+| **Context-dependent**           | Same image may need different alt in different contexts                      | N/A                                         |
+| **Functional images**           | `alt="Download PDF resume (2.4 MB)"`                                         | `alt="Download"`                            |
+| **End with period**             | Improves screen reader pause                                                 | `alt="Person smiling"` (no period)          |
 
 ### 15.3 Link Text Standards
 
-| Link Type | Text Pattern | Examples |
-|-----------|-------------|----------|
-| **Navigation** | Page name or section | "Projects", "About", "Contact" |
-| **External link** | Site/service name | "GitHub", "LinkedIn", "View on GitHub" |
-| **CTA button** | Action verb + object | "View all projects", "Download resume", "Send message" |
-| **Read more** | "Read about [topic]" | "Read about the E-Commerce Platform project" |
-| **Back** | "Back to [parent]" | "Back to projects", "Back to blog" |
-| **Document** | "[Title] ([format], [size])" | "Design System v4.0 (PDF, 2.4 MB)" |
-| **Email** | Person's name or "Email me" | "Email Alex", "Send me an email" |
-| **Phone** | Phone number | "Call +1 (555) 123-4567" |
+| Link Type         | Text Pattern                 | Examples                                               |
+| ----------------- | ---------------------------- | ------------------------------------------------------ |
+| **Navigation**    | Page name or section         | "Projects", "About", "Contact"                         |
+| **External link** | Site/service name            | "GitHub", "LinkedIn", "View on GitHub"                 |
+| **CTA button**    | Action verb + object         | "View all projects", "Download resume", "Send message" |
+| **Read more**     | "Read about [topic]"         | "Read about the E-Commerce Platform project"           |
+| **Back**          | "Back to [parent]"           | "Back to projects", "Back to blog"                     |
+| **Document**      | "[Title] ([format], [size])" | "Design System v4.0 (PDF, 2.4 MB)"                     |
+| **Email**         | Person's name or "Email me"  | "Email Alex", "Send me an email"                       |
+| **Phone**         | Phone number                 | "Call +1 (555) 123-4567"                               |
 
 ### 15.4 Heading Standards
 
-| Level | Usage | Character Count | Content |
-|-------|-------|----------------|---------|
-| **h1** | Page title / hero heading | 30-60 chars | Unique per page, descriptive |
-| **h2** | Major section heading | 20-50 chars | Descriptive of section content |
-| **h3** | Sub-section, card title | 15-40 chars | Specific topic within section |
-| **h4** | Card sub-title, group label | 10-30 chars | Low-level grouping |
+| Level  | Usage                       | Character Count | Content                        |
+| ------ | --------------------------- | --------------- | ------------------------------ |
+| **h1** | Page title / hero heading   | 30-60 chars     | Unique per page, descriptive   |
+| **h2** | Major section heading       | 20-50 chars     | Descriptive of section content |
+| **h3** | Sub-section, card title     | 15-40 chars     | Specific topic within section  |
+| **h4** | Card sub-title, group label | 10-30 chars     | Low-level grouping             |
 
 ### 15.5 PDF & Download Accessibility
 
 ```html
 <!-- Accessible download links -->
-<a
-  href="/resume.pdf"
-  download
-  aria-label="Download resume PDF (2.4 MB)"
->
+<a href="/resume.pdf" download aria-label="Download resume PDF (2.4 MB)">
   <DownloadIcon aria-hidden="true" />
   Download Resume (PDF, 2.4 MB)
 </a>
 
 <!-- Track download for analytics (accessible) -->
-<button
-  onClick={handleDownload}
-  aria-label="Download resume PDF version 2.4 MB"
->
+<button onClick="{handleDownload}" aria-label="Download resume PDF version 2.4 MB">
   Download Resume
 </button>
 ```
@@ -2230,7 +2212,7 @@ Test results must show:
 
 ```tsx
 // components/CodeBlock.tsx
-"use client";
+'use client';
 
 interface CodeBlockProps {
   code: string;
@@ -2269,74 +2251,74 @@ export function CodeBlock({ code, language, title }: CodeBlockProps) {
 
 ### 16.1 Component A11y Specification Matrix
 
-| Component | Role | Keyboard Navigation | ARIA Attributes | Screen Reader Behavior | Focus Management |
-|-----------|------|---------------------|-----------------|----------------------|------------------|
-| **Button** | Native `<button>` | Enter/Space to activate | `aria-pressed` (toggle), `aria-busy` (loading), `aria-disabled` | Announces label + state changes | `:focus-visible` ring |
-| **Link** | Native `<a>` | Enter to navigate | `aria-current="page"` (active nav) | Announces link destination | `:focus-visible` ring |
-| **Card (interactive)** | `<a>` or `<button>` wrapping card | Enter/Space to activate | `aria-label` if no visible heading | Announces card title + action | Focus on card wrapper |
-| **Input** | Native `<input>` | Tab through, Enter to submit | `aria-invalid`, `aria-describedby`, `aria-required`, `autocomplete` | Announces label + value + error | Focus on field |
-| **Textarea** | Native `<textarea>` | Tab through | Same as Input + `aria-label` | Announces label + character count | Focus on field |
-| **Select** | Native `<select>` | Arrow keys, type-ahead | `aria-label`, `aria-describedby` | Announces selected option + list | Focus on select |
-| **Modal** | `dialog` | Tab trap, Esc to close | `aria-modal="true"`, `aria-labelledby` | Announces title + modal open | Trap inside, return to trigger |
-| **Drawer (mobile nav)** | `dialog` | Tab trap, Esc to close | `aria-modal="true"`, `aria-label="Navigation menu"` | Announces menu open | Trap inside, return to trigger |
-| **Tabs** | `tablist` > `tab` + `tabpanel` | Arrow left/right, Home/End | `aria-selected`, `aria-controls`, `aria-labelledby` | Announces active tab + panel switch | Arrow keys navigate |
-| **Accordion** | `<button>` + `region` | Enter/Space to toggle | `aria-expanded`, `aria-controls` | Announces expanded/collapsed state | Focus on button |
-| **Tooltip** | `tooltip` | Show on hover + focus | `aria-describedby` | Announces tooltip content | No focus trap |
-| **Toast** | `status` or `alert` | Focus dismiss button | `aria-live`, `aria-atomic` | Announces message via live region | No focus change |
-| **Carousel** | `region` with `aria-roledescription="carousel"` | Arrow left/right, pause button | `aria-label`, `aria-roledescription="slide"` | Announces current slide + total | Focus on slide content |
-| **Badge** | `<span>` or `<strong>` | N/A | None needed (semantic) | Reads text content | N/A |
-| **Avatar** | `<img>` with `alt` | N/A | `alt="Person Name"` | Reads alt text | N/A |
-| **Table** | Native `<table>` | Tab through | `aria-sort` on headers, `aria-selected` on rows | Announces rows + cell content | Tab into, arrow keys |
-| **Pagination** | `<nav aria-label="Pagination">` | Tab through links | `aria-current="page"`, `aria-label` on prev/next | Announces current page + total | Focus on page number |
-| **Progress bar** | `progressbar` | N/A | `aria-valuenow`, `aria-valuemin`, `aria-valuemax` | Announces progress value | N/A |
-| **Switch / Toggle** | `switch` | Enter/Space to toggle | `aria-checked` | Announces on/off state | Focus on switch |
-| **Breadcrumbs** | `<nav aria-label="Breadcrumbs">` | Tab through | `aria-current="page"` on last item | Announces breadcrumb path | Focus on links |
-| **List** | Native `<ul>`/`<ol>` | N/A | `aria-label` if purpose not clear from context | Announces list length + items | N/A |
-| **Code block** | `<figure>` + `<pre>` | Tab into to scroll | `aria-label` with language | Announces code block | Focus on pre to scroll |
-| **Chat message** | `<article>` or `<div>` | Tab through interactive elements | `aria-label` (by/sent at) | Reads message content | Focus on input |
+| Component               | Role                                            | Keyboard Navigation              | ARIA Attributes                                                     | Screen Reader Behavior              | Focus Management               |
+| ----------------------- | ----------------------------------------------- | -------------------------------- | ------------------------------------------------------------------- | ----------------------------------- | ------------------------------ |
+| **Button**              | Native `<button>`                               | Enter/Space to activate          | `aria-pressed` (toggle), `aria-busy` (loading), `aria-disabled`     | Announces label + state changes     | `:focus-visible` ring          |
+| **Link**                | Native `<a>`                                    | Enter to navigate                | `aria-current="page"` (active nav)                                  | Announces link destination          | `:focus-visible` ring          |
+| **Card (interactive)**  | `<a>` or `<button>` wrapping card               | Enter/Space to activate          | `aria-label` if no visible heading                                  | Announces card title + action       | Focus on card wrapper          |
+| **Input**               | Native `<input>`                                | Tab through, Enter to submit     | `aria-invalid`, `aria-describedby`, `aria-required`, `autocomplete` | Announces label + value + error     | Focus on field                 |
+| **Textarea**            | Native `<textarea>`                             | Tab through                      | Same as Input + `aria-label`                                        | Announces label + character count   | Focus on field                 |
+| **Select**              | Native `<select>`                               | Arrow keys, type-ahead           | `aria-label`, `aria-describedby`                                    | Announces selected option + list    | Focus on select                |
+| **Modal**               | `dialog`                                        | Tab trap, Esc to close           | `aria-modal="true"`, `aria-labelledby`                              | Announces title + modal open        | Trap inside, return to trigger |
+| **Drawer (mobile nav)** | `dialog`                                        | Tab trap, Esc to close           | `aria-modal="true"`, `aria-label="Navigation menu"`                 | Announces menu open                 | Trap inside, return to trigger |
+| **Tabs**                | `tablist` > `tab` + `tabpanel`                  | Arrow left/right, Home/End       | `aria-selected`, `aria-controls`, `aria-labelledby`                 | Announces active tab + panel switch | Arrow keys navigate            |
+| **Accordion**           | `<button>` + `region`                           | Enter/Space to toggle            | `aria-expanded`, `aria-controls`                                    | Announces expanded/collapsed state  | Focus on button                |
+| **Tooltip**             | `tooltip`                                       | Show on hover + focus            | `aria-describedby`                                                  | Announces tooltip content           | No focus trap                  |
+| **Toast**               | `status` or `alert`                             | Focus dismiss button             | `aria-live`, `aria-atomic`                                          | Announces message via live region   | No focus change                |
+| **Carousel**            | `region` with `aria-roledescription="carousel"` | Arrow left/right, pause button   | `aria-label`, `aria-roledescription="slide"`                        | Announces current slide + total     | Focus on slide content         |
+| **Badge**               | `<span>` or `<strong>`                          | N/A                              | None needed (semantic)                                              | Reads text content                  | N/A                            |
+| **Avatar**              | `<img>` with `alt`                              | N/A                              | `alt="Person Name"`                                                 | Reads alt text                      | N/A                            |
+| **Table**               | Native `<table>`                                | Tab through                      | `aria-sort` on headers, `aria-selected` on rows                     | Announces rows + cell content       | Tab into, arrow keys           |
+| **Pagination**          | `<nav aria-label="Pagination">`                 | Tab through links                | `aria-current="page"`, `aria-label` on prev/next                    | Announces current page + total      | Focus on page number           |
+| **Progress bar**        | `progressbar`                                   | N/A                              | `aria-valuenow`, `aria-valuemin`, `aria-valuemax`                   | Announces progress value            | N/A                            |
+| **Switch / Toggle**     | `switch`                                        | Enter/Space to toggle            | `aria-checked`                                                      | Announces on/off state              | Focus on switch                |
+| **Breadcrumbs**         | `<nav aria-label="Breadcrumbs">`                | Tab through                      | `aria-current="page"` on last item                                  | Announces breadcrumb path           | Focus on links                 |
+| **List**                | Native `<ul>`/`<ol>`                            | N/A                              | `aria-label` if purpose not clear from context                      | Announces list length + items       | N/A                            |
+| **Code block**          | `<figure>` + `<pre>`                            | Tab into to scroll               | `aria-label` with language                                          | Announces code block                | Focus on pre to scroll         |
+| **Chat message**        | `<article>` or `<div>`                          | Tab through interactive elements | `aria-label` (by/sent at)                                           | Reads message content               | Focus on input                 |
 
 ### 16.2 Button Component A11y Spec
 
 ```tsx
 // Complete accessible Button component spec
 interface ButtonAccessibilitySpec {
-  role: "button"; // Native, no role needed
+  role: 'button'; // Native, no role needed
   keyboard: {
-    activation: "Enter or Space";
-    focus: ":focus-visible ring (2px, 2px offset)";
-    tabOrder: "Natural DOM order";
+    activation: 'Enter or Space';
+    focus: ':focus-visible ring (2px, 2px offset)';
+    tabOrder: 'Natural DOM order';
   };
   aria: {
-    "aria-pressed": "When variant='toggle', reflects boolean state";
-    "aria-busy": "When isLoading=true";
-    "aria-disabled": "When isDisabled=true (instead of HTML disabled to allow focus)";
-    "aria-label": "When icon-only button, describes action";
-    "aria-expanded": "When button controls a collapsible region";
-    "aria-controls": "When button controls another element";
-    "aria-describedby": "When additional context needed";
+    'aria-pressed': "When variant='toggle', reflects boolean state";
+    'aria-busy': 'When isLoading=true';
+    'aria-disabled': 'When isDisabled=true (instead of HTML disabled to allow focus)';
+    'aria-label': 'When icon-only button, describes action';
+    'aria-expanded': 'When button controls a collapsible region';
+    'aria-controls': 'When button controls another element';
+    'aria-describedby': 'When additional context needed';
   };
   states: {
-    default: "Normal appearance, focusable";
-    hover: "Background darken 10%, cursor pointer";
-    focus: "Accent ring visible (keyboard only via :focus-visible)";
-    active: "Scale 0.97 (100ms spring)";
-    loading: "Spinner replaces icon, text visible, aria-busy=true";
-    disabled: "Opacity 50%, no hover, aria-disabled=true";
+    default: 'Normal appearance, focusable';
+    hover: 'Background darken 10%, cursor pointer';
+    focus: 'Accent ring visible (keyboard only via :focus-visible)';
+    active: 'Scale 0.97 (100ms spring)';
+    loading: 'Spinner replaces icon, text visible, aria-busy=true';
+    disabled: 'Opacity 50%, no hover, aria-disabled=true';
   };
   screenReader: {
-    label: "Text content or aria-label";
+    label: 'Text content or aria-label';
     loading: "Announces 'Loading' + action text";
-    toggle: "Announces current state (pressed/not pressed)";
+    toggle: 'Announces current state (pressed/not pressed)';
   };
   testCriteria: [
-    "Navigates via Tab key",
-    "Activates via Enter and Space",
-    "Focus ring visible on keyboard focus only",
-    "No violations in axe DevTools",
-    "Label matches visible text (WCAG 2.5.3)",
-    "Loading state announced to screen reader",
-    "Disabled state not focusable",
-    "Touch target ≥ 44×44px (mobile) / 24×24px (desktop)",
+    'Navigates via Tab key',
+    'Activates via Enter and Space',
+    'Focus ring visible on keyboard focus only',
+    'No violations in axe DevTools',
+    'Label matches visible text (WCAG 2.5.3)',
+    'Loading state announced to screen reader',
+    'Disabled state not focusable',
+    'Touch target ≥ 44×44px (mobile) / 24×24px (desktop)',
   ];
 }
 ```
@@ -2345,34 +2327,34 @@ interface ButtonAccessibilitySpec {
 
 ```tsx
 interface ModalAccessibilitySpec {
-  role: "dialog";
+  role: 'dialog';
   keyboard: {
-    trap: "Focus cycles within modal (first → last → first)";
-    close: "Escape key closes modal";
-    tabOrder: "Close button → content → actions";
+    trap: 'Focus cycles within modal (first → last → first)';
+    close: 'Escape key closes modal';
+    tabOrder: 'Close button → content → actions';
   };
   aria: {
-    "aria-modal": "true";
-    "aria-labelledby": "ID of modal title element (required)";
-    "aria-describedby": "ID of modal description (optional, for confirmations)";
+    'aria-modal': 'true';
+    'aria-labelledby': 'ID of modal title element (required)';
+    'aria-describedby': 'ID of modal description (optional, for confirmations)';
   };
   states: {
-    open: "Scale 0.95→1 + fade (200ms), focus trap active, body scroll locked";
-    closing: "Scale 1→0.95 + fade (150ms), focus returns to trigger";
-    "reduced-motion": "Fade only (100ms), no scale";
+    open: 'Scale 0.95→1 + fade (200ms), focus trap active, body scroll locked';
+    closing: 'Scale 1→0.95 + fade (150ms), focus returns to trigger';
+    'reduced-motion': 'Fade only (100ms), no scale';
   };
   screenReader: {
     open: "Announces title + 'dialog opened'";
-    close: "Announces nothing (focus returns to trigger)";
-    content: "Reads content within dialog";
+    close: 'Announces nothing (focus returns to trigger)';
+    content: 'Reads content within dialog';
   };
   testCriteria: [
-    "Focus trapped on open",
-    "Escape closes",
-    "Overlay click closes (if configured)",
-    "Focus returns to trigger on close",
-    "Body scroll prevented while open",
-    "No violations in axe DevTools",
+    'Focus trapped on open',
+    'Escape closes',
+    'Overlay click closes (if configured)',
+    'Focus returns to trigger on close',
+    'Body scroll prevented while open',
+    'No violations in axe DevTools',
   ];
 }
 ```
@@ -2383,48 +2365,49 @@ interface ModalAccessibilitySpec {
 
 ### 17.1 Announcement Library
 
-| Event | Announcement Text | ARIA | Priority |
-|-------|------------------|------|----------|
-| **Page loaded** | "[Page name] page loaded" | `aria-live="polite"` on route change | Polite |
-| **Filter applied** | "Showing [N] of [total] projects" | `aria-live="polite"` | Polite |
-| **Search results** | "[N] results found for '[query]'" | `aria-live="polite"` | Polite |
-| **Project loaded** | "[N] projects loaded" | `aria-live="polite"` | Polite |
-| **Form submitted** | "Message sent successfully! I'll respond within 24 hours." | `role="alert"` | Polite |
-| **Form error** | "[Field] error: [message]" | `aria-live="assertive"` | Assertive |
-| **Contact form sent** | "Thank you! Your message has been sent." | `aria-live="polite"` | Polite |
-| **Theme changed** | "Switched to dark mode" / "Switched to light mode" | `aria-live="polite"` | Polite |
-| **Modal opened** | "[Title] dialog opened" | — | Focus change |
-| **Modal closed** | "" (nothing) | — | Focus returns to trigger |
-| **Toast (success)** | "[Action] completed successfully" | `role="status"` | Polite |
-| **Toast (error)** | "[Action] failed. [Reason]" | `role="alert"` | Assertive |
-| **Toast (info)** | "[Message]" | `role="status"` | Polite |
-| **Loading start** | "Loading [section]..." | `aria-live="polite"` | Polite |
-| **Loading complete** | "[Section] loaded" | `aria-live="polite"` | Polite |
-| **Loading error** | "Failed to load [section]. Please try again." | `role="alert"` | Assertive |
-| **AI response start** | "AI assistant is thinking..." | `aria-live="polite"` | Polite |
-| **AI response complete** | "AI assistant has responded" | `aria-live="polite"` | Polite |
-| **AI error** | "AI assistant is unavailable. Please try again or use the contact form." | `role="alert"` | Assertive |
-| **Carousel slide change** | "Slide [N] of [total]: [title]" | `aria-live="polite"` | Polite |
-| **Pagination change** | "Page [N] of [total]" | `aria-live="polite"` | Polite |
-| **Item selected** | "[N] items selected" | `aria-live="polite"` | Polite |
-| **Copy to clipboard** | "Code copied to clipboard" | `role="status"` | Polite |
-| **Download started** | "Downloading [filename]" | `aria-live="polite"` | Polite |
-| **Error boundary** | "An unexpected error occurred. We've been notified." | `role="alert"` | Assertive |
-| **Network offline** | "You are offline. Some features may be unavailable." | `role="alert"` | Assertive |
-| **Network online** | "You are back online." | `role="status"` | Polite |
+| Event                     | Announcement Text                                                        | ARIA                                 | Priority                 |
+| ------------------------- | ------------------------------------------------------------------------ | ------------------------------------ | ------------------------ |
+| **Page loaded**           | "[Page name] page loaded"                                                | `aria-live="polite"` on route change | Polite                   |
+| **Filter applied**        | "Showing [N] of [total] projects"                                        | `aria-live="polite"`                 | Polite                   |
+| **Search results**        | "[N] results found for '[query]'"                                        | `aria-live="polite"`                 | Polite                   |
+| **Project loaded**        | "[N] projects loaded"                                                    | `aria-live="polite"`                 | Polite                   |
+| **Form submitted**        | "Message sent successfully! I'll respond within 24 hours."               | `role="alert"`                       | Polite                   |
+| **Form error**            | "[Field] error: [message]"                                               | `aria-live="assertive"`              | Assertive                |
+| **Contact form sent**     | "Thank you! Your message has been sent."                                 | `aria-live="polite"`                 | Polite                   |
+| **Theme changed**         | "Switched to dark mode" / "Switched to light mode"                       | `aria-live="polite"`                 | Polite                   |
+| **Modal opened**          | "[Title] dialog opened"                                                  | —                                    | Focus change             |
+| **Modal closed**          | "" (nothing)                                                             | —                                    | Focus returns to trigger |
+| **Toast (success)**       | "[Action] completed successfully"                                        | `role="status"`                      | Polite                   |
+| **Toast (error)**         | "[Action] failed. [Reason]"                                              | `role="alert"`                       | Assertive                |
+| **Toast (info)**          | "[Message]"                                                              | `role="status"`                      | Polite                   |
+| **Loading start**         | "Loading [section]..."                                                   | `aria-live="polite"`                 | Polite                   |
+| **Loading complete**      | "[Section] loaded"                                                       | `aria-live="polite"`                 | Polite                   |
+| **Loading error**         | "Failed to load [section]. Please try again."                            | `role="alert"`                       | Assertive                |
+| **AI response start**     | "AI assistant is thinking..."                                            | `aria-live="polite"`                 | Polite                   |
+| **AI response complete**  | "AI assistant has responded"                                             | `aria-live="polite"`                 | Polite                   |
+| **AI error**              | "AI assistant is unavailable. Please try again or use the contact form." | `role="alert"`                       | Assertive                |
+| **Carousel slide change** | "Slide [N] of [total]: [title]"                                          | `aria-live="polite"`                 | Polite                   |
+| **Pagination change**     | "Page [N] of [total]"                                                    | `aria-live="polite"`                 | Polite                   |
+| **Item selected**         | "[N] items selected"                                                     | `aria-live="polite"`                 | Polite                   |
+| **Copy to clipboard**     | "Code copied to clipboard"                                               | `role="status"`                      | Polite                   |
+| **Download started**      | "Downloading [filename]"                                                 | `aria-live="polite"`                 | Polite                   |
+| **Error boundary**        | "An unexpected error occurred. We've been notified."                     | `role="alert"`                       | Assertive                |
+| **Network offline**       | "You are offline. Some features may be unavailable."                     | `role="alert"`                       | Assertive                |
+| **Network online**        | "You are back online."                                                   | `role="status"`                      | Polite                   |
 
 ### 17.2 Screen Reader Testing Protocol
 
 Test every critical user flow with:
 
-| Screen Reader | Browser | Test Frequency |
-|--------------|---------|----------------|
-| **VoiceOver** (macOS) | Safari | Every PR |
-| **NVDA** (Windows) | Firefox | Every PR |
-| **VoiceOver** (iOS) | Safari | Every release |
-| **TalkBack** (Android) | Chrome | Every release |
+| Screen Reader          | Browser | Test Frequency |
+| ---------------------- | ------- | -------------- |
+| **VoiceOver** (macOS)  | Safari  | Every PR       |
+| **NVDA** (Windows)     | Firefox | Every PR       |
+| **VoiceOver** (iOS)    | Safari  | Every release  |
+| **TalkBack** (Android) | Chrome  | Every release  |
 
 **Test Flow Checklist:**
+
 ```
 □ Navigate entire site with Tab key only
 □ Navigate entire site with screen reader + Tab
@@ -2546,10 +2529,10 @@ describe("Button Accessibility", () => {
   it("should be keyboard accessible", async () => {
     render(<Button variant="primary">Submit</Button>);
     const button = screen.getByRole("button", { name: /submit/i });
-    
+
     button.focus();
     expect(button).toHaveFocus();
-    
+
     // Enter activates
     const onClick = jest.fn();
     render(<Button variant="primary" onClick={onClick}>Submit</Button>);
@@ -2564,55 +2547,55 @@ describe("Button Accessibility", () => {
 
 ```typescript
 // e2e/accessibility.spec.ts
-import { test, expect } from "@playwright/test";
-import AxeBuilder from "@axe-core/playwright";
+import { test, expect } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 
-test.describe("Accessibility - Homepage", () => {
-  test("should pass axe automated audit", async ({ page }) => {
-    await page.goto("/");
-    
+test.describe('Accessibility - Homepage', () => {
+  test('should pass axe automated audit', async ({ page }) => {
+    await page.goto('/');
+
     const results = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
       .analyze();
-    
+
     expect(results.violations).toEqual([]);
   });
 
-  test("should be keyboard navigable", async ({ page }) => {
-    await page.goto("/");
-    
+  test('should be keyboard navigable', async ({ page }) => {
+    await page.goto('/');
+
     // Tab through all focusable elements
-    const focusableElements = await page.locator(
-      'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-    ).all();
-    
+    const focusableElements = await page
+      .locator('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])')
+      .all();
+
     for (const element of focusableElements) {
-      await page.keyboard.press("Tab");
+      await page.keyboard.press('Tab');
       await expect(element).toBeFocused();
     }
   });
 
-  test("should have skip link as first focusable element", async ({ page }) => {
-    await page.goto("/");
-    await page.keyboard.press("Tab");
-    
+  test('should have skip link as first focusable element', async ({ page }) => {
+    await page.goto('/');
+    await page.keyboard.press('Tab');
+
     const skipLink = page.locator('a[href="#main-content"]');
     await expect(skipLink).toBeFocused();
-    await expect(skipLink).toHaveText("Skip to main content");
+    await expect(skipLink).toHaveText('Skip to main content');
   });
 });
 
-test.describe("Accessibility - Contact Form", () => {
-  test("should show and announce form errors", async ({ page }) => {
-    await page.goto("/contact");
-    
+test.describe('Accessibility - Contact Form', () => {
+  test('should show and announce form errors', async ({ page }) => {
+    await page.goto('/contact');
+
     // Submit empty form
     await page.click('button[type="submit"]');
-    
+
     // Focus should be on first invalid field
     const nameInput = page.locator('input[name="name"]');
     await expect(nameInput).toBeFocused();
-    
+
     // Error message should be announced
     const errorMessage = page.locator('[role="alert"]');
     await expect(errorMessage).toBeVisible();
@@ -2694,16 +2677,16 @@ test.describe("Accessibility - Contact Form", () => {
 
 ### 18.4 Third-Party Integration Testing
 
-| Integration | Accessibility Concern | Test Method | Frequency |
-|------------|----------------------|-------------|-----------|
-| **Supabase** (auth, DB) | RLS error messages, auth flows | Manual + axe | Quarterly |
-| **PostHog** (analytics) | Tracking scripts, cookie banners | axe audit | Quarterly |
-| **Keystatic CMS** (content) | Rendered MDX content | axe audit | Per content update |
-| **Umami** (analytics) | Tracking script | axe audit | Initial setup |
-| **Sentry** (error tracking) | Error boundary fallback | Manual test | Per release |
-| **Resend** (email) | Subscription forms | Manual + axe | Per release |
-| **Vercel Analytics** | Speed Insights embed | axe audit | Initial setup |
-| **Better Uptime** | Status badge embed | axe audit | Initial setup |
+| Integration                 | Accessibility Concern            | Test Method  | Frequency          |
+| --------------------------- | -------------------------------- | ------------ | ------------------ |
+| **Supabase** (auth, DB)     | RLS error messages, auth flows   | Manual + axe | Quarterly          |
+| **PostHog** (analytics)     | Tracking scripts, cookie banners | axe audit    | Quarterly          |
+| **Keystatic CMS** (content) | Rendered MDX content             | axe audit    | Per content update |
+| **Umami** (analytics)       | Tracking script                  | axe audit    | Initial setup      |
+| **Sentry** (error tracking) | Error boundary fallback          | Manual test  | Per release        |
+| **Resend** (email)          | Subscription forms               | Manual + axe | Per release        |
+| **Vercel Analytics**        | Speed Insights embed             | axe audit    | Initial setup      |
+| **Better Uptime**           | Status badge embed               | axe audit    | Initial setup      |
 
 ---
 
@@ -2714,6 +2697,7 @@ test.describe("Accessibility - Contact Form", () => {
 Run this checklist before every production deployment:
 
 #### Perceivable (13 checks)
+
 ```
 □ [1.1.1] All images have appropriate alt text (decorative alt="", informative = description)
 □ [1.3.1] Semantic HTML used throughout (no div soup)
@@ -2731,6 +2715,7 @@ Run this checklist before every production deployment:
 ```
 
 #### Operable (11 checks)
+
 ```
 □ [2.1.1] All functionality available via keyboard
 □ [2.1.2] No keyboard traps
@@ -2746,6 +2731,7 @@ Run this checklist before every production deployment:
 ```
 
 #### Understandable (7 checks)
+
 ```
 □ [3.1.1] Page has lang attribute
 □ [3.2.1] No context change on focus
@@ -2757,6 +2743,7 @@ Run this checklist before every production deployment:
 ```
 
 #### Robust (3 checks)
+
 ```
 □ [4.1.1] Valid HTML, no duplicate IDs
 □ [4.1.2] Custom controls have correct ARIA roles/states
@@ -2765,25 +2752,25 @@ Run this checklist before every production deployment:
 
 ### 19.2 Component Compliance Matrix
 
-| Component | A | AA | Feasible AAA | Test Status |
-|-----------|---|----|-------------|-------------|
-| **Button** | ✅ All | ✅ All | ✅ Target size, focus appearance | 🟢 Passing |
-| **Card** | ✅ All | ✅ All | ⬆️ Section headings | 🟢 Passing |
-| **Input** | ✅ All | ✅ All | ⬆️ Help | 🟢 Passing |
-| **Modal** | ✅ All | ✅ All | ✅ Focus appearance | 🟢 Passing |
-| **Tabs** | ✅ All | ✅ All | ✅ Focus appearance | 🟢 Passing |
-| **Accordion** | ✅ All | ✅ All | ✅ Focus appearance | 🟢 Passing |
-| **Carousel** | ✅ All | ✅ All | ⬆️ Target size | 🟢 Passing |
-| **Table** | ✅ All | ✅ All | ⬆️ All | 🔴 In Progress |
-| **Toast** | ✅ All | ✅ All | ✅ All | 🟢 Passing |
-| **Tooltip** | ✅ All | ✅ All | ✅ Focus appearance | 🟢 Passing |
-| **Navigation** | ✅ All | ✅ All | ✅ Location, headings | 🟢 Passing |
-| **Footer** | ✅ All | ✅ All | ✅ All | 🟢 Passing |
-| **Form** | ✅ All | ✅ All | ⬆️ Help, error prevention | 🟢 Passing |
-| **Pagination** | ✅ All | ✅ All | ⬆️ Target size | 🟢 Passing |
-| **AI Chat** | ✅ All | ✅ All | ⬆️ Help, reading level | 🟡 Partial |
-| **Admin Grid** | ✅ All | ✅ All | ⬆️ All | 🔴 In Progress |
-| **Admin Sidebar** | ✅ All | ✅ All | ✅ Location, headings | 🟢 Passing |
+| Component         | A      | AA     | Feasible AAA                     | Test Status    |
+| ----------------- | ------ | ------ | -------------------------------- | -------------- |
+| **Button**        | ✅ All | ✅ All | ✅ Target size, focus appearance | 🟢 Passing     |
+| **Card**          | ✅ All | ✅ All | ⬆️ Section headings              | 🟢 Passing     |
+| **Input**         | ✅ All | ✅ All | ⬆️ Help                          | 🟢 Passing     |
+| **Modal**         | ✅ All | ✅ All | ✅ Focus appearance              | 🟢 Passing     |
+| **Tabs**          | ✅ All | ✅ All | ✅ Focus appearance              | 🟢 Passing     |
+| **Accordion**     | ✅ All | ✅ All | ✅ Focus appearance              | 🟢 Passing     |
+| **Carousel**      | ✅ All | ✅ All | ⬆️ Target size                   | 🟢 Passing     |
+| **Table**         | ✅ All | ✅ All | ⬆️ All                           | 🔴 In Progress |
+| **Toast**         | ✅ All | ✅ All | ✅ All                           | 🟢 Passing     |
+| **Tooltip**       | ✅ All | ✅ All | ✅ Focus appearance              | 🟢 Passing     |
+| **Navigation**    | ✅ All | ✅ All | ✅ Location, headings            | 🟢 Passing     |
+| **Footer**        | ✅ All | ✅ All | ✅ All                           | 🟢 Passing     |
+| **Form**          | ✅ All | ✅ All | ⬆️ Help, error prevention        | 🟢 Passing     |
+| **Pagination**    | ✅ All | ✅ All | ⬆️ Target size                   | 🟢 Passing     |
+| **AI Chat**       | ✅ All | ✅ All | ⬆️ Help, reading level           | 🟡 Partial     |
+| **Admin Grid**    | ✅ All | ✅ All | ⬆️ All                           | 🔴 In Progress |
+| **Admin Sidebar** | ✅ All | ✅ All | ✅ Location, headings            | 🟢 Passing     |
 
 ### 19.3 Sprint Review Checklist
 
@@ -2817,7 +2804,7 @@ Version: 1.0 | Effective: June 2026
    ensuring equal access for all users regardless of ability.
 
 2. SCOPE
-   This policy applies to all public-facing pages, admin interfaces, 
+   This policy applies to all public-facing pages, admin interfaces,
    content management systems, and integrated third-party tools.
 
 3. STANDARDS
@@ -2851,70 +2838,70 @@ Version: 1.0 | Effective: June 2026
 
 ### 20.2 Compliance Standards Matrix
 
-| Standard | Organization | Applicability | Target | Status |
-|----------|-------------|--------------|--------|--------|
-| **WCAG 2.2 AA** | W3C | All digital content | 35/35 criteria | 🟢 On track |
-| **WCAG 2.2 AAA** | W3C | Enhanced accessibility | 18/25 applicable | 🟡 In progress |
-| **Section 508** | US Government | US users | Full compliance | 🟢 On track |
-| **EN 301 549** | EU Commission | EU users | Full compliance | 🟢 On track |
-| **ADA Title III** | US DOJ | Public accommodation | Prevent discrimination | 🟢 Compliant |
-| **European Accessibility Act** | EU Commission | Accessibility requirements | 2025 deadline | 🟡 Preparing |
-| **ISO/IEC 40500** | ISO | WCAG 2.0 equivalence | Full equivalence | 🟢 Compliant |
+| Standard                       | Organization  | Applicability              | Target                 | Status         |
+| ------------------------------ | ------------- | -------------------------- | ---------------------- | -------------- |
+| **WCAG 2.2 AA**                | W3C           | All digital content        | 35/35 criteria         | 🟢 On track    |
+| **WCAG 2.2 AAA**               | W3C           | Enhanced accessibility     | 18/25 applicable       | 🟡 In progress |
+| **Section 508**                | US Government | US users                   | Full compliance        | 🟢 On track    |
+| **EN 301 549**                 | EU Commission | EU users                   | Full compliance        | 🟢 On track    |
+| **ADA Title III**              | US DOJ        | Public accommodation       | Prevent discrimination | 🟢 Compliant   |
+| **European Accessibility Act** | EU Commission | Accessibility requirements | 2025 deadline          | 🟡 Preparing   |
+| **ISO/IEC 40500**              | ISO           | WCAG 2.0 equivalence       | Full equivalence       | 🟢 Compliant   |
 
 ### 20.3 Accessibility Maturity Model
 
-| Level | Name | Characteristics | Current Status |
-|-------|------|----------------|----------------|
-| **1** | Initial | Ad-hoc accessibility, reactive fixes | ✅ Passed |
-| **2** | Managed | Accessibility in design process, basic testing | ✅ Passed |
-| **3** | Defined | Standards documented, automated testing in CI, component specs | ✅ **Current** |
-| **4** | Quantified | Measurable KPIs, trend tracking, user testing with disabilities | 🔴 Target (Q3 2026) |
+| Level | Name       | Characteristics                                                    | Current Status      |
+| ----- | ---------- | ------------------------------------------------------------------ | ------------------- |
+| **1** | Initial    | Ad-hoc accessibility, reactive fixes                               | ✅ Passed           |
+| **2** | Managed    | Accessibility in design process, basic testing                     | ✅ Passed           |
+| **3** | Defined    | Standards documented, automated testing in CI, component specs     | ✅ **Current**      |
+| **4** | Quantified | Measurable KPIs, trend tracking, user testing with disabilities    | 🔴 Target (Q3 2026) |
 | **5** | Optimizing | Continuous improvement, community engagement, proactive innovation | 🔴 Target (Q4 2026) |
 
 ### 20.4 Industry Benchmarks
 
-| Benchmark | This Portfolio | Industry Average | Top 10% |
-|-----------|---------------|------------------|---------|
-| Lighthouse Accessibility Score | 95 | 82 | 95+ |
-| WCAG 2.2 AA Pass Rate | 100% | 65% | 92%+ |
-| Keyboard Navigation Coverage | 100% | 70% | 95%+ |
-| axe Zero Violations | ✅ | ❌ (avg 8 violations) | ✅ |
-| Reduced Motion Support | ✅ | ❌ (43% of sites) | ✅ |
-| Screen Reader Tested | ✅ | ❌ (28% of sites) | ✅ |
-| Touch Target ≥ 44×44px | ✅ | ❌ (55% of mobile sites) | ✅ |
-| Color Contrast All Pairs | ✅ 4.5:1+ | ❌ (68% pass rate) | ✅ |
+| Benchmark                      | This Portfolio | Industry Average         | Top 10% |
+| ------------------------------ | -------------- | ------------------------ | ------- |
+| Lighthouse Accessibility Score | 95             | 82                       | 95+     |
+| WCAG 2.2 AA Pass Rate          | 100%           | 65%                      | 92%+    |
+| Keyboard Navigation Coverage   | 100%           | 70%                      | 95%+    |
+| axe Zero Violations            | ✅             | ❌ (avg 8 violations)    | ✅      |
+| Reduced Motion Support         | ✅             | ❌ (43% of sites)        | ✅      |
+| Screen Reader Tested           | ✅             | ❌ (28% of sites)        | ✅      |
+| Touch Target ≥ 44×44px         | ✅             | ❌ (55% of mobile sites) | ✅      |
+| Color Contrast All Pairs       | ✅ 4.5:1+      | ❌ (68% pass rate)       | ✅      |
 
 ### 20.5 Override Log
 
 When accessibility requirements cannot be met, overrides must be documented:
 
-| Override ID | Component | WCAG Criterion | Reason | Risk Assessment | Approval | Date | Review Date |
-|-------------|-----------|---------------|--------|-----------------|----------|------|-------------|
-| A11Y-OVR-001 | Chart.js integration | 1.4.1 (Use of Color) | Chart.js uses color for data series; patterns not supported in v4 | Low — data labels and legends supplement color | Frontend Lead | Jun 2026 | Sep 2026 |
-| A11Y-OVR-002 | Particle background | 2.2.2 (Pause, Stop, Hide) | Core decorative feature; no on/off control | Low — decorative only, no essential info conveyed | Design Lead | Jun 2026 | Sep 2026 |
+| Override ID  | Component            | WCAG Criterion            | Reason                                                            | Risk Assessment                                   | Approval      | Date     | Review Date |
+| ------------ | -------------------- | ------------------------- | ----------------------------------------------------------------- | ------------------------------------------------- | ------------- | -------- | ----------- |
+| A11Y-OVR-001 | Chart.js integration | 1.4.1 (Use of Color)      | Chart.js uses color for data series; patterns not supported in v4 | Low — data labels and legends supplement color    | Frontend Lead | Jun 2026 | Sep 2026    |
+| A11Y-OVR-002 | Particle background  | 2.2.2 (Pause, Stop, Hide) | Core decorative feature; no on/off control                        | Low — decorative only, no essential info conveyed | Design Lead   | Jun 2026 | Sep 2026    |
 
 ### 20.6 Accessibility in the Development Lifecycle
 
-| Phase | Accessibility Activity | Owner |
-|-------|----------------------|-------|
-| **Design** | Verify contrast ratios, semantic structure, keyboard patterns | Design Lead |
-| **Design Review** | Accessibility design review against checklist | Frontend Lead |
-| **Development** | Implement semantic HTML, ARIA, focus management, keyboard support | Developer |
-| **Code Review** | Accessibility checklist (13 items) | Reviewer |
-| **Automated Test** | axe DevTools integration, Lighthouse CI, Playwright a11y | QA Engineer |
-| **Manual Test** | Keyboard audit, screen reader test, zoom test | QA Engineer |
-| **Pre-Release** | Full WCAG AA audit against compliance checklist | Frontend Lead |
-| **Post-Release** | Monitor Lighthouse score, user feedback, issue tracking | Product Owner |
+| Phase              | Accessibility Activity                                            | Owner         |
+| ------------------ | ----------------------------------------------------------------- | ------------- |
+| **Design**         | Verify contrast ratios, semantic structure, keyboard patterns     | Design Lead   |
+| **Design Review**  | Accessibility design review against checklist                     | Frontend Lead |
+| **Development**    | Implement semantic HTML, ARIA, focus management, keyboard support | Developer     |
+| **Code Review**    | Accessibility checklist (13 items)                                | Reviewer      |
+| **Automated Test** | axe DevTools integration, Lighthouse CI, Playwright a11y          | QA Engineer   |
+| **Manual Test**    | Keyboard audit, screen reader test, zoom test                     | QA Engineer   |
+| **Pre-Release**    | Full WCAG AA audit against compliance checklist                   | Frontend Lead |
+| **Post-Release**   | Monitor Lighthouse score, user feedback, issue tracking           | Product Owner |
 
 ### 20.7 Accessibility Bug Severity Matrix
 
-| Severity | Definition | SLA | Example |
-|----------|-----------|-----|---------|
-| **P0 — Critical** | Complete accessibility blocker | Fix within 24 hours | Keyboard trap, missing alt on essential image |
-| **P1 — High** | Major accessibility gap | Fix within 72 hours | Low contrast on body text, missing form labels |
-| **P2 — Medium** | Partial accessibility issue | Fix within 1 week | Non-descriptive link text, minor focus issues |
-| **P3 — Low** | Enhancement opportunity | Fix within 2 weeks | AAA criteria not met, non-critical ARIA improvements |
-| **P4 — Wishlist** | Future enhancement | Backlog | Additional screen reader optimizations, new testing tools |
+| Severity          | Definition                     | SLA                 | Example                                                   |
+| ----------------- | ------------------------------ | ------------------- | --------------------------------------------------------- |
+| **P0 — Critical** | Complete accessibility blocker | Fix within 24 hours | Keyboard trap, missing alt on essential image             |
+| **P1 — High**     | Major accessibility gap        | Fix within 72 hours | Low contrast on body text, missing form labels            |
+| **P2 — Medium**   | Partial accessibility issue    | Fix within 1 week   | Non-descriptive link text, minor focus issues             |
+| **P3 — Low**      | Enhancement opportunity        | Fix within 2 weeks  | AAA criteria not met, non-critical ARIA improvements      |
+| **P4 — Wishlist** | Future enhancement             | Backlog             | Additional screen reader optimizations, new testing tools |
 
 ---
 
@@ -2922,31 +2909,31 @@ When accessibility requirements cannot be met, overrides must be documented:
 
 ### 21.1 Continuous Monitoring
 
-| Tool | What It Monitors | Frequency | Threshold | Action on Failure |
-|------|-----------------|-----------|-----------|-------------------|
-| **Lighthouse CI** | Accessibility score | Every PR | ≥ 95 | Block deployment |
-| **axe DevTools (CI)** | WCAG violations | Every PR | 0 violations | Block deployment |
-| **Playwright a11y** | E2E accessibility | Every PR | 0 violations | Block deployment |
-| **HTML Validator** | HTML5 compliance | Every PR | 0 errors | Warning |
-| **W3C CSS Validator** | CSS compliance | Daily | 0 errors | Warning |
-| **Lighthouse Report** | Score trends | Daily | — | Weekly review |
-| **axe Monitor** | Automated weekly scan | Weekly | 0 violations | Slack alert |
-| **Colour Contrast Analyser** | Manual contrast check | Monthly | All ≥ 4.5:1 | Fix + recheck |
-| **VoiceOver / NVDA** | Screen reader test | Pre-release | All flows pass | Block release |
-| **Third-party audit** | Full WCAG audit | Quarterly | 100% AA | Remediation plan |
+| Tool                         | What It Monitors      | Frequency   | Threshold      | Action on Failure |
+| ---------------------------- | --------------------- | ----------- | -------------- | ----------------- |
+| **Lighthouse CI**            | Accessibility score   | Every PR    | ≥ 95           | Block deployment  |
+| **axe DevTools (CI)**        | WCAG violations       | Every PR    | 0 violations   | Block deployment  |
+| **Playwright a11y**          | E2E accessibility     | Every PR    | 0 violations   | Block deployment  |
+| **HTML Validator**           | HTML5 compliance      | Every PR    | 0 errors       | Warning           |
+| **W3C CSS Validator**        | CSS compliance        | Daily       | 0 errors       | Warning           |
+| **Lighthouse Report**        | Score trends          | Daily       | —              | Weekly review     |
+| **axe Monitor**              | Automated weekly scan | Weekly      | 0 violations   | Slack alert       |
+| **Colour Contrast Analyser** | Manual contrast check | Monthly     | All ≥ 4.5:1    | Fix + recheck     |
+| **VoiceOver / NVDA**         | Screen reader test    | Pre-release | All flows pass | Block release     |
+| **Third-party audit**        | Full WCAG audit       | Quarterly   | 100% AA        | Remediation plan  |
 
 ### 21.2 Accessibility Dashboard
 
-| Metric | Current | Target | Trend |
-|--------|---------|--------|-------|
-| Lighthouse Accessibility | 95 | ≥ 95 | 🟢 Stable |
-| axe Violations | 0 | 0 | 🟢 Stable |
-| Keyboard Coverage | 100% | 100% | 🟢 Stable |
-| Contrast Pair Pass Rate | 100% | 100% | 🟢 Stable |
-| WCAG AA Criterion Pass | 35/35 | 35/35 | 🟢 Stable |
-| WCAG AAA Criterion Pass | 18/25 | 18/25 | 🟡 In progress |
-| User-Reported Issues | 0 | < 3/year | 🟢 Stable |
-| Mean Time to Fix (P0/P1) | — | < 24h | 🟡 Gathering data |
+| Metric                   | Current | Target   | Trend             |
+| ------------------------ | ------- | -------- | ----------------- |
+| Lighthouse Accessibility | 95      | ≥ 95     | 🟢 Stable         |
+| axe Violations           | 0       | 0        | 🟢 Stable         |
+| Keyboard Coverage        | 100%    | 100%     | 🟢 Stable         |
+| Contrast Pair Pass Rate  | 100%    | 100%     | 🟢 Stable         |
+| WCAG AA Criterion Pass   | 35/35   | 35/35    | 🟢 Stable         |
+| WCAG AAA Criterion Pass  | 18/25   | 18/25    | 🟡 In progress    |
+| User-Reported Issues     | 0       | < 3/year | 🟢 Stable         |
+| Mean Time to Fix (P0/P1) | —       | < 24h    | 🟡 Gathering data |
 
 ### 21.3 Quarterly External Audit Protocol
 
@@ -2993,33 +2980,33 @@ Report Format:
 
 New developers must complete this training within their first week:
 
-| Module | Topic | Duration | Format | Assessment |
-|--------|-------|----------|--------|------------|
-| **1** | WCAG 2.2 Overview | 30 min | Self-study | Quiz (80% pass) |
-| **2** | Semantic HTML & Landmarks | 30 min | Self-study + Code review | PR with a11y checklist |
-| **3** | Keyboard Navigation Patterns | 30 min | Self-study + Live demo | Keyboard audit exercise |
-| **4** | ARIA: When and How | 45 min | Self-study + Code review | ARIA pattern implementation |
-| **5** | Focus Management | 30 min | Self-study + Code review | Focus trap implementation |
-| **6** | Color & Contrast | 20 min | Self-study | Contrast verification exercise |
-| **7** | Screen Reader Testing | 45 min | Live demo + Hands-on | VoiceOver/NVDA test exercise |
-| **8** | Testing with axe & Lighthouse | 30 min | Self-study + CI setup | PR with passing a11y check |
-| **9** | Component A11y Specs | 30 min | Self-study | A11y spec audit exercise |
-| **10** | Final Assessment | 60 min | Practical exam | Build accessible component |
+| Module | Topic                         | Duration | Format                   | Assessment                     |
+| ------ | ----------------------------- | -------- | ------------------------ | ------------------------------ |
+| **1**  | WCAG 2.2 Overview             | 30 min   | Self-study               | Quiz (80% pass)                |
+| **2**  | Semantic HTML & Landmarks     | 30 min   | Self-study + Code review | PR with a11y checklist         |
+| **3**  | Keyboard Navigation Patterns  | 30 min   | Self-study + Live demo   | Keyboard audit exercise        |
+| **4**  | ARIA: When and How            | 45 min   | Self-study + Code review | ARIA pattern implementation    |
+| **5**  | Focus Management              | 30 min   | Self-study + Code review | Focus trap implementation      |
+| **6**  | Color & Contrast              | 20 min   | Self-study               | Contrast verification exercise |
+| **7**  | Screen Reader Testing         | 45 min   | Live demo + Hands-on     | VoiceOver/NVDA test exercise   |
+| **8**  | Testing with axe & Lighthouse | 30 min   | Self-study + CI setup    | PR with passing a11y check     |
+| **9**  | Component A11y Specs          | 30 min   | Self-study               | A11y spec audit exercise       |
+| **10** | Final Assessment              | 60 min   | Practical exam           | Build accessible component     |
 
 ### 22.2 Accessibility Knowledge Base
 
-| Resource | Location | Description |
-|----------|----------|-------------|
-| **WCAG 2.2 Quick Reference** | w3.org/WAI/WCAG22/quickref | Official WCAG reference |
-| **ARIA Authoring Practices** | w3.org/WAI/ARIA/apg | ARIA patterns and examples |
-| **WebAIM Contrast Checker** | webaim.org/resources/contrastchecker | Color contrast verification |
-| **axe DevTools** | Browser extension | Automated accessibility audit |
-| **Colour Contrast Analyser** | tpmg-cca.com | Desktop contrast tool |
-| **A11y Project Checklist** | a11yproject.com/checklist | Practical checklist |
-| **Stark** | getstark.co | Design tool integration (Figma) |
-| **Inclusive Components** | inclusive-components.design | Accessible component patterns |
-| **Accessibility Weekly** | accessibilityweekly.com | Newsletter |
-| **A11y Rules Podcast** | a11yrules.com | Podcast |
+| Resource                     | Location                             | Description                     |
+| ---------------------------- | ------------------------------------ | ------------------------------- |
+| **WCAG 2.2 Quick Reference** | w3.org/WAI/WCAG22/quickref           | Official WCAG reference         |
+| **ARIA Authoring Practices** | w3.org/WAI/ARIA/apg                  | ARIA patterns and examples      |
+| **WebAIM Contrast Checker**  | webaim.org/resources/contrastchecker | Color contrast verification     |
+| **axe DevTools**             | Browser extension                    | Automated accessibility audit   |
+| **Colour Contrast Analyser** | tpmg-cca.com                         | Desktop contrast tool           |
+| **A11y Project Checklist**   | a11yproject.com/checklist            | Practical checklist             |
+| **Stark**                    | getstark.co                          | Design tool integration (Figma) |
+| **Inclusive Components**     | inclusive-components.design          | Accessible component patterns   |
+| **Accessibility Weekly**     | accessibilityweekly.com              | Newsletter                      |
+| **A11y Rules Podcast**       | a11yrules.com                        | Podcast                         |
 
 ### 22.3 Code Review Accessibility Checklist
 
@@ -3081,96 +3068,94 @@ Testing
 
 ## 23. Accessibility Override Log
 
-| Override ID | Date | Component | WCAG Criterion | Reason | Risk Assessment | Approval | Review Date | Status |
-|-------------|------|-----------|---------------|--------|-----------------|----------|-------------|--------|
-| A11Y-OVR-001 | Jun 2026 | Chart visualizations | 1.4.1 Use of Color | Chart.js uses color for data series — patterns/texture overlay not supported in v4.x without custom plugin overhead | Low — data labels, legends, and tooltips supplement color info | Frontend Lead | Sep 2026 | 🟢 Active |
-| A11Y-OVR-002 | Jun 2026 | Particle animation background | 2.2.2 Pause/Stop/Hide | Decorative particle system has no on/off toggle — core visual identity feature | Low — decorative only, no essential info | Design Lead | Sep 2026 | 🟢 Active |
-| A11Y-OVR-003 | Jun 2026 | External embed (CodePen, YouTube) | 2.1.1 Keyboard | Third-party embeds may have limited keyboard controls | Medium — embeds marked with aria-label, focusable, Escape to close overlay | Frontend Lead | Sep 2026 | 🟢 Active |
-| A11Y-OVR-004 | Jun 2026 | Font loading (variable fonts) | 1.4.4 Resize Text | Variable fonts may have reduced legibility at extreme zoom levels with certain axis values | Low — text still readable, no content loss | Design Lead | Sep 2026 | 🟢 Active |
+| Override ID  | Date     | Component                         | WCAG Criterion        | Reason                                                                                                              | Risk Assessment                                                            | Approval      | Review Date | Status    |
+| ------------ | -------- | --------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------- | ----------- | --------- |
+| A11Y-OVR-001 | Jun 2026 | Chart visualizations              | 1.4.1 Use of Color    | Chart.js uses color for data series — patterns/texture overlay not supported in v4.x without custom plugin overhead | Low — data labels, legends, and tooltips supplement color info             | Frontend Lead | Sep 2026    | 🟢 Active |
+| A11Y-OVR-002 | Jun 2026 | Particle animation background     | 2.2.2 Pause/Stop/Hide | Decorative particle system has no on/off toggle — core visual identity feature                                      | Low — decorative only, no essential info                                   | Design Lead   | Sep 2026    | 🟢 Active |
+| A11Y-OVR-003 | Jun 2026 | External embed (CodePen, YouTube) | 2.1.1 Keyboard        | Third-party embeds may have limited keyboard controls                                                               | Medium — embeds marked with aria-label, focusable, Escape to close overlay | Frontend Lead | Sep 2026    | 🟢 Active |
+| A11Y-OVR-004 | Jun 2026 | Font loading (variable fonts)     | 1.4.4 Resize Text     | Variable fonts may have reduced legibility at extreme zoom levels with certain axis values                          | Low — text still readable, no content loss                                 | Design Lead   | Sep 2026    | 🟢 Active |
 
 ---
 
 ## 25. Decision Log
 
-| Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
-|-------------|------|----------|-----------|------------------------|---------|
-| D-A11Y-001 | Jun 2026 | WCAG 2.2 AA+ as compliance target (AA all, AAA where feasible) | AA mandatory for legal compliance; AAA where it doesn't harm UX | WCAG 2.1 rejected — 2.2 adds important criteria (focus appearance, drag-and-drop) | Adopted |
-| D-A11Y-002 | Jun 2026 | axe DevTools as primary automated accessibility testing engine | Industry standard, CI-integratable, comprehensive rule set | Wave, Lighthouse a11y audit rejected — less comprehensive rule coverage | Adopted |
-| D-A11Y-003 | Jun 2026 | Radix UI primitives as component accessibility foundation | Built-in ARIA compliance, focus management, keyboard navigation | Custom ARIA implementation rejected — maintenance burden, risk of errors | Adopted |
-| D-A11Y-004 | Jun 2026 | Zero axe violations as CI gate (blocks deployment) | Enforces accessibility at build time, prevents regressions | Warning-only rejected — violations would accumulate without enforcement | Adopted |
-| D-A11Y-005 | Jun 2026 | Accessibility Override Log for documented exceptions | Transparency for intentional deviations with review dates | Silent overrides rejected — decisions hidden, no accountability | Adopted |
+| Decision ID | Date     | Decision                                                       | Rationale                                                       | Alternatives Considered                                                           | Outcome |
+| ----------- | -------- | -------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------- |
+| D-A11Y-001  | Jun 2026 | WCAG 2.2 AA+ as compliance target (AA all, AAA where feasible) | AA mandatory for legal compliance; AAA where it doesn't harm UX | WCAG 2.1 rejected — 2.2 adds important criteria (focus appearance, drag-and-drop) | Adopted |
+| D-A11Y-002  | Jun 2026 | axe DevTools as primary automated accessibility testing engine | Industry standard, CI-integratable, comprehensive rule set      | Wave, Lighthouse a11y audit rejected — less comprehensive rule coverage           | Adopted |
+| D-A11Y-003  | Jun 2026 | Radix UI primitives as component accessibility foundation      | Built-in ARIA compliance, focus management, keyboard navigation | Custom ARIA implementation rejected — maintenance burden, risk of errors          | Adopted |
+| D-A11Y-004  | Jun 2026 | Zero axe violations as CI gate (blocks deployment)             | Enforces accessibility at build time, prevents regressions      | Warning-only rejected — violations would accumulate without enforcement           | Adopted |
+| D-A11Y-005  | Jun 2026 | Accessibility Override Log for documented exceptions           | Transparency for intentional deviations with review dates       | Silent overrides rejected — decisions hidden, no accountability                   | Adopted |
 
 ## 26. Risk Register
 
-| Risk ID | Risk Description | Probability | Impact | Severity | Mitigation Strategy | Contingency | Owner |
-|---------|-----------------|-------------|--------|----------|---------------------|-------------|-------|
-| R-A11Y-001 | Third-party components or libraries introduce inaccessible patterns | Medium | High | High | Third-party accessibility audit in procurement process, wrapper components with a11y guarantees | Replace inaccessible components, contribute fixes upstream | Frontend Lead |
-| R-A11Y-002 | axe CI rule updates cause sudden build failures from new checks | Medium | Medium | Medium | Pin axe-core version in CI, review new rules during version upgrades | Temporarily allow new-rule violations with 2-week remediation SLA | QA Lead |
-| R-A11Y-003 | Screen reader compatibility testing manually intensive, creates testing bottleneck | High | Medium | High | Automate screen reader tests via Playwright + NVDA, focus on critical flows | Weekly manual spot checks, user testing sessions with assistive tech users | QA Lead |
-| R-A11Y-004 | WCAG 2.2 AA compliance gaps found in manual audit during release | Medium | High | High | Pre-release accessibility checklist, component-level a11y spec review | Document gap in Override Log, fix within 1 sprint | Frontend Lead |
-| R-A11Y-005 | Color contrast compliance drifts as design tokens evolve | Medium | Medium | Medium | Automated contrast checks for all color pairs in CI, token-level contrast verification | Manual contrast audit before each release, color palette freeze before release | Design Lead |
+| Risk ID    | Risk Description                                                                   | Probability | Impact | Severity | Mitigation Strategy                                                                             | Contingency                                                                    | Owner         |
+| ---------- | ---------------------------------------------------------------------------------- | ----------- | ------ | -------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ------------- |
+| R-A11Y-001 | Third-party components or libraries introduce inaccessible patterns                | Medium      | High   | High     | Third-party accessibility audit in procurement process, wrapper components with a11y guarantees | Replace inaccessible components, contribute fixes upstream                     | Frontend Lead |
+| R-A11Y-002 | axe CI rule updates cause sudden build failures from new checks                    | Medium      | Medium | Medium   | Pin axe-core version in CI, review new rules during version upgrades                            | Temporarily allow new-rule violations with 2-week remediation SLA              | QA Lead       |
+| R-A11Y-003 | Screen reader compatibility testing manually intensive, creates testing bottleneck | High        | Medium | High     | Automate screen reader tests via Playwright + NVDA, focus on critical flows                     | Weekly manual spot checks, user testing sessions with assistive tech users     | QA Lead       |
+| R-A11Y-004 | WCAG 2.2 AA compliance gaps found in manual audit during release                   | Medium      | High   | High     | Pre-release accessibility checklist, component-level a11y spec review                           | Document gap in Override Log, fix within 1 sprint                              | Frontend Lead |
+| R-A11Y-005 | Color contrast compliance drifts as design tokens evolve                           | Medium      | Medium | Medium   | Automated contrast checks for all color pairs in CI, token-level contrast verification          | Manual contrast audit before each release, color palette freeze before release | Design Lead   |
 
 ## 27. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Author        |
+| ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | **5.0** | Jun 2026 | **Complete enterprise rewrite** from v3.0 skeleton. Added 22 new sections: Accessibility Vision & North Star (vision statement, 10 principles, promise, north star metrics), Compliance Standards & Scope (full WCAG 2.2 AA+ matrix with 35 AA + 25 AAA criteria, legal/regulatory alignment), Technology Stack (architecture diagram, 11 a11y hooks/utilities, Radix UI guarantees), Semantic HTML Foundation (document structure, heading rules, landmarks, list patterns), Keyboard Navigation (interaction architecture diagram, 18-component support matrix, tab order rules, skip link, focus trap implementation), Screen Reader Support (6 reader compatibility, optimized patterns for images/dynamic content/loading/carousel, live region strategy), Color & Contrast System (token-level verification for 20+ light/dark pairs, focus indicator contrast, non-text contrast, forced colors/prefers-contrast), Motion & Animation Accessibility (reduced motion strategy, CSS/JS implementations, 11 animation types mapped, GSAP configuration), Focus Management (architecture diagram, order specs per page, route change handler, modal management, keyboard user detection), Forms & Input Accessibility (FormField component, 13 requirements, autocomplete/inputmode maps, complete contact form), Error Handling & Validation (12 error patterns, 6 guidelines, error boundary, role="alert" live regions), Responsive & Zoom Accessibility (touch target specifications, reflow test matrix, text spacing), ARIA Implementation Patterns (decision tree, 7 patterns with code, anti-patterns), Content Accessibility (alt text standards, link text, heading standards, downloads, code blocks), Component-Level A11y Specs (35-component matrix, full Button + Modal specs), Screen Reader Optimization Catalog (30+ announcement library, testing protocol), Testing Strategy (5-layer architecture, axe/Playwright/Lighthouse examples, manual checklists), Compliance Checklist (34-item pre-deploy, component matrix, sprint review), Enterprise Standards & Governance (policy, 6-standard matrix, maturity model, benchmarks, override log, dev lifecycle integration, bug severity), Monitoring & Auditing (7 monitoring tools, dashboard, quarterly audit protocol), Training & Onboarding (10-module curriculum, knowledge base, code review checklist), Override Log. Added 5 Mermaid diagrams. 16,000+ word document. | Frontend Lead |
-| 3.0 | Jun 2026 | Added executive summary, change log | Frontend Lead |
-| 2.0 | Jun 2026 | Updated for enterprise structure | Frontend Lead |
-| 1.0 | Mar 2026 | Initial accessibility documentation | Frontend Lead |
+| 3.0     | Jun 2026 | Added executive summary, change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frontend Lead |
+| 2.0     | Jun 2026 | Updated for enterprise structure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Frontend Lead |
+| 1.0     | Mar 2026 | Initial accessibility documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Frontend Lead |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/design/DesignSystem.md` (v5.0) | UI/UX architecture — WCAG compliance matrix, ARIA patterns, focus management |
-| `docs/design/DesignSystem.md` (v5.0) | Design system — accessible component specs, focus trap, skip link, reduced motion |
-| `docs/design/DesignTokens.md` (v5.0) | Visual design — color system, contrast philosophy, animation design |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | Architecture — component architecture for accessibility |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Tech stack — testing tools, Radix UI, shadcn/ui |
-| `docs/quality/PerformanceArchitecture.md` (v5.0) | Performance — animation performance, CLS prevention |
-| `docs/quality/TestingArchitecture.md` (v3.0) | Testing strategy — accessibility test requirements |
-| `docs/quality/30-QA.md` (v3.0) | QA — manual accessibility test protocols |
-| `docx_content.json` | Ultimate Portfolio Plan — Ch.14.F Accessibility Non-Negotiable (WCAG 2.2, keyboard nav, screen reader, color contrast, auto alt text via Claude, focus management, reduced motion) |
+| Reference                                        | Description                                                                                                                                                                        |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/design/DesignSystem.md` (v5.0)             | UI/UX architecture — WCAG compliance matrix, ARIA patterns, focus management                                                                                                       |
+| `docs/design/DesignSystem.md` (v5.0)             | Design system — accessible component specs, focus trap, skip link, reduced motion                                                                                                  |
+| `docs/design/DesignTokens.md` (v5.0)             | Visual design — color system, contrast philosophy, animation design                                                                                                                |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | Architecture — component architecture for accessibility                                                                                                                            |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)       | Tech stack — testing tools, Radix UI, shadcn/ui                                                                                                                                    |
+| `docs/quality/PerformanceArchitecture.md` (v5.0) | Performance — animation performance, CLS prevention                                                                                                                                |
+| `docs/quality/TestingArchitecture.md` (v3.0)     | Testing strategy — accessibility test requirements                                                                                                                                 |
+| `docs/quality/30-QA.md` (v3.0)                   | QA — manual accessibility test protocols                                                                                                                                           |
+| `docx_content.json`                              | Ultimate Portfolio Plan — Ch.14.F Accessibility Non-Negotiable (WCAG 2.2, keyboard nav, screen reader, color contrast, auto alt text via Claude, focus management, reduced motion) |
 
 ---
 
-
-
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| WCAG | Web Content Accessibility Guidelines â€” international standard for web accessibility |
-| ARIA | Accessible Rich Internet Applications â€” HTML attributes for assistive technology |
-| Screen Reader | Software that reads screen content aloud for visually impaired users |
-| Keyboard Navigation | Operating a website using only keyboard (Tab, Enter, Escape) |
-| Focus Trap | Keeping keyboard focus within a modal/dialog until dismissed |
-| Contrast Ratio | Measure of difference between foreground and background colors (min 4.5:1) |
-| Skip Link | Hidden link that lets keyboard users jump to main content |
-| Landmark | Semantic HTML regions (nav, main, aside) for screen reader navigation |
-| A11y | Numeronym for "Accessibility" (a + 11 letters + y) |
-| Assistive Technology | Devices/software that help people with disabilities use computers |
-| Color Blindness | Inability to distinguish certain colors; addressed by not relying on color alone |
-| Focus Indicator | Visible outline around focused element for keyboard users |
-| Reduced Motion | OS setting to minimize animations for vestibular disorder users |
-| Semantic HTML | HTML elements that convey meaning (header, nav, main, article) |
-| VoiceOver | Apple's built-in screen reader for macOS and iOS |
+| Term                 | Definition                                                                            |
+| -------------------- | ------------------------------------------------------------------------------------- |
+| WCAG                 | Web Content Accessibility Guidelines â€” international standard for web accessibility |
+| ARIA                 | Accessible Rich Internet Applications â€” HTML attributes for assistive technology    |
+| Screen Reader        | Software that reads screen content aloud for visually impaired users                  |
+| Keyboard Navigation  | Operating a website using only keyboard (Tab, Enter, Escape)                          |
+| Focus Trap           | Keeping keyboard focus within a modal/dialog until dismissed                          |
+| Contrast Ratio       | Measure of difference between foreground and background colors (min 4.5:1)            |
+| Skip Link            | Hidden link that lets keyboard users jump to main content                             |
+| Landmark             | Semantic HTML regions (nav, main, aside) for screen reader navigation                 |
+| A11y                 | Numeronym for "Accessibility" (a + 11 letters + y)                                    |
+| Assistive Technology | Devices/software that help people with disabilities use computers                     |
+| Color Blindness      | Inability to distinguish certain colors; addressed by not relying on color alone      |
+| Focus Indicator      | Visible outline around focused element for keyboard users                             |
+| Reduced Motion       | OS setting to minimize animations for vestibular disorder users                       |
+| Semantic HTML        | HTML elements that convey meaning (header, nav, main, article)                        |
+| VoiceOver            | Apple's built-in screen reader for macOS and iOS                                      |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 5.0 | Jun 2026 | Enterprise accessibility - WCAG 2.2 AA, audit checklist, automated tools | UX Lead |
-| 4.0 | Jun 2026 | Added WCAG 2.2 compliance matrix | UX Lead |
-| 3.0 | Jun 2026 | Updated for enterprise structure | UX Lead |
-| 2.0 | Jun 2026 | Added testing procedures and audit checklist | UX Lead |
-| 1.0 | Mar 2026 | Initial accessibility documentation | UX Lead |
+| Version | Date     | Changes                                                                  | Author  |
+| ------- | -------- | ------------------------------------------------------------------------ | ------- |
+| 5.0     | Jun 2026 | Enterprise accessibility - WCAG 2.2 AA, audit checklist, automated tools | UX Lead |
+| 4.0     | Jun 2026 | Added WCAG 2.2 compliance matrix                                         | UX Lead |
+| 3.0     | Jun 2026 | Updated for enterprise structure                                         | UX Lead |
+| 2.0     | Jun 2026 | Added testing procedures and audit checklist                             | UX Lead |
+| 1.0     | Mar 2026 | Initial accessibility documentation                                      | UX Lead |
 
-*Document Version: 5.0 — Enterprise Edition*
+_Document Version: 5.0 — Enterprise Edition_
 
-*"Accessibility is not a feature. It is a fundamental human right." — Tim Berners-Lee*
+_"Accessibility is not a feature. It is a fundamental human right." — Tim Berners-Lee_
