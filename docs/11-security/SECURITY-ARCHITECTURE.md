@@ -373,7 +373,7 @@ Goal: Compromise Admin Account
 sequenceDiagram
     participant User as Admin User
     participant Browser as Browser
-    participant NextAuth as NextAuth.js
+    participant NextAuth as NestJS Passport
     participant API as NestJS API
     participant Supabase as Supabase Auth
 
@@ -599,13 +599,13 @@ async createProject(@Body() dto: CreateProjectDto) { ... }
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
 | Session store | HTTP-only encrypted cookie | Prevent XSS token theft |
-| Cookie name | `next-auth.session-token` | NextAuth.js default |
+| Cookie name | `portfolio.session-token` | NestJS Passport default |
 | `httpOnly` | `true` | Prevent JavaScript access |
 | `Secure` | `true` | TLS-only transmission |
 | `SameSite` | `Strict` | CSRF prevention |
 | `Path` | `/` | Available to all routes |
 | Max age | 30 days | Balance UX + security |
-| Cookie encryption | AES-256-GCM | NextAuth.js built-in |
+| Cookie encryption | AES-256-GCM | NestJS Passport built-in |
 | Rolling session | Enabled | Extend session on activity |
 
 ### 7.2 Session Lifecycle
@@ -982,7 +982,7 @@ const supabase = createClient(
 | Control | Implementation | Severity if Bypassed |
 |---------|---------------|---------------------|
 | Route protection | Next.js middleware (`/admin/*`) | 🟡 Medium |
-| Session validation | NextAuth.js | 🟢 Low |
+| Session validation | NestJS Passport | 🟢 Low |
 | JWT authentication | NestJS JwtAuthGuard | 🟢 Low |
 | Role-based authorization | NestJS RolesGuard | 🟢 Low |
 | RLS (data layer) | Supabase RLS | 🟢 Very Low |
@@ -1003,7 +1003,7 @@ const supabase = createClient(
 | Clickjacking | X-Frame-Options: DENY | Helmet frameguard |
 | Privilege escalation | JWT role claim + RLS double-check | RolesGuard + RLS |
 | IDOR | User ownership validation | Resource authorization |
-| Session fixation | Session regeneration on login | NextAuth.js built-in |
+| Session fixation | Session regeneration on login | NestJS Passport built-in |
 
 ### 11.3 Admin Activity Monitoring
 
@@ -1050,7 +1050,7 @@ export class AdminActivityInterceptor implements NestInterceptor {
 | Single active session (enforced) | Supabase sessions table | 🟢 Low |
 | IP change detection | Alert on IP change (planned) | 🟡 Medium |
 | Unusual location alert | Send notification (planned) | 🟡 Medium |
-| Inactivity timeout (24h) | NextAuth.js maxAge | 🟢 Low |
+| Inactivity timeout (24h) | NestJS Passport maxAge | 🟢 Low |
 | Session revocation on password change | Delete all sessions | 🟢 Low |
 | Force logout all sessions | Admin panel feature | 🟢 Low |
 
@@ -1215,8 +1215,8 @@ const CSP_DIRECTIVES = {
 ### 13.3 CSRF Protection
 
 ```typescript
-// Next.js CSRF protection (built-in via NextAuth.js)
-// NextAuth.js uses the "double submit cookie" pattern:
+// Next.js CSRF protection (built-in via NestJS Passport)
+// NestJS Passport uses the "double submit cookie" pattern:
 // 1. Set a CSRF token cookie (httpOnly: false for JS access)
 // 2. Require the token in a header on state-changing requests
 // 3. Server verifies cookie value matches header value
@@ -1354,7 +1354,7 @@ The platform uses a **defense-in-depth** approach to CSRF:
 | Layer | Protection | Implementation | Coverage |
 |-------|-----------|---------------|----------|
 | **Cookie attribute** | `SameSite=Strict` | All session cookies | All requests |
-| **CSRF token** | Double-submit cookie pattern | NextAuth.js built-in | State-changing POST/PUT/PATCH/DELETE |
+| **CSRF token** | Double-submit cookie pattern | NestJS Passport built-in | State-changing POST/PUT/PATCH/DELETE |
 | **Custom header** | Required `X-CSRF-Token` | NestJS CsrfGuard | All admin mutations |
 | **Origin/Referer check** | Validate Origin header | NestJS middleware | All state-changing requests |
 | **Idempotency** | Safe methods are idempotent | GET, HEAD, OPTIONS excluded | By HTTP spec |
@@ -1838,7 +1838,7 @@ Content-Type: application/json
 
 | Classification | Example | Storage | Access | Rotation |
 |---------------|---------|---------|--------|----------|
-| **🔴 Critical** | SUPABASE_SERVICE_ROLE_KEY, JWT_SECRET, NEXTAUTH_SECRET | Server env vars only, never in code | Server-side applications | 90 days |
+| **🔴 Critical** | SUPABASE_SERVICE_ROLE_KEY, JWT_SECRET, JWT_SECRET | Server env vars only, never in code | Server-side applications | 90 days |
 | **🟡 Sensitive** | OPENAI_API_KEY, RESEND_API_KEY, GITHUB_TOKEN | Server env vars | Specific services | 90-180 days |
 | **🟢 Public** | NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_POSTHOG_KEY | Client + server env vars | Any client | Never rotated |
 | **⚪ Config** | OPENAI_MODEL_CHAT, RESEND_FROM_EMAIL | Environment variables | Any app | As needed |
@@ -1884,7 +1884,7 @@ function validateEnvironment(): void {
   const requiredSecrets = {
     // Critical
     SUPABASE_SERVICE_ROLE_KEY: { pattern: /^eyJ/, description: 'Supabase service role JWT' },
-    NEXTAUTH_SECRET: { pattern: /^.{32,}$/, description: 'NextAuth.js encryption secret (min 32 chars)' },
+    JWT_SECRET: { pattern: /^.{32,}$/, description: 'NestJS Passport encryption secret (min 32 chars)' },
     
     // Sensitive
     OPENAI_API_KEY: { pattern: /^sk-/, description: 'OpenAI API key' },
@@ -1893,7 +1893,7 @@ function validateEnvironment(): void {
     GOOGLE_CLIENT_SECRET: { pattern: /^GOCSPX-/, description: 'Google OAuth client secret' },
     
     // Environment
-    NEXTAUTH_URL: { pattern: /^https?:\/\//, description: 'NextAuth.js base URL' },
+    NEXT_PUBLIC_API_URL: { pattern: /^https?:\/\//, description: 'NestJS Passport base URL' },
   };
 
   const missing: string[] = [];
@@ -1938,7 +1938,7 @@ function validateEnvironment(): void {
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ Local | ✅ Staging | ✅ Production | ✅ Yes |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ Local | ✅ Staging | ✅ Production | ✅ Yes |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ Local | ✅ Staging | ✅ Production | ❌ No |
-| `NEXTAUTH_SECRET` | ✅ Local (dev value) | ✅ Staging | ✅ Production | ❌ No |
+| `JWT_SECRET` | ✅ Local (dev value) | ✅ Staging | ✅ Production | ❌ No |
 | `GOOGLE_CLIENT_ID` | ✅ Local | ✅ Staging | ✅ Production | ❌ No |
 | `GOOGLE_CLIENT_SECRET` | ✅ Local | ✅ Staging | ✅ Production | ❌ No |
 | `GITHUB_TOKEN` | ❌ | ✅ Staging (read-only) | ✅ Production | ❌ No |
@@ -2066,7 +2066,7 @@ CREATE TRIGGER trg_prevent_audit_tampering
 | Database content | ✅ AES-256 (Supabase) | ✅ TLS 1.3 | AES-256-GCM | AWS KMS (Supabase managed) |
 | Passwords | ✅ bcrypt (cost 12) | ✅ TLS 1.3 | bcrypt + salt | Per-password salt |
 | JWT tokens | ✅ (signed, not encrypted) | ✅ TLS 1.3 | HS256 | 64-char secret in env var |
-| Session cookies | ✅ AES-256 (NextAuth) | ✅ TLS 1.3 | AES-256-GCM | NEXTAUTH_SECRET |
+| Session cookies | ✅ AES-256 (NextAuth) | ✅ TLS 1.3 | AES-256-GCM | JWT_SECRET |
 | API keys (stored) | ✅ SHA-256 hash | ✅ TLS 1.3 | SHA-256 | One-way hash |
 | File uploads | ✅ AES-256 (Supabase Storage) | ✅ TLS 1.3 | AES-256-GCM | AWS KMS |
 | Backups | ✅ AES-256 (S3 SSE-S3) | ✅ TLS 1.3 | AES-256 | AWS KMS |
@@ -2222,7 +2222,7 @@ PHASE 2: CONTAINMENT (5-30 minutes)
   □ 2.1 For data breach: Rotate all credentials
        - Supabase service role key
        - JWT secret
-       - NEXTAUTH_SECRET
+       - JWT_SECRET
        - OpenAI/Resend/GitHub API keys
   □ 2.2 For auth bypass: Disable admin login
        - Set feature flag: admin_login_enabled = false
