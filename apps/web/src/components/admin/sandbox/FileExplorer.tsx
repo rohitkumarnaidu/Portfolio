@@ -32,11 +32,11 @@ export function FileExplorer({ onSelectFile, currentPath = '' }: FileExplorerPro
     setLoading(true);
     try {
       // Mocking latency for visual effect during demo
-      await new Promise(resolve => setTimeout(resolve, 600));
+      await new Promise((resolve) => setTimeout(resolve, 600));
       const res = await fetch(`/api/admin/sandbox/files?path=${path}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('admin_access_token')}`
-        }
+          Authorization: `Bearer ${localStorage.getItem('admin_access_token')}`,
+        },
       });
       const { data } = await res.json();
       setFiles(data);
@@ -72,11 +72,11 @@ export function FileExplorer({ onSelectFile, currentPath = '' }: FileExplorerPro
         </div>
         <AnimatePresence>
           {pathStack.length > 1 && (
-            <motion.button 
+            <motion.button
               initial={{ opacity: 0, x: 10 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 10 }}
-              onClick={goUp} 
+              onClick={goUp}
               className="flex items-center gap-1 text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
             >
               <ChevronLeft size={14} /> Back
@@ -84,11 +84,11 @@ export function FileExplorer({ onSelectFile, currentPath = '' }: FileExplorerPro
           )}
         </AnimatePresence>
       </div>
-      
+
       <div className="flex-1 overflow-y-auto p-2 relative">
         <AnimatePresence mode="wait">
           {loading ? (
-            <motion.div 
+            <motion.div
               key="loading"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -97,23 +97,29 @@ export function FileExplorer({ onSelectFile, currentPath = '' }: FileExplorerPro
             >
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="flex items-center gap-3 w-full opacity-60">
-                  <div className="w-4 h-4 bg-white/10 rounded-sm animate-pulse" style={{ animationDelay: `${i * 100}ms` }} />
-                  <div className="h-3 bg-white/10 rounded-sm animate-pulse flex-1" style={{ animationDelay: `${i * 100}ms` }} />
+                  <div
+                    className="w-4 h-4 bg-white/10 rounded-sm animate-pulse"
+                    style={{ animationDelay: `${i * 100}ms` }}
+                  />
+                  <div
+                    className="h-3 bg-white/10 rounded-sm animate-pulse flex-1"
+                    style={{ animationDelay: `${i * 100}ms` }}
+                  />
                 </div>
               ))}
             </motion.div>
           ) : (
-            <motion.ul 
+            <motion.ul
               key="file-list"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="space-y-1"
             >
-              {files.map(file => {
+              {files.map((file) => {
                 const isSelected = currentPath === file.path;
                 return (
-                  <motion.li 
+                  <motion.li
                     layout
                     key={file.sha}
                     onHoverStart={() => setHoveredSha(file.sha)}
@@ -125,11 +131,15 @@ export function FileExplorer({ onSelectFile, currentPath = '' }: FileExplorerPro
                   >
                     <div className="flex items-center gap-2 overflow-hidden">
                       <span className={`${isSelected ? 'text-indigo-400' : 'text-gray-500'}`}>
-                        {file.type === 'dir' ? <Folder size={16} fill="currentColor" fillOpacity={0.2} /> : <FileCode2 size={16} />}
+                        {file.type === 'dir' ? (
+                          <Folder size={16} fill="currentColor" fillOpacity={0.2} />
+                        ) : (
+                          <FileCode2 size={16} />
+                        )}
                       </span>
                       <span className="truncate text-[13px] font-medium">{file.name}</span>
                     </div>
-                    
+
                     {/* Air.inc style contextual action menu on hover */}
                     <AnimatePresence>
                       {hoveredSha === file.sha && file.type === 'file' && !isSelected && (
