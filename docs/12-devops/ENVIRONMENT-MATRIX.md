@@ -38,7 +38,7 @@
 | JWT_EXPIRES_IN | 15m | 15m | 15m | ❌ | ❌ |
 | JWT_REFRESH_SECRET | dev-refresh-secret-change-in-production-min-32!! | staging-refresh-secret | prod-refresh-secret | ✅ | ✅ |
 | JWT_REFRESH_EXPIRES_IN | 7d | 7d | 7d | ❌ | ❌ |
-| NEXTAUTH_SECRET | dev-nextauth-secret | staging-nextauth-secret | prod-nextauth-secret | — | ✅ |
+| JWT_SECRET | dev-jwt-secret | staging-jwt-secret | prod-jwt-secret | — | ✅ |
 | NEXTAUTH_URL | http://localhost:3000 | https://staging.portfolio.dev | https://portfolio.dev | — | ❌ |
 | ADMIN_EMAIL | admin@portfolio.com | admin@portfolio.com | admin@portfolio.com | ❌ | ❌ |
 | ADMIN_PASSWORD | ***REDACTED*** | staging-admin-password | prod-admin-password | ❌ | ✅ |
