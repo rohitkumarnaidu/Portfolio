@@ -190,7 +190,7 @@ graph TB
         end
         
         subgraph "API Routes"
-            AuthAPI["/api/auth/[...nextauth]<br/>NextAuth.js"]
+            AuthAPI["/api/auth/[...passport]<br/>NestJS Passport"]
             Revalidate["/api/revalidate<br/>ISR purge"]
         end
         
@@ -218,7 +218,7 @@ graph TB
 | Homepage sections | ISR | Section data revalidates per-TTL | 60s |
 | Contact form | Dynamic (CSR) | Needs client-side validation + CAPTCHA | None |
 | AI Assistant | Dynamic (CSR) | Real-time streaming responses | None |
-| Admin pages | SSR + Client fetch | Session check on every request; data via SWR | None |
+| Admin pages | SSR + Client fetch | Session check on every request; data via TanStack React Query | None |
 | API routes | Serverless | Stateless, per-request execution | None |
 
 ### 2.3 Data Fetching Pattern
@@ -230,14 +230,15 @@ async function ProjectsPage() {
   return <ProjectGrid projects={projects} />;
 }
 
-// Pattern 2: Client Component (SWR)
+// Pattern 2: Client Component (TanStack React Query)
 function AdminLeads() {
-  const { data, error, isLoading } = useSWR('/api/leads', fetcher, {
-    refreshInterval: 30000, // Poll every 30s
-    revalidateOnFocus: true,
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['leads'],
+    queryFn: () => fetch('/api/leads').then(r => r.json()),
+    refetchInterval: 30000, // Poll every 30s
   });
   if (isLoading) return <LeadTableSkeleton />;
-  if (error) return <ErrorFallback onRetry={() => mutate()} />;
+  if (error) return <ErrorFallback onRetry={() => refetch()} />;
   return <LeadTable leads={data} />;
 }
 
@@ -861,7 +862,7 @@ graph TB
     end
 
     subgraph "Route Protection"
-        AuthCheck["Session Check<br/>NextAuth.js useSession()"]
+        AuthCheck["Session Check<br/>NestJS Passport useSession()"]
         Loading["Loading State<br/>Skeleton layout"]
         Redirect["Redirect to /admin/login<br/>If unauthenticated"]
     end
@@ -1152,7 +1153,7 @@ graph TB
 | A05: Security Misconfiguration | Security headers + CORS | HSTS, CSP, XFO, X-Content-Type-Options |
 | A06: Vulnerable Components | Regular audits + Dependabot | Weekly npm audit, automated PRs |
 | A07: Auth Failures | Account lockout + rate limit | 5-attempt lockout, 15-min cooldown |
-| A08: Data Integrity | CSRF protection + transactions | NextAuth.js built-in, DB transactions |
+| A08: Data Integrity | CSRF protection + transactions | NestJS Passport guards, DB transactions |
 | A09: Logging Failures | Structured logging + audit trail | Correlation IDs, 30-day retention |
 | A10: SSRF | URL validation + allowlist | Outbound request domain restriction |
 
@@ -1366,10 +1367,10 @@ graph TB
 | ADR-006 | **Vercel for frontend + API** | Simplify deployment, colocate | Railway, Fly.io, Netlify | ✅ Reduced latency; single pipeline |
 | ADR-007 | **Railway for AI service** | Python runtime not supported on Vercel | Fly.io, DigitalOcean, Render | ✅ Scales independently; $5 credit |
 | ADR-008 | **JWT over session-based auth** | Stateless API design | Session cookies, OAuth2 only | ✅ 15/7 day tokens; httpOnly cookies |
-| ADR-009 | **NextAuth.js over Supabase Auth for admin** | Need OAuth providers + session management | Supabase Auth alone, Auth0 | ✅ OAuth support; simpler session API |
+| ADR-009 | **NestJS Passport over Supabase Auth for admin** | Need OAuth providers + session management | Supabase Auth alone, Auth0 | ✅ OAuth support; simpler session API |
 | ADR-010 | **pgvector for RAG** | PostgreSQL-native vector search | Pinecone, Weaviate, Qdrant | ✅ No additional service; integrated with Supabase |
 | ADR-011 | **PostHog over Google Analytics** | Developer-friendly, event-based, feature flags | GA4, Plausible, Fathom | ✅ Better DX; 1M free events; no cookies |
-| ADR-012 | **SWR for client data fetching** | Stale-while-revalidate pattern | React Query, RTK Query, Apollo | ✅ Auto-revalidation; small bundle |
+| ADR-012 | **TanStack React Query for client data fetching** | Stale-while-revalidate pattern with cache deduplication, optimistic updates, and devtools | SWR, RTK Query, Apollo | ✅ Rich feature set; devtools; mutation support |
 | ADR-013 | **Serverless NestJS on Vercel** | No server management, auto-scaling | Railway, Fly.io, Docker | ✅ Zero ops; cold start trade-off |
 | ADR-014 | **CSS custom properties for theming** | Runtime theme switching without JS | Tailwind dark:, styled-components | ✅ Instant toggle; no re-render |
 
