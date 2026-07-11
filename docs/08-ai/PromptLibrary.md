@@ -1,5 +1,8 @@
-> ⚠️ **DESIGN SPEC — NOT IMPLEMENTED**
-> This document describes an aspirational design for a future AI system. The features, architecture, agents, and workflows documented here do **not** currently exist in the codebase. See [`docs/ai/README.md`](./README.md) for the current AI implementation status.
+> **Status:** 🎯 DESIGN SPEC — Not Implemented
+> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
+> For current AI implementation documentation, see:
+> - [AI Strategy](../docs/ai/strategy.md)
+> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
 
 # Prompt Library
 
@@ -1303,12 +1306,12 @@ The following documents form the complete agent development and governance frame
 |----------|----------|-------------|
 | AGENT.md | `/docs/ai/Agent.md` | Agent system architecture and component definitions |
 | AGENTS.md | `/docs/ai/18-AGENTS.md` | Multi-agent coordination and communication protocols |
-| AI-ASSISTANT-ARCHITECTURE.md | `/docs/design/08g-AI-ASSISTANT-ARCHITECTURE.md` | High-level AI assistant system architecture |
+| AI-ASSISTANT-ARCHITECTURE.md | `/docs/ai/08g-AI-ASSISTANT-ARCHITECTURE.md` | High-level AI assistant system architecture |
 | AI_INSTRUCTIONS.md | `/docs/ai/17-AI_INSTRUCTIONS.md` | Operational instructions for AI system behavior |
-| Agent-Interaction-Protocol.md | `/docs/Agent-Interaction-Protocol.md` | Inter-agent communication standards |
+| Agent-Interaction-Protocol.md | `/docs/ai/Agent-Interaction-Protocol.md` | Inter-agent communication standards |
 | Prompt-Manifest.json | `/prompts/manifest.json` | Active prompt version manifest and changelog |
 | Prompt-Test-Suite.md | `/tests/prompts/Prompt-Test-Suite.md` | Comprehensive test cases for all prompts |
-| Security-Policy.md | `/docs/Security-Policy.md` | System-wide security policies and incident response |
+| Security-Policy.md | `/docs/security/Security-Policy.md` | System-wide security policies and incident response |
 
 ---
 
