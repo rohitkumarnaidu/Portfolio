@@ -1,0 +1,748 @@
+{
+  "info": {
+    "name": "Portfolio API",
+    "description": "Enterprise portfolio platform API. Public portfolio endpoints + admin CRUD.\n\n## Auth\n- Register, login → get `access_token`\n- Set `{{auth_token}}` environment variable\n- Bearer token auto-included in Admin requests\n\n## Pagination\nMost `findAll` endpoints accept `page`, `perPage`, `search`, `sortBy`, `sortOrder` query params.\n\n## Rate Limits\n- Login: 5/min\n- Register: 3/min\n- Refresh: 20/min\n- Global: 100/60s\n\n## Caching\nPublic portfolio endpoints cached via Redis (5-min TTL). Invalidate on admin writes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{auth_token}}", "type": "string" }]
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3001", "type": "string" },
+    { "key": "auth_token", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@portfolio.com\",\n  \"password\": \"Admin123!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"new@portfolio.com\",\n  \"password\": \"User1234!\",\n  \"display_name\": \"New User\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "auth", "register"]
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"refresh_token\": \"your-refresh-token\"\n}" },
+            "url": {
+              "raw": "{{base_url}}/api/admin/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "auth", "refresh"]
+            }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"refresh_token\": \"your-refresh-token\"\n}" },
+            "url": {
+              "raw": "{{base_url}}/api/admin/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "auth", "logout"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Portfolio - Public",
+      "item": [
+        {
+          "name": "List Sections",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/sections",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "sections"],
+              "query": [{ "key": "type", "value": "", "disabled": true }]
+            }
+          }
+        },
+        {
+          "name": "Get Section",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/sections/:idOrKey",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "sections", ":idOrKey"],
+              "variable": [{ "key": "idOrKey", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/projects",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "projects"],
+              "query": [
+                { "key": "category", "value": "", "disabled": true },
+                { "key": "featured", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/projects/:slugOrId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "projects", ":slugOrId"],
+              "variable": [{ "key": "slugOrId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Get Project Case Study",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/projects/:slugOrId/case-study",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "projects", ":slugOrId", "case-study"],
+              "variable": [{ "key": "slugOrId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Skills",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/skills",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "skills"],
+              "query": [{ "key": "category", "value": "", "disabled": true }]
+            }
+          }
+        },
+        {
+          "name": "Get Skill",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/skills/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "skills", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Experiences",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/experiences",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "experiences"]
+            }
+          }
+        },
+        {
+          "name": "Get Experience",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/experiences/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "experiences", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Blog Posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/blog",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "blog"],
+              "query": [
+                { "key": "category", "value": "", "disabled": true },
+                { "key": "tag", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Blog Post",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/blog/:slugOrId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "blog", ":slugOrId"],
+              "variable": [{ "key": "slugOrId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "List Testimonials",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/testimonials",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "testimonials"]
+            }
+          }
+        },
+        {
+          "name": "List Services",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/services",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "services"]
+            }
+          }
+        },
+        {
+          "name": "List FAQs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/faqs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "faqs"]
+            }
+          }
+        },
+        {
+          "name": "Submit Lead",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"message\": \"Hello, I'd like to discuss a project.\",\n  \"subject\": \"Project Inquiry\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/leads",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "leads"]
+            }
+          }
+        },
+        {
+          "name": "List Achievements",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/achievements",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "achievements"]
+            }
+          }
+        },
+        {
+          "name": "List Press Features",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/press-features",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "press-features"]
+            }
+          }
+        },
+        {
+          "name": "List Guest Appearances",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/guest-appearances",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "guest-appearances"]
+            }
+          }
+        },
+        {
+          "name": "List Reading List",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/reading-list",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "reading-list"]
+            }
+          }
+        },
+        {
+          "name": "Get Availability Status",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/portfolio/availability-status",
+              "host": ["{{base_url}}"],
+              "path": ["api", "portfolio", "availability-status"]
+            }
+          }
+        },
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": ["{{base_url}}"],
+              "path": ["api", "health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/dashboard/stats",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "dashboard", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Sections",
+      "item": [
+        {
+          "name": "List Sections",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/sections",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "sections"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "perPage", "value": "10", "disabled": true },
+                { "key": "search", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Section",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/sections/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "sections", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Create Section",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sectionKey\": \"about\",\n  \"sectionLabel\": \"About Me\",\n  \"sectionType\": \"content\",\n  \"isLive\": true\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/sections",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "sections"]
+            }
+          }
+        },
+        {
+          "name": "Update Section",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"sectionLabel\": \"Updated Label\"\n}" },
+            "url": {
+              "raw": "{{base_url}}/api/admin/sections/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "sections", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Section",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{base_url}}/api/admin/sections/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "sections", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Projects",
+      "item": [
+        {
+          "name": "List Projects",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/projects",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "projects"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "perPage", "value": "10", "disabled": true },
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "category", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Project",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/projects/:slugOrId",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "projects", ":slugOrId"],
+              "variable": [{ "key": "slugOrId", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Create Project",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"my-project\",\n  \"title\": \"My Project\",\n  \"description\": \"A cool project\",\n  \"category\": \"web\",\n  \"techStack\": [\"React\", \"Node.js\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/projects",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "projects"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Blog",
+      "item": [
+        {
+          "name": "List Posts",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "blog"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "perPage", "value": "10", "disabled": true },
+                { "key": "search", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"hello-world\",\n  \"title\": \"Hello World\",\n  \"content\": \"# Hello\\n\\nThis is a blog post.\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/blog",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "blog"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Leads",
+      "item": [
+        {
+          "name": "List Leads",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/leads",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "leads"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "perPage", "value": "10", "disabled": true },
+                { "key": "status", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Lead",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/leads/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "leads", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - GDPR & Tools",
+      "item": [
+        {
+          "name": "Export User Data (GDPR)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/:id/export",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", ":id", "export"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Anonymize User (GDPR)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/admin/users/:id/anonymize",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users", ":id", "anonymize"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Export CSV",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/export/:entity/csv",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "export", ":entity", "csv"],
+              "variable": [{ "key": "entity", "value": "projects" }]
+            }
+          }
+        },
+        {
+          "name": "Run Cleanup",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/api/admin/cleanup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "cleanup"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Users",
+      "item": [
+        {
+          "name": "List Users",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"],
+              "query": [
+                { "key": "page", "value": "1", "disabled": true },
+                { "key": "perPage", "value": "10", "disabled": true },
+                { "key": "search", "value": "", "disabled": true },
+                { "key": "role", "value": "", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create User",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"editor@portfolio.com\",\n  \"password\": \"Editor123!\",\n  \"displayName\": \"Editor User\",\n  \"role\": \"editor\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/users",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "users"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Skills, Experiences, Testimonials",
+      "item": [
+        {
+          "name": "List Skills",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/skills",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "skills"],
+              "query": [{ "key": "category", "value": "", "disabled": true }]
+            }
+          }
+        },
+        {
+          "name": "Create Skill",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"TypeScript\",\n  \"category\": \"languages\",\n  \"proficiency\": 95\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/skills",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "skills"]
+            }
+          }
+        },
+        {
+          "name": "List Experiences",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/experiences",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "experiences"]
+            }
+          }
+        },
+        {
+          "name": "List Testimonials",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/testimonials",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "testimonials"]
+            }
+          }
+        },
+        {
+          "name": "Create Testimonial",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"role\": \"CTO\",\n  \"company\": \"Acme Inc\",\n  \"content\": \"Amazing developer!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/admin/testimonials",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "testimonials"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin - Services, FAQs, Media",
+      "item": [
+        {
+          "name": "List Services",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/services",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "services"]
+            }
+          }
+        },
+        {
+          "name": "List FAQs",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/faqs",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "faqs"]
+            }
+          }
+        },
+        {
+          "name": "List Activities",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/api/admin/activities",
+              "host": ["{{base_url}}"],
+              "path": ["api", "admin", "activities"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
