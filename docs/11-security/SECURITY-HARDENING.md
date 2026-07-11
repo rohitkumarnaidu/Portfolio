@@ -588,7 +588,7 @@ const INFRASTRUCTURE_BASELINE = {
 | Aspect | Current | Gap | Risk | Priority |
 |--------|---------|-----|------|----------|
 | Route protection | Next.js middleware | No rate limiting on admin | Medium | P2 |
-| Session management | NextAuth.js | No forced session revocation UI | Low | P3 |
+| Session management | NestJS Passport | No forced session revocation UI | Low | P3 |
 | Admin activity logging | Interceptor (admin_activities) | No anomalous behavior detection | Medium | P2 |
 | 2FA | Planned | Not implemented | High | P1 |
 
