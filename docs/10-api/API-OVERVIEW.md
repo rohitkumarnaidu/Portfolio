@@ -73,7 +73,7 @@ The API platform serves as the **backbone of all data operations** across the po
 |---------|-----------|----------|--------------|-------------|---------------|
 | **NestJS Primary API** | NestJS 10 | `/api/v1` | CRUD for all portfolio content, leads, analytics | JWT Bearer Token | Vercel (Serverless) |
 | **FastAPI AI Service** | FastAPI | `/api/v1/ai` | AI chat, content analysis, suggestions | API Key + JWT | Railway (Container) |
-| **Next.js BFF** | Next.js 14 | `/api` | Auth (NextAuth), ISR revalidation, SSR data fetch | NextAuth Session | Vercel (Edge) |
+| **Next.js BFF** | Next.js 14 | `/api` | Auth (NestJS Passport), ISR revalidation, SSR data fetch | NestJS Passport Session | Vercel (Edge) |
 | **Supabase Direct** | Supabase JS SDK | Direct | ISR server component reads (public data only) | Supabase anon key | Vercel (Edge) |
 
 ### 1.3 Key Metrics
@@ -251,7 +251,7 @@ graph TB
 
     subgraph "Next.js BFF"
         direction TB
-        NEXTAUTH["NextAuth.js<br/>/api/auth/*"]
+        NEXTAUTH["NestJS Passport<br/>/api/auth/*"]
         REVALIDATE["Revalidate<br/>POST /api/revalidate"]
         CONTACT["Contact Proxy<br/>POST /api/contact"]
     end
@@ -408,7 +408,7 @@ sequenceDiagram
 | Method | Used For | Token Type | Expiry | Refresh | Status |
 |--------|----------|------------|--------|---------|--------|
 | **JWT Bearer Token** | NestJS Admin API | `access_token` (JWT) | 15 minutes | 7-day refresh token | ✅ Active |
-| **NextAuth.js Session** | Next.js Admin Pages | HTTP-only session cookie | 24 hours / 30 days | Automatic via NextAuth | ✅ Active |
+| **NestJS Passport Session** | Next.js Admin Pages | HTTP-only session cookie | 24 hours / 30 days | Automatic via NestJS Passport | ✅ Active |
 | **API Key** | Service-to-service (AI) | `X-API-Key` header | Fixed (keys rotated quarterly) | Manual rotation | ✅ Active |
 | **Supabase Anon Key** | Public ISR reads | `apikey` header | Permanent (public) | None required | ✅ Active |
 | **OAuth 2.0** | Admin login (Google, GitHub) | Authorization code flow | Per JWT session | Auto-refresh | ✅ Active |
@@ -443,18 +443,18 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant Client as Admin Browser
-    participant NextAuth as NextAuth.js
+    participant NestJS Passport as NestJS Passport
     participant NestJS as NestJS API
     participant Supabase as Supabase Auth
     participant DB as PostgreSQL
 
     Note over Client,DB: Login Flow
-    Client->>NextAuth: POST /api/auth/signin (email + password)
-    NextAuth->>NestJS: POST /api/v1/auth/login
+    Client->>NestJS Passport: POST /api/auth/signin (email + password)
+    NestJS Passport->>NestJS: POST /api/v1/auth/login
     NestJS->>Supabase: Verify credentials
     Supabase-->>NestJS: Auth success
-    NestJS-->>NextAuth: { accessToken, refreshToken }
-    NextAuth-->>Client: Session cookie set
+    NestJS-->>NestJS Passport: { accessToken, refreshToken }
+    NestJS Passport-->>Client: Session cookie set
 
     Note over Client,DB: API Request Flow
     Client->>NestJS: GET /api/v1/leads (Authorization: Bearer <token>)
@@ -470,7 +470,7 @@ sequenceDiagram
         Note over Client: Retry original request
     else Token Invalid
         NestJS-->>Client: 401 Unauthorized
-        Client->>NextAuth: Redirect to /admin/login
+        Client->>NestJS Passport: Redirect to /admin/login
     end
 ```
 
