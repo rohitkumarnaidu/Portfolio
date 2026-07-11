@@ -1128,7 +1128,7 @@ _Not publicly accessible — admin-only. Visitors have no access to analytics._
 
 | Rule                    | ID       | Description                                                         |
 | ----------------------- | -------- | ------------------------------------------------------------------- |
-| **Auth Required**       | DASH-001 | All admin dashboards require authentication (NextAuth.js)           |
+| **Auth Required**       | DASH-001 | All admin dashboards require authentication (NestJS Passport)           |
 | **Independent Widgets** | DASH-002 | Each widget loads independently; one failure doesn't break the page |
 | **Cached Data**         | DASH-003 | API responses cached for widget refresh interval (min 30s)          |
 | **Loading States**      | DASH-004 | Every widget has a loading skeleton                                 |
