@@ -28,8 +28,21 @@ export interface TestimonialFormProps {
   isLoading?: boolean;
 }
 
-export function TestimonialForm({ initialData, onSubmit, onCancel, isLoading }: TestimonialFormProps) {
-  const { register, handleSubmit, control, reset, formState: { errors }, watch, setValue } = useForm<TestimonialFormData>({
+export function TestimonialForm({
+  initialData,
+  onSubmit,
+  onCancel,
+  isLoading,
+}: TestimonialFormProps) {
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useForm<TestimonialFormData>({
     resolver: zodResolver(testimonialSchema),
     defaultValues: {
       name: '',
@@ -85,11 +98,11 @@ export function TestimonialForm({ initialData, onSubmit, onCancel, isLoading }: 
         <div className="space-y-1.5">
           <label className="block text-sm font-medium text-text-primary">Rating</label>
           <div className="flex gap-1">
-            {[1,2,3,4,5].map(n => (
-              <button 
-                key={n} 
-                type="button" 
-                onClick={() => setValue('rating', n, { shouldValidate: true })} 
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setValue('rating', n, { shouldValidate: true })}
                 className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm transition-colors ${n <= currentRating ? 'bg-accent-500/20 text-accent-500' : 'bg-surface-elevated text-text-tertiary'}`}
               >
                 {n}
@@ -101,33 +114,35 @@ export function TestimonialForm({ initialData, onSubmit, onCancel, isLoading }: 
       </div>
 
       <div className="space-y-1.5">
-        <label className="block text-sm font-medium text-text-primary">Avatar Image (optional)</label>
+        <label className="block text-sm font-medium text-text-primary">
+          Avatar Image (optional)
+        </label>
         <Controller
           name="avatar_url"
           control={control}
           render={({ field }) => (
-            <ImageUpload 
-              value={field.value} 
-              onChange={field.onChange} 
-              error={errors.avatar_url?.message} 
+            <ImageUpload
+              value={field.value}
+              onChange={field.onChange}
+              error={errors.avatar_url?.message}
             />
           )}
         />
       </div>
 
-      <Textarea 
-        label="Content *" 
-        {...register('content')} 
-        error={errors.content?.message} 
+      <Textarea
+        label="Content *"
+        {...register('content')}
+        error={errors.content?.message}
         rows={4}
       />
 
       <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
-        <input 
-          type="checkbox" 
-          {...register('is_visible')} 
-          className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary" 
-        /> 
+        <input
+          type="checkbox"
+          {...register('is_visible')}
+          className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary"
+        />
         Visible on portfolio
       </label>
 
