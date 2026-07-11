@@ -24,7 +24,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"admin@portfolio.com\",\n  \"password\": \"***REDACTED***\"\n}"
+              "raw": "{\n  \"email\": \"{{admin_email}}\",\n  \"password\": \"{{password}}\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/admin/auth/login",
@@ -624,7 +624,7 @@
             "header": [{ "key": "Content-Type", "value": "application/json" }],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"editor@portfolio.com\",\n  \"password\": \"***REDACTED***\",\n  \"displayName\": \"Editor User\",\n  \"role\": \"editor\"\n}"
+              "raw": "{\n  \"email\": \"{{editor_email}}\",\n  \"password\": \"{{password}}\",\n  \"displayName\": \"Editor User\",\n  \"role\": \"editor\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/api/admin/users",
