@@ -28,24 +28,24 @@ When you interact with the AI chat assistant, your messages are processed to gen
 
 ## How We Use Your Information
 
-| Purpose | Legal Basis |
-|---------|-------------|
-| Display portfolio content | Legitimate interest (core service) |
-| Respond to contact inquiries | Consent |
-| Improve website experience | Legitimate interest |
-| Analytics and usage monitoring | Consent (via cookie banner) |
-| AI chat assistant functionality | Consent |
-| Security and abuse prevention | Legitimate interest |
+| Purpose                         | Legal Basis                        |
+| ------------------------------- | ---------------------------------- |
+| Display portfolio content       | Legitimate interest (core service) |
+| Respond to contact inquiries    | Consent                            |
+| Improve website experience      | Legitimate interest                |
+| Analytics and usage monitoring  | Consent (via cookie banner)        |
+| AI chat assistant functionality | Consent                            |
+| Security and abuse prevention   | Legitimate interest                |
 
 ## Data Retention
 
-| Data Type | Retention Period |
-|-----------|-----------------|
-| Contact form submissions | 2 years |
-| Analytics data | 26 months (aggregated) |
-| Admin account data | Duration of employment + 90 days |
-| AI chat logs | 30 days |
-| Cookie data | Per cookie expiration (see Cookie Policy) |
+| Data Type                | Retention Period                          |
+| ------------------------ | ----------------------------------------- |
+| Contact form submissions | 2 years                                   |
+| Analytics data           | 26 months (aggregated)                    |
+| Admin account data       | Duration of employment + 90 days          |
+| AI chat logs             | 30 days                                   |
+| Cookie data              | Per cookie expiration (see Cookie Policy) |
 
 ## Your Rights
 
@@ -63,15 +63,15 @@ To exercise any of these rights, contact us at [privacy@portfolio.dev](mailto:pr
 
 ## Third-Party Services
 
-| Service | Purpose | Data Shared | Privacy Policy |
-|---------|---------|-------------|----------------|
-| Vercel | Hosting and deployment | IP address, request metadata | [vercel.com/privacy](https://vercel.com/privacy) |
-| Supabase | Database and storage | User data, content data | [supabase.com/privacy](https://supabase.com/privacy) |
-| PostHog | Product analytics | Usage events, device info | [posthog.com/privacy](https://posthog.com/privacy) |
-| Sentry | Error monitoring | Error stack traces, IP address | [sentry.com/privacy](https://sentry.com/privacy) |
-| Resend | Transactional emails | Email address, message content | [resend.com/privacy](https://resend.com/privacy) |
-| OpenAI | AI chat processing | Chat message content | [openai.com/privacy](https://openai.com/privacy) |
-| Anthropic | AI chat processing | Chat message content | [anthropic.com/privacy](https://anthropic.com/privacy) |
+| Service   | Purpose                | Data Shared                    | Privacy Policy                                         |
+| --------- | ---------------------- | ------------------------------ | ------------------------------------------------------ |
+| Vercel    | Hosting and deployment | IP address, request metadata   | [vercel.com/privacy](https://vercel.com/privacy)       |
+| Supabase  | Database and storage   | User data, content data        | [supabase.com/privacy](https://supabase.com/privacy)   |
+| PostHog   | Product analytics      | Usage events, device info      | [posthog.com/privacy](https://posthog.com/privacy)     |
+| Sentry    | Error monitoring       | Error stack traces, IP address | [sentry.com/privacy](https://sentry.com/privacy)       |
+| Resend    | Transactional emails   | Email address, message content | [resend.com/privacy](https://resend.com/privacy)       |
+| OpenAI    | AI chat processing     | Chat message content           | [openai.com/privacy](https://openai.com/privacy)       |
+| Anthropic | AI chat processing     | Chat message content           | [anthropic.com/privacy](https://anthropic.com/privacy) |
 
 ## Cookie Usage
 
