@@ -121,7 +121,7 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 |    +-- NO --> Redirect to /admin/login                       |                      |
 |                  |                                            |                      |
 |                  v                                            |                      |
-|                --> Enters credentials (NextAuth)               |  --> Verify OAuth    |
+|                --> Enters credentials (NestJS Passport)               |  --> Verify OAuth    |
 |                  |                                            |                      |
 |                  v Valid?                                     |                      |
 |                  +-- YES --> Redirect to /admin              |                      |
@@ -137,7 +137,7 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 
 | Decision | Criteria |
 |----------|----------|
-| Already authenticated? | Valid NextAuth session cookie |
+| Already authenticated? | Valid NestJS Passport session cookie |
 | Next action? | Based on attention indicators -- unread leads badge, stale content warning |
 | Valid credentials? | Google OAuth or email/password match, not rate-limited |
 
