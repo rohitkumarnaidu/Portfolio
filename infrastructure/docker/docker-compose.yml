@@ -1,0 +1,95 @@
+x-env: &env
+  NODE_ENV: ${NODE_ENV:-development}
+  DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/portfolio?schema=public}
+  JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-change-in-production-min-32-chars!!}
+  CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+  SUPABASE_URL: ${SUPABASE_URL:-}
+  SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+
+services:
+  web:
+    build:
+      context: ../../apps/web
+      dockerfile: Dockerfile
+      cache_from:
+        - ghcr.io/${GITHUB_REPOSITORY:-portfolio}/web:latest
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    environment:
+      <<: *env
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    env_file:
+      - ../../config/.env.example
+    depends_on:
+      api:
+        condition: service_started
+    volumes:
+      - ../../apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    command: npm run dev
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+
+  api:
+    build:
+      context: ../../apps/api
+      dockerfile: Dockerfile
+      cache_from:
+        - ghcr.io/${GITHUB_REPOSITORY:-portfolio}/api:latest
+    ports:
+      - "${API_PORT:-4000}:3001"
+    environment:
+      <<: *env
+      PORT: 3001
+    env_file:
+      - ../../config/.env.example
+    volumes:
+      - ../../apps/api:/app
+      - /app/node_modules
+      - /app/dist
+    command: npm run start:dev
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health/liveness"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+
+  ai:
+    build:
+      context: ../../apps/ai
+      dockerfile: Dockerfile
+    ports:
+      - "${AI_PORT:-8000}:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    env_file:
+      - ../../config/.env.example
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  supabase-data:
