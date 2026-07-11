@@ -103,7 +103,7 @@ graph TB
     end
 
     subgraph "Authentication Tier"
-        GOOGLE_OAUTH["🔑 Google OAuth<br/>Admin Login<br/>NextAuth.js"]
+        GOOGLE_OAUTH["🔑 Google OAuth<br/>Admin Login<br/>NestJS Passport"]
         SUPABASE_AUTH["🔐 Supabase Auth<br/>JWT + RLS<br/>Session Mgmt"]
     end
 
@@ -593,7 +593,7 @@ sequenceDiagram
 ```
 Public Read:  Browser → ISR Cache → Supabase JS SDK → RLS Check → PostgreSQL → Response
 Admin Write:  Browser → JWT Auth → NestJS → Supabase JS SDK (service_role) → PostgreSQL → Response
-Auth Login:   Browser → NextAuth → NestJS → Supabase Auth → JWT Tokens → Session
+Auth Login:   Browser → NestJS Passport → NestJS → Supabase Auth → JWT Tokens → Session
 File Upload:  Browser → JWT Auth → NestJS → Supabase Storage → CDN URL → Response
 Realtime:     Browser → Supabase Realtime WebSocket → PostgreSQL → Live Update
 Vector Search: FastAPI → Supabase JS SDK → pgvector (IVFFlat) → Top K Results
@@ -614,7 +614,7 @@ Vector Search: FastAPI → Supabase JS SDK → pgvector (IVFFlat) → Top K Resu
 | Scenario | Action | User Experience |
 |----------|--------|----------------|
 | Database read failure | Serve ISR cached page | Site still loads with potentially stale data |
-| Auth unavailable | NextAuth session cookie | Existing sessions still work for up to 24h |
+| Auth unavailable | NestJS Passport session cookie | Existing sessions still work for up to 24h |
 | Storage unavailable | Show placeholder images | Images replaced with gradient fallback |
 | Realtime disconnected | Poll every 30s | Slight delay in availability badge update |
 
@@ -1591,8 +1591,8 @@ NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA=${VERCEL_GIT_COMMIT_SHA}  # Auto-injected by V
 | **Service** | Google OAuth 2.0 |
 | **Category** | Authentication |
 | **Tier** | 🟢 Production |
-| **Purpose** | Admin login via Google Single Sign-On (SSO). Used with NextAuth.js for admin authentication. Only a specific email address is authorized. |
-| **SDK/Package** | NextAuth.js (built-in GoogleProvider), Google OAuth 2.0 APIs |
+| **Purpose** | Admin login via Google Single Sign-On (SSO). Used with NestJS Passport for admin authentication. Only a specific email address is authorized. |
+| **SDK/Package** | NestJS Passport (built-in GoogleProvider), Google OAuth 2.0 APIs |
 | **Documentation** | https://developers.google.com/identity/protocols/oauth2 |
 | **Status Page** | https://status.cloud.google.com/ |
 
@@ -1602,7 +1602,7 @@ NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA=${VERCEL_GIT_COMMIT_SHA}  # Auto-injected by V
 sequenceDiagram
     participant Admin as Admin User
     participant Web as Next.js Frontend
-    participant NextAuth as NextAuth.js
+    participant NestJS Passport as NestJS Passport
     participant Google as Google OAuth
     participant Supabase as Supabase Auth
     participant API as NestJS API
@@ -1611,25 +1611,25 @@ sequenceDiagram
     Web-->>Admin: Login form (Google button)
 
     Admin->>Web: Click "Sign in with Google"
-    Web->>NextAuth: signIn('google')
-    NextAuth->>Google: Redirect to Google OAuth consent screen
+    Web->>NestJS Passport: signIn('google')
+    NestJS Passport->>Google: Redirect to Google OAuth consent screen
     Google-->>Admin: Select account
     Admin->>Google: Grant permissions
-    Google->>NextAuth: Authorization code (redirect URI)
+    Google->>NestJS Passport: Authorization code (redirect URI)
     
-    NextAuth->>Google: POST /token (code + client_id + client_secret)
-    Google-->>NextAuth: Access token + ID token
+    NestJS Passport->>Google: POST /token (code + client_id + client_secret)
+    Google-->>NestJS Passport: Access token + ID token
 
-    NextAuth->>NextAuth: Verify ID token (JWT signature)
-    NextAuth->>NextAuth: Check allowed email domain
-    Note over NextAuth: Only admin@portfolio.com allowed
+    NestJS Passport->>NestJS Passport: Verify ID token (JWT signature)
+    NestJS Passport->>NestJS Passport: Check allowed email domain
+    Note over NestJS Passport: Only admin@portfolio.com allowed
     
     alt Email Authorized
-        NextAuth->>Supabase: Sync user session
-        NextAuth-->>Web: Session created
+        NestJS Passport->>Supabase: Sync user session
+        NestJS Passport-->>Web: Session created
         Web-->>Admin: Redirect to /admin dashboard
     else Email Unauthorized
-        NextAuth-->>Web: Access denied
+        NestJS Passport-->>Web: Access denied
         Web-->>Admin: "Unauthorized email" error
     end
 
@@ -1652,7 +1652,7 @@ sequenceDiagram
 |-------------|-----------|--------|----------|
 | OAuth credentials revoked | Login fails | Cannot login with Google | Regenerate credentials in GCP Console |
 | Google OAuth outage | Redirect fails | Login unavailable | Fallback to email + password |
-| Email not authorized | Auth callback fails | Login redirects to error page | Verify allowed emails in NextAuth config |
+| Email not authorized | Auth callback fails | Login redirects to error page | Verify allowed emails in NestJS Passport config |
 
 ### 15.5 Fallback Strategy
 
@@ -1663,11 +1663,11 @@ sequenceDiagram
 
 ### 15.6 Security Considerations
 
-- **Email allowlist:** Only `admin@portfolio.com` is authorized (NextAuth `authorize` callback)
+- **Email allowlist:** Only `admin@portfolio.com` is authorized (NestJS Passport `authorize` callback)
 - **Redirect URI validation:** Only `https://portfolioowner.com/api/auth/callback/google` is allowed
-- **CSRF protection:** NextAuth.js includes built-in state parameter validation
+- **CSRF protection:** NestJS Passport includes built-in state parameter validation
 - **Token expiry:** 1-hour access tokens; 30-day session cookies (rolling)
-- **Session encryption:** NextAuth.js encrypts session data with `NEXTAUTH_SECRET`
+- **Session encryption:** NestJS Passport encrypts session data with `JWT_SECRET`
 - **HTTPS required:** OAuth redirects only work over HTTPS (callback URL must be HTTPS)
 
 ### 15.7 Rate Limits
@@ -1682,7 +1682,7 @@ sequenceDiagram
 ```bash
 GOOGLE_CLIENT_ID=123456789-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxxxxxxxxxxxxxxx
-NEXTAUTH_SECRET=<random-64-char-string>              # Encrypted by `openssl rand -base64 32`
+JWT_SECRET=<random-64-char-string>              # Encrypted by `openssl rand -base64 32`
 NEXTAUTH_URL=https://portfolioowner.com               # Required for production
 ```
 
@@ -1985,9 +1985,9 @@ SUPABASE_DB_PASSWORD=<postgres-password>
 SUPABASE_JWT_SECRET=<jwt-secret>
 
 # ============================================================
-# SECTION 2: Authentication (NextAuth + OAuth)
+# SECTION 2: Authentication (NestJS Passport + OAuth)
 # ============================================================
-NEXTAUTH_SECRET=<random-64-char-string>
+JWT_SECRET=<random-64-char-string>
 NEXTAUTH_URL=https://portfolioowner.com
 GOOGLE_CLIENT_ID=123456789-xxxx.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=GOCSPX-xxxxxxxxxxxxxxxxxxxxx
@@ -2088,7 +2088,7 @@ BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ | ❌ | ❌ | ✅ |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | ❌ | ❌ | ✅ |
 | `SUPABASE_SERVICE_ROLE_KEY` | ❌ | ✅ | ✅ | ❌ |
-| `NEXTAUTH_SECRET` | ✅ | ✅ | ❌ | ❌ |
+| `JWT_SECRET` | ✅ | ✅ | ❌ | ❌ |
 | `GOOGLE_CLIENT_ID` | ✅ | ✅ | ❌ | ❌ |
 | `GOOGLE_CLIENT_SECRET` | ✅ | ✅ | ❌ | ❌ |
 | `GITHUB_TOKEN` | ❌ | ✅ | ❌ | ❌ |
@@ -2116,7 +2116,7 @@ BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com
 | SENTRY_AUTH_TOKEN | 180 days | — | — | Error data access |
 | VERCEL_TOKEN | 180 days | — | — | Deployment control |
 | RAILWAY_TOKEN | 180 days | — | — | Deployment control |
-| NEXTAUTH_SECRET | 365 days | — | — | Session forgery |
+| JWT_SECRET | 365 days | — | — | Session forgery |
 
 ---
 
