@@ -2,7 +2,7 @@
 
 > **Document:** `AnimationArchitecture.md` | **Version:** 2.0 (Enterprise Upgrade) | **Last Updated:** July 2026
 > **Status:** ✅ Active | **Owner:** Principal Design Lead + Frontend Lead | **Review Cadence:** Quarterly
-> **Classification:** Enterprise Design System | **Stack:** Framer Motion 11.x + GSAP 3.12 + Lenis + CSS Transitions
+> **Classification:** Enterprise Design System | **Stack:** Motion 12.x + GSAP 3.12 + Lenis + CSS Transitions
 > **Bundle Budget:** CSS 0KB + Framer Motion 15KB + GSAP 20KB (lazy) + Lenis 5KB (lazy) = **40KB total**
 > **Target Metrics:** 60fps on mid-range devices, < 4ms frame budget for motion, 100% reduced-motion compliance, < 50KB JS motion bundle (gzip)
 > **Related:** [DesignTokens.md](./DesignTokens.md) (§8 Motion Language, §14 Animation Rules) | [FrontendArchitecture.md](./FrontendArchitecture.md) (§8 Animation Architecture) | [DesignSystem.md](./DesignSystem.md) (§10 Motion UX) | [AccessibilityArchitecture.md](./AccessibilityArchitecture.md) (§9 Motion) | [PerformanceArchitecture.md](./PerformanceArchitecture.md) | [08k-3D-ARCHITECTURE.md](./08k-3D-ARCHITECTURE.md)
@@ -52,7 +52,7 @@ This document is the **single source of truth** for all motion, animation, and t
 | Layer | Library | Bundle (gzip) | Load Strategy | Purpose |
 |-------|---------|---------------|---------------|---------|
 | **L1 — CSS** | Tailwind transitions | 0KB | Always (inline) | Hover, focus, pseudo-class micro-interactions |
-| **L2 — Base** | Framer Motion 11.x | ~15KB | Always (chunked with app) | Component animations, layout animations, gestures, AnimatePresence |
+| **L2 — Base** | Motion 12.x | ~15KB | Always (chunked with app) | Component animations, layout animations, gestures, AnimatePresence |
 | **L3 — Advanced** | GSAP 3.12 | ~20KB | Lazy (page with scroll) | ScrollTrigger, timeline sequences, parallax |
 | **L4 — Smooth** | Lenis | ~5KB | Lazy (page with content) | Smooth scrolling, custom easing |
 | **L5 — 3D** | Three.js / R3F | ~50KB (separate) | Lazy (hero only) | 3D scene motion (see 08k) |
