@@ -5,7 +5,7 @@
 > **Classification:** **Enterprise Architecture** — Authoritative spec for all admin dashboard modules  
 > **⚠️ Disambiguation:** This is the **foundational architecture** for the admin dashboard (widget specs, API endpoints, state machines, data flows, RBAC, security, implementation roadmap). It is extended by `AdminArchitecture.md` (v5.0), which adds the Enterprise Experience Layer (user flows, AI agents, notifications, collaboration, enterprise screens).  
 > **Architecture Pattern:** Modular Micro-Frontend with Centralized Auth | **Routing:** Next.js App Router `/admin/*`  
-> **Auth Backend:** NextAuth.js + JWT | **API Layer:** NestJS REST + tRPC | **Data:** Supabase + PostHog + Sentry  
+> **Auth Backend:** NestJS Passport + JWT | **API Layer:** NestJS REST + tRPC | **Data:** Supabase + PostHog + Sentry  
 > **UI Framework:** Tailwind CSS + shadcn/ui + Recharts | **Rendering:** Client-side with SSR data fetching  
 > **Compliance:** OWASP ASVS L2, WCAG 2.2 AA, GDPR, SOC 2 Ready
 
@@ -1158,7 +1158,7 @@ The **Monitoring Dashboard** provides real-time visibility into system health �
 | **AI Service (FastAPI/Railway)** | `GET /api/health` | 1 minute | 2 consecutive failures |
 | **Database (Supabase)** | Connection pool check | 5 minutes | Connection failure |
 | **CDN (Vercel Edge)** | Static asset check | 5 minutes | 404 response |
-| **Auth (NextAuth)** | Session creation test | 5 minutes | Auth flow failure |
+| **Auth (NestJS Passport)** | Session creation test | 5 minutes | Auth flow failure |
 | **Email (Resend)** | API health check | 15 minutes | Send failure |
 | **Analytics (PostHog)** | API key validation | 15 minutes | Event ingestion failure |
 
@@ -2325,7 +2325,7 @@ graph TB
     end
 
     subgraph "Layer 2: Authentication"
-        L2_1["NextAuth.js<br/>Session Management"]
+        L2_1["NestJS Passport<br/>Session Management"]
         L2_2["JWT<br/>15-min Access Token"]
         L2_3["Refresh Token<br/>7-day, Rotation"]
     end
