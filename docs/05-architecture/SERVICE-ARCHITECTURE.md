@@ -77,7 +77,7 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 - Audit: `@Audit({ action, resource })` on all mutation endpoints (create, update, delete, restore, bulk)
 - Response code: `@HttpCode(HttpStatus.NO_CONTENT)` on deletes
 
-**Currently registered:** 28 admin controllers in `apps/api/src/admin/admin.module.ts`
+**Currently registered:** 26 admin controllers in `apps/api/src/admin/admin.module.ts`
 
 **Audit decorator example:**
 ```typescript
