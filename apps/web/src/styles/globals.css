@@ -1,0 +1,435 @@
+/* ══════════════════════════════════════════════════════════════
+   GLOBAL STYLES — @portfolio/web
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Tailwind Directives ────────────────────────────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Font Loading ──────────────────────────────────────────
+   Fonts are loaded via next/font in @/lib/fonts.ts.
+   CSS variables --font-display, --font-body, --font-mono
+   are injected on the <html> element by layout.tsx.
+   ────────────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════════════════════
+   THEME SYSTEM — CSS Custom Properties
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Light Theme (Default) ──────────────────────────────── */
+:root,
+[data-theme='light'] {
+  /* Accent Palette (Royal Blue to Deep Indigo) */
+  --accent-50: #eff6ff;
+  --accent-100: #dbeafe;
+  --accent-200: #bfdbfe;
+  --accent-300: #93c5fd;
+  --accent-400: #60a5fa;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+  --accent-800: #1e40af;
+
+  /* Surface Colors (Frost Aesthetic) */
+  --surface-primary: #fdfdfd;
+  --surface-secondary: #ffffff;
+  --surface-elevated: #f4f5f7;
+
+  /* Border Colors */
+  --border-primary: #e2e8f0;
+  --border-accent: #cbd5e1;
+
+  /* Text Colors */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-inverse: #ffffff;
+  --text-link: #2563eb;
+
+  /* Semantic Colors */
+  --semantic-success: #10b981;
+  --semantic-success-bg: #ecfdf5;
+  --semantic-warning: #f59e0b;
+  --semantic-warning-bg: #fffbeb;
+  --semantic-error: #ef4444;
+  --semantic-error-bg: #fef2f2;
+  --semantic-info: #3b82f6;
+  --semantic-info-bg: #eff6ff;
+
+  /* Shadows (Light Premium) */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 24px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 24px 48px rgba(15, 23, 42, 0.16);
+  --shadow-2xl: 0 32px 64px rgba(15, 23, 42, 0.2);
+
+  /* Accent Shadows (Glow) */
+  --shadow-accent-focus: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  --shadow-accent-active: inset 0 0 0 2px rgba(59, 130, 246, 0.15);
+  --shadow-accent-hover: 0 8px 30px rgba(59, 130, 246, 0.25);
+
+  /* True Glassmorphism (Light) */
+  --glass-subtle: rgba(255, 255, 255, 0.6);
+  --glass-medium: rgba(255, 255, 255, 0.75);
+  --glass-prominent: rgba(255, 255, 255, 0.9);
+
+  /* Premium Gradients */
+  --gradient-hero: linear-gradient(135deg, #2563eb, #10b981);
+  --gradient-cta: linear-gradient(135deg, #2563eb, #8b5cf6);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
+  --gradient-text-hero: linear-gradient(135deg, #2563eb, #10b981);
+
+  /* Duration & Easing */
+  --duration-instant: 0ms;
+  --duration-micro: 150ms;
+  --duration-fast: 250ms;
+  --duration-normal: 400ms;
+  --duration-slow: 600ms;
+  --duration-reveal: 800ms;
+  --duration-emphasis: 1200ms;
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Blur & Overlays */
+  --blur-sm: 8px;
+  --blur-md: 16px;
+  --blur-lg: 24px;
+  --blur-xl: 32px;
+  --blur-2xl: 48px;
+  --blur-3xl: 64px;
+
+  --scrim-light: rgba(15, 23, 42, 0.2);
+  --scrim-dark: rgba(15, 23, 42, 0.8);
+  --overlay-subtle: rgba(15, 23, 42, 0.03);
+  --overlay-medium: rgba(15, 23, 42, 0.08);
+  --overlay-heavy: rgba(15, 23, 42, 0.15);
+
+  /* Ambient Patterns */
+  --dot-color: rgba(15, 23, 42, 0.1);
+  --dot-size: 1.5px;
+  --dot-spacing: 24px;
+  --grid-color: rgba(15, 23, 42, 0.05);
+  --grid-size: 32px;
+
+  /* Noise Texture */
+  --noise-opacity: 0.015;
+}
+
+/* ── Dark Theme ─────────────────────────────────────────── */
+[data-theme='dark'] {
+  /* Accent Palette (Neon Cyan to Electric Magenta) */
+  --accent-50: #0a1929;
+  --accent-100: #0f2942;
+  --accent-200: #13395c;
+  --accent-300: #174a75;
+  --accent-400: #00e1ff;
+  --accent-500: #00f0ff;
+  --accent-600: #00c3ff;
+  --accent-700: #0099ff;
+  --accent-800: #ff0055;
+
+  /* Surface Colors (Cosmic Black Aesthetic) */
+  --surface-primary: #000000;
+  --surface-secondary: #0a0a0c;
+  --surface-elevated: #111114;
+
+  /* Border Colors */
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(255, 255, 255, 0.15);
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-inverse: #000000;
+  --text-link: #00f0ff;
+
+  /* Semantic Colors */
+  --semantic-success: #10b981;
+  --semantic-success-bg: rgba(16, 185, 129, 0.1);
+  --semantic-warning: #f59e0b;
+  --semantic-warning-bg: rgba(245, 158, 11, 0.1);
+  --semantic-error: #ef4444;
+  --semantic-error-bg: rgba(239, 68, 68, 0.1);
+  --semantic-info: #3b82f6;
+  --semantic-info-bg: rgba(59, 130, 246, 0.1);
+
+  /* Shadows (Dark Premium glow) */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.8);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.9);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.95);
+  --shadow-2xl: 0 32px 64px rgba(0, 0, 0, 1);
+
+  /* Accent Shadows (Neon Glow) */
+  --shadow-accent-focus: 0 0 0 3px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2);
+  --shadow-accent-active: inset 0 0 0 2px rgba(0, 240, 255, 0.3);
+  --shadow-accent-hover: 0 8px 30px rgba(0, 240, 255, 0.3), 0 0 40px rgba(255, 0, 85, 0.15);
+
+  /* True Glassmorphism (Dark) */
+  --glass-subtle: rgba(10, 10, 12, 0.6);
+  --glass-medium: rgba(10, 10, 12, 0.8);
+  --glass-prominent: rgba(10, 10, 12, 0.95);
+
+  /* Premium Gradients */
+  --gradient-hero: linear-gradient(135deg, #00f0ff, #ff0055, #8b5cf6);
+  --gradient-cta: linear-gradient(135deg, #00f0ff, #0099ff);
+  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --gradient-text-hero: linear-gradient(to right, #00f0ff, #ff0055, #8b5cf6);
+
+  /* Scrim & Overlay */
+  --scrim-light: rgba(0, 0, 0, 0.5);
+  --scrim-dark: rgba(0, 0, 0, 0.85);
+  --overlay-subtle: rgba(255, 255, 255, 0.03);
+  --overlay-medium: rgba(255, 255, 255, 0.08);
+  --overlay-heavy: rgba(255, 255, 255, 0.12);
+
+  /* Ambient Patterns */
+  --dot-color: rgba(255, 255, 255, 0.1);
+  --grid-color: rgba(255, 255, 255, 0.03);
+
+  /* Noise Texture */
+  --noise-opacity: 0.03;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   BASE STYLES
+   ══════════════════════════════════════════════════════════════ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface-primary text-text-primary font-body;
+    min-height: 100dvh;
+  }
+
+  /* Default link styles */
+  a {
+    @apply text-text-link transition-colors duration-fast ease-out;
+  }
+
+  a:hover {
+    @apply underline;
+  }
+
+  /* Focus visible — uses accent-focus shadow per glow policy */
+  *:focus-visible {
+    @apply outline-none;
+    box-shadow: var(--shadow-accent-focus);
+  }
+
+  /* Image defaults */
+  img {
+    @apply max-w-full h-auto;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-accent-200 text-text-primary;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-primary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-accent rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-tertiary;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COMPONENT LAYER
+   ══════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* Skip Link — first focusable element on every page */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4
+           focus:z-overlay focus:px-4 focus:py-2
+           focus:bg-surface-secondary focus:text-text-primary
+           focus:rounded-md;
+    box-shadow: var(--shadow-accent-focus);
+  }
+
+  /* Section Container */
+  .section-container {
+    @apply mx-auto w-full max-w-7xl px-4 md:px-6 lg:px-8;
+  }
+
+  /* Prose Container — for readable body text */
+  .prose-container {
+    @apply max-w-prose mx-auto;
+  }
+
+  /* Card Grid — responsive grid for card layouts */
+  .card-grid {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  /* Stat Grid — for KPI/metric cards */
+  .stat-grid {
+    @apply grid grid-cols-2 gap-4 md:grid-cols-4;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   UTILITY LAYER
+   ══════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  /* Noise Texture Overlay */
+  .noise-overlay::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: var(--noise-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Stagger Animation Delay Classes */
+  .stagger-1 { animation-delay: 0ms; }
+  .stagger-2 { animation-delay: 80ms; }
+  .stagger-3 { animation-delay: 160ms; }
+  .stagger-4 { animation-delay: 240ms; }
+  .stagger-5 { animation-delay: 320ms; }
+  .stagger-6 { animation-delay: 400ms; }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   REDUCED MOTION
+   ══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Exception: essential motion (loading indicators) */
+  .essential-motion {
+    animation-duration: 1.5s !important;
+  }
+
+  /* Neumorphism: shadow transitions become instant */
+  .neu-transition {
+    transition: none !important;
+  }
+
+  /* Depth layer: no animation on hover elevation */
+  .depth-hover {
+    transition: none !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HIGH CONTRAST MODE
+   ══════════════════════════════════════════════════════════════ */
+
+@media (prefers-contrast: more) {
+  /* Remove glassmorphism — replace with solid + border */
+  .glass-subtle,
+  .glass-medium,
+  .glass-prominent {
+    background: var(--surface-elevated) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+
+  /* Remove neumorphism — replace with solid + border */
+  .neu-flat,
+  .neu-raised,
+  .neu-pressed,
+  .neu-raised-hover {
+    box-shadow: none !important;
+    border: 1px solid var(--border-primary) !important;
+  }
+
+  /* Remove noise overlay */
+  .noise-overlay::after {
+    opacity: 0 !important;
+  }
+
+  /* Boost focus ring contrast: solid border instead of shadow */
+  *:focus-visible {
+    box-shadow: none !important;
+    outline: 3px solid var(--accent-500) !important;
+    outline-offset: 2px;
+  }
+
+  /* Depth layers all at z=0 */
+  .depth-far,
+  .depth-mid,
+  .depth-near,
+  .depth-hover {
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PRINT STYLES
+   ══════════════════════════════════════════════════════════════ */
+
+@media print {
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    @apply text-text-primary bg-white;
+  }
+
+  a[href]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+  }
+}
