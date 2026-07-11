@@ -15,12 +15,7 @@ interface Scene3DProps {
   onTierChange?: (tier: Tier) => void;
 }
 
-export const Scene3D = ({
-  scene,
-  theme,
-  initialTier = 'high',
-  onTierChange,
-}: Scene3DProps) => {
+export const Scene3D = ({ scene, theme, initialTier = 'high', onTierChange }: Scene3DProps) => {
   const [tier, setTier] = useState<Tier>(initialTier);
   const reducedMotion = useReducedMotion();
 
@@ -36,10 +31,7 @@ export const Scene3D = ({
       {!show3D && <GradientFallback theme={theme} />}
 
       {show3D && (
-        <SceneErrorBoundary
-          initialTier={tier}
-          onDemote={handleDemote}
-        >
+        <SceneErrorBoundary initialTier={tier} onDemote={handleDemote}>
           <CanvasWrapper tier={tier}>
             <Suspense fallback={null}>
               <SceneRegistry
