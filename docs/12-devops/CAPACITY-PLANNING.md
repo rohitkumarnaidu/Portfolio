@@ -64,3 +64,29 @@
 - Monthly capacity review
 - Quarterly budget planning
 - Weekly headroom check
+
+---
+
+## Diagram
+
+### Capacity Planning Flow
+
+```mermaid
+flowchart LR
+    Monitor[Monitor Usage<br/>Bandwidth / CPU / Storage] --> Trend[Trend Analysis<br/>30-day rolling window]
+    Trend --> Forecast[Forecast Growth<br/>3 / 6 / 12 months]
+    Forecast --> Threshold{Threshold Exceeded?<br/>e.g. > 80% capacity}
+
+    Threshold -->|Yes| Alert[Alert Triggered]
+    Threshold -->|No| Monitor
+
+    Alert --> Plan["Scale Decision<br/>Upgrade tier / Add resources"]
+    Plan --> Scale["Scale Action<br/>Vercel Pro / Supabase Pro / etc."]
+    Scale --> Review["Review & Document<br/>Update capacity plan"]
+
+    Review --> Monitor
+```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

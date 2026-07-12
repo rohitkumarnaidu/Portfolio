@@ -1,10 +1,5 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# AI Assistant — Implementation Guide
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# AI Assistant ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Implementation Guide
 
 > **Version:** 1.1.0
 > **Status:** Implementation Blueprint
@@ -33,7 +28,7 @@ sequenceDiagram
     CW-->>U: Display response
 ```
 
-AI-ASSISTANT-IMPLEMENTATION.md is the execution-ready blueprint for building the portfolio's AI assistant — a FastAPI-based RAG-powered chat service that spans three application layers (Python AI backend, React UI, NestJS proxy). The implementation covers 13 phases: infrastructure setup (FastAPI scaffold, async SQLAlchemy, pgvector), embedding pipeline (OpenAI text-embedding-3-small with local sentence-transformers fallback), knowledge ingestion (chunking at 500-char windows with per-source profiles), retrieval pipeline (hybrid vector + keyword search with cross-encoder reranking), prompt layer (templated system prompts with injection protection), agent layer (model router with circuit-breaker fallback across GPT-4, Claude, and GPT-4o-mini), UI layer (React chat panel with SSE streaming), analytics (event tracking with 50-event buffer flush), monitoring (health check, structured JSON logging, Prometheus metrics), security (per-IP rate limiting at 30 req/min, PII scrubber, RLS policies), testing (90% coverage targets), deployment (Docker/Railway/GitHub Actions), and a 6-phase implementation roadmap totaling ~126 hours over 17 days.
+AI-ASSISTANT-IMPLEMENTATION.md is the execution-ready blueprint for building the portfolio's AI assistant ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â a FastAPI-based RAG-powered chat service that spans three application layers (Python AI backend, React UI, NestJS proxy). The implementation covers 13 phases: infrastructure setup (FastAPI scaffold, async SQLAlchemy, pgvector), embedding pipeline (OpenAI text-embedding-3-small with local sentence-transformers fallback), knowledge ingestion (chunking at 500-char windows with per-source profiles), retrieval pipeline (hybrid vector + keyword search with cross-encoder reranking), prompt layer (templated system prompts with injection protection), agent layer (model router with circuit-breaker fallback across GPT-4, Claude, and GPT-4o-mini), UI layer (React chat panel with SSE streaming), analytics (event tracking with 50-event buffer flush), monitoring (health check, structured JSON logging, Prometheus metrics), security (per-IP rate limiting at 30 req/min, PII scrubber, RLS policies), testing (90% coverage targets), deployment (Docker/Railway/GitHub Actions), and a 6-phase implementation roadmap totaling ~126 hours over 17 days.
 
 ---
 
@@ -61,9 +56,9 @@ AI-ASSISTANT-IMPLEMENTATION.md is the execution-ready blueprint for building the
 |----|----------|-----------|------------------------|------|----------|
 | AI-001 | Hybrid vector + keyword search with cross-encoder reranking | Vector search captures semantic similarity, keyword search catches exact matches, reranker boosts precision to >85% recall@5 | Pure vector search (misses exact-match queries), pure keyword search (misses semantic intent), no reranker (lower precision) | 2026-06-01 | AI Architect |
 | AI-002 | OpenAI text-embedding-3-small primary with sentence-transformers CPU fallback | OpenAI gives highest quality embeddings at low cost (~$0.16/10K embeddings); sentence-transformers provides offline fallback without GPU cost | Only OpenAI (no fallback if API down), only local model (lower quality), Cohere embeddings (higher cost per token) | 2026-06-01 | AI Architect |
-| AI-003 | Three-tier model routing with circuit breaker fallback (Premium→Standard→Budget) | Routes simple queries to cheap models (GPT-4o-mini at $0.00015/1K input), complex to premium (Claude at $0.003/1K), with automatic degradation on failure | Single model (no cost optimization, single point of failure), two-tier (less granular cost control), manual model selection (user friction) | 2026-06-01 | AI Architect |
+| AI-003 | Three-tier model routing with circuit breaker fallback (PremiumÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢StandardÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢Budget) | Routes simple queries to cheap models (GPT-4o-mini at $0.00015/1K input), complex to premium (Claude at $0.003/1K), with automatic degradation on failure | Single model (no cost optimization, single point of failure), two-tier (less granular cost control), manual model selection (user friction) | 2026-06-01 | AI Architect |
 | AI-004 | SSE streaming over WebSocket for chat transport | SSE is simpler to implement (HTTP-only, no upgrade handshake), works through all proxies, has built-in browser AbortController support | WebSocket (bidirectional overhead, complex reconnection, proxy issues), polling (latency, bandwidth waste), gRPC-stream (infrastructure overhead) | 2026-06-01 | AI Architect |
-| AI-005 | LangChain RecursiveCharacterTextSplitter with per-source chunk profiles | Recursive splitting preserves document structure (splits on headings → paragraphs → sentences); per-source profiles optimize chunk size for different content types (200 for skills, 600 for blog posts) | Fixed chunk size (suboptimal for mixed content), NLP-based splitting (too slow, heavy dependency), manual splitting (not scalable) | 2026-06-01 | AI Architect |
+| AI-005 | LangChain RecursiveCharacterTextSplitter with per-source chunk profiles | Recursive splitting preserves document structure (splits on headings ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ paragraphs ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ sentences); per-source profiles optimize chunk size for different content types (200 for skills, 600 for blog posts) | Fixed chunk size (suboptimal for mixed content), NLP-based splitting (too slow, heavy dependency), manual splitting (not scalable) | 2026-06-01 | AI Architect |
 
 ## Risk Register
 
@@ -83,69 +78,69 @@ The AI assistant spans three application layers. Every file listed below maps to
 
 ```
 apps/ai/                          # Python AI backend (FastAPI)
-├── app/
-│   ├── __init__.py
-│   ├── main.py                   # FastAPI entry point + lifespan
-│   ├── config.py                 # Pydantic-settings configuration
-│   ├── dependencies.py           # FastAPI dependency injection
-│   ├── middleware/
-│   │   ├── __init__.py
-│   │   ├── rate_limit.py         # Token bucket rate limiter
-│   │   ├── input_sanitizer.py    # Input injection guard
-│   │   └── pii_filter.py         # Output PII scrubber
-│   ├── routes/
-│   │   ├── __init__.py
-│   │   ├── chat.py              # POST /api/chat (SSE stream)
-│   │   ├── analyze.py           # POST /api/analyze
-│   │   ├── suggest.py           # POST /api/suggest
-│   │   └── health.py            # GET /api/health
-│   └── services/
-│       ├── __init__.py
-│       ├── ai_service.py         # Orchestrator implementation
-│       ├── embedding_service.py  # Embedding generation
-│       ├── rag_service.py        # RAG retrieval + reranking
-│       ├── ingestion_service.py  # Document ingestion pipeline
-│       ├── cache_service.py      # Response + embedding cache
-│       ├── model_router.py       # LLM routing + circuit breaker
-│       ├── analytics_service.py  # Event tracking
-│       ├── cost_controller.py    # Budget enforcement
-│       └── conversation_manager.py  # Session + context window
-├── tests/
-│   ├── __init__.py
-│   ├── conftest.py               # Fixtures + mocks
-│   ├── test_embedding.py
-│   ├── test_rag.py
-│   ├── test_safety.py
-│   └── test_performance.py
-├── Dockerfile
-├── railway.toml
-├── requirements.txt              # Exists (needs additions)
-├── package.json                  # Exists
-└── .env.example
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ app/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ main.py                   # FastAPI entry point + lifespan
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ config.py                 # Pydantic-settings configuration
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ dependencies.py           # FastAPI dependency injection
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ middleware/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ rate_limit.py         # Token bucket rate limiter
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ input_sanitizer.py    # Input injection guard
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ pii_filter.py         # Output PII scrubber
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ routes/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.py              # POST /api/chat (SSE stream)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ analyze.py           # POST /api/analyze
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ suggest.py           # POST /api/suggest
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ health.py            # GET /api/health
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ services/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ai_service.py         # Orchestrator implementation
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ embedding_service.py  # Embedding generation
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ rag_service.py        # RAG retrieval + reranking
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ingestion_service.py  # Document ingestion pipeline
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ cache_service.py      # Response + embedding cache
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ model_router.py       # LLM routing + circuit breaker
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ analytics_service.py  # Event tracking
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ cost_controller.py    # Budget enforcement
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conversation_manager.py  # Session + context window
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ tests/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py               # Fixtures + mocks
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_embedding.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_rag.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_safety.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_performance.py
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Dockerfile
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ railway.toml
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ requirements.txt              # Exists (needs additions)
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ package.json                  # Exists
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ .env.example
 
 apps/web/src/
-├── components/chat/
-│   ├── ChatPanel.tsx
-│   ├── ChatMessage.tsx
-│   ├── ChatInput.tsx
-│   ├── WelcomeScreen.tsx
-│   ├── TypingIndicator.tsx
-│   └── StopButton.tsx
-└── hooks/
-    └── useChatStream.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ components/chat/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ChatPanel.tsx
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ChatMessage.tsx
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ChatInput.tsx
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ WelcomeScreen.tsx
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ TypingIndicator.tsx
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ StopButton.tsx
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ hooks/
+    ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ useChatStream.ts
 
 apps/api/src/modules/chat/
-├── chat.module.ts
-├── chat.controller.ts
-├── chat.service.ts
-├── dto/
-│   ├── chat-request.dto.ts
-│   └── chat-response.dto.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.module.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.controller.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.service.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ dto/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-request.dto.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-response.dto.ts
 
 packages/shared/src/
-├── schemas/
-│   ├── chat-conversation.schema.ts
-│   └── chat-message.schema.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ schemas/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-conversation.schema.ts
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-message.schema.ts
 ```
 
 ## 1.2 Environment Configuration
@@ -411,7 +406,7 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 # 2. Embedding Pipeline
 
-## 2.1 EmbeddingService — Full Implementation
+## 2.1 EmbeddingService ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
 
 ```python
 # app/services/embedding_service.py
@@ -687,7 +682,7 @@ CHUNK_PROFILES = {
 }
 ```
 
-## 3.3 IngestionService — Full Implementation
+## 3.3 IngestionService ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
 
 ```python
 class IngestionService:
@@ -856,7 +851,7 @@ async def refresh_ingestion(
 
 # 4. Retrieval Pipeline
 
-## 4.1 Search Functions — pgvector SQL
+## 4.1 Search Functions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pgvector SQL
 
 ```sql
 CREATE OR REPLACE FUNCTION match_documents(
@@ -896,7 +891,7 @@ END;
 $$;
 ```
 
-## 4.2 RAGService — Full Implementation
+## 4.2 RAGService ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
 
 ```python
 # app/services/rag_service.py
@@ -1062,7 +1057,7 @@ class RAGService:
         )
 ```
 
-## 4.3 Context Assembly — Tier Priority
+## 4.3 Context Assembly ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tier Priority
 
 | Tier | Source | Max Chunks | Priority |
 |---|---|---|---|
@@ -1273,7 +1268,7 @@ class InputSanitizerMiddleware(BaseHTTPMiddleware):
 
 # 6. Agent Layer
 
-## 6.1 ModelRouter — Full Implementation
+## 6.1 ModelRouter ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
 
 ```python
 # app/services/model_router.py
@@ -3062,15 +3057,15 @@ _All estimates assume a single developer. Parallelizing Phase 5 with Phase 4 red
 
 | Term | Definition |
 |------|------------|
-| **RAG** | Retrieval-Augmented Generation — technique that retrieves relevant document chunks from a knowledge base and injects them into the LLM prompt to ground responses in factual data |
-| **SSE** | Server-Sent Events — HTTP-based protocol where the server pushes text events to the client over a single long-lived connection; used for streaming LLM token responses |
+| **RAG** | Retrieval-Augmented Generation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â technique that retrieves relevant document chunks from a knowledge base and injects them into the LLM prompt to ground responses in factual data |
+| **SSE** | Server-Sent Events ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â HTTP-based protocol where the server pushes text events to the client over a single long-lived connection; used for streaming LLM token responses |
 | **Hybrid Search** | Combination of vector similarity search (semantic) and keyword full-text search (exact match) fused and reranked for optimal retrieval precision |
 | **Cross-Encoder** | BERT-based reranker model that jointly encodes query + candidate pair to produce a relevance score; slower but more accurate than bi-encoder similarity |
 | **pgvector** | PostgreSQL extension that adds vector similarity search operations (cosine, L2, inner product) with IVFFlat and HNSW indexing |
-| **IVFFlat** | Inverted File with Flat Compression — approximate nearest neighbor index that partitions vectors into lists for faster search at the cost of some recall |
+| **IVFFlat** | Inverted File with Flat Compression ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â approximate nearest neighbor index that partitions vectors into lists for faster search at the cost of some recall |
 | **Circuit Breaker** | Resilience pattern that tracks consecutive failures to a downstream service and temporarily stops requests to allow recovery; implemented per model tier |
 | **Token Bucket** | Rate-limiting algorithm where tokens are added at a fixed rate and each request consumes one token; allows short bursts while enforcing average rate |
-| **RLS** | Row-Level Security — PostgreSQL feature that restricts which rows a user/role can access based on a policy expression; used to isolate AI data per role |
+| **RLS** | Row-Level Security ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â PostgreSQL feature that restricts which rows a user/role can access based on a policy expression; used to isolate AI data per role |
 | **CrossEncoder** | A type of neural model that processes query-document pairs jointly to output a relevance score; more accurate than bi-encoders for reranking |
 | **Lifespan** | FastAPI async context manager that runs startup and shutdown logic (database pool init, service initialization, cleanup) |
 | **Pydantic-settings** | Python library for type-safe environment variable loading with .env file support and validation |
@@ -3083,8 +3078,12 @@ _All estimates assume a single developer. Parallelizing Phase 5 with Phase 4 red
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.1.0 | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), Change Log | Tech Lead |
-| 1.0.0 | Jun 2026 | Initial implementation blueprint — 13 phases covering infrastructure, embedding, ingestion, RAG, prompts, agents, UI, analytics, monitoring, security, testing, deployment, and roadmap | AI Architect |
+| 1.0.0 | Jun 2026 | Initial implementation blueprint ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 13 phases covering infrastructure, embedding, ingestion, RAG, prompts, agents, UI, analytics, monitoring, security, testing, deployment, and roadmap | AI Architect |
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

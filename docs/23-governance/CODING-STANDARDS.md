@@ -3,6 +3,19 @@
 > **Document:** `CodingStandards.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026
 > **Status:** ✅ Active | **Owner:** Principal Staff Engineer | **Review Cadence:** Quarterly
 
+```mermaid
+flowchart TD
+    A["What file type?"] --> B{TypeScript?}
+    A --> C{React?}
+    A --> D{NestJS?}
+    B --> E["Strict mode, Zod validation, kebab-case files"]
+    C --> F["RSC by default, 'use client' only when needed, PascalCase components"]
+    D --> G["Three-layer pattern: modules / portfolio / admin, DTO validation"]
+    E --> H["Shared types in @portfolio/shared"]
+    F --> H
+    G --> H
+```
+
 ## 1. Executive Summary
 
 This document enforces strict FAANG-grade coding standards across the monorepo. It details architecture boundaries, required type-safety (Zod), three-layer NestJS patterns, and LLM-assisted code generation rules. All PRs must adhere strictly to these guidelines.
@@ -145,3 +158,7 @@ Imports must be grouped and ordered as follows (enforced by ESLint `import/order
 - **Branching:** Use `feat/<name>`, `fix/<name>`, `chore/<name>`, `docs/<name>`, `refactor/<name>`, `test/<name>`.
 - **Commits:** Follow Conventional Commits (`type(scope): description`).
 - **PRs:** Must pass CI, be reviewed, and be up to date with `main` before merge.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

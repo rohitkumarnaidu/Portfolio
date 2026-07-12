@@ -38,6 +38,22 @@ We adopt **Tailwind CSS v3** as the utility-first CSS framework, extended with c
 - Custom glassmorphism effects require `@apply` or plugin authoring
 - Tailwind's default design tokens may conflict with custom design system (resolved via `extend`)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Styling] --> B[Options: Tailwind / CSS Modules / Styled Components]
+    B --> C[Decision: Tailwind CSS]
+    C --> D[Positive: Zero runtime, RSC-compatible, token system]
+    C --> E[Negative: HTML verbosity, custom effects need plugins]
+    D --> F[Compliance: §4.2]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §4.2: "Zero-runtime CSS solution compatible with RSC"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

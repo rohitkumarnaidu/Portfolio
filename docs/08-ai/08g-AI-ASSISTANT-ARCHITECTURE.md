@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # AI Assistant Architecture - Enterprise-Grade AI System
 
 > **File:** AIAssistantArchitecture.md | **Version:** 1.0 | **Last Updated:** June 2026
@@ -1487,18 +1482,18 @@ class CostTracker:
 
 | ID       | Decision                                                                           | Rationale                                                                                       | Alternatives Considered                                                                                                                                                      | Date     | Approver           |
 | -------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ |
-| D-AI-001 | Adopt Claude Sonnet 4 as primary LLM with GPT-4o as fallback                       | Best quality/cost ratio for portfolio AI; strong reasoning for agent orchestration              | GPT-4 only (rejected — cost); GPT-3.5 only (rejected — quality); Claude Haiku (rejected — insufficient reasoning)                                                            | Jun 2026 | Chief AI Architect |
-| D-AI-002 | Implement RAG pipeline with pgvector for knowledge retrieval                       | Grounds all responses in portfolio content; eliminates hallucination risk for factual queries   | No RAG / pure LLM (rejected — hallucination risk); external vector DB (rejected — added latency/cost); fine-tuned model (rejected — maintenance burden)                      | Jun 2026 | Chief AI Architect |
-| D-AI-003 | Use FastAPI + LangChain for AI microservice                                        | Python-native AI ecosystem; LangChain provides agent abstractions, tool integration, and memory | Node.js + Vercel AI SDK (rejected — weaker agent ecosystem); standalone Python scripts (rejected — no API framework); custom framework (rejected — reinventing the wheel)    | Jun 2026 | Chief AI Architect |
-| D-AI-004 | Implement session-based memory with 30-day retention, no cross-session persistence | Privacy-first: no visitor profiling; 30-day window sufficient for context                       | Permanent memory (rejected — privacy concerns, GDPR complexity); no memory (rejected — stateless experience); 90-day retention (rejected — unnecessary storage)              | Jun 2026 | Chief AI Architect |
-| D-AI-005 | Design as Supervisor + Specialist multi-agent architecture                         | Scalable orchestration; each agent owns one domain; fault isolation                             | Single monolithic agent (rejected — poor specialization); micro-agent per query (rejected — coordination overhead); hierarchical agents only (rejected — inflexible routing) | Jun 2026 | Chief AI Architect |
-| D-AI-006 | Enforce $10/month hard cost cap with per-query token budgets and model tiering     | Prevents cost overruns while maintaining quality for complex queries                            | Unlimited usage (rejected — budget risk); fixed per-session cost (rejected — complex to enforce); GPT-4-only (rejected — too expensive)                                      | Jun 2026 | Chief AI Architect |
+| D-AI-001 | Adopt Claude Sonnet 4 as primary LLM with GPT-4o as fallback                       | Best quality/cost ratio for portfolio AI; strong reasoning for agent orchestration              | GPT-4 only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â cost); GPT-3.5 only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â quality); Claude Haiku (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â insufficient reasoning)                                                            | Jun 2026 | Chief AI Architect |
+| D-AI-002 | Implement RAG pipeline with pgvector for knowledge retrieval                       | Grounds all responses in portfolio content; eliminates hallucination risk for factual queries   | No RAG / pure LLM (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â hallucination risk); external vector DB (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â added latency/cost); fine-tuned model (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â maintenance burden)                      | Jun 2026 | Chief AI Architect |
+| D-AI-003 | Use FastAPI + LangChain for AI microservice                                        | Python-native AI ecosystem; LangChain provides agent abstractions, tool integration, and memory | Node.js + Vercel AI SDK (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â weaker agent ecosystem); standalone Python scripts (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no API framework); custom framework (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â reinventing the wheel)    | Jun 2026 | Chief AI Architect |
+| D-AI-004 | Implement session-based memory with 30-day retention, no cross-session persistence | Privacy-first: no visitor profiling; 30-day window sufficient for context                       | Permanent memory (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â privacy concerns, GDPR complexity); no memory (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stateless experience); 90-day retention (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â unnecessary storage)              | Jun 2026 | Chief AI Architect |
+| D-AI-005 | Design as Supervisor + Specialist multi-agent architecture                         | Scalable orchestration; each agent owns one domain; fault isolation                             | Single monolithic agent (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â poor specialization); micro-agent per query (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â coordination overhead); hierarchical agents only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â inflexible routing) | Jun 2026 | Chief AI Architect |
+| D-AI-006 | Enforce $10/month hard cost cap with per-query token budgets and model tiering     | Prevents cost overruns while maintaining quality for complex queries                            | Unlimited usage (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â budget risk); fixed per-session cost (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â complex to enforce); GPT-4-only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â too expensive)                                      | Jun 2026 | Chief AI Architect |
 
 ## 14. Risk Register
 
 | ID       | Risk                                                                              | Likelihood | Impact   | Mitigation                                                                                                                                 |
 | -------- | --------------------------------------------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| R-AI-001 | LLM API (OpenAI/Anthropic) outage breaks AI assistant functionality               | Low        | High     | Implement automatic model fallback (Claude ↔ GPT-4o); cache common responses; graceful degradation to contact form                         |
+| R-AI-001 | LLM API (OpenAI/Anthropic) outage breaks AI assistant functionality               | Low        | High     | Implement automatic model fallback (Claude ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬Â GPT-4o); cache common responses; graceful degradation to contact form                         |
 | R-AI-002 | RAG pipeline returns irrelevant chunks, causing hallucinated or incorrect answers | Medium     | High     | Implement confidence threshold (0.7) below which agent admits uncertainty; hybrid search (vector + keyword); chunk quality monitoring      |
 | R-AI-003 | Prompt injection or jailbreak attempt bypasses safety guardrails                  | Medium     | Critical | Input sanitization, output filtering, rate limiting, guardrail evaluation; regular red-team testing; safety rules encoded in system prompt |
 | R-AI-004 | Cost overrun due to high traffic or complex multi-agent conversations             | Medium     | Medium   | Per-session token limits (max 20 messages); model tiering (GPT-3.5 for simple queries); daily cost alerts; $10/month hard cap              |
@@ -1521,7 +1516,7 @@ class CostTracker:
 | ----- | ----------------------------------------------------------------------------------------------- | ---------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | R-001 | Claude API cost overruns exceeding $10/month budget due to abuse or high traffic                | Medium     | High   | Token bucket rate limiting (20 msg/hr per IP), session cap (20 msg), $0.03/req hard limit per chat; model tiering routes simple queries to GPT-3.5 Turbo |
 | R-002 | pgvector index rebuild time grows with embedding count, causing query slowdowns                 | Medium     | Medium | Scheduled maintenance window (4 AM UTC), monitor query performance, consider IVFFlat index with reduced `lists` parameter for faster rebuilds            |
-| R-003 | Prompt injection — malicious visitor attempts to bypass system prompt or extract sensitive info | Medium     | High   | Input sanitization (strip special characters), output filtering (PII removal), system prompt with hardcoded boundaries, secondary LLM moderation check   |
+| R-003 | Prompt injection ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â malicious visitor attempts to bypass system prompt or extract sensitive info | Medium     | High   | Input sanitization (strip special characters), output filtering (PII removal), system prompt with hardcoded boundaries, secondary LLM moderation check   |
 | R-004 | Embedding API (OpenAI) rate limit or downtime blocks all RAG queries                            | Low        | High   | Embedding cache with 30-day TTL for common queries, local fallback (simple TF-IDF keyword search), queue failed embedding requests for retry             |
 | R-005 | AI service memory leak in long-running FastAPI process causes Railway restart                   | Medium     | Medium | Circuit breaker for LLM calls, per-agent timeout (5s), heap monitoring with auto-restart at 80% usage, memory profiling in staging                       |
 
@@ -1529,7 +1524,7 @@ class CostTracker:
 
 | Version | Date     | Changes                                                                                                                                                                                                 | Author             |
 | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| 1.0     | Jun 2026 | Initial AI Assistant Architecture — system architecture, knowledge sources, RAG pipeline, prompt architecture, memory strategy, safety & moderation, analytics, cost management, implementation roadmap | Chief AI Architect |
+| 1.0     | Jun 2026 | Initial AI Assistant Architecture ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â system architecture, knowledge sources, RAG pipeline, prompt architecture, memory strategy, safety & moderation, analytics, cost management, implementation roadmap | Chief AI Architect |
 
 ---
 
@@ -1553,4 +1548,8 @@ class CostTracker:
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

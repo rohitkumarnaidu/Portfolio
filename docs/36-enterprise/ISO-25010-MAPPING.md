@@ -122,3 +122,45 @@ This document maps the Portfolio platform against the ISO/IEC 25010:2011 product
 - `docs/security/SecurityArchitecture.md` — Security controls
 - `docs/operations/56-SLA-SLO.md` — Reliability targets
 - `docs/quality/wcag-statement.md` — Accessibility compliance
+
+---
+
+## ISO 25010 Quality Model
+
+```mermaid
+graph TD
+    PQ[Product Quality] --> FS[Functional Suitability]
+    PQ --> PE[Performance Efficiency]
+    PQ --> C[Compatibility]
+    PQ --> U[Usability]
+    PQ --> R[Reliability]
+    PQ --> S[Security]
+    PQ --> M[Maintainability]
+    PQ --> PO[Portability]
+    FS --> FS1[Completeness<br/>Correctness<br/>Appropriateness]
+    PE --> PE1[Time Behaviour<br/>Resource Utilization<br/>Capacity]
+    C --> C1[Co-existence<br/>Interoperability]
+    U --> U1[Appropriateness<br/>Learnability<br/>Operability<br/>Accessibility]
+    R --> R1[Maturity<br/>Availability<br/>Fault Tolerance<br/>Recoverability]
+    S --> S1[Confidentiality<br/>Integrity<br/>Non-repudiation<br/>Authenticity]
+    M --> M1[Modularity<br/>Reusability<br/>Analyzability<br/>Testability]
+    PO --> PO1[Adaptability<br/>Installability<br/>Replaceability]
+```
+
+## Compliance Scores
+
+```mermaid
+pie title ISO 25010 Compliance Scores
+    "Functional Suitability 85" : 85
+    "Performance Efficiency 65" : 65
+    "Compatibility 85" : 85
+    "Usability 80" : 80
+    "Reliability 65" : 65
+    "Security 75" : 75
+    "Maintainability 80" : 80
+    "Portability 65" : 65
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -144,3 +144,7 @@ All TDDs should be tracked in the decision log (`docs/governance/DecisionLog.md`
 ---
 
 *This template is adapted from Google's Engineering Design Doc format and Stripe's RFC process.*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

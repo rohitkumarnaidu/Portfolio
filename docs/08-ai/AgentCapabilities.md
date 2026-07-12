@@ -1,16 +1,11 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Agent Capabilities
 
 **Document Version:** v1.0  
 **Status:** Active  
 **Author:** Chief AI Architect, Enterprise Architecture  
 **Last Updated:** 2026-06-18  
-**Classification:** Internal — Architecture Team
+**Classification:** Internal â€” Architecture Team
 
 ---
 
@@ -38,7 +33,7 @@ Catalogs the capabilities of all 11 AI agents - capability manifests, tool defin
 
 ### 1.1 What Are Capabilities
 
-A **capability** is a discrete, declarable unit of behavior that an agent can execute. Each capability maps a natural-language intent to a concrete action the agent performs — answering a question, routing a request, querying a data source, or triggering a workflow. Capabilities form the atomic contract between the Supervisor and the agent network.
+A **capability** is a discrete, declarable unit of behavior that an agent can execute. Each capability maps a natural-language intent to a concrete action the agent performs â€” answering a question, routing a request, querying a data source, or triggering a workflow. Capabilities form the atomic contract between the Supervisor and the agent network.
 
 ### 1.2 Capability-Driven Routing Philosophy
 
@@ -47,7 +42,7 @@ The entire multi-agent architecture is built on capability-driven routing:
 - **Agents do not declare what they are; they declare what they can do.**
 - The **Supervisor** does not hard-code agent destinations; it matches user intents against registered capability manifests.
 - Routing decisions are scored by confidence, enabling graceful degradation, fallback chains, and human escalation.
-- New agents or capabilities can be added without modifying the Supervisor's routing logic — only a registry update is required.
+- New agents or capabilities can be added without modifying the Supervisor's routing logic â€” only a registry update is required.
 
 ### 1.3 Design Principles
 
@@ -66,7 +61,7 @@ The entire multi-agent architecture is built on capability-driven routing:
 
 ### 2.1 JSON Schema Definition
 
-Each agent publishes a capability manifest — a JSON document that describes every capability it exposes. The schema is defined below.
+Each agent publishes a capability manifest â€” a JSON document that describes every capability it exposes. The schema is defined below.
 
 ```json
 {
@@ -2616,7 +2611,7 @@ The following documents form the complete agent architecture reference set:
 | CAP-DEC-001 | Capability catalog organized by domain (Agent, Knowledge, Communication, Observation, Action) | Capability taxonomy | Domain-based categorization maps naturally to agent responsibilities; enables extension without restructuring; aligns with agent role definitions | Flat capability list (unmanageable at scale), Hierarchical by agent type (duplication across similar agents), Functional (less intuitive for agent authors) | Jun 2026 | Dec 2026 |
 | CAP-DEC-002 | Capability IDs use domain prefix + numeric identifier (e.g., KNO-003) | Identifier schema | Prefix enables at-a-glance domain identification; numeric sequence allows insertion without renumbering; grepable and sortable | UUIDs (not human-readable), Single sequential namespace (no domain grouping), Hierarchical IDs (overspecified, rigid) | Jun 2026 | Dec 2026 |
 | CAP-DEC-003 | Discovery response includes capability metadata (parameters, constraints, cost) alongside ID | Discovery protocol | Rich metadata enables intelligent routing decisions at query time without separate capability lookup; reduces round-trips during agent handoff | ID-only response (requires follow-up lookup for details), Full manifest in discovery (verbose, slower responses) | Jun 2026 | Sep 2026 |
-| CAP-DEC-004 | Capability registration is agent-declared (publish on startup) over registry-managed | Registration pattern | Agent self-registration eliminates registry synchronization delay; supports dynamic capability changes without registry updates; simpler initial implementation | Registry-managed (authoritative source but higher latency on changes), Hybrid (registry + agent heartbeat — operational complexity) | Jun 2026 | Dec 2026 |
+| CAP-DEC-004 | Capability registration is agent-declared (publish on startup) over registry-managed | Registration pattern | Agent self-registration eliminates registry synchronization delay; supports dynamic capability changes without registry updates; simpler initial implementation | Registry-managed (authoritative source but higher latency on changes), Hybrid (registry + agent heartbeat â€” operational complexity) | Jun 2026 | Dec 2026 |
 | CAP-DEC-005 | Capability execution uses structured JSON parameters over flat key-value pairs | Parameter format | Structured parameters support nested objects, arrays, and typed values; JSON Schema enables automatic validation; standard across all agents | Flat key-value pairs (simpler but no nesting, prone to parsing errors), Protocol Buffers (higher performance but schema management overhead for dynamic capabilities) | Jun 2026 | Sep 2026 |
 
 ## 9.4 Risk Register
@@ -2656,12 +2651,12 @@ The following documents form the complete agent architecture reference set:
 | Agent | Autonomous software entity that performs tasks on behalf of a user |
 | Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
 | Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| RAG | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
 | Tool | A function an agent can call (read DB, send email, etc.) |
 | Guardrail | Constraint that prevents agents from performing unauthorized actions |
 | Handoff | Transfer of a query from one agent to another with full context |
 | Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model â€” the AI model powering agent reasoning |
+| LLM | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning |
 | Embedding | Vector representation of text used for semantic search |
 | Chunk | A segment of a document stored in the vector database |
 | Confidence Threshold | Minimum confidence score for an agent to respond directly |
@@ -2695,4 +2690,4 @@ The following documents form the complete agent architecture reference set:
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

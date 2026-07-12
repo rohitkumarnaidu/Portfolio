@@ -38,6 +38,22 @@ We adopt **PostHog Cloud** (free tier) for product analytics, feature flags, and
 - Feature flag evaluation adds ~50ms latency on first load
 - Free tier limited to 1 project (sufficient for portfolio)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Analytics] --> B[Options: PostHog / GA4 / Plausible]
+    B --> C[Decision: PostHog]
+    C --> D[Positive: 1M free events, feature flags, session replay]
+    C --> E[Negative: 30KB bundle, 50ms first flag latency]
+    D --> F[Compliance: §8.1]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §8.1: "Privacy-respecting analytics with opt-out capability"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

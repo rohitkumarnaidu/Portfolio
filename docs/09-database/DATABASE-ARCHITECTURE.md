@@ -50,7 +50,7 @@ This document defines the complete enterprise database architecture for the port
 
 ### 1.1 North Star
 
-The portfolio database is designed to be the **single source of truth** for all platform data — powering public content delivery, admin content management, lead capture and tracking, AI-powered features (RAG pipeline, chatbot), analytics aggregation, and system observability. It is engineered for the **Supabase free tier (500MB)** while maintaining enterprise-grade architectural rigor.
+The portfolio database is designed to be the **single source of truth** for all platform data Ã¢â‚¬â€ powering public content delivery, admin content management, lead capture and tracking, AI-powered features (RAG pipeline, chatbot), analytics aggregation, and system observability. It is engineered for the **Supabase free tier (500MB)** while maintaining enterprise-grade architectural rigor.
 
 ### 1.2 Design Philosophy
 
@@ -58,7 +58,7 @@ The portfolio database is designed to be the **single source of truth** for all 
 |-----------|-------------|
 | **Schema-on-Write** | Strictly enforced schemas with PostgreSQL constraints. No schemaless JSONB blobs for critical data |
 | **Separation of Concerns** | Content data, operational data, analytics data, and system config are in clearly separated table groups |
-| **Audit by Default** | Every mutation is traceable — created_at, updated_at, and audit logs on all critical tables |
+| **Audit by Default** | Every mutation is traceable Ã¢â‚¬â€ created_at, updated_at, and audit logs on all critical tables |
 | **RLS-First Security** | Row-Level Security is the primary access control mechanism, not application-level guards |
 | **Free-Tier Optimized** | Every index, partition, and query is designed to stay within 500MB while supporting 10K+ daily visitors |
 
@@ -69,7 +69,7 @@ The portfolio database is designed to be the **single source of truth** for all 
 | Total database size | < 500MB (free tier) | Supabase dashboard |
 | Query response (PK lookup) | < 5ms | pg_stat_statements |
 | Query response (list with filter) | < 20ms | pg_stat_statements |
-| Concurrent connections | ≤ 15 (free tier limit) | Connection pooler |
+| Concurrent connections | Ã¢â€°Â¤ 15 (free tier limit) | Connection pooler |
 | Monthly analytics events stored | < 1M rows | Table row counts |
 | Vector similarity search (k=3) | < 50ms | pgvector latency |
 
@@ -89,7 +89,7 @@ graph TB
 
     subgraph "Supabase Data Layer"
         direction TB
-        PG["🐘 PostgreSQL 15<br/>24 Tables<br/>6 Schema Groups"]
+        PG["Ã°Å¸ÂËœ PostgreSQL 15<br/>24 Tables<br/>6 Schema Groups"]
         
         subgraph "Extensions"
             PGV["pgvector 0.7<br/>1536-dim embeddings<br/>IVFFlat Index"]
@@ -131,12 +131,12 @@ graph TB
 
 | Schema Group | Prefix | Tables | Purpose | RLS Enforced |
 |-------------|--------|--------|---------|-------------|
-| **Core** | (none) | `users`, `roles`, `permissions`, `user_roles` | Authentication & authorization | ✅ |
-| **Content** | (none) | `sections`, `projects`, `project_images`, `blog_posts`, `post_tags`, `testimonials`, `skills`, `experiences`, `achievements`, `services`, `case_studies`, `press_features`, `guest_appearances`, `reading_list` | Portfolio content storage | ✅ |
-| **Leads** | (none) | `leads`, `lead_notes`, `lead_activities` | Lead capture & management | ✅ |
-| **Analytics** | (none) | `analytics_events`, `analytics_sessions`, `page_views` | Visitor analytics | ✅ |
-| **AI** | (none) | `chat_conversations`, `chat_messages`, `document_chunks`, `embeddings_cache` | AI features & RAG pipeline | ✅ |
-| **System** | (none) | `media_assets`, `system_settings`, `notifications`, `audit_logs`, `sessions`, `api_keys`, `feature_flags`, `availability_status`, `admin_activities` | System configuration & monitoring | ✅ |
+| **Core** | (none) | `users`, `roles`, `permissions`, `user_roles` | Authentication & authorization | Ã¢Å“â€¦ |
+| **Content** | (none) | `sections`, `projects`, `project_images`, `blog_posts`, `post_tags`, `testimonials`, `skills`, `experiences`, `achievements`, `services`, `case_studies`, `press_features`, `guest_appearances`, `reading_list` | Portfolio content storage | Ã¢Å“â€¦ |
+| **Leads** | (none) | `leads`, `lead_notes`, `lead_activities` | Lead capture & management | Ã¢Å“â€¦ |
+| **Analytics** | (none) | `analytics_events`, `analytics_sessions`, `page_views` | Visitor analytics | Ã¢Å“â€¦ |
+| **AI** | (none) | `chat_conversations`, `chat_messages`, `document_chunks`, `embeddings_cache` | AI features & RAG pipeline | Ã¢Å“â€¦ |
+| **System** | (none) | `media_assets`, `system_settings`, `notifications`, `audit_logs`, `sessions`, `api_keys`, `feature_flags`, `availability_status`, `admin_activities` | System configuration & monitoring | Ã¢Å“â€¦ |
 
 ### 2.3 Connection Architecture
 
@@ -266,43 +266,43 @@ sequenceDiagram
 
 | # | Table | Group | Rows (Est.) | Size (Est.) | Criticality | Retention |
 |---|-------|-------|-------------|-------------|-------------|-----------|
-| 1 | `users` | Core | 1 | < 1MB | 🔴 Critical | Indefinite |
-| 2 | `roles` | Core | 2 | < 1MB | 🔴 Critical | Indefinite |
-| 3 | `permissions` | Core | 20 | < 1MB | 🔴 Critical | Indefinite |
-| 4 | `user_roles` | Core | 1 | < 1MB | 🔴 Critical | Indefinite |
-| 5 | `sections` | Content | 25 | < 1MB | 🔴 Critical | Indefinite |
-| 6 | `projects` | Content | 20 | < 5MB | 🔴 Critical | Indefinite |
-| 7 | `project_images` | Content | 60 | < 10MB | 🟡 Important | Indefinite |
-| 8 | `blog_posts` | Content | 50 | < 10MB | 🟢 Normal | Indefinite |
-| 9 | `post_tags` | Content | 100 | < 1MB | 🟢 Normal | Indefinite |
-| 10 | `testimonials` | Content | 20 | < 2MB | 🟡 Important | Indefinite |
-| 11 | `skills` | Content | 30 | < 1MB | 🟡 Important | Indefinite |
-| 12 | `experiences` | Content | 15 | < 2MB | 🟡 Important | Indefinite |
-| 13 | `achievements` | Content | 20 | < 2MB | 🟢 Normal | Indefinite |
-| 14 | `services` | Content | 8 | < 1MB | 🟢 Normal | Indefinite |
-| 15 | `case_studies` | Content | 10 | < 5MB | 🟡 Important | Indefinite |
-| 16 | `press_features` | Content | 15 | < 2MB | 🟢 Normal | Indefinite |
-| 17 | `guest_appearances` | Content | 10 | < 1MB | 🟢 Normal | Indefinite |
-| 18 | `reading_list` | Content | 20 | < 1MB | 🟢 Normal | Indefinite |
-| 19 | `leads` | Leads | 1,000 | < 10MB | 🔴 Critical | 2 years |
-| 20 | `lead_notes` | Leads | 500 | < 5MB | 🟡 Important | 2 years |
-| 21 | `lead_activities` | Leads | 2,000 | < 10MB | 🟡 Important | 2 years |
-| 22 | `analytics_events` | Analytics | 500,000 | < 100MB | 🟡 Important | 1 year |
-| 23 | `analytics_sessions` | Analytics | 50,000 | < 50MB | 🟢 Normal | 1 year |
-| 24 | `page_views` | Analytics | 200,000 | < 50MB | 🟢 Normal | 1 year |
-| 25 | `chat_conversations` | AI | 5,000 | < 20MB | 🟢 Normal | 30 days |
-| 26 | `chat_messages` | AI | 50,000 | < 50MB | 🟢 Normal | 30 days |
-| 27 | `document_chunks` | AI | 500 | < 10MB | 🟡 Important | Indefinite |
-| 28 | `embeddings_cache` | AI | 500 | < 10MB | 🟢 Normal | Indefinite |
-| 29 | `media_assets` | System | 100 | < 5MB | 🟡 Important | Indefinite |
-| 30 | `availability_status` | System | 1 | < 1MB | 🟡 Important | Indefinite |
-| 31 | `system_settings` | System | 50 | < 1MB | 🔴 Critical | Indefinite |
-| 32 | `notifications` | System | 1,000 | < 5MB | 🟢 Normal | 90 days |
-| 33 | `audit_logs` | System | 10,000 | < 50MB | 🔴 Critical | 1 year |
-| 34 | `sessions` | System | 1,000 | < 5MB | 🟡 Important | 30 days |
-| 35 | `api_keys` | System | 5 | < 1MB | 🔴 Critical | Indefinite |
-| 36 | `feature_flags` | System | 20 | < 1MB | 🟡 Important | Indefinite |
-| 37 | `admin_activities` | System | 5,000 | < 20MB | 🟡 Important | 1 year |
+| 1 | `users` | Core | 1 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 2 | `roles` | Core | 2 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 3 | `permissions` | Core | 20 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 4 | `user_roles` | Core | 1 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 5 | `sections` | Content | 25 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 6 | `projects` | Content | 20 | < 5MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 7 | `project_images` | Content | 60 | < 10MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 8 | `blog_posts` | Content | 50 | < 10MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 9 | `post_tags` | Content | 100 | < 1MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 10 | `testimonials` | Content | 20 | < 2MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 11 | `skills` | Content | 30 | < 1MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 12 | `experiences` | Content | 15 | < 2MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 13 | `achievements` | Content | 20 | < 2MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 14 | `services` | Content | 8 | < 1MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 15 | `case_studies` | Content | 10 | < 5MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 16 | `press_features` | Content | 15 | < 2MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 17 | `guest_appearances` | Content | 10 | < 1MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 18 | `reading_list` | Content | 20 | < 1MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 19 | `leads` | Leads | 1,000 | < 10MB | Ã°Å¸â€Â´ Critical | 2 years |
+| 20 | `lead_notes` | Leads | 500 | < 5MB | Ã°Å¸Å¸Â¡ Important | 2 years |
+| 21 | `lead_activities` | Leads | 2,000 | < 10MB | Ã°Å¸Å¸Â¡ Important | 2 years |
+| 22 | `analytics_events` | Analytics | 500,000 | < 100MB | Ã°Å¸Å¸Â¡ Important | 1 year |
+| 23 | `analytics_sessions` | Analytics | 50,000 | < 50MB | Ã°Å¸Å¸Â¢ Normal | 1 year |
+| 24 | `page_views` | Analytics | 200,000 | < 50MB | Ã°Å¸Å¸Â¢ Normal | 1 year |
+| 25 | `chat_conversations` | AI | 5,000 | < 20MB | Ã°Å¸Å¸Â¢ Normal | 30 days |
+| 26 | `chat_messages` | AI | 50,000 | < 50MB | Ã°Å¸Å¸Â¢ Normal | 30 days |
+| 27 | `document_chunks` | AI | 500 | < 10MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 28 | `embeddings_cache` | AI | 500 | < 10MB | Ã°Å¸Å¸Â¢ Normal | Indefinite |
+| 29 | `media_assets` | System | 100 | < 5MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 30 | `availability_status` | System | 1 | < 1MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 31 | `system_settings` | System | 50 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 32 | `notifications` | System | 1,000 | < 5MB | Ã°Å¸Å¸Â¢ Normal | 90 days |
+| 33 | `audit_logs` | System | 10,000 | < 50MB | Ã°Å¸â€Â´ Critical | 1 year |
+| 34 | `sessions` | System | 1,000 | < 5MB | Ã°Å¸Å¸Â¡ Important | 30 days |
+| 35 | `api_keys` | System | 5 | < 1MB | Ã°Å¸â€Â´ Critical | Indefinite |
+| 36 | `feature_flags` | System | 20 | < 1MB | Ã°Å¸Å¸Â¡ Important | Indefinite |
+| 37 | `admin_activities` | System | 5,000 | < 20MB | Ã°Å¸Å¸Â¡ Important | 1 year |
 | | **Total** | | **~845,000** | **< 500MB** | | |
 
 ---
@@ -805,11 +805,11 @@ erDiagram
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique user identifier |
-| `email` | `TEXT` | `NOT NULL, UK` | — | Login email address |
-| `display_name` | `TEXT` | `NOT NULL` | — | Display name shown in admin |
-| `avatar_url` | `TEXT` | — | — | Profile photo URL |
+| `email` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Login email address |
+| `display_name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Display name shown in admin |
+| `avatar_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Profile photo URL |
 | `is_active` | `BOOLEAN` | `NOT NULL` | `true` | Account active/inactive |
-| `metadata` | `JSONB` | — | `'{}'` | Flexible metadata (preferences, bio) |
+| `metadata` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Flexible metadata (preferences, bio) |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Account creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update timestamp |
 
@@ -839,8 +839,8 @@ CREATE INDEX idx_users_is_active ON users (is_active) WHERE is_active = true;
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique role identifier |
-| `name` | `TEXT` | `NOT NULL, UK` | — | Role name (admin, editor) |
-| `description` | `TEXT` | — | — | Human-readable description |
+| `name` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Role name (admin, editor) |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Human-readable description |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Validation Rules:** `name` must be lowercase alphanumeric (a-z, 0-9, underscore)
@@ -856,9 +856,9 @@ CREATE INDEX idx_users_is_active ON users (is_active) WHERE is_active = true;
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique permission identifier |
-| `resource` | `TEXT` | `NOT NULL, UK` (composite with action) | — | Resource name (sections, leads, projects) |
-| `action` | `TEXT` | `NOT NULL` | — | Action (create, read, update, delete) |
-| `description` | `TEXT` | — | — | Human-readable description |
+| `resource` | `TEXT` | `NOT NULL, UK` (composite with action) | Ã¢â‚¬â€ | Resource name (sections, leads, projects) |
+| `action` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Action (create, read, update, delete) |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Human-readable description |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Unique Constraint:** `uq_permissions_resource_action ON permissions (resource, action)`
@@ -873,12 +873,12 @@ CREATE INDEX idx_users_is_active ON users (is_active) WHERE is_active = true;
 
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
-| `user_id` | `UUID` | `NOT NULL, FK → users(id)` | — | Reference to user |
-| `role_id` | `UUID` | `NOT NULL, FK → roles(id)` | — | Reference to role |
+| `user_id` | `UUID` | `NOT NULL, FK Ã¢â€ â€™ users(id)` | Ã¢â‚¬â€ | Reference to user |
+| `role_id` | `UUID` | `NOT NULL, FK Ã¢â€ â€™ roles(id)` | Ã¢â‚¬â€ | Reference to role |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Assignment timestamp |
 
 **Primary Key:** Composite `(user_id, role_id)`
-**Foreign Keys:** `fk_user_roles_user` → `users(id) ON DELETE CASCADE`, `fk_user_roles_role` → `roles(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_user_roles_user` Ã¢â€ â€™ `users(id) ON DELETE CASCADE`, `fk_user_roles_role` Ã¢â€ â€™ `roles(id) ON DELETE CASCADE`
 **Validation Rules:** No duplicate user-role pairs
 **Retention Policy:** Indefinite
 **Access Rules:** System table, admin only
@@ -894,17 +894,17 @@ CREATE INDEX idx_users_is_active ON users (is_active) WHERE is_active = true;
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique section identifier |
-| `section_key` | `TEXT` | `NOT NULL, UK` | — | Machine-readable identifier (hero, about, skills) |
-| `section_label` | `TEXT` | `NOT NULL` | — | Human-readable label (Hero, About Me, Skills) |
-| `section_type` | `TEXT` | — | — | Section type (hero, stats, timeline, grid) |
+| `section_key` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Machine-readable identifier (hero, about, skills) |
+| `section_label` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Human-readable label (Hero, About Me, Skills) |
+| `section_type` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Section type (hero, stats, timeline, grid) |
 | `is_live` | `BOOLEAN` | `NOT NULL` | `false` | Visibility toggle for public |
 | `style_preset` | `TEXT` | `NOT NULL` | `'default'` | Visual style preset name |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Render order on portfolio |
 | `min_items` | `INTEGER` | `NOT NULL` | `1` | Minimum content items before auto-publish |
 | `auto_publish` | `BOOLEAN` | `NOT NULL` | `false` | Auto-publish when min_items met |
 | `is_always_visible` | `BOOLEAN` | `NOT NULL` | `false` | Always visible (hero, contact, footer) |
-| `style_config` | `JSONB` | — | `'{}'` | Style configuration overrides |
-| `content` | `JSONB` | — | `'{}'` | Inline content (for sections without dedicated table) |
+| `style_config` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Style configuration overrides |
+| `content` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Inline content (for sections without dedicated table) |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update timestamp |
 
@@ -917,7 +917,7 @@ CREATE INDEX idx_sections_section_type ON sections (section_type);
 
 **Validation Rules:**
 - `section_key` must be lowercase snake_case, 3-50 characters
-- `display_order` must be ≥ 0
+- `display_order` must be Ã¢â€°Â¥ 0
 - `style_preset` must be one of: `default`, `minimal`, `card`, `list`, `split`, `hero`, `grid`, `timeline`, `slider`
 
 **Audit Requirements:** All mutations logged to `audit_logs`
@@ -932,26 +932,26 @@ CREATE INDEX idx_sections_section_type ON sections (section_type);
 
 **Purpose:** Stores all portfolio projects with rich metadata, enabling filtering, featured display, and detail pages.
 
-> **Design Decision — Technologies as TEXT[]:** Technologies are modeled as denormalized `TEXT[]` arrays rather than a separate `technologies` junction table because portfolio projects typically reference < 10 technologies each, queries are simple contains-checks (GIN-indexed), and the denormalized format avoids JOIN overhead for the most common query pattern (project listing). For a portfolio workload, a separate normalized `technologies` table would introduce unnecessary complexity without benefit.
+> **Design Decision Ã¢â‚¬â€ Technologies as TEXT[]:** Technologies are modeled as denormalized `TEXT[]` arrays rather than a separate `technologies` junction table because portfolio projects typically reference < 10 technologies each, queries are simple contains-checks (GIN-indexed), and the denormalized format avoids JOIN overhead for the most common query pattern (project listing). For a portfolio workload, a separate normalized `technologies` table would introduce unnecessary complexity without benefit.
 
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique project identifier |
-| `slug` | `TEXT` | `NOT NULL, UK` | — | URL-friendly slug for detail pages |
-| `title` | `TEXT` | `NOT NULL` | — | Project title |
-| `description` | `TEXT` | — | — | Short description for cards |
-| `tech_stack` | `TEXT[]` | — | `'{}'` | Array of technologies used |
-| `live_url` | `TEXT` | — | — | Live demo URL |
-| `github_url` | `TEXT` | — | — | GitHub repository URL |
-| `cover_image` | `TEXT` | — | — | Primary image URL |
-| `thumbnail_url` | `TEXT` | — | — | Thumbnail for cards |
+| `slug` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | URL-friendly slug for detail pages |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Project title |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Short description for cards |
+| `tech_stack` | `TEXT[]` | Ã¢â‚¬â€ | `'{}'` | Array of technologies used |
+| `live_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Live demo URL |
+| `github_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | GitHub repository URL |
+| `cover_image` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Primary image URL |
+| `thumbnail_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Thumbnail for cards |
 | `is_featured` | `BOOLEAN` | `NOT NULL` | `false` | Featured project (shown on homepage) |
 | `is_private` | `BOOLEAN` | `NOT NULL` | `false` | NDA project (requires password) |
-| `nda_password` | `TEXT` | — | — | Password for NDA projects |
-| `category` | `TEXT` | — | — | Category (web, mobile, ai, devops, design) |
+| `nda_password` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Password for NDA projects |
+| `category` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Category (web, mobile, ai, devops, design) |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
-| `content` | `JSONB` | — | `'{}'` | Rich content (features, challenges, outcomes) |
-| `metrics` | `JSONB` | — | `'{}'` | Project metrics (users, stars, performance) |
+| `content` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Rich content (features, challenges, outcomes) |
+| `metrics` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Project metrics (users, stars, performance) |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update timestamp |
 
@@ -964,7 +964,7 @@ CREATE GIN INDEX idx_projects_tech_stack ON projects USING GIN (tech_stack);
 CREATE INDEX idx_projects_created_at ON projects (created_at DESC);
 ```
 
-**Foreign Keys:** `case_studies.project_id → projects(id) ON DELETE CASCADE`
+**Foreign Keys:** `case_studies.project_id Ã¢â€ â€™ projects(id) ON DELETE CASCADE`
 **Validation Rules:**
 - `slug` must match `^[a-z0-9]+(?:-[a-z0-9]+)*$` pattern
 - `title` must be 3-200 characters
@@ -986,14 +986,14 @@ CREATE INDEX idx_projects_created_at ON projects (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique image identifier |
-| `project_id` | `UUID` | `NOT NULL, FK` | — | Parent project |
-| `image_url` | `TEXT` | `NOT NULL` | — | Image URL |
-| `alt_text` | `TEXT` | — | — | Accessibility alt text |
+| `project_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Parent project |
+| `image_url` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Image URL |
+| `alt_text` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Accessibility alt text |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Display order |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Indexes:** `CREATE INDEX idx_project_images_project ON project_images (project_id, display_order);`
-**Foreign Keys:** `fk_project_images_project → projects(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_project_images_project Ã¢â€ â€™ projects(id) ON DELETE CASCADE`
 **Validation Rules:** `image_url` must be valid URL
 
 ---
@@ -1005,16 +1005,16 @@ CREATE INDEX idx_projects_created_at ON projects (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique post identifier |
-| `slug` | `TEXT` | `NOT NULL, UK` | — | URL-friendly slug |
-| `title` | `TEXT` | `NOT NULL` | — | Post title |
-| `excerpt` | `TEXT` | — | — | Short summary for cards |
-| `content` | `TEXT` | — | — | Full post content (Markdown/MDX) |
-| `cover_image` | `TEXT` | — | — | Featured image URL |
-| `tags` | `TEXT[]` | — | `'{}'` | Post tags for filtering |
-| `author_name` | `TEXT` | — | — | Author display name |
-| `read_time_minutes` | `INTEGER` | — | — | Estimated reading time |
+| `slug` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | URL-friendly slug |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Post title |
+| `excerpt` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Short summary for cards |
+| `content` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Full post content (Markdown/MDX) |
+| `cover_image` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Featured image URL |
+| `tags` | `TEXT[]` | Ã¢â‚¬â€ | `'{}'` | Post tags for filtering |
+| `author_name` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Author display name |
+| `read_time_minutes` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Estimated reading time |
 | `published` | `BOOLEAN` | `NOT NULL` | `false` | Published state |
-| `published_at` | `TIMESTAMPTZ` | — | — | Publication timestamp |
+| `published_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Publication timestamp |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update timestamp |
 
@@ -1026,7 +1026,7 @@ CREATE GIN INDEX idx_blog_posts_tags ON blog_posts USING GIN (tags);
 CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 ```
 
-> **Note:** The `search_vector` generated column for full-text search is defined in [Section 16.1 — Full-Text Search](#161-search-configuration), not duplicated here.
+> **Note:** The `search_vector` generated column for full-text search is defined in [Section 16.1 Ã¢â‚¬â€ Full-Text Search](#161-search-configuration), not duplicated here.
 
 **Validation Rules:** `slug` must be URL-safe; `title` 5-200 characters
 **Audit Requirements:** Track publish/unpublish events
@@ -1044,12 +1044,12 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `post_id` | `UUID` | `NOT NULL, FK` | — | Parent blog post |
-| `tag` | `TEXT` | `NOT NULL` | — | Tag value |
+| `post_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Parent blog post |
+| `tag` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Tag value |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Indexes:** `CREATE INDEX idx_post_tags_post ON post_tags (post_id);`, `CREATE INDEX idx_post_tags_tag ON post_tags (tag);`
-**Foreign Keys:** `fk_post_tags_post → blog_posts(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_post_tags_post Ã¢â€ â€™ blog_posts(id) ON DELETE CASCADE`
 
 ---
 
@@ -1060,12 +1060,12 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `name` | `TEXT` | `NOT NULL` | — | Person's name |
-| `role` | `TEXT` | — | — | Job title |
-| `company` | `TEXT` | — | — | Company name |
-| `avatar_url` | `TEXT` | — | — | Avatar image URL |
-| `content` | `TEXT` | `NOT NULL` | — | Testimonial text |
-| `rating` | `SMALLINT` | `CHECK (1-5)` | — | Star rating (1-5) |
+| `name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Person's name |
+| `role` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Job title |
+| `company` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Company name |
+| `avatar_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Avatar image URL |
+| `content` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Testimonial text |
+| `rating` | `SMALLINT` | `CHECK (1-5)` | Ã¢â‚¬â€ | Star rating (1-5) |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `is_verified` | `BOOLEAN` | `NOT NULL` | `false` | Verification badge |
 | `is_featured` | `BOOLEAN` | `NOT NULL` | `false` | Featured display |
@@ -1085,11 +1085,11 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `name` | `TEXT` | `NOT NULL` | — | Skill name |
-| `category` | `TEXT` | `NOT NULL` | — | Category (Frontend, Backend, DevOps, etc.) |
-| `proficiency` | `SMALLINT` | `CHECK (0-100)` | — | Proficiency percentage |
-| `icon_url` | `TEXT` | — | — | Static icon URL |
-| `lottie_url` | `TEXT` | — | — | Animated Lottie icon URL |
+| `name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Skill name |
+| `category` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Category (Frontend, Backend, DevOps, etc.) |
+| `proficiency` | `SMALLINT` | `CHECK (0-100)` | Ã¢â‚¬â€ | Proficiency percentage |
+| `icon_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Static icon URL |
+| `lottie_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Animated Lottie icon URL |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `is_featured` | `BOOLEAN` | `NOT NULL` | `false` | Featured skill |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
@@ -1108,14 +1108,14 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `company` | `TEXT` | `NOT NULL` | — | Company name |
-| `role` | `TEXT` | `NOT NULL` | — | Job title |
-| `description` | `TEXT` | — | — | Role description/bullet points |
-| `technologies` | `TEXT[]` | — | `'{}'` | Technologies used |
-| `company_logo_url` | `TEXT` | — | — | Company logo |
-| `company_url` | `TEXT` | — | — | Company website |
-| `start_date` | `DATE` | `NOT NULL` | — | Start date |
-| `end_date` | `DATE` | — | — | End date (NULL if current) |
+| `company` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Company name |
+| `role` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Job title |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Role description/bullet points |
+| `technologies` | `TEXT[]` | Ã¢â‚¬â€ | `'{}'` | Technologies used |
+| `company_logo_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Company logo |
+| `company_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Company website |
+| `start_date` | `DATE` | `NOT NULL` | Ã¢â‚¬â€ | Start date |
+| `end_date` | `DATE` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | End date (NULL if current) |
 | `is_current` | `BOOLEAN` | `NOT NULL` | `false` | Currently employed here |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
@@ -1134,13 +1134,13 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `title` | `TEXT` | `NOT NULL` | — | Achievement title |
-| `issuer` | `TEXT` | `NOT NULL` | — | Issuing organization |
-| `description` | `TEXT` | — | — | Achievement description |
-| `badge_image_url` | `TEXT` | — | — | Badge/certificate image |
-| `category` | `TEXT` | — | — | Category (certification, award, hackathon) |
-| `achieved_date` | `DATE` | — | — | Date achieved |
-| `credential_url` | `TEXT` | — | — | Verifiable credential URL |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Achievement title |
+| `issuer` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Issuing organization |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Achievement description |
+| `badge_image_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Badge/certificate image |
+| `category` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Category (certification, award, hackathon) |
+| `achieved_date` | `DATE` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Date achieved |
+| `credential_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Verifiable credential URL |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
@@ -1155,14 +1155,14 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `title` | `TEXT` | `NOT NULL` | — | Service name |
-| `description` | `TEXT` | — | — | Service description |
-| `icon` | `TEXT` | — | — | Icon identifier |
-| `features` | `TEXT[]` | — | `'{}'` | Feature list |
-| `pricing_tier` | `TEXT` | — | — | Tier label (Starter, Pro, Enterprise) |
-| `price_cents` | `INTEGER` | — | — | Price in cents (NULL if custom) |
-| `cta_text` | `TEXT` | — | `'Get Started'` | Call-to-action button text |
-| `cta_url` | `TEXT` | — | — | CTA link URL |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Service name |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Service description |
+| `icon` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Icon identifier |
+| `features` | `TEXT[]` | Ã¢â‚¬â€ | `'{}'` | Feature list |
+| `pricing_tier` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Tier label (Starter, Pro, Enterprise) |
+| `price_cents` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Price in cents (NULL if custom) |
+| `cta_text` | `TEXT` | Ã¢â‚¬â€ | `'Get Started'` | Call-to-action button text |
+| `cta_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | CTA link URL |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `is_active` | `BOOLEAN` | `NOT NULL` | `true` | Active service |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
@@ -1177,18 +1177,18 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `project_id` | `UUID` | `NOT NULL, FK, UK` | — | Reference to project |
-| `challenge` | `TEXT` | — | — | Problem statement |
-| `approach` | `TEXT` | — | — | Solution approach |
-| `solution` | `TEXT` | — | — | Implementation details |
-| `impact` | `TEXT` | — | — | Results and outcomes |
-| `architecture_diagrams` | `TEXT[]` | — | `'{}'` | Architecture diagram URLs |
-| `code_snippets` | `TEXT[]` | — | `'{}'` | Code snippet URLs |
-| `metrics` | `JSONB` | — | `'{}'` | Quantitative metrics |
+| `project_id` | `UUID` | `NOT NULL, FK, UK` | Ã¢â‚¬â€ | Reference to project |
+| `challenge` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Problem statement |
+| `approach` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Solution approach |
+| `solution` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Implementation details |
+| `impact` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Results and outcomes |
+| `architecture_diagrams` | `TEXT[]` | Ã¢â‚¬â€ | `'{}'` | Architecture diagram URLs |
+| `code_snippets` | `TEXT[]` | Ã¢â‚¬â€ | `'{}'` | Code snippet URLs |
+| `metrics` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Quantitative metrics |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update |
 
-**Foreign Keys:** `fk_case_studies_project → projects(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_case_studies_project Ã¢â€ â€™ projects(id) ON DELETE CASCADE`
 **Access Rules:** Public: SELECT; Admin: Full CRUD
 
 ---
@@ -1200,12 +1200,12 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `publication` | `TEXT` | `NOT NULL` | — | Publication name |
-| `title` | `TEXT` | `NOT NULL` | — | Article title |
-| `url` | `TEXT` | `NOT NULL` | — | Article URL |
-| `logo_url` | `TEXT` | — | — | Publication logo |
-| `description` | `TEXT` | — | — | Article summary |
-| `featured_date` | `DATE` | — | — | Publication date |
+| `publication` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Publication name |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Article title |
+| `url` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Article URL |
+| `logo_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Publication logo |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Article summary |
+| `featured_date` | `DATE` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Publication date |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
@@ -1218,13 +1218,13 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `type` | `TEXT` | `NOT NULL` | — | Type (podcast, talk, video, article) |
-| `title` | `TEXT` | `NOT NULL` | — | Episode/talk title |
-| `host` | `TEXT` | — | — | Host or event name |
-| `url` | `TEXT` | `NOT NULL` | — | Content URL |
-| `cover_image_url` | `TEXT` | — | — | Cover image |
-| `description` | `TEXT` | — | — | Content description |
-| `appearance_date` | `DATE` | — | — | Date of appearance |
+| `type` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Type (podcast, talk, video, article) |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Episode/talk title |
+| `host` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Host or event name |
+| `url` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Content URL |
+| `cover_image_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Cover image |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Content description |
+| `appearance_date` | `DATE` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Date of appearance |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
@@ -1237,12 +1237,12 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `title` | `TEXT` | `NOT NULL` | — | Book/resource title |
-| `author` | `TEXT` | — | — | Author name |
-| `url` | `TEXT` | — | — | Resource URL |
-| `cover_image_url` | `TEXT` | — | — | Cover image |
-| `category` | `TEXT` | — | — | Category (book, tool, course, article) |
-| `recommendation` | `TEXT` | — | — | Personal recommendation |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Book/resource title |
+| `author` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Author name |
+| `url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Resource URL |
+| `cover_image_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Cover image |
+| `category` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Category (book, tool, course, article) |
+| `recommendation` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Personal recommendation |
 | `display_order` | `INTEGER` | `NOT NULL` | `0` | Sort order |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
@@ -1257,20 +1257,20 @@ CREATE INDEX idx_blog_posts_created_at ON blog_posts (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique lead identifier |
-| `name` | `TEXT` | `NOT NULL` | — | Contact name |
-| `email` | `TEXT` | `NOT NULL` | — | Contact email |
-| `phone` | `TEXT` | — | — | Contact phone |
-| `company` | `TEXT` | — | — | Company name |
-| `subject` | `TEXT` | — | — | Message subject |
-| `message` | `TEXT` | `NOT NULL` | — | Message body |
+| `name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Contact name |
+| `email` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Contact email |
+| `phone` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Contact phone |
+| `company` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Company name |
+| `subject` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Message subject |
+| `message` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Message body |
 | `source` | `TEXT` | `NOT NULL` | `'contact_form'` | Source (`contact_form`, `ai_chat`, `referral`, `direct`) |
 | `status` | `TEXT` | `NOT NULL` | `'new'` | Status (`new`, `read`, `replied`, `converted`, `archived`) |
 | `priority` | `TEXT` | `NOT NULL` | `'normal'` | Priority (`low`, `normal`, `high`, `urgent`) |
-| `ip_address` | `INET` | — | — | Submitter IP address |
-| `metadata` | `JSONB` | — | `'{}'` | UTM params, user agent, referrer |
+| `ip_address` | `INET` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Submitter IP address |
+| `metadata` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | UTM params, user agent, referrer |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update |
-| `deleted_at` | `TIMESTAMPTZ` | — | — | Soft delete timestamp |
+| `deleted_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Soft delete timestamp |
 
 **Indexes:**
 ```sql
@@ -1308,14 +1308,14 @@ ALTER TABLE leads ADD CONSTRAINT ck_leads_priority
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `lead_id` | `UUID` | `NOT NULL, FK` | — | Reference to lead |
-| `author_id` | `UUID` | `NOT NULL, FK` | — | Admin who wrote note |
-| `content` | `TEXT` | `NOT NULL` | — | Note content |
+| `lead_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Reference to lead |
+| `author_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Admin who wrote note |
+| `content` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Note content |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update |
 
 **Indexes:** `CREATE INDEX idx_lead_notes_lead ON lead_notes (lead_id, created_at DESC);`
-**Foreign Keys:** `fk_lead_notes_lead → leads(id) ON DELETE CASCADE`, `fk_lead_notes_author → users(id) ON DELETE SET NULL`
+**Foreign Keys:** `fk_lead_notes_lead Ã¢â€ â€™ leads(id) ON DELETE CASCADE`, `fk_lead_notes_author Ã¢â€ â€™ users(id) ON DELETE SET NULL`
 **Access Rules:** Admin only
 
 ---
@@ -1327,16 +1327,16 @@ ALTER TABLE leads ADD CONSTRAINT ck_leads_priority
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `lead_id` | `UUID` | `NOT NULL, FK` | — | Reference to lead |
-| `actor_id` | `UUID` | — | — | Who performed action |
-| `action` | `TEXT` | `NOT NULL` | — | Action type |
-| `description` | `TEXT` | — | — | Human-readable description |
-| `details` | `JSONB` | — | `'{}'` | Action-specific data |
-| `ip_address` | `INET` | — | — | Actor IP address |
+| `lead_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Reference to lead |
+| `actor_id` | `UUID` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Who performed action |
+| `action` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Action type |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Human-readable description |
+| `details` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Action-specific data |
+| `ip_address` | `INET` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Actor IP address |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Indexes:** `CREATE INDEX idx_lead_activities_lead ON lead_activities (lead_id, created_at DESC);`, `CREATE INDEX idx_lead_activities_action ON lead_activities (action, created_at DESC);`
-**Foreign Keys:** `fk_lead_activities_lead → leads(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_lead_activities_lead Ã¢â€ â€™ leads(id) ON DELETE CASCADE`
 **Retention Policy:** Same as parent lead (2 years)
 **Access Rules:** Admin only
 
@@ -1351,13 +1351,13 @@ ALTER TABLE leads ADD CONSTRAINT ck_leads_priority
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique event identifier |
-| `event_name` | `TEXT` | `NOT NULL` | — | Event name (page_view, section_view, cta_click) |
-| `page_url` | `TEXT` | — | — | Page URL where event occurred |
-| `session_id` | `TEXT` | — | — | Visitor session ID |
-| `visitor_id` | `TEXT` | — | — | Anonymous visitor ID |
-| `user_agent` | `TEXT` | — | — | Browser user agent |
-| `ip_address` | `INET` | — | — | Visitor IP (anonymized) |
-| `properties` | `JSONB` | — | `'{}'` | Event-specific properties |
+| `event_name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Event name (page_view, section_view, cta_click) |
+| `page_url` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Page URL where event occurred |
+| `session_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Visitor session ID |
+| `visitor_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Anonymous visitor ID |
+| `user_agent` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Browser user agent |
+| `ip_address` | `INET` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Visitor IP (anonymized) |
+| `properties` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Event-specific properties |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Event timestamp |
 
 **Partitioning:**
@@ -1404,20 +1404,20 @@ CREATE INDEX idx_analytics_events_date ON analytics_events (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `session_id` | `TEXT` | `NOT NULL, UK` | — | Unique session identifier |
-| `visitor_id` | `TEXT` | — | — | Anonymous visitor ID |
-| `referrer` | `TEXT` | — | — | Traffic source URL |
-| `utm_source` | `TEXT` | — | — | UTM source param |
-| `utm_medium` | `TEXT` | — | — | UTM medium param |
-| `utm_campaign` | `TEXT` | — | — | UTM campaign param |
-| `device_type` | `TEXT` | — | — | Device type (desktop, mobile, tablet) |
-| `browser` | `TEXT` | — | — | Browser name |
-| `country` | `TEXT` | — | — | Geo-located country |
-| `city` | `TEXT` | — | — | Geo-located city |
+| `session_id` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Unique session identifier |
+| `visitor_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Anonymous visitor ID |
+| `referrer` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Traffic source URL |
+| `utm_source` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | UTM source param |
+| `utm_medium` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | UTM medium param |
+| `utm_campaign` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | UTM campaign param |
+| `device_type` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Device type (desktop, mobile, tablet) |
+| `browser` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Browser name |
+| `country` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Geo-located country |
+| `city` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Geo-located city |
 | `page_views` | `INTEGER` | `NOT NULL` | `0` | Pages viewed in session |
 | `duration_seconds` | `INTEGER` | `NOT NULL` | `0` | Session duration |
 | `started_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Session start |
-| `last_activity_at` | `TIMESTAMPTZ` | — | — | Last activity timestamp |
+| `last_activity_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Last activity timestamp |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Record creation |
 
 **Indexes:** `CREATE INDEX idx_analytics_sessions_visitor ON analytics_sessions (visitor_id);`, `CREATE INDEX idx_analytics_sessions_date ON analytics_sessions (started_at DESC);`, `CREATE INDEX idx_analytics_sessions_source ON analytics_sessions (utm_source, utm_medium);`
@@ -1431,13 +1431,13 @@ CREATE INDEX idx_analytics_events_date ON analytics_events (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `session_id` | `TEXT` | — | — | Session ID |
-| `page_url` | `TEXT` | `NOT NULL` | — | Page URL |
-| `page_title` | `TEXT` | — | — | Page title |
-| `referrer` | `TEXT` | — | — | Page referrer |
-| `scroll_depth_percent` | `SMALLINT` | — | `0` | Max scroll depth (0-100) |
-| `time_on_page_seconds` | `INTEGER` | — | `0` | Time spent on page |
-| `engagement` | `JSONB` | — | `'{}'` | Engagement events |
+| `session_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Session ID |
+| `page_url` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Page URL |
+| `page_title` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Page title |
+| `referrer` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Page referrer |
+| `scroll_depth_percent` | `SMALLINT` | Ã¢â‚¬â€ | `0` | Max scroll depth (0-100) |
+| `time_on_page_seconds` | `INTEGER` | Ã¢â‚¬â€ | `0` | Time spent on page |
+| `engagement` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Engagement events |
 | `viewed_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | View timestamp |
 
 **Indexes:** `CREATE INDEX idx_page_views_url ON page_views (page_url, viewed_at DESC);`, `CREATE INDEX idx_page_views_session ON page_views (session_id);`
@@ -1453,13 +1453,13 @@ CREATE INDEX idx_analytics_events_date ON analytics_events (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `session_id` | `TEXT` | `NOT NULL, UK` | — | Client-side session ID |
-| `visitor_id` | `TEXT` | — | — | Anonymous visitor ID |
-| `page_context` | `TEXT` | — | — | Page where chat started |
+| `session_id` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Client-side session ID |
+| `visitor_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Anonymous visitor ID |
+| `page_context` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Page where chat started |
 | `message_count` | `INTEGER` | `NOT NULL` | `0` | Total messages |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Session start |
 | `last_activity_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last message timestamp |
-| `deleted_at` | `TIMESTAMPTZ` | — | — | Soft delete |
+| `deleted_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Soft delete |
 
 **Indexes:** `CREATE INDEX idx_chat_conversations_session ON chat_conversations (session_id);`, `CREATE INDEX idx_chat_conversations_activity ON chat_conversations (last_activity_at DESC);`
 **Retention Policy:** 30 days from `last_activity_at`
@@ -1474,16 +1474,16 @@ CREATE INDEX idx_analytics_events_date ON analytics_events (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `conversation_id` | `UUID` | `NOT NULL, FK` | — | Parent conversation |
-| `role` | `TEXT` | `NOT NULL` | — | Message role (user, assistant, system) |
-| `content` | `TEXT` | `NOT NULL` | — | Message content |
-| `tokens_used` | `INTEGER` | — | — | Token count (for cost tracking) |
-| `response_time_ms` | `INTEGER` | — | — | AI response generation time |
-| `metadata` | `JSONB` | — | `'{}'` | Model info, costs, sources |
+| `conversation_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Parent conversation |
+| `role` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Message role (user, assistant, system) |
+| `content` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Message content |
+| `tokens_used` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Token count (for cost tracking) |
+| `response_time_ms` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | AI response generation time |
+| `metadata` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Model info, costs, sources |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Message timestamp |
 
 **Indexes:** `CREATE INDEX idx_chat_messages_conversation ON chat_messages (conversation_id, created_at);`
-**Foreign Keys:** `fk_chat_messages_conversation → chat_conversations(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_chat_messages_conversation Ã¢â€ â€™ chat_conversations(id) ON DELETE CASCADE`
 
 ---
 
@@ -1494,12 +1494,12 @@ CREATE INDEX idx_analytics_events_date ON analytics_events (created_at DESC);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `document_id` | `TEXT` | `NOT NULL` | — | Source document reference |
-| `content` | `TEXT` | `NOT NULL` | — | Chunk text content |
-| `embedding` | `VECTOR(1536)` | — | — | OpenAI embedding vector |
-| `chunk_index` | `INTEGER` | `NOT NULL` | — | Chunk position in document |
-| `token_count` | `INTEGER` | — | — | Estimated token count |
-| `metadata` | `JSONB` | — | `'{}'` | Source, section, title |
+| `document_id` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Source document reference |
+| `content` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Chunk text content |
+| `embedding` | `VECTOR(1536)` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | OpenAI embedding vector |
+| `chunk_index` | `INTEGER` | `NOT NULL` | Ã¢â‚¬â€ | Chunk position in document |
+| `token_count` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Estimated token count |
+| `metadata` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Source, section, title |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Indexes:**
@@ -1523,13 +1523,13 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `input_hash` | `TEXT` | `NOT NULL, UK` | — | SHA-256 hash of input text |
-| `input_text` | `TEXT` | `NOT NULL` | — | Original text |
-| `embedding` | `VECTOR(1536)` | `NOT NULL` | — | Cached embedding |
-| `model` | `TEXT` | `NOT NULL` | — | Model used (text-embedding-3-small) |
-| `token_count` | `INTEGER` | — | — | Token count |
+| `input_hash` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | SHA-256 hash of input text |
+| `input_text` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Original text |
+| `embedding` | `VECTOR(1536)` | `NOT NULL` | Ã¢â‚¬â€ | Cached embedding |
+| `model` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Model used (text-embedding-3-small) |
+| `token_count` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Token count |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Cache creation |
-| `expires_at` | `TIMESTAMPTZ` | — | — | Cache expiry |
+| `expires_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Cache expiry |
 
 **Indexes:** `CREATE UNIQUE INDEX idx_embeddings_cache_hash ON embeddings_cache (input_hash);`
 **Retention Policy:** 30 days from `created_at`
@@ -1545,16 +1545,16 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `user_id` | `UUID` | `NOT NULL, FK` | — | Admin user |
-| `refresh_token` | `TEXT` | `NOT NULL, UK` | — | Refresh token hash |
-| `user_agent` | `TEXT` | — | — | Client user agent |
-| `ip_address` | `INET` | — | — | Client IP |
+| `user_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Admin user |
+| `refresh_token` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Refresh token hash |
+| `user_agent` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Client user agent |
+| `ip_address` | `INET` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Client IP |
 | `is_revoked` | `BOOLEAN` | `NOT NULL` | `false` | Session revoked |
-| `expires_at` | `TIMESTAMPTZ` | `NOT NULL` | — | Token expiry |
+| `expires_at` | `TIMESTAMPTZ` | `NOT NULL` | Ã¢â‚¬â€ | Token expiry |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Session creation |
 
 **Indexes:** `CREATE INDEX idx_sessions_user ON sessions (user_id, is_revoked);`, `CREATE UNIQUE INDEX idx_sessions_refresh ON sessions (refresh_token);`
-**Foreign Keys:** `fk_sessions_user → users(id) ON DELETE CASCADE`
+**Foreign Keys:** `fk_sessions_user Ã¢â€ â€™ users(id) ON DELETE CASCADE`
 **Retention Policy:** 7 days after expiry, then cleanup
 
 ---
@@ -1566,14 +1566,14 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `name` | `TEXT` | `NOT NULL` | — | Key identifier (e.g., `ai-service`) |
-| `key_hash` | `TEXT` | `NOT NULL, UK` | — | SHA-256 hash of API key |
-| `key_prefix` | `TEXT` | `NOT NULL` | — | First 8 chars for identification |
-| `permissions` | `TEXT` | `NOT NULL` | — | Comma-separated permissions |
+| `name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Key identifier (e.g., `ai-service`) |
+| `key_hash` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | SHA-256 hash of API key |
+| `key_prefix` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | First 8 chars for identification |
+| `permissions` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Comma-separated permissions |
 | `is_active` | `BOOLEAN` | `NOT NULL` | `true` | Key active/inactive |
-| `expires_at` | `TIMESTAMPTZ` | — | — | Key expiry |
+| `expires_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Key expiry |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Key creation |
-| `revoked_at` | `TIMESTAMPTZ` | — | — | Revocation timestamp |
+| `revoked_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Revocation timestamp |
 
 **Security:** Never store raw keys, only SHA-256 hashes
 
@@ -1588,21 +1588,21 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `file_name` | `TEXT` | `NOT NULL` | — | Original file name |
-| `file_path` | `TEXT` | `NOT NULL, UK` | — | Storage path |
-| `bucket_name` | `TEXT` | `NOT NULL` | — | Supabase bucket |
-| `mime_type` | `TEXT` | `NOT NULL` | — | MIME type |
-| `file_size_bytes` | `INTEGER` | `NOT NULL` | — | File size |
-| `width` | `INTEGER` | — | — | Image width |
-| `height` | `INTEGER` | — | — | Image height |
-| `alt_text` | `TEXT` | — | — | Accessibility alt text |
-| `uploaded_by` | `TEXT` | — | — | Uploader identifier |
-| `variants` | `JSONB` | — | `'{}'` | Generated variants (thumbnails, WebP) |
+| `file_name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Original file name |
+| `file_path` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Storage path |
+| `bucket_name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Supabase bucket |
+| `mime_type` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | MIME type |
+| `file_size_bytes` | `INTEGER` | `NOT NULL` | Ã¢â‚¬â€ | File size |
+| `width` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Image width |
+| `height` | `INTEGER` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Image height |
+| `alt_text` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Accessibility alt text |
+| `uploaded_by` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Uploader identifier |
+| `variants` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Generated variants (thumbnails, WebP) |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Upload timestamp |
-| `deleted_at` | `TIMESTAMPTZ` | — | — | Soft delete |
+| `deleted_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Soft delete |
 
 **Indexes:** `CREATE INDEX idx_media_assets_bucket ON media_assets (bucket_name);`, `CREATE INDEX idx_media_assets_type ON media_assets (mime_type);`
-**Validation Rules:** `file_size_bytes` must be ≤ 5MB for images, ≤ 10MB for documents
+**Validation Rules:** `file_size_bytes` must be Ã¢â€°Â¤ 5MB for images, Ã¢â€°Â¤ 10MB for documents
 
 ---
 
@@ -1614,9 +1614,9 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
 | `is_available` | `BOOLEAN` | `NOT NULL` | `true` | Available for work |
-| `status_label` | `TEXT` | — | — | Custom label (e.g., "Open to offers") |
-| `available_until` | `TEXT` | — | — | Date or description |
-| `preferred_contact` | `TEXT` | — | — | Preferred contact method |
+| `status_label` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Custom label (e.g., "Open to offers") |
+| `available_until` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Date or description |
+| `preferred_contact` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Preferred contact method |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update |
 
 **Access Rules:** Public: SELECT; Admin: UPDATE
@@ -1630,10 +1630,10 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `setting_key` | `TEXT` | `NOT NULL, UK` | — | Setting name |
-| `setting_value` | `TEXT` | `NOT NULL` | — | Setting value |
-| `setting_group` | `TEXT` | — | — | Group (email, seo, analytics, social) |
-| `description` | `TEXT` | — | — | Human-readable description |
+| `setting_key` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Setting name |
+| `setting_value` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Setting value |
+| `setting_group` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Group (email, seo, analytics, social) |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Human-readable description |
 | `data_type` | `TEXT` | `NOT NULL` | `'text'` | Type (text, number, boolean, json) |
 | `is_encrypted` | `BOOLEAN` | `NOT NULL` | `false` | Encrypted at rest |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
@@ -1650,15 +1650,15 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `type` | `TEXT` | `NOT NULL` | — | Notification type (new_lead, error, update) |
-| `title` | `TEXT` | `NOT NULL` | — | Notification title |
-| `body` | `TEXT` | — | — | Notification body |
+| `type` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Notification type (new_lead, error, update) |
+| `title` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Notification title |
+| `body` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Notification body |
 | `channel` | `TEXT` | `NOT NULL` | `'in_app'` | Delivery channel (in_app, email, telegram) |
-| `payload` | `JSONB` | — | `'{}'` | Actionable data |
+| `payload` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Actionable data |
 | `is_read` | `BOOLEAN` | `NOT NULL` | `false` | Read by admin |
 | `is_sent` | `BOOLEAN` | `NOT NULL` | `false` | Delivered successfully |
-| `sent_at` | `TIMESTAMPTZ` | — | — | Delivery timestamp |
-| `read_at` | `TIMESTAMPTZ` | — | — | Read timestamp |
+| `sent_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Delivery timestamp |
+| `read_at` | `TIMESTAMPTZ` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Read timestamp |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation timestamp |
 
 **Indexes:** `CREATE INDEX idx_notifications_type ON notifications (type, created_at DESC);`, `CREATE INDEX idx_notifications_read ON notifications (is_read, created_at DESC);`
@@ -1673,10 +1673,10 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `flag_key` | `TEXT` | `NOT NULL, UK` | — | Flag identifier |
-| `description` | `TEXT` | — | — | Flag purpose description |
+| `flag_key` | `TEXT` | `NOT NULL, UK` | Ã¢â‚¬â€ | Flag identifier |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Flag purpose description |
 | `is_enabled` | `BOOLEAN` | `NOT NULL` | `false` | Global enabled state |
-| `targeting_rules` | `JSONB` | — | `'{}'` | User targeting rules |
+| `targeting_rules` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | User targeting rules |
 | `rollout_percentage` | `SMALLINT` | `CHECK (0-100)` | `0` | Gradual rollout % |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Creation |
 | `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last update |
@@ -1692,14 +1692,14 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `table_name` | `TEXT` | `NOT NULL` | — | Affected table |
-| `record_id` | `TEXT` | — | — | Affected record UUID |
-| `action` | `TEXT` | `NOT NULL` | — | Action (INSERT, UPDATE, DELETE) |
-| `actor_id` | `UUID` | — | — | User who performed action |
-| `ip_address` | `INET` | — | — | Actor IP |
-| `old_values` | `JSONB` | — | — | Values before change |
-| `new_values` | `JSONB` | — | — | Values after change |
-| `correlation_id` | `TEXT` | — | — | Request correlation ID |
+| `table_name` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Affected table |
+| `record_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Affected record UUID |
+| `action` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Action (INSERT, UPDATE, DELETE) |
+| `actor_id` | `UUID` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | User who performed action |
+| `ip_address` | `INET` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Actor IP |
+| `old_values` | `JSONB` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Values before change |
+| `new_values` | `JSONB` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Values after change |
+| `correlation_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Request correlation ID |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Event timestamp |
 
 **Indexes:**
@@ -1724,13 +1724,13 @@ CREATE INDEX idx_audit_logs_correlation ON audit_logs (correlation_id);
 | Column | Type | Constraints | Default | Description |
 |--------|------|-------------|---------|-------------|
 | `id` | `UUID` | `PK` | `gen_random_uuid()` | Unique identifier |
-| `admin_id` | `UUID` | `NOT NULL, FK` | — | Admin who acted |
-| `action` | `TEXT` | `NOT NULL` | — | Action type |
-| `resource_type` | `TEXT` | `NOT NULL` | — | Resource (section, project, lead) |
-| `resource_id` | `TEXT` | — | — | Resource identifier |
-| `description` | `TEXT` | — | — | Human-readable summary |
-| `details` | `JSONB` | — | `'{}'` | Action-specific data |
-| `ip_address` | `INET` | — | — | Admin IP |
+| `admin_id` | `UUID` | `NOT NULL, FK` | Ã¢â‚¬â€ | Admin who acted |
+| `action` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Action type |
+| `resource_type` | `TEXT` | `NOT NULL` | Ã¢â‚¬â€ | Resource (section, project, lead) |
+| `resource_id` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Resource identifier |
+| `description` | `TEXT` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Human-readable summary |
+| `details` | `JSONB` | Ã¢â‚¬â€ | `'{}'` | Action-specific data |
+| `ip_address` | `INET` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Admin IP |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Event timestamp |
 
 **Indexes:** `CREATE INDEX idx_admin_activities_admin ON admin_activities (admin_id, created_at DESC);`, `CREATE INDEX idx_admin_activities_resource ON admin_activities (resource_type, created_at DESC);`
@@ -1956,7 +1956,7 @@ $$ LANGUAGE plpgsql;
 | Backup Type | Frequency | Retention | RPO | RTO | 
 |------------|-----------|-----------|-----|-----|
 | Automatic daily snapshot | Daily | 7 days | 24 hours | 2 hours |
-| Manual backup (pre-migration) | On schema change | Indefinite | — | — |
+| Manual backup (pre-migration) | On schema change | Indefinite | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
 | pg_dump (off-site) | Weekly | 30 days | 7 days | 4 hours |
 
 ### 18.2 Manual Backup Procedures
@@ -2012,7 +2012,7 @@ SELECT count(*) AS project_count FROM projects;
 ALTER DATABASE postgres ALLOW_CONNECTIONS = false;
 
 -- Step 3: Restore from Supabase daily snapshot
--- Navigate to: Supabase Dashboard → Database → Backups → Restore
+-- Navigate to: Supabase Dashboard Ã¢â€ â€™ Database Ã¢â€ â€™ Backups Ã¢â€ â€™ Restore
 
 -- Step 4: Verify data integrity
 SELECT count(*) AS restored_leads FROM leads;
@@ -2056,14 +2056,14 @@ ALTER DATABASE postgres ALLOW_CONNECTIONS = true;
 | `audit_logs` | 1 year | Archive, then delete | Export to CSV, then batch DELETE |
 | `admin_activities` | 1 year | Archive, then delete | Export to CSV, then batch DELETE |
 | `embeddings_cache` | 30 days | Hard delete | DELETE WHERE expires_at < NOW() |
-| `users` | Indefinite | Manual only | — |
-| `sections` | Indefinite | Manual only | — |
-| `projects` | Indefinite | Manual only | — |
-| `blog_posts` | Indefinite | Manual only | — |
-| `testimonials` | Indefinite | Manual only | — |
-| `skills` | Indefinite | Manual only | — |
-| `experiences` | Indefinite | Manual only | — |
-| All other content tables | Indefinite | Manual only | — |
+| `users` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| `sections` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| `projects` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| `blog_posts` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| `testimonials` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| `skills` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| `experiences` | Indefinite | Manual only | Ã¢â‚¬â€ |
+| All other content tables | Indefinite | Manual only | Ã¢â‚¬â€ |
 
 ### 20.2 Cleanup Automation
 
@@ -2456,12 +2456,12 @@ CREATE POLICY "upload_admin_assets_auth" ON storage.objects
 | Type | Forward Script | Rollback Script | Data Loss Risk | Downtime |
 |------|---------------|-----------------|----------------|----------|
 | Add column (nullable) | `ALTER TABLE ADD COLUMN` | `ALTER TABLE DROP COLUMN` | None | None |
-| Add column (NOT NULL) | Add column → backfill → set NOT NULL | `DROP COLUMN` | None | None (staged) |
+| Add column (NOT NULL) | Add column Ã¢â€ â€™ backfill Ã¢â€ â€™ set NOT NULL | `DROP COLUMN` | None | None (staged) |
 | Create index | `CREATE INDEX CONCURRENTLY` | `DROP INDEX` | None | None |
 | Add table | `CREATE TABLE` | `DROP TABLE` | Potential data loss | None |
 | Add constraint | `ALTER TABLE ADD CONSTRAINT` | `ALTER TABLE DROP CONSTRAINT` | None | None (validates existing) |
-| Modify column type | Add new col → migrate → drop old → rename | Reverse process | Possible truncation | Read-only window |
-| Partition table | Create partitioned → attach partitions | Reverse process | None | Write window |
+| Modify column type | Add new col Ã¢â€ â€™ migrate Ã¢â€ â€™ drop old Ã¢â€ â€™ rename | Reverse process | Possible truncation | Read-only window |
+| Partition table | Create partitioned Ã¢â€ â€™ attach partitions | Reverse process | None | Write window |
 
 ### 24.3 Migration Commands
 
@@ -2495,24 +2495,24 @@ The complete SQL deployment script for the entire database schema is maintained 
 
 ```bash
 supabase/migrations/
-├── 20260601000000_enable_extensions.sql        # pgvector, pgcrypto, pg_trgm, unaccent
-├── 20260601000001_create_core_tables.sql       # users, roles, permissions, user_roles
-├── 20260601000002_create_content_tables.sql    # sections, projects, project_images
-├── 20260601000003_create_blog_tables.sql       # blog_posts, post_tags
-├── 20260601000004_create_testimonial_tables.sql # testimonials, skills, experiences
-├── 20260601000005_create_lead_tables.sql       # leads, lead_notes, lead_activities
-├── 20260601000006_create_analytics_tables.sql  # analytics_events (partitioned), sessions, page_views
-├── 20260601000007_create_ai_tables.sql         # chat_conversations, chat_messages, document_chunks
-├── 20260601000008_create_system_tables.sql     # media_assets, availability, settings, notifications
-├── 20260601000009_create_audit_tables.sql      # audit_logs, admin_activities
-├── 20260601000010_create_auth_tables.sql       # sessions, api_keys, feature_flags
-├── 20260601000011_create_indexes.sql           # All indexes (composite, GIN, vector, trigram)
-├── 20260601000012_create_search.sql            # Full-text search configuration and vectors
-├── 20260601000013_create_rls_policies.sql      # All Row-Level Security policies
-├── 20260601000014_create_storage_policies.sql  # Storage bucket RLS policies
-├── 20260601000015_create_functions.sql         # Stored functions and triggers
-├── 20260601000016_create_materialized_views.sql # Analytics materialized views
-├── 20260601000017_seed_default_data.sql        # Default sections, roles, settings
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000000_enable_extensions.sql        # pgvector, pgcrypto, pg_trgm, unaccent
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000001_create_core_tables.sql       # users, roles, permissions, user_roles
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000002_create_content_tables.sql    # sections, projects, project_images
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000003_create_blog_tables.sql       # blog_posts, post_tags
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000004_create_testimonial_tables.sql # testimonials, skills, experiences
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000005_create_lead_tables.sql       # leads, lead_notes, lead_activities
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000006_create_analytics_tables.sql  # analytics_events (partitioned), sessions, page_views
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000007_create_ai_tables.sql         # chat_conversations, chat_messages, document_chunks
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000008_create_system_tables.sql     # media_assets, availability, settings, notifications
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000009_create_audit_tables.sql      # audit_logs, admin_activities
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000010_create_auth_tables.sql       # sessions, api_keys, feature_flags
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000011_create_indexes.sql           # All indexes (composite, GIN, vector, trigram)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000012_create_search.sql            # Full-text search configuration and vectors
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000013_create_rls_policies.sql      # All Row-Level Security policies
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000014_create_storage_policies.sql  # Storage bucket RLS policies
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000015_create_functions.sql         # Stored functions and triggers
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000016_create_materialized_views.sql # Analytics materialized views
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 20260601000017_seed_default_data.sql        # Default sections, roles, settings
 ```
 
 ### 25.2 Key Functions & Triggers
@@ -2687,13 +2687,13 @@ INSERT INTO system_settings (setting_key, setting_value, setting_group, descript
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-DB-001 | Supabase PostgreSQL 15 with pgvector 0.7 as primary database | Generous free tier (500MB); built-in Auth, Storage, Realtime; pgvector for RAG embeddings | MongoDB Atlas (rejected — no vector search on free tier); PlanetScale (rejected — MySQL, no pgvector); Firebase (rejected — NoSQL, vendor lock-in) | Mar 2026 | Principal Database Architect |
-| D-DB-002 | 37-table normalized schema with strict naming conventions | Consistent query patterns; clear ownership; predictable performance | Fully denormalized (rejected — data redundancy); single-table design (rejected — no scalability) | Mar 2026 | Principal Database Architect |
-| D-DB-003 | Row-Level Security (RLS) on all content tables | Defense-in-depth; second auth layer at database; no trust in API layer alone | Application-only auth (rejected — single point of failure); no RLS (rejected — OWASP non-compliance) | Mar 2026 | Principal Database Architect |
-| D-DB-004 | Hybrid search (pgvector + full-text search with tsvector) | Best retrieval accuracy for RAG pipeline; keyword + semantic search combined | Pure vector search (rejected — misses exact keyword matches); pure FTS (rejected — no semantic understanding) | Jun 2026 | Principal Database Architect |
-| D-DB-005 | Immutable audit logs with append-only RLS | Non-repudiation for admin actions; compliance with SOC 2 and GDPR audit requirements | Mutable audit table (rejected — tampering risk); external audit service (rejected — cost for portfolio scale) | Mar 2026 | Principal Database Architect |
-| D-DB-006 | Materialized view caching for expensive aggregation queries | Pre-computed analytics; avoids repeated heavy queries on free-tier DB | Redis cache (rejected — additional infrastructure); application-level caching (rejected — cache invalidation complexity) | Jun 2026 | Principal Database Architect |
-| D-DB-007 | Data lifecycle with automated cleanup (30-day chat retention, 90-day events) | Stay within Supabase 500MB free tier; automatic purging via pg_cron | Unlimited retention (rejected — outgrows free tier); manual cleanup (rejected — forgetfulness risk) | Mar 2026 | Principal Database Architect |
+| D-DB-001 | Supabase PostgreSQL 15 with pgvector 0.7 as primary database | Generous free tier (500MB); built-in Auth, Storage, Realtime; pgvector for RAG embeddings | MongoDB Atlas (rejected Ã¢â‚¬â€ no vector search on free tier); PlanetScale (rejected Ã¢â‚¬â€ MySQL, no pgvector); Firebase (rejected Ã¢â‚¬â€ NoSQL, vendor lock-in) | Mar 2026 | Principal Database Architect |
+| D-DB-002 | 37-table normalized schema with strict naming conventions | Consistent query patterns; clear ownership; predictable performance | Fully denormalized (rejected Ã¢â‚¬â€ data redundancy); single-table design (rejected Ã¢â‚¬â€ no scalability) | Mar 2026 | Principal Database Architect |
+| D-DB-003 | Row-Level Security (RLS) on all content tables | Defense-in-depth; second auth layer at database; no trust in API layer alone | Application-only auth (rejected Ã¢â‚¬â€ single point of failure); no RLS (rejected Ã¢â‚¬â€ OWASP non-compliance) | Mar 2026 | Principal Database Architect |
+| D-DB-004 | Hybrid search (pgvector + full-text search with tsvector) | Best retrieval accuracy for RAG pipeline; keyword + semantic search combined | Pure vector search (rejected Ã¢â‚¬â€ misses exact keyword matches); pure FTS (rejected Ã¢â‚¬â€ no semantic understanding) | Jun 2026 | Principal Database Architect |
+| D-DB-005 | Immutable audit logs with append-only RLS | Non-repudiation for admin actions; compliance with SOC 2 and GDPR audit requirements | Mutable audit table (rejected Ã¢â‚¬â€ tampering risk); external audit service (rejected Ã¢â‚¬â€ cost for portfolio scale) | Mar 2026 | Principal Database Architect |
+| D-DB-006 | Materialized view caching for expensive aggregation queries | Pre-computed analytics; avoids repeated heavy queries on free-tier DB | Redis cache (rejected Ã¢â‚¬â€ additional infrastructure); application-level caching (rejected Ã¢â‚¬â€ cache invalidation complexity) | Jun 2026 | Principal Database Architect |
+| D-DB-007 | Data lifecycle with automated cleanup (30-day chat retention, 90-day events) | Stay within Supabase 500MB free tier; automatic purging via pg_cron | Unlimited retention (rejected Ã¢â‚¬â€ outgrows free tier); manual cleanup (rejected Ã¢â‚¬â€ forgetfulness risk) | Mar 2026 | Principal Database Architect |
 
 ---
 
@@ -2713,14 +2713,14 @@ INSERT INTO system_settings (setting_key, setting_value, setting_group, descript
 | Reference | Description |
 |-----------|-------------|
 | `docs/MASTER-INDEX.md` | Document navigation and dependency graph |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — where database fits |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — Supabase, PostgreSQL, pgvector |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ where database fits |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ Supabase, PostgreSQL, pgvector |
 | `docs/api/12-API.md` (v5.0) | API endpoints that interact with database |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security posture — RLS, encryption, auth |
-| `docs/security/15-AUTHORIZATION.md` (v5.0) | RBAC model — roles, permissions, access control |
-| `docs/ai/19-RAG.md` (v3.0) | RAG pipeline — pgvector usage |
-| `docs/product/37-IMPLEMENTATION_PLAN.md` (v3.0) | Implementation tasks — database setup phase |
-| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint — schema definitions |
+| `docs/security/SecurityArchitecture.md` (v5.0) | Security posture Ã¢â‚¬â€ RLS, encryption, auth |
+| `docs/security/15-AUTHORIZATION.md` (v5.0) | RBAC model Ã¢â‚¬â€ roles, permissions, access control |
+| `docs/ai/19-RAG.md` (v3.0) | RAG pipeline Ã¢â‚¬â€ pgvector usage |
+| `docs/product/37-IMPLEMENTATION_PLAN.md` (v3.0) | Implementation tasks Ã¢â‚¬â€ database setup phase |
+| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint Ã¢â‚¬â€ schema definitions |
 
 ---
 
@@ -2733,7 +2733,7 @@ INSERT INTO system_settings (setting_key, setting_value, setting_group, descript
 | 3.0 | Jun 2026 | Updated for enterprise structure | Backend Lead |
 | 1.0 | Mar 2026 | Initial database documentation | Backend Lead |
 
-*Document Version: 4.0 — Enterprise-Grade Database Architecture*  
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade Database Architecture*  
 *Supersedes v3.0 (June 2026) and all previous versions*  
 *Next Review Date: September 2026*
 
@@ -2758,3 +2758,7 @@ INSERT INTO system_settings (setting_key, setting_value, setting_group, descript
 | **Normalization** | The process of organizing database tables to reduce data redundancy and improve data integrity |
 | **Foreign Key** | A database constraint that enforces referential integrity between two tables |
 | **Composite Index** | A database index on multiple columns that speeds up queries filtering or sorting by those columns |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

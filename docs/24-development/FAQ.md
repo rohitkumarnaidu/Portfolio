@@ -96,3 +96,7 @@ Run `npm run prisma:generate` from `apps/api/`.
 - [CONTRIBUTING.md](/CONTRIBUTING.md) - Contribution guide
 - [Developer Onboarding](docs/onboarding/developer-onboarding.md)
 - [Documentation Index](docs/MASTER-INDEX.md)
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

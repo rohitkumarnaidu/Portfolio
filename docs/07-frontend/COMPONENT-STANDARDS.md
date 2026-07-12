@@ -25,3 +25,17 @@ src/components/
 - Prefer CSS Modules or Tailwind.
 - Enforce strict typing.
 - No business logic inside presentation components. Use custom hooks for complex state.
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |
+| [COMPONENT-LIBRARY.md](COMPONENT-LIBRARY.md) | Component library reference |
+| [DESIGN-SYSTEM-EXTENDED.md](DESIGN-SYSTEM-EXTENDED.md) | Extended design system reference |
+| [ComponentStandards.md](../04-design/COMPONENT-STANDARDS.md) | Component design standards (design category) |
+| [CodingStandards.md](../23-governance/CODING-STANDARDS.md) | Coding standards and conventions |

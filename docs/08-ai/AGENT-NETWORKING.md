@@ -1,13 +1,8 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# 🌐 Agent Networking — Inter-Agent Communication Mesh
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Agent Networking ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Inter-Agent Communication Mesh
 
 > **Document:** `AGENT-NETWORKING.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
+> **Status:** ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
 > **Related:** [AgentMarketplace.md](./AgentMarketplace.md) | [Agent.md](./Agent.md) | [18-AGENTS.md](./18-AGENTS.md) | [Agent-Interaction-Protocol.md](./Agent-Interaction-Protocol.md)
 
 ---
@@ -73,10 +68,10 @@ Agents register with the mesh at startup and are discoverable via the Agent Regi
 ### 2.2 Discovery Flow
 
 ```
-Agent A Starts → Register with Registry → Heartbeat (every 30s)
-Agent B Queries → "find agents with capability:X"
-Registry Returns → [Agent A endpoint, Agent C endpoint]
-Agent B Connects → WebSocket handshake to Agent A
+Agent A Starts ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Register with Registry ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Heartbeat (every 30s)
+Agent B Queries ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ "find agents with capability:X"
+Registry Returns ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ [Agent A endpoint, Agent C endpoint]
+Agent B Connects ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ WebSocket handshake to Agent A
 ```
 
 ---
@@ -107,8 +102,8 @@ Agent B Connects → WebSocket handshake to Agent A
 
 | Operation Type | Timeout | Retries | Backoff | Jitter |
 |---------------|---------|---------|---------|--------|
-| Command execution | 30s | 3 | Exponential (1s, 2s, 4s) | ±100ms |
-| Knowledge query | 5s | 2 | Linear (500ms) | ±50ms |
+| Command execution | 30s | 3 | Exponential (1s, 2s, 4s) | Ãƒâ€šÃ‚Â±100ms |
+| Knowledge query | 5s | 2 | Linear (500ms) | Ãƒâ€šÃ‚Â±50ms |
 | Event publish | 2s | 0 | None | None |
 | Health check | 3s | 1 | Fixed (1s) | None |
 
@@ -168,3 +163,7 @@ Every network hop emits:
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | Jul 2026 | Initial agent networking specification | Principal AI Architect |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

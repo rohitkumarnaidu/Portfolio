@@ -69,3 +69,16 @@ For the AI chat integration (LangChain/FastAPI), we use streaming Server-Sent Ev
 
 - **Canvas Placement:** The 3D Canvas is kept at the layout level to persist across route changes, avoiding expensive WebGL context recreation and re-parsing of 3D models.
 - **View Tracking:** We use R3F's `View` system to render different 3D scenes in different DOM nodes while utilizing a single underlying WebGL canvas.
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |
+| [FRONTEND-IMPLEMENTATION-PLAN.md](FRONTEND-IMPLEMENTATION-PLAN.md) | Frontend implementation roadmap |
+| [PerformanceArchitecture.md](../15-performance/PERFORMANCE-ARCHITECTURE.md) | Performance targets and budgets |
+| [ADR-005-isr-rendering.md](../27-decisions/ADR-005-isr-rendering.md) | ISR rendering ADR |

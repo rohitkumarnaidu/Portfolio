@@ -73,3 +73,40 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 
 ## 4. Review Cycle
 This Risk Register must be reviewed and updated quarterly, or immediately following any significant architectural change or security incident.
+
+---
+
+## Diagram
+
+### Risk Heat Map
+
+```mermaid
+flowchart TD
+    subgraph Impact_x_Probability["Risk Heat Map: Impact Ã— Probability"]
+        direction TB
+        subgraph Low_Impact
+            L1["Low Impact<br/>â€”"]
+        end
+        subgraph Med_Impact
+            M1["Medium Impact<br/>AI Prompt Injection"]
+        end
+        subgraph High_Impact
+            H1["High Impact<br/>DDoS Attack<br/>Supply Chain Attack"]
+            H2["High Impact<br/>Supabase RLS Breach"]
+        end
+        subgraph Critical_Impact
+            C1["Critical Impact<br/>Admin Credentials<br/>Secrets Exposure"]
+        end
+    end
+
+    Prob_L["Low Probability"] --> H2
+    Prob_M["Medium Probability"] --> M1
+    Prob_M --> H1
+    Prob_M --> C1
+    Prob_L --> C1
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

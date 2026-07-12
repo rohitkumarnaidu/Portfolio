@@ -82,9 +82,25 @@ We adopt **BullMQ** (`@nestjs/bullmq`) as the background job processing framewor
 - Redis memory usage grows with queue backlogs — monitor `INFO memory` during peak loads
 - Migration from BullMQ requires queue drain + worker replacement — non-trivial but documented
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Background jobs] --> B[Options: BullMQ / Bull / Agenda]
+    B --> C[Decision: BullMQ]
+    C --> D[Positive: NestJS-native, Redis persistence, retry/backoff]
+    C --> E[Negative: Redis dependency, JSON-only payload]
+    D --> F[Compliance: §3.2, §4.4, §6.3]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §3.2: "Asynchronous job processing with persistence guarantees"
 - Aligns with Constitution §4.4: "Graceful degradation when external services are unavailable"
 - Aligns with Constitution §6.3: "Retry with exponential backoff for transient failures"
 - GDPR: Email queue payloads may contain PII (email addresses, names) — ensure data is not logged in plaintext; retention period must be configured on queues
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -5,6 +5,46 @@
 
 This document records the major architectural decisions made for the Ultimate Portfolio project. It follows a lightweight version of the Architectural Decision Record (ADR) format. All significant tool, library, and architecture choices must be recorded here.
 
+```mermaid
+flowchart LR
+    A["Problem Identified"] --> B["Research Options"]
+    B --> C["List Alternatives"]
+    C --> D["Evaluate Pros/Cons"]
+    D --> E["Make Decision"]
+    E --> F["Document ADR"]
+    F --> G["Periodic Review"]
+    G --> A
+```
+
+```mermaid
+gantt
+    title ADR Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %d
+    section Infrastructure
+    ADR-001 Monorepo Turborepo    :done, 2026-07-09, 1d
+    ADR-012 Vercel Deployment     :done, 2026-07-10, 1d
+    ADR-015 Docker Multi-stage    :done, 2026-07-10, 1d
+    ADR-017 BullMQ Queue          :done, 2026-07-10, 1d
+    section Frontend
+    ADR-002 Next.js App Router    :done, 2026-07-09, 1d
+    ADR-005 ISR Rendering         :done, 2026-07-10, 1d
+    ADR-010 Tailwind CSS          :done, 2026-07-10, 1d
+    ADR-013 Framer Motion         :done, 2026-07-10, 1d
+    section Backend
+    ADR-003 NestJS API            :done, 2026-07-09, 1d
+    ADR-004 Supabase PostgreSQL   :done, 2026-07-09, 1d
+    ADR-007 pgvector Embeddings   :done, 2026-07-10, 1d
+    ADR-008 Tiptap Editor         :done, 2026-07-10, 1d
+    ADR-014 Zod Validation        :done, 2026-07-10, 1d
+    section AI & Auth
+    ADR-006 FastAPI AI Service    :done, 2026-07-09, 1d
+    ADR-009 PostHog Analytics     :done, 2026-07-10, 1d
+    ADR-011 JWT Auth              :done, 2026-07-10, 1d
+    ADR-016 Sentry Error Tracking :done, 2026-07-10, 1d
+    ADR-018 Passport.js Auth      :done, 2026-07-10, 1d
+```
+
 ## Template for New Entries
 
 ```markdown
@@ -205,3 +245,7 @@ This document records the major architectural decisions made for the Ultimate Po
   - **Cons**: Large bundle (Three.js ~500KB), performance tuning required for mobile, WebGL context limits, difficult to test.
 - **Review Date**: 2027-01
 - **Owner**: Tech Lead
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

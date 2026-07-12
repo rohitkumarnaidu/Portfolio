@@ -1,4 +1,4 @@
-﻿# Entity Relationship Diagram (ERD)
+# Entity Relationship Diagram (ERD)
 
 > **Note:** This is a standalone ERD reference. The full database schema with ERD is in docs/database/DatabaseSchema.md.
 
@@ -19,3 +19,7 @@ erDiagram
 `
 
 See docs/database/DatabaseSchema.md for the complete schema.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

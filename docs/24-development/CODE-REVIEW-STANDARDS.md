@@ -70,6 +70,25 @@ Given that the API handles authentication (JWT + OAuth), file uploads, admin con
 - Merge commit message should match the PR title
 - Delete the branch after merge
 
+#### Approval Process
+
+```mermaid
+sequenceDiagram
+  participant Author
+  participant CI
+  participant Reviewer
+
+  Author->>CI: Push branch, CI runs
+  CI-->>Author: All green
+  Author->>Reviewer: Open PR & assign
+  Reviewer->>Reviewer: Review changes
+  Reviewer-->>Author: Request Changes
+  Author->>Author: Address feedback
+  Author->>Reviewer: Re-request review
+  Reviewer-->>Author: Approve (LGTM)
+  Author->>Author: Squash merge
+```
+
 ---
 
 ## 3. Review SLA
@@ -81,6 +100,23 @@ Given that the API handles authentication (JWT + OAuth), file uploads, admin con
 | **Large** (>500 lines changed, multi-module) | **48 hours** | New module, database migration, API redesign |
 
 If the reviewer cannot meet the SLA, they must communicate with the author and reassign or delay with explicit agreement.
+
+#### Review SLA Tiers
+
+```mermaid
+stateDiagram-v2
+  [*] --> Urgent
+  [*] --> High
+  [*] --> Normal
+  [*] --> Low
+
+  Urgent --> Normal: Resolved & merged
+  High --> Normal: Resolved & merged
+  Normal --> Low: Downgraded
+  Low --> Normal: Re-prioritized
+  Normal --> Urgent: Escalated (SEV)
+  High --> Urgent: Escalated (SEV)
+```
 
 ---
 
@@ -317,3 +353,7 @@ When the author and reviewer cannot reach consensus:
 4. **No blocking without substance** — if a reviewer cannot articulate a concrete defect, the author may request a second opinion
 
 **Guiding principle:** Perfect is the enemy of good. Not every PR must be flawless — it must be correct, secure, and maintainable. Reviewers should distinguish between "this could be better" (non-blocking) and "this is wrong" (blocking).
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

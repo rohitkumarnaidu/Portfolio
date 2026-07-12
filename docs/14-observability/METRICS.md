@@ -1,14 +1,14 @@
 # Metrics Strategy
 
 > **Document:** `MetricsStrategy.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Engineering Lead | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Engineering Lead | **Review Cadence:** Quarterly  
 > **Related:** [KPIs.md](./KPIs.md) | [SuccessMetrics.md](./SuccessMetrics.md) | `56-SLA-SLO.md`
 
 ---
 
 ## 1. Overview
 
-The Metrics Strategy defines what we measure, how we collect it, how we name it, and where we display it. Every metric serves a specific purpose — drive decisions, detect anomalies, or track progress toward goals. We follow the **measure-what-matters** philosophy: avoid vanity metrics, favour actionable signals.
+The Metrics Strategy defines what we measure, how we collect it, how we name it, and where we display it. Every metric serves a specific purpose Ã¢â‚¬â€ drive decisions, detect anomalies, or track progress toward goals. We follow the **measure-what-matters** philosophy: avoid vanity metrics, favour actionable signals.
 
 ## 2. Metric Categories
 
@@ -20,8 +20,8 @@ These measure the health of the portfolio as a product and business tool.
 |--------|-----------|------|-----------|
 | `biz.unique_visitors` | Distinct visitors per day/week/month | Vercel Analytics | Daily |
 | `biz.page_views` | Total page views | Vercel Analytics | Daily |
-| `biz.visitor_to_lead_rate` | Contact form submissions ÷ unique visitors | PostHog | Weekly |
-| `biz.bounce_rate` | Single-page sessions ÷ total sessions | Vercel Analytics | Daily |
+| `biz.visitor_to_lead_rate` | Contact form submissions ÃƒÂ· unique visitors | PostHog | Weekly |
+| `biz.bounce_rate` | Single-page sessions ÃƒÂ· total sessions | Vercel Analytics | Daily |
 | `biz.avg_session_duration` | Mean time spent on site | PostHog | Daily |
 | `biz.sessions_per_visitor` | Repeat visit ratio | PostHog | Weekly |
 | `biz.traffic_source_breakdown` | Referral / organic / direct / social split | Vercel Analytics | Weekly |
@@ -37,7 +37,7 @@ These track how users interact with portfolio features.
 | `product.ai_chat_turns_per_session` | Avg conversation depth | Custom (AI service) | Daily |
 | `product.project_detail_views` | Clicks on individual project cards | PostHog | Daily |
 | `product.resume_downloads` | Resume PDF download count | PostHog | Weekly |
-| `product.contact_form_completion_rate` | Form starts → submissions funnel | PostHog | Weekly |
+| `product.contact_form_completion_rate` | Form starts Ã¢â€ â€™ submissions funnel | PostHog | Weekly |
 | `product.three_d_interactions` | Users who orbit/zoom 3D scenes | PostHog | Weekly |
 | `product.admin_content_velocity` | Time to publish a new project via admin | Custom (API) | Monthly |
 
@@ -160,7 +160,11 @@ Metrics that trigger automated alerts when breached:
 | Tool | Owner | Admin Access | Budget |
 |------|-------|-------------|--------|
 | Vercel Analytics | Engineering Lead | All engineers | Included in Vercel |
-| PostHog | Product Lead | Engineering + Product | Free tier + $0–$20/mo |
+| PostHog | Product Lead | Engineering + Product | Free tier + $0Ã¢â‚¬â€œ$20/mo |
 | Sentry | Engineering Lead | All engineers | Free tier |
 | GitHub Insights | Engineering Lead | All engineers | Included in GitHub |
 | Custom dashboards | Engineering Lead | Engineering | Grafana (self-hosted) |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

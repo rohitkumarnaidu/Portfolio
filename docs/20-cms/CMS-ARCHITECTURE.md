@@ -389,3 +389,18 @@ Each audit record captures: actor ID, action, resource type, record ID, old/new 
 ### 8.3 Revalidation Security
 
 The ISR revalidation endpoint (`POST /api/revalidate`) is protected by a shared secret (`x-revalidate-secret` header), preventing external cache purging.
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [CONTENT-MODEL.md](CONTENT-MODEL.md) | Content model reference |
+| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md) | Image management and optimization |
+| [SANDBOX-IDE.md](SANDBOX-IDE.md) | Sandbox IDE architecture |
+| [ADMIN-ARCHITECTURE.md](../19-admin/ADMIN-ARCHITECTURE.md) | Admin architecture |
+| [FRONTEND-ARCHITECTURE.md](../07-frontend/FRONTEND-ARCHITECTURE.md) | Frontend architecture |
+| [DatabaseArchitecture.md](../09-database/DATABASE-ARCHITECTURE.md) | Database architecture |

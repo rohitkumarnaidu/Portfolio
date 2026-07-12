@@ -1,7 +1,7 @@
-# Integrations Architecture Document — Enterprise-Grade Service Platform
+# Integrations Architecture Document Ã¢â‚¬â€ Enterprise-Grade Service Platform
 
 > **Document:** `13-INTEGRATIONS.md` | **Version:** 4.0 | **Last Updated:** June 2026  
-> **Status:** ✅ Active | **Owner:** Principal Integration Architect | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Integration Architect | **Review Cadence:** Quarterly  
 > **Classification:** Enterprise Architecture | **Total Integrations:** 13  
 > **Core Tier:** 7 | **Observability Tier:** 3 | **Communication Tier:** 1 | **AI Tier:** 2  
 
@@ -44,7 +44,7 @@ Catalogs all 12 third-party integrations powering the portfolio platform: Vercel
 
 ### 1.1 North Star
 
-The integrations ecosystem serves as the **nervous system** connecting the portfolio platform to essential third-party services. Each integration is designed with enterprise-grade resilience—handling authentication, failure modes, rate limits, and security concerns—while operating entirely within free-tier limits. Every integration has a defined fallback chain, monitoring hook, and recovery procedure.
+The integrations ecosystem serves as the **nervous system** connecting the portfolio platform to essential third-party services. Each integration is designed with enterprise-grade resilienceÃ¢â‚¬â€handling authentication, failure modes, rate limits, and security concernsÃ¢â‚¬â€while operating entirely within free-tier limits. Every integration has a defined fallback chain, monitoring hook, and recovery procedure.
 
 ### 1.2 Design Principles
 
@@ -54,7 +54,7 @@ The integrations ecosystem serves as the **nervous system** connecting the portf
 | P2 | **Every external call is time-boxed** | All outbound HTTP requests have a configurable timeout (default 10s) | Hanging requests, resource exhaustion |
 | P3 | **Rate limits are respected by design** | Each integration uses backoff/retry logic matching the provider's documented limits | IP/Key ban from provider |
 | P4 | **Sensitive credentials never leave server-side** | API keys, secrets, and tokens exist only in server-side env vars or secret managers | Data breach |
-| P5 | **Every integration has an explicit fallback** | Primary → Fallback 1 → Fallback 2 chain defined for all business-critical features | Feature outage |
+| P5 | **Every integration has an explicit fallback** | Primary Ã¢â€ â€™ Fallback 1 Ã¢â€ â€™ Fallback 2 chain defined for all business-critical features | Feature outage |
 | P6 | **Integration health is observable** | Every integration emits structured health metrics for dashboard consumption | Blindness to outages |
 | P7 | **Cost is tracked per integration** | Monthly spend per service is measured against budget | Budget overrun |
 | P8 | **Secrets are rotated quarterly** | All API keys, tokens, and credentials have a documented rotation schedule | Security posture decay |
@@ -63,19 +63,19 @@ The integrations ecosystem serves as the **nervous system** connecting the portf
 
 | # | Service | Category | Tier | Status | Monthly Cost | Setup Complexity | 
 |---|---------|----------|------|--------|-------------|-----------------|
-| 1 | **GitHub** | Core Platform | 🟢 Production | ✅ Active | $0 | Low |
-| 2 | **Supabase** | Data Platform | 🟢 Production | ✅ Active | $0 | Medium |
-| 3 | **Resend** | Communication | 🟡 Stable | ✅ Active | $0 | Low |
-| 4 | **OpenAI** | AI Platform | 🟡 Stable | ✅ Active | ~$5 | Medium |
-| 5 | **Anthropic** | AI Platform | 🔵 Fallback | ⏸️ Standby | $0 | Low |
-| 6 | **PostHog** | Analytics | 🟢 Production | ✅ Active | $0 | Low |
-| 7 | **Umami** | Analytics | 🟡 Stable | ✅ Active | $0 | Medium |
-| 8 | **Sentry** | Observability | 🟢 Production | ✅ Active | $0 | Low |
-| 9 | **Better Uptime** | Monitoring | 🟢 Production | ✅ Active | $0 | Low |
-| 10 | **Vercel** | Hosting | 🟢 Production | ✅ Active | $0 | Low |
-| 11 | **Google OAuth** | Auth | 🟢 Production | ✅ Active | $0 | Low |
-| 12 | **Cloudflare** | Edge/DNS | 🟢 Production | ✅ Active | $0 | Low |
-| 13 | **GitHub Actions** | CI/CD | 🟢 Production | ✅ Active | $0 | Low |
+| 1 | **GitHub** | Core Platform | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 2 | **Supabase** | Data Platform | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Medium |
+| 3 | **Resend** | Communication | Ã°Å¸Å¸Â¡ Stable | Ã¢Å“â€¦ Active | $0 | Low |
+| 4 | **OpenAI** | AI Platform | Ã°Å¸Å¸Â¡ Stable | Ã¢Å“â€¦ Active | ~$5 | Medium |
+| 5 | **Anthropic** | AI Platform | Ã°Å¸â€Âµ Fallback | Ã¢ÂÂ¸Ã¯Â¸Â Standby | $0 | Low |
+| 6 | **PostHog** | Analytics | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 7 | **Umami** | Analytics | Ã°Å¸Å¸Â¡ Stable | Ã¢Å“â€¦ Active | $0 | Medium |
+| 8 | **Sentry** | Observability | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 9 | **Better Uptime** | Monitoring | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 10 | **Vercel** | Hosting | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 11 | **Google OAuth** | Auth | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 12 | **Cloudflare** | Edge/DNS | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
+| 13 | **GitHub Actions** | CI/CD | Ã°Å¸Å¸Â¢ Production | Ã¢Å“â€¦ Active | $0 | Low |
 
 **Total Monthly Spend: ~$5** (entirely OpenAI variable costs)
 
@@ -95,32 +95,32 @@ graph TB
     end
 
     subgraph "Core Platform Tier"
-        GITHUB["🐙 GitHub<br/>Source Control<br/>Webhooks"]
-        SUPABASE["🐘 Supabase<br/>DB + Auth + Storage<br/>Realtime"]
-        VERCEL["▲ Vercel<br/>Hosting + CDN + ISR<br/>Serverless"]
-        CLOUDFLARE["☁️ Cloudflare<br/>DNS + DDoS + SSL"]
-        GACTIONS["⚙️ GitHub Actions<br/>CI/CD Pipeline"]
+        GITHUB["Ã°Å¸Ââ„¢ GitHub<br/>Source Control<br/>Webhooks"]
+        SUPABASE["Ã°Å¸ÂËœ Supabase<br/>DB + Auth + Storage<br/>Realtime"]
+        VERCEL["Ã¢â€“Â² Vercel<br/>Hosting + CDN + ISR<br/>Serverless"]
+        CLOUDFLARE["Ã¢ËœÂÃ¯Â¸Â Cloudflare<br/>DNS + DDoS + SSL"]
+        GACTIONS["Ã¢Å¡â„¢Ã¯Â¸Â GitHub Actions<br/>CI/CD Pipeline"]
     end
 
     subgraph "Authentication Tier"
-        GOOGLE_OAUTH["🔑 Google OAuth<br/>Admin Login<br/>NestJS Passport"]
-        SUPABASE_AUTH["🔐 Supabase Auth<br/>JWT + RLS<br/>Session Mgmt"]
+        GOOGLE_OAUTH["Ã°Å¸â€â€˜ Google OAuth<br/>Admin Login<br/>NestJS Passport"]
+        SUPABASE_AUTH["Ã°Å¸â€Â Supabase Auth<br/>JWT + RLS<br/>Session Mgmt"]
     end
 
     subgraph "AI Tier"
-        OPENAI["🤖 OpenAI<br/>GPT-4  <br/>text-embedding-3-small"]
-        ANTHROPIC["🧠 Anthropic<br/>Claude 3.5 Sonnet<br/>Fallback LLM"]
+        OPENAI["Ã°Å¸Â¤â€“ OpenAI<br/>GPT-4  <br/>text-embedding-3-small"]
+        ANTHROPIC["Ã°Å¸Â§Â  Anthropic<br/>Claude 3.5 Sonnet<br/>Fallback LLM"]
     end
 
     subgraph "Observability & Analytics Tier"
-        POSTHOG["📊 PostHog<br/>Product Analytics<br/>Feature Flags"]
-        UMAMI["📈 Umami<br/>Web Analytics<br/>Privacy-first"]
-        SENTRY["🐛 Sentry<br/>Error Tracking<br/>Performance"]
-        BETTERUPTIME["✅ Better Uptime<br/>Uptime Monitoring<br/>Status Page"]
+        POSTHOG["Ã°Å¸â€œÅ  PostHog<br/>Product Analytics<br/>Feature Flags"]
+        UMAMI["Ã°Å¸â€œË† Umami<br/>Web Analytics<br/>Privacy-first"]
+        SENTRY["Ã°Å¸Ââ€º Sentry<br/>Error Tracking<br/>Performance"]
+        BETTERUPTIME["Ã¢Å“â€¦ Better Uptime<br/>Uptime Monitoring<br/>Status Page"]
     end
 
     subgraph "Communication Tier"
-        RESEND["📨 Resend<br/>Transactional Email<br/>Auto-reply"]
+        RESEND["Ã°Å¸â€œÂ¨ Resend<br/>Transactional Email<br/>Auto-reply"]
     end
 
     %% Core connections
@@ -171,7 +171,7 @@ graph TB
         direction TB
         CACHE["Response Cache<br/>TTL-based<br/>In-memory"]
         RETRY["Retry Logic<br/>Exponential Backoff<br/>3 attempts"]
-        CIRCUIT["Circuit Breaker<br/>5 failures → open<br/>30s cooldown"]
+        CIRCUIT["Circuit Breaker<br/>5 failures Ã¢â€ â€™ open<br/>30s cooldown"]
         TIMEOUT["Timeout Enforcer<br/>Default: 10s<br/>Configurable per service"]
         RATE["Rate Limit Client<br/>Token bucket<br/>Per-service quotas"]
     end
@@ -250,8 +250,8 @@ graph TB
 | Anthropic | 3 | Exponential (2s, 4s, 8s) | 5 failures/60s | 120s | 30s |
 | PostHog | 2 | Immediate retry | 10 failures/60s | 30s | 5s |
 | Umami | 2 | Exponential (1s, 2s) | 5 failures/60s | 60s | 10s |
-| Sentry | 3 | Exponential (500ms, 1s, 2s) | — (fire-and-forget) | — | 2s |
-| Better Uptime | 1 | None | — (read-only) | — | 10s |
+| Sentry | 3 | Exponential (500ms, 1s, 2s) | Ã¢â‚¬â€ (fire-and-forget) | Ã¢â‚¬â€ | 2s |
+| Better Uptime | 1 | None | Ã¢â‚¬â€ (read-only) | Ã¢â‚¬â€ | 10s |
 | Vercel API | 3 | Exponential (1s, 2s, 4s) | 5 failures/60s | 120s | 10s |
 | Google OAuth | 3 | Exponential (1s, 2s, 4s) | 5 failures/60s | 60s | 10s |
 | Cloudflare API | 3 | Exponential (1s, 2s, 4s) | 5 failures/60s | 120s | 10s |
@@ -295,19 +295,19 @@ graph LR
     end
 
     subgraph "External Integrations"
-        GH["🐙 GitHub"]
-        SB["🐘 Supabase"]
-        RS["📨 Resend"]
-        OAI["🤖 OpenAI"]
-        ANT["🧠 Anthropic"]
-        PH["📊 PostHog"]
-        UM["📈 Umami"]
-        SN["🐛 Sentry"]
-        BU["✅ Better Uptime"]
-        VC["▲ Vercel"]
-        GO["🔑 Google OAuth"]
-        CF["☁️ Cloudflare"]
-        GA["⚙️ GitHub Actions"]
+        GH["Ã°Å¸Ââ„¢ GitHub"]
+        SB["Ã°Å¸ÂËœ Supabase"]
+        RS["Ã°Å¸â€œÂ¨ Resend"]
+        OAI["Ã°Å¸Â¤â€“ OpenAI"]
+        ANT["Ã°Å¸Â§Â  Anthropic"]
+        PH["Ã°Å¸â€œÅ  PostHog"]
+        UM["Ã°Å¸â€œË† Umami"]
+        SN["Ã°Å¸Ââ€º Sentry"]
+        BU["Ã¢Å“â€¦ Better Uptime"]
+        VC["Ã¢â€“Â² Vercel"]
+        GO["Ã°Å¸â€â€˜ Google OAuth"]
+        CF["Ã¢ËœÂÃ¯Â¸Â Cloudflare"]
+        GA["Ã¢Å¡â„¢Ã¯Â¸Â GitHub Actions"]
     end
 
     AUTH --> SB
@@ -347,7 +347,7 @@ graph LR
 | Integration | Data Stored | Storage Location | Jurisdiction | Compliance Implication |
 |-------------|-------------|------------------|-------------|----------------------|
 | Supabase | All portfolio data | US (Supabase default) | US | Standard US privacy laws |
-| PostHog | Analytics events | EU (PostHog Cloud EU) | EU 🇪🇺 | GDPR-compliant by default |
+| PostHog | Analytics events | EU (PostHog Cloud EU) | EU Ã°Å¸â€¡ÂªÃ°Å¸â€¡Âº | GDPR-compliant by default |
 | Umami | Web analytics | Self-hosted on Railway | Configurable | Full data control |
 | Sentry | Error traces | US (Sentry default) | US | Standard US privacy laws |
 | Resend | Email logs | US (Resend default) | US | Standard US privacy laws |
@@ -364,10 +364,10 @@ graph LR
 
 | Tier | Definition | Impact if Down | RTO | Monitoring | Example |
 |------|------------|---------------|-----|------------|---------|
-| **🟢 Production** | Critical for core operation | Site unavailable or broken | < 15 min | 1-min health checks | Supabase, Vercel |
-| **🟡 Stable** | Important but graceful degradation | Feature degraded | < 1 hour | 5-min health checks | OpenAI, Resend |
-| **🔵 Fallback** | Standby/alternate provider | No direct impact | < 24 hours | 15-min health checks | Anthropic |
-| **⚪ Experimental** | New/evolving integration | Isolated feature impact | < 1 week | Manual check | Umami |
+| **Ã°Å¸Å¸Â¢ Production** | Critical for core operation | Site unavailable or broken | < 15 min | 1-min health checks | Supabase, Vercel |
+| **Ã°Å¸Å¸Â¡ Stable** | Important but graceful degradation | Feature degraded | < 1 hour | 5-min health checks | OpenAI, Resend |
+| **Ã°Å¸â€Âµ Fallback** | Standby/alternate provider | No direct impact | < 24 hours | 15-min health checks | Anthropic |
+| **Ã¢Å¡Âª Experimental** | New/evolving integration | Isolated feature impact | < 1 week | Manual check | Umami |
 
 ### 4.2 Fallback Chain Matrix
 
@@ -392,7 +392,7 @@ graph LR
 |-------|-------|
 | **Service** | GitHub.com |
 | **Category** | Core Platform |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | Source control for monorepo, repository data for portfolio open-source section, webhook events for activity tracking |
 | **SDK/Package** | `octokit` (Node.js), GitHub REST API v3, GitHub GraphQL API v4 |
 | **Documentation** | https://docs.github.com/en/rest |
@@ -455,8 +455,8 @@ sequenceDiagram
 ### 5.4 Data Flow
 
 ```
-GitHub → GitHub REST API → NestJS GitHub Module → In-Memory Cache (600s) → JSON Response
-GitHub → Webhook → NestJS Webhook Module → Supabase analytics_events → Cache Invalidation
+GitHub Ã¢â€ â€™ GitHub REST API Ã¢â€ â€™ NestJS GitHub Module Ã¢â€ â€™ In-Memory Cache (600s) Ã¢â€ â€™ JSON Response
+GitHub Ã¢â€ â€™ Webhook Ã¢â€ â€™ NestJS Webhook Module Ã¢â€ â€™ Supabase analytics_events Ã¢â€ â€™ Cache Invalidation
 ```
 
 ### 5.5 Failure Handling
@@ -507,8 +507,8 @@ GitHub → Webhook → NestJS Webhook Module → Supabase analytics_events → C
 ```text
 1. Check GitHub Status: https://www.githubstatus.com/
 2. If GitHub issue: wait for resolution; cached data serves for 10 min
-3. If token issue: verify GITHUB_TOKEN env var → regenerate in GitHub Settings → Tokens
-4. Update Vercel environment variable → re-deploy or trigger redeployment
+3. If token issue: verify GITHUB_TOKEN env var Ã¢â€ â€™ regenerate in GitHub Settings Ã¢â€ â€™ Tokens
+4. Update Vercel environment variable Ã¢â€ â€™ re-deploy or trigger redeployment
 5. Verify: curl -H "Authorization: Bearer $GITHUB_TOKEN" https://api.github.com/user
 ```
 
@@ -530,7 +530,7 @@ GITHUB_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxx     # Webhook secret for HMAC verif
 |-------|-------|
 | **Service** | Supabase |
 | **Category** | Data Platform |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | Primary database (PostgreSQL 15), authentication (JWT), object storage (images/assets), realtime subscriptions (availability/analytics) |
 | **SDK/Package** | `@supabase/supabase-js` (Node.js), `supabase` (Python), Supabase CLI |
 | **Documentation** | https://supabase.com/docs |
@@ -591,12 +591,12 @@ sequenceDiagram
 ### 6.4 Data Flow
 
 ```
-Public Read:  Browser → ISR Cache → Supabase JS SDK → RLS Check → PostgreSQL → Response
-Admin Write:  Browser → JWT Auth → NestJS → Supabase JS SDK (service_role) → PostgreSQL → Response
-Auth Login:   Browser → NestJS Passport → NestJS → Supabase Auth → JWT Tokens → Session
-File Upload:  Browser → JWT Auth → NestJS → Supabase Storage → CDN URL → Response
-Realtime:     Browser → Supabase Realtime WebSocket → PostgreSQL → Live Update
-Vector Search: FastAPI → Supabase JS SDK → pgvector (IVFFlat) → Top K Results
+Public Read:  Browser Ã¢â€ â€™ ISR Cache Ã¢â€ â€™ Supabase JS SDK Ã¢â€ â€™ RLS Check Ã¢â€ â€™ PostgreSQL Ã¢â€ â€™ Response
+Admin Write:  Browser Ã¢â€ â€™ JWT Auth Ã¢â€ â€™ NestJS Ã¢â€ â€™ Supabase JS SDK (service_role) Ã¢â€ â€™ PostgreSQL Ã¢â€ â€™ Response
+Auth Login:   Browser Ã¢â€ â€™ NestJS Passport Ã¢â€ â€™ NestJS Ã¢â€ â€™ Supabase Auth Ã¢â€ â€™ JWT Tokens Ã¢â€ â€™ Session
+File Upload:  Browser Ã¢â€ â€™ JWT Auth Ã¢â€ â€™ NestJS Ã¢â€ â€™ Supabase Storage Ã¢â€ â€™ CDN URL Ã¢â€ â€™ Response
+Realtime:     Browser Ã¢â€ â€™ Supabase Realtime WebSocket Ã¢â€ â€™ PostgreSQL Ã¢â€ â€™ Live Update
+Vector Search: FastAPI Ã¢â€ â€™ Supabase JS SDK Ã¢â€ â€™ pgvector (IVFFlat) Ã¢â€ â€™ Top K Results
 ```
 
 ### 6.5 Failure Handling
@@ -652,7 +652,7 @@ Vector Search: FastAPI → Supabase JS SDK → pgvector (IVFFlat) → Top K Resu
 
 ```text
 1. Check Supabase Status: https://status.supabase.com/
-2. If database issue: verify via supabase db dump → restore from daily snapshot
+2. If database issue: verify via supabase db dump Ã¢â€ â€™ restore from daily snapshot
 3. If connection pool issue: reduce concurrent connections; check for long-running queries
 4. If storage issue: verify bucket policies; check file permissions
 5. If auth issue: verify JWT secret; check auth providers configuration
@@ -682,7 +682,7 @@ SUPABASE_JWT_SECRET=<jwt-secret-from-supabase-dashboard>
 |-------|-------|
 | **Service** | Resend |
 | **Category** | Communication |
-| **Tier** | 🟡 Stable |
+| **Tier** | Ã°Å¸Å¸Â¡ Stable |
 | **Purpose** | Send transactional emails: lead auto-reply, contact notifications, password reset, system alerts |
 | **SDK/Package** | `resend` (Node.js) |
 | **Documentation** | https://resend.com/docs |
@@ -731,8 +731,8 @@ sequenceDiagram
 ### 7.4 Data Flow
 
 ```
-Contact Form → NestJS Validation → INSERT lead → Resend API → Email Sent → 
-Webhook (delivery status) → UPDATE lead status
+Contact Form Ã¢â€ â€™ NestJS Validation Ã¢â€ â€™ INSERT lead Ã¢â€ â€™ Resend API Ã¢â€ â€™ Email Sent Ã¢â€ â€™ 
+Webhook (delivery status) Ã¢â€ â€™ UPDATE lead status
 ```
 
 ### 7.5 Failure Handling
@@ -773,7 +773,7 @@ Webhook (delivery status) → UPDATE lead status
 
 ```text
 1. Check Resend Status: https://resend.com/status
-2. If API key issue: regenerate key in Resend Dashboard → Settings → API Keys
+2. If API key issue: regenerate key in Resend Dashboard Ã¢â€ â€™ Settings Ã¢â€ â€™ API Keys
 3. Update RESEND_API_KEY in Vercel environment variables
 4. Verify: curl -H "Authorization: Bearer $RESEND_API_KEY" https://api.resend.com/emails
 5. If bounce rate high: clean email list; verify SPF/DKIM records
@@ -798,7 +798,7 @@ RESEND_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxx      # Webhook verification secret
 |-------|-------|
 | **Service** | OpenAI |
 | **Category** | AI Platform |
-| **Tier** | 🟡 Stable |
+| **Tier** | Ã°Å¸Å¸Â¡ Stable |
 | **Purpose** | Primary LLM for AI chat (GPT-4), text embeddings for RAG pipeline (text-embedding-3-small), content analysis, content suggestions |
 | **SDK/Package** | `openai` (Python), `openai` (Node.js) |
 | **Documentation** | https://platform.openai.com/docs |
@@ -852,10 +852,10 @@ sequenceDiagram
 ### 8.4 Data Flow
 
 ```
-Chat:  User Message → FastAPI → pgvector Retrieval → Prompt Assembly → OpenAI API → SSE Stream → User
-Embed: Content → FastAPI → OpenAI Embeddings API → pgvector Storage
-Analyze: Content → FastAPI → OpenAI GPT-3.5 → Readability/SEO/Sentiment Scores
-Suggest: Context → FastAPI → OpenAI GPT-4 → Content Suggestions
+Chat:  User Message Ã¢â€ â€™ FastAPI Ã¢â€ â€™ pgvector Retrieval Ã¢â€ â€™ Prompt Assembly Ã¢â€ â€™ OpenAI API Ã¢â€ â€™ SSE Stream Ã¢â€ â€™ User
+Embed: Content Ã¢â€ â€™ FastAPI Ã¢â€ â€™ OpenAI Embeddings API Ã¢â€ â€™ pgvector Storage
+Analyze: Content Ã¢â€ â€™ FastAPI Ã¢â€ â€™ OpenAI GPT-3.5 Ã¢â€ â€™ Readability/SEO/Sentiment Scores
+Suggest: Context Ã¢â€ â€™ FastAPI Ã¢â€ â€™ OpenAI GPT-4 Ã¢â€ â€™ Content Suggestions
 ```
 
 ### 8.5 Failure Handling
@@ -910,9 +910,9 @@ Suggest: Context → FastAPI → OpenAI GPT-4 → Content Suggestions
 
 ```text
 1. Check OpenAI Status: https://status.openai.com/
-2. If API key issue: regenerate in platform.openai.com → API Keys
+2. If API key issue: regenerate in platform.openai.com Ã¢â€ â€™ API Keys
 3. Update OPENAI_API_KEY in Railway environment variables
-4. If billing issue: add credits in platform.openai.com → Billing
+4. If billing issue: add credits in platform.openai.com Ã¢â€ â€™ Billing
 5. Verify: curl -H "Authorization: Bearer $OPENAI_API_KEY" https://api.openai.com/v1/models
 6. If model deprecation: update model name to latest version
 ```
@@ -939,7 +939,7 @@ OPENAI_MAX_RETRIES=3                              # Max retry attempts
 |-------|-------|
 | **Service** | Anthropic |
 | **Category** | AI Platform |
-| **Tier** | 🔵 Fallback |
+| **Tier** | Ã°Å¸â€Âµ Fallback |
 | **Purpose** | Fallback LLM for AI chat when OpenAI is unavailable; provides Claude 3.5 Sonnet as secondary model |
 | **SDK/Package** | `anthropic` (Python), `@anthropic-ai/sdk` (Node.js) |
 | **Documentation** | https://docs.anthropic.com/en/docs |
@@ -993,7 +993,7 @@ sequenceDiagram
 | Scenario | Action | User Experience |
 |----------|--------|----------------|
 | Neither LLM available | Show offline message | Chat widget: "AI assistant unavailable" |
-| OpenAI degrades → Anthropic | Automatic switch | Slight response style change |
+| OpenAI degrades Ã¢â€ â€™ Anthropic | Automatic switch | Slight response style change |
 | Anthropic also degrades | Full offline mode | Chat widget gracefully degrades |
 
 ### 9.6 Rate Limits
@@ -1023,7 +1023,7 @@ ANTHROPIC_MAX_TOKENS=500                          # Max tokens per response
 |-------|-------|
 | **Service** | PostHog |
 | **Category** | Observability & Analytics |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | Product analytics (pageviews, events, funnels), session recordings (identify UX issues), feature flags (A/B testing, gradual rollout), user behavior analysis |
 | **SDK/Package** | `posthog-js` (frontend), `posthog-node` (backend) |
 | **Documentation** | https://posthog.com/docs |
@@ -1073,10 +1073,10 @@ sequenceDiagram
 ### 10.4 Data Flow
 
 ```
-Page View:   Browser → posthog-js → PostHog Cloud → Dashboard
-Custom Event: Browser → posthog-js (batch, 5s) → PostHog Cloud → Dashboard
-Feature Flag: Admin Page → posthog-js → PostHog Cloud → Flag Value → Render Variant
-Backend Event: NestJS → posthog-node → PostHog Cloud → Dashboard
+Page View:   Browser Ã¢â€ â€™ posthog-js Ã¢â€ â€™ PostHog Cloud Ã¢â€ â€™ Dashboard
+Custom Event: Browser Ã¢â€ â€™ posthog-js (batch, 5s) Ã¢â€ â€™ PostHog Cloud Ã¢â€ â€™ Dashboard
+Feature Flag: Admin Page Ã¢â€ â€™ posthog-js Ã¢â€ â€™ PostHog Cloud Ã¢â€ â€™ Flag Value Ã¢â€ â€™ Render Variant
+Backend Event: NestJS Ã¢â€ â€™ posthog-node Ã¢â€ â€™ PostHog Cloud Ã¢â€ â€™ Dashboard
 ```
 
 ### 10.5 Failure Handling
@@ -1125,8 +1125,8 @@ Backend Event: NestJS → posthog-node → PostHog Cloud → Dashboard
 
 ```text
 1. Check PostHog Status: https://status.posthog.com/
-2. If quota issue: PostHog dashboard → Billing → Increase limit or wait for reset
-3. If key issue: PostHog dashboard → Project Settings → API Keys → Regenerate
+2. If quota issue: PostHog dashboard Ã¢â€ â€™ Billing Ã¢â€ â€™ Increase limit or wait for reset
+3. If key issue: PostHog dashboard Ã¢â€ â€™ Project Settings Ã¢â€ â€™ API Keys Ã¢â€ â€™ Regenerate
 4. If feature flags broken: Set default values in code as fallback
 ```
 
@@ -1149,7 +1149,7 @@ POSTHOG_PROJECT_ID=12345                             # PostHog project ID
 |-------|-------|
 | **Service** | Umami |
 | **Category** | Observability & Analytics |
-| **Tier** | 🟡 Stable |
+| **Tier** | Ã°Å¸Å¸Â¡ Stable |
 | **Purpose** | Privacy-first web analytics (pageviews, referrers, device breakdown, real-time visitors); self-hosted on Railway as backup analytics source for admin dashboard |
 | **SDK/Package** | Umami tracking script (JS snippet), Umami REST API |
 | **Documentation** | https://umami.is/docs |
@@ -1193,8 +1193,8 @@ sequenceDiagram
 ### 11.4 Data Flow
 
 ```
-Tracking: Browser → Umami JS Snippet → Umami Server → Umami PostgreSQL
-Dashboard: NestJS API → Umami REST API → Cached Response → Admin Dashboard Widget
+Tracking: Browser Ã¢â€ â€™ Umami JS Snippet Ã¢â€ â€™ Umami Server Ã¢â€ â€™ Umami PostgreSQL
+Dashboard: NestJS API Ã¢â€ â€™ Umami REST API Ã¢â€ â€™ Cached Response Ã¢â€ â€™ Admin Dashboard Widget
 ```
 
 ### 11.5 Failure Handling
@@ -1243,7 +1243,7 @@ Dashboard: NestJS API → Umami REST API → Cached Response → Admin Dashboard
 1. Check Railway dashboard for container health
 2. Restart Umami container: railway service restart
 3. Check Umami logs: railway logs --service umami
-4. If database issue: railway connect → psql → check umami DB
+4. If database issue: railway connect Ã¢â€ â€™ psql Ã¢â€ â€™ check umami DB
 5. If data corruption: restore from Railway database backup
 ```
 
@@ -1267,7 +1267,7 @@ UMAMI_PASSWORD=<umami-admin-password>                # Umami admin password
 |-------|-------|
 | **Service** | Sentry |
 | **Category** | Observability & Monitoring |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | Error tracking (frontend + backend), performance monitoring (API tracing), release health tracking, crash reporting |
 | **SDK/Package** | `@sentry/nextjs` (frontend), `@sentry/node` (backend), `sentry-sdk` (Python) |
 | **Documentation** | https://docs.sentry.io/ |
@@ -1292,7 +1292,7 @@ sequenceDiagram
 
     Note over API,Sentry: Backend Error Tracking
     API->>API: Exception in route handler
-    API->>Sentry: GlobalExceptionFilter → Sentry.captureException()
+    API->>Sentry: GlobalExceptionFilter Ã¢â€ â€™ Sentry.captureException()
     Note over Sentry: Extra: correlationId, path, method, request body
     API-->>Web: JSON error response (no stack trace)
 
@@ -1317,9 +1317,9 @@ sequenceDiagram
 ### 12.4 Data Flow
 
 ```
-Error: Application → Sentry SDK → Sentry SaaS → Dashboard → Alert
-Trace: API Request → Sentry SDK (auto-instrumented) → Sentry Performance → Dashboard
-Release: CI/CD → sentry-cli → Sentry Releases → Release Health Dashboard
+Error: Application Ã¢â€ â€™ Sentry SDK Ã¢â€ â€™ Sentry SaaS Ã¢â€ â€™ Dashboard Ã¢â€ â€™ Alert
+Trace: API Request Ã¢â€ â€™ Sentry SDK (auto-instrumented) Ã¢â€ â€™ Sentry Performance Ã¢â€ â€™ Dashboard
+Release: CI/CD Ã¢â€ â€™ sentry-cli Ã¢â€ â€™ Sentry Releases Ã¢â€ â€™ Release Health Dashboard
 ```
 
 ### 12.5 Failure Handling
@@ -1368,10 +1368,10 @@ Release: CI/CD → sentry-cli → Sentry Releases → Release Health Dashboard
 
 ```text
 1. Check Sentry Status: https://status.sentry.io/
-2. If quota issue: Review Sentry dashboard → filter non-critical errors
-3. If DSN issue: Sentry dashboard → Settings → Client Keys (DSN) → Copy DSN
-4. Update environment variable → re-deploy
-5. Verify: Trigger test error → confirm in Sentry Issues
+2. If quota issue: Review Sentry dashboard Ã¢â€ â€™ filter non-critical errors
+3. If DSN issue: Sentry dashboard Ã¢â€ â€™ Settings Ã¢â€ â€™ Client Keys (DSN) Ã¢â€ â€™ Copy DSN
+4. Update environment variable Ã¢â€ â€™ re-deploy
+5. Verify: Trigger test error Ã¢â€ â€™ confirm in Sentry Issues
 ```
 
 ### 12.11 Environment Variables
@@ -1393,7 +1393,7 @@ SENTRY_PROJECT=portfolio-web
 |-------|-------|
 | **Service** | Better Uptime (formerly Better Stack) |
 | **Category** | Observability & Monitoring |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | External uptime monitoring, status page for public transparency, SSL certificate expiry alerts, heartbeat monitoring for cron jobs |
 | **SDK/Package** | Better Uptime REST API, webhooks |
 | **Documentation** | https://docs.betterstack.com/ |
@@ -1447,7 +1447,7 @@ sequenceDiagram
 | Failure Mode | Detection | Impact | Recovery |
 |-------------|-----------|--------|----------|
 | Better Uptime down | Dashboard unreachable | Status page goes stale | Wait for Better Uptime recovery |
-| Health endpoint misconfigured | False positive downtimes | Incorrect status | Fix health endpoint → auto-resolve |
+| Health endpoint misconfigured | False positive downtimes | Incorrect status | Fix health endpoint Ã¢â€ â€™ auto-resolve |
 
 ### 13.5 Fallback Strategy
 
@@ -1483,7 +1483,7 @@ BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com  # Status page
 |-------|-------|
 | **Service** | Vercel |
 | **Category** | Core Platform |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | Frontend hosting (Next.js SSR/ISR), API hosting (NestJS serverless functions), CDN (global edge network), ISR caching (60s revalidation), environment variable management, preview deployments |
 | **SDK/Package** | Vercel CLI, Vercel REST API, `@vercel/analytics`, `@vercel/speed-insights` |
 | **Documentation** | https://vercel.com/docs |
@@ -1503,7 +1503,7 @@ sequenceDiagram
     Note over Dev,Supabase: Deployment Flow
     Dev->>Git: git push main
     Git->>Vercel: Webhook: push to main
-    Vercel->>Vercel: Build (npm ci → turbo build)
+    Vercel->>Vercel: Build (npm ci Ã¢â€ â€™ turbo build)
     Vercel->>Vercel: Deploy to production
     Vercel-->>Git: Deployment URL
 
@@ -1535,9 +1535,9 @@ sequenceDiagram
 ### 14.4 Data Flow
 
 ```
-Deploy: GitHub Push → Vercel Webhook → Build → Deploy → CDN
-Request: User → Vercel CDN → Edge → Serverless Function → Supabase → Response
-Env Vars: Vercel Dashboard → Environment Variables → Runtime
+Deploy: GitHub Push Ã¢â€ â€™ Vercel Webhook Ã¢â€ â€™ Build Ã¢â€ â€™ Deploy Ã¢â€ â€™ CDN
+Request: User Ã¢â€ â€™ Vercel CDN Ã¢â€ â€™ Edge Ã¢â€ â€™ Serverless Function Ã¢â€ â€™ Supabase Ã¢â€ â€™ Response
+Env Vars: Vercel Dashboard Ã¢â€ â€™ Environment Variables Ã¢â€ â€™ Runtime
 ```
 
 ### 14.5 Failure Handling
@@ -1590,7 +1590,7 @@ NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA=${VERCEL_GIT_COMMIT_SHA}  # Auto-injected by V
 |-------|-------|
 | **Service** | Google OAuth 2.0 |
 | **Category** | Authentication |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | Admin login via Google Single Sign-On (SSO). Used with NestJS Passport for admin authentication. Only a specific email address is authorized. |
 | **SDK/Package** | NestJS Passport (built-in GoogleProvider), Google OAuth 2.0 APIs |
 | **Documentation** | https://developers.google.com/identity/protocols/oauth2 |
@@ -1696,7 +1696,7 @@ NEXTAUTH_URL=https://portfolioowner.com               # Required for production
 |-------|-------|
 | **Service** | Cloudflare |
 | **Category** | Core Platform |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | DNS management (authoritative DNS), DDoS protection (edge mitigation), SSL/TLS termination (free Universal SSL), CDN caching (static assets), email routing (domain catch-all) |
 | **SDK/Package** | Cloudflare API v4 |
 | **Documentation** | https://developers.cloudflare.com/ |
@@ -1707,8 +1707,8 @@ NEXTAUTH_URL=https://portfolioowner.com               # Required for production
 ```mermaid
 graph TB
     subgraph "Internet"
-        User["🌐 Visitor"]
-        Attacker["💀 Malicious Actor"]
+        User["Ã°Å¸Å’Â Visitor"]
+        Attacker["Ã°Å¸â€™â‚¬ Malicious Actor"]
     end
 
     subgraph "Cloudflare Edge"
@@ -1724,7 +1724,7 @@ graph TB
     end
 
     subgraph "Email"
-        EMAIL["Email Routing<br/>Domain Catch-all<br/>admin → personal"]
+        EMAIL["Email Routing<br/>Domain Catch-all<br/>admin Ã¢â€ â€™ personal"]
     end
 
     User -->|DNS Lookup| DNS
@@ -1768,7 +1768,7 @@ graph TB
 | HSTS | On (max-age: 63072000) | Preload HSTS; submit to HSTS preload list |
 | WAF rate limiting | 500 requests/10s per IP | Generic rate limiting |
 | Bot Fight Mode | On | Challenge bots (may affect legitimate crawlers) |
-| Email Routing | Catch-all → personal email | Email to any @portfolioowner.com |
+| Email Routing | Catch-all Ã¢â€ â€™ personal email | Email to any @portfolioowner.com |
 | IP Geolocation | On | Pass CF-IPCountry header to origin |
 
 ### 16.5 Failure Handling
@@ -1799,7 +1799,7 @@ graph TB
 ### 16.8 Environment Variables
 
 ```bash
-# Not needed in application — Cloudflare is configured via dashboard
+# Not needed in application Ã¢â‚¬â€ Cloudflare is configured via dashboard
 # However, for programmatic access:
 # CLOUDFLARE_API_TOKEN=cf_api_xxxxxxxxxxxxxxxxxxxxx   # Cloudflare API token (DNS zone edit)
 # CLOUDFLARE_ZONE_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxx    # Cloudflare zone ID
@@ -1815,7 +1815,7 @@ graph TB
 |-------|-------|
 | **Service** | GitHub Actions |
 | **Category** | Core Platform |
-| **Tier** | 🟢 Production |
+| **Tier** | Ã°Å¸Å¸Â¢ Production |
 | **Purpose** | CI/CD pipeline (lint, typecheck, test, build, deploy), automated quality checks on every PR, production deployments on main branch pushes, Dependabot dependency updates |
 | **SDK/Package** | GitHub Actions (YAML workflow), Vercel CLI (deployment), Railway CLI (AI service deploy) |
 | **Documentation** | https://docs.github.com/en/actions |
@@ -1841,7 +1841,7 @@ sequenceDiagram
     Actions->>Actions: npx turbo lint
     Actions->>Actions: npx turbo test
     Actions->>Actions: npm audit --audit-level=high
-    Actions-->>Git: ✅ All checks passed
+    Actions-->>Git: Ã¢Å“â€¦ All checks passed
 
     Note over Dev,DB: CD Pipeline (push to main only)
     Dev->>Git: git push main
@@ -1850,15 +1850,15 @@ sequenceDiagram
     
     Actions->>Vercel: vercel --prod (--token=$VERCEL_TOKEN)
     Note over Vercel: Build + Deploy Next.js + NestJS
-    Vercel-->>Actions: ✅ Production URL
+    Vercel-->>Actions: Ã¢Å“â€¦ Production URL
 
     Actions->>Railway: railway up (--service=ai-service)
     Note over Railway: Deploy FastAPI AI service
-    Railway-->>Actions: ✅ Deployed
+    Railway-->>Actions: Ã¢Å“â€¦ Deployed
 
     Actions->>DB: supabase db push (migrations)
     Note over DB: Apply database migrations
-    DB-->>Actions: ✅ Migrations applied
+    DB-->>Actions: Ã¢Å“â€¦ Migrations applied
 ```
 
 ### 17.3 Authentication
@@ -1872,9 +1872,9 @@ sequenceDiagram
 ### 17.4 Data Flow
 
 ```
-Push → GitHub → Workflow Trigger → Setup → Quality Checks → Build → Deploy (Vercel + Railway) → Notify
-PR → GitHub → Workflow Trigger → Setup → Quality Checks → Status Check on PR
-Schedule → Dependabot → PR with dependency updates → CI Pipeline → Merge
+Push Ã¢â€ â€™ GitHub Ã¢â€ â€™ Workflow Trigger Ã¢â€ â€™ Setup Ã¢â€ â€™ Quality Checks Ã¢â€ â€™ Build Ã¢â€ â€™ Deploy (Vercel + Railway) Ã¢â€ â€™ Notify
+PR Ã¢â€ â€™ GitHub Ã¢â€ â€™ Workflow Trigger Ã¢â€ â€™ Setup Ã¢â€ â€™ Quality Checks Ã¢â€ â€™ Status Check on PR
+Schedule Ã¢â€ â€™ Dependabot Ã¢â€ â€™ PR with dependency updates Ã¢â€ â€™ CI Pipeline Ã¢â€ â€™ Merge
 ```
 
 ### 17.5 Failure Handling
@@ -1900,7 +1900,7 @@ Schedule → Dependabot → PR with dependency updates → CI Pipeline → Merge
 - **Secrets management:** All tokens stored as GitHub Actions secrets (encrypted at rest)
 - **No secrets in logs:** GitHub Actions automatically masks secrets in workflow output
 - **Branch protection:** Require CI to pass before merge; require PR review
-- **Audit trail:** All workflow runs logged in GitHub Actions → Security
+- **Audit trail:** All workflow runs logged in GitHub Actions Ã¢â€ â€™ Security
 - **Dependabot alerts:** Enable for vulnerability notifications
 
 ### 17.8 Rate Limits
@@ -1915,7 +1915,7 @@ Schedule → Dependabot → PR with dependency updates → CI Pipeline → Merge
 ### 17.9 Environment Variables
 
 ```bash
-# GitHub Actions Secrets (configured in GitHub repo Settings → Secrets → Actions)
+# GitHub Actions Secrets (configured in GitHub repo Settings Ã¢â€ â€™ Secrets Ã¢â€ â€™ Actions)
 VERCEL_TOKEN=<vercel-personal-access-token>
 RAILWAY_TOKEN=<railway-service-token>
 DATABASE_URL=postgresql://postgres:password@db.xxxxxxxxxxxx.supabase.co:5432/postgres
@@ -1970,7 +1970,7 @@ jobs:
 
 ```bash
 # ============================================================
-# PORTFOLIO PLATFORM — Master Environment Variable Template
+# PORTFOLIO PLATFORM Ã¢â‚¬â€ Master Environment Variable Template
 # ============================================================
 # Copy this to .env.local and configure all variables
 # ============================================================
@@ -2060,7 +2060,7 @@ BETTER_UPTIME_WEBHOOK_TOKEN=bt_wh_xxxxxxxxxxxxxxxxxx
 BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com
 
 # ============================================================
-# SECTION 11: Vercel (Deployment — CI/CD only)
+# SECTION 11: Vercel (Deployment Ã¢â‚¬â€ CI/CD only)
 # ============================================================
 # These are stored as GitHub Actions secrets, not in .env.local
 # VERCEL_TOKEN=<vercel-personal-access-token>
@@ -2068,7 +2068,7 @@ BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com
 # VERCEL_PROJECT_ID=<vercel-project-id>
 
 # ============================================================
-# SECTION 12: Cloudflare (DNS — Dashboard only)
+# SECTION 12: Cloudflare (DNS Ã¢â‚¬â€ Dashboard only)
 # ============================================================
 # Cloudflare is configured via Cloudflare Dashboard
 # No env vars needed at application level
@@ -2085,38 +2085,38 @@ BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com
 
 | Variable | Web (Next.js) | API (NestJS) | AI (FastAPI) | Public |
 |----------|:---:|:---:|:---:|:---:|
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ | ❌ | ❌ | ✅ |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | ❌ | ❌ | ✅ |
-| `SUPABASE_SERVICE_ROLE_KEY` | ❌ | ✅ | ✅ | ❌ |
-| `JWT_SECRET` | ✅ | ✅ | ❌ | ❌ |
-| `GOOGLE_CLIENT_ID` | ✅ | ✅ | ❌ | ❌ |
-| `GOOGLE_CLIENT_SECRET` | ✅ | ✅ | ❌ | ❌ |
-| `GITHUB_TOKEN` | ❌ | ✅ | ❌ | ❌ |
-| `RESEND_API_KEY` | ❌ | ✅ | ❌ | ❌ |
-| `OPENAI_API_KEY` | ❌ | ❌ | ✅ | ❌ |
-| `ANTHROPIC_API_KEY` | ❌ | ❌ | ✅ | ❌ |
-| `NEXT_PUBLIC_POSTHOG_KEY` | ✅ | ❌ | ❌ | ✅ |
-| `POSTHOG_PERSONAL_TOKEN` | ❌ | ✅ | ❌ | ❌ |
-| `NEXT_PUBLIC_UMAMI_URL` | ✅ | ❌ | ❌ | ✅ |
-| `NEXT_PUBLIC_SENTRY_DSN` | ✅ | ✅ | ✅ | ✅ |
+| `NEXT_PUBLIC_SUPABASE_URL` | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
+| `SUPABASE_SERVICE_ROLE_KEY` | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| `JWT_SECRET` | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `GOOGLE_CLIENT_ID` | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `GOOGLE_CLIENT_SECRET` | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `GITHUB_TOKEN` | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `RESEND_API_KEY` | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `OPENAI_API_KEY` | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| `ANTHROPIC_API_KEY` | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| `NEXT_PUBLIC_POSTHOG_KEY` | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
+| `POSTHOG_PERSONAL_TOKEN` | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `NEXT_PUBLIC_UMAMI_URL` | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
+| `NEXT_PUBLIC_SENTRY_DSN` | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
 
 ### 18.3 Secrets Rotation Schedule
 
 | Secret | Rotation Period | Last Rotation | Next Rotation | Impact if Compromised |
 |--------|----------------|--------------|---------------|----------------------|
-| Supabase DB Password | 90 days | — | — | Full database access |
-| Supabase JWT Secret | 90 days | — | — | Token forgery |
-| SUPABASE_SERVICE_ROLE_KEY | 180 days | — | — | Database write access |
-| GOOGLE_CLIENT_SECRET | 90 days | — | — | OAuth token theft |
-| GITHUB_CLIENT_SECRET | 90 days | — | — | GitHub account access |
-| GITHUB_TOKEN | 90 days | — | — | Repository read access |
-| RESEND_API_KEY | 180 days | — | — | Send unauthorized emails |
-| OPENAI_API_KEY | 90 days | — | — | AI cost abuse ($$$) |
-| ANTHROPIC_API_KEY | 90 days | — | — | AI cost abuse ($$$) |
-| SENTRY_AUTH_TOKEN | 180 days | — | — | Error data access |
-| VERCEL_TOKEN | 180 days | — | — | Deployment control |
-| RAILWAY_TOKEN | 180 days | — | — | Deployment control |
-| JWT_SECRET | 365 days | — | — | Session forgery |
+| Supabase DB Password | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Full database access |
+| Supabase JWT Secret | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Token forgery |
+| SUPABASE_SERVICE_ROLE_KEY | 180 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Database write access |
+| GOOGLE_CLIENT_SECRET | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | OAuth token theft |
+| GITHUB_CLIENT_SECRET | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | GitHub account access |
+| GITHUB_TOKEN | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Repository read access |
+| RESEND_API_KEY | 180 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Send unauthorized emails |
+| OPENAI_API_KEY | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | AI cost abuse ($$$) |
+| ANTHROPIC_API_KEY | 90 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | AI cost abuse ($$$) |
+| SENTRY_AUTH_TOKEN | 180 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Error data access |
+| VERCEL_TOKEN | 180 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Deployment control |
+| RAILWAY_TOKEN | 180 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Deployment control |
+| JWT_SECRET | 365 days | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Session forgery |
 
 ---
 
@@ -2126,25 +2126,25 @@ BETTER_UPTIME_STATUS_PAGE=https://portfolioowner.betteruptime.com
 
 | Integration | Service Dependency Risk | Data Sensitivity | Cost Risk | Vendor Lock-in | Overall Risk | Mitigation |
 |-------------|----------------------|-----------------|-----------|----------------|-------------|------------|
-| Supabase | 🔴 High (all data depends on it) | 🔴 High (all portfolio data) | 🟢 Low (free tier sufficient) | 🟡 Medium (PostgreSQL is portable) | 🟡 Medium | Daily backups; pg_dump for portability |
-| Vercel | 🔴 High (hosting + CDN) | 🟢 Low (no data stored) | 🟢 Low (free tier sufficient) | 🟡 Medium (Next.js is portable) | 🟡 Medium | Keep Next.js portable; test on Netlify/Fly.io |
-| GitHub | 🔴 High (source control + CI/CD) | 🟢 Low (code only, no secrets) | 🟢 Low (free tier) | 🟡 Medium (git is universal) | 🟢 Low | Local git backup; mirror to GitLab |
-| Cloudflare | 🟡 Medium (DNS + DDoS) | 🟢 Low (no data) | 🟢 Low (free tier) | 🟢 Low (standard DNS) | 🟢 Low | Secondary DNS provider (backup zone file) |
-| OpenAI | 🟡 Medium (AI chat) | 🟢 Low (conversations) | 🟡 Medium (~$5/month variable) | 🟡 Medium (model API) | 🟡 Medium | Anthropic fallback; cap max_tokens |
-| Resend | 🟡 Medium (email delivery) | 🟡 Medium (lead emails) | 🟢 Low (free tier 100/day) | 🟢 Low (SMTP standard) | 🟢 Low | SMTP backup (direct Gmail) |
-| PostHog | 🟢 Low (analytics only) | 🟢 Low (anonymized events) | 🟢 Low (free tier 1M events) | 🟢 Low (open source) | 🟢 Low | Umami fallback; custom DB events |
-| Umami | 🟢 Low (analytics only) | 🟢 Low (anonymized) | 🟢 Low (self-hosted) | 🟢 Low (open source) | 🟢 Low | PostHog fallback |
-| Sentry | 🟢 Low (error tracking) | 🟡 Medium (error traces) | 🟢 Low (free tier 5K events) | 🟢 Low (open source SDK) | 🟢 Low | Console fallback; audit_logs table |
-| Better Uptime | 🟢 Low (monitoring only) | 🟢 Low (no data) | 🟢 Low (free tier) | 🟢 Low (check interval config) | 🟢 Low | Manual health check via curl |
-| Anthropic | 🟢 Low (fallback only) | 🟢 Low (conversations) | 🟢 Low (no usage if OpenAI works) | 🟢 Low (model API) | 🟢 Low | N/A (standby only) |
-| Google OAuth | 🟡 Medium (admin login) | 🟡 Medium (auth data) | 🟢 Low (free) | 🟢 Low (OAuth standard) | 🟢 Low | Email + password fallback |
-| GitHub Actions | 🟡 Medium (CI/CD pipeline) | 🟢 Low (no data) | 🟢 Low (free tier 2K min) | 🟡 Medium (YAML standard) | 🟢 Low | Local CLI deployment as backup |
+| Supabase | Ã°Å¸â€Â´ High (all data depends on it) | Ã°Å¸â€Â´ High (all portfolio data) | Ã°Å¸Å¸Â¢ Low (free tier sufficient) | Ã°Å¸Å¸Â¡ Medium (PostgreSQL is portable) | Ã°Å¸Å¸Â¡ Medium | Daily backups; pg_dump for portability |
+| Vercel | Ã°Å¸â€Â´ High (hosting + CDN) | Ã°Å¸Å¸Â¢ Low (no data stored) | Ã°Å¸Å¸Â¢ Low (free tier sufficient) | Ã°Å¸Å¸Â¡ Medium (Next.js is portable) | Ã°Å¸Å¸Â¡ Medium | Keep Next.js portable; test on Netlify/Fly.io |
+| GitHub | Ã°Å¸â€Â´ High (source control + CI/CD) | Ã°Å¸Å¸Â¢ Low (code only, no secrets) | Ã°Å¸Å¸Â¢ Low (free tier) | Ã°Å¸Å¸Â¡ Medium (git is universal) | Ã°Å¸Å¸Â¢ Low | Local git backup; mirror to GitLab |
+| Cloudflare | Ã°Å¸Å¸Â¡ Medium (DNS + DDoS) | Ã°Å¸Å¸Â¢ Low (no data) | Ã°Å¸Å¸Â¢ Low (free tier) | Ã°Å¸Å¸Â¢ Low (standard DNS) | Ã°Å¸Å¸Â¢ Low | Secondary DNS provider (backup zone file) |
+| OpenAI | Ã°Å¸Å¸Â¡ Medium (AI chat) | Ã°Å¸Å¸Â¢ Low (conversations) | Ã°Å¸Å¸Â¡ Medium (~$5/month variable) | Ã°Å¸Å¸Â¡ Medium (model API) | Ã°Å¸Å¸Â¡ Medium | Anthropic fallback; cap max_tokens |
+| Resend | Ã°Å¸Å¸Â¡ Medium (email delivery) | Ã°Å¸Å¸Â¡ Medium (lead emails) | Ã°Å¸Å¸Â¢ Low (free tier 100/day) | Ã°Å¸Å¸Â¢ Low (SMTP standard) | Ã°Å¸Å¸Â¢ Low | SMTP backup (direct Gmail) |
+| PostHog | Ã°Å¸Å¸Â¢ Low (analytics only) | Ã°Å¸Å¸Â¢ Low (anonymized events) | Ã°Å¸Å¸Â¢ Low (free tier 1M events) | Ã°Å¸Å¸Â¢ Low (open source) | Ã°Å¸Å¸Â¢ Low | Umami fallback; custom DB events |
+| Umami | Ã°Å¸Å¸Â¢ Low (analytics only) | Ã°Å¸Å¸Â¢ Low (anonymized) | Ã°Å¸Å¸Â¢ Low (self-hosted) | Ã°Å¸Å¸Â¢ Low (open source) | Ã°Å¸Å¸Â¢ Low | PostHog fallback |
+| Sentry | Ã°Å¸Å¸Â¢ Low (error tracking) | Ã°Å¸Å¸Â¡ Medium (error traces) | Ã°Å¸Å¸Â¢ Low (free tier 5K events) | Ã°Å¸Å¸Â¢ Low (open source SDK) | Ã°Å¸Å¸Â¢ Low | Console fallback; audit_logs table |
+| Better Uptime | Ã°Å¸Å¸Â¢ Low (monitoring only) | Ã°Å¸Å¸Â¢ Low (no data) | Ã°Å¸Å¸Â¢ Low (free tier) | Ã°Å¸Å¸Â¢ Low (check interval config) | Ã°Å¸Å¸Â¢ Low | Manual health check via curl |
+| Anthropic | Ã°Å¸Å¸Â¢ Low (fallback only) | Ã°Å¸Å¸Â¢ Low (conversations) | Ã°Å¸Å¸Â¢ Low (no usage if OpenAI works) | Ã°Å¸Å¸Â¢ Low (model API) | Ã°Å¸Å¸Â¢ Low | N/A (standby only) |
+| Google OAuth | Ã°Å¸Å¸Â¡ Medium (admin login) | Ã°Å¸Å¸Â¡ Medium (auth data) | Ã°Å¸Å¸Â¢ Low (free) | Ã°Å¸Å¸Â¢ Low (OAuth standard) | Ã°Å¸Å¸Â¢ Low | Email + password fallback |
+| GitHub Actions | Ã°Å¸Å¸Â¡ Medium (CI/CD pipeline) | Ã°Å¸Å¸Â¢ Low (no data) | Ã°Å¸Å¸Â¢ Low (free tier 2K min) | Ã°Å¸Å¸Â¡ Medium (YAML standard) | Ã°Å¸Å¸Â¢ Low | Local CLI deployment as backup |
 
 ### 19.2 Critical Failure Scenarios
 
 | Scenario | Integrations Affected | Maximum Downtime | Mitigation |
 |----------|---------------------|-----------------|------------|
-| Supabase region outage | All features | 2 hours | Daily backup → restore to new project |
+| Supabase region outage | All features | 2 hours | Daily backup Ã¢â€ â€™ restore to new project |
 | OpenAI API key compromised | AI chat (cost abuse) | 15 min | Auto-rotate key; set spending limit |
 | Vercel platform outage | Site unavailable | Vercel SLA | DNS failover to backup host |
 | GitHub Actions minutes exhausted | CI/CD blocked | Monthly | Reduce workflow frequency; use self-hosted runner |
@@ -2184,19 +2184,19 @@ The platform exposes a readiness endpoint that checks all integrations:
 
 | Integration | Status | Uptime (30d) | Last Check | Last Incident | Key Metric |
 |-------------|--------|-------------|------------|---------------|------------|
-| Supabase | ✅ Healthy | 99.97% | 1s ago | None (30d) | Query latency: 2ms |
-| Vercel | ✅ Healthy | 99.99% | 5s ago | None (30d) | p95 load: 45ms |
-| GitHub | ✅ Healthy | 99.95% | 10s ago | None (30d) | Rate remaining: 4,800 |
-| Cloudflare | ✅ Healthy | 100% | 30s ago | None (30d) | DNS 100% uptime |
-| Resend | ✅ Healthy | 99.9% | 1m ago | None (30d) | Quota: 87/100 |
-| OpenAI | ✅ Healthy | 99.8% | 30s ago | None (30d) | Cost today: $0.42 |
-| Anthropic | ⏸️ Standby | — | — | — | — |
-| PostHog | ✅ Healthy | 99.9% | 1m ago | None (30d) | Events: 45K/1M |
-| Umami | ✅ Healthy | 99.5% | 2m ago | None (30d) | Visitors today: 234 |
-| Sentry | ✅ Healthy | 99.9% | 5s ago | None (30d) | Errors today: 3 |
-| Better Uptime | ✅ Healthy | 99.97% | 30s ago | None (30d) | Uptime: 99.97% |
-| Google OAuth | ✅ Healthy | 100% | 1h ago | None (30d) | Logins today: 1 |
-| GitHub Actions | ✅ Healthy | 99.9% | Last run: 2h ago | None (30d) | Minutes: 150/2,000 |
+| Supabase | Ã¢Å“â€¦ Healthy | 99.97% | 1s ago | None (30d) | Query latency: 2ms |
+| Vercel | Ã¢Å“â€¦ Healthy | 99.99% | 5s ago | None (30d) | p95 load: 45ms |
+| GitHub | Ã¢Å“â€¦ Healthy | 99.95% | 10s ago | None (30d) | Rate remaining: 4,800 |
+| Cloudflare | Ã¢Å“â€¦ Healthy | 100% | 30s ago | None (30d) | DNS 100% uptime |
+| Resend | Ã¢Å“â€¦ Healthy | 99.9% | 1m ago | None (30d) | Quota: 87/100 |
+| OpenAI | Ã¢Å“â€¦ Healthy | 99.8% | 30s ago | None (30d) | Cost today: $0.42 |
+| Anthropic | Ã¢ÂÂ¸Ã¯Â¸Â Standby | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| PostHog | Ã¢Å“â€¦ Healthy | 99.9% | 1m ago | None (30d) | Events: 45K/1M |
+| Umami | Ã¢Å“â€¦ Healthy | 99.5% | 2m ago | None (30d) | Visitors today: 234 |
+| Sentry | Ã¢Å“â€¦ Healthy | 99.9% | 5s ago | None (30d) | Errors today: 3 |
+| Better Uptime | Ã¢Å“â€¦ Healthy | 99.97% | 30s ago | None (30d) | Uptime: 99.97% |
+| Google OAuth | Ã¢Å“â€¦ Healthy | 100% | 1h ago | None (30d) | Logins today: 1 |
+| GitHub Actions | Ã¢Å“â€¦ Healthy | 99.9% | Last run: 2h ago | None (30d) | Minutes: 150/2,000 |
 
 ---
 
@@ -2206,19 +2206,19 @@ The platform exposes a readiness endpoint that checks all integrations:
 
 | Integration | Free Tier Limit | Est. Actual Usage | Cost | Budget | Overrun Risk |
 |-------------|----------------|-------------------|------|--------|-------------|
-| Supabase | 500MB DB, 1GB Storage, 50K Users | < 50MB DB, < 100MB Storage, 1 User | $0 | $0 | 🟢 Low |
-| Vercel | 100GB BW, 6,000 Build Min, 500K Exec | < 5GB BW, < 500 Build Min, < 10K Exec | $0 | $0 | 🟢 Low |
-| GitHub | 2,000 CI/CD Minutes | < 200 Minutes | $0 | $0 | 🟢 Low |
-| Cloudflare | Unlimited DNS, DDoS | Standard usage | $0 | $0 | 🟢 Low |
-| PostHog | 1M Events | < 50K Events | $0 | $0 | 🟢 Low |
-| Sentry | 5K Errors | < 500 Errors | $0 | $0 | 🟢 Low |
-| Resend | 100 Emails/Day | < 5 Emails/Day | $0 | $0 | 🟢 Low |
-| Umami | Self-hosted (Railway $5 credit) | Minimal usage | $0 | $0 | 🟢 Low |
-| Better Uptime | 10 Monitors, 1-min checks | 3 Monitors | $0 | $0 | 🟢 Low |
-| OpenAI | $18 free credit (new accounts) | ~$3.50/month (chat) + ~$0.65 (embeddings) | ~$4.15 | $10 | 🟡 Medium |
-| Anthropic | $0 (standby, no active usage) | $0 | $0 | $0 | 🟢 Low |
-| Google OAuth | Unlimited | 1 user | $0 | $0 | 🟢 Low |
-| **Total** | | | **~$4.15** | **$10** | 🟢 Low |
+| Supabase | 500MB DB, 1GB Storage, 50K Users | < 50MB DB, < 100MB Storage, 1 User | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Vercel | 100GB BW, 6,000 Build Min, 500K Exec | < 5GB BW, < 500 Build Min, < 10K Exec | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| GitHub | 2,000 CI/CD Minutes | < 200 Minutes | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Cloudflare | Unlimited DNS, DDoS | Standard usage | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| PostHog | 1M Events | < 50K Events | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Sentry | 5K Errors | < 500 Errors | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Resend | 100 Emails/Day | < 5 Emails/Day | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Umami | Self-hosted (Railway $5 credit) | Minimal usage | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Better Uptime | 10 Monitors, 1-min checks | 3 Monitors | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| OpenAI | $18 free credit (new accounts) | ~$3.50/month (chat) + ~$0.65 (embeddings) | ~$4.15 | $10 | Ã°Å¸Å¸Â¡ Medium |
+| Anthropic | $0 (standby, no active usage) | $0 | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| Google OAuth | Unlimited | 1 user | $0 | $0 | Ã°Å¸Å¸Â¢ Low |
+| **Total** | | | **~$4.15** | **$10** | Ã°Å¸Å¸Â¢ Low |
 
 ### 21.2 Cost Optimization Strategies
 
@@ -2236,13 +2236,13 @@ The platform exposes a readiness endpoint that checks all integrations:
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-INT-001 | Supabase as primary data integration (DB, Auth, Storage, Realtime) | All-in-one platform; free tier covers all data needs; built-in RLS and pgvector | Separate providers for each function (rejected — integration complexity, cost); Firebase (rejected — NoSQL, vendor lock-in) | Mar 2026 | Principal Integration Architect |
-| D-INT-002 | OpenAI GPT-4 as primary LLM, Anthropic Claude 3.5 as fallback | GPT-4 best quality for portfolio Q&A; Claude fallback for redundancy; both have Python SDKs | Single LLM provider (rejected — single point of failure); open-source self-hosted (rejected — GPU cost, maintenance) | Jun 2026 | Principal Integration Architect |
-| D-INT-003 | PostHog (cloud) as primary analytics, Umami (self-hosted) as privacy-focused backup | PostHog for product analytics; Umami for privacy-compliant simple tracking; both free tier | Google Analytics (rejected — privacy concerns, GDPR complexity); Mixpanel (rejected — costly at scale) | Mar 2026 | Principal Integration Architect |
-| D-INT-004 | Resend for transactional emails (contact form, lead notifications) | Generous free tier (100 emails/day); modern API; DKIM/SPF support | SendGrid (rejected — complex setup, IP warmup); SES (rejected — AWS complexity for portfolio) | Mar 2026 | Principal Integration Architect |
-| D-INT-005 | Google OAuth as exclusive admin authentication | Free; trusted provider; portfolio owner already has Google account | Email/password auth (rejected — password management burden); GitHub OAuth (rejected — less universal) | Mar 2026 | Principal Integration Architect |
-| D-INT-006 | Sentry for error monitoring and performance tracing | Generous free tier (5K errors/month); distributed tracing; GitHub integration | Datadog (rejected — cost prohibitive for portfolio); self-hosted Sentry (rejected — maintenance overhead) | Mar 2026 | Principal Integration Architect |
-| D-INT-007 | GitHub Actions for CI/CD with Dependabot for dependency updates | Free for public repos; deep GitHub integration; Dependabot auto-PRs for security patches | CircleCI (rejected — limited free tier minutes); GitLab CI (rejected — not on GitHub ecosystem) | Mar 2026 | Principal Integration Architect |
+| D-INT-001 | Supabase as primary data integration (DB, Auth, Storage, Realtime) | All-in-one platform; free tier covers all data needs; built-in RLS and pgvector | Separate providers for each function (rejected Ã¢â‚¬â€ integration complexity, cost); Firebase (rejected Ã¢â‚¬â€ NoSQL, vendor lock-in) | Mar 2026 | Principal Integration Architect |
+| D-INT-002 | OpenAI GPT-4 as primary LLM, Anthropic Claude 3.5 as fallback | GPT-4 best quality for portfolio Q&A; Claude fallback for redundancy; both have Python SDKs | Single LLM provider (rejected Ã¢â‚¬â€ single point of failure); open-source self-hosted (rejected Ã¢â‚¬â€ GPU cost, maintenance) | Jun 2026 | Principal Integration Architect |
+| D-INT-003 | PostHog (cloud) as primary analytics, Umami (self-hosted) as privacy-focused backup | PostHog for product analytics; Umami for privacy-compliant simple tracking; both free tier | Google Analytics (rejected Ã¢â‚¬â€ privacy concerns, GDPR complexity); Mixpanel (rejected Ã¢â‚¬â€ costly at scale) | Mar 2026 | Principal Integration Architect |
+| D-INT-004 | Resend for transactional emails (contact form, lead notifications) | Generous free tier (100 emails/day); modern API; DKIM/SPF support | SendGrid (rejected Ã¢â‚¬â€ complex setup, IP warmup); SES (rejected Ã¢â‚¬â€ AWS complexity for portfolio) | Mar 2026 | Principal Integration Architect |
+| D-INT-005 | Google OAuth as exclusive admin authentication | Free; trusted provider; portfolio owner already has Google account | Email/password auth (rejected Ã¢â‚¬â€ password management burden); GitHub OAuth (rejected Ã¢â‚¬â€ less universal) | Mar 2026 | Principal Integration Architect |
+| D-INT-006 | Sentry for error monitoring and performance tracing | Generous free tier (5K errors/month); distributed tracing; GitHub integration | Datadog (rejected Ã¢â‚¬â€ cost prohibitive for portfolio); self-hosted Sentry (rejected Ã¢â‚¬â€ maintenance overhead) | Mar 2026 | Principal Integration Architect |
+| D-INT-007 | GitHub Actions for CI/CD with Dependabot for dependency updates | Free for public repos; deep GitHub integration; Dependabot auto-PRs for security patches | CircleCI (rejected Ã¢â‚¬â€ limited free tier minutes); GitLab CI (rejected Ã¢â‚¬â€ not on GitHub ecosystem) | Mar 2026 | Principal Integration Architect |
 
 ---
 
@@ -2262,15 +2262,15 @@ The platform exposes a readiness endpoint that checks all integrations:
 | Reference | Description |
 |-----------|-------------|
 | `docs/MASTER-INDEX.md` | Document navigation and dependency graph |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — where integrations are deployed |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — package versions, dependency update cadence |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema — Supabase is the primary data store |
-| `docs/api/12-API.md` (v5.0) | API documentation — webhook endpoints for each integration |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security posture — OWASP compliance for integrations |
-| `docs/security/15-AUTHORIZATION.md` (v5.0) | RBAC model — Google OAuth is the primary auth mechanism |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog — which features depend on which integrations |
-| `docs/architecture/13-INTEGRATIONS.md` (v3.0) | Previous version — superseded by v4.0 |
-| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint — integration setup instructions |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ where integrations are deployed |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ package versions, dependency update cadence |
+| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema Ã¢â‚¬â€ Supabase is the primary data store |
+| `docs/api/12-API.md` (v5.0) | API documentation Ã¢â‚¬â€ webhook endpoints for each integration |
+| `docs/security/SecurityArchitecture.md` (v5.0) | Security posture Ã¢â‚¬â€ OWASP compliance for integrations |
+| `docs/security/15-AUTHORIZATION.md` (v5.0) | RBAC model Ã¢â‚¬â€ Google OAuth is the primary auth mechanism |
+| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog Ã¢â‚¬â€ which features depend on which integrations |
+| `docs/architecture/13-INTEGRATIONS.md` (v3.0) | Previous version Ã¢â‚¬â€ superseded by v4.0 |
+| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint Ã¢â‚¬â€ integration setup instructions |
 
 ---
 
@@ -2285,7 +2285,7 @@ The platform exposes a readiness endpoint that checks all integrations:
 | 2.0 | Jun 2026 | Added OpenAI, Anthropic, PostHog integrations | Tech Lead |
 | 1.0 | Mar 2026 | Initial integrations documentation | Tech Lead |
 
-*Document Version: 4.0 — Enterprise-Grade Integration Architecture*  
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade Integration Architecture*  
 *Supersedes v3.0 (June 2026) and all previous versions*  
 *Next Review Date: September 2026*
 
@@ -2334,3 +2334,7 @@ The authentication integration has shifted from a direct Next.js-to-Supabase flo
 | **Tier Classification** | A system for categorizing integrations by criticality (Core, Observability, Communication, AI) |
 | **Health Check** | A diagnostic endpoint or probe that verifies an integration is functioning correctly |
 | **Composite Risk Matrix** | A multi-dimensional assessment scoring each integration on availability, security, cost, and vendor risk |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

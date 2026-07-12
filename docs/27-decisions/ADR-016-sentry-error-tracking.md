@@ -79,6 +79,18 @@ All configs use `enabled: !!process.env.NEXT_PUBLIC_SENTRY_DSN` so Sentry is ful
 - `tracesSampleRate: 0.25` in production is a reasonable default for performance/cost balance
 - Notifications go to configured alert channels (email, Slack webhook)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Error tracking] --> B[Options: Sentry / Datadog / Bugsnag]
+    B --> C[Decision: Sentry]
+    C --> D[Positive: 3-runtime coverage, session replay, free 5K events]
+    C --> E[Negative: 50KB bundle, 5K event cap, external dependency]
+    D --> F[Compliance: §5.1, §5.3]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §5.1: "Production error monitoring with privacy-preserving defaults"
@@ -86,3 +98,7 @@ All configs use `enabled: !!process.env.NEXT_PUBLIC_SENTRY_DSN` so Sentry is ful
 - PII redaction: `@sentry/nextjs` strips `email`, `password`, `secret`, `token`, `authorization` fields by default
 - Data retention: 90 days for errors, 30 days for replays (configurable in Sentry settings)
 - GDPR: Sentry is GDPR-compliant, DPA available; data stored in US (default) or EU region
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

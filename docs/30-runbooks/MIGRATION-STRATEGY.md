@@ -1,5 +1,22 @@
 # Database Migration Strategy
 
+## Migration Phases Diagram
+
+```mermaid
+gantt
+    title Migration Phases
+    dateFormat  YYYY-MM-DD
+    section Phase
+    Assess           :a1, 2026-01-01, 3d
+    Plan             :a2, after a1, 2d
+    Migrate          :a3, after a2, 5d
+    Validate         :a4, after a3, 2d
+    Cutover          :a5, after a4, 1d
+    Monitor          :a6, after a5, 3d
+```
+
+
+
 This document outlines the lifecycle of database schema changes using Prisma within our CI/CD pipelines, ensuring zero-downtime and data integrity.
 
 ## Tooling
@@ -58,3 +75,7 @@ Prisma does not natively support `migrate down`. In the event of a faulty produc
 1. Revert the code commit containing the faulty `schema.prisma` and migration files.
 2. Manually craft a reverse SQL migration or utilize Supabase PITR (Point-in-Time Recovery) if data corruption occurred.
 3. Deploy the reverted state.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

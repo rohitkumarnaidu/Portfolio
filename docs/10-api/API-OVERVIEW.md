@@ -1,7 +1,7 @@
-# API Architecture Document — Enterprise-Grade API Platform
+# API Architecture Document Ã¢â‚¬â€ Enterprise-Grade API Platform
 
 > **Document:** `12-API.md` | **Version:** 4.0 | **Last Updated:** June 2026  
-> **Status:** ✅ Active | **Owner:** Principal API Architect | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal API Architect | **Review Cadence:** Quarterly  
 > **Classification:** Enterprise Architecture | **API Style:** RESTful + SSE Streaming  
 > **Framework:** NestJS 10 (Primary) + FastAPI (AI) + Next.js 14 (BFF)
 
@@ -50,14 +50,14 @@ Defines the complete API surface for the portfolio platform: RESTful endpoints f
 
 ### 1.1 North Star
 
-The API platform serves as the **backbone of all data operations** across the portfolio ecosystem. Designed with enterprise-grade rigor while operating entirely within free-tier limits, it provides three API surfaces — NestJS (primary REST API), FastAPI (AI microservice), and Next.js (BFF for SSR/ISR) — that collectively power all portfolio features with consistent security, error handling, and performance guarantees.
+The API platform serves as the **backbone of all data operations** across the portfolio ecosystem. Designed with enterprise-grade rigor while operating entirely within free-tier limits, it provides three API surfaces Ã¢â‚¬â€ NestJS (primary REST API), FastAPI (AI microservice), and Next.js (BFF for SSR/ISR) Ã¢â‚¬â€ that collectively power all portfolio features with consistent security, error handling, and performance guarantees.
 
 ### 1.2 Design Principles
 
 | # | Principle | Rationale | Violation Penalty |
 |---|-----------|-----------|-------------------|
 | P1 | **RESTful by default** | Standard HTTP methods, resource-based URLs, stateless | Must fix before deployment |
-| P2 | **Defense in depth** | Auth at every layer: API gateway → guard → RLS | Security vulnerability |
+| P2 | **Defense in depth** | Auth at every layer: API gateway Ã¢â€ â€™ guard Ã¢â€ â€™ RLS | Security vulnerability |
 | P3 | **Fail closed** | Deny access unless explicitly permitted | Data breach risk |
 | P4 | **Explicit validation** | All inputs validated at boundary with clear error messages | Data corruption risk |
 | P5 | **Idempotent mutations** | Safe methods (GET, PUT, DELETE) are idempotent | Unexpected side effects |
@@ -109,11 +109,11 @@ The API platform serves as the **backbone of all data operations** across the po
 
 | Method | Semantics | Idempotent | Safe | Body | Response |
 |--------|-----------|------------|------|------|----------|
-| `GET` | Retrieve resource(s) | ✅ | ✅ | No | `200 OK` |
-| `POST` | Create resource | ❌ | ❌ | Yes | `201 Created` |
-| `PUT` | Full replace | ✅ | ❌ | Yes | `200 OK` |
-| `PATCH` | Partial update | ❌ | ❌ | Yes | `200 OK` |
-| `DELETE` | Remove resource | ✅ | ❌ | No | `204 No Content` |
+| `GET` | Retrieve resource(s) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | No | `200 OK` |
+| `POST` | Create resource | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Yes | `201 Created` |
+| `PUT` | Full replace | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Yes | `200 OK` |
+| `PATCH` | Partial update | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Yes | `200 OK` |
+| `DELETE` | Remove resource | Ã¢Å“â€¦ | Ã¢ÂÅ’ | No | `204 No Content` |
 
 ### 2.3 Request Headers
 
@@ -157,9 +157,9 @@ The API platform serves as the **backbone of all data operations** across the po
 
 | Parameter | Type | Default | Max | Description |
 |-----------|------|---------|-----|-------------|
-| `page` | integer | 1 | — | Page number (1-indexed) |
+| `page` | integer | 1 | Ã¢â‚¬â€ | Page number (1-indexed) |
 | `perPage` | integer | 20 | 100 | Items per page |
-| `sort` | string | `created_at` | — | Sort field |
+| `sort` | string | `created_at` | Ã¢â‚¬â€ | Sort field |
 | `order` | enum | `desc` | asc/desc | Sort direction |
 
 ### 2.6 Response Envelope
@@ -210,9 +210,9 @@ The API platform serves as the **backbone of all data operations** across the po
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        Browser["🌐 Browser"]
-        Admin["🔐 Admin Panel"]
-        External["🌍 External Services"]
+        Browser["Ã°Å¸Å’Â Browser"]
+        Admin["Ã°Å¸â€Â Admin Panel"]
+        External["Ã°Å¸Å’Â External Services"]
     end
 
     subgraph "Edge Layer (Vercel)"
@@ -347,7 +347,7 @@ graph LR
 ### 3.3 Middleware Execution Order
 
 ```text
-Request → 
+Request Ã¢â€ â€™ 
   1. CORS Middleware (origin validation)
   2. Helmet Middleware (security headers)
   3. Rate Limiter Middleware (tier limits)
@@ -356,7 +356,7 @@ Request →
   6. Route Handler (business logic)
   7. Logging Interceptor (response timing + correlation ID)
   8. Exception Filter (global error normalization)
-  → Response
+  Ã¢â€ â€™ Response
 ```
 
 ### 3.4 Request Lifecycle
@@ -407,11 +407,11 @@ sequenceDiagram
 
 | Method | Used For | Token Type | Expiry | Refresh | Status |
 |--------|----------|------------|--------|---------|--------|
-| **JWT Bearer Token** | NestJS Admin API | `access_token` (JWT) | 15 minutes | 7-day refresh token | ✅ Active |
-| **NestJS Passport Session** | Next.js Admin Pages | HTTP-only session cookie | 24 hours / 30 days | Automatic via NestJS Passport | ✅ Active |
-| **API Key** | Service-to-service (AI) | `X-API-Key` header | Fixed (keys rotated quarterly) | Manual rotation | ✅ Active |
-| **Supabase Anon Key** | Public ISR reads | `apikey` header | Permanent (public) | None required | ✅ Active |
-| **OAuth 2.0** | Admin login (Google, GitHub) | Authorization code flow | Per JWT session | Auto-refresh | ✅ Active |
+| **JWT Bearer Token** | NestJS Admin API | `access_token` (JWT) | 15 minutes | 7-day refresh token | Ã¢Å“â€¦ Active |
+| **NestJS Passport Session** | Next.js Admin Pages | HTTP-only session cookie | 24 hours / 30 days | Automatic via NestJS Passport | Ã¢Å“â€¦ Active |
+| **API Key** | Service-to-service (AI) | `X-API-Key` header | Fixed (keys rotated quarterly) | Manual rotation | Ã¢Å“â€¦ Active |
+| **Supabase Anon Key** | Public ISR reads | `apikey` header | Permanent (public) | None required | Ã¢Å“â€¦ Active |
+| **OAuth 2.0** | Admin login (Google, GitHub) | Authorization code flow | Per JWT session | Auto-refresh | Ã¢Å“â€¦ Active |
 
 ### 4.2 JWT Token Structure
 
@@ -599,27 +599,27 @@ async createProject(@Body() dto: CreateProjectDto) { ... }
 
 | Resource | Action | anon | admin | editor | viewer |
 |----------|--------|------|-------|--------|--------|
-| Sections | Create | ❌ | ✅ | ✅ | ❌ |
-| Sections | Read (live) | ✅ | ✅ | ✅ | ✅ |
-| Sections | Read (all) | ❌ | ✅ | ✅ | ❌ |
-| Sections | Update | ❌ | ✅ | ✅ | ❌ |
-| Sections | Delete | ❌ | ✅ | ❌ | ❌ |
-| Projects | Create | ❌ | ✅ | ✅ | ❌ |
-| Projects | Read (public) | ✅ | ✅ | ✅ | ✅ |
-| Projects | Read (private) | ❌ | ✅ | ✅ | ❌ |
-| Projects | Update | ❌ | ✅ | ✅ | ❌ |
-| Projects | Delete | ❌ | ✅ | ❌ | ❌ |
-| Leads | Insert | ✅ | ✅ | ❌ | ❌ |
-| Leads | Read | ❌ | ✅ | ❌ | ❌ |
-| Leads | Update status | ❌ | ✅ | ❌ | ❌ |
-| Analytics | Insert events | ✅ | ✅ | ❌ | ❌ |
-| Analytics | Read dashboard | ❌ | ✅ | ❌ | ✅ |
-| Media | Upload | ❌ | ✅ | ✅ | ❌ |
-| Media | Read (public) | ✅ | ✅ | ✅ | ✅ |
-| Settings | Read | ❌ | ✅ | ❌ | ❌ |
-| Settings | Update | ❌ | ✅ | ❌ | ❌ |
-| AI Chat | Send message | ✅ | ✅ | ❌ | ❌ |
-| AI Chat | View history | ❌ | ✅ | ❌ | ❌ |
+| Sections | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Sections | Read (live) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Sections | Read (all) | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Sections | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Sections | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Projects | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Projects | Read (public) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Projects | Read (private) | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Projects | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Projects | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Leads | Insert | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Leads | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Leads | Update status | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Analytics | Insert events | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Analytics | Read dashboard | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
+| Media | Upload | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Media | Read (public) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Settings | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Settings | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| AI Chat | Send message | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| AI Chat | View history | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
 
 ---
 
@@ -645,23 +645,23 @@ async createProject(@Body() dto: CreateProjectDto) { ... }
 |-------|----------|----------|------------------------|
 | **Active** | 12+ months | Full support, all features | Documented in current API docs |
 | **Deprecated** | 6 months | `Deprecation: true` header added | Blog post + email notification |
-| **Sunset** | — | Returns `410 Gone` | `Sunset` header + migration guide URL |
-| **Removed** | — | Returns `404 Not Found` | N/A |
+| **Sunset** | Ã¢â‚¬â€ | Returns `410 Gone` | `Sunset` header + migration guide URL |
+| **Removed** | Ã¢â‚¬â€ | Returns `404 Not Found` | N/A |
 
 ### 6.3 Breaking Changes Policy
 
 | Change Type | Breaking? | Version Bump | Migration Guide Required |
 |-------------|-----------|-------------|-------------------------|
-| Add endpoint | ❌ | Minor | ❌ |
-| Add optional field to response | ❌ | Minor | ❌ |
-| Add required field to request | ✅ | Major | ✅ |
-| Remove endpoint | ✅ | Major | ✅ |
-| Remove response field | ✅ | Major | ✅ |
-| Rename field | ✅ | Major | ✅ |
-| Change field type | ✅ | Major | ✅ |
-| Change error format | ✅ | Major | ✅ |
-| Change auth method | ✅ | Major | ✅ |
-| Change rate limit (reducing) | ⚠️ (non-breaking but notice) | Minor | ❌ (but notice given) |
+| Add endpoint | Ã¢ÂÅ’ | Minor | Ã¢ÂÅ’ |
+| Add optional field to response | Ã¢ÂÅ’ | Minor | Ã¢ÂÅ’ |
+| Add required field to request | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Remove endpoint | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Remove response field | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Rename field | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Change field type | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Change error format | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Change auth method | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
+| Change rate limit (reducing) | Ã¢Å¡Â Ã¯Â¸Â (non-breaking but notice) | Minor | Ã¢ÂÅ’ (but notice given) |
 
 ---
 
@@ -805,14 +805,14 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
 | Tier | Endpoints | Limit | Window | Penalty | Burst |
 |------|-----------|-------|--------|---------|-------|
-| **🔴 Strict** | Auth (login, register, refresh) | 5 | 15 minutes | 15 min cooldown | 0 |
-| **🟡 Medium** | POST /leads, POST /contact | 10 | 15 minutes | 15 min cooldown | 2 |
-| **🟢 Low** | POST /analytics/events | 100 | 15 minutes | 15 min cooldown | 10 |
-| **🔵 Default** | All public GET endpoints | 100 | 15 minutes | 15 min cooldown | 20 |
-| **🟣 Admin** | All authenticated admin endpoints | 1000 | 15 minutes | 15 min cooldown | 50 |
-| **⚪ AI Chat** | POST /ai/chat | 20 | Per session | Return hourly | 5 |
-| **🔸 GitHub** | GET /github/* | 10 | 1 minute | Respect GitHub API limits | 2 |
-| **🔹 Webhook** | POST /webhooks/* | 50 | 1 minute | 1 min cooldown | 10 |
+| **Ã°Å¸â€Â´ Strict** | Auth (login, register, refresh) | 5 | 15 minutes | 15 min cooldown | 0 |
+| **Ã°Å¸Å¸Â¡ Medium** | POST /leads, POST /contact | 10 | 15 minutes | 15 min cooldown | 2 |
+| **Ã°Å¸Å¸Â¢ Low** | POST /analytics/events | 100 | 15 minutes | 15 min cooldown | 10 |
+| **Ã°Å¸â€Âµ Default** | All public GET endpoints | 100 | 15 minutes | 15 min cooldown | 20 |
+| **Ã°Å¸Å¸Â£ Admin** | All authenticated admin endpoints | 1000 | 15 minutes | 15 min cooldown | 50 |
+| **Ã¢Å¡Âª AI Chat** | POST /ai/chat | 20 | Per session | Return hourly | 5 |
+| **Ã°Å¸â€Â¸ GitHub** | GET /github/* | 10 | 1 minute | Respect GitHub API limits | 2 |
+| **Ã°Å¸â€Â¹ Webhook** | POST /webhooks/* | 50 | 1 minute | 1 min cooldown | 10 |
 
 ### 8.2 Rate Limit Headers
 
@@ -1077,7 +1077,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/auth/login` |
 | **Authentication** | None |
 | **Authorization** | None |
-| **Rate Limit Tier** | 🔴 Strict (5/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (5/15min) |
 | **Idempotent** | No |
 
 **Request:**
@@ -1130,7 +1130,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/auth/refresh` |
 | **Authentication** | Refresh token in body |
 | **Authorization** | None |
-| **Rate Limit Tier** | 🔴 Strict (5/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (5/15min) |
 | **Idempotent** | No |
 
 **Request:**
@@ -1169,7 +1169,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/auth/register` |
 | **Authentication** | None |
 | **Authorization** | None |
-| **Rate Limit Tier** | 🔴 Strict (5/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (5/15min) |
 | **Idempotent** | No |
 
 **Request:**
@@ -1216,7 +1216,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/auth/logout` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🔵 Default (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 | **Idempotent** | No |
 
 **Request:**
@@ -1242,7 +1242,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/auth/forgot-password` |
 | **Authentication** | None |
 | **Authorization** | None |
-| **Rate Limit Tier** | 🔴 Strict (3/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (3/15min) |
 
 **Request:**
 ```json
@@ -1274,14 +1274,14 @@ export class ApiKeyService {
 | **Route** | `/api/v1/sections` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` (read only) |
-| **Rate Limit Tier** | 🔵 Default (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 | **Cache** | ISR 60s |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `is_live` | boolean | ❌ | `true` | Filter by visibility |
-| `type` | string | ❌ | — | Filter by section type |
+| `is_live` | boolean | Ã¢ÂÅ’ | `true` | Filter by visibility |
+| `type` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by section type |
 
 **Success Response (200):**
 ```json
@@ -1319,7 +1319,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/sections/:idOrKey` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` (public only) |
-| **Rate Limit Tier** | 🔵 Default (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 
 **Path Parameters:**
 | Param | Type | Description |
@@ -1341,7 +1341,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/sections` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin`, `editor` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
 ```json
@@ -1374,7 +1374,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/sections/:id` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin`, `editor` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request (partial update):**
 ```json
@@ -1400,7 +1400,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/sections/reorder` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
 ```json
@@ -1427,7 +1427,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/sections/:id` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Success Response (204):** No content
 **Analytics Event:** `section_deleted`
@@ -1446,20 +1446,20 @@ export class ApiKeyService {
 | **Route** | `/api/v1/projects` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` (public only) |
-| **Rate Limit Tier** | 🔵 Default (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 | **Cache** | ISR 60s |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `page` | integer | ❌ | `1` | Page number |
-| `per_page` | integer | ❌ | `12` | Items per page (max 100) |
-| `category` | string | ❌ | — | Filter by category |
-| `tech` | string | ❌ | — | Filter by technology (comma-separated for multiple) |
-| `featured` | boolean | ❌ | — | Filter featured only |
-| `search` | string | ❌ | — | Search in title and description |
-| `sort` | string | ❌ | `display_order` | Sort field |
-| `order` | string | ❌ | `asc` | Sort direction |
+| `page` | integer | Ã¢ÂÅ’ | `1` | Page number |
+| `per_page` | integer | Ã¢ÂÅ’ | `12` | Items per page (max 100) |
+| `category` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by category |
+| `tech` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by technology (comma-separated for multiple) |
+| `featured` | boolean | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter featured only |
+| `search` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Search in title and description |
+| `sort` | string | Ã¢ÂÅ’ | `display_order` | Sort field |
+| `order` | string | Ã¢ÂÅ’ | `asc` | Sort direction |
 
 **Success Response (200):**
 ```json
@@ -1526,7 +1526,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/projects/:slugOrId` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` (public if not private) |
-| **Rate Limit Tier** | 🔵 Default (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 | **Cache** | ISR 60s |
 
 **Path Parameters:**
@@ -1550,7 +1550,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/projects` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin`, `editor` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
 ```json
@@ -1597,7 +1597,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/projects/:id` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin`, `editor` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Success Response (200):** Updated project object
 **Analytics Event:** `project_updated`
@@ -1614,7 +1614,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/projects/:id` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Success Response (204):** No content
 **Analytics Event:** `project_deleted`
@@ -1728,11 +1728,11 @@ export class ApiKeyService {
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `page` | integer | ❌ | `1` | Page number |
-| `per_page` | integer | ❌ | `12` | Items per page |
-| `tag` | string | ❌ | — | Filter by tag |
-| `search` | string | ❌ | — | Full-text search |
-| `sort` | string | ❌ | `published_at` | Sort field |
+| `page` | integer | Ã¢ÂÅ’ | `1` | Page number |
+| `per_page` | integer | Ã¢ÂÅ’ | `12` | Items per page |
+| `tag` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by tag |
+| `search` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Full-text search |
+| `sort` | string | Ã¢ÂÅ’ | `published_at` | Sort field |
 
 **Success Response (200):**
 ```json
@@ -1867,7 +1867,7 @@ export class ApiKeyService {
 **Query Parameters:**
 | Param | Type | Required | Description |
 |-------|------|----------|-------------|
-| `category` | string | ❌ | Filter by category |
+| `category` | string | Ã¢ÂÅ’ | Filter by category |
 
 **Success Response (200):**
 ```json
@@ -2005,7 +2005,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/leads` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` (insert only) |
-| **Rate Limit Tier** | 🟡 Medium (10/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â¡ Medium (10/15min) |
 
 **Request:**
 ```json
@@ -2069,18 +2069,18 @@ export class ApiKeyService {
 | **Route** | `/api/v1/leads` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `page` | integer | ❌ | `1` | Page number |
-| `per_page` | integer | ❌ | `50` | Items per page |
-| `status` | string | ❌ | — | Filter by status |
-| `source` | string | ❌ | — | Filter by source |
-| `search` | string | ❌ | — | Search by name or email |
-| `sort` | string | ❌ | `created_at` | Sort field |
-| `order` | string | ❌ | `desc` | Sort direction |
+| `page` | integer | Ã¢ÂÅ’ | `1` | Page number |
+| `per_page` | integer | Ã¢ÂÅ’ | `50` | Items per page |
+| `status` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by status |
+| `source` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by source |
+| `search` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Search by name or email |
+| `sort` | string | Ã¢ÂÅ’ | `created_at` | Sort field |
+| `order` | string | Ã¢ÂÅ’ | `desc` | Sort direction |
 
 **Success Response (200):** Paginated leads array
 
@@ -2135,9 +2135,9 @@ export class ApiKeyService {
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `from` | date | ❌ | — | Start date |
-| `to` | date | ❌ | — | End date |
-| `status` | string | ❌ | — | Filter by status |
+| `from` | date | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Start date |
+| `to` | date | Ã¢ÂÅ’ | Ã¢â‚¬â€ | End date |
+| `status` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by status |
 
 **Success Response (200):** CSV file download
 **Headers:** `Content-Type: text/csv`, `Content-Disposition: attachment; filename="leads-2026-06-15.csv"`
@@ -2176,7 +2176,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/analytics/events` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` (insert only) |
-| **Rate Limit Tier** | 🟢 Low (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â¢ Low (100/15min) |
 
 **Request:**
 ```json
@@ -2215,12 +2215,12 @@ export class ApiKeyService {
 | **Route** | `/api/v1/analytics/summary` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `period` | string | ❌ | `7d` | Period: `24h`, `7d`, `30d`, `90d` |
+| `period` | string | Ã¢ÂÅ’ | `7d` | Period: `24h`, `7d`, `30d`, `90d` |
 
 **Success Response (200):**
 ```json
@@ -2265,9 +2265,9 @@ export class ApiKeyService {
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
 |-------|------|----------|---------|-------------|
-| `page` | integer | ❌ | `1` | Page number |
-| `per_page` | integer | ❌ | `50` | Items per page |
-| `from` | date | ❌ | `-7d` | Start date |
+| `page` | integer | Ã¢ÂÅ’ | `1` | Page number |
+| `per_page` | integer | Ã¢ÂÅ’ | `50` | Items per page |
+| `from` | date | Ã¢ÂÅ’ | `-7d` | Start date |
 
 ---
 
@@ -2404,7 +2404,7 @@ export class ApiKeyService {
 | **Route** | `/api/v1/ai/chat` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` |
-| **Rate Limit Tier** | ⚪ AI Chat (20/session) |
+| **Rate Limit Tier** | Ã¢Å¡Âª AI Chat (20/session) |
 | **Protocol** | Server-Sent Events (SSE) |
 
 **Request:**
@@ -2454,7 +2454,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | **Route** | `/api/v1/ai/analyze` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
 ```json
@@ -2534,7 +2534,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
     "suggestions": [
       "I craft digital experiences that blend beautiful design with robust engineering. Specializing in React, Node.js, and AI-powered solutions.",
       "Full-stack developer passionate about building products that make a difference. 10+ years of turning complex problems into elegant solutions.",
-      "From concept to deployment — I build scalable web applications that users love. React expert. AI enthusiast. Problem solver."
+      "From concept to deployment Ã¢â‚¬â€ I build scalable web applications that users love. React expert. AI enthusiast. Problem solver."
     ]
   }
 }
@@ -2554,7 +2554,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | **Route** | `/api/v1/github/activity` |
 | **Authentication** | None (anon) |
 | **Authorization** | `anon` |
-| **Rate Limit Tier** | 🔸 GitHub (10/min) |
+| **Rate Limit Tier** | Ã°Å¸â€Â¸ GitHub (10/min) |
 | **Cache** | Server-side cache, 600s TTL |
 
 **Success Response (200):**
@@ -2650,7 +2650,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 **Query Parameters:**
 | Param | Type | Required | Description |
 |-------|------|----------|-------------|
-| `token` | string | ✅ | Preview access token |
+| `token` | string | Ã¢Å“â€¦ | Preview access token |
 
 **Success Response (200):** Section rendered as HTML fragment
 
@@ -2721,14 +2721,14 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | **Route** | `/api/v1/upload` |
 | **Authentication** | JWT Bearer Token |
 | **Authorization** | `admin`, `editor` |
-| **Rate Limit Tier** | 🟣 Admin (1000/15min) |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:** `multipart/form-data`
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `file` | File | ✅ | Image or document |
-| `bucket` | string | ❌ | `images` (default) or `documents` |
-| `altText` | string | ❌ | Accessibility alt text |
+| `file` | File | Ã¢Å“â€¦ | Image or document |
+| `bucket` | string | Ã¢ÂÅ’ | `images` (default) or `documents` |
+| `altText` | string | Ã¢ÂÅ’ | Accessibility alt text |
 
 **Validation Rules:**
 - Images: Max 5MB, allowed types: `image/png`, `image/jpeg`, `image/webp`, `image/gif`, `image/svg+xml`
@@ -2792,7 +2792,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | **Route** | `/api/v1/webhooks/:source` |
 | **Authentication** | Webhook secret via `X-Webhook-Secret` header |
 | **Authorization** | Service |
-| **Rate Limit Tier** | 🔹 Webhook (50/min) |
+| **Rate Limit Tier** | Ã°Å¸â€Â¹ Webhook (50/min) |
 
 **Path Parameters:**
 | Param | Type | Description |
@@ -2802,7 +2802,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 **Headers:**
 | Header | Required | Description |
 |--------|----------|-------------|
-| `X-Webhook-Secret` | ✅ | Shared secret for source verification |
+| `X-Webhook-Secret` | Ã¢Å“â€¦ | Shared secret for source verification |
 
 **Success Response (200):** `{ "received": true }`
 
@@ -2854,7 +2854,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | **Method** | `GET` |
 | **Route** | `/api/v1/health` |
 | **Authentication** | None |
-| **Rate Limit Tier** | 🔵 Default (100/15min) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 
 **Success Response (200):**
 ```json
@@ -2970,13 +2970,13 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-API-001 | NestJS 10 as primary REST API framework | Opinionated structure; built-in guards, interceptors, pipes; TypeScript-native; strong DI | Express (rejected — no structure, manual middleware); Fastify (rejected — smaller ecosystem, less community support) | Mar 2026 | Principal API Architect |
-| D-API-002 | FastAPI for AI microservice (separate from NestJS) | Python-native for LLM/AI libraries; async-first; automatic OpenAPI docs | NestJS for AI (rejected — Python AI ecosystem is richer); single API surface (rejected — mixing REST and AI workloads causes scaling issues) | Mar 2026 | Principal API Architect |
-| D-API-003 | JWT access + refresh token authentication | Stateless auth; no server-side session storage; OWASP-compliant rotation | Session-based auth (rejected — server state, Supabase overhead); API-key-only (rejected — no user binding) | Mar 2026 | Principal API Architect |
-| D-API-004 | SSE streaming for AI chat responses | Real-time token-by-token delivery; native browser EventSource API; no WebSocket overhead | WebSocket (rejected — bidirectional not needed, more complex); polling (rejected — latency, bandwidth waste) | Jun 2026 | Principal API Architect |
-| D-API-005 | 8-tier rate limiting with per-endpoint configuration | Protects free-tier infrastructure; prevents cost abuse on AI endpoints; graduated limits by sensitivity | Global rate limit (rejected — blocks all endpoints equally); no rate limiting (rejected — OWASP non-compliance, abuse risk) | Mar 2026 | Principal API Architect |
-| D-API-006 | Next.js BFF (Backend-for-Frontend) pattern | ISR/SSR data fetching with private API access; no client-side secret exposure; reduced client bundle | Direct client-to-API calls (rejected — exposes internal API structure); pure client-side data fetching (rejected — no SSR/ISR) | Mar 2026 | Principal API Architect |
-| D-API-007 | Versioned API via header (Accept-Version) rather than URL path | Cleaner URL structure; easier client migration; no path breaking on version change | URL versioning (/v1/, /v2/) (rejected — clutters URLs, harder to maintain aliases); no versioning (rejected — breaking changes affect clients) | Jun 2026 | Principal API Architect |
+| D-API-001 | NestJS 10 as primary REST API framework | Opinionated structure; built-in guards, interceptors, pipes; TypeScript-native; strong DI | Express (rejected Ã¢â‚¬â€ no structure, manual middleware); Fastify (rejected Ã¢â‚¬â€ smaller ecosystem, less community support) | Mar 2026 | Principal API Architect |
+| D-API-002 | FastAPI for AI microservice (separate from NestJS) | Python-native for LLM/AI libraries; async-first; automatic OpenAPI docs | NestJS for AI (rejected Ã¢â‚¬â€ Python AI ecosystem is richer); single API surface (rejected Ã¢â‚¬â€ mixing REST and AI workloads causes scaling issues) | Mar 2026 | Principal API Architect |
+| D-API-003 | JWT access + refresh token authentication | Stateless auth; no server-side session storage; OWASP-compliant rotation | Session-based auth (rejected Ã¢â‚¬â€ server state, Supabase overhead); API-key-only (rejected Ã¢â‚¬â€ no user binding) | Mar 2026 | Principal API Architect |
+| D-API-004 | SSE streaming for AI chat responses | Real-time token-by-token delivery; native browser EventSource API; no WebSocket overhead | WebSocket (rejected Ã¢â‚¬â€ bidirectional not needed, more complex); polling (rejected Ã¢â‚¬â€ latency, bandwidth waste) | Jun 2026 | Principal API Architect |
+| D-API-005 | 8-tier rate limiting with per-endpoint configuration | Protects free-tier infrastructure; prevents cost abuse on AI endpoints; graduated limits by sensitivity | Global rate limit (rejected Ã¢â‚¬â€ blocks all endpoints equally); no rate limiting (rejected Ã¢â‚¬â€ OWASP non-compliance, abuse risk) | Mar 2026 | Principal API Architect |
+| D-API-006 | Next.js BFF (Backend-for-Frontend) pattern | ISR/SSR data fetching with private API access; no client-side secret exposure; reduced client bundle | Direct client-to-API calls (rejected Ã¢â‚¬â€ exposes internal API structure); pure client-side data fetching (rejected Ã¢â‚¬â€ no SSR/ISR) | Mar 2026 | Principal API Architect |
+| D-API-007 | Versioned API via header (Accept-Version) rather than URL path | Cleaner URL structure; easier client migration; no path breaking on version change | URL versioning (/v1/, /v2/) (rejected Ã¢â‚¬â€ clutters URLs, harder to maintain aliases); no versioning (rejected Ã¢â‚¬â€ breaking changes affect clients) | Jun 2026 | Principal API Architect |
 
 ---
 
@@ -2996,14 +2996,14 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | Reference | Description |
 |-----------|-------------|
 | `docs/MASTER-INDEX.md` | Document navigation and dependency graph |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — where APIs fit |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — NestJS, FastAPI, Next.js |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema — tables queried by APIs |
-| `docs/security/SecurityArchitecture.md` (v3.0) | Security posture — auth, RLS, rate limiting |
-| `docs/security/15-AUTHORIZATION.md` (v3.0) | RBAC model — roles, permissions |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog — F-XXX IDs referenced |
-| `docs/architecture/13-INTEGRATIONS.md` (v3.0) | Third-party integrations — API dependencies |
-| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint — API definitions |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ where APIs fit |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ NestJS, FastAPI, Next.js |
+| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema Ã¢â‚¬â€ tables queried by APIs |
+| `docs/security/SecurityArchitecture.md` (v3.0) | Security posture Ã¢â‚¬â€ auth, RLS, rate limiting |
+| `docs/security/15-AUTHORIZATION.md` (v3.0) | RBAC model Ã¢â‚¬â€ roles, permissions |
+| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog Ã¢â‚¬â€ F-XXX IDs referenced |
+| `docs/architecture/13-INTEGRATIONS.md` (v3.0) | Third-party integrations Ã¢â‚¬â€ API dependencies |
+| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint Ã¢â‚¬â€ API definitions |
 
 ---
 
@@ -3017,7 +3017,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | 2.0 | Jun 2026 | Updated for enterprise monorepo structure | Backend Lead |
 | 1.0 | Mar 2026 | Initial API documentation | Backend Lead |
 
-*Document Version: 4.0 — Enterprise-Grade API Architecture*  
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade API Architecture*  
 *Supersedes v3.0 (June 2026) and all previous versions*  
 *Next Review Date: September 2026*
 
@@ -3042,3 +3042,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | **Interceptor (NestJS)** | A NestJS component that wraps request/response handling for cross-cutting concerns like logging, transformation, caching |
 | **Pipe (NestJS)** | A NestJS component that transforms or validates input data before it reaches a route handler |
 | **Health Check** | An endpoint used to verify that a service is running and responsive, used by monitoring systems |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

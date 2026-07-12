@@ -1,7 +1,7 @@
 # Data Classification Policy
 
 > **Document:** `data-classification.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Standard:** NIST 800-60, ISO/IEC 27001:2022
+> **Status:** Ã¢Å“â€¦ Active | **Standard:** NIST 800-60, ISO/IEC 27001:2022
 > **Owner:** Data Protection Officer | **Review Cadence:** Annual
 > **Classification:** L3-Confidential
 
@@ -11,7 +11,7 @@
 
 This Data Classification Policy establishes a standardized framework for classifying all data processed, stored, or transmitted by the Portfolio platform. It defines classification levels, handling requirements, and responsibilities in alignment with NIST 800-60 (Volume I & II) guidelines for mapping types of information and information systems to security categories, and ISO/IEC 27001:2022 Annex A controls for information classification (A.5.12, A.5.13, A.8.2).
 
-**Scope:** All data created, collected, processed, stored, or transmitted by the Portfolio platform — including data in the production database (Supabase/PostgreSQL), Redis cache, application logs (Pino), error monitoring (Sentry), analytics (PostHog), email queue (BullMQ/Resend), AI service (OpenAI/Anthropic), and any ephemeral or backup storage.
+**Scope:** All data created, collected, processed, stored, or transmitted by the Portfolio platform Ã¢â‚¬â€ including data in the production database (Supabase/PostgreSQL), Redis cache, application logs (Pino), error monitoring (Sentry), analytics (PostHog), email queue (BullMQ/Resend), AI service (OpenAI/Anthropic), and any ephemeral or backup storage.
 
 ---
 
@@ -27,12 +27,23 @@ The platform uses a four-tier classification system aligned with NIST FIPS 199 (
 | **L2** | Internal | Low impact | Information whose disclosure would cause limited or minor adverse effects. Authorized internal use only; not for public distribution. | Aggregated analytics, feature flags, non-sensitive system configuration, internal documentation, deployment status metrics, audit logs (non-PII) |
 | **L3** | Confidential | Moderate impact | Information whose disclosure would cause moderate harm to individuals (privacy), business operations, or reputation. Requires controlled access with encryption and logging. | User email addresses, lead/contact form data, user roles/permissions, admin account details, session metadata, error stack traces containing PII, notification preferences |
 | **L4** | Restricted | High impact | Information whose disclosure would cause severe or catastrophic harm. Subject to the highest level of security controls including encryption at rest and in transit, strict access control, rotation policies, and detailed audit trails. | Password hashes (bcrypt), JWT signing secrets, API keys (third-party service credentials), refresh tokens, database connection strings, encryption keys, SMTP credentials, OAuth provider secrets |
+### 2.1a Data Classification Hierarchy
+
+```mermaid
+graph TD
+    L1[L1: Public<br/>No Impact] --> L1E["Blog posts, Projects,<br/>Skills, Services, FAQs,<br/>Testimonials"]
+    L2[L2: Internal<br/>Low Impact] --> L2E["Analytics, Feature flags,<br/>System settings,<br/>Non-PII audit logs"]
+    L3[L3: Confidential<br/>Moderate Impact] --> L3E["User emails, Leads,<br/>Session metadata,<br/>AI chat messages"]
+    L4[L4: Restricted<br/>High Impact] --> L4E["Password hashes,<br/>JWT secrets, API keys,<br/>DB connection strings"]
+
+    L1 --> L2 --> L3 --> L4
+```
 
 ### 2.2 Impact Assessment Criteria
 
 Per NIST 800-60, classification is determined by assessing the potential impact of a **confidentiality breach** (unauthorized disclosure) across three objectives:
 
-| Objective | L1 — Public | L2 — Internal | L3 — Confidential | L4 — Restricted |
+| Objective | L1 Ã¢â‚¬â€ Public | L2 Ã¢â‚¬â€ Internal | L3 Ã¢â‚¬â€ Confidential | L4 Ã¢â‚¬â€ Restricted |
 |-----------|-------------|---------------|-------------------|-----------------|
 | **Confidentiality** | No harm | Limited adverse effects | Moderate adverse effects | Severe/catastrophic harm |
 | **Integrity** | No harm | Limited adverse effects | Moderate adverse effects | Severe/catastrophic harm |
@@ -71,7 +82,7 @@ All data moving across network boundaries inherits the classification of its mos
 
 ### 4.1 Control Matrix
 
-| Control | L1 — Public | L2 — Internal | L3 — Confidential | L4 — Restricted |
+| Control | L1 Ã¢â‚¬â€ Public | L2 Ã¢â‚¬â€ Internal | L3 Ã¢â‚¬â€ Confidential | L4 Ã¢â‚¬â€ Restricted |
 |---------|-------------|---------------|-------------------|-----------------|
 | **Encryption at rest** | Not required | Recommended (inherited from platform) | Required (AES-256) | Required (AES-256) |
 | **Encryption in transit** | TLS 1.3 recommended | TLS 1.3 required | TLS 1.3 required | TLS 1.3 required with HSTS |
@@ -140,19 +151,19 @@ Data classification labels are stored as metadata on each database record where 
 
 ```
 New data entity created
-    ↓
+    Ã¢â€ â€œ
 Data Owner assesses: What is the confidentiality impact if disclosed?
-    ↓
+    Ã¢â€ â€œ
 Apply FIPS 199 potential impact:
-  - No impact  → L1 (Public)
-  - Limited    → L2 (Internal)
-  - Moderate   → L3 (Confidential)
-  - Severe     → L4 (Restricted)
-    ↓
+  - No impact  Ã¢â€ â€™ L1 (Public)
+  - Limited    Ã¢â€ â€™ L2 (Internal)
+  - Moderate   Ã¢â€ â€™ L3 (Confidential)
+  - Severe     Ã¢â€ â€™ L4 (Restricted)
+    Ã¢â€ â€œ
 Document classification decision + rationale in data register
-    ↓
+    Ã¢â€ â€œ
 Engineering implements technical controls per handling matrix
-    ↓
+    Ã¢â€ â€œ
 Security reviews classification annually or on material change
 ```
 
@@ -174,10 +185,10 @@ Reclassification is documented with: previous classification, new classification
 
 | Classification | Internal Sharing | External Sharing | Public Disclosure |
 |---------------|-----------------|------------------|-------------------|
-| **L1 — Public** | Unlimited | Unlimited | Yes |
-| **L2 — Internal** | Any employee/contractor | With NDA/DPA | No |
-| **L3 — Confidential** | Need-to-know + written approval | With DPA + written agreement, data processing agreement required | No |
-| **L4 — Restricted** | Need-to-know + explicit approval + logging | Only if absolutely required, with DPA + security assessment + encryption | No |
+| **L1 Ã¢â‚¬â€ Public** | Unlimited | Unlimited | Yes |
+| **L2 Ã¢â‚¬â€ Internal** | Any employee/contractor | With NDA/DPA | No |
+| **L3 Ã¢â‚¬â€ Confidential** | Need-to-know + written approval | With DPA + written agreement, data processing agreement required | No |
+| **L4 Ã¢â‚¬â€ Restricted** | Need-to-know + explicit approval + logging | Only if absolutely required, with DPA + security assessment + encryption | No |
 
 ---
 
@@ -231,3 +242,7 @@ Suspected classification errors or data handling violations must be reported to 
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | July 2026 | DPO | Initial data classification policy (NIST 800-60 aligned) |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

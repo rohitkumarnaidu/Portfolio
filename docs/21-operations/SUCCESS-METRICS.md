@@ -186,3 +186,43 @@ Success metrics define what "good" looks like for the portfolio across three dim
 4. **Annual retrospective**: Year-over-year growth, strategic re-alignment
 
 Metrics that miss targets for two consecutive quarters are escalated for root-cause analysis and may trigger a goals reset.
+
+---
+
+## Diagram
+
+### Success Metrics Hierarchy
+
+```mermaid
+graph TD
+    Platform[Platform Success] --> Prod[Product Success]
+    Platform --> Eng[Engineering Success]
+    Platform --> Biz[Business Success]
+
+    Prod --> MAV[Monthly Active Visitors]
+    Prod --> Conv[Contact Conversion Rate]
+    Prod --> Comp[Portfolio Completeness]
+    Prod --> Depth[Engagement Depth]
+    Prod --> Adoption[Feature Adoption]
+
+    Eng --> DORA[DORA Metrics]
+    Eng --> Rel[Reliability & Uptime]
+    Eng --> CWV[Core Web Vitals]
+    Eng --> Perf[API Performance]
+    Eng --> Eff[Engineering Efficiency]
+
+    Biz --> Leads[Inbound Lead Quality]
+    Biz --> Inq[Project Inquiries]
+    Biz --> Speak[Speaking Opportunities]
+    Biz --> Comm[Community Growth]
+
+    MAV -.-> Conv
+    Conv -.-> Leads
+    DORA -.-> Rel
+    CWV -.-> Depth
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

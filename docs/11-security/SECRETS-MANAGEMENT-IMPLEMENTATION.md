@@ -107,9 +107,9 @@ git check-ignore config\.env
 
 The project uses dotenv/turborepo to load from `config/.env` (root). The resolution order is:
 
-1. `config/.env.local` — overrides everything, NEVER committed
-2. `config/.env` — per-environment defaults, NEVER committed
-3. `config/.env.example` — template with placeholder values, committed
+1. `config/.env.local` Ã¢â‚¬â€ overrides everything, NEVER committed
+2. `config/.env` Ã¢â‚¬â€ per-environment defaults, NEVER committed
+3. `config/.env.example` Ã¢â‚¬â€ template with placeholder values, committed
 
 Turborepo globalDependencies in `turbo.json` includes `**/.env.*local` to invalidate cache when local env changes.
 
@@ -139,7 +139,7 @@ trufflehog filesystem --directory=. --json | ConvertFrom-Json | Where-Object { $
 Vercel projects use **Environment Variables** configured per environment (Production/Preview/Development):
 
 ```bash
-# Vercel CLI — set production env vars
+# Vercel CLI Ã¢â‚¬â€ set production env vars
 vercel env add DATABASE_URL production
 vercel env add JWT_SECRET production
 vercel env add SUPABASE_SERVICE_ROLE_KEY production
@@ -158,12 +158,12 @@ Vercel encrypts all env var values at rest and exposes them only to the serverle
 ### 4.2 Railway (AI Service)
 
 ```bash
-# Railway CLI — set secrets
+# Railway CLI Ã¢â‚¬â€ set secrets
 railway variables set DATABASE_URL=<value>
 railway variables set OPENAI_API_KEY=<value>
 railway variables set ANTHROPIC_API_KEY=<value>
 
-# Or via dashboard: Project → Variables → New Variable
+# Or via dashboard: Project Ã¢â€ â€™ Variables Ã¢â€ â€™ New Variable
 ```
 
 Railway supports `${{ secrets.VAR_NAME }}` interpolation in `railway.json` for referencing project variables.
@@ -196,7 +196,7 @@ Runtime secrets (DB passwords, API keys) are NEVER baked into images. They are i
 
 Database credentials are rotated in the Supabase dashboard and updated across all environments:
 
-1. Supabase Dashboard → Project Settings → Database → Rotate Database Password
+1. Supabase Dashboard Ã¢â€ â€™ Project Settings Ã¢â€ â€™ Database Ã¢â€ â€™ Rotate Database Password
 2. Update `DATABASE_URL` in Vercel and Railway
 3. Redeploy API and AI services
 
@@ -237,19 +237,19 @@ Secrets with no grace period require careful sequencing:
 
 | Secret | Procedure Detailed In | Steps | Duration |
 |--------|----------------------|-------|----------|
-| JWT_SECRET | `secrets-rotation-schedule.md` §3.1 | 6 steps (grace period) | 15min |
-| JWT_REFRESH_SECRET | `secrets-rotation-schedule.md` §3.1 | 6 steps (grace period) | 15min |
+| JWT_SECRET | `secrets-rotation-schedule.md` Ã‚Â§3.1 | 6 steps (grace period) | 15min |
+| JWT_REFRESH_SECRET | `secrets-rotation-schedule.md` Ã‚Â§3.1 | 6 steps (grace period) | 15min |
 | JWT_SECRET | Same as JWT pattern | 6 steps (grace period) | 15min |
-| DATABASE_URL | `secrets-rotation-schedule.md` §3.2 | 6 steps (immediate) | 30min |
-| RESEND_API_KEY | `secrets-rotation-schedule.md` §3.3 | 5 steps (grace period) | 10min |
-| OPENAI_API_KEY | `secrets-rotation-schedule.md` §3.5 | 5 steps (grace period) | 10min |
-| ANTHROPIC_API_KEY | `secrets-rotation-schedule.md` §3.5 | 5 steps (grace period) | 10min |
-| SUPABASE_SERVICE_ROLE_KEY | `secrets-rotation-schedule.md` §3.6 | 5 steps (immediate) | 10min |
-| SUPABASE_ANON_KEY | `secrets-rotation-schedule.md` §3.6 | 5 steps (immediate) | 10min |
-| SENTRY_DSN | `secrets-rotation-schedule.md` §3.8 | 3 steps (immediate) | 5min |
-| GITHUB_OAUTH_CLIENT_SECRET | `secrets-rotation-schedule.md` §3.7 | 4 steps (immediate) | 15min |
-| GOOGLE_OAUTH_CLIENT_SECRET | `secrets-rotation-schedule.md` §3.7 | 4 steps (immediate) | 15min |
-| HCAPTCHA_SECRET_KEY | `secrets-rotation-schedule.md` §3.9 | 3 steps (immediate) | 5min |
+| DATABASE_URL | `secrets-rotation-schedule.md` Ã‚Â§3.2 | 6 steps (immediate) | 30min |
+| RESEND_API_KEY | `secrets-rotation-schedule.md` Ã‚Â§3.3 | 5 steps (grace period) | 10min |
+| OPENAI_API_KEY | `secrets-rotation-schedule.md` Ã‚Â§3.5 | 5 steps (grace period) | 10min |
+| ANTHROPIC_API_KEY | `secrets-rotation-schedule.md` Ã‚Â§3.5 | 5 steps (grace period) | 10min |
+| SUPABASE_SERVICE_ROLE_KEY | `secrets-rotation-schedule.md` Ã‚Â§3.6 | 5 steps (immediate) | 10min |
+| SUPABASE_ANON_KEY | `secrets-rotation-schedule.md` Ã‚Â§3.6 | 5 steps (immediate) | 10min |
+| SENTRY_DSN | `secrets-rotation-schedule.md` Ã‚Â§3.8 | 3 steps (immediate) | 5min |
+| GITHUB_OAUTH_CLIENT_SECRET | `secrets-rotation-schedule.md` Ã‚Â§3.7 | 4 steps (immediate) | 15min |
+| GOOGLE_OAUTH_CLIENT_SECRET | `secrets-rotation-schedule.md` Ã‚Â§3.7 | 4 steps (immediate) | 15min |
+| HCAPTCHA_SECRET_KEY | `secrets-rotation-schedule.md` Ã‚Â§3.9 | 3 steps (immediate) | 5min |
 
 ---
 
@@ -267,18 +267,18 @@ Secrets with no grace period require careful sequencing:
 ### 6.2 Emergency Rotation Procedure
 
 ```text
-╔══════════════════════════════════════════════════════════════╗
-║              EMERGENCY ROTATION - NO GRACE PERIOD            ║
-╠══════════════════════════════════════════════════════════════╣
-║ T-0min:   Identify compromised secret                       ║
-║ T-2min:   Open incident in #security-alerts                 ║
-║ T-5min:   Generate new secret, update env, redeploy         ║
-║ T-10min:  Revoke old secret at provider dashboard           ║
-║ T-15min:  Verify all health checks pass                     ║
-║ T-30min:  Review audit logs for unauthorized access         ║
-║ T-60min:  Notify affected users (if PII exposed)            ║
-║ T-4h:     Determine root cause, document findings           ║
-╚══════════════════════════════════════════════════════════════╝
+Ã¢â€¢â€Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢â€”
+Ã¢â€¢â€˜              EMERGENCY ROTATION - NO GRACE PERIOD            Ã¢â€¢â€˜
+Ã¢â€¢Â Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â£
+Ã¢â€¢â€˜ T-0min:   Identify compromised secret                       Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-2min:   Open incident in #security-alerts                 Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-5min:   Generate new secret, update env, redeploy         Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-10min:  Revoke old secret at provider dashboard           Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-15min:  Verify all health checks pass                     Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-30min:  Review audit logs for unauthorized access         Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-60min:  Notify affected users (if PII exposed)            Ã¢â€¢â€˜
+Ã¢â€¢â€˜ T-4h:     Determine root cause, document findings           Ã¢â€¢â€˜
+Ã¢â€¢Å¡Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 ```
 
 ### 6.3 Post-Compromise Checklist
@@ -357,7 +357,7 @@ python -c "import secrets; print(secrets.token_urlsafe(48))"
 
 ### 8.1 Rotation Audit Trail
 
-Every rotation MUST be logged in the rotation history (maintained in `secrets-rotation-schedule.md` §5):
+Every rotation MUST be logged in the rotation history (maintained in `secrets-rotation-schedule.md` Ã‚Â§5):
 
 ```json
 {
@@ -377,7 +377,7 @@ All secret access is logged via:
 
 | Layer | Log Source | Retention | Alert Rule |
 |-------|-----------|-----------|------------|
-| Vercel env access | Vercel Audit Logs (dashboard) | 90 days | Export env vars → alert |
+| Vercel env access | Vercel Audit Logs (dashboard) | 90 days | Export env vars Ã¢â€ â€™ alert |
 | Railway variable access | Railway Activity Log | 30 days | N/A (console only) |
 | GitHub secret access | GitHub Audit Log | 90 days | Secret updated by non-DevOps |
 | Supabase key usage | Supabase Logs (SQL editor) | 7 days | Anon key used from unknown IP |
@@ -433,3 +433,7 @@ All secret access is logged via:
 - [ ] GitHub secret scanning alerts reviewed
 - [ ] `npm audit` for dependency vulnerabilities
 - [ ] Vercel Audit Log checked for env access events
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

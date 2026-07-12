@@ -1,7 +1,7 @@
 # Test Strategy Master Plan
 
 > **Document:** `test-strategy-master-plan.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** QA Lead | **Review Cadence:** Monthly
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** QA Lead | **Review Cadence:** Monthly
 > **Classification:** Enterprise Architecture | **Testing Stack:** 8 tools | **Test Levels:** 8
 
 ---
@@ -26,7 +26,7 @@
 
 ### 1.1 Tests Are First-Class Citizens
 
-Test code is product code. It undergoes the same review process, follows the same coding standards, and lives alongside the source code it tests. Skipping tests to ship faster is an unacceptable tradeoff — tests are how we ship fast without breaking things.
+Test code is product code. It undergoes the same review process, follows the same coding standards, and lives alongside the source code it tests. Skipping tests to ship faster is an unacceptable tradeoff Ã¢â‚¬â€ tests are how we ship fast without breaking things.
 
 - Every PR must include tests for new functionality or changes to existing functionality.
 - Test code is reviewed with the same rigor as production code.
@@ -37,14 +37,14 @@ Test code is product code. It undergoes the same review process, follows the sam
 This project follows the **Testing Trophy** model popularized by Kent C. Dodds, adapted for a full-stack NestJS + Next.js architecture:
 
 ```
-        ╱  E2E  ╲             ← few, high-value user journeys
-       ╱──────────╲
-      ╱ Integration ╲         ← most investment: service + DB + controller
-     ╱────────────────╲
-    ╱   Unit Tests     ╲      ← pure logic, utilities, hooks
-   ╱──────────────────────╲
-  ╱  Static Analysis       ╲  ← TypeScript strict, ESLint (every file, every commit)
- ╱────────────────────────────╲
+        Ã¢â€¢Â±  E2E  Ã¢â€¢Â²             Ã¢â€ Â few, high-value user journeys
+       Ã¢â€¢Â±Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€¢Â²
+      Ã¢â€¢Â± Integration Ã¢â€¢Â²         Ã¢â€ Â most investment: service + DB + controller
+     Ã¢â€¢Â±Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€¢Â²
+    Ã¢â€¢Â±   Unit Tests     Ã¢â€¢Â²      Ã¢â€ Â pure logic, utilities, hooks
+   Ã¢â€¢Â±Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€¢Â²
+  Ã¢â€¢Â±  Static Analysis       Ã¢â€¢Â²  Ã¢â€ Â TypeScript strict, ESLint (every file, every commit)
+ Ã¢â€¢Â±Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€¢Â²
 ```
 
 - **Static Analysis** catches type errors, unused imports, and code quality issues at write time. Zero-cost signal.
@@ -59,9 +59,9 @@ Flaky tests erode trust and slow development. Every test must produce the same r
 - **No shared mutable state** between tests. Each test sets up its own data and cleans up after itself.
 - **Seeded randomness.** If a test uses random data, the random seed is fixed so results are reproducible.
 - **No network calls in unit tests.** External dependencies (APIs, databases, caches) are mocked or stubbed at the unit level.
-- **Test ordering independence.** Tests can run in any order, in parallel, or sequentially — the result is always the same.
+- **Test ordering independence.** Tests can run in any order, in parallel, or sequentially Ã¢â‚¬â€ the result is always the same.
 - **Time-aware testing.** Uses fake timers (`vi.useFakeTimers` / `jest.useFakeTimers`) instead of `setTimeout` or `sleep` in tests.
-- **CI retries for E2E only.** Playwright may retry flaky browser tests (max 2 retries in CI). Unit and integration tests must pass on the first try — retries mask real problems.
+- **CI retries for E2E only.** Playwright may retry flaky browser tests (max 2 retries in CI). Unit and integration tests must pass on the first try Ã¢â‚¬â€ retries mask real problems.
 
 **Flaky test protocol:**
 1. When a flaky test is identified, file a P1 bug with the test name and failure pattern.
@@ -98,6 +98,35 @@ Coverage percentages are useful indicators of untested code, but they are not go
 
 ---
 
+### Test Pyramid
+
+```mermaid
+graph LR
+    subgraph Static[Static Analysis]
+        TS[TypeScript Strict] --- ESLint
+    end
+
+    subgraph Unit[Unit Tests]
+        API_Jest["API: Jest + ts-jest<br/>80% line / 70% branch"]
+        Web_Vitest["Web: Vitest + RTL<br/>80% line / 70% branch"]
+    end
+
+    subgraph Integration[Integration Tests]
+        API_Super["API: Jest + Supertest<br/>60% line"]
+        Comp["Web: Component Tests<br/>70% coverage"]
+    end
+
+    subgraph E2E[E2E Tests]
+        PW["Playwright<br/>40% critical paths"]
+        A11y["a11y: axe-core<br/>WCAG 2.2 AA"]
+        VRT["Visual Regression<br/>10+ key screens"]
+    end
+
+    E2E --> Integration --> Unit --> Static
+```
+
+---
+
 ## 2. Test Pyramid & Coverage Targets
 
 ### 2.1 Current State Assessment
@@ -122,18 +151,18 @@ This is an honest assessment of where the project stands today, based on the act
 
 | Layer | Technology | Target Coverage | Current Coverage | Priority |
 |-------|-----------|----------------|-----------------|----------|
-| **Static Analysis** | TypeScript strict, ESLint | 100% codebase | ~100% (ts strict) | ✅ Done |
-| **Unit (API)** | Jest + ts-jest | 80% line, 70% branch | ~5% | 🔴 Week 2 |
-| **Unit (Web)** | Vitest + Testing Library | 80% line, 70% branch | ~3% | 🔴 Week 3 |
-| **Integration** | Jest + Supertest | 60% line | ~15% (e2e covers some) | 🟡 Week 2 |
-| **E2E (Web)** | Playwright | 40% critical paths | ~5% | 🟡 Week 4 |
-| **E2E (API)** | Jest + Supertest | 30% critical paths | ~15% | 🟡 Week 2 |
-| **Visual Regression** | Playwright Screenshot | Key pages (10+ screens) | 0% | 🔵 Week 5 |
-| **Accessibility** | axe-core + Playwright | WCAG 2.2 AA, all pages | ~5% | 🔵 Week 5 |
-| **Performance** | k6 / Lighthouse CI | Budget compliance | 0% | 🟣 Week 6 |
-| **Security** | CodeQL, npm audit | All critical/high | Partial | 🟣 Quarter 3 |
+| **Static Analysis** | TypeScript strict, ESLint | 100% codebase | ~100% (ts strict) | Ã¢Å“â€¦ Done |
+| **Unit (API)** | Jest + ts-jest | 80% line, 70% branch | ~5% | Ã°Å¸â€Â´ Week 2 |
+| **Unit (Web)** | Vitest + Testing Library | 80% line, 70% branch | ~3% | Ã°Å¸â€Â´ Week 3 |
+| **Integration** | Jest + Supertest | 60% line | ~15% (e2e covers some) | Ã°Å¸Å¸Â¡ Week 2 |
+| **E2E (Web)** | Playwright | 40% critical paths | ~5% | Ã°Å¸Å¸Â¡ Week 4 |
+| **E2E (API)** | Jest + Supertest | 30% critical paths | ~15% | Ã°Å¸Å¸Â¡ Week 2 |
+| **Visual Regression** | Playwright Screenshot | Key pages (10+ screens) | 0% | Ã°Å¸â€Âµ Week 5 |
+| **Accessibility** | axe-core + Playwright | WCAG 2.2 AA, all pages | ~5% | Ã°Å¸â€Âµ Week 5 |
+| **Performance** | k6 / Lighthouse CI | Budget compliance | 0% | Ã°Å¸Å¸Â£ Week 6 |
+| **Security** | CodeQL, npm audit | All critical/high | Partial | Ã°Å¸Å¸Â£ Quarter 3 |
 
-> **Legend:** ✅ Done | 🔴 Immediate (Week 1-2) | 🟡 Short-term (Week 3-4) | 🔵 Medium-term (Week 5-6) | 🟣 Future (Quarter 3)
+> **Legend:** Ã¢Å“â€¦ Done | Ã°Å¸â€Â´ Immediate (Week 1-2) | Ã°Å¸Å¸Â¡ Short-term (Week 3-4) | Ã°Å¸â€Âµ Medium-term (Week 5-6) | Ã°Å¸Å¸Â£ Future (Quarter 3)
 
 ### 2.3 Test Distribution Targets
 
@@ -141,7 +170,7 @@ The ideal distribution of tests across layers for a full-stack application of th
 
 | Layer | Target Count | Current Count | Ratio |
 |-------|-------------|---------------|-------|
-| Static analysis | N/A (tool-enforced) | N/A | — |
+| Static analysis | N/A (tool-enforced) | N/A | Ã¢â‚¬â€ |
 | Unit (API services) | 150+ | ~50 (3 files) | 3% |
 | Unit (Web utilities) | 50+ | ~0 | 0% |
 | Unit (Web hooks) | 80+ | ~20 | 25% |
@@ -156,11 +185,11 @@ The ideal distribution of tests across layers for a full-stack application of th
 ### 2.4 Coverage Evolution Roadmap
 
 ```
-Week 0:  ~5%  line,  ~3% branch  ← current
-Week 2:  40%  line,  30% branch  ← service tests
-Week 4:  60%  line,  50% branch  ← component + integration
-Week 6:  75%  line,  65% branch  ← all planned tests
-Q3:      90%+ line,  80%+ branch ← long tail + mutation
+Week 0:  ~5%  line,  ~3% branch  Ã¢â€ Â current
+Week 2:  40%  line,  30% branch  Ã¢â€ Â service tests
+Week 4:  60%  line,  50% branch  Ã¢â€ Â component + integration
+Week 6:  75%  line,  65% branch  Ã¢â€ Â all planned tests
+Q3:      90%+ line,  80%+ branch Ã¢â€ Â long tail + mutation
 ```
 
 The goal is sustainable coverage growth. Rushing to 90% in one sprint would produce shallow tests. We grow coverage methodically, prioritizing critical paths and core business logic.
@@ -184,7 +213,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 **What does NOT need a separate test:**
 - Anything that TypeScript catches at compile time (wrong types, missing properties, null checks)
 
-### 3.2 Unit Tests — API Services
+### 3.2 Unit Tests Ã¢â‚¬â€ API Services
 
 **Tool:** Jest + ts-jest
 **Location:** `apps/api/src/modules/*/*.service.spec.ts`
@@ -226,33 +255,33 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 | Priority | Service | File | Tests Needed |
 |----------|---------|------|-------------|
-| P0 | `auth.service.ts` | ✅ Exists | ~15 tests (token, hashing, refresh, roles) |
-| P0 | `leads.service.ts` | ✅ Exists | ~10 tests (CRUD + spam + status) |
-| P0 | `projects.service.ts` | ❌ Missing | ~12 tests (CRUD + filter + pagination) |
-| P0 | `blog.service.ts` | ✅ Exists | ~12 tests (CRUD + published + categories) |
-| P1 | `skills.service.ts` | ❌ Missing | ~8 tests (CRUD + category) |
-| P1 | `sections.service.ts` | ❌ Missing | ~8 tests (CRUD + ordering) |
-| P1 | `testimonials.service.ts` | ❌ Missing | ~8 tests (CRUD + featured) |
-| P1 | `experiences.service.ts` | ❌ Missing | ~8 tests (CRUD + ordering) |
-| P1 | `services.service.ts` | ❌ Missing | ~8 tests (CRUD) |
-| P1 | `faqs.service.ts` | ❌ Missing | ~8 tests (CRUD) |
-| P2 | Remaining 17 services | ❌ Missing | ~4-8 tests each (basic CRUD) |
+| P0 | `auth.service.ts` | Ã¢Å“â€¦ Exists | ~15 tests (token, hashing, refresh, roles) |
+| P0 | `leads.service.ts` | Ã¢Å“â€¦ Exists | ~10 tests (CRUD + spam + status) |
+| P0 | `projects.service.ts` | Ã¢ÂÅ’ Missing | ~12 tests (CRUD + filter + pagination) |
+| P0 | `blog.service.ts` | Ã¢Å“â€¦ Exists | ~12 tests (CRUD + published + categories) |
+| P1 | `skills.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + category) |
+| P1 | `sections.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + ordering) |
+| P1 | `testimonials.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + featured) |
+| P1 | `experiences.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + ordering) |
+| P1 | `services.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD) |
+| P1 | `faqs.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD) |
+| P2 | Remaining 17 services | Ã¢ÂÅ’ Missing | ~4-8 tests each (basic CRUD) |
 
-### 3.3 Unit Tests — Web Utilities
+### 3.3 Unit Tests Ã¢â‚¬â€ Web Utilities
 
 **Tool:** Vitest
 **Location:** `apps/web/src/test/__tests__/*.test.ts`
 **Scope:** Pure utility functions, data transformations, formatters
 
 **What to test:**
-- **Date formatting:** `formatDate()`, `timeAgo()`, `formatDuration()` — locale, edge cases, invalid inputs
-- **String utilities:** `slugify()`, `truncate()`, `capitalize()` — special characters, Unicode, empty strings
-- **Number formatting:** `formatNumber()`, `formatCurrency()` — large numbers, decimals, edge cases
-- **Array utilities:** `groupBy()`, `sortBy()`, `chunk()` — empty arrays, single elements, duplicates
-- **Validation helpers:** email validation, URL validation, phone formatting — valid, invalid, edge cases
-- **Color utilities:** hex-to-rgb, contrast ratio, lighten/darken — valid hex, shorthand hex, named colors
+- **Date formatting:** `formatDate()`, `timeAgo()`, `formatDuration()` Ã¢â‚¬â€ locale, edge cases, invalid inputs
+- **String utilities:** `slugify()`, `truncate()`, `capitalize()` Ã¢â‚¬â€ special characters, Unicode, empty strings
+- **Number formatting:** `formatNumber()`, `formatCurrency()` Ã¢â‚¬â€ large numbers, decimals, edge cases
+- **Array utilities:** `groupBy()`, `sortBy()`, `chunk()` Ã¢â‚¬â€ empty arrays, single elements, duplicates
+- **Validation helpers:** email validation, URL validation, phone formatting Ã¢â‚¬â€ valid, invalid, edge cases
+- **Color utilities:** hex-to-rgb, contrast ratio, lighten/darken Ã¢â‚¬â€ valid hex, shorthand hex, named colors
 
-### 3.4 Unit Tests — React Hooks
+### 3.4 Unit Tests Ã¢â‚¬â€ React Hooks
 
 **Tool:** Vitest + `@testing-library/react` (renderHook)
 **Location:** `apps/web/src/test/__tests__/hooks.test.tsx`
@@ -262,22 +291,22 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 | State | What to Test | Example |
 |-------|-------------|---------|
-| **Loading** | Returns `isLoading: true` initially, data is undefined | `renderHook(() => useProjects())` → `result.current.isLoading === true` |
-| **Success** | Returns data after fetch resolves | Mock fetch → `waitFor(() => expect(result.current.isSuccess).toBe(true))` |
-| **Error** | Returns error after fetch rejects | Mock fetch error → `waitFor(() => expect(result.current.isError).toBe(true))` |
+| **Loading** | Returns `isLoading: true` initially, data is undefined | `renderHook(() => useProjects())` Ã¢â€ â€™ `result.current.isLoading === true` |
+| **Success** | Returns data after fetch resolves | Mock fetch Ã¢â€ â€™ `waitFor(() => expect(result.current.isSuccess).toBe(true))` |
+| **Error** | Returns error after fetch rejects | Mock fetch error Ã¢â€ â€™ `waitFor(() => expect(result.current.isError).toBe(true))` |
 
 #### Hooks to test (27 total):
 
 | Priority | Hook | Tests Needed | Has Tests? |
 |----------|------|-------------|------------|
-| P0 | `useProjects` | 3 (loading, success, error) | ✅ |
-| P0 | `useBlogPosts` | 3 | ✅ |
-| P0 | `useAuth` | 6 (login, register, logout, refresh, profile, error) | ❌ |
-| P0 | `useLeads` | 3 | ❌ |
-| P1 | `useSkills`, `useSections`, `useTestimonials` | 3 each | ❌ |
-| P1 | `useExperiences`, `useServices`, `useFAQs` | 3 each | ❌ |
-| P1 | `useCaseStudies`, `useMedia`, `useChat` | 3 each | ❌ |
-| P2 | Remaining 16 hooks | 3 each | ❌ |
+| P0 | `useProjects` | 3 (loading, success, error) | Ã¢Å“â€¦ |
+| P0 | `useBlogPosts` | 3 | Ã¢Å“â€¦ |
+| P0 | `useAuth` | 6 (login, register, logout, refresh, profile, error) | Ã¢ÂÅ’ |
+| P0 | `useLeads` | 3 | Ã¢ÂÅ’ |
+| P1 | `useSkills`, `useSections`, `useTestimonials` | 3 each | Ã¢ÂÅ’ |
+| P1 | `useExperiences`, `useServices`, `useFAQs` | 3 each | Ã¢ÂÅ’ |
+| P1 | `useCaseStudies`, `useMedia`, `useChat` | 3 each | Ã¢ÂÅ’ |
+| P2 | Remaining 16 hooks | 3 each | Ã¢ÂÅ’ |
 
 > **Note:** The existing `hooks.test.tsx` tests `useProjects` and `useBlogPosts` with loading, success, and error states. These serve as the template for all remaining hooks.
 
@@ -338,11 +367,11 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 | `Contact` | 4 | Form render, validation, submission, success state |
 | `BlogPreview` | 3 | Cards render, with/without images, tags |
 
-### 3.6 Integration Tests — API Controllers + Services + DB
+### 3.6 Integration Tests Ã¢â‚¬â€ API Controllers + Services + DB
 
 **Tool:** Jest + Supertest
 **Location:** `apps/api/test/*.spec.ts` (or alongside controllers)
-**Scope:** Full request → controller → service → database flow
+**Scope:** Full request Ã¢â€ â€™ controller Ã¢â€ â€™ service Ã¢â€ â€™ database flow
 
 #### What to test:
 
@@ -378,7 +407,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Validation errors return 400 with field-level details
 - Cache headers (ETag, Cache-Control) on portfolio endpoints
 
-### 3.7 E2E Tests — Critical User Journeys
+### 3.7 E2E Tests Ã¢â‚¬â€ Critical User Journeys
 
 **Tool:** Playwright
 **Location:** `apps/web/e2e/*.spec.ts`
@@ -386,7 +415,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Critical journeys to cover:
 
-**Public — Homepage:**
+**Public Ã¢â‚¬â€ Homepage:**
 - Homepage loads with all sections visible
 - Navigation links work (scroll to section or navigate)
 - Projects section loads and displays cards
@@ -394,28 +423,28 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Blog preview shows latest posts
 - Responsive layout at mobile, tablet, desktop breakpoints
 
-**Public — Blog:**
+**Public Ã¢â‚¬â€ Blog:**
 - Blog listing page loads with pagination
 - Single blog post loads with content
 - Category filtering works
 - Tags are clickable and filter correctly
 - Related posts section shows
 
-**Public — Projects:**
+**Public Ã¢â‚¬â€ Projects:**
 - Project listing loads with filters
 - Single project detail loads
 - Project images/gallery works
 - Tech stack tags displayed
 - Links to live site / source code
 
-**Admin — Auth:**
+**Admin Ã¢â‚¬â€ Auth:**
 - Login page renders
 - Valid credentials allow login
 - Invalid credentials show error
 - Token refresh works on page reload
 - Logout clears session
 
-**Admin — CRUD:**
+**Admin Ã¢â‚¬â€ CRUD:**
 - Projects list loads with pagination
 - Create project form submits successfully
 - Edit project form pre-fills data
@@ -423,7 +452,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Blog posts CRUD works similarly
 - Media upload flow works
 
-**Admin — Dashboard:**
+**Admin Ã¢â‚¬â€ Dashboard:**
 - Dashboard loads analytics data
 - Recent activity feed shows
 - Quick actions work
@@ -438,15 +467,15 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 | Page | Desktop (1280px) | Tablet (768px) | Mobile (375px) |
 |------|:---:|:---:|:---:|
-| Homepage (full) | ✅ | ✅ | ✅ |
-| Homepage (above fold) | ✅ | ✅ | ✅ |
-| Blog listing | ✅ | ✅ | ✅ |
-| Blog detail (article) | ✅ | ✅ | — |
-| Project detail | ✅ | ✅ | — |
-| Admin dashboard | ✅ | ✅ | — |
-| Admin project form | ✅ | — | — |
-| Contact form | ✅ | ✅ | ✅ |
-| 404 page | ✅ | ✅ | ✅ |
+| Homepage (full) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Homepage (above fold) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Blog listing | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Blog detail (article) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢â‚¬â€ |
+| Project detail | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢â‚¬â€ |
+| Admin dashboard | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢â‚¬â€ |
+| Admin project form | Ã¢Å“â€¦ | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| Contact form | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| 404 page | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
 
 **Threshold:** 0.1% pixel difference tolerance for intentional changes. Any change >0.1% must be reviewed and approved.
 
@@ -478,15 +507,15 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 | Metric | Budget | Current (approx) |
 |--------|--------|-----------------|
-| Performance score | ≥ 90 | ? |
-| First Contentful Paint (FCP) | ≤ 1.5s | ? |
-| Largest Contentful Paint (LCP) | ≤ 2.0s | ? |
-| Cumulative Layout Shift (CLS) | ≤ 0.05 | ? |
-| Interaction to Next Paint (INP) | ≤ 100ms | ? |
-| Total Blocking Time (TBT) | ≤ 200ms | ? |
-| Accessibility score | ≥ 95 | ? |
-| Best Practices score | ≥ 95 | ? |
-| SEO score | ≥ 95 | ? |
+| Performance score | Ã¢â€°Â¥ 90 | ? |
+| First Contentful Paint (FCP) | Ã¢â€°Â¤ 1.5s | ? |
+| Largest Contentful Paint (LCP) | Ã¢â€°Â¤ 2.0s | ? |
+| Cumulative Layout Shift (CLS) | Ã¢â€°Â¤ 0.05 | ? |
+| Interaction to Next Paint (INP) | Ã¢â€°Â¤ 100ms | ? |
+| Total Blocking Time (TBT) | Ã¢â€°Â¤ 200ms | ? |
+| Accessibility score | Ã¢â€°Â¥ 95 | ? |
+| Best Practices score | Ã¢â€°Â¥ 95 | ? |
+| SEO score | Ã¢â€°Â¥ 95 | ? |
 
 #### k6 load test scenarios (future):
 
@@ -592,7 +621,7 @@ const mockCacheService = {
 - **User interaction:** `@testing-library/user-event` 14+
 - **Assertions:** `@testing-library/jest-dom` (custom DOM matchers)
 
-**Configuration** (`apps/web/vitest.config.ts` — already set up):
+**Configuration** (`apps/web/vitest.config.ts` Ã¢â‚¬â€ already set up):
 ```typescript
 export default defineConfig({
   plugins: [react()],
@@ -622,7 +651,7 @@ export default defineConfig({
 });
 ```
 
-**Setup file** (`apps/web/src/test/setup.tsx` — already configured with):
+**Setup file** (`apps/web/src/test/setup.tsx` Ã¢â‚¬â€ already configured with):
 - Mocked `next/navigation` (useRouter, usePathname, useSearchParams)
 - Mocked `next/link`
 - Mocked `next/image`
@@ -640,11 +669,11 @@ export default defineConfig({
 
 **Stack:**
 - **Runtime:** Playwright 1.40+
-- **Browser:** Chromium (primary), Firefox (secondary — add in Week 4)
+- **Browser:** Chromium (primary), Firefox (secondary Ã¢â‚¬â€ add in Week 4)
 - **Assertions:** `@playwright/test` built-in
 - **Accessibility:** `@axe-core/playwright`
 
-**Configuration** (`apps/web/playwright.config.ts` — already set up):
+**Configuration** (`apps/web/playwright.config.ts` Ã¢â‚¬â€ already set up):
 ```typescript
 export default defineConfig({
   testDir: './e2e',
@@ -762,7 +791,7 @@ The current CI workflow (`.github/workflows/ci.yml`) has several gaps:
 | Web test failures | `continue-on-error: true` | Block on failure (after stabilization) |
 | Coverage | Not collected | Coverage reports uploaded as artifacts |
 | E2E tests | Not in CI (no web test job) | Playwright runs in CI |
-| Test isolation | No database — tests skip | Dedicated test DB with seed data |
+| Test isolation | No database Ã¢â‚¬â€ tests skip | Dedicated test DB with seed data |
 | `test` task in Turbo | Missing from `turbo.json` | Add `test` task with dependency chain |
 
 ### 5.2 Target CI Pipeline
@@ -917,42 +946,66 @@ The `test` task must be added to `turbo.json` to ensure proper dependency orderi
 
 ```
 PR Created
-    │
-    ▼
-  ┌──────────────────┐
-  │ Static Analysis   │  ← ESLint + TypeScript (both workspaces)
-  │ (~30s)            │
-  └───────┬──────────┘
-          │ pass
-          ▼
-  ┌──────────────────┐
-  │ Unit Tests        │  ← Jest (API) + Vitest (Web)
-  │ (~2min)           │
-  └───────┬──────────┘
-          │ pass
-          ▼
-  ┌──────────────────┐
-  │ Integration Tests │  ← Supertest + real DB (API only)
-  │ (~3min)           │
-  └───────┬──────────┘
-          │ pass
-          ▼
-  ┌──────────────────┐
-  │ E2E Tests         │  ← Playwright (Chromium)
-  │ (~4min)           │
-  └───────┬──────────┘
-          │ pass
-          ▼
-  ┌──────────────────┐
-  │ Security + Perf   │  ← CodeQL, Lighthouse
-  │ (~3min)           │  ← (non-blocking initially)
-  └───────┬──────────┘
-          │ all pass
-          ▼
-     ✅ MERGE READY
+    Ã¢â€â€š
+    Ã¢â€“Â¼
+  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+  Ã¢â€â€š Static Analysis   Ã¢â€â€š  Ã¢â€ Â ESLint + TypeScript (both workspaces)
+  Ã¢â€â€š (~30s)            Ã¢â€â€š
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+          Ã¢â€â€š pass
+          Ã¢â€“Â¼
+  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+  Ã¢â€â€š Unit Tests        Ã¢â€â€š  Ã¢â€ Â Jest (API) + Vitest (Web)
+  Ã¢â€â€š (~2min)           Ã¢â€â€š
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+          Ã¢â€â€š pass
+          Ã¢â€“Â¼
+  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+  Ã¢â€â€š Integration Tests Ã¢â€â€š  Ã¢â€ Â Supertest + real DB (API only)
+  Ã¢â€â€š (~3min)           Ã¢â€â€š
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+          Ã¢â€â€š pass
+          Ã¢â€“Â¼
+  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+  Ã¢â€â€š E2E Tests         Ã¢â€â€š  Ã¢â€ Â Playwright (Chromium)
+  Ã¢â€â€š (~4min)           Ã¢â€â€š
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+          Ã¢â€â€š pass
+          Ã¢â€“Â¼
+  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+  Ã¢â€â€š Security + Perf   Ã¢â€â€š  Ã¢â€ Â CodeQL, Lighthouse
+  Ã¢â€â€š (~3min)           Ã¢â€â€š  Ã¢â€ Â (non-blocking initially)
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+          Ã¢â€â€š all pass
+          Ã¢â€“Â¼
+     Ã¢Å“â€¦ MERGE READY
 ```
 
 **Total target:** < 10 minutes for the full suite.
+
+### CI Integration Flow
+
+```mermaid
+flowchart LR
+    A[Commit / PR] --> B[Lint & TypeCheck]
+    B -->|pass| C[Unit Tests]
+    B -->|fail| A
+
+    C -->|pass| D[Integration Tests]
+    C -->|fail| A
+
+    D -->|pass| E[E2E Tests]
+    D -->|fail| A
+
+    E -->|pass| F[Build]
+    E -->|fail| A
+
+    F -->|pass| G[Deploy]
+    F -->|fail| A
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style G fill:#c8e6c9,stroke:#2e7d32
+```
 
 ---
 
@@ -979,29 +1032,29 @@ PR Created
 ### 6.2 Describe Block Naming
 
 ```
-# Services — entity name
+# Services Ã¢â‚¬â€ entity name
 describe('SkillsService')
 describe('ProjectsService')
 describe('AuthService')
 
-# HTTP Endpoints — method + path
+# HTTP Endpoints Ã¢â‚¬â€ method + path
 describe('GET /api/portfolio/skills')
 describe('POST /api/admin/projects')
 describe('DELETE /api/admin/blog/:id')
 
-# Components — component name
+# Components Ã¢â‚¬â€ component name
 describe('Button')
 describe('Navbar')
 describe('ContactForm')
 
-# Hooks — hook name
+# Hooks Ã¢â‚¬â€ hook name
 describe('useProjects')
 describe('useAuth')
 
-# E2E — user journey
-describe('Homepage — section loading and navigation')
-describe('Admin — project CRUD flow')
-describe('Auth — login, token refresh, and logout')
+# E2E Ã¢â‚¬â€ user journey
+describe('Homepage Ã¢â‚¬â€ section loading and navigation')
+describe('Admin Ã¢â‚¬â€ project CRUD flow')
+describe('Auth Ã¢â‚¬â€ login, token refresh, and logout')
 ```
 
 ### 6.3 Test Name Conventions
@@ -1009,14 +1062,14 @@ describe('Auth — login, token refresh, and logout')
 Test names should read as **sentences** that describe the scenario and expected outcome.
 
 ```
-❌ Bad:    'should work'
-❌ Bad:    'createProject test 1'
-✅ Good:    'creates a project with valid data and returns the created entity'
-✅ Good:    'returns 400 when creating a project with missing required fields'
-✅ Good:    'returns 404 when requesting a nonexistent project'
-✅ Good:    'throws NotFoundException when deleting a non-existent project'
-✅ Good:    'filters projects by category and returns only matching results'
-✅ Good:    'returns cached data on repeated requests within TTL'
+Ã¢ÂÅ’ Bad:    'should work'
+Ã¢ÂÅ’ Bad:    'createProject test 1'
+Ã¢Å“â€¦ Good:    'creates a project with valid data and returns the created entity'
+Ã¢Å“â€¦ Good:    'returns 400 when creating a project with missing required fields'
+Ã¢Å“â€¦ Good:    'returns 404 when requesting a nonexistent project'
+Ã¢Å“â€¦ Good:    'throws NotFoundException when deleting a non-existent project'
+Ã¢Å“â€¦ Good:    'filters projects by category and returns only matching results'
+Ã¢Å“â€¦ Good:    'returns cached data on repeated requests within TTL'
 ```
 
 ### 6.4 Test File Structure
@@ -1080,7 +1133,7 @@ describe('Button', () => {
 | Principle | Rationale | Practice |
 |-----------|-----------|----------|
 | **Mock at your boundary** | Mock the layer between your code and the external dependency | Mock `PrismaService` methods, not `pg.Pool` queries |
-| **Never mock what you don't own** | Third-party libraries should be tested as integrated, not mocked (except for their transport layer) | Don't mock `bcrypt` — test that password comparison works. Mock the HTTP call to external APIs |
+| **Never mock what you don't own** | Third-party libraries should be tested as integrated, not mocked (except for their transport layer) | Don't mock `bcrypt` Ã¢â‚¬â€ test that password comparison works. Mock the HTTP call to external APIs |
 | **Fakes > mocks > stubs** | Prefer lightweight fakes (in-memory DB) over mocks when possible | Use factories for test data, not mocked return values |
 | **Verify behavior, not implementation** | Test that the right data is returned/action is taken, not that a specific mock method was called with specific args | Assert on service output, not on `prisma.create` call count |
 | **Keep mocks close to tests** | Shared mocks create coupling. Mock setup should be in the test file or a co-located helper | Per-file mock setup, shared in `test/helpers/` only when truly reusable |
@@ -1117,7 +1170,7 @@ prisma.project.findUnique.mockResolvedValue(null); // not found
 
 ### 7.3 HTTP Mocking Strategy
 
-**API tests (Supertest):** No mocking needed — Supertest sends real HTTP requests to the NestJS app. The app uses real services with either real or mocked database.
+**API tests (Supertest):** No mocking needed Ã¢â‚¬â€ Supertest sends real HTTP requests to the NestJS app. The app uses real services with either real or mocked database.
 
 **Web tests (Vitest):** Mock `global.fetch` at the top level. The setup in `apps/web/src/test/setup.tsx` should provide a global `fetch` mock:
 
@@ -1139,7 +1192,7 @@ mockFetch.mockResolvedValueOnce({
 });
 ```
 
-**Playwright E2E:** No mocking of API calls — test the full stack. For specific scenarios (error pages, loading states):
+**Playwright E2E:** No mocking of API calls Ã¢â‚¬â€ test the full stack. For specific scenarios (error pages, loading states):
 - Use Playwright's `page.route()` to intercept and mock specific API responses
 - Use server-side test data seeding to set up known states
 
@@ -1163,21 +1216,21 @@ Currently configured:
 
 | Module | Mock |
 |--------|------|
-| `next/navigation` | `useRouter` → push/replace/prefetch/back/forward/refresh/pathname |
+| `next/navigation` | `useRouter` Ã¢â€ â€™ push/replace/prefetch/back/forward/refresh/pathname |
 | `next/link` | Renders `<a>` tag with href |
 | `next/image` | Renders `<img>` tag with src/alt |
 
 **Needed additions:**
-- `next/headers` → `cookies()`, `headers()` for server components
-- `next/server` → `NextRequest`, `NextResponse` for API route handlers
+- `next/headers` Ã¢â€ â€™ `cookies()`, `headers()` for server components
+- `next/server` Ã¢â€ â€™ `NextRequest`, `NextResponse` for API route handlers
 
 ### 7.6 What NOT to Mock
 
 | Item | Reason |
 |------|--------|
-| Zod schemas | These ARE the validation logic — test them with real data |
+| Zod schemas | These ARE the validation logic Ã¢â‚¬â€ test them with real data |
 | NestJS pipes/guards | Test them in integration with Supertest |
-| Prisma schema types | Generated code — TypeScript validates usage |
+| Prisma schema types | Generated code Ã¢â‚¬â€ TypeScript validates usage |
 | Node.js built-in modules | Only mock when they cause side effects (e.g., `fs.writeFile`) |
 | Third-party auth providers | Integration test against test credentials, don't mock the OAuth flow |
 
@@ -1231,22 +1284,22 @@ export function createTestProject(overrides?: Partial<ProjectInput>) {
 
 | Entity | Priority | Unique Fields | Relations |
 |--------|----------|---------------|-----------|
-| `project.factory.ts` | P0 | slug | — |
+| `project.factory.ts` | P0 | slug | Ã¢â‚¬â€ |
 | `blog-post.factory.ts` | P0 | slug, title | categories |
 | `user.factory.ts` | P0 | email | roles |
-| `lead.factory.ts` | P0 | email | — |
+| `lead.factory.ts` | P0 | email | Ã¢â‚¬â€ |
 | `skill.factory.ts` | P1 | name | category |
-| `section.factory.ts` | P1 | name, slug | — |
-| `testimonial.factory.ts` | P1 | — | — |
-| `experience.factory.ts` | P1 | — | — |
-| `service.factory.ts` | P1 | name | — |
-| `faq.factory.ts` | P1 | — | — |
-| `case-study.factory.ts` | P1 | slug | — |
-| `media.factory.ts` | P2 | filename | — |
-| `notification.factory.ts` | P2 | — | user |
-| `chat-message.factory.ts` | P2 | — | conversation |
+| `section.factory.ts` | P1 | name, slug | Ã¢â‚¬â€ |
+| `testimonial.factory.ts` | P1 | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| `experience.factory.ts` | P1 | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| `service.factory.ts` | P1 | name | Ã¢â‚¬â€ |
+| `faq.factory.ts` | P1 | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| `case-study.factory.ts` | P1 | slug | Ã¢â‚¬â€ |
+| `media.factory.ts` | P2 | filename | Ã¢â‚¬â€ |
+| `notification.factory.ts` | P2 | Ã¢â‚¬â€ | user |
+| `chat-message.factory.ts` | P2 | Ã¢â‚¬â€ | conversation |
 | `api-key.factory.ts` | P2 | key_hash | user |
-| `feature-flag.factory.ts` | P2 | key | — |
+| `feature-flag.factory.ts` | P2 | key | Ã¢â‚¬â€ |
 
 ### 8.2 Seed Scripts
 
@@ -1379,7 +1432,7 @@ Coverage thresholds start reasonable and increase quarterly:
 
 For every PR that introduces new files or significantly modifies existing files:
 
-- **New files** must have ≥ 60% line coverage within the PR itself.
+- **New files** must have Ã¢â€°Â¥ 60% line coverage within the PR itself.
 - **Modified files** must not decrease coverage by more than 5 percentage points.
 - **Exception:** Configuration files, generated code, type definitions, and `dto/` files are excluded.
 
@@ -1406,10 +1459,10 @@ For every PR that introduces new files or significantly modifies existing files:
 
 | Class | Definition | Action | Example |
 |-------|-----------|--------|---------|
-| **P0 — Critical** | No tests for a critical path used in every deploy | Must fix before next release | Auth flow, contact form, project CRUD |
-| **P1 — High** | No tests for core business logic | Fix within 1 sprint | Blog service, skill service, section ordering |
-| **P2 — Medium** | No tests for secondary features | Fix within 2 sprints | Achievements, press features, guest appearances |
-| **P3 — Low** | No tests for edge cases, admin-only features | Fix when touching the code | Feature flags, system settings, API keys |
+| **P0 Ã¢â‚¬â€ Critical** | No tests for a critical path used in every deploy | Must fix before next release | Auth flow, contact form, project CRUD |
+| **P1 Ã¢â‚¬â€ High** | No tests for core business logic | Fix within 1 sprint | Blog service, skill service, section ordering |
+| **P2 Ã¢â‚¬â€ Medium** | No tests for secondary features | Fix within 2 sprints | Achievements, press features, guest appearances |
+| **P3 Ã¢â‚¬â€ Low** | No tests for edge cases, admin-only features | Fix when touching the code | Feature flags, system settings, API keys |
 
 ---
 
@@ -1501,7 +1554,7 @@ For every PR that introduces new files or significantly modifies existing files:
 # Node inspector
 cd apps/api && node --inspect-brk node_modules/.bin/jest --runInBand
 
-# In Chrome: chrome://inspect → Open dedicated DevTools for Node
+# In Chrome: chrome://inspect Ã¢â€ â€™ Open dedicated DevTools for Node
 # Set breakpoints in test files and step through
 
 # Verbose output for test failures
@@ -1535,7 +1588,7 @@ cd apps/web && npx playwright show-trace test-results/**/trace.zip
 cd apps/web && npx playwright test --headed --slowmo=1000
 
 # VS Code extension: Playwright Test for VSCode
-# Right-click on a test → "Debug Test"
+# Right-click on a test Ã¢â€ â€™ "Debug Test"
 ```
 
 ### 10.5 VS Code Configuration
@@ -1560,11 +1613,11 @@ cd apps/web && npx playwright test --headed --slowmo=1000
 ```
 
 Recommended VS Code extensions:
-- **Vitest** (Zixuan Chen) — Run/debug Vitest tests in-editor
-- **Jest** (Orta) — Run/debug Jest tests in-editor
-- **Playwright Test for VSCode** (Microsoft) — Run/debug Playwright tests
-- **Error Lens** (Alexander) — Inline test errors
-- **Test Explorer UI** (hbenl) — Unified test view
+- **Vitest** (Zixuan Chen) Ã¢â‚¬â€ Run/debug Vitest tests in-editor
+- **Jest** (Orta) Ã¢â‚¬â€ Run/debug Jest tests in-editor
+- **Playwright Test for VSCode** (Microsoft) Ã¢â‚¬â€ Run/debug Playwright tests
+- **Error Lens** (Alexander) Ã¢â‚¬â€ Inline test errors
+- **Test Explorer UI** (hbenl) Ã¢â‚¬â€ Unified test view
 
 ---
 
@@ -1578,14 +1631,14 @@ Recommended VS Code extensions:
 |------|-------|---------|-------------|
 | Add Postgres service container to CI | DevOps | Tests have a real database | CI config access |
 | Remove `continue-on-error: true` for web tests | DevOps | Web tests block merge | Test DB setup |
-| Add `test` task to `turbo.json` | Backend | Turbo orchestration works | — |
+| Add `test` task to `turbo.json` | Backend | Turbo orchestration works | Ã¢â‚¬â€ |
 | Set up test database migration in CI | Backend | DB is migrated before tests | Postgres service |
-| Configure Jest coverage thresholds (40%/30%) | Backend | Coverage gates in CI | — |
-| Configure Vitest coverage thresholds (40%/30%) | Frontend | Coverage gates in CI | — |
-| Add coverage artifact upload to CI | DevOps | Reports available on PR | — |
-| Create `test/factories/` directory with 3 factories | Backend | Project, User, BlogPost factories | — |
+| Configure Jest coverage thresholds (40%/30%) | Backend | Coverage gates in CI | Ã¢â‚¬â€ |
+| Configure Vitest coverage thresholds (40%/30%) | Frontend | Coverage gates in CI | Ã¢â‚¬â€ |
+| Add coverage artifact upload to CI | DevOps | Reports available on PR | Ã¢â‚¬â€ |
+| Create `test/factories/` directory with 3 factories | Backend | Project, User, BlogPost factories | Ã¢â‚¬â€ |
 | Create `test/test-seed.ts` | Backend | Deterministic test data | Factories |
-| Add `@faker-js/faker` and `jest-mock-extended` | Backend | Mocking + data generation | — |
+| Add `@faker-js/faker` and `jest-mock-extended` | Backend | Mocking + data generation | Ã¢â‚¬â€ |
 
 **Definition of done:**
 - CI pipeline runs with Postgres service container
@@ -1610,15 +1663,15 @@ Recommended VS Code extensions:
 | Write `services.service.spec.ts` (8 tests) | Backend | CRUD | Factories |
 | Write `faqs.service.spec.ts` (8 tests) | Backend | CRUD | Factories |
 | Write `case-studies.service.spec.ts` (8 tests) | Backend | CRUD + slug lookup | Factories |
-| Expand `auth.service.spec.ts` | Backend | Complete auth coverage | — |
-| Expand `leads.service.spec.ts` | Backend | Rate limiting + spam detection | — |
+| Expand `auth.service.spec.ts` | Backend | Complete auth coverage | Ã¢â‚¬â€ |
+| Expand `leads.service.spec.ts` | Backend | Rate limiting + spam detection | Ã¢â‚¬â€ |
 | Write `media.service.spec.ts` (8 tests) | Backend | File validation + upload | Factories |
 | Write `chat.service.spec.ts` (8 tests) | Backend | Message sending + history | Factories |
 
 **Definition of done:**
 - 12+ service test files (up from 3)
 - ~100+ new service tests
-- API line coverage ≥ 40%
+- API line coverage Ã¢â€°Â¥ 40%
 - All P0/P1 services have CRUD tests
 
 ---
@@ -1640,14 +1693,14 @@ Recommended VS Code extensions:
 | Write `Contact.test.tsx` (4 tests) | Frontend | Form, validation, submit, success | Setup |
 | Write `BlogPreview.test.tsx` (3 tests) | Frontend | Cards, images, tags | Setup |
 | Write `Hero.test.tsx` (3 tests) | Frontend | Content, no content, responsive | Setup |
-| Write hooks tests for 10 untested hooks | Frontend | Loading/success/error for each | — |
-| Add ResizeObserver mock to setup | Frontend | Fix component rendering | — |
-| Add Three.js canvas mock to setup | Frontend | Fix 3D component tests | — |
+| Write hooks tests for 10 untested hooks | Frontend | Loading/success/error for each | Ã¢â‚¬â€ |
+| Add ResizeObserver mock to setup | Frontend | Fix component rendering | Ã¢â‚¬â€ |
+| Add Three.js canvas mock to setup | Frontend | Fix 3D component tests | Ã¢â‚¬â€ |
 
 **Definition of done:**
 - 12+ component test files
 - 10+ hook files tested (loading/success/error each)
-- Web line coverage ≥ 55%
+- Web line coverage Ã¢â€°Â¥ 55%
 - All P0 UI components have tests
 
 ---
@@ -1667,7 +1720,7 @@ Recommended VS Code extensions:
 | Write `responsive.spec.ts` | Frontend | Mobile/tablet/desktop layouts | Week 3 tests |
 | Add Firefox to Playwright projects | Frontend | Cross-browser coverage | Week 3 tests |
 | Set up E2E GitHub Actions job | DevOps | E2E runs in CI | Test DB |
-| Configure E2E artifact upload | DevOps | Reports available on PR | — |
+| Configure E2E artifact upload | DevOps | Reports available on PR | Ã¢â‚¬â€ |
 | Write integration tests for admin endpoints | Backend | 20+ API contract tests | Test DB |
 
 **Definition of done:**
@@ -1686,12 +1739,12 @@ Recommended VS Code extensions:
 | Task | Owner | Outcome | Dependencies |
 |------|-------|---------|-------------|
 | Extend `accessibility.spec.ts` (all page templates) | Frontend | Full a11y coverage | E2E infra |
-| Add `@axe-core/playwright` as dependency | Frontend | Tool available | — |
-| Configure axe rules (WCAG 2.2 AA) | Frontend | Rule set matches requirements | — |
+| Add `@axe-core/playwright` as dependency | Frontend | Tool available | Ã¢â‚¬â€ |
+| Configure axe rules (WCAG 2.2 AA) | Frontend | Rule set matches requirements | Ã¢â‚¬â€ |
 | Write visual regression tests (10 screens) | Frontend | Baseline screenshots | E2E infra |
-| Set up visual diff threshold (0.1%) | Frontend | Tolerable change limit | — |
+| Set up visual diff threshold (0.1%) | Frontend | Tolerable change limit | Ã¢â‚¬â€ |
 | Add a11y CI to GitHub Actions | DevOps | a11y blocks PRs | E2E infra |
-| Create visual regression review process | QA Lead | Process documented | — |
+| Create visual regression review process | QA Lead | Process documented | Ã¢â‚¬â€ |
 | Fix WCAG AA violations found by scanning | Frontend | 0 violations baseline | Scanning |
 
 **Definition of done:**
@@ -1712,12 +1765,12 @@ Recommended VS Code extensions:
 | Add Lighthouse CI to pipeline | DevOps | Performance budgets enforced | CI access |
 | Configure Lighthouse budgets | Frontend | Budgets match targets | Baseline data |
 | Write remaining 10 service tests | Backend | All 27 services tested | Factories |
-| Write remaining 10 component tests | Frontend | All P1 components tested | — |
-| Write remaining 12 hooks tests | Frontend | All 27 hooks tested | — |
-| Set up flaky test tracker | QA Lead | Dashboard for flaky rate | — |
-| Write test debt backlog | QA Lead | All gaps documented | — |
-| Run full test suite → measure < 10 min | DevOps | Performance target met | Optimization |
-| Document all test commands in CONTRIBUTING.md | QA Lead | Onboarding ready | — |
+| Write remaining 10 component tests | Frontend | All P1 components tested | Ã¢â‚¬â€ |
+| Write remaining 12 hooks tests | Frontend | All 27 hooks tested | Ã¢â‚¬â€ |
+| Set up flaky test tracker | QA Lead | Dashboard for flaky rate | Ã¢â‚¬â€ |
+| Write test debt backlog | QA Lead | All gaps documented | Ã¢â‚¬â€ |
+| Run full test suite Ã¢â€ â€™ measure < 10 min | DevOps | Performance target met | Optimization |
+| Document all test commands in CONTRIBUTING.md | QA Lead | Onboarding ready | Ã¢â‚¬â€ |
 
 **Definition of done:**
 - Lighthouse CI in pipeline with budgets
@@ -1751,20 +1804,20 @@ Recommended VS Code extensions:
 
 | File | Type | Tests | Status |
 |------|------|-------|--------|
-| `src/modules/auth/auth.service.spec.ts` | Unit | ~15 | ✅ Existing |
-| `src/modules/blog/blog.service.spec.ts` | Unit | ~8 | ✅ Existing |
-| `src/modules/leads/leads.service.spec.ts` | Unit | ~10 | ✅ Existing |
-| `test/app.e2e-spec.ts` | Integration/E2E | ~40 | ✅ Existing |
+| `src/modules/auth/auth.service.spec.ts` | Unit | ~15 | Ã¢Å“â€¦ Existing |
+| `src/modules/blog/blog.service.spec.ts` | Unit | ~8 | Ã¢Å“â€¦ Existing |
+| `src/modules/leads/leads.service.spec.ts` | Unit | ~10 | Ã¢Å“â€¦ Existing |
+| `test/app.e2e-spec.ts` | Integration/E2E | ~40 | Ã¢Å“â€¦ Existing |
 | **Total** | | **~73** | |
 
 ### A.2 Web Test Files (Current)
 
 | File | Type | Tests | Status |
 |------|------|-------|--------|
-| `src/test/__tests__/hooks.test.tsx` | Hook unit | ~8 | ✅ Existing |
-| `src/test/__tests__/api.test.ts` | API client unit | ~6 | ✅ Existing |
-| `e2e/homepage.spec.ts` | E2E | ~4 | ✅ Existing |
-| `e2e/accessibility.spec.ts` | E2E/a11y | ~4 | ✅ Existing |
+| `src/test/__tests__/hooks.test.tsx` | Hook unit | ~8 | Ã¢Å“â€¦ Existing |
+| `src/test/__tests__/api.test.ts` | API client unit | ~6 | Ã¢Å“â€¦ Existing |
+| `e2e/homepage.spec.ts` | E2E | ~4 | Ã¢Å“â€¦ Existing |
+| `e2e/accessibility.spec.ts` | E2E/a11y | ~4 | Ã¢Å“â€¦ Existing |
 | **Total** | | **~22** | |
 
 ### A.3 Untested API Services (27 total, 24 untested)
@@ -1848,4 +1901,8 @@ See section [5.2 Target CI Pipeline](#52-target-ci-pipeline) for the full CI con
 
 ---
 
-*This document is a living strategy guide. It should be reviewed monthly by the QA Lead and updated as the testing infrastructure evolves. All dates and targets are ambitious but achievable — adjust based on actual velocity, not aspiration.*
+*This document is a living strategy guide. It should be reviewed monthly by the QA Lead and updated as the testing infrastructure evolves. All dates and targets are ambitious but achievable Ã¢â‚¬â€ adjust based on actual velocity, not aspiration.*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

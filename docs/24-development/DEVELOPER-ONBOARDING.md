@@ -745,3 +745,7 @@ docs/MASTER-INDEX.md
 ---
 
 *Last updated: July 2026 — See `docs/MASTER-INDEX.md` for the latest document inventory.*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

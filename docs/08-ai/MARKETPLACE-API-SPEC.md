@@ -1,13 +1,8 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# 📡 Marketplace API Specification — Agent Marketplace REST Interface
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Marketplace API Specification ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Agent Marketplace REST Interface
 
 > **Document:** `MARKETPLACE-API-SPEC.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Staff Backend Architect | **Review Cadence:** Quarterly  
+> **Status:** ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Active | **Owner:** Staff Backend Architect | **Review Cadence:** Quarterly  
 > **Related:** [AgentMarketplace.md](./AgentMarketplace.md) | [44-API-STANDARDS.md](../api/44-API-STANDARDS.md) | [12-API.md](../api/12-API.md)
 
 ---
@@ -51,12 +46,12 @@ GET /api/v1/marketplace/agents/search
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `q` | string | — | Full-text search query |
-| `category` | string | — | Filter by category ID |
-| `tags` | string (CSV) | — | Tag filter (AND logic) |
-| `runtime` | string | — | Compatible runtime |
-| `publisher` | string | — | Publisher organization ID |
-| `minRating` | float | — | Minimum rating threshold |
+| `q` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Full-text search query |
+| `category` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Filter by category ID |
+| `tags` | string (CSV) | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Tag filter (AND logic) |
+| `runtime` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Compatible runtime |
+| `publisher` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Publisher organization ID |
+| `minRating` | float | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Minimum rating threshold |
 | `status` | enum | `published` | Listing status |
 | `sort` | enum | `relevance` | Field: relevance, downloads, rating, updated, name |
 | `order` | enum | `desc` | Direction: asc, desc |
@@ -154,7 +149,7 @@ POST /api/v1/marketplace/agents
 | `provenance` | binary | SLSA JSON | Build provenance statement |
 | `changelog` | string | Markdown | Release notes |
 
-Returns a submission ID and review status URL. The submission enters the approval workflow (Submitted → UnderReview → Approved → Published).
+Returns a submission ID and review status URL. The submission enters the approval workflow (Submitted ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ UnderReview ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Approved ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Published).
 
 ---
 
@@ -175,3 +170,7 @@ Returns a submission ID and review status URL. The submission enters the approva
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | Jul 2026 | Initial marketplace API specification | Staff Backend Architect |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

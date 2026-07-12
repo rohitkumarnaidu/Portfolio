@@ -1,7 +1,7 @@
 # Frontend Testing Strategy
 
 > **Document:** `FrontendTestingStrategy.md` | **Version:** 2.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** QA Lead
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** QA Lead
 
 This document outlines the testing methodologies, tools, and CI/CD pipelines used to ensure the reliability of the Next.js frontend, Admin Dashboard, and 3D portfolio experiences.
 
@@ -70,6 +70,28 @@ Components are tested based on user behavior, not implementation details.
 - **Router:** Mock `useRouter` and `useSearchParams` from `next/navigation`.
 - **3D Canvas:** Mock `<Canvas>` from `@react-three/fiber` to prevent WebGL errors in JSDOM.
 
+### Component Test Hierarchy
+
+```mermaid
+graph LR
+    Component[UI Component] --> Unit[Unit Tests]
+    Component --> Integ[Integration Tests]
+    Component --> VRT[Visual Regression]
+    Component --> A11y[A11y Tests]
+
+    Unit --> Vitest[Vitest + RTL<br/>Render + Interaction]
+    Unit --> Coverage[Target: 70% line]
+
+    Integ --> MSW[MSW + RTL<br/>Data Flow + Composition]
+    Integ --> Pages[Page-Level: 60% line]
+
+    VRT --> PW[Playwright Screenshot<br/>0.1% diff threshold]
+    VRT --> Snap[Snapshots in e2e/snapshots/]
+
+    A11y --> Axe[axe-core<br/>WCAG 2.1 AA]
+    A11y --> Keyboard[Keyboard Nav Audit]
+```
+
 ## 3. Hook Testing
 
 ### 3.1 Test Patterns per Hook
@@ -116,6 +138,36 @@ Integration tests verify that multiple components work together correctly.
 - Form submission triggers correct API call with correct payload.
 - Toast/notification fires on success/error.
 - Navigation occurs after form submit (redirect to detail page).
+
+### Test Types Per Layer
+
+```mermaid
+flowchart TD
+    Page[Page Component] --> Unit_P[Unit: Data Fetching Logic]
+    Page --> Integ_P[Integration: Full Page Render]
+    Page --> E2E_P[E2E: Critical User Journey]
+    Page --> VRT_P[Visual Regression: Full Page Screenshot]
+    Page --> A11y_P[A11y: Full Page Audit]
+
+    Component[UI Component] --> Unit_C[Unit: Render + Interaction]
+    Component --> Integ_C[Integration: Parent-Child Composition]
+    Component --> VRT_C[Visual Regression: Component Screenshot]
+    Component --> A11y_C[A11y: Role + ARIA + Keyboard]
+
+    Hook[Custom Hook] --> Unit_H[Unit: Loading/Success/Error]
+    Hook --> Edge_H[Edge: Empty/Null/Unmount]
+
+    Util[Utility Function] --> Unit_U[Unit: Pure Function Tests]
+    Util --> Branch_U[Branch Coverage: 90%]
+
+    style Unit_P fill:#bbdefb
+    style Integ_P fill:#bbdefb
+    style Unit_C fill:#bbdefb
+    style Integ_C fill:#bbdefb
+    style Unit_H fill:#bbdefb
+    style Unit_U fill:#bbdefb
+    style Branch_U fill:#bbdefb
+```
 
 ## 5. End-to-End Testing (Playwright)
 
@@ -202,3 +254,7 @@ All tests run via GitHub Actions:
    - Cross-browser E2E (Chromium + Firefox + WebKit)
    - Visual regression on staging
    - Full a11y scan
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

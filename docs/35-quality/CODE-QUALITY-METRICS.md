@@ -9,7 +9,37 @@ This document defines the quantitative code quality targets for the monorepo. Me
 
 ---
 
-## 2. Test Coverage Targets
+## 2. Quality Dashboard
+
+```mermaid
+pie title Code Quality Dashboard
+    "Test Coverage" : 30
+    "Lint Score" : 20
+    "A11y Score" : 15
+    "Performance Score" : 20
+    "Security Score" : 15
+```
+
+```mermaid
+flowchart LR
+    subgraph Metrics[Metrics Breakdown]
+        M1[Coverage<br/>Target: 80%]
+        M2[Lint<br/>Target: 0 errors]
+        M3[A11y<br/>Target: WCAG AA]
+        M4[Performance<br/>Target: LCP < 1.8s]
+        M5[Security<br/>Target: 0 critical]
+    end
+
+    Dashboard --> Metrics
+    Metrics -->|Pass| Green[✅]
+    Metrics -->|Fail| Red[❌]
+
+    style Dashboard fill:#1e293b,color:#e2e8f0
+    style Green fill:#16a34a,color:#fff
+    style Red fill:#dc2626,color:#fff
+```
+
+## 3. Test Coverage Targets
 
 Coverage is measured per-package using Jest (API) and Vitest (Web). Targets are expressed as **line coverage** unless otherwise noted.
 
@@ -124,3 +154,7 @@ A live quality dashboard at `https://<env>/admin/quality-metrics` displays:
 | G2 (PR) | Coverage, complexity, duplication (new code), dependency vulnerabilities, bundle size regression |
 | G4 (Post-Deploy) | API latency, Lighthouse scores |
 | G5 (Quarterly) | Maintainability index, duplication (overall), dependency age, documentation coverage |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

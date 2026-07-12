@@ -77,8 +77,24 @@ curl http://localhost:8000/health
 docker compose -f infrastructure/docker/docker-compose.yml logs --tail=50
 ```
 
+## Restart Procedure Diagram
+
+```mermaid
+flowchart TD
+    A[Check Health] --> B[Drain Connections]
+    B --> C[Stop Service]
+    C --> D[Verify Stopped]
+    D --> E[Start Service]
+    E --> F[Verify Health]
+    F --> G[Resume Traffic]
+```
+
 ## Troubleshooting Restart Issues
 - **Service won't start:** Check port availability, configuration
 - **Database won't connect:** Check credentials, network
 - **Process crashes on startup:** Check logs for initialization errors
 - **Timeout waiting for service:** Increase wait time, check resource limits
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

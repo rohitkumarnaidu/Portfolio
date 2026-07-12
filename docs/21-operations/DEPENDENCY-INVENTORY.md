@@ -286,3 +286,48 @@ Complete inventory of all third-party dependencies across the monorepo, includin
 | **Major version** | Migration branch → staging QA for 1 week → scheduled release | Per roadmap |
 
 **Major upgrade always requires:** read migration guide, test all affected functionality in staging, update this inventory document post-migration.
+
+---
+
+## Diagram
+
+### Dependency Risk Matrix
+
+```mermaid
+graph LR
+    subgraph Legend
+        L1[▲ Critical]
+        L2[◆ Essential]
+        L3[● Nice-to-have]
+    end
+
+    subgraph Up-to-date
+        U1[▲ Prisma ORM]
+        U2[▲ NestJS Core]
+        U3[◆ Three.js]
+        U4[◆ BullMQ]
+        U5[● Prettier]
+        U6[● Lucide React]
+    end
+
+    subgraph Needs-Minor-Upgrade
+        M1[◆ Supabase JS]
+        M2[◆ TanStack Query]
+        M3[● Lenis]
+    end
+
+    subgraph Outdated
+        O1[▲ Next.js 14 → 15]
+        O2[▲ React 18 → 19]
+        O3[● GSAP]
+    end
+
+    O1 --> Risk1[⚠️ EOL risk]
+    O2 --> Risk1
+    O3 --> License[⚠️ Commercial license needed]
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system
+

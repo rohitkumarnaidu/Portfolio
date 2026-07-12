@@ -1,10 +1,5 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# Automation Architecture — Workflow Orchestration & Event-Driven Process Automation
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# Automation Architecture ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Workflow Orchestration & Event-Driven Process Automation
 
 > **Document:** `AutomationArchitecture.md` | **Version:** 1.0 | **Last Updated:** June 2026
 > **Status:** Active | **Owner:** Chief AI Architect | **Review Cadence:** Monthly
@@ -42,7 +37,7 @@ Defines the automation architecture for CI/CD pipelines - build automation, test
 
 ### 1.1 Purpose
 
-The Automation Architecture defines how automated workflows, scheduled tasks, and event-driven processes are orchestrated across the agent ecosystem. It provides a unified framework for defining, executing, monitoring, and governing all forms of automation — from simple cron-based tasks to complex multi-step pipeline workflows involving multiple agents and services.
+The Automation Architecture defines how automated workflows, scheduled tasks, and event-driven processes are orchestrated across the agent ecosystem. It provides a unified framework for defining, executing, monitoring, and governing all forms of automation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â from simple cron-based tasks to complex multi-step pipeline workflows involving multiple agents and services.
 
 ### 1.2 What Automation Means in This System
 
@@ -78,12 +73,12 @@ Automation refers to any process that executes without direct human intervention
 Scheduled automations execute at predefined times or intervals using cron expressions. They are ideal for recurring maintenance and reporting tasks.
 
 ```text
-┌───────────── minute (0-59)
-│ ┌───────────── hour (0-23)
-│ │ ┌───────────── day of month (1-31)
-│ │ │ ┌───────────── month (1-12)
-│ │ │ │ ┌───────────── day of week (0-6, Sun=0)
-│ │ │ │ │
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€™ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ minute (0-59)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ…â€™ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ hour (0-23)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ…â€™ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ day of month (1-31)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ…â€™ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ month (1-12)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ…â€™ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ day of week (0-6, Sun=0)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡ ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡
 * * * * *
 ```
 
@@ -100,7 +95,7 @@ Scheduled automations execute at predefined times or intervals using cron expres
 Event-driven automations execute in response to domain events published on the event bus. They enable reactive processing and real-time workflows.
 
 ```text
-Event Source → Event Bus → Event Filter → Matched? → Trigger Automation → Execute Workflow
+Event Source ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Event Bus ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Event Filter ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Matched? ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Trigger Automation ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Execute Workflow
 ```
 
 | Characteristic | Value |
@@ -116,7 +111,7 @@ Event Source → Event Bus → Event Filter → Matched? → Trigger Automation 
 Conditional automations evaluate rules against system state and execute actions when conditions are met. They implement the system's self-healing and cost-optimization logic.
 
 ```text
-System State → Rule Evaluator → Evaluate Conditions → All Met? → Execute Actions → Log Outcome
+System State ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Rule Evaluator ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Evaluate Conditions ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ All Met? ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Execute Actions ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Log Outcome
 ```
 
 | Characteristic | Value |
@@ -132,8 +127,8 @@ System State → Rule Evaluator → Evaluate Conditions → All Met? → Execute
 Pipeline automations are directed acyclic graphs (DAGs) of steps that execute in sequence or parallel to produce a final result. They are the most complex automation type.
 
 ```text
-Step 1 → Branch ──→ Step 2a → Step 3 ──→ Step 4 → Complete
-               └──→ Step 2b ──→ Merge ──┘
+Step 1 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Branch ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Step 2a ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Step 3 ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Step 4 ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Complete
+               ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Step 2b ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Merge ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ‹Å“
 ```
 
 | Characteristic | Value |
@@ -1752,21 +1747,21 @@ Level 0 (Auto-Recovery)
   - Retry with backoff
   - Circuit breaker self-heal
   - No human notification
-  └── If failed after max retries → Level 1
+  ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ If failed after max retries ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Level 1
 
 Level 1 (Warning)
   - Notification to admin Telegram
   - Dashboard alert
   - Log entry in automation_incidents
   - RTO: 15 minutes
-  └── If no response in 15 minutes → Level 2
+  ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ If no response in 15 minutes ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Level 2
 
 Level 2 (Critical)
   - Pager notification
   - SMS alert
   - Escalation to on-call engineer
   - RTO: 30 minutes
-  └── If no response in 30 minutes → Level 3
+  ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ If no response in 30 minutes ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Level 3
 
 Level 3 (Emergency)
   - Phone call to on-call + backup
@@ -1986,9 +1981,9 @@ class SupervisorAutomationBridge:
 | ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
 |----|----------|---------|-----------|------------------------|---------------|--------------|
 | AUTO-DEC-001 | Temporal workflow engine over custom cron + queue solution | Workflow orchestration | Temporal provides durable execution, retry, saga support, and visibility out of the box; avoids building complex workflow primitives from scratch | Custom cron + Redis queue (build effort high, no saga support, poor observability), AWS Step Functions (vendor lock-in, higher cost, offline development constraints) | Jun 2026 | Dec 2026 |
-| AUTO-DEC-002 | Conditional automation rules evaluated before action execution | Rules engine design | Pre-execution evaluation prevents wasted compute on actions whose conditions are not met; enables clear audit trail of "why this action ran" | Post-execution evaluation (waste, action runs before condition check), No conditions (every action runs every trigger — noise, resource waste) | Jun 2026 | Dec 2026 |
-| AUTO-DEC-003 | Five automation types (scheduled, event, conditional, chain, ad-hoc) | Automation taxonomy | Covers all required automation patterns: periodic jobs, reactive triggers, logic-branching, multi-step workflows, and manual on-demand execution | Two types (scheduled + event — misses chain and conditional), Unified single type (too generic, no pattern optimization) | Jun 2026 | Sep 2026 |
-| AUTO-DEC-004 | Automation state machine (draft → active → paused → archived) | Automation lifecycle | Clear state transitions enable safe activation/deactivation without data loss; archived state preserves history without active execution | Binary (active/inactive — no pause capability, no archival distinction), Soft delete only (no state tracking, harder to audit) | Jun 2026 | Sep 2026 |
+| AUTO-DEC-002 | Conditional automation rules evaluated before action execution | Rules engine design | Pre-execution evaluation prevents wasted compute on actions whose conditions are not met; enables clear audit trail of "why this action ran" | Post-execution evaluation (waste, action runs before condition check), No conditions (every action runs every trigger ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â noise, resource waste) | Jun 2026 | Dec 2026 |
+| AUTO-DEC-003 | Five automation types (scheduled, event, conditional, chain, ad-hoc) | Automation taxonomy | Covers all required automation patterns: periodic jobs, reactive triggers, logic-branching, multi-step workflows, and manual on-demand execution | Two types (scheduled + event ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â misses chain and conditional), Unified single type (too generic, no pattern optimization) | Jun 2026 | Sep 2026 |
+| AUTO-DEC-004 | Automation state machine (draft ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ active ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ paused ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ archived) | Automation lifecycle | Clear state transitions enable safe activation/deactivation without data loss; archived state preserves history without active execution | Binary (active/inactive ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no pause capability, no archival distinction), Soft delete only (no state tracking, harder to audit) | Jun 2026 | Sep 2026 |
 | AUTO-DEC-005 | Agent-triggered automations mediated by Supervisor for permission enforcement | Agent integration | Supervisor validates agent identity, checks permissions, and enforces rate limits before scheduling automation; prevents unauthorized or runaway automations | Direct agent-to-Temporal call (bypasses security controls, no rate limiting), Agent-initiated only (no event-driven or scheduled automation support) | Jun 2026 | Dec 2026 |
 
 ## 12.2 Risk Register
@@ -1996,7 +1991,7 @@ class SupervisorAutomationBridge:
 | ID | Risk | Likelihood | Impact | Mitigation | Owner | Status |
 |----|------|------------|--------|------------|-------|--------|
 | AUTO-RSK-001 | Temporal workflow engine fails during critical automation execution | Low | High (automation halts, data inconsistency risk) | Temporal cluster with high-availability mode; workflow state persisted for recovery; failed workflow retry with exponential backoff; admin dashboard for workflow health | Platform Engineer | Active |
-| AUTO-RSK-002 | Conditional automation triggers in infinite loop due to action → condition feedback | Low | High (resource exhaustion, runaway automation) | Loop detection with max-consecutive-trigger limit (default 5); execution history analysis for repeated same-condition triggers; circuit breaker per automation | AI Engineer | Active |
+| AUTO-RSK-002 | Conditional automation triggers in infinite loop due to action ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ condition feedback | Low | High (resource exhaustion, runaway automation) | Loop detection with max-consecutive-trigger limit (default 5); execution history analysis for repeated same-condition triggers; circuit breaker per automation | AI Engineer | Active |
 | AUTO-RSK-003 | Concurrent automation executions conflict on shared resources | Medium | Medium (data races, inconsistent state) | Resource locking via distributed lock (Redis); configurable concurrency limit per automation type; idempotent automation handlers | Platform Engineer | Active |
 | AUTO-RSK-004 | Automation configuration drift between environments (dev/staging/prod) | Low | Medium (different behavior across environments, hard to debug) | Infrastructure-as-Code for automation definitions; environment-specific variables in configuration; pre-deployment validation against target environment | Platform Engineer | Active |
 | AUTO-RSK-005 | Agent with elevated permissions triggers destructive automation | Very Low | Critical (data loss, service disruption) | Supervisor permission check before any agent-triggered automation; destructive actions require two-step confirmation; audit log with before/after state for all mutations | Security Engineer | Active |
@@ -2014,7 +2009,7 @@ class SupervisorAutomationBridge:
 | **Execution History** | A persistent log of automation execution attempts, results, failures, and durations |
 | **Saga** | A sequence of local transactions with compensating actions to maintain consistency across distributed operations |
 | **Scheduled Automation** | An automation triggered on a recurring cron schedule for periodic maintenance or reporting |
-| **State Machine** | The lifecycle model for automations defining valid state transitions (draft → active → paused → archived) |
+| **State Machine** | The lifecycle model for automations defining valid state transitions (draft ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ active ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ paused ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ archived) |
 
 ---
 
@@ -2044,4 +2039,8 @@ class SupervisorAutomationBridge:
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

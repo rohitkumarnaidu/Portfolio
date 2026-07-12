@@ -6,6 +6,19 @@
 ## 1. Executive Summary
 This document defines the strict Pull Request template required for all merges into `main`. It enforces FAANG-level rigor for testing, documentation, and architecture adherence.
 
+```mermaid
+flowchart TD
+    A["PR Title: Conventional Commits"] --> B["Description: What, Why, How"]
+    B --> C["Type of Change: feat/fix/breaking/docs/perf/security"]
+    C --> D["FAANG Checklist: 9 items"]
+    D --> E{"All checked?"}
+    E -->|Yes| F["Screenshots (if UI)"]
+    E -->|No| G["Fix missing items"]
+    G --> D
+    F --> H["Notes for Reviewers"]
+    H --> I["Request Review"]
+```
+
 ---
 
 ## 2. Template Output (.github/pull_request_template.md)
@@ -42,3 +55,7 @@ Fixes # (issue)
 ## Notes for Reviewers
 <!-- Any specific areas you want reviewers to focus on? -->
 ```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

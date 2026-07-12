@@ -54,7 +54,22 @@ To balance cost and compliance, log retention in Datadog is configured as follow
 * **Production Logs**: 15 days indexed (for immediate troubleshooting), 13 months archived in cold storage (AWS S3/GCS) for compliance and auditing.
 * **Staging/Dev Logs**: 7 days indexed, no long-term archival.
 
+## 8. Log Pipeline Diagram
+
+```mermaid
+flowchart LR
+    A[App] --> B[Console]
+    B --> C[Collector]
+    C --> D[Storage]
+    D --> E[Index]
+    E --> F[Query]
+```
+
 ## 7. Developer Guidelines
 * **Do not use `console.log` in production code.** Use the provided logger instance.
 * **Log the "Why", not just the "What".** Include relevant state variables in the JSON payload, not concatenated into the message string.
 * **Catch and Log:** Always log errors in `catch` blocks with the original error object attached to preserve stack traces.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

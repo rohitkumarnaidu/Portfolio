@@ -38,7 +38,23 @@ We adopt **Next.js 14** with the **App Router** (React Server Components) as the
 - RSC + Client Component boundary requires careful `'use client'` placement
 - Vercel deployment creates soft lock-in (mitigated by Docker + `next start` portability)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: App Router needed] --> B[Options: App Router / Pages Router]
+    B --> C[Decision: Next.js 14 App Router]
+    C --> D[Positive: ISR, RSC, streaming SSR, Vercel synergy]
+    C --> E[Negative: RSC client boundary, Vercel lock-in]
+    D --> F[Compliance: §2.2, §4.1]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §2.2: "Edge-first delivery, sub-100ms page loads"
 - Aligns with Constitution §4.1: "React ecosystem for component library availability"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

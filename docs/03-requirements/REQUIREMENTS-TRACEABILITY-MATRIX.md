@@ -93,7 +93,7 @@ This matrix provides end-to-end traceability from business goals through to impl
 
 | NFR ID | NFR Name | Related Features | Test Requirement | Acceptance Criteria |
 |--------|----------|------------------|------------------|---------------------|
-| NFR-01 | Lighthouse Performance ≥ 95 | F-001, F-100, F-200, F-014 | Lighthouse CI in PR pipeline | All categories ≥ 95 |
+| NFR-01 | Lighthouse Performance Ã¢â€°Â¥ 95 | F-001, F-100, F-200, F-014 | Lighthouse CI in PR pipeline | All categories Ã¢â€°Â¥ 95 |
 | NFR-02 | WCAG 2.2 AA Compliance | All public features | axe DevTools (0 violations) | Keyboard nav, screen reader, contrast 4.5:1 |
 | NFR-03 | LCP < 2.5s | F-001 (Hero), F-100 (Grid) | Vercel Analytics tracking | Hero loads within 2s |
 | NFR-04 | CLS < 0.1 | All layout features | Lighthouse CI | No layout shift |
@@ -105,7 +105,7 @@ This matrix provides end-to-end traceability from business goals through to impl
 | NFR-10 | AI response < 3s | F-300 | FastAPI metrics | p95 response time |
 | NFR-11 | GDPR Compliance | F-901, F-304 | Cookie consent banner | Opt-out available, IP anonymized |
 | NFR-12 | Rate Limiting (auth: 5/15min) | F-700, F-007 | k6 load test | 429 after threshold |
-| NFR-13 | ISR revalidation ≤ 60s | F-100, F-101, F-200 | Cache header verification | `stale-while-revalidate` |
+| NFR-13 | ISR revalidation Ã¢â€°Â¤ 60s | F-100, F-101, F-200 | Cache header verification | `stale-while-revalidate` |
 | NFR-14 | Bundle size < 200KB JS | All web features | Bundle analyzer CI check | No regression > 5% |
 | NFR-15 | 320px min viewport | All public features | Responsive design QA | No overflow at 320px |
 
@@ -117,7 +117,7 @@ This matrix provides end-to-end traceability from business goals through to impl
 |------------|--------------|----------------|------------|-----------------|--------------|-------------|
 | F-001 | Hero Section | `sections/Hero.tsx`, `page.tsx` | `modules/sections` | `sections` (slug=hero) | `hero-section` flag | Phase 03 |
 | F-002 | Skills Section | `sections/Skills.tsx` | `modules/skills` | `skills` | `skills-section` flag | Phase 04 |
-| F-003 | Navigation | `Navigation.tsx`, `MobileMenu.tsx` | — | `sections` (display_order) | `sticky-nav` flag | Phase 02 |
+| F-003 | Navigation | `Navigation.tsx`, `MobileMenu.tsx` | Ã¢â‚¬â€ | `sections` (display_order) | `sticky-nav` flag | Phase 02 |
 | F-004 | About Section | `sections/About.tsx` | `modules/sections` | `sections` (slug=about) | `about-section` flag | Phase 04 |
 | F-005 | Experience Timeline | `sections/Experience.tsx` | `modules/experience` | `experience` | `experience-section` flag | Phase 04 |
 | F-006 | Testimonials | `sections/Testimonials.tsx` | `modules/sections` | `testimonials` | `testimonials-section` flag | Phase 06 |
@@ -127,16 +127,16 @@ This matrix provides end-to-end traceability from business goals through to impl
 | F-200 | Blog Listing | `blog/page.tsx` | `modules/blog` | `blog_posts` | `blog` flag | TBD |
 | F-201 | Blog Article | `blog/[slug]/page.tsx` | `modules/blog` | `blog_posts` | `blog` flag | TBD |
 | F-300 | AI Chatbot | `Chatbot.tsx`, `ChatMessage.tsx` | `ai/app/routes/chat.py` | `chat_conversations` | `ai-chatbot` flag | Phase 07 |
-| F-301 | RAG Pipeline | — | `ai/app/services/rag_service.py` | `documents` (pgvector) | `rag-pipeline` flag | Phase 07 |
+| F-301 | RAG Pipeline | Ã¢â‚¬â€ | `ai/app/services/rag_service.py` | `documents` (pgvector) | `rag-pipeline` flag | Phase 07 |
 | F-400 | Admin Dashboard | `admin/page.tsx`, `admin/layout.tsx` | `modules/analytics` | Aggregated tables | `admin-dashboard` flag | Phase 08 |
 | F-600 | Section Manager | `admin/sections/page.tsx` | `modules/sections` | `sections` | `section-manager` flag | Phase 08 |
-| F-601 | Rich Text Editor | `admin/RichTextEditor.tsx` | — | — | `rich-text-editor` flag | Phase 08 |
+| F-601 | Rich Text Editor | `admin/RichTextEditor.tsx` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | `rich-text-editor` flag | Phase 08 |
 | F-602 | Image Upload | `admin/ImageUploader.tsx` | `modules/upload` | `images` | `image-upload` flag | Phase 08 |
 | F-700 | Admin Auth | `admin/login/page.tsx` | `modules/auth` | Users (Supabase Auth) | `admin-auth` flag | Phase 08 |
-| F-701 | JWT API Auth | — | `modules/auth/jwt` | — | — | Phase 08 |
+| F-701 | JWT API Auth | Ã¢â‚¬â€ | `modules/auth/jwt` | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Phase 08 |
 | F-800 | Lead Inbox | `admin/leads/page.tsx` | `modules/leads` | `leads` | `lead-management` flag | Phase 08 |
-| F-900 | Analytics Dashboard | `admin/analytics/page.tsx` | — | PostHog API | `analytics-dashboard` flag | Phase 09 |
-| F-901 | Event Tracking | `lib/analytics.ts`, `AnalyticsProvider.tsx` | — | PostHog | `event-tracking` flag | Phase 02 |
+| F-900 | Analytics Dashboard | `admin/analytics/page.tsx` | Ã¢â‚¬â€ | PostHog API | `analytics-dashboard` flag | Phase 09 |
+| F-901 | Event Tracking | `lib/analytics.ts`, `AnalyticsProvider.tsx` | Ã¢â‚¬â€ | PostHog | `event-tracking` flag | Phase 02 |
 | F-1000 | Sentry | `lib/sentry.ts` | Common filters | Sentry | `sentry` flag | Phase 09 |
 
 ---
@@ -207,5 +207,9 @@ This matrix provides end-to-end traceability from business goals through to impl
 
 ---
 
-*Document Version: 1.0 — Requirements Traceability Matrix*
+*Document Version: 1.0 Ã¢â‚¬â€ Requirements Traceability Matrix*
 *Next Review: August 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

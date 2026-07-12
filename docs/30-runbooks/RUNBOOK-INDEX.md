@@ -132,6 +132,21 @@ Links to related runbooks and docs.
 
 ---
 
+## 9. Runbook Categories Diagram
+
+```mermaid
+graph LR
+    S[Security] --> I[Runbook Index]
+    D[Database] --> I
+    A[Application] --> I
+    I[Infrastructure] --> I
+    E[Emergency] --> I
+    I --> RB001[RB-001: App Restart]
+    I --> RB002[RB-002: DB Failover]
+    I --> RB003[RB-003: SSL Renewal]
+    I --> RB005[RB-005: Incident Response]
+```
+
 ## 7. Trello/JIRA Labels for Runbook Updates
 
 | Label | Meaning |
@@ -154,3 +169,7 @@ Links to related runbooks and docs.
 *Document Version: 1.0 — Operational Runbook Index*
 *Last Updated: July 2026*
 *Next Review Date: October 2026*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

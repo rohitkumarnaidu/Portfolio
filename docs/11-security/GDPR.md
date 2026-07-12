@@ -325,6 +325,22 @@ The full Record of Processing Activities is maintained as a living document, cro
 
 ---
 
+---
+
+## GDPR Rights Workflow
+
+```mermaid
+flowchart TD
+    A[Data Subject Request] --> B[Verify Identity]
+    B --> C[Locate Personal Data]
+    C --> D[Respond to Request]
+    D --> E[Log & Report]
+    B -.->|Art. 12.6| B1[Email Match<br/>Secondary Verification]
+    C -.->|Art. 15-22| C1[Database<br/>Analytics<br/>Chat Logs]
+    D -.->|30 Day SLA| D1[Grant / Restrict<br/>Refuse with Reason]
+    E -.->|Art. 30| E1[Update ROPA<br/>Request Register]
+```
+
 ## 13. Change Log
 
 | Version | Date | Author | Changes |

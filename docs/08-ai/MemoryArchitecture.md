@@ -1,10 +1,5 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# Memory Architecture — Three-Tier Enterprise Memory System
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# Memory Architecture ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Three-Tier Enterprise Memory System
 
 > **Document:** MemoryArchitecture.md | **Version:** 1.0 | **Last Updated:** June 2026
 > **Status:** Active | **Owner:** Chief AI Architect | **Review Cadence:** Monthly
@@ -23,9 +18,9 @@ Defines the agent memory architecture - session memory (ephemeral), persistent m
 
 1. [Executive Summary](#1-executive-summary)
 2. [Three-Tier Memory Model Overview](#2-three-tier-memory-model-overview)
-3. [Tier 1 — Session Memory](#3-tier-1--session-memory)
-4. [Tier 2 — Cache Memory](#4-tier-2--cache-memory)
-5. [Tier 3 — Persistent Memory](#5-tier-3--persistent-memory)
+3. [Tier 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Session Memory](#3-tier-1--session-memory)
+4. [Tier 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cache Memory](#4-tier-2--cache-memory)
+5. [Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent Memory](#5-tier-3--persistent-memory)
 6. [Memory by Agent Type](#6-memory-by-agent-type)
 7. [Memory Retrieval Protocol](#7-memory-retrieval-protocol)
 8. [Context Assembly from Multiple Memory Tiers](#8-context-assembly-from-multiple-memory-tiers)
@@ -105,7 +100,7 @@ Memory is the foundation of coherent AI interaction. Without memory, every query
 ```mermaid
 graph TB
     subgraph "Three-Tier Memory Architecture"
-        subgraph "Tier 1 — Session Memory"
+        subgraph "Tier 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Session Memory"
             direction TB
             S1["Conversation History<br/>Sliding Window, Max 10 Turns<br/>In-Memory Dict"]
             S2["Agent State<br/>Current Processing Context<br/>In-Memory"]
@@ -113,14 +108,14 @@ graph TB
             S4["Visitor Context<br/>Session Metadata<br/>In-Memory"]
         end
 
-        subgraph "Tier 2 — Cache Memory"
+        subgraph "Tier 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cache Memory"
             direction TB
             C1["Response Cache<br/>In-Memory LRU<br/>SHA-256 Key, 1h TTL"]
             C2["Embedding Cache<br/>embeddings_cache Table<br/>SHA-256 Key, 30-day TTL"]
             C3["Context Cache<br/>In-Memory LRU<br/>SHA-256 Key, 5min TTL"]
         end
 
-        subgraph "Tier 3 — Persistent Memory"
+        subgraph "Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent Memory"
             direction TB
             P1["chat_conversations<br/>Session Tracking<br/>30-day Retention"]
             P2["chat_messages<br/>Full Message History<br/>30-day Retention"]
@@ -136,7 +131,7 @@ graph TB
 
 ### 2.1 Tier Comparison
 
-| Aspect | Tier 1 — Session | Tier 2 — Cache | Tier 3 — Persistent |
+| Aspect | Tier 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Session | Tier 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cache | Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent |
 |--------|------------------|----------------|---------------------|
 | Storage Medium | In-memory (Python dict) | In-memory + PostgreSQL | PostgreSQL (Supabase) |
 | Data Scope | Active session only | Cross-session (dedup) | All historical |
@@ -148,11 +143,11 @@ graph TB
 
 ---
 
-## 3. Tier 1 — Session Memory
+## 3. Tier 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Session Memory
 
 ### 3.1 Conversation History
 
-Session memory maintains the active conversation history for each chat session. The ConversationManager (`docs/design/08h-AI-ASSISTANT-IMPLEMENTATION.md` §6.2) manages this entirely in-memory using a dictionary of `Conversation` dataclass instances.
+Session memory maintains the active conversation history for each chat session. The ConversationManager (`docs/design/08h-AI-ASSISTANT-IMPLEMENTATION.md` Ãƒâ€šÃ‚Â§6.2) manages this entirely in-memory using a dictionary of `Conversation` dataclass instances.
 
 | Parameter | Value | Description |
 |-----------|-------|-------------|
@@ -221,7 +216,7 @@ Example session ID: `f47ac10b-58cc-4372-a567-0e02b2c3d479`
 
 ---
 
-## 4. Tier 2 — Cache Memory
+## 4. Tier 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cache Memory
 
 ### 4.1 Cache Inventory
 
@@ -308,7 +303,7 @@ Computed RAG contexts are cached for 5 minutes to handle repeated or similar que
 
 ---
 
-## 5. Tier 3 — Persistent Memory
+## 5. Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent Memory
 
 ### 5.1 chat_conversations Table
 
@@ -762,13 +757,13 @@ sequenceDiagram
 
 | Tier | Security Control | Implementation |
 |------|-----------------|----------------|
-| Tier 1 — Session | In-memory isolation | Sessions stored in scoped dict, no shared state |
-| Tier 1 — Session | Session ID validation | UUID format validated before use |
-| Tier 2 — Cache | Key-based access | Cache accessed by deterministic hash only |
-| Tier 2 — Cache | TTL-based cleanup | Automatic eviction prevents stale data accumulation |
-| Tier 3 — Persistent | Row-Level Security (RLS) | PostgreSQL RLS policies on all chat tables |
-| Tier 3 — Persistent | Encryption at rest | Supabase provides AES-256 encryption |
-| Tier 3 — Persistent | CASCADE deletes | Message deletion cascades from conversation deletion |
+| Tier 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Session | In-memory isolation | Sessions stored in scoped dict, no shared state |
+| Tier 1 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Session | Session ID validation | UUID format validated before use |
+| Tier 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cache | Key-based access | Cache accessed by deterministic hash only |
+| Tier 2 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Cache | TTL-based cleanup | Automatic eviction prevents stale data accumulation |
+| Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent | Row-Level Security (RLS) | PostgreSQL RLS policies on all chat tables |
+| Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent | Encryption at rest | Supabase provides AES-256 encryption |
+| Tier 3 ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Persistent | CASCADE deletes | Message deletion cascades from conversation deletion |
 
 ### 13.2 Security Rules
 
@@ -991,7 +986,7 @@ class CacheMetrics:
 
 ### 20.1 Memory Provider Chain
 
-The `ConversationManager` (defined in `docs/design/08h-AI-ASSISTANT-IMPLEMENTATION.md` §6.2) is the primary memory provider for all agents:
+The `ConversationManager` (defined in `docs/design/08h-AI-ASSISTANT-IMPLEMENTATION.md` Ãƒâ€šÃ‚Â§6.2) is the primary memory provider for all agents:
 
 ```
 Agent Request
@@ -2079,7 +2074,7 @@ graph TD
 
 | ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
 |----|----------|---------|-----------|------------------------|---------------|--------------|
-| MEM-DEC-001 | Three-tier memory architecture (session, cache, persistent) | Memory system design | Clear separation of concerns: session for ephemeral conversation state, cache for performance optimization, persistent for audit and recovery | Two-tier (session + persistent only) — no caching layer degrades performance; Unified single store — no isolation, mixing concerns | Jun 2026 | Dec 2026 |
+| MEM-DEC-001 | Three-tier memory architecture (session, cache, persistent) | Memory system design | Clear separation of concerns: session for ephemeral conversation state, cache for performance optimization, persistent for audit and recovery | Two-tier (session + persistent only) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no caching layer degrades performance; Unified single store ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no isolation, mixing concerns | Jun 2026 | Dec 2026 |
 | MEM-DEC-002 | 10-turn sliding window for session memory with token-aware truncation | Context window management | Balances conversational coherence with 4000-token context budget; token-aware truncation preserves semantic content over simple message count | Fixed 5-turn window (too restrictive, loses conversation thread), Unlimited (token budget overflow, cost explosion) | Jun 2026 | Dec 2026 |
 | MEM-DEC-003 | SHA-256 hash of query + context for response cache key | Cache key design | Deterministic, collision-resistant key generation; enables cache hit validation without storing full query text | UUID-based keys (non-deterministic, same query generates different keys), LLM-generated key (unreliable, adds latency) | Jun 2026 | Sep 2026 |
 | MEM-DEC-004 | 30-day retention for chat messages with automated cron-based purging | Data retention policy | Balances debugging/improvement needs with GDPR compliance; automated purge eliminates human error risk in manual deletion | 7-day retention (insufficient for trend analysis), 90-day retention (GDPR risk for European visitors), Indefinite (compliance violation) | Jun 2026 | Sep 2026 |
@@ -2139,4 +2134,8 @@ graph TD
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

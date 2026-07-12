@@ -1,7 +1,7 @@
 # End-to-End (E2E) Testing Strategy
 
 > **Document:** `E2EStrategy.md` | **Version:** 2.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** QA Lead
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** QA Lead
 
 ## 1. Purpose
 
@@ -30,9 +30,9 @@ End-to-End testing simulates real user scenarios across the entire stack of the 
 
 | Browser  | Status     | Scope               | Run Frequency      |
 | -------- | ---------- | ------------------- | ------------------ |
-| Chromium | ✅ Active  | All E2E tests       | Every PR + nightly |
-| Firefox  | 🔄 Planned | Critical paths only | Nightly            |
-| WebKit   | 🔄 Planned | Critical paths only | Nightly            |
+| Chromium | Ã¢Å“â€¦ Active  | All E2E tests       | Every PR + nightly |
+| Firefox  | Ã°Å¸â€â€ž Planned | Critical paths only | Nightly            |
+| WebKit   | Ã°Å¸â€â€ž Planned | Critical paths only | Nightly            |
 
 ## 3. Test Organization
 
@@ -71,7 +71,7 @@ e2e/
 
 ## 4. Scope of E2E Tests
 
-### 4.1 Portfolio Visitor — Critical Journeys (P0)
+### 4.1 Portfolio Visitor Ã¢â‚¬â€ Critical Journeys (P0)
 
 - **Homepage:** Page load, 3D scene initialization, hero content visible, navigation links functional.
 - **Project detail:** Navigate from project grid to detail view, verify content loads, verify route.
@@ -79,7 +79,7 @@ e2e/
 - **Contact form:** Fill and submit form, verify validation errors, verify success state.
 - **AI Chatbot:** Open chat panel, send message, receive streamed response, verify history persists.
 
-### 4.2 Admin User — CRUD Flows (P1)
+### 4.2 Admin User Ã¢â‚¬â€ CRUD Flows (P1)
 
 - **Authentication:** Login with valid credentials, redirect to dashboard, persist JWT across page loads.
 - **Projects CRUD:** Create new project with all fields, update existing project, delete project, verify changes reflected on portfolio.
@@ -131,11 +131,78 @@ Postgres service container configured in GitHub Actions. Steps: npm ci, Playwrig
 - Shards are distributed evenly by test file count.
 - Target total E2E execution time: < 15 minutes.
 
+### Playwright Sharding
+
+```mermaid
+graph LR
+    CI[CI Pipeline Trigger] --> Job[E2E Job Matrix]
+
+    Job --> S1[Shard 1/4<br/>portfolio/*]
+    Job --> S2[Shard 2/4<br/>admin/*]
+    Job --> S3[Shard 3/4<br/>auth/*]
+    Job --> S4[Shard 4/4<br/>shared/* + visual]
+
+    S1 --> MR[Merge Reports]
+    S2 --> MR
+    S3 --> MR
+    S4 --> MR
+
+    MR --> HTML[HTML Report Artifact]
+    MR --> JUnit[JUnit XML Artifact]
+
+    HTML --> PR[Comment on PR]
+```
+
 ### 6.4 Web Server
 
 - Playwright starts the Next.js dev server automatically (`npm run dev`).
 - In CI, the app is pre-built and served with `next start` for faster startup.
 - Health check pings `http://localhost:3000` before tests begin.
+
+### E2E Test Execution Flow
+
+```mermaid
+flowchart TD
+    subgraph Setup[Pre-Test]
+        A[Test Discovery] --> B[Test Data Seed]
+        B --> C[DB Migration & Setup]
+    end
+
+    subgraph Execution[Per-Test Execution]
+        D[Launch Browser Context]
+        E[Navigate to URL]
+        F[Interact with Page]
+        G[Assert Expectations]
+        H[Screenshot / Trace Capture]
+    end
+
+    subgraph Teardown[Post-Test]
+        I[Cleanup Test Data]
+        J[Close Browser Context]
+    end
+
+    subgraph Reporting[Results]
+        K[Merge Shard Reports]
+        L[Generate HTML Report]
+        M[Upload CI Artifacts]
+    end
+
+    C --> D
+    D --> E --> F --> G --> H
+    H --> I --> J
+    J --> K --> L --> M
+
+    subgraph Parallel[Parallel Sharding]
+        N[CI Job] --> O[Shard 1]
+        N --> P[Shard 2]
+        N --> Q[Shard 3]
+        N --> R[Shard 4]
+        O --> K
+        P --> K
+        Q --> K
+        R --> K
+    end
+```
 
 ## 7. Reporting & Debugging
 
@@ -171,3 +238,7 @@ Given the highly visual nature of the portfolio (Framer Motion, React Three Fibe
 | Auth flows          | 90%                   | ~60%    | Login, logout, OAuth, token refresh       |
 | Cross-browser       | 50% of critical paths | 0%      | Firefox + WebKit enabled                  |
 | Visual regression   | Key pages only        | ~20%    | Screenshot comparison count               |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

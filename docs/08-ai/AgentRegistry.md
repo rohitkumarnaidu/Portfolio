@@ -1,10 +1,5 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# Agent Registry — Central Agent Lifecycle & Discovery System
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# Agent Registry ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Central Agent Lifecycle & Discovery System
 
 > **Document:** `AgentRegistry.md` | **Version:** 1.0 | **Last Updated:** June 2026
 > **Status:** Draft | **Owner:** Chief AI Architect | **Review Cadence:** Monthly
@@ -196,7 +191,7 @@ graph TB
 - Agent runtime execution and process management
 - Agent-to-agent communication routing (handled by Supervisor)
 - Agent RAG pipeline configuration (defined in `docs/ai/19-RAG.md`)
-- Agent memory persistence (defined in `docs/ai/18-AGENTS.md` §17)
+- Agent memory persistence (defined in `docs/ai/18-AGENTS.md` Ãƒâ€šÃ‚Â§17)
 - Agent capability definition format (defined in `docs/ai/AgentCapabilities.md`)
 - Marketplace installation and billing logic (defined in `docs/ai/AgentMarketplace.md`)
 
@@ -347,7 +342,7 @@ stateDiagram-v2
 | ---------------- | ------------------------------------------------------------------ | ---------------------------------------- |
 | **ACTIVE**       | Agent is registered, authenticated, and accepting requests         | Registration, heartbeat, unsuspend       |
 | **INACTIVE**     | Agent failed to send heartbeat; considered potentially unreachable | Heartbeat timeout (3 consecutive misses) |
-| **SUSPENDED**    | Administrative hold — agent is blocked from receiving traffic      | Admin API, security incident             |
+| **SUSPENDED**    | Administrative hold ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â agent is blocked from receiving traffic      | Admin API, security incident             |
 | **DEREGISTERED** | Agent explicitly removed or cleaned up after prolonged inactivity  | Deregister API, stale cleanup            |
 | **ARCHIVED**     | Historical record retained for audit; no longer queryable          | Automatic after DEREGISTERED TTL         |
 
@@ -355,7 +350,7 @@ stateDiagram-v2
 
 ## 8. Health State Machine
 
-Health state is a runtime property updated by heartbeat and health check polling. It is distinct from status — an agent can be ACTIVE but UNHEALTHY (responding to heartbeats but reporting errors internally).
+Health state is a runtime property updated by heartbeat and health check polling. It is distinct from status ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â an agent can be ACTIVE but UNHEALTHY (responding to heartbeats but reporting errors internally).
 
 ```mermaid
 stateDiagram-v2
@@ -429,7 +424,7 @@ Agents can attach arbitrary key-value metadata during registration and update. T
 | `llm`             | object        | LLM provider and model configuration            |
 | `knowledge_bases` | array[string] | References to KB collections used               |
 | `owner`           | object        | Team ownership and contact information          |
-| `marketplace`     | object        | Marketplace-specific listing metadata (see §42) |
+| `marketplace`     | object        | Marketplace-specific listing metadata (see Ãƒâ€šÃ‚Â§42) |
 
 ---
 
@@ -452,7 +447,7 @@ sequenceDiagram
     Reg->>Reg: 5. Check agent_name uniqueness
 
     alt Agent name taken
-        Reg->>Reg: 6a. If agent_name exists AND matches JWT identity → update
+        Reg->>Reg: 6a. If agent_name exists AND matches JWT identity ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ update
         Reg-->>Agent: 200 OK with existing agent_id
     else New agent
         Reg->>Reg: 6b. Generate UUIDv7 agent_id
@@ -464,7 +459,7 @@ sequenceDiagram
     Reg-->>Agent: 9. 201 Created {agent_id, endpoint, heartbeat_interval}
 
     Agent->>Reg: 10. First heartbeat (immediate)
-    Reg->>Reg: 11. Update health_state → HEALTHY
+    Reg->>Reg: 11. Update health_state ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ HEALTHY
     Agent->>Reg: 12. Periodic heartbeat (every N seconds)
 ```
 
@@ -600,7 +595,7 @@ sequenceDiagram
 
     Agent->>Reg: DELETE /api/v1/agents/{agent_id}
     Reg->>Reg: Verify JWT scope matches agent_id
-    Reg->>Reg: Set status → deregistered
+    Reg->>Reg: Set status ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ deregistered
     Reg->>Reg: Timestamp deregistered_at
     Reg-->>Agent: 200 OK {status: "deregistered"}
     Reg->>MQ: Publish agent.deregistered event
@@ -671,7 +666,7 @@ All endpoints are prefixed with `/api/v1/agents` unless otherwise noted. The API
 
 Creates a new agent record or reacts an existing one (matched by `agent_name`).
 
-**Request:** See [§12 Registration Request Format](#12-registration-request-format)
+**Request:** See [Ãƒâ€šÃ‚Â§12 Registration Request Format](#12-registration-request-format)
 
 **Response Codes:**
 
@@ -776,16 +771,16 @@ Lists agents with optional query parameters. Supports pagination, filtering, and
 | Parameter    | Type   | Default      | Description                                                                               |
 | ------------ | ------ | ------------ | ----------------------------------------------------------------------------------------- |
 | `status`     | string | `active`     | Filter by status: `active`, `inactive`, `suspended`, `all`                                |
-| `health`     | string | —            | Filter by health state: `healthy`, `degraded`, `unhealthy`, `unknown`                     |
-| `capability` | string | —            | Filter agents that declare a capability matching this name                                |
-| `tag`        | string | —            | Filter agents having this tag                                                             |
-| `owner`      | string | —            | Filter by owner team                                                                      |
-| `search`     | string | —            | Full-text search across agent_name, display_name, description                             |
+| `health`     | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â            | Filter by health state: `healthy`, `degraded`, `unhealthy`, `unknown`                     |
+| `capability` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â            | Filter agents that declare a capability matching this name                                |
+| `tag`        | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â            | Filter agents having this tag                                                             |
+| `owner`      | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â            | Filter by owner team                                                                      |
+| `search`     | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â            | Full-text search across agent_name, display_name, description                             |
 | `page`       | int    | 1            | Page number (1-indexed)                                                                   |
 | `page_size`  | int    | 20           | Items per page (1-100)                                                                    |
 | `sort_by`    | string | `agent_name` | Sort field: `agent_name`, `version`, `health_state`, `registered_at`, `last_heartbeat_at` |
 | `sort_order` | string | `asc`        | Sort direction: `asc`, `desc`                                                             |
-| `fields`     | string | —            | Comma-separated subset of fields to return                                                |
+| `fields`     | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â            | Comma-separated subset of fields to return                                                |
 
 ### Example Response
 
@@ -819,7 +814,7 @@ GET /api/v1/agents?status=active&health=healthy&capability=score-lead&page_size=
 
 ## 21. DELETE /api/v1/agents/{agent_id}
 
-Deregisters an agent. The record is soft-deleted (status → `deregistered`) and retained for 30 days before archival.
+Deregisters an agent. The record is soft-deleted (status ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `deregistered`) and retained for 30 days before archival.
 
 ```json
 DELETE /api/v1/agents/0190f3b2-7a1c-7b00-8000-123456789abc
@@ -837,7 +832,7 @@ Authorization: Bearer <token>
 
 ## 22. PATCH /api/v1/agents/{agent_id}/heartbeat
 
-Updates the agent's health state and last heartbeat timestamp. This is the primary liveness mechanism (see [§25 Heartbeat Mechanism](#25-heartbeat-mechanism)).
+Updates the agent's health state and last heartbeat timestamp. This is the primary liveness mechanism (see [Ãƒâ€šÃ‚Â§25 Heartbeat Mechanism](#25-heartbeat-mechanism)).
 
 ```json
 PATCH /api/v1/agents/0190f3b2-7a1c-7b00-8000-123456789abc/heartbeat
@@ -1315,7 +1310,7 @@ POST /api/v1/agents/query
 | ----- | -------------------- | --- | -------------------------------------- |
 | L1    | Supervisor in-memory | 30s | Event-driven + TTL expiry              |
 | L2    | Redis cluster        | 60s | TTL expiry + write-through on mutation |
-| L3    | PostgreSQL           | —   | Source of truth                        |
+| L3    | PostgreSQL           | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â   | Source of truth                        |
 
 ### 33.2 Cache Key Format
 
@@ -1821,13 +1816,13 @@ sequenceDiagram
 
 | Metric                               | Type      | Description                           | Alert Threshold        |
 | ------------------------------------ | --------- | ------------------------------------- | ---------------------- |
-| `registry.agents.total`              | Gauge     | Total registered agents (by status)   | —                      |
+| `registry.agents.total`              | Gauge     | Total registered agents (by status)   | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â                      |
 | `registry.agents.healthy`            | Gauge     | Count of healthy agents               | < 80% of total active  |
 | `registry.heartbeats.received`       | Counter   | Heartbeats received per second        | < expected rate \* 0.5 |
 | `registry.heartbeats.latency_ms`     | Histogram | Heartbeat processing latency          | p99 > 500ms            |
-| `registry.api.requests`              | Counter   | API request volume per endpoint       | —                      |
+| `registry.api.requests`              | Counter   | API request volume per endpoint       | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â                      |
 | `registry.api.latency_ms`            | Histogram | API response time                     | p99 > 1000ms           |
-| `registry.stale.cleaned`             | Counter   | Stale agents cleaned up per cycle     | —                      |
+| `registry.stale.cleaned`             | Counter   | Stale agents cleaned up per cycle     | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â                      |
 | `registry.replication.lag_ms`        | Gauge     | Replication latency between instances | > 2000ms               |
 | `registry.discovery.cache_hit_ratio` | Gauge     | Cache hit ratio for discovery queries | < 0.90                 |
 
@@ -1946,7 +1941,7 @@ When breaking changes are necessary, the registry supports a migration window:
 
 | ID          | Decision                                                                | Context                 | Rationale                                                                                                                                                  | Alternatives Considered                                                                                                                              | Decision Date | Revisit Date |
 | ----------- | ----------------------------------------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------ |
-| REG-DEC-001 | Versioned registry API with content negotiation (Accept header)         | API versioning strategy | URL-less versioning avoids cluttered endpoints; enables gradual client migration; Accept header routing is standard REST practice                          | URL path versioning (`/v1/agents`) — simpler but forces client updates on version bump; Query parameter versioning — non-standard, easily overlooked | Jun 2026      | Dec 2026     |
+| REG-DEC-001 | Versioned registry API with content negotiation (Accept header)         | API versioning strategy | URL-less versioning avoids cluttered endpoints; enables gradual client migration; Accept header routing is standard REST practice                          | URL path versioning (`/v1/agents`) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â simpler but forces client updates on version bump; Query parameter versioning ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â non-standard, easily overlooked | Jun 2026      | Dec 2026     |
 | REG-DEC-002 | Strict semantic versioning (MAJOR.MINOR.PATCH) with pre-release labels  | Version schema          | Semver provides machine-readable compatibility guarantees; pre-release labels enable canary testing; industry standard for package ecosystems              | CalVer (date-based, no compatibility signaling), ZeroVer (no semantic meaning, inappropriate for enterprise)                                         | Jun 2026      | Dec 2026     |
 | REG-DEC-003 | PostgreSQL with JSONB for agent metadata storage over document database | Storage backend         | JSONB provides flexible schema for heterogeneous agent metadata while maintaining relational integrity for queries (version ranges, dependency resolution) | MongoDB (operational overhead of additional database), DynamoDB (lock-in, complex query limitations)                                                 | Jun 2026      | Dec 2026     |
 | REG-DEC-004 | Webhook-based notification on registration and update events            | Event propagation       | Enables real-time marketplace catalog refresh, monitoring integration, and CI/CD pipeline triggers without polling                                         | Polling (increased latency, wasted compute on empty checks), Message queue publish (additional infrastructure complexity)                            | Jun 2026      | Sep 2026     |
@@ -1996,8 +1991,12 @@ When breaking changes are necessary, the registry supports a migration window:
 
 | Version | Date       | Author             | Changes                                                      |
 | ------- | ---------- | ------------------ | ------------------------------------------------------------ |
-| 1.0     | 2026-06-18 | Chief AI Architect | Initial release — comprehensive agent registry specification |
+| 1.0     | 2026-06-18 | Chief AI Architect | Initial release ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â comprehensive agent registry specification |
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

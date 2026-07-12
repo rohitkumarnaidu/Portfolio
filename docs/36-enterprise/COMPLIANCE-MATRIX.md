@@ -71,8 +71,64 @@
 
 ---
 
+## Compliance Coverage Mapping
+
+```mermaid
+graph LR
+    subgraph Controls
+        C1[Authentication & AuthZ]
+        C2[Encryption]
+        C3[Audit Logging]
+        C4[Incident Response]
+        C5[Data Classification]
+        C6[Vulnerability Mgmt]
+    end
+    subgraph Standards
+        S1[SOC 2 TSC]
+        S2[ISO 27001:2022]
+        S3[NIST CSF 2.0]
+        S4[GDPR]
+        S5[OWASP ASVS L1]
+    end
+    subgraph Evidence
+        E1[Policy Documents]
+        E2[Code & Config]
+        E3[Test Reports]
+        E4[Audit Trails]
+    end
+    C1 --> S1
+    C1 --> S2
+    C1 --> S3
+    C1 --> S4
+    C2 --> S1
+    C2 --> S2
+    C2 --> S3
+    C3 --> S1
+    C3 --> S3
+    C4 --> S1
+    C4 --> S2
+    C4 --> S4
+    C5 --> S2
+    C5 --> S4
+    C6 --> S2
+    C6 --> S5
+    S1 --> E1
+    S2 --> E1
+    S3 --> E1
+    S4 --> E2
+    S5 --> E3
+    E1 --> F1[✅ Full]
+    E2 --> F1
+    E3 --> F2[🟡 Partial]
+    E4 --> F1
+```
+
 ## Change Log
 
 | Date | Version | Author | Change |
 |------|---------|--------|--------|
 | 2026-07-11 | 1.0 | Security Lead | Initial master compliance matrix |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

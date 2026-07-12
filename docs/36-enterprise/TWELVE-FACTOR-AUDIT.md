@@ -237,3 +237,39 @@ Run admin/management tasks as one-off processes.
 - `docs/devops/container-strategy.md` — Container architecture
 - `docs/operations/DeploymentGuide.md` — Deployment workflow
 - `docs/operations/22-OBSERVABILITY.md` — Logging and observability
+
+---
+
+## 12-Factor Compliance Decision Tree
+
+```mermaid
+flowchart TD
+    F1[I. Codebase<br/>Score: 95%] -->|✅ Pass| F1S[Single Git Monorepo]
+    F2[II. Dependencies<br/>Score: 90%] -->|✅ Pass| F2S[npm ci + Docker Isolation]
+    F3[III. Config<br/>Score: 75%] -->|⚠️ Partial| F3S[Env Files Used<br/>Some Defaults in Code]
+    F4[IV. Backing Services<br/>Score: 90%] -->|✅ Pass| F4S[URL-Attached Resources]
+    F5[V. Build Release Run<br/>Score: 70%] -->|⚠️ Partial| F5S[CI/CD Exists<br/>No Artifact Versioning]
+    F6[VI. Processes<br/>Score: 90%] -->|✅ Pass| F6S[Stateless<br/>Session in PostgreSQL]
+    F7[VII. Port Binding<br/>Score: 95%] -->|✅ Pass| F7S[Self-Hosted HTTP Servers]
+    F8[VIII. Concurrency<br/>Score: 85%] -->|✅ Pass| F8S[Serverless + Docker Scale]
+    F9[IX. Disposability<br/>Score: 70%] -->|⚠️ Partial| F9S[Graceful Shutdown OK<br/>Startup Not Verified]
+    F10[X. Dev/Prod Parity<br/>Score: 65%] -->|⚠️ Partial| F10S[Docker Parity<br/>Supabase vs Local DB Gap]
+    F11[XI. Logs<br/>Score: 90%] -->|✅ Pass| F11S[Structured JSON<br/>Pino Logger]
+    F12[XII. Admin Processes<br/>Score: 85%] -->|✅ Pass| F12S[Prisma Migrations<br/>Seed Scripts]
+    F1S --> Total[Overall: 82/100]
+    F2S --> Total
+    F3S --> Total
+    F4S --> Total
+    F5S --> Total
+    F6S --> Total
+    F7S --> Total
+    F8S --> Total
+    F9S --> Total
+    F10S --> Total
+    F11S --> Total
+    F12S --> Total
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

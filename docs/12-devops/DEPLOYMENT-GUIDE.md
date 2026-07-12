@@ -1,14 +1,14 @@
-# Deployment Guide — FAANG Enterprise Architecture & Runbook
+# Deployment Guide Ã¢â‚¬â€ FAANG Enterprise Architecture & Runbook
 
 > **Document:** `DeploymentGuide.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal DevOps Lead | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal DevOps Lead | **Review Cadence:** Quarterly  
 > **Strategy:** Build Once, Deploy Everywhere | **Providers:** Vercel, Railway, Supabase, Cloudflare
 
 ---
 
 ## 1. Executive Summary
 
-The platform uses a **build-once, deploy-everywhere** strategy with **4-environment isolation** (Development → Testing → Staging → Production). A single CI pipeline builds all artifacts, then deploys to **3 providers** (Vercel for Frontend + API, Railway for AI Service, Supabase for Database) with **Cloudflare** managing DNS, SSL, and DDoS mitigation. Every deployment is zero-downtime with automated rollback capability and comprehensive disaster recovery procedures.
+The platform uses a **build-once, deploy-everywhere** strategy with **4-environment isolation** (Development Ã¢â€ â€™ Testing Ã¢â€ â€™ Staging Ã¢â€ â€™ Production). A single CI pipeline builds all artifacts, then deploys to **3 providers** (Vercel for Frontend + API, Railway for AI Service, Supabase for Database) with **Cloudflare** managing DNS, SSL, and DDoS mitigation. Every deployment is zero-downtime with automated rollback capability and comprehensive disaster recovery procedures.
 
 **Deployment Targets:**
 
@@ -23,7 +23,7 @@ The platform uses a **build-once, deploy-everywhere** strategy with **4-environm
 **4-Environment Strategy:**
 
 ```
-Development  →  Testing  →  Staging  →  Production
+Development  Ã¢â€ â€™  Testing  Ã¢â€ â€™  Staging  Ã¢â€ â€™  Production
 (local/dev)     (CI/CD)     (pre-prod)    (live)
 ```
 
@@ -36,16 +36,16 @@ Development  →  Testing  →  Staging  →  Production
 ```mermaid
 graph TB
     subgraph "User / Client Layer"
-        Browser[\"🌐 Browser<br/>Global Users\"]
-        Mobile[\"📱 Mobile<br/>Safari, Chrome\"]
-        API_Client[\"🔌 API Clients<br/>curl, Postman\"]
+        Browser[\"Ã°Å¸Å’Â Browser<br/>Global Users\"]
+        Mobile[\"Ã°Å¸â€œÂ± Mobile<br/>Safari, Chrome\"]
+        API_Client[\"Ã°Å¸â€Å’ API Clients<br/>curl, Postman\"]
     end
 
     subgraph "Edge & Security Layer [Cloudflare]"
-        CF_DNS[\"📡 Cloudflare DNS<br/>Authoritative Nameservers<br/>DNSSEC\"]
-        CF_WAF[\"🛡️ Cloudflare WAF<br/>DDoS Protection<br/>Rate Limiting<br/>Bot Management\"]
-        CF_SSL[\"🔐 Cloudflare SSL/TLS<br/>Full (Strict)<br/>Auto Certificate Renewal<br/>HSTS Preload\"]
-        CF_CDN[\"⚡ Cloudflare CDN<br/>330+ Edge Locations<br/>Argo Smart Routing<br/>Cache Rules\"]
+        CF_DNS[\"Ã°Å¸â€œÂ¡ Cloudflare DNS<br/>Authoritative Nameservers<br/>DNSSEC\"]
+        CF_WAF[\"Ã°Å¸â€ºÂ¡Ã¯Â¸Â Cloudflare WAF<br/>DDoS Protection<br/>Rate Limiting<br/>Bot Management\"]
+        CF_SSL[\"Ã°Å¸â€Â Cloudflare SSL/TLS<br/>Full (Strict)<br/>Auto Certificate Renewal<br/>HSTS Preload\"]
+        CF_CDN[\"Ã¢Å¡Â¡ Cloudflare CDN<br/>330+ Edge Locations<br/>Argo Smart Routing<br/>Cache Rules\"]
     end
 
     subgraph "Hosting Layer [Vercel]"
@@ -67,11 +67,11 @@ graph TB
     end
 
     subgraph "External Services"
-        EX_OPENAI[\"🤖 OpenAI / Anthropic<br/>LLM APIs\"]
-        EX_POSTHOG[\"📊 PostHog Cloud<br/>Analytics, Feature Flags\"]
-        EX_SENTRY[\"🐛 Sentry<br/>Error Tracking, Performance\"]
-        EX_RESEND[\"📨 Resend API<br/>Transactional Email\"]
-        EX_GITHUB[\"🐙 GitHub<br/>Source Control, CI/CD\"]
+        EX_OPENAI[\"Ã°Å¸Â¤â€“ OpenAI / Anthropic<br/>LLM APIs\"]
+        EX_POSTHOG[\"Ã°Å¸â€œÅ  PostHog Cloud<br/>Analytics, Feature Flags\"]
+        EX_SENTRY[\"Ã°Å¸Ââ€º Sentry<br/>Error Tracking, Performance\"]
+        EX_RESEND[\"Ã°Å¸â€œÂ¨ Resend API<br/>Transactional Email\"]
+        EX_GITHUB[\"Ã°Å¸Ââ„¢ GitHub<br/>Source Control, CI/CD\"]
     end
 
     subgraph "Monitoring & Observability"
@@ -122,23 +122,23 @@ graph TB
 
 | Capability | Cloudflare | Vercel | Railway | Supabase |
 |------------|-----------|--------|---------|----------|
-| **DNS Resolution** | ✅ Primary (Authoritative) | ❌ | ❌ | ❌ |
-| **DDoS Protection** | ✅ WAF (L3-L7) | ✅ Basic | ❌ | ❌ |
-| **SSL/TLS Termination** | ✅ Edge Termination | ✅ Auto | ✅ Auto | ✅ Auto |
-| **CDN Caching** | ✅ 330+ PoPs (Static) | ✅ 100+ PoPs (ISR) | ❌ | ✅ CDN-backed Storage |
-| **Web Application Hosting** | ❌ | ✅ Next.js SSR/ISR | ❌ | ❌ |
-| **API Hosting** | ❌ | ✅ Serverless Functions | ✅ FastAPI Container | ❌ |
-| **Database Hosting** | ❌ | ❌ | ❌ | ✅ PostgreSQL |
-| **File Storage** | ❌ | ❌ | ❌ | ✅ S3-Compatible |
-| **Edge Middleware** | ✅ Workers | ✅ Edge Functions | ❌ | ❌ |
-| **Cache Invalidation** | ✅ Purge API | ✅ ISR Revalidation | ❌ | ❌ |
-| **Auto-scaling** | ✅ Global | ✅ Automatic | ✅ Manual | ✅ Managed |
+| **DNS Resolution** | Ã¢Å“â€¦ Primary (Authoritative) | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| **DDoS Protection** | Ã¢Å“â€¦ WAF (L3-L7) | Ã¢Å“â€¦ Basic | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| **SSL/TLS Termination** | Ã¢Å“â€¦ Edge Termination | Ã¢Å“â€¦ Auto | Ã¢Å“â€¦ Auto | Ã¢Å“â€¦ Auto |
+| **CDN Caching** | Ã¢Å“â€¦ 330+ PoPs (Static) | Ã¢Å“â€¦ 100+ PoPs (ISR) | Ã¢ÂÅ’ | Ã¢Å“â€¦ CDN-backed Storage |
+| **Web Application Hosting** | Ã¢ÂÅ’ | Ã¢Å“â€¦ Next.js SSR/ISR | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| **API Hosting** | Ã¢ÂÅ’ | Ã¢Å“â€¦ Serverless Functions | Ã¢Å“â€¦ FastAPI Container | Ã¢ÂÅ’ |
+| **Database Hosting** | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ PostgreSQL |
+| **File Storage** | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ S3-Compatible |
+| **Edge Middleware** | Ã¢Å“â€¦ Workers | Ã¢Å“â€¦ Edge Functions | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| **Cache Invalidation** | Ã¢Å“â€¦ Purge API | Ã¢Å“â€¦ ISR Revalidation | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| **Auto-scaling** | Ã¢Å“â€¦ Global | Ã¢Å“â€¦ Automatic | Ã¢Å“â€¦ Manual | Ã¢Å“â€¦ Managed |
 
 ### 2.3 Data Flow Path
 
 ```
-User → Cloudflare DNS → Cloudflare WAF → Cloudflare CDN/SSL → Vercel Edge → 
-Next.js/API (ISR or Serverless) → Supabase/OpenAI
+User Ã¢â€ â€™ Cloudflare DNS Ã¢â€ â€™ Cloudflare WAF Ã¢â€ â€™ Cloudflare CDN/SSL Ã¢â€ â€™ Vercel Edge Ã¢â€ â€™ 
+Next.js/API (ISR or Serverless) Ã¢â€ â€™ Supabase/OpenAI
 
 Non-cached path:  ~200ms global avg
 Cached path:      ~50ms global avg (edge ISR)
@@ -207,14 +207,14 @@ graph TB
 
 ### 3.3 Network Latency SLAs
 
-| Region → Endpoint | p50 | p95 | p99 |
+| Region Ã¢â€ â€™ Endpoint | p50 | p95 | p99 |
 |-------------------|-----|-----|-----|
-| US East → Vercel IAD | < 5ms | < 15ms | < 30ms |
-| US West → Vercel IAD | < 30ms | < 60ms | < 100ms |
-| Europe → Vercel CDG | < 10ms | < 25ms | < 50ms |
-| Asia → Vercel NRT | < 15ms | < 35ms | < 70ms |
-| South America → Vercel IAD | < 80ms | < 120ms | < 200ms |
-| Australia → Vercel NRT | < 50ms | < 80ms | < 150ms |
+| US East Ã¢â€ â€™ Vercel IAD | < 5ms | < 15ms | < 30ms |
+| US West Ã¢â€ â€™ Vercel IAD | < 30ms | < 60ms | < 100ms |
+| Europe Ã¢â€ â€™ Vercel CDG | < 10ms | < 25ms | < 50ms |
+| Asia Ã¢â€ â€™ Vercel NRT | < 15ms | < 35ms | < 70ms |
+| South America Ã¢â€ â€™ Vercel IAD | < 80ms | < 120ms | < 200ms |
+| Australia Ã¢â€ â€™ Vercel NRT | < 50ms | < 80ms | < 150ms |
 
 ---
 
@@ -378,16 +378,16 @@ flowchart LR
 
 | Check | Command / Verification | Frequency |
 |-------|----------------------|-----------|
-| □ Node.js version | `node --version` → 20.x | Daily |
-| □ npm is up to date | `npm --version` → 10.x | Weekly |
-| □ Docker running | `docker ps` → containers running | Daily |
-| □ Supabase local running | `supabase status` → all services green | Daily |
-| □ Environment file exists | `.env.local` exists with all vars | One-time |
-| □ Dependencies installed | `ls node_modules` → exists | On pull |
-| □ Lint passes | `npm run lint` → 0 errors | On commit |
-| □ TypeScript compiles | `npx tsc --noEmit` → 0 errors | On commit |
-| □ Tests pass | `npm run test` → all green | On commit |
-| □ Build succeeds | `npm run build` → success | On commit |
+| Ã¢â€“Â¡ Node.js version | `node --version` Ã¢â€ â€™ 20.x | Daily |
+| Ã¢â€“Â¡ npm is up to date | `npm --version` Ã¢â€ â€™ 10.x | Weekly |
+| Ã¢â€“Â¡ Docker running | `docker ps` Ã¢â€ â€™ containers running | Daily |
+| Ã¢â€“Â¡ Supabase local running | `supabase status` Ã¢â€ â€™ all services green | Daily |
+| Ã¢â€“Â¡ Environment file exists | `.env.local` exists with all vars | One-time |
+| Ã¢â€“Â¡ Dependencies installed | `ls node_modules` Ã¢â€ â€™ exists | On pull |
+| Ã¢â€“Â¡ Lint passes | `npm run lint` Ã¢â€ â€™ 0 errors | On commit |
+| Ã¢â€“Â¡ TypeScript compiles | `npx tsc --noEmit` Ã¢â€ â€™ 0 errors | On commit |
+| Ã¢â€“Â¡ Tests pass | `npm run test` Ã¢â€ â€™ all green | On commit |
+| Ã¢â€“Â¡ Build succeeds | `npm run build` Ã¢â€ â€™ success | On commit |
 
 ---
 
@@ -428,13 +428,13 @@ flowchart TB
     end
 
     subgraph "Quality Gates"
-        GATE_LINT[\"🔒 Lint Gate<br/>0 errors, 0 warnings\"]
-        GATE_TS[\"🔒 TS Gate<br/>Strict mode pass\"]
-        GATE_BUILD[\"🔒 Build Gate<br/>All artifacts\"]
-        GATE_TEST[\"🔒 Test Gate<br/>100% pass, >80% cov\"]
-        GATE_E2E[\"🔒 E2E Gate<br/>All scenarios green\"]
-        GATE_SEC[\"🔒 Security Gate<br/>0 high/critical vulns\"]
-        GATE_PERF[\"🔒 Performance Gate<br/>Lighthouse > 90\"]
+        GATE_LINT[\"Ã°Å¸â€â€™ Lint Gate<br/>0 errors, 0 warnings\"]
+        GATE_TS[\"Ã°Å¸â€â€™ TS Gate<br/>Strict mode pass\"]
+        GATE_BUILD[\"Ã°Å¸â€â€™ Build Gate<br/>All artifacts\"]
+        GATE_TEST[\"Ã°Å¸â€â€™ Test Gate<br/>100% pass, >80% cov\"]
+        GATE_E2E[\"Ã°Å¸â€â€™ E2E Gate<br/>All scenarios green\"]
+        GATE_SEC[\"Ã°Å¸â€â€™ Security Gate<br/>0 high/critical vulns\"]
+        GATE_PERF[\"Ã°Å¸â€â€™ Performance Gate<br/>Lighthouse > 90\"]
     end
 
     CHECKOUT --> INSTALL
@@ -446,8 +446,8 @@ flowchart TB
     BUILD -->|Deploy preview| E2E_TESTS
     E2E_TESTS --> GATE_E2E
     GATE_LINT & GATE_TS & GATE_BUILD & GATE_TEST --> GATE_E2E
-    GATE_E2E -->|All pass| MERGE[\"✅ PR can merge\"]
-    GATE_E2E -->|Any fail| FAIL[\"❌ Fix required\"]
+    GATE_E2E -->|All pass| MERGE[\"Ã¢Å“â€¦ PR can merge\"]
+    GATE_E2E -->|Any fail| FAIL[\"Ã¢ÂÅ’ Fix required\"]
 ```
 
 ### 5.3 Testing Environment Quality Gates
@@ -534,7 +534,7 @@ graph TB
 
     subgraph "Trigger"
         PUSH[\"git push develop\"]
-        CI[\"GitHub Actions CI<br/>Quality Gates → Deploy\"]
+        CI[\"GitHub Actions CI<br/>Quality Gates Ã¢â€ â€™ Deploy\"]
     end
 
     PUSH --> CI
@@ -548,7 +548,7 @@ graph TB
     STG_AI --> STG_SENTRY
 ```
 
-### 6.4 Promotion Gate: Staging → Production
+### 6.4 Promotion Gate: Staging Ã¢â€ â€™ Production
 
 ```yaml
 # Staging Gate Requirements (all must pass before release)
@@ -661,13 +661,13 @@ sequenceDiagram
     
     par Deploy to Production
         CI->>Vercel: Deploy frontend + API
-        Vercel-->>CI: ✅ Deploy URL + status
+        Vercel-->>CI: Ã¢Å“â€¦ Deploy URL + status
         
         CI->>Railway: Deploy AI service
-        Railway-->>CI: ✅ Deploy status
+        Railway-->>CI: Ã¢Å“â€¦ Deploy status
         
         CI->>Supa: Run DB migrations
-        Supa-->>CI: ✅ Migration status
+        Supa-->>CI: Ã¢Å“â€¦ Migration status
     end
     
     Note over CI: All deploys complete
@@ -679,7 +679,7 @@ sequenceDiagram
         CI->>CF: Purge Cloudflare cache
     end
     
-    CI-->>Dev: ✅ Production deploy complete (8min avg)
+    CI-->>Dev: Ã¢Å“â€¦ Production deploy complete (8min avg)
     
     Note over CI,Dev: Rollback if any verification fails
     CI->>CI: Auto-rollback on failure
@@ -694,42 +694,42 @@ RTO: 10 minutes
 Risk: Low (zero-downtime)
 
 STEP 1: PRE-DEPLOY (2 minutes before deploy)
-  □ Verify CI pipeline is green on develop branch
-  □ Check Sentry error rate is at baseline
-  □ Check Better Uptime status → all green
-  □ Notify team in #deployments channel
+  Ã¢â€“Â¡ Verify CI pipeline is green on develop branch
+  Ã¢â€“Â¡ Check Sentry error rate is at baseline
+  Ã¢â€“Â¡ Check Better Uptime status Ã¢â€ â€™ all green
+  Ã¢â€“Â¡ Notify team in #deployments channel
 
 STEP 2: DEPLOY (automatic, 8 minutes)
-  □ CI pipeline runs quality gates
-  □ Vercel deploy: new version gets traffic gradually
-  □ Railway deploy: rolling restart (no downtime)
-  □ Database migration: online, no locking
+  Ã¢â€“Â¡ CI pipeline runs quality gates
+  Ã¢â€“Â¡ Vercel deploy: new version gets traffic gradually
+  Ã¢â€“Â¡ Railway deploy: rolling restart (no downtime)
+  Ã¢â€“Â¡ Database migration: online, no locking
 
 STEP 3: POST-DEPLOY VERIFICATION (5 minutes)
-  □ Run health checks against production
-  □ Verify: /api/health returns 200
-  □ Verify: AI service responds
-  □ Verify: Database queries succeed
-  □ Run smoke tests against critical user paths
-  □ Check Sentry for new error spikes
-  □ Check PostHog for metric anomalies
+  Ã¢â€“Â¡ Run health checks against production
+  Ã¢â€“Â¡ Verify: /api/health returns 200
+  Ã¢â€“Â¡ Verify: AI service responds
+  Ã¢â€“Â¡ Verify: Database queries succeed
+  Ã¢â€“Â¡ Run smoke tests against critical user paths
+  Ã¢â€“Â¡ Check Sentry for new error spikes
+  Ã¢â€“Â¡ Check PostHog for metric anomalies
 
 STEP 4: MONITOR (30 minutes post-deploy)
-  □ Monitor Sentry error rate (should not exceed baseline)
-  □ Monitor Better Uptime (all endpoints green)
-  □ Monitor Core Web Vitals in Vercel Analytics
-  □ Watch for any increase in 4xx/5xx responses
+  Ã¢â€“Â¡ Monitor Sentry error rate (should not exceed baseline)
+  Ã¢â€“Â¡ Monitor Better Uptime (all endpoints green)
+  Ã¢â€“Â¡ Monitor Core Web Vitals in Vercel Analytics
+  Ã¢â€“Â¡ Watch for any increase in 4xx/5xx responses
 
 STEP 5: ROLLBACK TRIGGERS
   If ANY of the following occur within 30 min of deploy:
-    □ Error rate > 5x baseline
-    □ 500 errors on critical endpoints
-    □ P95 latency > 2x baseline
-    □ Site unreachable for > 30 seconds
-    □ Database migration causes data issues
-    □ Any security vulnerability detected
+    Ã¢â€“Â¡ Error rate > 5x baseline
+    Ã¢â€“Â¡ 500 errors on critical endpoints
+    Ã¢â€“Â¡ P95 latency > 2x baseline
+    Ã¢â€“Â¡ Site unreachable for > 30 seconds
+    Ã¢â€“Â¡ Database migration causes data issues
+    Ã¢â€“Â¡ Any security vulnerability detected
   
-  → EXECUTE IMMEDIATE ROLLBACK (see §16)
+  Ã¢â€ â€™ EXECUTE IMMEDIATE ROLLBACK (see Ã‚Â§16)
 ```
 
 ### 7.4 Production Environment Variables
@@ -766,28 +766,28 @@ LOG_LEVEL=warn
 ```mermaid
 flowchart TB
     subgraph "Development"
-        DEV_LOCAL[\"💻 Local Dev<br/>npm run dev<br/>localhost:3000\"]
-        DEV_FEATURE[\"🌿 Feature Branch<br/>git push feature/xyz<br/>Vercel Preview URL\"]
+        DEV_LOCAL[\"Ã°Å¸â€™Â» Local Dev<br/>npm run dev<br/>localhost:3000\"]
+        DEV_FEATURE[\"Ã°Å¸Å’Â¿ Feature Branch<br/>git push feature/xyz<br/>Vercel Preview URL\"]
     end
 
     subgraph "Testing (CI)\"
-        CI_TEST[\"🧪 CI Testing<br/>Quality Gates<br/>Unit + E2E Tests\"]
+        CI_TEST[\"Ã°Å¸Â§Âª CI Testing<br/>Quality Gates<br/>Unit + E2E Tests\"]
     end
 
     subgraph "Staging"
-        STG_DEPLOY[\"🚀 Staging Deploy<br/>Auto on develop push<br/>staging.portfolio.com\"]
-        STG_VERIFY[\"✅ Staging Verify<br/>Health + Smoke + E2E<br/>Stakeholder Review\"]
+        STG_DEPLOY[\"Ã°Å¸Å¡â‚¬ Staging Deploy<br/>Auto on develop push<br/>staging.portfolio.com\"]
+        STG_VERIFY[\"Ã¢Å“â€¦ Staging Verify<br/>Health + Smoke + E2E<br/>Stakeholder Review\"]
     end
 
     subgraph "Production"
-        PROD_DEPLOY[\"🚀 Production Deploy<br/>Auto on main push<br/>portfolio.com\"]
-        PROD_MONITOR[\"📊 Production Monitor<br/>30-min Watch Window<br/>Error Rate Baseline\"]
+        PROD_DEPLOY[\"Ã°Å¸Å¡â‚¬ Production Deploy<br/>Auto on main push<br/>portfolio.com\"]
+        PROD_MONITOR[\"Ã°Å¸â€œÅ  Production Monitor<br/>30-min Watch Window<br/>Error Rate Baseline\"]
     end
 
     subgraph "Gates"
-        GATE_PR[\"🔒 PR Gate<br/>CI Passes<br/>Review Approved<br/>No Conflicts\"]
-        GATE_STG[\"🔒 Staging Gate<br/>Deploy Succeeds<br/>Health Checks Pass<br/>Smoke Tests Pass\"]
-        GATE_PROD[\"🔒 Production Gate<br/>Release Approved<br/>Rollback Ready<br/>Deploy Window Open\"]
+        GATE_PR[\"Ã°Å¸â€â€™ PR Gate<br/>CI Passes<br/>Review Approved<br/>No Conflicts\"]
+        GATE_STG[\"Ã°Å¸â€â€™ Staging Gate<br/>Deploy Succeeds<br/>Health Checks Pass<br/>Smoke Tests Pass\"]
+        GATE_PROD[\"Ã°Å¸â€â€™ Production Gate<br/>Release Approved<br/>Rollback Ready<br/>Deploy Window Open\"]
     end
 
     DEV_LOCAL -->|git push| DEV_FEATURE
@@ -798,8 +798,8 @@ flowchart TB
     STG_VERIFY --> GATE_STG
     GATE_STG -->|Release PR to main| PROD_DEPLOY
     PROD_DEPLOY --> PROD_MONITOR
-    PROD_MONITOR -->|Error rate OK| SUCCESS[\"✅ Deploy Successful\"]
-    PROD_MONITOR -->|Error spike| ROLLBACK[\"🔄 Auto-Rollback\\nSee §16\"]
+    PROD_MONITOR -->|Error rate OK| SUCCESS[\"Ã¢Å“â€¦ Deploy Successful\"]
+    PROD_MONITOR -->|Error spike| ROLLBACK[\"Ã°Å¸â€â€ž Auto-Rollback\\nSee Ã‚Â§16\"]
 ```
 
 ### 8.2 Deployment Timing Breakdown (Production)
@@ -907,16 +907,16 @@ curl -s https://ai.portfolioowner.com/api/health | jq .
 
 | Domain | Purpose | Registrar | Expiry | Auto-Renew |
 |--------|---------|-----------|--------|------------|
-| `portfolioowner.com` | Primary production | Cloudflare | Annual | ✅ Enabled |
-| `portfolioowner.dev` | Redirect to .com | Cloudflare | Annual | ✅ Enabled |
-| `portfolioowner.me` | Personal branding | Cloudflare | Annual | ✅ Enabled |
+| `portfolioowner.com` | Primary production | Cloudflare | Annual | Ã¢Å“â€¦ Enabled |
+| `portfolioowner.dev` | Redirect to .com | Cloudflare | Annual | Ã¢Å“â€¦ Enabled |
+| `portfolioowner.me` | Personal branding | Cloudflare | Annual | Ã¢Å“â€¦ Enabled |
 
 ### 9.2 Subdomain Architecture
 
 | Subdomain | Service | Provider | CNAME Target | Cache |
 |-----------|---------|----------|-------------|-------|
 | `portfolioowner.com` (apex) | Production frontend | Vercel | `cname.vercel-dns.com` | Full |
-| `www.portfolioowner.com` | WWW redirect → apex | Cloudflare | Redirect to apex | N/A |
+| `www.portfolioowner.com` | WWW redirect Ã¢â€ â€™ apex | Cloudflare | Redirect to apex | N/A |
 | `staging.portfolioowner.com` | Staging frontend | Vercel | `cname.vercel-dns.com` | Full |
 | `api.portfolioowner.com` | NestJS API | Vercel | `cname.vercel-dns.com` | Dynamic |
 | `ai.portfolioowner.com` | FastAPI AI Service | Railway | `railway.app` generated | Dynamic |
@@ -941,7 +941,7 @@ curl -s https://ai.portfolioowner.com/api/health | jq .
 3. Add to Cloudflare DNS (nameserver delegation)
 4. Configure DNSSEC
 5. Create DNS records (A, CNAME, MX, TXT)
-6. Add to Vercel (Settings → Domains)
+6. Add to Vercel (Settings Ã¢â€ â€™ Domains)
 7. Provision SSL certificate (auto via Cloudflare)
 8. Add to monitoring (Better Uptime)
 9. Document in this file
@@ -961,8 +961,8 @@ graph TB
     end
 
     subgraph "DNS Record Types"
-        A_RECORDS[\"A Records<br/>Cloudflare Proxy IPs<br/>`@` → 104.16.x.x\"]
-        CNAME_RECORDS[\"CNAME Records<br/>`www` → portfolioowner.com<br/>`staging` → cname.vercel-dns.com<br/>`ai` → railway-up-generated.railway.app\"]
+        A_RECORDS[\"A Records<br/>Cloudflare Proxy IPs<br/>`@` Ã¢â€ â€™ 104.16.x.x\"]
+        CNAME_RECORDS[\"CNAME Records<br/>`www` Ã¢â€ â€™ portfolioowner.com<br/>`staging` Ã¢â€ â€™ cname.vercel-dns.com<br/>`ai` Ã¢â€ â€™ railway-up-generated.railway.app\"]
         TXT_RECORDS[\"TXT Records<br/>SPF: v=spf1 include:_spf.google.com ~all<br/>DKIM: Google Workspace<br/>DMARC: p=quarantine<br/>Domain verification: _vercel, _github-pages-challenge\"]
         MX_RECORDS[\"MX Records<br/>Google Workspace<br/>ASPMX.L.GOOGLE.COM (priority 1)\"]
     end
@@ -1003,10 +1003,10 @@ graph TB
 
 ; === CNAME Records ===
 www     300 IN  CNAME  portfolioowner.com        ; Redirect to apex (Cloudflare Page Rule)
-staging 300 IN  CNAME  cname.vercel-dns.com       ; Proxied → Vercel staging
-api     300 IN  CNAME  cname.vercel-dns.com       ; Proxied → Vercel API
-ai      300 IN  CNAME  railway-app-generated-url.railway.app  ; DNS Only → Railway
-status  300 IN  CNAME  status.betteruptime.com                ; DNS Only → Better Uptime
+staging 300 IN  CNAME  cname.vercel-dns.com       ; Proxied Ã¢â€ â€™ Vercel staging
+api     300 IN  CNAME  cname.vercel-dns.com       ; Proxied Ã¢â€ â€™ Vercel API
+ai      300 IN  CNAME  railway-app-generated-url.railway.app  ; DNS Only Ã¢â€ â€™ Railway
+status  300 IN  CNAME  status.betteruptime.com                ; DNS Only Ã¢â€ â€™ Better Uptime
 
 ; === MX Records (Google Workspace) ===
 @   300 IN  MX  1   ASPMX.L.GOOGLE.COM
@@ -1063,8 +1063,8 @@ _dmarc  300 IN  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc@portfolioowner.co
 graph TB
     subgraph "Cloudflare Edge"
         CF_EDGE[\"Cloudflare Edge<br/>330+ Global PoPs\"]
-        CF_ORIGIN_CA[\"Cloudflare Origin CA<br/>Certificate\nIssued by Cloudflare\nUsed for: Origin → Server\"]
-        CF_EDGE_CERT[\"Cloudflare Edge Certificate<br/>* Let's Encrypt (primary)<br/>* Google Trust Services (fallback)<br/>Used for: Client → Edge\"]
+        CF_ORIGIN_CA[\"Cloudflare Origin CA<br/>Certificate\nIssued by Cloudflare\nUsed for: Origin Ã¢â€ â€™ Server\"]
+        CF_EDGE_CERT[\"Cloudflare Edge Certificate<br/>* Let's Encrypt (primary)<br/>* Google Trust Services (fallback)<br/>Used for: Client Ã¢â€ â€™ Edge\"]
     end
 
     subgraph "Origin Servers"
@@ -1112,10 +1112,10 @@ graph TB
 
 | Domain/Subdomain | Certificate Type | Issuer | Expiry | Auto-Renew |
 |-----------------|-----------------|--------|--------|------------|
-| `*.portfolioowner.com` | Cloudflare Universal | Cloudflare CA | Auto-renewed (60d) | ✅ |
-| `railway.app` (generated) | Auto-provisioned | Let's Encrypt | 90 days | ✅ (automatic) |
-| `*.vercel.app` | Auto-provisioned | Let's Encrypt | 90 days | ✅ (automatic) |
-| `*.supabase.co` | Supabase Managed | Google Trust Services | 90 days | ✅ (automatic) |
+| `*.portfolioowner.com` | Cloudflare Universal | Cloudflare CA | Auto-renewed (60d) | Ã¢Å“â€¦ |
+| `railway.app` (generated) | Auto-provisioned | Let's Encrypt | 90 days | Ã¢Å“â€¦ (automatic) |
+| `*.vercel.app` | Auto-provisioned | Let's Encrypt | 90 days | Ã¢Å“â€¦ (automatic) |
+| `*.supabase.co` | Supabase Managed | Google Trust Services | 90 days | Ã¢Å“â€¦ (automatic) |
 
 ### 11.4 SSL Expiry Monitoring
 
@@ -1141,7 +1141,7 @@ add_header Referrer-Policy "strict-origin-when-cross-origin";
 
 ```text
 Domain: portfolioowner.com
-Status: ✅ Submitted to HSTS Preload List
+Status: Ã¢Å“â€¦ Submitted to HSTS Preload List
 Browser: Chrome, Firefox, Safari, Edge all enforce HTTPS
 Preload: max-age=63072000; includeSubDomains; preload
 Submit URL: https://hstspreload.org/
@@ -1173,7 +1173,7 @@ graph TB
         AI[\"AI Responses<br/>/api/chat (FastAPI)<br/>No CDN cache (real-time)<br/>Response caching: Redis 5min\"]
     end
 
-    USER[\"👤 User\"] --> CF_CACHE
+    USER[\"Ã°Å¸â€˜Â¤ User\"] --> CF_CACHE
     CF_CACHE -->|Cache Miss / Argo| V_CACHE
     V_CACHE -->|ISR Pages| V_ISR
     V_ISR -->|Origin Fetch| ORIGIN[\"Vercel Origin Servers\"]
@@ -1260,7 +1260,7 @@ const cacheHeaders = {
 | **Content update (CMS)** | Vercel `revalidatePath()` | Specific pages | < 1s |
 | **New deploy** | Automatic ISR cache warm | All pages | < 30s |
 | **New deploy** | Cloudflare Purge API `purgeEverything()` | All cached assets | < 5s |
-| **Manual** | Cloudflare Dashboard → Purge Individual Files | Specific URLs | < 5s |
+| **Manual** | Cloudflare Dashboard Ã¢â€ â€™ Purge Individual Files | Specific URLs | < 5s |
 | **Emergency** | Cloudflare API `purgeEverything()` | Everything | < 5s |
 
 ### 12.5 CDN Cost Optimization
@@ -1301,15 +1301,15 @@ sequenceDiagram
     
     R->>G: Deploy new version
     G->>M: Smoke tests pass?
-    M-->>G: ✅ All green
+    M-->>G: Ã¢Å“â€¦ All green
     
     R->>G: Route 10% traffic to Green
     G->>M: Error rate < baseline?
-    M-->>G: ✅ Stable
+    M-->>G: Ã¢Å“â€¦ Stable
     
     R->>G: Route 50% traffic to Green
     G->>M: Error rate < baseline?
-    M-->>G: ✅ Stable
+    M-->>G: Ã¢Å“â€¦ Stable
     
     R->>G: Route 100% traffic to Green
     Note over R,M: Green serves 100% traffic
@@ -1361,25 +1361,25 @@ ON sections(new_column);
 
 ```text
 === PRE-DEPLOY CHECKLIST ===
-□ Database migration is reversible (has a down migration)
-□ Migration adds columns as nullable first
-□ New code handles both old and new schema versions
-□ Rollback plan is documented and tested
-□ Feature flag exists for breaking changes
-□ Cache TTLs are set for stale-while-revalidate
+Ã¢â€“Â¡ Database migration is reversible (has a down migration)
+Ã¢â€“Â¡ Migration adds columns as nullable first
+Ã¢â€“Â¡ New code handles both old and new schema versions
+Ã¢â€“Â¡ Rollback plan is documented and tested
+Ã¢â€“Â¡ Feature flag exists for breaking changes
+Ã¢â€“Â¡ Cache TTLs are set for stale-while-revalidate
 
 === DURING DEPLOY ===
-□ Monitor: Error rate (Sentry) + Latency (Sentry) + Traffic (PostHog)
-□ Watch: 4xx rates (should not increase)
-□ Watch: 5xx rates (should remain 0)
-□ Watch: p95 response times (should not increase)
+Ã¢â€“Â¡ Monitor: Error rate (Sentry) + Latency (Sentry) + Traffic (PostHog)
+Ã¢â€“Â¡ Watch: 4xx rates (should not increase)
+Ã¢â€“Â¡ Watch: 5xx rates (should remain 0)
+Ã¢â€“Â¡ Watch: p95 response times (should not increase)
 
 === ROLLBACK TRIGGERS ===
-□ Error rate > 5x baseline
-□ Any endpoint returns > 1% 5xx errors
-□ p95 latency > 2x baseline
-□ Database connection failures
-□ Any security vulnerability
+Ã¢â€“Â¡ Error rate > 5x baseline
+Ã¢â€“Â¡ Any endpoint returns > 1% 5xx errors
+Ã¢â€“Â¡ p95 latency > 2x baseline
+Ã¢â€“Â¡ Database connection failures
+Ã¢â€“Â¡ Any security vulnerability
 ```
 
 ---
@@ -1403,11 +1403,11 @@ ON sections(new_column);
 
 | Component | Auto-scaling | Scaling Method | Max Instances | Notes |
 |-----------|-------------|----------------|---------------|-------|
-| **Next.js (Vercel)** | ✅ Automatic | Regional edge deployment | Unlimited | Vercel manages globally |
-| **NestJS (Vercel)** | ✅ Automatic | Per-request serverless | Unlimited | Cold start ~50ms |
-| **FastAPI (Railway)** | ⚠️ Manual (can enable) | Multi-replica | 2-3 replicas | Must upgrade from free plan |
-| **Supabase PostgreSQL** | ❌ Manual | Read replicas (paid) | 5 replicas max | $25/mo for replicas |
-| **Redis (Upstash)** | ⚠️ Manual | Scale tier | 3 tiers available | Free tier: 256MB |
+| **Next.js (Vercel)** | Ã¢Å“â€¦ Automatic | Regional edge deployment | Unlimited | Vercel manages globally |
+| **NestJS (Vercel)** | Ã¢Å“â€¦ Automatic | Per-request serverless | Unlimited | Cold start ~50ms |
+| **FastAPI (Railway)** | Ã¢Å¡Â Ã¯Â¸Â Manual (can enable) | Multi-replica | 2-3 replicas | Must upgrade from free plan |
+| **Supabase PostgreSQL** | Ã¢ÂÅ’ Manual | Read replicas (paid) | 5 replicas max | $25/mo for replicas |
+| **Redis (Upstash)** | Ã¢Å¡Â Ã¯Â¸Â Manual | Scale tier | 3 tiers available | Free tier: 256MB |
 
 ### 14.3 Vertical Scaling Thresholds
 
@@ -1543,7 +1543,7 @@ flowchart TB
 # === RESTORE POSTGRESQL FROM BACKUP ===
 
 # Option 1: Supabase Dashboard (Point-in-Time Recovery)
-# 1. Go to Supabase Dashboard → Database → Backups
+# 1. Go to Supabase Dashboard Ã¢â€ â€™ Database Ã¢â€ â€™ Backups
 # 2. Click "Restore" on the desired backup
 # 3. Select restore point (up to 7 days back with WAL)
 # 4. Confirm: creates new database instance, doesn't overwrite live
@@ -1584,19 +1584,19 @@ sequenceDiagram
 
     Note over M,S: Production Deploy v2.1.3
 
-    M->>D: 🚨 Alert: Error rate spike (5x baseline)
-    M->>D: 🚨 Alert: p95 latency > 2x baseline
+    M->>D: Ã°Å¸Å¡Â¨ Alert: Error rate spike (5x baseline)
+    M->>D: Ã°Å¸Å¡Â¨ Alert: p95 latency > 2x baseline
     
     D->>D: Assess severity (30s)
     
     alt Auto-Rollback Triggered
         D->>V: vercel rollback --confirm
-        V-->>D: ✅ Rolled back to v2.1.2
+        V-->>D: Ã¢Å“â€¦ Rolled back to v2.1.2
         D->>R: railway service rollback
-        R-->>D: ✅ AI service rolled back
+        R-->>D: Ã¢Å“â€¦ AI service rolled back
         D->>S: supabase db push --target down-migration
-        S-->>D: ✅ Database rolled back
-        D->>M: ✅ All services on v2.1.2
+        S-->>D: Ã¢Å“â€¦ Database rolled back
+        D->>M: Ã¢Å“â€¦ All services on v2.1.2
     else Manual Rollback
         D->>D: Run rollback checklist (2 min)
         D->>V: vercel rollback --confirm
@@ -1648,37 +1648,37 @@ supabase db dump --db-url "$PROD_DB_URL" -f pre_migration.sql
 supabase db push --db-url "$PROD_DB_URL" < pre_migration.sql  # Rollback
 
 # Method 3: Point-in-time recovery
-# Supabase Dashboard → Database → Backups → Point-in-Time Recovery
+# Supabase Dashboard Ã¢â€ â€™ Database Ã¢â€ â€™ Backups Ã¢â€ â€™ Point-in-Time Recovery
 ```
 
 ### 16.4 Rollback Decision Matrix
 
 | Scenario | Rollback? | Action | Priority |
 |----------|-----------|--------|----------|
-| **5xx errors > 1%** | ✅ YES - auto | Full stack rollback | P0 |
-| **p95 latency > 2x baseline** | ✅ YES - auto | API + frontend rollback | P0 |
-| **Database data corruption** | ✅ YES - manual | DB PITR restore | P0 |
-| **Security vulnerability** | ✅ YES - emergency | Immediate full rollback | P0 |
-| **Broken UI on critical page** | ⚠️ Evaluate | Frontend rollback only | P1 |
-| **AI service down** | ⚠️ Evaluate | AI rollback only (graceful deg.) | P1 |
-| **Minor styling issue** | ❌ No | Hotfix in next deploy | P3 |
-| **New feature bug (non-critical)** | ❌ No | Fix forward | P3 |
+| **5xx errors > 1%** | Ã¢Å“â€¦ YES - auto | Full stack rollback | P0 |
+| **p95 latency > 2x baseline** | Ã¢Å“â€¦ YES - auto | API + frontend rollback | P0 |
+| **Database data corruption** | Ã¢Å“â€¦ YES - manual | DB PITR restore | P0 |
+| **Security vulnerability** | Ã¢Å“â€¦ YES - emergency | Immediate full rollback | P0 |
+| **Broken UI on critical page** | Ã¢Å¡Â Ã¯Â¸Â Evaluate | Frontend rollback only | P1 |
+| **AI service down** | Ã¢Å¡Â Ã¯Â¸Â Evaluate | AI rollback only (graceful deg.) | P1 |
+| **Minor styling issue** | Ã¢ÂÅ’ No | Hotfix in next deploy | P3 |
+| **New feature bug (non-critical)** | Ã¢ÂÅ’ No | Fix forward | P3 |
 
 ### 16.5 Rollback Checklist
 
 ```text
 === IMMEDIATE ROLLBACK CHECKLIST ===
-□ □ CONFIRM the severity (is this a rollback scenario?)
-□ □ NOTIFY team in #incidents channel
-□ □ RUN: vercel rollback --confirm
-□ □ RUN: railway service rollback
-□ □ RUN: Database reverse migration
-□ □ VERIFY health checks on all services
-□ □ MONITOR Sentry error rate for 15 minutes
-□ □ RUN smoke tests against critical paths
-□ □ DOCUMENT the incident (root cause, resolution, prevention)
-□ □ CREATE follow-up ticket for permanent fix
-□ □ POST-MORTEM within 48 hours
+Ã¢â€“Â¡ Ã¢â€“Â¡ CONFIRM the severity (is this a rollback scenario?)
+Ã¢â€“Â¡ Ã¢â€“Â¡ NOTIFY team in #incidents channel
+Ã¢â€“Â¡ Ã¢â€“Â¡ RUN: vercel rollback --confirm
+Ã¢â€“Â¡ Ã¢â€“Â¡ RUN: railway service rollback
+Ã¢â€“Â¡ Ã¢â€“Â¡ RUN: Database reverse migration
+Ã¢â€“Â¡ Ã¢â€“Â¡ VERIFY health checks on all services
+Ã¢â€“Â¡ Ã¢â€“Â¡ MONITOR Sentry error rate for 15 minutes
+Ã¢â€“Â¡ Ã¢â€“Â¡ RUN smoke tests against critical paths
+Ã¢â€“Â¡ Ã¢â€“Â¡ DOCUMENT the incident (root cause, resolution, prevention)
+Ã¢â€“Â¡ Ã¢â€“Â¡ CREATE follow-up ticket for permanent fix
+Ã¢â€“Â¡ Ã¢â€“Â¡ POST-MORTEM within 48 hours
 ```
 
 ---
@@ -1687,11 +1687,11 @@ supabase db push --db-url "$PROD_DB_URL" < pre_migration.sql  # Rollback
 
 | Service | Endpoint | Expected Response | Interval | Timeout | Failure Consequence |
 |---------|----------|-------------------|----------|---------|-------------------|
-| **Frontend** | `https://portfolioowner.com/api/health` | `200 { status: "ok", timestamp: "..." }` | 30s | 5s | Alert → Check Sentry |
-| **API** | `https://api.portfolioowner.com/health` | `200 { status: "ok", db: "connected", version: "2.1.0" }` | 30s | 5s | Alert → Auto-restart |
-| **AI Service** | `https://ai.portfolioowner.com/api/health` | `200 { status: "healthy", model: "gpt-4", uptime: 3600 }` | 60s | 10s | Alert → Railway restart |
-| **Supabase** | `https://db.supabase.co/ping` | `200` | 60s | 10s | Alert → Check Supabase status |
-| **Cloudflare** | `https://portfolioowner.com/cdn-cgi/trace` | `200` (contains `h=cloudflare`) | 60s | 10s | Alert → Check CF status |
+| **Frontend** | `https://portfolioowner.com/api/health` | `200 { status: "ok", timestamp: "..." }` | 30s | 5s | Alert Ã¢â€ â€™ Check Sentry |
+| **API** | `https://api.portfolioowner.com/health` | `200 { status: "ok", db: "connected", version: "2.1.0" }` | 30s | 5s | Alert Ã¢â€ â€™ Auto-restart |
+| **AI Service** | `https://ai.portfolioowner.com/api/health` | `200 { status: "healthy", model: "gpt-4", uptime: 3600 }` | 60s | 10s | Alert Ã¢â€ â€™ Railway restart |
+| **Supabase** | `https://db.supabase.co/ping` | `200` | 60s | 10s | Alert Ã¢â€ â€™ Check Supabase status |
+| **Cloudflare** | `https://portfolioowner.com/cdn-cgi/trace` | `200` (contains `h=cloudflare`) | 60s | 10s | Alert Ã¢â€ â€™ Check CF status |
 
 ---
 
@@ -1718,12 +1718,12 @@ supabase db push --db-url "$PROD_DB_URL" < pre_migration.sql  # Rollback
 
 | Metric | Target | Elite | High | Medium | Low | Measurement Tool |
 |--------|--------|-------|------|--------|-----|-----------------|
-| **Deploy frequency** | Daily | On-demand (multiple/day) | Weekly–Monthly | Monthly–6 months | < 6 months | GitHub Insights |
+| **Deploy frequency** | Daily | On-demand (multiple/day) | WeeklyÃ¢â‚¬â€œMonthly | MonthlyÃ¢â‚¬â€œ6 months | < 6 months | GitHub Insights |
 | **Deploy duration** | < 10 min | < 5 min | < 10 min | < 20 min | > 20 min | GitHub Actions timing |
-| **Lead time for changes** | < 1 day | < 1 hour | 1 day–1 week | 1 month–6 months | > 6 months | PR → production |
-| **Change failure rate** | < 5% | < 5% | 5–10% | 10–20% | > 20% | Deploys causing incidents |
-| **Time to restore (MTTR)** | < 1 hour | < 1 hour | < 1 day | 1 day–1 week | > 1 week | Incident → resolution |
-| **Rollback frequency** | < 5% | < 2% | 2–5% | 5–10% | > 10% | GitHub Actions rollback log |
+| **Lead time for changes** | < 1 day | < 1 hour | 1 dayÃ¢â‚¬â€œ1 week | 1 monthÃ¢â‚¬â€œ6 months | > 6 months | PR Ã¢â€ â€™ production |
+| **Change failure rate** | < 5% | < 5% | 5Ã¢â‚¬â€œ10% | 10Ã¢â‚¬â€œ20% | > 20% | Deploys causing incidents |
+| **Time to restore (MTTR)** | < 1 hour | < 1 hour | < 1 day | 1 dayÃ¢â‚¬â€œ1 week | > 1 week | Incident Ã¢â€ â€™ resolution |
+| **Rollback frequency** | < 5% | < 2% | 2Ã¢â‚¬â€œ5% | 5Ã¢â‚¬â€œ10% | > 10% | GitHub Actions rollback log |
 | **Preview deploy time** | < 5 min | < 2 min | < 5 min | < 10 min | > 10 min | Vercel |
 | **Production deploy time** | < 3 min | < 1 min | < 3 min | < 5 min | > 5 min | Vercel + Railway |
 | **Cache hit ratio (CDN)** | > 85% | > 95% | > 85% | > 70% | < 70% | Cloudflare Analytics |
@@ -1747,12 +1747,12 @@ graph TB
 
 | Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
 |-------------|------|----------|-----------|------------------------|---------|
-| DEC-DPL-001 | Jun 2026 | Build-once, deploy-everywhere with CI-built artifacts | Deterministic artifacts; same bits tested in staging go to production | Build-per-environment (inconsistent artifacts) | Adopted — single CI pipeline builds all |
-| DEC-DPL-002 | Jun 2026 | Dual-layer CDN (Cloudflare + Vercel) | Cloudflare for static assets (330 PoPs); Vercel for ISR (100 PoPs) | Single CDN (reduced global performance) | Adopted — 85%+ cache hit ratio target |
-| DEC-DPL-003 | Jun 2026 | Vercel for frontend + API; Railway for AI Service | Vercel optimized for Next.js serverless; Railway for Docker containers | All-on-Vercel (no Docker support), all-on-Railway (no Next.js optimization) | Adopted — best-of-breed hosting |
-| DEC-DPL-004 | Jun 2026 | Zero-downtime deployments with blue-green pattern on Vercel | No traffic loss during deploys; instant rollback | Rolling update (Railway), recreate (downtime) | Adopted — < 5s AI downtime |
-| DEC-DPL-005 | Jun 2026 | Cloudflare Full (Strict) SSL with HSTS preload | End-to-end encryption; origin certificate required; best security posture | Flexible SSL (encrypts client→CF only), Off (no encryption) | Adopted — TLS 1.3, HSTS 2-year |
-| DEC-DPL-006 | Jun 2026 | Supabase managed PostgreSQL with PITR for disaster recovery | Managed backups; point-in-time recovery; 7-day WAL archive | Self-hosted PostgreSQL (operational overhead), PlanetScale (different SQL dialect) | Adopted — daily full + continuous WAL backups |
+| DEC-DPL-001 | Jun 2026 | Build-once, deploy-everywhere with CI-built artifacts | Deterministic artifacts; same bits tested in staging go to production | Build-per-environment (inconsistent artifacts) | Adopted Ã¢â‚¬â€ single CI pipeline builds all |
+| DEC-DPL-002 | Jun 2026 | Dual-layer CDN (Cloudflare + Vercel) | Cloudflare for static assets (330 PoPs); Vercel for ISR (100 PoPs) | Single CDN (reduced global performance) | Adopted Ã¢â‚¬â€ 85%+ cache hit ratio target |
+| DEC-DPL-003 | Jun 2026 | Vercel for frontend + API; Railway for AI Service | Vercel optimized for Next.js serverless; Railway for Docker containers | All-on-Vercel (no Docker support), all-on-Railway (no Next.js optimization) | Adopted Ã¢â‚¬â€ best-of-breed hosting |
+| DEC-DPL-004 | Jun 2026 | Zero-downtime deployments with blue-green pattern on Vercel | No traffic loss during deploys; instant rollback | Rolling update (Railway), recreate (downtime) | Adopted Ã¢â‚¬â€ < 5s AI downtime |
+| DEC-DPL-005 | Jun 2026 | Cloudflare Full (Strict) SSL with HSTS preload | End-to-end encryption; origin certificate required; best security posture | Flexible SSL (encrypts clientÃ¢â€ â€™CF only), Off (no encryption) | Adopted Ã¢â‚¬â€ TLS 1.3, HSTS 2-year |
+| DEC-DPL-006 | Jun 2026 | Supabase managed PostgreSQL with PITR for disaster recovery | Managed backups; point-in-time recovery; 7-day WAL archive | Self-hosted PostgreSQL (operational overhead), PlanetScale (different SQL dialect) | Adopted Ã¢â‚¬â€ daily full + continuous WAL backups |
 
 ## Risk Register
 
@@ -1760,7 +1760,7 @@ graph TB
 |---------|-------------|-------------|--------|----------|------------|-------|
 | RSK-DPL-001 | Provider outage (Vercel/Railway/Supabase) causes full site downtime | Low | Critical | Red | Disaster recovery plan (RR-003) with secondary providers; DNS failover procedure; < 4h RTO | DevOps Lead |
 | RSK-DPL-002 | SSL certificate expiry causes browser security warnings | Low | High | Amber | Cloudflare auto-renewal (60-day); 30/14/7/1-day expiry alerts; monitoring via Better Uptime | DevOps Lead |
-| RSK-DPL-003 | Database migration causes data loss or extended downtime | Low | Critical | Red | Online migration pattern (add nullable → backfill → NOT NULL → index); reversible migrations; staging test | Backend Lead |
+| RSK-DPL-003 | Database migration causes data loss or extended downtime | Low | Critical | Red | Online migration pattern (add nullable Ã¢â€ â€™ backfill Ã¢â€ â€™ NOT NULL Ã¢â€ â€™ index); reversible migrations; staging test | Backend Lead |
 | RSK-DPL-004 | CDN cache serving stale content after deployment | Medium | Medium | Amber | ISR revalidation on deploy; Cloudflare purge API (`purgeEverything`); versioned asset URLs | DevOps Lead |
 | RSK-DPL-005 | DNS propagation delays during failover or domain changes | Low | Medium | Green | Standard 300s TTL; reduce to 60s before planned changes; pre-warm DNS with low TTL | DevOps Lead |
 
@@ -1769,17 +1769,17 @@ graph TB
 | Term | Definition |
 |------|------------|
 | **Blue-Green Deployment** | A deployment strategy where two identical environments (blue = current, green = new) are swapped atomically |
-| **CNAME** | Canonical Name — a DNS record that maps an alias domain name to a canonical domain name |
-| **DNSSEC** | DNS Security Extensions — cryptographic authentication of DNS responses to prevent spoofing |
-| **HSTS** | HTTP Strict Transport Security — a policy that forces browsers to connect via HTTPS only |
-| **ISR** | Incremental Static Regeneration — Next.js feature that updates static pages without rebuilding the entire site |
-| **PITR** | Point-in-Time Recovery — restoring a database to a specific moment, typically using WAL archives |
-| **PoP** | Point of Presence — a physical location where a CDN provider caches and serves content |
-| **RTO** | Recovery Time Objective — the maximum acceptable time to restore service after an incident |
-| **RPO** | Recovery Point Objective — the maximum acceptable data loss measured in time |
+| **CNAME** | Canonical Name Ã¢â‚¬â€ a DNS record that maps an alias domain name to a canonical domain name |
+| **DNSSEC** | DNS Security Extensions Ã¢â‚¬â€ cryptographic authentication of DNS responses to prevent spoofing |
+| **HSTS** | HTTP Strict Transport Security Ã¢â‚¬â€ a policy that forces browsers to connect via HTTPS only |
+| **ISR** | Incremental Static Regeneration Ã¢â‚¬â€ Next.js feature that updates static pages without rebuilding the entire site |
+| **PITR** | Point-in-Time Recovery Ã¢â‚¬â€ restoring a database to a specific moment, typically using WAL archives |
+| **PoP** | Point of Presence Ã¢â‚¬â€ a physical location where a CDN provider caches and serves content |
+| **RTO** | Recovery Time Objective Ã¢â‚¬â€ the maximum acceptable time to restore service after an incident |
+| **RPO** | Recovery Point Objective Ã¢â‚¬â€ the maximum acceptable data loss measured in time |
 | **Serverless** | A cloud execution model where the provider manages server allocation and scaling dynamically |
 | **Stale-While-Revalidate** | A caching strategy that serves stale content while fetching fresh content in the background |
-| **WAL** | Write-Ahead Log — PostgreSQL's transaction log used for point-in-time recovery |
+| **WAL** | Write-Ahead Log Ã¢â‚¬â€ PostgreSQL's transaction log used for point-in-time recovery |
 
 ---
 
@@ -1804,8 +1804,8 @@ WebContainers rely on `SharedArrayBuffer`, requiring Vercel to serve the Sandbox
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
-| **5.0** | Jun 2026 | **Enterprise v5.0 Upgrade**: Added 12 new sections — §2 Enterprise Deployment Architecture (full topology with provider matrix, data flow), §3 Infrastructure Topology (physical/logical topology, network architecture with latency SLAs), §4 Development Environment (local setup with Docker, IDE config, pre-commit hooks, development checklist), §5 Testing Environment (ephemeral CI environment, 9 quality gates, test config), §6 Staging Environment (full config, promotion gate, seed data), §7 Production Environment (runbook, env vars), §8 Deployment Workflow (lifecycle, timing Gantt, commands, deploy window policy), §9 Domain Strategy (portfolio, subdomain architecture, hygiene, acquisition process), §10 DNS Strategy (Cloudflare architecture, record inventory, change management, monitoring), §11 SSL/TLS Strategy (architecture with Cloudflare Full Strict, certificate inventory, HSTS preload), §12 CDN Strategy (dual-layer Cloudflare + Vercel, cache config with 4 asset types, invalidation, cost optimization), §14 Scaling Strategy (dimensions, horizontal/vertical scaling, performance limits, connection pooling). Upgraded 4 existing sections — §1 Executive Summary (expanded with 4-env strategy), §13 Zero-Downtime Deployment (blue-green sequence diagram, migration safety, checklist), §15 Backup Strategy (full backup architecture diagram, verification, restoration playbook), §16 Rollback Strategy (architecture sequence diagram, decision matrix, commands, checklist). Added §19 Deployment Metrics (DORA + platform KPIs, dashboard). Preserved §17 Health Check Configuration, §18 Deployment Security. Incorporated insights from docx_content.json (Ch.7 DevOps Pipeline, Agent 9 setup prompts). | DevOps Lead |
-| 4.0 | Jun 2026 | Enterprise-Grade Rewrite: 9 sections — Executive Summary, Deployment Topology, Environment Matrix, Pipeline, Zero-Downtime, Health Checks, Security, Metrics | DevOps Lead |
+| **5.0** | Jun 2026 | **Enterprise v5.0 Upgrade**: Added 12 new sections Ã¢â‚¬â€ Ã‚Â§2 Enterprise Deployment Architecture (full topology with provider matrix, data flow), Ã‚Â§3 Infrastructure Topology (physical/logical topology, network architecture with latency SLAs), Ã‚Â§4 Development Environment (local setup with Docker, IDE config, pre-commit hooks, development checklist), Ã‚Â§5 Testing Environment (ephemeral CI environment, 9 quality gates, test config), Ã‚Â§6 Staging Environment (full config, promotion gate, seed data), Ã‚Â§7 Production Environment (runbook, env vars), Ã‚Â§8 Deployment Workflow (lifecycle, timing Gantt, commands, deploy window policy), Ã‚Â§9 Domain Strategy (portfolio, subdomain architecture, hygiene, acquisition process), Ã‚Â§10 DNS Strategy (Cloudflare architecture, record inventory, change management, monitoring), Ã‚Â§11 SSL/TLS Strategy (architecture with Cloudflare Full Strict, certificate inventory, HSTS preload), Ã‚Â§12 CDN Strategy (dual-layer Cloudflare + Vercel, cache config with 4 asset types, invalidation, cost optimization), Ã‚Â§14 Scaling Strategy (dimensions, horizontal/vertical scaling, performance limits, connection pooling). Upgraded 4 existing sections Ã¢â‚¬â€ Ã‚Â§1 Executive Summary (expanded with 4-env strategy), Ã‚Â§13 Zero-Downtime Deployment (blue-green sequence diagram, migration safety, checklist), Ã‚Â§15 Backup Strategy (full backup architecture diagram, verification, restoration playbook), Ã‚Â§16 Rollback Strategy (architecture sequence diagram, decision matrix, commands, checklist). Added Ã‚Â§19 Deployment Metrics (DORA + platform KPIs, dashboard). Preserved Ã‚Â§17 Health Check Configuration, Ã‚Â§18 Deployment Security. Incorporated insights from docx_content.json (Ch.7 DevOps Pipeline, Agent 9 setup prompts). | DevOps Lead |
+| 4.0 | Jun 2026 | Enterprise-Grade Rewrite: 9 sections Ã¢â‚¬â€ Executive Summary, Deployment Topology, Environment Matrix, Pipeline, Zero-Downtime, Health Checks, Security, Metrics | DevOps Lead |
 | 3.0 | Jun 2026 | Added executive summary, environment matrix, change log | DevOps Lead |
 | 2.0 | Jun 2026 | Updated for enterprise monorepo structure | DevOps Lead |
 | 1.0 | Mar 2026 | Initial deployment documentation | DevOps Lead |
@@ -1816,14 +1816,14 @@ WebContainers rely on `SharedArrayBuffer`, requiring Vercel to serve the Sandbox
 
 | Reference | Description |
 |-----------|-------------|
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — §9 Deployment Architecture, environment topology |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — hosting, providers, versions |
-| `docs/operations/DevOpsArchitecture.md` (v5.0) | DevOps — CI/CD pipeline, build system, toolchain, environment strategy |
-| `docs/operations/25-CICD.md` (v5.0) | CI/CD — workflow definitions, pipeline configuration, quality gates |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security — environment security, secret management, compliance |
-| `docs/operations/21-MONITORING.md` (v5.0) | Monitoring — SLOs, SLIs, alerting configuration |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Observability — tracing across the deployment pipeline |
-| `docx_content.json` | Ultimate Portfolio Plan — Ch.7 DevOps Pipeline, Agent 9 setup prompts |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ Ã‚Â§9 Deployment Architecture, environment topology |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ hosting, providers, versions |
+| `docs/operations/DevOpsArchitecture.md` (v5.0) | DevOps Ã¢â‚¬â€ CI/CD pipeline, build system, toolchain, environment strategy |
+| `docs/operations/25-CICD.md` (v5.0) | CI/CD Ã¢â‚¬â€ workflow definitions, pipeline configuration, quality gates |
+| `docs/security/SecurityArchitecture.md` (v5.0) | Security Ã¢â‚¬â€ environment security, secret management, compliance |
+| `docs/operations/21-MONITORING.md` (v5.0) | Monitoring Ã¢â‚¬â€ SLOs, SLIs, alerting configuration |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Observability Ã¢â‚¬â€ tracing across the deployment pipeline |
+| `docx_content.json` | Ultimate Portfolio Plan Ã¢â‚¬â€ Ch.7 DevOps Pipeline, Agent 9 setup prompts |
 | `.github/workflows/ci.yml` | GitHub Actions CI/CD workflow (source of truth) |
 | `infrastructure/docker/docker-compose.yml` | Local development environment |
 | `infrastructure/ci/ci.yml` | CI/CD reference configuration |
@@ -1872,6 +1872,10 @@ Despite rigorous testing, deployments can sometimes fail or introduce critical b
 | 2.0 | Jun 2026 | Added deployment workflow diagrams | DevOps Lead |
 | 1.0 | Mar 2026 | Initial deployment documentation | DevOps Lead |
 
-*Document Version: 5.0 — Enterprise-Grade Deployment Architecture*  
+*Document Version: 5.0 Ã¢â‚¬â€ Enterprise-Grade Deployment Architecture*  
 *Supersedes v4.0 (June 2026) and all previous versions*  
 *Next Review Date: September 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

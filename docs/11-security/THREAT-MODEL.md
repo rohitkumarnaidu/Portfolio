@@ -23,24 +23,24 @@ Each system component is analyzed against six threat categories:
 
 ### 1.2 DREAD Risk Scoring
 
-Each threat is scored 0–10 across five dimensions, then averaged for a composite score:
+Each threat is scored 0Ã¢â‚¬â€œ10 across five dimensions, then averaged for a composite score:
 
-| Dimension | 0–3 (Low) | 4–6 (Medium) | 7–10 (High) |
+| Dimension | 0Ã¢â‚¬â€œ3 (Low) | 4Ã¢â‚¬â€œ6 (Medium) | 7Ã¢â‚¬â€œ10 (High) |
 |-----------|-----------|--------------|-------------|
 | **D**amage potential | Minor data loss | Data corruption | Full system compromise |
 | **R**eproducibility | Extremely hard | Moderate effort | Trivially repeatable |
 | **E**xploitability | Requires insider access | Some skill needed | Public exploit available |
-| **A**ffected users | < 1% of users | 1–25% of users | > 25% of users |
+| **A**ffected users | < 1% of users | 1Ã¢â‚¬â€œ25% of users | > 25% of users |
 | **D**iscoverability | Requires source access | Difficult to find | Publicly documented |
 
 **Risk Level Mapping:**
 
 | DREAD Score | Risk Level | Response |
 |-------------|------------|----------|
-| 7.5 – 10.0 | **Critical** | Immediate fix, within current sprint |
-| 5.0 – 7.4 | **High** | Fix within next sprint |
-| 3.0 – 4.9 | **Medium** | Add to backlog, fix within 30 days |
-| 0 – 2.9 | **Low** | Accept or monitor |
+| 7.5 Ã¢â‚¬â€œ 10.0 | **Critical** | Immediate fix, within current sprint |
+| 5.0 Ã¢â‚¬â€œ 7.4 | **High** | Fix within next sprint |
+| 3.0 Ã¢â‚¬â€œ 4.9 | **Medium** | Add to backlog, fix within 30 days |
+| 0 Ã¢â‚¬â€œ 2.9 | **Low** | Accept or monitor |
 
 ---
 
@@ -49,13 +49,13 @@ Each threat is scored 0–10 across five dimensions, then averaged for a composi
 | # | Entry Point | Protocol | Auth Required | Rate Limited | Description |
 |---|-------------|----------|---------------|--------------|-------------|
 | EP-01 | Public web pages | HTTPS | No | Edge-level | Portfolio pages served via Vercel CDN |
-| EP-02 | Admin login page | HTTPS | No | Yes (5/15min) | `/admin/login` — email + OAuth |
-| EP-03 | Portfolio API endpoints | HTTPS | No (read) | Yes (100/min) | `/api/portfolio/*` — public, cached |
-| EP-04 | Admin API endpoints | HTTPS | JWT required | Yes (60/min) | `/api/admin/*` — CRUD operations |
-| EP-05 | AI chat endpoint | HTTPS | No (session) | Yes (20/session) | `/api/ai/chat` — LLM interaction |
-| EP-06 | Contact form | HTTPS | No | Yes (3/hr/IP) | `/api/portfolio/leads` — lead submission |
-| EP-07 | File upload (media) | HTTPS | JWT required | Yes (10/hr) | `/api/admin/upload` — images, PDFs |
-| EP-08 | OAuth callbacks | HTTPS | No | Yes (10/hr/IP) | `/api/auth/*/callback` — Google/GitHub |
+| EP-02 | Admin login page | HTTPS | No | Yes (5/15min) | `/admin/login` Ã¢â‚¬â€ email + OAuth |
+| EP-03 | Portfolio API endpoints | HTTPS | No (read) | Yes (100/min) | `/api/portfolio/*` Ã¢â‚¬â€ public, cached |
+| EP-04 | Admin API endpoints | HTTPS | JWT required | Yes (60/min) | `/api/admin/*` Ã¢â‚¬â€ CRUD operations |
+| EP-05 | AI chat endpoint | HTTPS | No (session) | Yes (20/session) | `/api/ai/chat` Ã¢â‚¬â€ LLM interaction |
+| EP-06 | Contact form | HTTPS | No | Yes (3/hr/IP) | `/api/portfolio/leads` Ã¢â‚¬â€ lead submission |
+| EP-07 | File upload (media) | HTTPS | JWT required | Yes (10/hr) | `/api/admin/upload` Ã¢â‚¬â€ images, PDFs |
+| EP-08 | OAuth callbacks | HTTPS | No | Yes (10/hr/IP) | `/api/auth/*/callback` Ã¢â‚¬â€ Google/GitHub |
 | EP-09 | Webhooks | HTTPS | HMAC signature | Yes | External service notifications |
 | EP-10 | WebSocket (realtime) | WSS | JWT required | Yes | Real-time admin dashboard updates |
 
@@ -65,33 +65,91 @@ Each threat is scored 0–10 across five dimensions, then averaged for a composi
 
 ```
                      TRUST BOUNDARY 1
-    Browser ────────────────────────────── Vercel CDN
-       │                                        │
-       │           TRUST BOUNDARY 2              │
-       │    Vercel CDN ─────────────────── Next.js Server
-       │                                        │
-       │              TRUST BOUNDARY 3           │
-       │         Next.js Server ────────── NestJS API
-       │                                        │
-       │   ┌─────────────────┬──────────────────┴──────┐
-       │   │                 │                         │
-       │   │  TRUST BOUNDARY 4│    TRUST BOUNDARY 5     │
-       │   │ NestJS API ── Supabase│ NestJS API ── FastAPI │
-       │   │                 │                         │
-       │   │                 │    TRUST BOUNDARY 6      │
-       │   │                 │   FastAPI ── OpenAI/Anthropic
+    Browser Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Vercel CDN
+       Ã¢â€â€š                                        Ã¢â€â€š
+       Ã¢â€â€š           TRUST BOUNDARY 2              Ã¢â€â€š
+       Ã¢â€â€š    Vercel CDN Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Next.js Server
+       Ã¢â€â€š                                        Ã¢â€â€š
+       Ã¢â€â€š              TRUST BOUNDARY 3           Ã¢â€â€š
+       Ã¢â€â€š         Next.js Server Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ NestJS API
+       Ã¢â€â€š                                        Ã¢â€â€š
+       Ã¢â€â€š   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+       Ã¢â€â€š   Ã¢â€â€š                 Ã¢â€â€š                         Ã¢â€â€š
+       Ã¢â€â€š   Ã¢â€â€š  TRUST BOUNDARY 4Ã¢â€â€š    TRUST BOUNDARY 5     Ã¢â€â€š
+       Ã¢â€â€š   Ã¢â€â€š NestJS API Ã¢â€â‚¬Ã¢â€â‚¬ SupabaseÃ¢â€â€š NestJS API Ã¢â€â‚¬Ã¢â€â‚¬ FastAPI Ã¢â€â€š
+       Ã¢â€â€š   Ã¢â€â€š                 Ã¢â€â€š                         Ã¢â€â€š
+       Ã¢â€â€š   Ã¢â€â€š                 Ã¢â€â€š    TRUST BOUNDARY 6      Ã¢â€â€š
+       Ã¢â€â€š   Ã¢â€â€š                 Ã¢â€â€š   FastAPI Ã¢â€â‚¬Ã¢â€â‚¬ OpenAI/Anthropic
+```
+### 3.1 Trust Boundaries Diagram
+
+```mermaid
+graph LR
+    B[Browser] -->|Internet| VC[Vercel CDN]
+    VC -.->|TB-1| N[Next.js Server]
+    N -.->|TB-2| API[NestJS API]
+    API -.->|TB-3| DB[(Supabase)]
+    API -.->|TB-4| AI[FastAPI AI]
+    AI -.->|TB-5| EXT[OpenAI<br/>Anthropic]
+
+    style B fill:#e3f2fd
+    style VC fill:#fff3e0
+    style N fill:#fff3e0
+    style API fill:#f3e5f5
+    style DB fill:#fce4ec
+    style AI fill:#fce4ec
+    style EXT fill:#fce4ec
 ```
 
 | Boundary | From | To | Data Sensitivity | Security Controls |
 |----------|------|----|------------------|-------------------|
 | TB-01 | Browser | Vercel CDN | Low (public pages) | TLS 1.3, HSTS, CSP, CORS |
-| TB-02 | Vercel CDN | Next.js Server | Low–Medium | WAF, IP filtering, edge rate limiting |
+| TB-02 | Vercel CDN | Next.js Server | LowÃ¢â‚¬â€œMedium | WAF, IP filtering, edge rate limiting |
 | TB-03 | Next.js Server | NestJS API | Medium (JWT tokens) | Server-to-server API key, TLS 1.3 |
 | TB-04 | NestJS API | Supabase | High (PII, credentials) | RLS, parameterized queries, TLS 1.3 |
 | TB-05 | NestJS API | FastAPI AI | Medium (chat history) | Internal network, API key auth |
 | TB-06 | FastAPI AI | OpenAI/Anthropic | Medium (prompts) | Server-side keys, no PII in prompts |
 
 ---
+### 3.1 STRIDE per Component
+
+```mermaid
+flowchart TD
+    subgraph "Web App (Next.js)"
+        WA["Spoofing: Session hijacking via XSS
+Tampering: Cache poisoning
+Info Disclosure: CSP bypass
+DoS: Resource exhaustion"]
+    end
+
+    subgraph "API (NestJS)"
+        API["Spoofing: JWT forgery
+Tampering: MITM
+Repudiation: Missing audit trail
+Info Disclosure: Stack traces
+DoS: Endpoint flooding
+Elevation: Role escalation, IDOR"]
+    end
+
+    subgraph "Database (Supabase)"
+        DB["Spoofing: RLS bypass
+Tampering: SQL injection
+Info Disclosure: Direct DB access
+DoS: Connection pool exhaustion
+Elevation: RLS policy bypass"]
+    end
+
+    subgraph "AI Service (FastAPI)"
+        AI["Tampering: Prompt injection
+Info Disclosure: Chat history leakage
+DoS: Cost exhaustion
+Info Disclosure: Embedding inversion"]
+    end
+
+    WA <--> API
+    API <--> DB
+    API <--> AI
+```
 
 ## 4. STRIDE Threat Analysis
 
@@ -158,81 +216,81 @@ Each threat is scored 0–10 across five dimensions, then averaged for a composi
 
 ```
 Goal: Attacker gains admin access
-│
-├── OR 1.0 Credential Theft
-│   ├── 1.1 Phishing attack
-│   │   ├── 1.1.1 Fake login page (credential harvesting)
-│   │   └── 1.1.2 Spear-phishing email with malicious link
-│   │   └── Mitigations: Email SPF/DKIM/DMARC, admin awareness training, MFA requirement
-│   │
-│   ├── 1.2 Credential stuffing
-│   │   ├── 1.2.1 Previously breached password reuse
-│   │   └── 1.2.2 Automated login attempts with breached creds
-│   │   └── Mitigations: Rate limiting (5 attempts/15min), account lockout (30min), breached password check
-│   │
-│   └── 1.3 Keylogger / malware
-│       └── 1.3.1 Admin machine compromised
-│       └── Mitigations: MFA (hardware key if possible), session binding to IP/user-agent
-│
-├── OR 2.0 Session Hijacking
-│   ├── 2.1 XSS-based token theft
-│   │   ├── 2.1.1 Stored XSS in blog comments or project content
-│   │   └── 2.1.2 Reflected XSS via crafted URL parameter
-│   │   └── Mitigations: CSP with strict-dynamic, DOMPurify, httpOnly cookies
-│   │
-│   ├── 2.2 Network token interception
-│   │   └── 2.2.1 MITM on unsecured network
-│   │   └── Mitigations: TLS 1.3 everywhere, HSTS preload, no token in URL
-│   │
-│   ├── 2.3 CSRF-based state change
-│   │   └── 2.3.1 Forge request to change email or reset MFA
-│   │   └── Mitigations: CSRF tokens, SameSite=Strict cookies, origin header check
-│   │
-│   └── 2.4 Session fixation
-│       └── 2.4.1 Attacker sets session ID before admin logs in
-│       └── Mitigations: Regenerate session ID on login, session binding to IP
-│
-├── OR 3.0 OAuth Provider Compromise
-│   ├── 3.1 Google/GitHub account takeover
-│   │   └── 3.1.1 Admin's Google/GitHub account hacked
-│   │   └── Mitigations: Require MFA on OAuth provider, separate admin-only email
-│   │
-│   └── 3.2 Malicious OAuth app grant
-│       └── 3.2.1 Admin grants access to malicious third-party app
-│       └── Mitigations: Google/GitHub OAuth consent screen review, app allowlist
-│
-└── OR 4.0 JWT Secret Compromise
-    ├── 4.1 Secret leaked in code/CI logs
-    │   └── 4.1.1 Accidental commit of `.env` or CI pipeline log exposure
-    │   └── Mitigations: `.env` in `.gitignore`, secret scanning (pre-commit hooks), CI log redaction
-    │
-    └── 4.2 Secret brute-forced
-        └── 4.2.1 Weak JWT secret allows offline brute force
-        └── Mitigations: 256-bit random secret, periodic rotation (90 days)
+Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ OR 1.0 Credential Theft
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.1 Phishing attack
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.1.1 Fake login page (credential harvesting)
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.1.2 Spear-phishing email with malicious link
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: Email SPF/DKIM/DMARC, admin awareness training, MFA requirement
+Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.2 Credential stuffing
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.2.1 Previously breached password reuse
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.2.2 Automated login attempts with breached creds
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: Rate limiting (5 attempts/15min), account lockout (30min), breached password check
+Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.3 Keylogger / malware
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.3.1 Admin machine compromised
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: MFA (hardware key if possible), session binding to IP/user-agent
+Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ OR 2.0 Session Hijacking
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 2.1 XSS-based token theft
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 2.1.1 Stored XSS in blog comments or project content
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 2.1.2 Reflected XSS via crafted URL parameter
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: CSP with strict-dynamic, DOMPurify, httpOnly cookies
+Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 2.2 Network token interception
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 2.2.1 MITM on unsecured network
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: TLS 1.3 everywhere, HSTS preload, no token in URL
+Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 2.3 CSRF-based state change
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 2.3.1 Forge request to change email or reset MFA
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: CSRF tokens, SameSite=Strict cookies, origin header check
+Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 2.4 Session fixation
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 2.4.1 Attacker sets session ID before admin logs in
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: Regenerate session ID on login, session binding to IP
+Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ OR 3.0 OAuth Provider Compromise
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 3.1 Google/GitHub account takeover
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 3.1.1 Admin's Google/GitHub account hacked
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: Require MFA on OAuth provider, separate admin-only email
+Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 3.2 Malicious OAuth app grant
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 3.2.1 Admin grants access to malicious third-party app
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: Google/GitHub OAuth consent screen review, app allowlist
+Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ OR 4.0 JWT Secret Compromise
+    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 4.1 Secret leaked in code/CI logs
+    Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 4.1.1 Accidental commit of `.env` or CI pipeline log exposure
+    Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: `.env` in `.gitignore`, secret scanning (pre-commit hooks), CI log redaction
+    Ã¢â€â€š
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 4.2 Secret brute-forced
+        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 4.2.1 Weak JWT secret allows offline brute force
+        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigations: 256-bit random secret, periodic rotation (90 days)
 ```
 
 ---
 
 ## 6. Risk Heat Map
 
-Likelihood × Impact matrix for the top 10 threats (rated 1–5 in each dimension):
+Likelihood Ãƒâ€” Impact matrix for the top 10 threats (rated 1Ã¢â‚¬â€œ5 in each dimension):
 
-| Threat ID | Description | Likelihood (1–5) | Impact (1–5) | Risk Score | Risk Level | Treatment |
+| Threat ID | Description | Likelihood (1Ã¢â‚¬â€œ5) | Impact (1Ã¢â‚¬â€œ5) | Risk Score | Risk Level | Treatment |
 |-----------|-------------|------------------|--------------|------------|------------|-----------|
-| T-016 | Role escalation via JWT manipulation | 2 | 5 | 10 | **Critical** | Mitigate — signed JWT, RLS double-check |
-| T-001 | JWT token forgery | 2 | 5 | 10 | **Critical** | Mitigate — strong secret, RS256, short TTL |
-| T-017 | IDOR on admin endpoints | 3 | 5 | 15 | **Critical** | Mitigate — ownership validation, UUID, RLS |
-| T-013 | API endpoint flooding | 4 | 4 | 16 | **High** | Mitigate — WAF, rate limit, auto-scale |
-| T-014 | AI cost exhaustion | 4 | 4 | 16 | **High** | Mitigate — token caps, spend limits |
-| T-018 | RLS bypass via direct DB | 2 | 5 | 10 | **Critical** | Mitigate — server-only secrets, IP restriction |
-| T-003 | Session hijacking via XSS | 3 | 4 | 12 | **High** | Mitigate — CSP, DOMPurify, httpOnly cookies |
-| T-019 | Prompt injection / jailbreak | 5 | 3 | 15 | **High** | Mitigate — prompt boundary, adversarial detection |
-| T-015 | DB connection pool exhaustion | 3 | 4 | 12 | **High** | Mitigate — pool limits, PgBouncer |
-| T-012 | AI chat history leakage | 2 | 4 | 8 | **Medium** | Mitigate — session isolation, no shared caches |
+| T-016 | Role escalation via JWT manipulation | 2 | 5 | 10 | **Critical** | Mitigate Ã¢â‚¬â€ signed JWT, RLS double-check |
+| T-001 | JWT token forgery | 2 | 5 | 10 | **Critical** | Mitigate Ã¢â‚¬â€ strong secret, RS256, short TTL |
+| T-017 | IDOR on admin endpoints | 3 | 5 | 15 | **Critical** | Mitigate Ã¢â‚¬â€ ownership validation, UUID, RLS |
+| T-013 | API endpoint flooding | 4 | 4 | 16 | **High** | Mitigate Ã¢â‚¬â€ WAF, rate limit, auto-scale |
+| T-014 | AI cost exhaustion | 4 | 4 | 16 | **High** | Mitigate Ã¢â‚¬â€ token caps, spend limits |
+| T-018 | RLS bypass via direct DB | 2 | 5 | 10 | **Critical** | Mitigate Ã¢â‚¬â€ server-only secrets, IP restriction |
+| T-003 | Session hijacking via XSS | 3 | 4 | 12 | **High** | Mitigate Ã¢â‚¬â€ CSP, DOMPurify, httpOnly cookies |
+| T-019 | Prompt injection / jailbreak | 5 | 3 | 15 | **High** | Mitigate Ã¢â‚¬â€ prompt boundary, adversarial detection |
+| T-015 | DB connection pool exhaustion | 3 | 4 | 12 | **High** | Mitigate Ã¢â‚¬â€ pool limits, PgBouncer |
+| T-012 | AI chat history leakage | 2 | 4 | 8 | **Medium** | Mitigate Ã¢â‚¬â€ session isolation, no shared caches |
 
 **Risk Heat Map Matrix:**
 
-| Likelihood ↓ \ Impact → | 1 (Minor) | 2 (Moderate) | 3 (Significant) | 4 (Major) | 5 (Critical) |
+| Likelihood Ã¢â€ â€œ \ Impact Ã¢â€ â€™ | 1 (Minor) | 2 (Moderate) | 3 (Significant) | 4 (Major) | 5 (Critical) |
 |--------------------------|-----------|---------------|-----------------|------------|--------------|
 | **5 (Very Likely)** | | | T-019 (15) | | |
 | **4 (Likely)** | | | | T-013 (16), T-014 (16) | |
@@ -240,7 +298,7 @@ Likelihood × Impact matrix for the top 10 threats (rated 1–5 in each dimensio
 | **2 (Unlikely)** | | | T-020 (10) | T-002 (8), T-012 (8) | T-001 (10), T-016 (10), T-018 (10) |
 | **1 (Rare)** | T-010 (3) | T-004 (4) | T-006 (6) | | |
 
-**Color Key:** 🟢 Low (1–5) | 🟡 Medium (6–10) | 🟠 High (11–15) | 🔴 Critical (16–20)
+**Color Key:** Ã°Å¸Å¸Â¢ Low (1Ã¢â‚¬â€œ5) | Ã°Å¸Å¸Â¡ Medium (6Ã¢â‚¬â€œ10) | Ã°Å¸Å¸Â  High (11Ã¢â‚¬â€œ15) | Ã°Å¸â€Â´ Critical (16Ã¢â‚¬â€œ20)
 
 ---
 
@@ -273,3 +331,7 @@ Likelihood × Impact matrix for the top 10 threats (rated 1–5 in each dimensio
 | Date | Version | Changes | Author |
 |------|---------|---------|--------|
 | July 2026 | 2.0 | Full rewrite with STRIDE + DREAD scoring, attack tree, risk heat map, 21 threats | Security Lead |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

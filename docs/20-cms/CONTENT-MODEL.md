@@ -331,3 +331,17 @@ graph TB
 | **No** | Optional field; can be null |
 | **Yes (admin)** | Editable by admin users in the dashboard |
 | **No (user-submitted)** | Set by the public user who submitted the data |
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [CMS-ARCHITECTURE.md](CMS-ARCHITECTURE.md) | CMS architecture overview |
+| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md) | Image management and optimization |
+| [SANDBOX-IDE.md](SANDBOX-IDE.md) | Sandbox IDE architecture |
+| [DATA-MODEL.md](../10-api/DATA-MODEL.md) | API data model reference |
+| [DatabaseSchema.md](../09-database/DATABASE-SCHEMA.md) | Database schema reference |

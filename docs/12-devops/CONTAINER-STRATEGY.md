@@ -29,11 +29,11 @@ Docker container strategy for the Portfolio platform.
 
 ## Docker Compose (`infrastructure/docker/docker-compose.yml`)
 Three services + dependencies:
-- `api` — NestJS on port 3001 (mapped to 4000)
-- `web` — Next.js on port 3000
-- `ai` — FastAPI on port 8000
-- `postgres` — PostgreSQL (dev only)
-- `redis` — Redis (dev only)
+- `api` Ã¢â‚¬â€ NestJS on port 3001 (mapped to 4000)
+- `web` Ã¢â‚¬â€ Next.js on port 3000
+- `ai` Ã¢â‚¬â€ FastAPI on port 8000
+- `postgres` Ã¢â‚¬â€ PostgreSQL (dev only)
+- `redis` Ã¢â‚¬â€ Redis (dev only)
 
 ## Best Practices
 - Multi-stage builds for minimal image size
@@ -56,3 +56,43 @@ Docker images are built in CI (`.github/workflows/ci.yml`) only on `main`/`maste
 
 ## Security Scanning
 Recommended: Integrate Trivy or Snyk scan into CI pipeline.
+
+---
+
+## Diagram
+
+### Container Architecture
+
+```mermaid
+graph LR
+    subgraph Host["Docker Host"]
+        direction TB
+        Web["Web Container<br/>Next.js :3000"]
+        API["API Container<br/>NestJS :3001"]
+        AI["AI Container<br/>FastAPI :8000"]
+        Redis["Redis Container<br/>:6379"]
+        PG["Postgres Container<br/>:5432"]
+    end
+
+    Web -->|HTTP| API
+    Web -->|HTTP| AI
+    API -->|Cache| Redis
+    API -->|Queue| Redis
+    AI -->|Session| Redis
+    API -->|ORM| PG
+    AI -->|Vector search| PG
+
+    subgraph Network["portfolio-net (bridge)"]
+        Web
+        API
+        AI
+        Redis
+        PG
+    end
+
+    Internet[Internet] -->|:3000| Web
+```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

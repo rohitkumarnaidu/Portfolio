@@ -51,7 +51,23 @@ We adopt **Turborepo v2** with **npm workspaces** for monorepo management.
 - CI runs `turbo lint test build` in one command — replaces per-app scripts
 - Package boundaries enforce clean architecture (no circular imports)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Monorepo needed] --> B[Options: Turborepo / Nx / Lerna]
+    B --> C[Decision: Turborepo]
+    C --> D[Positive: Parallel builds, caching, Vercel synergy]
+    C --> E[Negative: Python deps not managed, version conflicts]
+    D --> F[Compliance: §2.1, §3.4]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §2.1: "Monorepo architecture with clear package boundaries"
 - Aligns with Constitution §3.4: "Build tooling must support incremental, cached builds"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

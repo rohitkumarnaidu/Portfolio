@@ -133,15 +133,15 @@ RootLayout (apps/web/src/app/layout.tsx)
 
 Each route segment can have its own `loading.tsx`:
 
-- Root: `loading.tsx` — Full page skeleton
+- Root: `loading.tsx` Ã¢â‚¬â€ Full page skeleton
 - Projects, Blog: Skeleton grid (project cards / blog post cards) during ISR revalidation
 - Admin tables: `DataTableSkeleton` component during React Query refetch
 
 ### 1.5 Error Boundaries
 
-- Root: `error.tsx` — Catches unhandled rendering errors. Shows retry button and error message
+- Root: `error.tsx` Ã¢â‚¬â€ Catches unhandled rendering errors. Shows retry button and error message
 - Admin: Per-page error boundaries wrapping data tables. On fetch failure, shows retry button that calls `refetch()` on the React Query hook
-- Not found: `not-found.tsx` — Custom 404 with navigation links
+- Not found: `not-found.tsx` Ã¢â‚¬â€ Custom 404 with navigation links
 
 ---
 
@@ -257,9 +257,9 @@ Request
 ### 3.1 [slug] Pattern
 
 Detail pages use `[slug]` dynamic segments:
-- `/projects/[slug]` — Project slug from database
-- `/blog/[slug]` — Blog post slug
-- `/case-studies/[slug]` — Case study slug
+- `/projects/[slug]` Ã¢â‚¬â€ Project slug from database
+- `/blog/[slug]` Ã¢â‚¬â€ Blog post slug
+- `/case-studies/[slug]` Ã¢â‚¬â€ Case study slug
 
 All use `generateStaticParams()` to pre-render known slugs at build time. ISR revalidates on first request after TTL expires.
 
@@ -304,3 +304,7 @@ On the client, `AuthContext` wraps admin pages. The `useAuth` hook (`apps/web/sr
 ### 5.3 API-Level (NestJS Guards)
 
 The NestJS API enforces its own auth via `JwtAuthGuard` and `RolesGuard`. Even if a client-side check is bypassed, the API will reject unauthorized requests with 401 or 403.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

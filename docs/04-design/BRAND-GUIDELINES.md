@@ -1,6 +1,6 @@
 # Brand Guidelines
 
-> **Version:** 2.0 | **Status:** ✅ Active | **Owner:** Principal Design Lead
+> **Version:** 2.0 | **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Design Lead
 
 ## 1. Brand Identity
 
@@ -21,8 +21,8 @@
 ### Clearance & Minimum Size
 
 - **Clear space:** Minimum padding equal to the height of the wordmark on all sides
-- **Minimum size — digital:** 32px (favicon), 120px (wordmark/combo), 48px (symbol)
-- **Minimum size — print:** 1 inch (25.4mm)
+- **Minimum size Ã¢â‚¬â€ digital:** 32px (favicon), 120px (wordmark/combo), 48px (symbol)
+- **Minimum size Ã¢â‚¬â€ print:** 1 inch (25.4mm)
 
 ### Color Variants
 
@@ -35,7 +35,7 @@ Default: White (#fafafa) on dark, dark (#1a1a1a) on light. Monochrome version fo
 | Recolor to non-standard brand color | Use brand white or dark only |
 | Gradient/pattern/texture fill       | Single flat color            |
 | Distort aspect ratio                | Always proportional scale    |
-| Rotate beyond ±5°                   | 0° orientation only          |
+| Rotate beyond Ã‚Â±5Ã‚Â°                   | 0Ã‚Â° orientation only          |
 | Drop shadows, glows, 3D effects     | Flat, unadorned presentation |
 | Rearrange symbol/wordmark positions | Stacked layout only          |
 | Low-contrast/busy backgrounds       | 4.5:1 contrast minimum       |
@@ -45,9 +45,9 @@ Default: White (#fafafa) on dark, dark (#1a1a1a) on light. Monochrome version fo
 
 | Format  | Use Case                                              |
 | ------- | ----------------------------------------------------- |
-| SVG     | Primary digital — all web usage, responsive, editable |
+| SVG     | Primary digital Ã¢â‚¬â€ all web usage, responsive, editable |
 | PNG @2x | Social media preview, email signatures, slide decks   |
-| ICO     | Favicon (16×16, 32×32, 48×48 multi-size)              |
+| ICO     | Favicon (16Ãƒâ€”16, 32Ãƒâ€”32, 48Ãƒâ€”48 multi-size)              |
 | WebP    | Performance-critical scenarios, small thumbnails      |
 
 All logo files in `public/brand/`.
@@ -88,8 +88,8 @@ All logo files in `public/brand/`.
 
 ### Color Usage Rules
 
-- Accent colors: interaction and focus signals only — never body text or large backgrounds
-- Red (`status-error`): destructive actions and validation only — never decoration
+- Accent colors: interaction and focus signals only Ã¢â‚¬â€ never body text or large backgrounds
+- Red (`status-error`): destructive actions and validation only Ã¢â‚¬â€ never decoration
 - Violet (`status-ai`): AI features exclusively (chat, AI badges, AI-generated content indicators)
 
 ## 4. Typography
@@ -116,13 +116,13 @@ All logo files in `public/brand/`.
 | Caption    | `0.75rem`                          | 12px   | 12px    |
 | Code       | `0.875rem`                         | 14px   | 14px    |
 
-**Line height:** Body 1.5, headings 1.1–1.2, display 0.95.
+**Line height:** Body 1.5, headings 1.1Ã¢â‚¬â€œ1.2, display 0.95.
 
 ## 5. Tone of Voice
 
-**Authoritative yet Approachable** — confident, never condescending. **Precise** — exact terms, concrete metrics, no fluff. **Forward-Looking** — momentum without hype. **Concise** — bullet points over prose. **AI Persona** — clearly demarcated AI assistant (violet badge).
+**Authoritative yet Approachable** Ã¢â‚¬â€ confident, never condescending. **Precise** Ã¢â‚¬â€ exact terms, concrete metrics, no fluff. **Forward-Looking** Ã¢â‚¬â€ momentum without hype. **Concise** Ã¢â‚¬â€ bullet points over prose. **AI Persona** Ã¢â‚¬â€ clearly demarcated AI assistant (violet badge).
 
-**Do:** "Built with Next.js 14 and NestJS" / "Reduced query latency by 40%" / "Implements WCAG 2.2 AA" — quantify everything, speak to engineers.  
+**Do:** "Built with Next.js 14 and NestJS" / "Reduced query latency by 40%" / "Implements WCAG 2.2 AA" Ã¢â‚¬â€ quantify everything, speak to engineers.  
 **Don't:** "Powered by cutting-edge tech" / "full-stack ninja" / "revolutionary AI" / vague superlatives / slang or emoji in professional copy.
 
 ## 6. Imagery & Aesthetic
@@ -133,9 +133,9 @@ All logo files in `public/brand/`.
 | Code as Art      | Syntax-highlighted snippets as blurred background graphics                    |
 | Dark & Cinematic | Deep shadows, neon accents, sharp contrasts, cinematic 3D lighting            |
 | 3D Renders       | React Three Fiber (interactive), Spline (static pre-rendered)                 |
-| Gradients        | Mesh gradients with CSS blur/noise overlay — never flat fields                |
+| Gradients        | Mesh gradients with CSS blur/noise overlay Ã¢â‚¬â€ never flat fields                |
 | Photography      | Project case studies only (real screenshots, device mockups). No stock photos |
-| Motion           | Purpose-driven — hover feedback, scroll reveals, ambient 3D rotation          |
+| Motion           | Purpose-driven Ã¢â‚¬â€ hover feedback, scroll reveals, ambient 3D rotation          |
 
 ## 7. Brand Assets Location
 
@@ -148,6 +148,17 @@ All logo files in `public/brand/`.
 | 3D scenes        | `public/models/`              |
 | Brand fonts      | `public/fonts/`               |
 
+## 9. Brand System Diagram
+
+```mermaid
+graph LR
+    Logo[Logo & Wordmark] --> Brand[Brand Identity]
+    Color[Color Palette] --> Brand
+    Typography[Typography] --> Brand
+    Imagery[Imagery & Aesthetic] --> Brand
+    Tone[Tone of Voice] --> Brand
+```
+
 ## 8. Do/Don't Summary
 
 | Aspect          | Correct                                       | Incorrect                                        |
@@ -158,3 +169,7 @@ All logo files in `public/brand/`.
 | Tone            | Technical, precise, quantified                | Slang, self-deprecation, fluff, hype             |
 | Imagery         | Generative art, 3D renders, case study photos | Stock photos, clip art, memes                    |
 | Color           | Token-based, accessible                       | Raw hex values, excessive accent, decorative red |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

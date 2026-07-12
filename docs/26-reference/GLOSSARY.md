@@ -1,5 +1,18 @@
 # Glossary
 
+## Glossary Categories
+
+```mermaid
+graph LR
+    Arch[🏗 Architecture<br/>~30 terms] --> Sec[🔒 Security<br/>~25 terms]
+    Sec --> DevOps[⚙️ DevOps<br/>~20 terms]
+    DevOps --> Test[🧪 Testing<br/>~15 terms]
+    Test --> Design[🎨 Design<br/>~25 terms]
+    Design --> Product[📋 Product<br/>~15 terms]
+    Product --> AI[🤖 AI / ML<br/>~20 terms]
+    AI --> Ops[📊 Operations<br/>~15 terms]
+```
+
 ## A
 
 ### A11y (Accessibility)
@@ -1247,3 +1260,7 @@ Principle discouraging the addition of functionality until it is actually needed
 ### Zod
 
 TypeScript-first schema validation library. Used for shared type definitions in `@portfolio/shared`, providing runtime validation + type inference. _Context: packages/shared._ See also: DTO.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

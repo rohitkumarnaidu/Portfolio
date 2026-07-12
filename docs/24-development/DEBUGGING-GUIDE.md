@@ -130,3 +130,7 @@ ANALYZE=true npm run build
 node --inspect --expose-gc apps/api/dist/main.js
 # Then use Chrome DevTools Memory tab
 ```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

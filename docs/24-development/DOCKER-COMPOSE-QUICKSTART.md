@@ -342,3 +342,7 @@ Host              Container            Service
 ```
 
 The API service connects to PostgreSQL using the `DATABASE_URL` in `.env`. By default, this points to a Supabase-hosted database (not a Docker container). To use a local Postgres in Docker, add a `postgres` service to `docker-compose.yml` and point `DATABASE_URL` to it.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

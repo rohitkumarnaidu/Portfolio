@@ -38,7 +38,23 @@ We adopt **Zod** as the schema validation library across all TypeScript services
 - Error messages require customization for user-facing forms
 - Zod schemas in `packages/shared` become cross-service contract (must be versioned carefully)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Validation] --> B[Options: Zod / Joi / Yup]
+    B --> C[Decision: Zod]
+    C --> D[Positive: TS inference, composable, tree-shakeable]
+    C --> E[Negative: NestJS prefers class-validator, custom pipe needed]
+    D --> F[Compliance: §3.2, §4.4]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §3.2: "Single source of truth for data shapes"
 - Aligns with Constitution §4.4: "TypeScript-first validation with type inference"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

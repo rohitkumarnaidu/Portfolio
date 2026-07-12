@@ -36,7 +36,23 @@ We adopt **Incremental Static Regeneration (ISR)** with a **60-second revalidati
 - First visitor after revalidation gets stale page (subsequent visitors get fresh)
 - `revalidatePath()` / `revalidateTag()` for on-demand ISR adds implementation complexity
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Rendering strategy] --> B[Options: ISR / SSR / SSG]
+    B --> C[Decision: ISR with 60s revalidation]
+    C --> D[Positive: CDN cached, sub-100ms, SEO-friendly]
+    C --> E[Negative: 60s staleness, on-demand revalidation complexity]
+    D --> F[Compliance: §2.2, §1.1]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §2.2: "Edge-first delivery, sub-100ms page loads"
 - Aligns with Constitution §1.1: "Cost-optimized — minimize serverless invocations"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -309,3 +309,7 @@ Next steps:
 |-----|-------------|--------|-------|--------|
 | July 2026 | Initial BCP creation | Baseline | DevOps Lead | ✅ Active |
 | — | [Next quarterly improvement] | — | — | ⏳ Pending |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -1,13 +1,9 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 
-# Multi-Agent Architecture — Enterprise-Grade Agent Orchestration
+# Multi-Agent Architecture â€” Enterprise-Grade Agent Orchestration
 
 > **Document:** `18-AGENTS.md` | **Version:** 4.0 | **Last Updated:** June 2026  
-> **Status:** ✅ Active | **Owner:** Chief AI Architect | **Review Cadence:** Monthly  
+> **Status:** âœ… Active | **Owner:** Chief AI Architect | **Review Cadence:** Monthly  
 > **Classification:** Enterprise Architecture | **Agent Runtime:** FastAPI + LangChain  
 > **Orchestration Pattern:** Supervisor + Specialist Agents | **Communication:** In-process + Message Queue  
 > **AI Operating Model:** [docs/ai/17-AI_INSTRUCTIONS.md](17-AI_INSTRUCTIONS.md) v4.0  
@@ -46,27 +42,27 @@
 
 ### 1.1 North Star
 
-The multi-agent architecture transforms the portfolio platform from a single-purpose AI chatbot into an **intelligent agent ecosystem** — a coordinated team of specialized AI agents that work together to answer questions, qualify leads, analyze content, manage knowledge, and provide insights. Each agent is a domain expert, trained on specific knowledge sources and equipped with specialized tools, all orchestrated by a **Supervisor Agent** that routes requests, manages context, and coordinates responses.
+The multi-agent architecture transforms the portfolio platform from a single-purpose AI chatbot into an **intelligent agent ecosystem** â€” a coordinated team of specialized AI agents that work together to answer questions, qualify leads, analyze content, manage knowledge, and provide insights. Each agent is a domain expert, trained on specific knowledge sources and equipped with specialized tools, all orchestrated by a **Supervisor Agent** that routes requests, manages context, and coordinates responses.
 
 ### 1.2 Agent Ecosystem Overview
 
 ```text
-Visitor Question → Supervisor Agent → Domain-Specific Agent → RAG Pipeline → LLM → Response
+Visitor Question â†’ Supervisor Agent â†’ Domain-Specific Agent â†’ RAG Pipeline â†’ LLM â†’ Response
 ```
 
 | Agent                        | Domain                       | Primary Knowledge Source            | Complexity      |
 | ---------------------------- | ---------------------------- | ----------------------------------- | --------------- |
-| **Supervisor**               | Orchestration & routing      | All agents' capability manifests    | 🧠 Strategic    |
-| **Portfolio Agent**          | General portfolio Q&A        | Projects, Skills, Experience, About | 📊 High         |
-| **Resume Agent**             | Resume & qualifications      | Structured resume data              | 📋 Medium       |
-| **Projects Agent**           | Project deep-dives           | Projects + Case Studies             | 📊 High         |
-| **Blog Agent**               | Blog content & articles      | Blog Posts                          | 📋 Medium       |
-| **Case Study Agent**         | In-depth case analysis       | Case Studies                        | 🧠 High         |
-| **Career Agent**             | Career trajectory & history  | Experiences, Achievements           | 📋 Medium       |
-| **Lead Qualification Agent** | Lead capture & qualification | Lead data, visitor context          | 🧠 Strategic    |
-| **Analytics Agent**          | Analytics & insights         | Analytics events, metrics           | 📊 High         |
-| **Admin Agent**              | Admin operations & CMS       | System settings, content state      | 🔧 Utility      |
-| **Knowledge Agent**          | Knowledge base management    | All document chunks                 | 📚 Foundational |
+| **Supervisor**               | Orchestration & routing      | All agents' capability manifests    | ðŸ§  Strategic    |
+| **Portfolio Agent**          | General portfolio Q&A        | Projects, Skills, Experience, About | ðŸ“Š High         |
+| **Resume Agent**             | Resume & qualifications      | Structured resume data              | ðŸ“‹ Medium       |
+| **Projects Agent**           | Project deep-dives           | Projects + Case Studies             | ðŸ“Š High         |
+| **Blog Agent**               | Blog content & articles      | Blog Posts                          | ðŸ“‹ Medium       |
+| **Case Study Agent**         | In-depth case analysis       | Case Studies                        | ðŸ§  High         |
+| **Career Agent**             | Career trajectory & history  | Experiences, Achievements           | ðŸ“‹ Medium       |
+| **Lead Qualification Agent** | Lead capture & qualification | Lead data, visitor context          | ðŸ§  Strategic    |
+| **Analytics Agent**          | Analytics & insights         | Analytics events, metrics           | ðŸ“Š High         |
+| **Admin Agent**              | Admin operations & CMS       | System settings, content state      | ðŸ”§ Utility      |
+| **Knowledge Agent**          | Knowledge base management    | All document chunks                 | ðŸ“š Foundational |
 
 ### 1.3 Key Metrics
 
@@ -87,18 +83,18 @@ This document is a **specialized extension** of the AI Operating Model defined i
 
 | AI Instructions Section                           | Agents Implementation                                           |
 | ------------------------------------------------- | --------------------------------------------------------------- |
-| §6 Architecture (AI Architecture)                 | §4 Orchestration Architecture — supervisor + specialist pattern |
-| §7 Safety Rules (SAFE-001 through SAFE-010)       | §18 Agent Security & Permissions — per-agent guardrails         |
-| §8 Response Rules                                 | Per-agent response templates and formatting standards           |
-| §9 Memory Rules (MEM-001 through MEM-008)         | §17 Agent Memory Architecture — session, persistent, knowledge  |
-| §10 Context Rules (CTX-001 through CTX-008)       | §5 Supervisor — context assembly and distribution               |
-| §11 Knowledge Sources (KNOW-001 through KNOW-006) | §15 Knowledge Agent — knowledge base management                 |
-| §12 Escalation Rules                              | §19 Agent Failure Recovery — fallback chain                     |
-| §14 Security Rules                                | §18 Agent Security & Permissions — 3-tier permission model      |
-| §15 Hallucination Prevention                      | Per-agent RAG grounding and confidence thresholds               |
-| §17 Evaluation Framework                          | §20 Agent Evaluation Framework — per-agent metrics              |
-| §19 Monitoring                                    | §20 — per-agent health checks and alerting                      |
-| §20 Failure Recovery                              | §19 — circuit breakers, retry, fallback                         |
+| Â§6 Architecture (AI Architecture)                 | Â§4 Orchestration Architecture â€” supervisor + specialist pattern |
+| Â§7 Safety Rules (SAFE-001 through SAFE-010)       | Â§18 Agent Security & Permissions â€” per-agent guardrails         |
+| Â§8 Response Rules                                 | Per-agent response templates and formatting standards           |
+| Â§9 Memory Rules (MEM-001 through MEM-008)         | Â§17 Agent Memory Architecture â€” session, persistent, knowledge  |
+| Â§10 Context Rules (CTX-001 through CTX-008)       | Â§5 Supervisor â€” context assembly and distribution               |
+| Â§11 Knowledge Sources (KNOW-001 through KNOW-006) | Â§15 Knowledge Agent â€” knowledge base management                 |
+| Â§12 Escalation Rules                              | Â§19 Agent Failure Recovery â€” fallback chain                     |
+| Â§14 Security Rules                                | Â§18 Agent Security & Permissions â€” 3-tier permission model      |
+| Â§15 Hallucination Prevention                      | Per-agent RAG grounding and confidence thresholds               |
+| Â§17 Evaluation Framework                          | Â§20 Agent Evaluation Framework â€” per-agent metrics              |
+| Â§19 Monitoring                                    | Â§20 â€” per-agent health checks and alerting                      |
+| Â§20 Failure Recovery                              | Â§19 â€” circuit breakers, retry, fallback                         |
 
 ---
 
@@ -125,7 +121,7 @@ Every agent is:
 | P4  | **Graceful refusal**         | Better to say "I can't help with that" than to guess                         | Hallucination risk                 |
 | P5  | **Observable by default**    | Every agent action logged: routing, response, handoff, failure               | Debugging impossible               |
 | P6  | **RAG-grounded responses**   | All knowledge agents use RAG pipeline; no external knowledge                 | Hallucination risk                 |
-| P7  | **Progressive fallback**     | Agent → Supervisor → Human                                                   | Unhandled queries                  |
+| P7  | **Progressive fallback**     | Agent â†’ Supervisor â†’ Human                                                   | Unhandled queries                  |
 | P8  | **Cost-aware routing**       | Simple queries use cheaper models; complex queries use full reasoning        | Budget overruns                    |
 | P9  | **Permission boundaries**    | Agents can only access their authorized tools and data sources               | Security incidents                 |
 | P10 | **Fail closed**              | On uncertainty, agent defers to Supervisor (never guesses)                   | Incorrect responses                |
@@ -258,8 +254,8 @@ class AgentTool:
 ```mermaid
 graph TB
     subgraph "Visitor Layer"
-        V["🌐 Website Visitor"]
-        CW["💬 Chat Widget<br/>SSE Streaming"]
+        V["ðŸŒ Website Visitor"]
+        CW["ðŸ’¬ Chat Widget<br/>SSE Streaming"]
     end
 
     subgraph "API Gateway (FastAPI)"
@@ -269,28 +265,28 @@ graph TB
     end
 
     subgraph "Agent Orchestration Layer"
-        SUP["🧠 Supervisor Agent<br/>Router + Context Manager"]
+        SUP["ðŸ§  Supervisor Agent<br/>Router + Context Manager"]
 
         subgraph "Specialist Agents"
-            PA["📋 Portfolio Agent<br/>General Q&A"]
-            RA["📄 Resume Agent<br/>Qualifications"]
-            PR["🚀 Projects Agent<br/>Deep Dives"]
-            BA["📝 Blog Agent<br/>Articles"]
-            CSA["🔬 Case Study Agent<br/>Analysis"]
-            CA["💼 Career Agent<br/>Timeline"]
-            LQA["🎯 Lead Qualification Agent<br/>Lead Capture"]
-            AA["📊 Analytics Agent<br/>Insights"]
-            ADA["⚙️ Admin Agent<br/>Operations"]
-            KA["📚 Knowledge Agent<br/>Content Mgmt"]
+            PA["ðŸ“‹ Portfolio Agent<br/>General Q&A"]
+            RA["ðŸ“„ Resume Agent<br/>Qualifications"]
+            PR["ðŸš€ Projects Agent<br/>Deep Dives"]
+            BA["ðŸ“ Blog Agent<br/>Articles"]
+            CSA["ðŸ”¬ Case Study Agent<br/>Analysis"]
+            CA["ðŸ’¼ Career Agent<br/>Timeline"]
+            LQA["ðŸŽ¯ Lead Qualification Agent<br/>Lead Capture"]
+            AA["ðŸ“Š Analytics Agent<br/>Insights"]
+            ADA["âš™ï¸ Admin Agent<br/>Operations"]
+            KA["ðŸ“š Knowledge Agent<br/>Content Mgmt"]
         end
     end
 
     subgraph "Shared Services"
-        RAG["🔍 RAG Service<br/>docs/ai/19-RAG.md v4.0"]
-        EMBED["🧬 Embedding Service<br/>text-embedding-3-small"]
-        CACHE["💾 Response Cache<br/>1h TTL"]
-        MEMORY["🧠 Agent Memory<br/>Session + Persistent"]
-        MONITOR["📡 Monitoring<br/>Per-agent metrics"]
+        RAG["ðŸ” RAG Service<br/>docs/ai/19-RAG.md v4.0"]
+        EMBED["ðŸ§¬ Embedding Service<br/>text-embedding-3-small"]
+        CACHE["ðŸ’¾ Response Cache<br/>1h TTL"]
+        MEMORY["ðŸ§  Agent Memory<br/>Session + Persistent"]
+        MONITOR["ðŸ“¡ Monitoring<br/>Per-agent metrics"]
     end
 
     subgraph "Data Layer"
@@ -480,7 +476,7 @@ flowchart TD
 
 ## 5. Supervisor Agent
 
-The Supervisor Agent is the **brain of the agent ecosystem** — it receives all incoming queries, classifies intent, routes to specialist agents, manages conversation context, coordinates multi-agent responses, and handles fallbacks.
+The Supervisor Agent is the **brain of the agent ecosystem** â€” it receives all incoming queries, classifies intent, routes to specialist agents, manages conversation context, coordinates multi-agent responses, and handles fallbacks.
 
 ### 5.1 Mission
 
@@ -544,10 +540,10 @@ Intelligently route every visitor query to the right specialist agent, manage co
 
 | Rule                       | ID      | Description                                                              |
 | -------------------------- | ------- | ------------------------------------------------------------------------ |
-| **No direct response**     | SUP-001 | Supervisor never responds directly — always routes to a specialist agent |
+| **No direct response**     | SUP-001 | Supervisor never responds directly â€” always routes to a specialist agent |
 | **Context preservation**   | SUP-002 | Full context must be passed during agent handoffs; never truncated       |
 | **Confidence threshold**   | SUP-003 | Don't route if confidence < 0.6; ask clarifying question instead         |
-| **No fabrication**         | SUP-004 | If no agent can handle the query, say "I don't know" — don't guess       |
+| **No fabrication**         | SUP-004 | If no agent can handle the query, say "I don't know" â€” don't guess       |
 | **Lead detection**         | SUP-005 | Any hiring/contact intent must trigger Lead Qualification Agent          |
 | **Multi-intent splitting** | SUP-006 | Split complex queries into sub-questions before routing                  |
 
@@ -555,13 +551,13 @@ Intelligently route every visitor query to the right specialist agent, manage co
 
 | Permission                | Granted | Denied                        |
 | ------------------------- | ------- | ----------------------------- |
-| Read conversation history | ✅      | —                             |
-| Route to any agent        | ✅      | —                             |
-| Access agent manifests    | ✅      | —                             |
-| Read chat messages        | ✅      | —                             |
-| Read leads data           | ❌      | Lead Qualification Agent only |
-| Read system settings      | ❌      | Admin Agent only              |
-| Write to database         | ❌      | Admin Agent only              |
+| Read conversation history | âœ…      | â€”                             |
+| Route to any agent        | âœ…      | â€”                             |
+| Access agent manifests    | âœ…      | â€”                             |
+| Read chat messages        | âœ…      | â€”                             |
+| Read leads data           | âŒ      | Lead Qualification Agent only |
+| Read system settings      | âŒ      | Admin Agent only              |
+| Write to database         | âŒ      | Admin Agent only              |
 
 ### 5.9 Failure Handling
 
@@ -666,7 +662,7 @@ class SupervisorAgent(BaseAgent):
                 if can_handle and confidence > 0.5:
                     return await agent.process(query, context)
 
-        # All agents failed — graceful response
+        # All agents failed â€” graceful response
         return AgentResponse(
             message="I don't have that information. Would you like to ask about their projects, skills, or experience?",
             is_confident=False,
@@ -701,7 +697,7 @@ The **Portfolio Agent** is the general-purpose agent for answering questions abo
 
 ### 6.1 Mission
 
-Provide accurate, comprehensive answers about the portfolio owner's skills, tech stack, overall experience, and general background — acting as the first line of response for most visitor questions.
+Provide accurate, comprehensive answers about the portfolio owner's skills, tech stack, overall experience, and general background â€” acting as the first line of response for most visitor questions.
 
 ### 6.2 Responsibilities
 
@@ -773,18 +769,18 @@ Provide accurate, comprehensive answers about the portfolio owner's skills, tech
 | ------------------------- | ------ | --------------------------------- |
 | Answer accuracy           | > 95%  | Manual review (50 responses/week) |
 | Skill explanation quality | > 90%  | User feedback rating              |
-| Handoff accuracy          | > 85%  | Handoff → agent match audit       |
+| Handoff accuracy          | > 85%  | Handoff â†’ agent match audit       |
 | Average response latency  | < 2s   | Custom logging                    |
 
 ---
 
 ## 7. Resume Agent
 
-The **Resume Agent** specializes in answering questions about the portfolio owner's professional qualifications, work history, education, certifications, and skills — functioning as an AI-powered resume reader.
+The **Resume Agent** specializes in answering questions about the portfolio owner's professional qualifications, work history, education, certifications, and skills â€” functioning as an AI-powered resume reader.
 
 ### 7.1 Mission
 
-Act as an interactive resume that can answer detailed questions about the portfolio owner's professional qualifications, work history timeline, education, certifications, and skill levels — providing recruiters and hiring managers with precise, verifiable information.
+Act as an interactive resume that can answer detailed questions about the portfolio owner's professional qualifications, work history timeline, education, certifications, and skill levels â€” providing recruiters and hiring managers with precise, verifiable information.
 
 ### 7.2 Responsibilities
 
@@ -858,7 +854,7 @@ The **Projects Agent** specializes in deep-dive questions about individual proje
 
 ### 8.1 Mission
 
-Provide comprehensive answers about the portfolio owner's projects — from high-level overviews to deep technical details — helping visitors understand the scope, impact, and technical depth of each project.
+Provide comprehensive answers about the portfolio owner's projects â€” from high-level overviews to deep technical details â€” helping visitors understand the scope, impact, and technical depth of each project.
 
 ### 8.2 Responsibilities
 
@@ -930,7 +926,7 @@ Provide comprehensive answers about the portfolio owner's projects — from high
 
 ## 9. Blog Agent
 
-The **Blog Agent** handles questions about blog content, articles, and written articles — helping visitors discover relevant blog posts and understand the portfolio owner's perspectives.
+The **Blog Agent** handles questions about blog content, articles, and written articles â€” helping visitors discover relevant blog posts and understand the portfolio owner's perspectives.
 
 ### 9.1 Mission
 
@@ -1000,17 +996,17 @@ Help visitors discover and engage with blog content by answering questions about
 
 ## 10. Case Study Agent
 
-The **Case Study Agent** specializes in the detailed, narrative-driven content of case studies — explaining problems, approaches, solutions, and impact in depth.
+The **Case Study Agent** specializes in the detailed, narrative-driven content of case studies â€” explaining problems, approaches, solutions, and impact in depth.
 
 ### 10.1 Mission
 
-Provide comprehensive, narrative-driven answers about case studies — walking visitors through the problem-solving methodology, technical approach, and measurable impact of each project with the depth and structure of a full case study.
+Provide comprehensive, narrative-driven answers about case studies â€” walking visitors through the problem-solving methodology, technical approach, and measurable impact of each project with the depth and structure of a full case study.
 
 ### 10.2 Responsibilities
 
 | Responsibility             | Description                                                                 |
 | -------------------------- | --------------------------------------------------------------------------- |
-| **Case study walkthrough** | Guide visitors through the problem → approach → solution → impact narrative |
+| **Case study walkthrough** | Guide visitors through the problem â†’ approach â†’ solution â†’ impact narrative |
 | **Technical methodology**  | Explain the technical approach and architecture decisions                   |
 | **Impact quantification**  | Present measurable outcomes and metrics                                     |
 | **Challenge explanation**  | Describe specific challenges and how they were overcome                     |
@@ -1071,11 +1067,11 @@ Provide comprehensive, narrative-driven answers about case studies — walking v
 
 ## 11. Career Agent
 
-The **Career Agent** specializes in career trajectory, work history timeline, and professional growth narrative — answering questions about career progression, role transitions, and industry experience.
+The **Career Agent** specializes in career trajectory, work history timeline, and professional growth narrative â€” answering questions about career progression, role transitions, and industry experience.
 
 ### 11.1 Mission
 
-Paint a complete picture of the portfolio owner's career journey — from education through current role — highlighting growth, transitions, and the narrative arc of their professional development.
+Paint a complete picture of the portfolio owner's career journey â€” from education through current role â€” highlighting growth, transitions, and the narrative arc of their professional development.
 
 ### 11.2 Responsibilities
 
@@ -1141,11 +1137,11 @@ Paint a complete picture of the portfolio owner's career journey — from educat
 
 ## 12. Lead Qualification Agent
 
-The **Lead Qualification Agent** handles visitor inquiries related to hiring, project inquiries, pricing, and collaboration — capturing visitor information, qualifying leads, and routing serious inquiries to the portfolio owner.
+The **Lead Qualification Agent** handles visitor inquiries related to hiring, project inquiries, pricing, and collaboration â€” capturing visitor information, qualifying leads, and routing serious inquiries to the portfolio owner.
 
 ### 12.1 Mission
 
-Identify and capture potential leads by engaging visitors interested in hiring or collaboration — collecting relevant information, assessing lead quality, and ensuring every serious inquiry reaches the portfolio owner with full context.
+Identify and capture potential leads by engaging visitors interested in hiring or collaboration â€” collecting relevant information, assessing lead quality, and ensuring every serious inquiry reaches the portfolio owner with full context.
 
 ### 12.2 Responsibilities
 
@@ -1238,8 +1234,8 @@ The Lead Qualification Agent handles lead capture through the **chat widget** (c
 
 | Path                  | Entry Point     | Trigger                                 | Lead Agent Involved?                     |
 | --------------------- | --------------- | --------------------------------------- | ---------------------------------------- |
-| **Chat Lead Capture** | Chat widget     | Visitor expresses hiring/contact intent | ✅ Yes — conversational qualification    |
-| **Contact Form**      | `/contact` page | Visitor submits form directly           | ❌ No — handled by API endpoint directly |
+| **Chat Lead Capture** | Chat widget     | Visitor expresses hiring/contact intent | âœ… Yes â€” conversational qualification    |
+| **Contact Form**      | `/contact` page | Visitor submits form directly           | âŒ No â€” handled by API endpoint directly |
 
 Both paths ultimately create leads in the `leads` table with a `source` field to distinguish: `source: 'ai_chat'` for chat-captured leads, `source: 'contact_form'` for form submissions.
 
@@ -1274,11 +1270,11 @@ Both paths ultimately create leads in the `leads` table with a `source` field to
 
 ## 13. Analytics Agent
 
-The **Analytics Agent** handles questions about portfolio performance, visitor statistics, and content effectiveness — providing data-driven insights to the admin.
+The **Analytics Agent** handles questions about portfolio performance, visitor statistics, and content effectiveness â€” providing data-driven insights to the admin.
 
 ### 13.1 Mission
 
-Provide data-driven answers about portfolio performance, visitor behavior, content effectiveness, and trend analysis — empowering the admin to make informed decisions about content and marketing.
+Provide data-driven answers about portfolio performance, visitor behavior, content effectiveness, and trend analysis â€” empowering the admin to make informed decisions about content and marketing.
 
 ### 13.2 Responsibilities
 
@@ -1350,11 +1346,11 @@ Provide data-driven answers about portfolio performance, visitor behavior, conte
 
 ## 14. Admin Agent
 
-The **Admin Agent** handles administrative operations — content management, system settings, configuration changes, and maintenance tasks. It acts as an AI-powered assistant for the portfolio owner.
+The **Admin Agent** handles administrative operations â€” content management, system settings, configuration changes, and maintenance tasks. It acts as an AI-powered assistant for the portfolio owner.
 
 ### 14.1 Mission
 
-Provide an AI-powered administrative interface for managing portfolio content, system settings, and configuration — enabling the portfolio owner to make changes through natural language conversations.
+Provide an AI-powered administrative interface for managing portfolio content, system settings, and configuration â€” enabling the portfolio owner to make changes through natural language conversations.
 
 ### 14.2 Responsibilities
 
@@ -1425,11 +1421,11 @@ Provide an AI-powered administrative interface for managing portfolio content, s
 
 ## 15. Knowledge Agent
 
-The **Knowledge Agent** manages the knowledge base — monitoring content freshness, identifying gaps, suggesting improvements, and ensuring the RAG pipeline has comprehensive, up-to-date content. It is the **foundational agent** that all other agents depend on for accurate information.
+The **Knowledge Agent** manages the knowledge base â€” monitoring content freshness, identifying gaps, suggesting improvements, and ensuring the RAG pipeline has comprehensive, up-to-date content. It is the **foundational agent** that all other agents depend on for accurate information.
 
 ### 15.1 Mission
 
-Ensure the knowledge base is comprehensive, accurate, and up-to-date — monitoring content freshness, identifying knowledge gaps, suggesting content improvements, and triggering re-indexing when content changes.
+Ensure the knowledge base is comprehensive, accurate, and up-to-date â€” monitoring content freshness, identifying knowledge gaps, suggesting content improvements, and triggering re-indexing when content changes.
 
 ### 15.2 Responsibilities
 
@@ -1527,7 +1523,7 @@ class KnowledgeAgent(BaseAgent):
 
 #### Knowledge Agent Dependencies
 
-The Knowledge Agent depends on content CRUD triggers defined in `docs/database/DatabaseArchitecture.md` v4.0 (§14.1 Audit Logs, §16.1 Search Configuration) to detect content changes and trigger re-indexing. The trigger flow is:
+The Knowledge Agent depends on content CRUD triggers defined in `docs/database/DatabaseArchitecture.md` v4.0 (Â§14.1 Audit Logs, Â§16.1 Search Configuration) to detect content changes and trigger re-indexing. The trigger flow is:
 
 1. Content is created/updated/deleted in a content table (projects, skills, etc.)
 2. PostgreSQL trigger fires, logging the change to `audit_logs`
@@ -1535,10 +1531,10 @@ The Knowledge Agent depends on content CRUD triggers defined in `docs/database/D
 4. Knowledge Agent receives webhook and triggers `refresh_source()`
 
 ```text
-Content CRUD → DB Trigger → audit_logs → NestJS Webhook → FastAPI → Knowledge Agent → Re-index
+Content CRUD â†’ DB Trigger â†’ audit_logs â†’ NestJS Webhook â†’ FastAPI â†’ Knowledge Agent â†’ Re-index
 ```
 
-**Source:** DATABASE §14.1 (Audit Triggers), DATABASE §16.1 (Search Configuration)
+**Source:** DATABASE Â§14.1 (Audit Triggers), DATABASE Â§16.1 (Search Configuration)
 
 | Failure Mode               | Recovery                                                   |
 | -------------------------- | ---------------------------------------------------------- |
@@ -1694,9 +1690,9 @@ graph TB
         end
 
         subgraph "No Persistent Memory"
-            NO_PII["❌ No PII stored in agent memory"]
-            NO_PROFILES["❌ No visitor profiling"]
-            NO_CROSS_SESSION["❌ No cross-session memory"]
+            NO_PII["âŒ No PII stored in agent memory"]
+            NO_PROFILES["âŒ No visitor profiling"]
+            NO_CROSS_SESSION["âŒ No cross-session memory"]
         end
     end
 
@@ -1710,29 +1706,29 @@ graph TB
 | Agent                        | Session Memory                   | Persistent Memory          | Knowledge Sources                 |
 | ---------------------------- | -------------------------------- | -------------------------- | --------------------------------- |
 | **Supervisor**               | Routing decisions, context state | Routing logs (30 days)     | Agent manifests                   |
-| **Portfolio Agent**          | Last 5 turns                     | —                          | projects, skills, about, services |
-| **Resume Agent**             | Last 5 turns                     | —                          | experiences, achievements         |
-| **Projects Agent**           | Last 5 turns, NDA session        | —                          | projects, project_images          |
-| **Blog Agent**               | Last 3 turns                     | —                          | blog_posts                        |
-| **Case Study Agent**         | Last 5 turns                     | —                          | case_studies, projects            |
-| **Career Agent**             | Last 3 turns                     | —                          | experiences, achievements         |
-| **Lead Qualification Agent** | Qualification progress           | Leads (persistent)         | —                                 |
-| **Analytics Agent**          | Query context                    | —                          | analytics_events                  |
+| **Portfolio Agent**          | Last 5 turns                     | â€”                          | projects, skills, about, services |
+| **Resume Agent**             | Last 5 turns                     | â€”                          | experiences, achievements         |
+| **Projects Agent**           | Last 5 turns, NDA session        | â€”                          | projects, project_images          |
+| **Blog Agent**               | Last 3 turns                     | â€”                          | blog_posts                        |
+| **Case Study Agent**         | Last 5 turns                     | â€”                          | case_studies, projects            |
+| **Career Agent**             | Last 3 turns                     | â€”                          | experiences, achievements         |
+| **Lead Qualification Agent** | Qualification progress           | Leads (persistent)         | â€”                                 |
+| **Analytics Agent**          | Query context                    | â€”                          | analytics_events                  |
 | **Admin Agent**              | Session auth state               | Audit logs (persistent)    | system_settings                   |
-| **Knowledge Agent**          | —                                | Re-index history (90 days) | document_chunks                   |
+| **Knowledge Agent**          | â€”                                | Re-index history (90 days) | document_chunks                   |
 
 ### 17.3 Memory Rules
 
 | Rule                     | ID      | Description                                                     | AI Instructions Reference |
 | ------------------------ | ------- | --------------------------------------------------------------- | ------------------------- |
-| **Session Isolation**    | MEM-001 | Each session starts with clean context; no cross-session memory | AI §9.3 MEM-001           |
-| **Ephemeral History**    | MEM-002 | Conversation history is in-memory only; persisted for 30 days   | AI §9.3 MEM-002           |
-| **No Visitor Profiles**  | MEM-003 | No visitor profiles, preferences, or behavioral models          | AI §9.3 MEM-003           |
-| **No PII in Memory**     | MEM-004 | PII never stored in memory or logs                              | AI §9.3 MEM-004           |
-| **Auto-Cleanup**         | MEM-005 | Chat data older than 30 days auto-purged                        | AI §9.3 MEM-005           |
-| **Context Window Limit** | MEM-006 | Max 10 turns (20 messages) kept in context                      | AI §9.3 MEM-006           |
-| **Knowledge Freshness**  | MEM-007 | Document chunks regenerated on content change                   | AI §9.3 MEM-007           |
-| **Cache Invalidation**   | MEM-008 | Response cache invalidated on content update                    | AI §9.3 MEM-008           |
+| **Session Isolation**    | MEM-001 | Each session starts with clean context; no cross-session memory | AI Â§9.3 MEM-001           |
+| **Ephemeral History**    | MEM-002 | Conversation history is in-memory only; persisted for 30 days   | AI Â§9.3 MEM-002           |
+| **No Visitor Profiles**  | MEM-003 | No visitor profiles, preferences, or behavioral models          | AI Â§9.3 MEM-003           |
+| **No PII in Memory**     | MEM-004 | PII never stored in memory or logs                              | AI Â§9.3 MEM-004           |
+| **Auto-Cleanup**         | MEM-005 | Chat data older than 30 days auto-purged                        | AI Â§9.3 MEM-005           |
+| **Context Window Limit** | MEM-006 | Max 10 turns (20 messages) kept in context                      | AI Â§9.3 MEM-006           |
+| **Knowledge Freshness**  | MEM-007 | Document chunks regenerated on content change                   | AI Â§9.3 MEM-007           |
+| **Cache Invalidation**   | MEM-008 | Response cache invalidated on content update                    | AI Â§9.3 MEM-008           |
 
 ---
 
@@ -1778,17 +1774,17 @@ flowchart TD
 
 | Resource                  | Portfolio | Resume | Projects | Blog | Case Study | Career | Lead Qual | Analytics | Admin | Knowledge |
 | ------------------------- | --------- | ------ | -------- | ---- | ---------- | ------ | --------- | --------- | ----- | --------- |
-| `document_chunks` (read)  | ✅        | ✅     | ✅       | ✅   | ✅         | ✅     | ❌        | ❌        | ❌    | ✅        |
-| `projects` (read)         | ✅        | ❌     | ✅       | ❌   | ✅         | ❌     | ❌        | ❌        | ❌    | ✅        |
-| `skills` (read)           | ✅        | ✅     | ❌       | ❌   | ❌         | ✅     | ❌        | ❌        | ❌    | ✅        |
-| `experiences` (read)      | ✅        | ✅     | ❌       | ❌   | ❌         | ✅     | ❌        | ❌        | ❌    | ✅        |
-| `blog_posts` (read)       | ❌        | ❌     | ❌       | ✅   | ❌         | ❌     | ❌        | ❌        | ❌    | ✅        |
-| `case_studies` (read)     | ❌        | ❌     | ✅       | ❌   | ✅         | ❌     | ❌        | ❌        | ❌    | ✅        |
-| `leads` (write)           | ❌        | ❌     | ❌       | ❌   | ❌         | ❌     | ✅        | ❌        | ❌    | ❌        |
-| `analytics_events` (read) | ❌        | ❌     | ❌       | ❌   | ❌         | ❌     | ❌        | ✅        | ✅    | ❌        |
-| `system_settings` (write) | ❌        | ❌     | ❌       | ❌   | ❌         | ❌     | ❌        | ❌        | ✅    | ❌        |
-| `cache` (invalidate)      | ❌        | ❌     | ❌       | ❌   | ❌         | ❌     | ❌        | ❌        | ✅    | ✅        |
-| `chat_messages` (write)   | ❌        | ❌     | ❌       | ❌   | ❌         | ❌     | ✅        | ❌        | ❌    | ❌        |
+| `document_chunks` (read)  | âœ…        | âœ…     | âœ…       | âœ…   | âœ…         | âœ…     | âŒ        | âŒ        | âŒ    | âœ…        |
+| `projects` (read)         | âœ…        | âŒ     | âœ…       | âŒ   | âœ…         | âŒ     | âŒ        | âŒ        | âŒ    | âœ…        |
+| `skills` (read)           | âœ…        | âœ…     | âŒ       | âŒ   | âŒ         | âœ…     | âŒ        | âŒ        | âŒ    | âœ…        |
+| `experiences` (read)      | âœ…        | âœ…     | âŒ       | âŒ   | âŒ         | âœ…     | âŒ        | âŒ        | âŒ    | âœ…        |
+| `blog_posts` (read)       | âŒ        | âŒ     | âŒ       | âœ…   | âŒ         | âŒ     | âŒ        | âŒ        | âŒ    | âœ…        |
+| `case_studies` (read)     | âŒ        | âŒ     | âœ…       | âŒ   | âœ…         | âŒ     | âŒ        | âŒ        | âŒ    | âœ…        |
+| `leads` (write)           | âŒ        | âŒ     | âŒ       | âŒ   | âŒ         | âŒ     | âœ…        | âŒ        | âŒ    | âŒ        |
+| `analytics_events` (read) | âŒ        | âŒ     | âŒ       | âŒ   | âŒ         | âŒ     | âŒ        | âœ…        | âœ…    | âŒ        |
+| `system_settings` (write) | âŒ        | âŒ     | âŒ       | âŒ   | âŒ         | âŒ     | âŒ        | âŒ        | âœ…    | âŒ        |
+| `cache` (invalidate)      | âŒ        | âŒ     | âŒ       | âŒ   | âŒ         | âŒ     | âŒ        | âŒ        | âœ…    | âœ…        |
+| `chat_messages` (write)   | âŒ        | âŒ     | âŒ       | âŒ   | âŒ         | âŒ     | âœ…        | âŒ        | âŒ    | âŒ        |
 
 ### 18.3 Security Controls
 
@@ -1798,7 +1794,7 @@ flowchart TD
 | **Session Authentication**       | Valid session ID required for operational agents  | Lead Qual, Analytics, Knowledge        |
 | **Input Sanitization**           | All agent inputs sanitized for injection patterns | All agents                             |
 | **Output Filtering**             | All agent outputs filtered for PII                | All agents                             |
-| **Rate Limiting**                | Per-agent rate limits enforced                    | All agents (see §8 of AI Instructions) |
+| **Rate Limiting**                | Per-agent rate limits enforced                    | All agents (see Â§8 of AI Instructions) |
 | **Audit Logging**                | Every agent action logged to `admin_activities`   | Admin, Knowledge Agents                |
 | **Permission Bypass Prevention** | Explicit permission check on every tool call      | All agents                             |
 | **RLS Enforcement**              | Database-level RLS as second layer                | Background (all DB access)             |
@@ -1937,7 +1933,7 @@ flowchart TD
 
 ### 19.4 Recovery Procedures
 
-#### Procedure 1: LLM API Failure → Model Fallback
+#### Procedure 1: LLM API Failure â†’ Model Fallback
 
 ```python
 async def agent_with_fallback(agent_name: str, query: str, context: AgentContext) -> AgentResponse:
@@ -1979,7 +1975,7 @@ async def agent_with_fallback(agent_name: str, query: str, context: AgentContext
     )
 ```
 
-#### Procedure 2: Agent Timeout → Supervisor Re-route
+#### Procedure 2: Agent Timeout â†’ Supervisor Re-route
 
 ```python
 async def supervised_agent_call(agent: BaseAgent, query: str, context: AgentContext, timeout_ms: int = 5000) -> AgentResponse:
@@ -2015,41 +2011,41 @@ async def supervised_agent_call(agent: BaseAgent, query: str, context: AgentCont
 TRIGGER: Agent returns errors or times out
 
 STEP 1: IDENTIFY FAILING AGENT (30 seconds)
-  □ Check agent logs: Which agent failed?
-  □ Check error type: LLM error? RAG error? Permission error?
-  □ Check Sentry for recent agent errors
+  â–¡ Check agent logs: Which agent failed?
+  â–¡ Check error type: LLM error? RAG error? Permission error?
+  â–¡ Check Sentry for recent agent errors
 
 STEP 2: CHECK CIRCUIT BREAKER STATUS (30 seconds)
-  □ Is circuit breaker open for this agent?
-  □ If open: wait for recovery_timeout (60s) or manually reset
-  □ If closed: check failure count
+  â–¡ Is circuit breaker open for this agent?
+  â–¡ If open: wait for recovery_timeout (60s) or manually reset
+  â–¡ If closed: check failure count
 
 STEP 3: APPLY RECOVERY (2 minutes)
 
   If LLM API issue:
-    □ Automatic model fallback should trigger (GPT-4 → Claude)
-    □ Check OpenAI/Anthropic status pages
-    □ If both LLMs down, agents return graceful apology
+    â–¡ Automatic model fallback should trigger (GPT-4 â†’ Claude)
+    â–¡ Check OpenAI/Anthropic status pages
+    â–¡ If both LLMs down, agents return graceful apology
 
   If RAG issue:
-    □ Agents automatically use keyword search fallback
-    □ Check pgvector index: REINDEX if corrupted
-    □ Check embedding cache: CLEAR if corrupted
+    â–¡ Agents automatically use keyword search fallback
+    â–¡ Check pgvector index: REINDEX if corrupted
+    â–¡ Check embedding cache: CLEAR if corrupted
 
   If Agent code issue:
-    □ Check Sentry for stack trace
-    □ Restart AI service on Railway
-    □ Deploy fix if needed
+    â–¡ Check Sentry for stack trace
+    â–¡ Restart AI service on Railway
+    â–¡ Deploy fix if needed
 
   If Permission issue:
-    □ Check authentication state
-    □ Verify JWT/session validity
-    □ Check RLS policies
+    â–¡ Check authentication state
+    â–¡ Verify JWT/session validity
+    â–¡ Check RLS policies
 
 STEP 4: VERIFY RECOVERY (1 minute)
-  □ Send test query matching the failed agent's domain
-  □ Verify response is coherent and confident
-  □ Check metrics: latency, confidence, fallback status
+  â–¡ Send test query matching the failed agent's domain
+  â–¡ Verify response is coherent and confident
+  â–¡ Check metrics: latency, confidence, fallback status
 ```
 
 ---
@@ -2196,12 +2192,12 @@ gantt
 
 | Prerequisite         | Source                                    | Required By                                             |
 | -------------------- | ----------------------------------------- | ------------------------------------------------------- |
-| AI Instructions v4.0 | `docs/ai/17-AI_INSTRUCTIONS.md`           | All agents (§7-15 safety/context/security rules)        |
-| RAG Pipeline v4.0    | `docs/ai/19-RAG.md`                       | All knowledge agents (§5-12 embedding/retrieval)        |
-| API v5.0             | `docs/api/12-API.md`                      | Admin Agent (§19 endpoints), Lead Agent (§17 endpoints) |
-| Database v5.0        | `docs/database/DatabaseArchitecture.md`   | All agents (§7-14 table schemas, §21 RLS)               |
-| Architecture v5.0    | `docs/architecture/SystemArchitecture.md` | §7 AI Architecture, §3.4 FastAPI service structure      |
-| Integration v5.0     | `docs/architecture/13-INTEGRATIONS.md`    | §8-9 OpenAI/Anthropic configs, §10 PostHog              |
+| AI Instructions v4.0 | `docs/ai/17-AI_INSTRUCTIONS.md`           | All agents (Â§7-15 safety/context/security rules)        |
+| RAG Pipeline v4.0    | `docs/ai/19-RAG.md`                       | All knowledge agents (Â§5-12 embedding/retrieval)        |
+| API v5.0             | `docs/api/12-API.md`                      | Admin Agent (Â§19 endpoints), Lead Agent (Â§17 endpoints) |
+| Database v5.0        | `docs/database/DatabaseArchitecture.md`   | All agents (Â§7-14 table schemas, Â§21 RLS)               |
+| Architecture v5.0    | `docs/architecture/SystemArchitecture.md` | Â§7 AI Architecture, Â§3.4 FastAPI service structure      |
+| Integration v5.0     | `docs/architecture/13-INTEGRATIONS.md`    | Â§8-9 OpenAI/Anthropic configs, Â§10 PostHog              |
 
 ---
 
@@ -2235,7 +2231,7 @@ gantt
 | **Circuit Breaker**       | A per-agent failure detection mechanism that temporarily stops routing to a failing agent after N consecutive failures, with automatic recovery after a timeout |
 | **Classification Cache**  | An in-memory cache that stores intent classification results keyed by query hash to reduce redundant LLM calls for repeated questions                           |
 | **Correlation ID**        | A unique identifier attached to a message chain that enables end-to-end tracing of an agent request across handoffs and services                                |
-| **Fallback Chain**        | The ordered sequence of recovery attempts: primary agent → alternative LLM → alternative agent → graceful apology                                               |
+| **Fallback Chain**        | The ordered sequence of recovery attempts: primary agent â†’ alternative LLM â†’ alternative agent â†’ graceful apology                                               |
 | **Guardrails**            | Per-agent behavioral rules that define knowledge boundaries, prohibited actions, and safety constraints                                                         |
 | **Intent Classification** | The process of analyzing a user query to determine its domain, required entities, and complexity level for agent routing                                        |
 | **Lead Qualification**    | The conversational process of identifying visitor hiring intent, collecting contact information, and assessing lead quality                                     |
@@ -2249,7 +2245,7 @@ gantt
 
 | Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Author             |
 | ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| 4.0     | Jun 2026 | **Enterprise-Grade Multi-Agent Architecture**: Complete rewrite of v3.0 (which was a project overview for AI agents) into a full multi-agent architecture document. Added 10 specialist agents: Supervisor, Portfolio, Resume, Projects, Blog, Case Study, Career, Lead Qualification, Analytics, Admin, Knowledge. For each agent defined: Mission, Responsibilities, Inputs, Outputs, Tools, Memory, Guardrails, Permissions, Failure Handling, Evaluation Metrics (with code examples for Supervisor, Knowledge, Circuit Breaker, Handoff Protocol). Added 8 Mermaid diagrams: Agent Interaction Patterns, Orchestration Architecture, Request Lifecycle, Routing Decision Flow, Lead Qualification Flow, Memory Architecture, Permission Model, Fallback Chain, Evaluation Pipeline, Implementation Gantt. Added Agent Communication Protocol (§16) with JSON message/response formats. Added Agent Memory Architecture (§17) with per-agent memory configuration table. Added Security & Permissions (§18) with 3-tier model, permission matrix, rate limits. Added Failure Recovery (§19) with 9 failure modes, circuit breaker code, fallback chain diagram, recovery runbook. Added Evaluation Framework (§20) with 8 dimensions, per-agent scorecard, A/B framework. Added Implementation Roadmap (§21) with 6 phases, Gantt chart, prerequisites. Aligned with AI Instructions v4.0 (18 section-level cross-references), RAG v4.0 pipeline, and all architecture docs. | Chief AI Architect |
+| 4.0     | Jun 2026 | **Enterprise-Grade Multi-Agent Architecture**: Complete rewrite of v3.0 (which was a project overview for AI agents) into a full multi-agent architecture document. Added 10 specialist agents: Supervisor, Portfolio, Resume, Projects, Blog, Case Study, Career, Lead Qualification, Analytics, Admin, Knowledge. For each agent defined: Mission, Responsibilities, Inputs, Outputs, Tools, Memory, Guardrails, Permissions, Failure Handling, Evaluation Metrics (with code examples for Supervisor, Knowledge, Circuit Breaker, Handoff Protocol). Added 8 Mermaid diagrams: Agent Interaction Patterns, Orchestration Architecture, Request Lifecycle, Routing Decision Flow, Lead Qualification Flow, Memory Architecture, Permission Model, Fallback Chain, Evaluation Pipeline, Implementation Gantt. Added Agent Communication Protocol (Â§16) with JSON message/response formats. Added Agent Memory Architecture (Â§17) with per-agent memory configuration table. Added Security & Permissions (Â§18) with 3-tier model, permission matrix, rate limits. Added Failure Recovery (Â§19) with 9 failure modes, circuit breaker code, fallback chain diagram, recovery runbook. Added Evaluation Framework (Â§20) with 8 dimensions, per-agent scorecard, A/B framework. Added Implementation Roadmap (Â§21) with 6 phases, Gantt chart, prerequisites. Aligned with AI Instructions v4.0 (18 section-level cross-references), RAG v4.0 pipeline, and all architecture docs. | Chief AI Architect |
 | 3.0     | Jun 2026 | Added executive summary, project overview for AI agents                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Tech Lead          |
 | 2.0     | Jun 2026 | Updated for enterprise monorepo structure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Tech Lead          |
 | 1.0     | Mar 2026 | Initial agents documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Tech Lead          |
@@ -2260,16 +2256,16 @@ gantt
 
 | Reference                                        | Description                                                                                                                                                                                                                                                                                  |
 | ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI Operating Model — master AI governance; agents implement §6 Architecture, §7 Safety Rules, §8 Response Rules, §9 Memory Rules, §10 Context Rules, §11 Knowledge Sources, §12 Escalation, §14 Security, §15 Hallucination Prevention, §17 Evaluation, §19 Monitoring, §20 Failure Recovery |
-| `docs/ai/19-RAG.md` (v5.0)                       | RAG Pipeline — enterprise-grade retrieval; all knowledge agents use §7 Retrieval Strategy, §8 Hybrid Search, §9 Context Assembly, §10 Knowledge Sources                                                                                                                                      |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — §7 AI Architecture, §3.4 FastAPI AI Service                                                                                                                                                                                                                            |
-| `docs/api/12-API.md` (v5.0)                      | API documentation — §10 Auth, §17 Leads, §19 Admin, §20 AI                                                                                                                                                                                                                                   |
-| `docs/database/DatabaseArchitecture.md` (v5.0)   | Database schema — §7-14 all tables, §21 RLS policies                                                                                                                                                                                                                                         |
-| `docs/architecture/10-TECHSTACK.md` (v5.0)       | Technology decisions — §4 AI Microservice (FastAPI, LangChain)                                                                                                                                                                                                                               |
-| `docs/architecture/13-INTEGRATIONS.md` (v5.0)    | Third-party integrations — §8 OpenAI, §9 Anthropic                                                                                                                                                                                                                                           |
-| `docs/product/02-FEATURES.md` (v3.0)             | Feature catalog — F-300 series (AI features), F-800 series (Leads)                                                                                                                                                                                                                           |
-| `docs/product/37-IMPLEMENTATION_PLAN.md` (v5.0)  | Implementation plan — §8 Phase 5: FastAPI AI Service                                                                                                                                                                                                                                         |
-| `Ultimate_Portfolio_Plan_2026_v3.docx`           | Complete portfolio blueprint — AI chat, agent prompts, backend architecture                                                                                                                                                                                                                  |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI Operating Model â€” master AI governance; agents implement Â§6 Architecture, Â§7 Safety Rules, Â§8 Response Rules, Â§9 Memory Rules, Â§10 Context Rules, Â§11 Knowledge Sources, Â§12 Escalation, Â§14 Security, Â§15 Hallucination Prevention, Â§17 Evaluation, Â§19 Monitoring, Â§20 Failure Recovery |
+| `docs/ai/19-RAG.md` (v5.0)                       | RAG Pipeline â€” enterprise-grade retrieval; all knowledge agents use Â§7 Retrieval Strategy, Â§8 Hybrid Search, Â§9 Context Assembly, Â§10 Knowledge Sources                                                                                                                                      |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture â€” Â§7 AI Architecture, Â§3.4 FastAPI AI Service                                                                                                                                                                                                                            |
+| `docs/api/12-API.md` (v5.0)                      | API documentation â€” Â§10 Auth, Â§17 Leads, Â§19 Admin, Â§20 AI                                                                                                                                                                                                                                   |
+| `docs/database/DatabaseArchitecture.md` (v5.0)   | Database schema â€” Â§7-14 all tables, Â§21 RLS policies                                                                                                                                                                                                                                         |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)       | Technology decisions â€” Â§4 AI Microservice (FastAPI, LangChain)                                                                                                                                                                                                                               |
+| `docs/architecture/13-INTEGRATIONS.md` (v5.0)    | Third-party integrations â€” Â§8 OpenAI, Â§9 Anthropic                                                                                                                                                                                                                                           |
+| `docs/product/02-FEATURES.md` (v3.0)             | Feature catalog â€” F-300 series (AI features), F-800 series (Leads)                                                                                                                                                                                                                           |
+| `docs/product/37-IMPLEMENTATION_PLAN.md` (v5.0)  | Implementation plan â€” Â§8 Phase 5: FastAPI AI Service                                                                                                                                                                                                                                         |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`           | Complete portfolio blueprint â€” AI chat, agent prompts, backend architecture                                                                                                                                                                                                                  |
 
 ---
 
@@ -2280,12 +2276,12 @@ gantt
 | Agent                | Autonomous software entity that performs tasks on behalf of a user                 |
 | Supervisor Agent     | Orchestrator agent that routes requests to specialist agents                       |
 | Specialist Agent     | Domain-specific agent with focused knowledge and tools                             |
-| RAG                  | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| RAG                  | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
 | Tool                 | A function an agent can call (read DB, send email, etc.)                           |
 | Guardrail            | Constraint that prevents agents from performing unauthorized actions               |
 | Handoff              | Transfer of a query from one agent to another with full context                    |
 | Capability Manifest  | Declarative document listing what an agent can do                                  |
-| LLM                  | Large Language Model â€” the AI model powering agent reasoning                     |
+| LLM                  | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning                     |
 | Embedding            | Vector representation of text used for semantic search                             |
 | Chunk                | A segment of a document stored in the vector database                              |
 | Confidence Threshold | Minimum confidence score for an agent to respond directly                          |
@@ -2304,10 +2300,10 @@ gantt
 | 2.0     | Jun 2026 | Updated for enterprise monorepo structure                                                         | Tech Lead          |
 | 1.0     | Mar 2026 | Initial agents documentation                                                                      | Tech Lead          |
 
-_Document Version: 4.0 — Enterprise-Grade Multi-Agent Architecture_  
+_Document Version: 4.0 â€” Enterprise-Grade Multi-Agent Architecture_  
 _Supersedes v3.0 (June 2026) and all previous versions_  
 _Next Review Date: July 2026_
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

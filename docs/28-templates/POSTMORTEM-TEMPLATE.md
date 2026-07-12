@@ -2,6 +2,21 @@
 
 > **Blameless postmortem.** The goal is to learn, not to blame.
 
+## Postmortem Flow
+
+```mermaid
+flowchart TD
+    Summary[Incident Summary] --> Timeline[Timeline<br/>of Events]
+    Timeline --> Impact[Impact<br/>Assessment]
+    Impact --> RCA[Root Cause<br/>Analysis]
+    RCA --> Detection[Detection &<br/>Response]
+    Detection --> Actions[Action Items]
+    Actions --> Review[Lessons<br/>Learned]
+    Review --> Track[Follow-Up<br/>Tracking]
+```
+
+---
+
 ## Incident Summary
 
 | Field | Value |
@@ -85,3 +100,7 @@
 |-------------|--------|-------|
 | +1 week | Open/Closed | |
 | +1 month | Open/Closed | |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

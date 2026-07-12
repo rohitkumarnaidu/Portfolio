@@ -5,6 +5,20 @@
 
 ---
 
+## Go-Live Workflow
+
+```mermaid
+flowchart LR
+    Readiness[Pre-Launch<br/>T-7 Days] --> FinalTests[Final Verification<br/>T-0]
+    FinalTests --> SignOff[Stakeholder<br/>Sign-off]
+    SignOff --> Deploy[Deploy to<br/>Production]
+    Deploy --> Monitor[Post-Launch<br/>Monitor T+1h]
+    Monitor --> Verify[Verify &<br/>Stabilize]
+    Verify --> Rollback[Rollback<br/>Criteria]
+```
+
+---
+
 ## Pre-Launch (T-7 Days)
 
 ### DNS & Networking
@@ -101,3 +115,17 @@
 ---
 
 *Last updated: July 2026. Review before every production deployment.*
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [LaunchPlan.md](../21-operations/LAUNCH-PLAN.md) | Launch plan reference |
+| [PRODUCTION-READINESS.md](../21-operations/PRODUCTION-READINESS.md) | Production readiness review |
+| [DeploymentGuide.md](../12-devops/DEPLOYMENT-GUIDE.md) | Deployment guide |
+| [SecurityHardening.md](../11-security/SECURITY-HARDENING.md) | Security hardening plan |
+| [ReleaseChecklist.md](../21-operations/RELEASE-CHECKLIST.md) | Release checklist |

@@ -14,6 +14,33 @@ Standardized templates for incident communication across Slack, email, and the c
 
 ---
 
+## Comms Escalation Flow
+
+```mermaid
+sequenceDiagram
+    participant OC as On-Call Engineer
+    participant Slack as #ops-alerts
+    participant EM as Engineering Manager
+    participant Email as Email List
+    participant SP as Status Page
+    participant CTO as CTO
+
+    OC->>Slack: SEV-1 Initial Notification
+    OC->>Slack: Status Update (every 30 min)
+    alt SEV-1 unresolved > 30 min
+        Slack->>EM: Escalation notification
+    end
+    alt Needs executive auth
+        EM->>CTO: Phone escalation
+    end
+    OC->>Email: Postmortem Summary
+    OC->>SP: Status page update
+    SP->>SP: Incident resolved
+    OC->>Slack: Resolution post
+```
+
+---
+
 ## 2. Slack Templates
 
 ### 2.1 SEV-1 Initial Notification
@@ -468,3 +495,7 @@ Please join #ops-incident on Slack or take a call with [current lead]."
 _Document Version: 1.0 — Incident Communication Templates_
 _Last Updated: July 2026_
 _Next Review Date: October 2026_
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

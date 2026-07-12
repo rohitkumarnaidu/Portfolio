@@ -342,3 +342,16 @@ This dual-attribute pattern keeps the light/dark toggle independent of the theme
 | 1.0 | Jul 2026 | Initial Circadian Theme Engine specification with 8 visual identities | System Architect |
 
 *Document Version: 1.0 — Circadian Theme Engine*
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [DESIGN-SYSTEM.md](../04-design/DESIGN-SYSTEM.md) | Design system reference |
+| [DESIGN-TOKENS.md](../04-design/DESIGN-TOKENS.md) | Design tokens reference |
+| [MOTION-SYSTEM.md](../07-frontend/MOTION-SYSTEM.md) | Motion system reference |
+| [3D-ARCHITECTURE.md](../07-frontend/3D-ARCHITECTURE.md) | 3D architecture reference |

@@ -1,4 +1,6 @@
-# Model Card: text-embedding-3-small
+﻿# Model Card: text-embedding-3-small
+
+> **Status:** ✅ Active — reflects actual implementation
 
 ## Model Details
 - **Provider:** OpenAI
@@ -21,3 +23,7 @@
 - Vectors stored in pgvector (`ContentEmbedding` model)
 - HNSW index for fast similarity search
 - Cache: Redis (30-day TTL)
+
+## Cross-References
+- [../../MASTER-INDEX.md](../../MASTER-INDEX.md) â€” Documentation master index
+- [../../26-reference/CROSS-REFERENCE-INDEX.md](../../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

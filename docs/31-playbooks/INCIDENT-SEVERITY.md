@@ -22,6 +22,34 @@
 
 ---
 
+## 2. Severity Classification Diagram
+
+```mermaid
+flowchart TD
+    Impact[User Impact] --> Decision{Entire site down?}
+    Decision -- Yes --> SEV1[SEV-1 Critical]
+    Decision -- No --> Decision2{Significant subset affected?}
+    Decision2 -- Yes --> Decision3{Revenue or data affected?}
+    Decision3 -- Yes --> SEV1
+    Decision3 -- No --> Decision4{Security concern?}
+    Decision4 -- Active breach --> SEV1
+    Decision4 -- Confirmed vuln --> SEV2[SEV-2 High]
+    Decision4 -- None --> SEV2
+    Decision2 -- No --> Decision5{Minor feature degraded?}
+    Decision5 -- Yes --> SEV3[SEV-3 Medium]
+    Decision5 -- No --> SEV4[SEV-4 Low]
+```
+
+## 3. Response SLA Diagram
+
+```mermaid
+graph LR
+    SEV1[SEV-1] --> SLA1[15 min response]
+    SEV2[SEV-2] --> SLA2[30 min response]
+    SEV3[SEV-3] --> SLA3[2 hr response]
+    SEV4[SEV-4] --> SLA4[8 hr response]
+```
+
 ## 2. Determining Severity
 
 When an incident is reported, the on-call engineer determines severity using the following decision tree:
@@ -235,3 +263,7 @@ Any severity change must be:
 *Document Version: 1.0 — Incident Severity Criteria*
 *Last Updated: July 2026*
 *Next Review Date: October 2026*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

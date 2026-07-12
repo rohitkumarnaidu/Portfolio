@@ -6,6 +6,17 @@
 
 ---
 
+## Decision Workflow
+
+```mermaid
+flowchart LR
+    Problem[Problem<br/>Statement] --> Research[Research &<br/>Analysis]
+    Research --> Options[Identify<br/>Options]
+    Options --> Evaluate[Evaluate Pros<br/>& Cons]
+    Evaluate --> Decide[Make<br/>Decision]
+    Decide --> Document[Document &<br/>Communicate]
+```
+
 ## Context
 
 [Why was this decision needed? Describe the background, constraints, and circumstances that led to this decision. Include relevant links to issues, RFCs, or discussions.]
@@ -37,3 +48,7 @@
 - [ADR-NNN: Related Architecture Decision](link)
 - [PR #N: Implementation](link)
 - [Issue #N: Discussion](link)
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

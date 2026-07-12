@@ -39,7 +39,23 @@ We adopt **Supabase** (managed PostgreSQL 15 + Auth + Storage + Realtime) as the
 - Auto-generated REST API (PostgREST) not used (we use NestJS), but still exposed
 - Supabase Auth token format is opaque — debugging requires JWT decoding tools
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Database + Auth] --> B[Options: Supabase / Firebase / AWS]
+    B --> C[Decision: Supabase]
+    C --> D[Positive: RLS, pgvector, free tier, all-in-one]
+    C --> E[Negative: 15 conn limit, vendor lock-in]
+    D --> F[Compliance: §1.1, §6.1]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §1.1: "Cost-optimized architecture targeting ~$10/year total infrastructure"
 - Aligns with Constitution §6.1: "RLS as primary access control mechanism"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

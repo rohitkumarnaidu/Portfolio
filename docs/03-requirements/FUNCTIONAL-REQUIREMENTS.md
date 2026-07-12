@@ -10,13 +10,13 @@
 
 This document defines the complete functional requirements for the My Portfolio platform. Each requirement is assigned a unique FR-ID, priority (P0-P3), dependencies, related user stories, and current status. Requirements are organized into 8 feature groups covering the full product scope from public portfolio pages through system infrastructure.
 
-The platform is a FAANG-level personal portfolio with 25+ customizable sections, admin CMS, lead capture, AI-powered features, and enterprise-grade observability. Implementation is approximately 20% complete — the monorepo structure, design tokens, and shared packages are scaffolded, but most application code and business logic remain to be built.
+The platform is a FAANG-level personal portfolio with 25+ customizable sections, admin CMS, lead capture, AI-powered features, and enterprise-grade observability. Implementation is approximately 20% complete Ã¢â‚¬â€ the monorepo structure, design tokens, and shared packages are scaffolded, but most application code and business logic remain to be built.
 
 ### Priority Definitions
 
 | Priority | Label | Definition |
 |----------|-------|------------|
-| P0 | Critical | Must have for MVP — blocks launch |
+| P0 | Critical | Must have for MVP Ã¢â‚¬â€ blocks launch |
 | P1 | High | Important, launch + 30 days |
 | P2 | Medium | Differentiator, launch + 60 days |
 | P3 | Low | Future roadmap item |
@@ -36,7 +36,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** Visitor-facing sections that form the core portfolio experience.
 **Epic:** E1 (Visitor Experience)
-**Implementation:** ~20% — placeholders exist, components need building
+**Implementation:** ~20% Ã¢â‚¬â€ placeholders exist, components need building
 
 ### FR-1001: Hero Section
 
@@ -132,7 +132,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** Project showcase with filtering, detail pages, and in-depth case studies.
 **Epic:** E1 (Visitor Experience)
-**Implementation:** ~10% — data model defined, views not built
+**Implementation:** ~10% Ã¢â‚¬â€ data model defined, views not built
 
 ### FR-2001: Projects Grid with Filtering
 
@@ -172,7 +172,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 | Field | Value |
 |-------|-------|
 | **Title** | Structured Case Studies |
-| **Description** | In-depth project case studies following Challenge → Approach → Solution → Impact format with architecture diagrams, before/after metrics, code snippets, client testimonials, and print-friendly styles. |
+| **Description** | In-depth project case studies following Challenge Ã¢â€ â€™ Approach Ã¢â€ â€™ Solution Ã¢â€ â€™ Impact format with architecture diagrams, before/after metrics, code snippets, client testimonials, and print-friendly styles. |
 | **Priority** | P2 |
 | **Dependencies** | Project Detail (FR-2002) |
 | **Related User Stories** | US-019 |
@@ -184,7 +184,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** Content publishing with articles, RSS, and search.
 **Epic:** E9 (Blog Engine)
-**Implementation:** ~0% — data model defined, no code started
+**Implementation:** ~0% Ã¢â‚¬â€ data model defined, no code started
 
 ### FR-3001: Blog Listing Page
 
@@ -236,7 +236,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** AI-powered visitor assistance, content analysis, and suggestions.
 **Epic:** E6 (AI & Intelligence)
-**Implementation:** ~5% — FastAPI scaffolded, no endpoints implemented
+**Implementation:** ~5% Ã¢â‚¬â€ FastAPI scaffolded, no endpoints implemented
 
 ### FR-4001: AI Chatbot
 
@@ -299,7 +299,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** Content management, CRUD operations, media management, lead management.
 **Epics:** E2 (Admin Content Management), E3 (Lead Management)
-**Implementation:** ~5% — admin layout not started, NestJS modules scaffolded
+**Implementation:** ~5% Ã¢â‚¬â€ admin layout not started, NestJS modules scaffolded
 
 ### FR-5001: Admin Dashboard Overview
 
@@ -362,7 +362,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** Authentication, authorization, role management.
 **Epic:** E4 (Admin Authentication)
-**Implementation:** ~5% — Passport.js strategy scaffolded, no login UI
+**Implementation:** ~5% Ã¢â‚¬â€ Passport.js strategy scaffolded, no login UI
 
 ### FR-6001: Admin Authentication (NestJS Passport)
 
@@ -403,7 +403,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 **Domain:** Visitor analytics, error tracking, performance monitoring.
 **Epics:** E5 (Analytics & Insights), E10 (Monitoring & Observability)
-**Implementation:** ~0% — PostHog/Sentry not integrated
+**Implementation:** ~0% Ã¢â‚¬â€ PostHog/Sentry not integrated
 
 ### FR-7001: Visitor Event Tracking (PostHog)
 
@@ -421,7 +421,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 | Field | Value |
 |-------|-------|
 | **Title** | Admin Analytics Dashboard |
-| **Description** | Real-time visitor count, page views chart (7/30/90d), traffic sources pie chart, geo-map, device breakdown, top pages, conversion funnel (visit → section → contact → lead), section popularity ranking, date range selector, PDF export. |
+| **Description** | Real-time visitor count, page views chart (7/30/90d), traffic sources pie chart, geo-map, device breakdown, top pages, conversion funnel (visit Ã¢â€ â€™ section Ã¢â€ â€™ contact Ã¢â€ â€™ lead), section popularity ranking, date range selector, PDF export. |
 | **Priority** | P1 |
 | **Dependencies** | Event Tracking (FR-7001), Auth (FR-6001) |
 | **Related User Stories** | US-401 |
@@ -442,8 +442,8 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 
 ## 9. Feature Group F-800: System
 
-**Domain:** Cross-cutting infrastructure — feature flags, caching, queue, health.
-**Implementation:** ~30% — architecture decisions documented, BullMQ, Redis stubs exist
+**Domain:** Cross-cutting infrastructure Ã¢â‚¬â€ feature flags, caching, queue, health.
+**Implementation:** ~30% Ã¢â‚¬â€ architecture decisions documented, BullMQ, Redis stubs exist
 
 ### FR-8001: Feature Flag System
 
@@ -453,7 +453,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 | **Description** | Centralized feature flag system with 44+ flags for phased rollout. Each feature gated by a flag name. Flags configurable via PostHog (remote) or local config file. On/off states tested for all gated features. |
 | **Priority** | P1 |
 | **Dependencies** | Phase 01 (Infrastructure) |
-| **Related User Stories** | — |
+| **Related User Stories** | Ã¢â‚¬â€ |
 | **Status** | Planned |
 
 ### FR-8002: Caching Layer
@@ -486,7 +486,7 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 | **Description** | Health endpoints (`/api/health`, `/api/ai/health`) returning service status, DB connectivity, queue health, and last error timestamps. Prometheus metrics for all services. Structured logging with correlation IDs (Pino for NestJS, structlog for FastAPI). |
 | **Priority** | P2 |
 | **Dependencies** | Phase 01 (Infrastructure) |
-| **Related User Stories** | — |
+| **Related User Stories** | Ã¢â‚¬â€ |
 | **Status** | Planned |
 
 ---
@@ -503,9 +503,13 @@ The platform is a FAANG-level personal portfolio with 25+ customizable sections,
 | F-600 | User Management & Auth | 3 | 3 | 0 | 0 | 0 | Planned |
 | F-700 | Analytics & Monitoring | 3 | 1 | 2 | 0 | 0 | Planned |
 | F-800 | System | 4 | 0 | 2 | 2 | 0 | Planned |
-| **Total** | — | **36** | **14** | **10** | **8** | **4** | — |
+| **Total** | Ã¢â‚¬â€ | **36** | **14** | **10** | **8** | **4** | Ã¢â‚¬â€ |
 
 ---
 
-*Document Version: 1.0 — Functional Requirements*
+*Document Version: 1.0 Ã¢â‚¬â€ Functional Requirements*
 *Next Review: August 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

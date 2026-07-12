@@ -1,7 +1,7 @@
-# API Contracts — FAANG Enterprise API Design & Conventions
+# API Contracts Ã¢â‚¬â€ FAANG Enterprise API Design & Conventions
 
 > **Document:** `APIContracts.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal Backend Architect | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Backend Architect | **Review Cadence:** Quarterly  
 > **Related:** [SystemArchitecture.md](./SystemArchitecture.md) | [BackendArchitecture.md](./BackendArchitecture.md)
 
 ---
@@ -22,7 +22,7 @@ flowchart LR
     ERR -->|Yes| ERROR[Error Response]
     ERROR --> LOG[Log + Monitor]
 ```
-The API Standards establish a consistent enterprise-grade design framework across all portfolio API endpoints. This document defines five core standards: Accept-header versioning (`application/vnd.portfolio.v{n}+json`) with 6-month deprecation policy, cursor-based pagination for all public endpoints (with offset pagination for admin), a standardized error response format with application error codes, `snake_case` naming conventions with an envelope-based response structure, and five-tier rate limiting (per-IP, per-session, per-JWT). These standards ensure every API consumer — from the frontend application to third-party integrations — receives a predictable, well-documented interface.
+The API Standards establish a consistent enterprise-grade design framework across all portfolio API endpoints. This document defines five core standards: Accept-header versioning (`application/vnd.portfolio.v{n}+json`) with 6-month deprecation policy, cursor-based pagination for all public endpoints (with offset pagination for admin), a standardized error response format with application error codes, `snake_case` naming conventions with an envelope-based response structure, and five-tier rate limiting (per-IP, per-session, per-JWT). These standards ensure every API consumer Ã¢â‚¬â€ from the frontend application to third-party integrations Ã¢â‚¬â€ receives a predictable, well-documented interface.
 
 **Key Design Decisions:** Header-based versioning over URL-prefix for clean URL design | Cursor-based pagination over offset for consistency | Structured error objects with trace IDs for debuggability | Snake_case for broad framework compatibility | Per-tier rate limiting for fine-grained traffic control.
 
@@ -64,7 +64,7 @@ Accept: application/vnd.portfolio.v1+json
 | Rule | Detail |
 |------|--------|
 | **Current version** | `v1` |
-| **Version location** | Accept header (`application/vnd.portfolio.v{N}+json`) — not URL prefix |
+| **Version location** | Accept header (`application/vnd.portfolio.v{N}+json`) Ã¢â‚¬â€ not URL prefix |
 | **Breaking changes** | Increment major version (`v2` in header) |
 | **Non-breaking changes** | Same version, additive fields only |
 | **Deprecation notice** | `Sunset` header + `Deprecation` header on old version |
@@ -84,15 +84,15 @@ Link: <https://api.portfolio.dev/sections>; rel="successor-version"
 
 | Type | Breaking? | Action |
 |------|:---------:|--------|
-| Adding a new optional field to response | ❌ | Same version |
-| Adding a new optional query parameter | ❌ | Same version |
-| Adding a new endpoint | ❌ | Same version |
-| Removing a field from response | ✅ | New version |
-| Changing field type (string → number) | ✅ | New version |
-| Renaming a field | ✅ | New version |
-| Changing error code format | ✅ | New version |
-| Changing pagination format | ✅ | New version |
-| Adding a required request field | ✅ | New version |
+| Adding a new optional field to response | Ã¢ÂÅ’ | Same version |
+| Adding a new optional query parameter | Ã¢ÂÅ’ | Same version |
+| Adding a new endpoint | Ã¢ÂÅ’ | Same version |
+| Removing a field from response | Ã¢Å“â€¦ | New version |
+| Changing field type (string Ã¢â€ â€™ number) | Ã¢Å“â€¦ | New version |
+| Renaming a field | Ã¢Å“â€¦ | New version |
+| Changing error code format | Ã¢Å“â€¦ | New version |
+| Changing pagination format | Ã¢Å“â€¦ | New version |
+| Adding a required request field | Ã¢Å“â€¦ | New version |
 
 ---
 
@@ -127,10 +127,10 @@ GET /projects?cursor=eyJpZCI6IjEyMzQ1Njc4In0&limit=20
 
 | Parameter | Type | Default | Max | Description |
 |-----------|------|:-------:|:---:|-------------|
-| `cursor` | string | `null` (first page) | — | Opaque cursor from previous response |
+| `cursor` | string | `null` (first page) | Ã¢â‚¬â€ | Opaque cursor from previous response |
 | `limit` | integer | `20` | `100` | Items per page |
-| `sort` | string | `created_at` | — | Sort field |
-| `order` | string | `desc` | — | Sort direction: `asc` or `desc` |
+| `sort` | string | `created_at` | Ã¢â‚¬â€ | Sort field |
+| `order` | string | `desc` | Ã¢â‚¬â€ | Sort direction: `asc` or `desc` |
 
 ### 2.3 Offset Pagination (Admin Only)
 
@@ -198,20 +198,20 @@ All API errors follow this format:
 
 | Field | Type | Required | Description |
 |-------|------|:--------:|-------------|
-| `status` | integer | ✅ | HTTP status code |
-| `code` | string | ✅ | Application error code (see Error Catalog) |
-| `message` | string | ✅ | User-friendly error message |
-| `details` | array | ❌ | Field-level validation errors |
-| `details[].field` | string | ❌ | Field that failed validation |
-| `details[].message` | string | ❌ | Field-specific error message |
-| `details[].value` | any | ❌ | The invalid value (redacted for sensitive fields) |
-| `trace_id` | string | ✅ | Request correlation ID for debugging |
-| `timestamp` | string | ✅ | ISO 8601 timestamp |
-| `docs_url` | string | ❌ | Link to error documentation |
+| `status` | integer | Ã¢Å“â€¦ | HTTP status code |
+| `code` | string | Ã¢Å“â€¦ | Application error code (see Error Catalog) |
+| `message` | string | Ã¢Å“â€¦ | User-friendly error message |
+| `details` | array | Ã¢ÂÅ’ | Field-level validation errors |
+| `details[].field` | string | Ã¢ÂÅ’ | Field that failed validation |
+| `details[].message` | string | Ã¢ÂÅ’ | Field-specific error message |
+| `details[].value` | any | Ã¢ÂÅ’ | The invalid value (redacted for sensitive fields) |
+| `trace_id` | string | Ã¢Å“â€¦ | Request correlation ID for debugging |
+| `timestamp` | string | Ã¢Å“â€¦ | ISO 8601 timestamp |
+| `docs_url` | string | Ã¢ÂÅ’ | Link to error documentation |
 
 ### 3.3 Error Response Examples
 
-**400 Bad Request — Malformed JSON:**
+**400 Bad Request Ã¢â‚¬â€ Malformed JSON:**
 ```json
 {
   "status": 400,
@@ -222,7 +222,7 @@ All API errors follow this format:
 }
 ```
 
-**401 Unauthorized — Missing/Invalid Token:**
+**401 Unauthorized Ã¢â‚¬â€ Missing/Invalid Token:**
 ```json
 {
   "status": 401,
@@ -233,7 +233,7 @@ All API errors follow this format:
 }
 ```
 
-**403 Forbidden — Insufficient Permissions:**
+**403 Forbidden Ã¢â‚¬â€ Insufficient Permissions:**
 ```json
 {
   "status": 403,
@@ -328,21 +328,21 @@ All successful responses use a consistent envelope:
 
 | Method | Purpose | Idempotent | Request Body | Success Code |
 |--------|---------|:----------:|:------------:|:------------:|
-| `GET` | Read resource(s) | ✅ | ❌ | `200 OK` |
-| `POST` | Create resource | ❌ | ✅ | `201 Created` |
-| `PUT` | Full replace | ✅ | ✅ | `200 OK` |
-| `PATCH` | Partial update | ❌ | ✅ | `200 OK` |
-| `DELETE` | Remove resource | ✅ | ❌ | `204 No Content` |
+| `GET` | Read resource(s) | Ã¢Å“â€¦ | Ã¢ÂÅ’ | `200 OK` |
+| `POST` | Create resource | Ã¢ÂÅ’ | Ã¢Å“â€¦ | `201 Created` |
+| `PUT` | Full replace | Ã¢Å“â€¦ | Ã¢Å“â€¦ | `200 OK` |
+| `PATCH` | Partial update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | `200 OK` |
+| `DELETE` | Remove resource | Ã¢Å“â€¦ | Ã¢ÂÅ’ | `204 No Content` |
 
 ### 4.4 Common Headers
 
 **Request Headers:**
 | Header | Required | Description |
 |--------|:--------:|-------------|
-| `Content-Type` | ✅ (POST/PUT/PATCH) | `application/json` |
+| `Content-Type` | Ã¢Å“â€¦ (POST/PUT/PATCH) | `application/json` |
 | `Authorization` | For admin routes | `Bearer {access_token}` |
-| `X-Request-ID` | ❌ | Client-provided correlation ID |
-| `Accept-Language` | ❌ | Preferred language (future i18n) |
+| `X-Request-ID` | Ã¢ÂÅ’ | Client-provided correlation ID |
+| `Accept-Language` | Ã¢ÂÅ’ | Preferred language (future i18n) |
 
 **Response Headers:**
 | Header | Description |
@@ -414,12 +414,12 @@ ThrottlerModule.forRoot([
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-API-001 | Use Accept-header versioning (`application/vnd.portfolio.v1+json`) instead of URL-prefix versioning | Clean URLs, no path pollution, explicit content negotiation | URL-prefix `/v1/` (rejected — pollutes URLs, harder to maintain); query-param versioning (rejected — pollutes URLs) | Jul 2026 | Staff Backend Architect |
-| D-API-002 | Adopt cursor-based pagination as default for public endpoints | Consistent behavior regardless of data mutations; no page drift; better performance on large datasets | Offset-based only (rejected — page drift with concurrent writes); keyset pagination (rejected — requires sort-field coupling) | Jun 2026 | Staff Backend Architect |
-| D-API-003 | Use structured error objects with application error codes and trace IDs | Enables programmatic error handling, correlation across logs, and self-documenting error catalog | HTTP status-only (rejected — insufficient detail); plain text messages (rejected — not machine-readable); no trace IDs (rejected — debugging impossible) | Jun 2026 | Staff Backend Architect |
-| D-API-004 | Enforce snake_case for all API fields | Matches PostgreSQL column naming, NestJS conventions, and common API tooling | camelCase (rejected — mismatch with DB/schema); PascalCase (rejected — uncommon for APIs); kebab-case (rejected — cannot use in JS objects without quotes) | Jun 2026 | Staff Backend Architect |
-| D-API-005 | Implement 5-tier rate limiting differentiated by route and identifier | Fine-grained control protects critical endpoints (leads, auth) while allowing generous limits for public reads | Single global rate limit (rejected — doesn't account for different endpoint sensitivity); no rate limiting (rejected — abuse risk) | Jun 2026 | Staff Backend Architect |
-| D-API-006 | Maintain 6-month sunset policy with explicit Deprecation and Sunset headers | Gives API consumers sufficient migration time; headers provide programmatic deprecation detection | No deprecation policy (rejected — breaks consumers); 3-month sunset (rejected — insufficient for integration updates); 12-month sunset (rejected — too long for fast iteration) | Jun 2026 | Staff Backend Architect |
+| D-API-001 | Use Accept-header versioning (`application/vnd.portfolio.v1+json`) instead of URL-prefix versioning | Clean URLs, no path pollution, explicit content negotiation | URL-prefix `/v1/` (rejected Ã¢â‚¬â€ pollutes URLs, harder to maintain); query-param versioning (rejected Ã¢â‚¬â€ pollutes URLs) | Jul 2026 | Staff Backend Architect |
+| D-API-002 | Adopt cursor-based pagination as default for public endpoints | Consistent behavior regardless of data mutations; no page drift; better performance on large datasets | Offset-based only (rejected Ã¢â‚¬â€ page drift with concurrent writes); keyset pagination (rejected Ã¢â‚¬â€ requires sort-field coupling) | Jun 2026 | Staff Backend Architect |
+| D-API-003 | Use structured error objects with application error codes and trace IDs | Enables programmatic error handling, correlation across logs, and self-documenting error catalog | HTTP status-only (rejected Ã¢â‚¬â€ insufficient detail); plain text messages (rejected Ã¢â‚¬â€ not machine-readable); no trace IDs (rejected Ã¢â‚¬â€ debugging impossible) | Jun 2026 | Staff Backend Architect |
+| D-API-004 | Enforce snake_case for all API fields | Matches PostgreSQL column naming, NestJS conventions, and common API tooling | camelCase (rejected Ã¢â‚¬â€ mismatch with DB/schema); PascalCase (rejected Ã¢â‚¬â€ uncommon for APIs); kebab-case (rejected Ã¢â‚¬â€ cannot use in JS objects without quotes) | Jun 2026 | Staff Backend Architect |
+| D-API-005 | Implement 5-tier rate limiting differentiated by route and identifier | Fine-grained control protects critical endpoints (leads, auth) while allowing generous limits for public reads | Single global rate limit (rejected Ã¢â‚¬â€ doesn't account for different endpoint sensitivity); no rate limiting (rejected Ã¢â‚¬â€ abuse risk) | Jun 2026 | Staff Backend Architect |
+| D-API-006 | Maintain 6-month sunset policy with explicit Deprecation and Sunset headers | Gives API consumers sufficient migration time; headers provide programmatic deprecation detection | No deprecation policy (rejected Ã¢â‚¬â€ breaks consumers); 3-month sunset (rejected Ã¢â‚¬â€ insufficient for integration updates); 12-month sunset (rejected Ã¢â‚¬â€ too long for fast iteration) | Jun 2026 | Staff Backend Architect |
 
 ## Risk Register
 
@@ -427,7 +427,7 @@ ThrottlerModule.forRoot([
 |----|------|------------|--------|------------|
 | R-API-001 | API consumers forget to set `Accept` header and default to wrong version | High | Medium | Implement version negotiation via `Accept` header as primary mechanism; provide `Link` header with `rel="successor-version"` in deprecation responses; maintain v1 for 6-month sunset period |
 | R-API-002 | Cursor-based pagination confuses frontend developers accustomed to page-based pagination | Medium | Low | Provide clear documentation with example code; implement helper utilities in shared packages; support offset pagination for admin dashboards where page-jumping is required |
-| R-API-003 | Rate limiting blocks legitimate traffic during traffic spikes or flash sales | Low | High | Implement graduated rate limiting (burst → sustained → block); return `Retry-After` header for precise retry timing; monitor rate limit hit rates; provide admin override for verified traffic sources |
+| R-API-003 | Rate limiting blocks legitimate traffic during traffic spikes or flash sales | Low | High | Implement graduated rate limiting (burst Ã¢â€ â€™ sustained Ã¢â€ â€™ block); return `Retry-After` header for precise retry timing; monitor rate limit hit rates; provide admin override for verified traffic sources |
 | R-API-004 | Error response format inconsistencies across endpoints due to developer oversight | Medium | Medium | Implement NestJS interceptors to enforce consistent error formatting; add automated contract tests that validate error shape; include `docs_url` field for self-documenting errors |
 | R-API-005 | Breaking changes released without proper version increment due to developer error | Medium | High | Enforce version increment via CI lint rule; maintain a public changelog for each version; require architecture review for any schema changes |
 | R-API-006 | Application error codes drift from documented error catalog | Medium | Low | Generate error catalog automatically from code annotations; add CI check that validates all thrown errors exist in catalog; schedule quarterly error catalog review |
@@ -436,7 +436,7 @@ ThrottlerModule.forRoot([
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial API standards — versioning, pagination, error format, conventions, rate limiting | Staff Backend Architect |
+| 1.0 | Jun 2026 | Initial API standards Ã¢â‚¬â€ versioning, pagination, error format, conventions, rate limiting | Staff Backend Architect |
 
 ---
 
@@ -459,4 +459,8 @@ ThrottlerModule.forRoot([
 
 ---
 
-*Document Version: 1.0 — Enterprise Edition*
+*Document Version: 1.0 Ã¢â‚¬â€ Enterprise Edition*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

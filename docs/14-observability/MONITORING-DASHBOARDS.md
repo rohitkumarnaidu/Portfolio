@@ -1,7 +1,7 @@
-# Monitoring Dashboards — Layout & Alert Definitions
+# Monitoring Dashboards Ã¢â‚¬â€ Layout & Alert Definitions
 
 > **Document:** `14-observability/MONITORING-DASHBOARDS.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** DevOps Lead | **Related:** Sentry, PostHog, Better Uptime, Grafana
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** DevOps Lead | **Related:** Sentry, PostHog, Better Uptime, Grafana
 
 ---
 
@@ -61,10 +61,10 @@
 | Panel | Metric | Source | Alert Trigger |
 |-------|--------|--------|---------------|
 | Page views | Daily unique + total page views | PostHog | Drop > 50% day-over-day |
-| Visitor sources | Traffic by referrer/UTM | PostHog | — |
+| Visitor sources | Traffic by referrer/UTM | PostHog | Ã¢â‚¬â€ |
 | Contact form conversions | Submission rate by page | PostHog funnel | Conversion rate < 40% |
-| Lead conversion rate | Form submissions → leads created | PostHog + API | Rate < 60% |
-| AI chat usage | Chat sessions initiated per day | PostHog | — |
+| Lead conversion rate | Form submissions Ã¢â€ â€™ leads created | PostHog + API | Rate < 60% |
+| AI chat usage | Chat sessions initiated per day | PostHog | Ã¢â‚¬â€ |
 | Project click-through | Clicks from grid to detail page | PostHog | CTR < 20% |
 
 ---
@@ -73,8 +73,8 @@
 
 | Severity | Channel | Escalation |
 |----------|---------|------------|
-| Critical | Telegram + SMS + Email | On-call → Engineering Lead → CTO (15 min) |
-| Warning | Telegram | On-call → Team Lead (1 hour) |
+| Critical | Telegram + SMS + Email | On-call Ã¢â€ â€™ Engineering Lead Ã¢â€ â€™ CTO (15 min) |
+| Warning | Telegram | On-call Ã¢â€ â€™ Team Lead (1 hour) |
 | Info | Slack #ops-monitoring | Self-service |
 
 ## Dashboard Access
@@ -87,3 +87,7 @@
 ---
 
 *Document Version: 1.0 | Last Updated: July 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -1,5 +1,25 @@
 # Database Failover Runbook
 
+## Failover Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant Primary
+    participant Detector as Failure Detector
+    participant Replica as Standby Replica
+    participant Router as Traffic Router
+    participant Verifier
+
+    Primary-->>Detector: Heartbeat failure
+    Detector->>Replica: Promote to primary
+    Replica-->>Detector: Acknowledged
+    Detector->>Router: Update traffic target
+    Router->>Verifier: Health check new primary
+    Verifier-->>Router: Healthy
+```
+
+
+
 ## Overview
 Procedures for handling database primary failure, read replica promotion, and recovery.
 
@@ -69,3 +89,7 @@ cd apps/api && npx prisma db push --dry-run
 # Then restore:
 pg_restore -h <host> -U <user> -d <database> backup.dump
 ```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

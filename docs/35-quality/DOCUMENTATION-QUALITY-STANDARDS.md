@@ -9,7 +9,45 @@ This document defines what "good documentation" means for this project. It estab
 
 ---
 
-## 2. Required Document Header
+## 2. Doc Quality Dimensions
+
+```mermaid
+graph LR
+    A[Documentation Quality] --> B[Completeness]
+    A --> C[Accuracy]
+    A --> D[Consistency]
+    A --> E[Clarity]
+    A --> F[Maintainability]
+
+    B --> B1[All topics covered]
+    B --> B2[No gaps]
+    B --> B3[Examples present]
+
+    C --> C1[Matches codebase]
+    C --> C2[Commands tested]
+    C --> C3[Outputs verified]
+
+    D --> D1[Tone consistent]
+    D --> D2[Terminology uniform]
+    D --> D3[Formatting aligned]
+
+    E --> E1[Scannable headings]
+    E --> E2[Concise prose]
+    E --> E3[Clear structure]
+
+    F --> F1[Relative paths]
+    F --> F2[Version stamps]
+    F --> F3[Modular content]
+
+    style A fill:#2563eb,color:#fff
+    style B fill:#059669,color:#fff
+    style C fill:#059669,color:#fff
+    style D fill:#059669,color:#fff
+    style E fill:#059669,color:#fff
+    style F fill:#059669,color:#fff
+```
+
+## 3. Required Document Header
 
 Every document in `docs/` must begin with a header block:
 
@@ -138,3 +176,7 @@ Documentation debt tracks the gap between current documentation quality and the 
 ### 8.3 Debt Tracking
 
 Documentation debt items are tracked as GitHub Issues with label `area:docs`. Each issue includes: document path, debt class, current score, target score, and owner. The quarterly documentation audit reviews all open debt items and updates priorities.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

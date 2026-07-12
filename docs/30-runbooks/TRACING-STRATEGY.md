@@ -40,8 +40,32 @@ Tracing every single request in a high-traffic system is cost-prohibitive. We im
 * **Production Sampling**: We sample a baseline of 5% of all successful requests for statistical baselining.
 * **Error & High Latency Retention**: We dynamically retain 100% of traces that result in an error (HTTP 5xx) or exceed a latency threshold (e.g., > 2000ms).
 
+## 6. Distributed Tracing Diagram
+
+```mermaid
+sequenceDiagram
+    participant Browser
+    participant API as API Gateway
+    participant Service as Microservice
+    participant DB as Database
+
+    Browser->>API: Request (traceparent header)
+    Note over Browser,API: Span: HTTP Request
+    API->>Service: Forward context (traceparent)
+    Note over API,Service: Span: Service Call
+    Service->>DB: Query (traceparent)
+    Note over Service,DB: Span: Database Query
+    DB-->>Service: Results
+    Service-->>API: Response
+    API-->>Browser: Response
+```
+
 ## 5. Utilizing Traces for Debugging
 When an error occurs or a performance degradation is reported:
 1. Locate the `trace_id` from the Sentry error report, user feedback, or Datadog log.
 2. Search for the `trace_id` in Datadog APM.
 3. Analyze the Flame Graph to identify exactly which span (Next.js render, NestJS controller, Prisma query, or LLM call) was responsible for the error or latency.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

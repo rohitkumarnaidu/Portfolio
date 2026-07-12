@@ -1,7 +1,7 @@
-# Monitoring Architecture — FAANG Enterprise Observability & SRE
+# Monitoring Architecture Ã¢â‚¬â€ FAANG Enterprise Observability & SRE
 
 > **Document:** `Monitoring.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal SRE Architect | **Review Cadence:** Monthly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal SRE Architect | **Review Cadence:** Monthly  
 > **Classification:** Enterprise Architecture | **Monitoring Stack:** 7 tools | **Alert Tiers:** 4  
 > **SLO Targets:** 99.99% Core API | 99.9% Frontend | 99.5% AI | **Error Budget:** 100% Automated
 
@@ -39,34 +39,34 @@ This document outlines the FAANG-grade full-stack observability and Incident Res
 
 ### 1.1 North Star
 
-The monitoring system provides **complete, real-time visibility** into every layer of the portfolio platform — from the browser to the database, from AI token usage to security events. Every component is monitored, every metric is measured against an SLO, every alert has an owner, and every incident has a runbook. The platform targets **99.9% uptime** for frontend and API services, **99.5%** for the AI service, and maintains an **automated error budget** that governs deployment velocity.
+The monitoring system provides **complete, real-time visibility** into every layer of the portfolio platform Ã¢â‚¬â€ from the browser to the database, from AI token usage to security events. Every component is monitored, every metric is measured against an SLO, every alert has an owner, and every incident has a runbook. The platform targets **99.9% uptime** for frontend and API services, **99.5%** for the AI service, and maintains an **automated error budget** that governs deployment velocity.
 
 ### 1.2 Monitoring Stack
 
 | Tool                     | Purpose                      | Monitors                                                | Cost                   | Alert Channel          |
 | ------------------------ | ---------------------------- | ------------------------------------------------------- | ---------------------- | ---------------------- |
-| **Sentry**               | Error tracking + APM         | App errors, performance traces, crash reporting         | 🆓 Free (5K events/mo) | Telegram + Email       |
-| **Better Uptime**        | External uptime monitoring   | Service availability, SSL expiry, response time         | 🆓 Free (5-min checks) | Telegram + SMS + Email |
-| **Vercel Analytics**     | Core Web Vitals              | LCP, CLS, INP, TTFB, FCP                                | 🆓 Free                | Dashboard              |
-| **PostHog**              | Product analytics + UX       | Session replays, heatmaps, feature flag usage           | 🆓 Free (1M events/mo) | Email                  |
-| **Umami**                | Traffic analytics            | Visitors, page views, referrers, devices                | 🆓 Free (self-hosted)  | Dashboard              |
-| **Cloudflare**           | Edge/WAF monitoring          | DDoS, WAF events, traffic anomalies                     | 🆓 Free                | Email                  |
+| **Sentry**               | Error tracking + APM         | App errors, performance traces, crash reporting         | Ã°Å¸â€ â€œ Free (5K events/mo) | Telegram + Email       |
+| **Better Uptime**        | External uptime monitoring   | Service availability, SSL expiry, response time         | Ã°Å¸â€ â€œ Free (5-min checks) | Telegram + SMS + Email |
+| **Vercel Analytics**     | Core Web Vitals              | LCP, CLS, INP, TTFB, FCP                                | Ã°Å¸â€ â€œ Free                | Dashboard              |
+| **PostHog**              | Product analytics + UX       | Session replays, heatmaps, feature flag usage           | Ã°Å¸â€ â€œ Free (1M events/mo) | Email                  |
+| **Umami**                | Traffic analytics            | Visitors, page views, referrers, devices                | Ã°Å¸â€ â€œ Free (self-hosted)  | Dashboard              |
+| **Cloudflare**           | Edge/WAF monitoring          | DDoS, WAF events, traffic anomalies                     | Ã°Å¸â€ â€œ Free                | Email                  |
 | **Custom DB (Supabase)** | Application-specific metrics | AI costs, RAG quality, agent performance, lead tracking | Included               | Telegram               |
 
 ### 1.3 Key Metrics at a Glance
 
 | Metric                    | Target  | Current | Tool             | Measurement Method              |
 | ------------------------- | ------- | ------- | ---------------- | ------------------------------- |
-| Frontend uptime           | > 99.9% | —       | Better Uptime    | 1-min interval health checks    |
-| API uptime                | > 99.9% | —       | Better Uptime    | 1-min interval /health endpoint |
-| AI service uptime         | > 99.5% | —       | Better Uptime    | 5-min interval /api/health      |
-| p95 page load (CDN hit)   | < 100ms | —       | Vercel Analytics | RUM data                        |
-| p95 API response          | < 200ms | —       | Sentry           | Distributed tracing             |
-| p95 AI response           | < 3s    | —       | Custom DB        | Per-request timing              |
-| Error rate (all services) | < 1%    | —       | Sentry           | Rolling 24h window              |
-| Database query p95        | < 50ms  | —       | Custom DB        | pg_stat_statements              |
-| AI monthly cost           | < $10   | —       | Custom DB        | Per-request cost tracking       |
-| Error budget consumption  | < 100%  | —       | Automated        | Monthly calculation             |
+| Frontend uptime           | > 99.9% | Ã¢â‚¬â€       | Better Uptime    | 1-min interval health checks    |
+| API uptime                | > 99.9% | Ã¢â‚¬â€       | Better Uptime    | 1-min interval /health endpoint |
+| AI service uptime         | > 99.5% | Ã¢â‚¬â€       | Better Uptime    | 5-min interval /api/health      |
+| p95 page load (CDN hit)   | < 100ms | Ã¢â‚¬â€       | Vercel Analytics | RUM data                        |
+| p95 API response          | < 200ms | Ã¢â‚¬â€       | Sentry           | Distributed tracing             |
+| p95 AI response           | < 3s    | Ã¢â‚¬â€       | Custom DB        | Per-request timing              |
+| Error rate (all services) | < 1%    | Ã¢â‚¬â€       | Sentry           | Rolling 24h window              |
+| Database query p95        | < 50ms  | Ã¢â‚¬â€       | Custom DB        | pg_stat_statements              |
+| AI monthly cost           | < $10   | Ã¢â‚¬â€       | Custom DB        | Per-request cost tracking       |
+| Error budget consumption  | < 100%  | Ã¢â‚¬â€       | Automated        | Monthly calculation             |
 
 ### 1.4 Alignment with Other Documents
 
@@ -74,9 +74,9 @@ The monitoring system provides **complete, real-time visibility** into every lay
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `docs/operations/AnalyticsArchitecture.md` (v5.0) | Analytics event tracking feeds monitoring dashboards; monitoring alerts on analytics anomalies |
 | `docs/operations/22-OBSERVABILITY.md` (v5.0)      | Three pillars (logs, metrics, traces) are the foundation that monitoring operates on           |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)            | §19 AI Monitoring — 10 alert rules, health check endpoints, AI-specific metrics                |
-| `docs/architecture/SystemArchitecture.md` (v5.0)  | §10 Monitoring Architecture — observability stack diagram, alert severity matrix               |
-| `docs/security/SecurityArchitecture.md` (v5.0)    | §29 Security Monitoring — security event monitoring, alert rules, audit logging                |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)            | Ã‚Â§19 AI Monitoring Ã¢â‚¬â€ 10 alert rules, health check endpoints, AI-specific metrics                |
+| `docs/architecture/SystemArchitecture.md` (v5.0)  | Ã‚Â§10 Monitoring Architecture Ã¢â‚¬â€ observability stack diagram, alert severity matrix               |
+| `docs/security/SecurityArchitecture.md` (v5.0)    | Ã‚Â§29 Security Monitoring Ã¢â‚¬â€ security event monitoring, alert rules, audit logging                |
 | `docs/quality/PerformanceArchitecture.md` (v3.0)  | Performance budgets and targets that monitoring measures against                               |
 | `docs/operations/DevOpsArchitecture.md` (v3.0)    | DevOps metrics (build time, CI failure rate) monitored in this framework                       |
 | `docs/operations/25-CICD.md` (v3.0)               | CI/CD pipeline health monitored as part of infrastructure monitoring                           |
@@ -93,13 +93,13 @@ The monitoring system provides **complete, real-time visibility** into every lay
 ```mermaid
 graph TB
     subgraph "What We Monitor"
-        FE["🌐 Frontend<br/>Next.js 14"]
-        API["⚙️ API<br/>NestJS 10"]
-        AI["🧠 AI Service<br/>FastAPI"]
-        DB["🗄️ Database<br/>Supabase PG15"]
-        INFRA["☁️ Infrastructure<br/>Vercel + Railway + Cloudflare"]
-        UX["👤 User Experience<br/>RUM + Session Replays"]
-        SEC["🔒 Security<br/>Auth + WAF + Audit"]
+        FE["Ã°Å¸Å’Â Frontend<br/>Next.js 14"]
+        API["Ã¢Å¡â„¢Ã¯Â¸Â API<br/>NestJS 10"]
+        AI["Ã°Å¸Â§Â  AI Service<br/>FastAPI"]
+        DB["Ã°Å¸â€”â€žÃ¯Â¸Â Database<br/>Supabase PG15"]
+        INFRA["Ã¢ËœÂÃ¯Â¸Â Infrastructure<br/>Vercel + Railway + Cloudflare"]
+        UX["Ã°Å¸â€˜Â¤ User Experience<br/>RUM + Session Replays"]
+        SEC["Ã°Å¸â€â€™ Security<br/>Auth + WAF + Audit"]
     end
 
     subgraph "How We Collect"
@@ -123,11 +123,11 @@ graph TB
     end
 
     subgraph "How We Alert & Respond"
-        TELEGRAM["📱 Telegram Bot<br/>Instant Alerts<br/>Severity-based"]
-        EMAIL["📧 Email<br/>Daily Digests<br/>Weekly Reports"]
-        DASHBOARD["📊 Admin Panel<br/>Monitoring Widgets<br/>Real-time Status"]
-        STATUS_PAGE["📋 Status Page<br/>Public Status<br/>portfolioowner.status"]
-        INCIDENT_MGMT["🚨 Incident Management<br/>Severity Matrix<br/>Runbooks"]
+        TELEGRAM["Ã°Å¸â€œÂ± Telegram Bot<br/>Instant Alerts<br/>Severity-based"]
+        EMAIL["Ã°Å¸â€œÂ§ Email<br/>Daily Digests<br/>Weekly Reports"]
+        DASHBOARD["Ã°Å¸â€œÅ  Admin Panel<br/>Monitoring Widgets<br/>Real-time Status"]
+        STATUS_PAGE["Ã°Å¸â€œâ€¹ Status Page<br/>Public Status<br/>portfolioowner.status"]
+        INCIDENT_MGMT["Ã°Å¸Å¡Â¨ Incident Management<br/>Severity Matrix<br/>Runbooks"]
     end
 
     FE --> SENTRY_SDK
@@ -166,7 +166,7 @@ graph TB
     STATUS_PAGE --> INCIDENT_MGMT
 ```
 
-### 2.2 Data Flow: Event → Metric → Alert → Incident
+### 2.2 Data Flow: Event Ã¢â€ â€™ Metric Ã¢â€ â€™ Alert Ã¢â€ â€™ Incident
 
 ```mermaid
 sequenceDiagram
@@ -190,13 +190,13 @@ sequenceDiagram
         Rules-->>Platform: OK - no action
     else Threshold Breached
         Rules->>Notifier: Send alert notification
-        Notifier->>Oncall: 🚨 Alert (Telegram / Email)
+        Notifier->>Oncall: Ã°Å¸Å¡Â¨ Alert (Telegram / Email)
         Oncall->>Platform: Acknowledge incident
         Oncall->>Oncall: Follow runbook
         Oncall->>S: Apply fix
         S-->>Platform: Service restored
         Platform->>Notifier: Alert resolved
-        Notifier->>Oncall: ✅ Resolution notification
+        Notifier->>Oncall: Ã¢Å“â€¦ Resolution notification
     end
 ```
 
@@ -224,13 +224,13 @@ sequenceDiagram
 
 | Monitor                          | Tool   | Metric                     | Threshold                     | Alert Severity |
 | -------------------------------- | ------ | -------------------------- | ----------------------------- | -------------- |
-| **JavaScript errors**            | Sentry | Error count, error rate    | > 10/day or > 1% rate         | 🟡 High        |
-| **React render errors**          | Sentry | Error boundaries triggered | > 5/day                       | 🟡 High        |
-| **API call failures**            | Sentry | Failed API requests        | > 5% of requests              | 🟡 High        |
-| **Page load errors**             | Sentry | Pages with errors          | Any page consistently failing | 🟡 High        |
-| **Client-side crashes**          | Sentry | Crash rate                 | > 0.1% of sessions            | 🔴 Critical    |
-| **Unhandled promise rejections** | Sentry | Count                      | > 3/day                       | 🟢 Medium      |
-| **Source map errors**            | Sentry | Unmapped errors            | > 1% of errors                | 🟢 Medium      |
+| **JavaScript errors**            | Sentry | Error count, error rate    | > 10/day or > 1% rate         | Ã°Å¸Å¸Â¡ High        |
+| **React render errors**          | Sentry | Error boundaries triggered | > 5/day                       | Ã°Å¸Å¸Â¡ High        |
+| **API call failures**            | Sentry | Failed API requests        | > 5% of requests              | Ã°Å¸Å¸Â¡ High        |
+| **Page load errors**             | Sentry | Pages with errors          | Any page consistently failing | Ã°Å¸Å¸Â¡ High        |
+| **Client-side crashes**          | Sentry | Crash rate                 | > 0.1% of sessions            | Ã°Å¸â€Â´ Critical    |
+| **Unhandled promise rejections** | Sentry | Count                      | > 3/day                       | Ã°Å¸Å¸Â¢ Medium      |
+| **Source map errors**            | Sentry | Unmapped errors            | > 1% of errors                | Ã°Å¸Å¸Â¢ Medium      |
 
 #### Implementation
 
@@ -280,13 +280,13 @@ Sentry.init({
 
 | Monitor                   | Tool      | Metric               | Threshold            | Alert Severity |
 | ------------------------- | --------- | -------------------- | -------------------- | -------------- |
-| **HTTP 5xx errors**       | Sentry    | Rate per endpoint    | > 1% of requests     | 🔴 Critical    |
-| **HTTP 4xx errors**       | Sentry    | Rate per endpoint    | > 5% of requests     | 🟡 High        |
-| **Unhandled exceptions**  | Sentry    | Count                | > 0 (zero tolerance) | 🔴 Critical    |
-| **Slow endpoints**        | Sentry    | p95 response time    | > 500ms              | 🟡 High        |
-| **Database query errors** | Custom DB | Failed queries       | > 5/min              | 🟡 High        |
-| **Auth failures**         | Sentry    | Failed auth attempts | > 5/15min per IP     | 🟡 High        |
-| **Rate limit hits**       | Custom DB | 429 responses        | > 100/day            | 🟢 Medium      |
+| **HTTP 5xx errors**       | Sentry    | Rate per endpoint    | > 1% of requests     | Ã°Å¸â€Â´ Critical    |
+| **HTTP 4xx errors**       | Sentry    | Rate per endpoint    | > 5% of requests     | Ã°Å¸Å¸Â¡ High        |
+| **Unhandled exceptions**  | Sentry    | Count                | > 0 (zero tolerance) | Ã°Å¸â€Â´ Critical    |
+| **Slow endpoints**        | Sentry    | p95 response time    | > 500ms              | Ã°Å¸Å¸Â¡ High        |
+| **Database query errors** | Custom DB | Failed queries       | > 5/min              | Ã°Å¸Å¸Â¡ High        |
+| **Auth failures**         | Sentry    | Failed auth attempts | > 5/15min per IP     | Ã°Å¸Å¸Â¡ High        |
+| **Rate limit hits**       | Custom DB | 429 responses        | > 100/day            | Ã°Å¸Å¸Â¢ Medium      |
 
 #### NestJS Monitoring Configuration
 
@@ -344,13 +344,13 @@ async healthCheck() {
 
 | Monitor                    | Tool      | Metric                    | Threshold         | Alert Severity |
 | -------------------------- | --------- | ------------------------- | ----------------- | -------------- |
-| **LLM API errors**         | Sentry    | 5xx from OpenAI/Anthropic | > 5/hour          | 🔴 Critical    |
-| **RAG retrieval failures** | Sentry    | pgvector query failures   | > 3/hour          | 🟡 High        |
-| **Model fallback events**  | Custom DB | Fallback rate             | > 10% of requests | 🟡 High        |
-| **Response time p95**      | Custom DB | Chat response latency     | > 5s              | 🟡 High        |
-| **Memory usage**           | Railway   | RAM consumption           | > 80% (400MB)     | 🟡 High        |
-| **Concurrent requests**    | Custom DB | Active sessions           | > 5               | 🟡 High        |
-| **Token usage anomaly**    | Custom DB | Sudden spike              | > 3x normal       | 🟡 High        |
+| **LLM API errors**         | Sentry    | 5xx from OpenAI/Anthropic | > 5/hour          | Ã°Å¸â€Â´ Critical    |
+| **RAG retrieval failures** | Sentry    | pgvector query failures   | > 3/hour          | Ã°Å¸Å¸Â¡ High        |
+| **Model fallback events**  | Custom DB | Fallback rate             | > 10% of requests | Ã°Å¸Å¸Â¡ High        |
+| **Response time p95**      | Custom DB | Chat response latency     | > 5s              | Ã°Å¸Å¸Â¡ High        |
+| **Memory usage**           | Railway   | RAM consumption           | > 80% (400MB)     | Ã°Å¸Å¸Â¡ High        |
+| **Concurrent requests**    | Custom DB | Active sessions           | > 5               | Ã°Å¸Å¸Â¡ High        |
+| **Token usage anomaly**    | Custom DB | Sudden spike              | > 3x normal       | Ã°Å¸Å¸Â¡ High        |
 
 #### AI Health Check Endpoint
 
@@ -391,39 +391,39 @@ async def health_check():
 
 | Component              | Provider            | What We Monitor                       | Tool                              | Check Interval | Alert Severity |
 | ---------------------- | ------------------- | ------------------------------------- | --------------------------------- | -------------- | -------------- |
-| **Frontend Hosting**   | Vercel              | Site availability, SSL, CDN status    | Better Uptime                     | 1 min          | 🔴 Critical    |
-| **API Hosting**        | Vercel (Serverless) | /health endpoint, response time       | Better Uptime + Sentry            | 1 min          | 🔴 Critical    |
-| **AI Service Hosting** | Railway             | Container health, memory, CPU         | Railway Dashboard + Better Uptime | 5 min          | 🔴 Critical    |
-| **Database**           | Supabase            | Connection count, storage, query perf | Supabase Dashboard + Custom DB    | 5 min          | 🟡 High        |
-| **DNS**                | Cloudflare          | DNS resolution, DNSSEC                | Better Uptime                     | 5 min          | 🔴 Critical    |
-| **CDN**                | Vercel Edge         | Cache hit rate, origin latency        | Vercel Analytics                  | 15 min         | 🟢 Medium      |
-| **Email Service**      | Resend              | Delivery rate, bounce rate            | Resend Dashboard                  | Daily          | 🟢 Medium      |
-| **CI/CD**              | GitHub Actions      | Build success rate, duration          | GitHub Actions                    | Per push       | 🟡 High        |
+| **Frontend Hosting**   | Vercel              | Site availability, SSL, CDN status    | Better Uptime                     | 1 min          | Ã°Å¸â€Â´ Critical    |
+| **API Hosting**        | Vercel (Serverless) | /health endpoint, response time       | Better Uptime + Sentry            | 1 min          | Ã°Å¸â€Â´ Critical    |
+| **AI Service Hosting** | Railway             | Container health, memory, CPU         | Railway Dashboard + Better Uptime | 5 min          | Ã°Å¸â€Â´ Critical    |
+| **Database**           | Supabase            | Connection count, storage, query perf | Supabase Dashboard + Custom DB    | 5 min          | Ã°Å¸Å¸Â¡ High        |
+| **DNS**                | Cloudflare          | DNS resolution, DNSSEC                | Better Uptime                     | 5 min          | Ã°Å¸â€Â´ Critical    |
+| **CDN**                | Vercel Edge         | Cache hit rate, origin latency        | Vercel Analytics                  | 15 min         | Ã°Å¸Å¸Â¢ Medium      |
+| **Email Service**      | Resend              | Delivery rate, bounce rate            | Resend Dashboard                  | Daily          | Ã°Å¸Å¸Â¢ Medium      |
+| **CI/CD**              | GitHub Actions      | Build success rate, duration          | GitHub Actions                    | Per push       | Ã°Å¸Å¸Â¡ High        |
 
 ### 4.2 Infrastructure Health Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ ☁️ INFRASTRUCTURE STATUS                       Updated: 30s ago   │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐    │
-│ │ Frontend   │ │ API        │ │ AI Service │ │ Database   │    │
-│ │ ✅ 99.98%  │ │ ✅ 99.95%  │ │ ✅ 99.87%  │ │ ✅ 100%    │    │
-│ │ 30d uptime │ │ 30d uptime │ │ 30d uptime │ │ 30d uptime │    │
-│ └────────────┘ └────────────┘ └────────────┘ └────────────┘    │
-│                                                                   │
-│ 📡 Uptime Timeline (Last 24h)                                    │
-│  ████████████████████████████████████████████████████  100%      │
-│  ████████████████████████████████████████████████████  100%      │
-│  ████████████████████████████████████████████████████  100%      │
-│  00:00    06:00    12:00    18:00    24:00                       │
-│                                                                   │
-│ 📊 Resource Usage                         ⚡ CDN Cache Hit Rate │
-│  Railway Memory:  42% ██████████          Overall:       94%    │
-│  Supabase Storage: 12% ███                Static Assets:  98%   │
-│  Supabase Conns:   3/15 ██                API Responses:  78%   │
-│  Build Minutes:  28% ███████              Images:         92%   │
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã¢ËœÂÃ¯Â¸Â INFRASTRUCTURE STATUS                       Updated: 30s ago   Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Frontend   Ã¢â€â€š Ã¢â€â€š API        Ã¢â€â€š Ã¢â€â€š AI Service Ã¢â€â€š Ã¢â€â€š Database   Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 99.98%  Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 99.95%  Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 99.87%  Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 100%    Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š 30d uptime Ã¢â€â€š Ã¢â€â€š 30d uptime Ã¢â€â€š Ã¢â€â€š 30d uptime Ã¢â€â€š Ã¢â€â€š 30d uptime Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÂ¡ Uptime Timeline (Last 24h)                                    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  100%      Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  100%      Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  100%      Ã¢â€â€š
+Ã¢â€â€š  00:00    06:00    12:00    18:00    24:00                       Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Resource Usage                         Ã¢Å¡Â¡ CDN Cache Hit Rate Ã¢â€â€š
+Ã¢â€â€š  Railway Memory:  42% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†          Overall:       94%    Ã¢â€â€š
+Ã¢â€â€š  Supabase Storage: 12% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                Static Assets:  98%   Ã¢â€â€š
+Ã¢â€â€š  Supabase Conns:   3/15 Ã¢â€“Ë†Ã¢â€“Ë†                API Responses:  78%   Ã¢â€â€š
+Ã¢â€â€š  Build Minutes:  28% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†              Images:         92%   Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 4.3 Infrastructure Resource Thresholds
@@ -558,32 +558,32 @@ module.exports = withSpeedInsights(
 ### 5.4 Performance Budget Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ ⚡ PERFORMANCE METRICS                        Updated: 5m ago     │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐    │
-│ │ LCP        │ │ CLS        │ │ INP        │ │ TTFB       │    │
-│ │ 1.8s ✅    │ │ 0.05 ✅    │ │ 120ms ✅   │ │ 450ms ✅   │    │
-│ │ Target:2.5s│ │ Target:0.1 │ │Target:200ms│ │Target:800ms│    │
-│ └────────────┘ └────────────┘ └────────────┘ └────────────┘    │
-│                                                                   │
-│ 📊 API Latency (p95 by endpoint, last 24h)                       │
-│  GET  /sections:      45ms ████████                             │
-│  GET  /projects:      62ms ████████████                         │
-│  GET  /skills:        38ms ███████                              │
-│  POST /leads:        210ms ████████████████████████████████     │
-│  POST /ai/chat:     2100ms ████████████████████████████████████ │
-│                                                                   │
-│ 📦 Bundle Sizes (Production)                                     │
-│  Home Page:      185 KB ████████████████████  Budget: 200 KB ✅  │
-│  Projects Page:  210 KB ██████████████████████ Budget: 200 KB ❌ │
-│  Blog Page:      165 KB ██████████████████    Budget: 200 KB ✅  │
-│  Admin Page:     320 KB ████████████████████████████████████     │
-│                                                                   │
-│ 🏗️ Build Performance (Last 10 builds)                            │
-│  Avg: 2.4 min | Fastest: 1.8 min | Slowest: 4.2 min              │
-│  Cache Hit Rate: 68%                                              │
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã¢Å¡Â¡ PERFORMANCE METRICS                        Updated: 5m ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š LCP        Ã¢â€â€š Ã¢â€â€š CLS        Ã¢â€â€š Ã¢â€â€š INP        Ã¢â€â€š Ã¢â€â€š TTFB       Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š 1.8s Ã¢Å“â€¦    Ã¢â€â€š Ã¢â€â€š 0.05 Ã¢Å“â€¦    Ã¢â€â€š Ã¢â€â€š 120ms Ã¢Å“â€¦   Ã¢â€â€š Ã¢â€â€š 450ms Ã¢Å“â€¦   Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Target:2.5sÃ¢â€â€š Ã¢â€â€š Target:0.1 Ã¢â€â€š Ã¢â€â€šTarget:200msÃ¢â€â€š Ã¢â€â€šTarget:800msÃ¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  API Latency (p95 by endpoint, last 24h)                       Ã¢â€â€š
+Ã¢â€â€š  GET  /sections:      45ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                             Ã¢â€â€š
+Ã¢â€â€š  GET  /projects:      62ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                         Ã¢â€â€š
+Ã¢â€â€š  GET  /skills:        38ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                              Ã¢â€â€š
+Ã¢â€â€š  POST /leads:        210ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†     Ã¢â€â€š
+Ã¢â€â€š  POST /ai/chat:     2100ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë† Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÂ¦ Bundle Sizes (Production)                                     Ã¢â€â€š
+Ã¢â€â€š  Home Page:      185 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  Budget: 200 KB Ã¢Å“â€¦  Ã¢â€â€š
+Ã¢â€â€š  Projects Page:  210 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë† Budget: 200 KB Ã¢ÂÅ’ Ã¢â€â€š
+Ã¢â€â€š  Blog Page:      165 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†    Budget: 200 KB Ã¢Å“â€¦  Ã¢â€â€š
+Ã¢â€â€š  Admin Page:     320 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†     Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Ââ€”Ã¯Â¸Â Build Performance (Last 10 builds)                            Ã¢â€â€š
+Ã¢â€â€š  Avg: 2.4 min | Fastest: 1.8 min | Slowest: 4.2 min              Ã¢â€â€š
+Ã¢â€â€š  Cache Hit Rate: 68%                                              Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -594,7 +594,7 @@ module.exports = withSpeedInsights(
 
 | Metric                   | Definition                 | Target  | Warning | Critical | Tool      |
 | ------------------------ | -------------------------- | ------- | ------- | -------- | --------- |
-| **Chat sessions**        | Sessions initiated per day | —       | —       | —        | Custom DB |
+| **Chat sessions**        | Sessions initiated per day | Ã¢â‚¬â€       | Ã¢â‚¬â€       | Ã¢â‚¬â€        | Custom DB |
 | **Messages per session** | Avg. messages per chat     | > 3     | < 2     | < 1      | Custom DB |
 | **Response time p95**    | 95th percentile latency    | < 3s    | < 5s    | > 5s     | Custom DB |
 | **First token latency**  | Time to first token        | < 1.5s  | < 3s    | > 5s     | Custom DB |
@@ -670,49 +670,49 @@ class AICostTracker:
 ### 6.3 AI Monitoring Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ 🤖 AI MONITORING                              Updated: 1m ago     │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐    │
-│ │ Sessions   │ │ Avg Resp   │ │ Cost Today │ │ Fallback   │    │
-│ │ Today      │ │ Time       │ │            │ │ Rate       │    │
-│ │   24      │ │  2.1s ✅   │ │  $0.14 ✅  │ │  3.2% ✅  │    │
-│ │  +8 📈    │ │ Target:3s  │ │Budget:$0.50│ │ Target:5%  │    │
-│ └────────────┘ └────────────┘ └────────────┘ └────────────┘    │
-│                                                                   │
-│ 📊 Response Time (p95, last 24h)                                 │
-│  ████████████████ 2.1s ─── Target: 3.0s                          │
-│  ████████████████████████ 3.8s ─── Warning: 5.0s                │
-│  ████████████████ 1.9s ───                                       │
-│  00:00    06:00    12:00    18:00    24:00                       │
-│                                                                   │
-│ 📋 Model Usage                              💰 Cost Breakdown   │
-│  GPT-4 Chat:     78% ████████████████████  Chat: $3.50 ██████  │
-│  Claude Fallback:  8% ██                   Embed: $0.65 █       │
-│  GPT-3.5 Analysis: 6% █                    Analy: $0.15 ░       │
-│  Embeddings:       8% ██                   Suggs: $0.75 █       │
-│                                                                   │
-│ 🎯 RAG Quality Metrics                         🚨 Recent Events  │
-│  Avg Similarity:   0.78 ✅                     • 10:30 - Fallback│
-│  Chunks Retrieved: 3.0 (k=3)                   • 09:15 - Slow resp│
-│  Cache Hit Rate:   42% ✅                      • 08:00 - Budget 80%│
-│  Latency p50:      12ms ✅                     • 07:30 - Cache miss│
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸Â¤â€“ AI MONITORING                              Updated: 1m ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Sessions   Ã¢â€â€š Ã¢â€â€š Avg Resp   Ã¢â€â€š Ã¢â€â€š Cost Today Ã¢â€â€š Ã¢â€â€š Fallback   Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Today      Ã¢â€â€š Ã¢â€â€š Time       Ã¢â€â€š Ã¢â€â€š            Ã¢â€â€š Ã¢â€â€š Rate       Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š   24      Ã¢â€â€š Ã¢â€â€š  2.1s Ã¢Å“â€¦   Ã¢â€â€š Ã¢â€â€š  $0.14 Ã¢Å“â€¦  Ã¢â€â€š Ã¢â€â€š  3.2% Ã¢Å“â€¦  Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  +8 Ã°Å¸â€œË†    Ã¢â€â€š Ã¢â€â€š Target:3s  Ã¢â€â€š Ã¢â€â€šBudget:$0.50Ã¢â€â€š Ã¢â€â€š Target:5%  Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Response Time (p95, last 24h)                                 Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë† 2.1s Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Target: 3.0s                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë† 3.8s Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Warning: 5.0s                Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë† 1.9s Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬                                       Ã¢â€â€š
+Ã¢â€â€š  00:00    06:00    12:00    18:00    24:00                       Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œâ€¹ Model Usage                              Ã°Å¸â€™Â° Cost Breakdown   Ã¢â€â€š
+Ã¢â€â€š  GPT-4 Chat:     78% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  Chat: $3.50 Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  Ã¢â€â€š
+Ã¢â€â€š  Claude Fallback:  8% Ã¢â€“Ë†Ã¢â€“Ë†                   Embed: $0.65 Ã¢â€“Ë†       Ã¢â€â€š
+Ã¢â€â€š  GPT-3.5 Analysis: 6% Ã¢â€“Ë†                    Analy: $0.15 Ã¢â€“â€˜       Ã¢â€â€š
+Ã¢â€â€š  Embeddings:       8% Ã¢â€“Ë†Ã¢â€“Ë†                   Suggs: $0.75 Ã¢â€“Ë†       Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¯ RAG Quality Metrics                         Ã°Å¸Å¡Â¨ Recent Events  Ã¢â€â€š
+Ã¢â€â€š  Avg Similarity:   0.78 Ã¢Å“â€¦                     Ã¢â‚¬Â¢ 10:30 - FallbackÃ¢â€â€š
+Ã¢â€â€š  Chunks Retrieved: 3.0 (k=3)                   Ã¢â‚¬Â¢ 09:15 - Slow respÃ¢â€â€š
+Ã¢â€â€š  Cache Hit Rate:   42% Ã¢Å“â€¦                      Ã¢â‚¬Â¢ 08:00 - Budget 80%Ã¢â€â€š
+Ã¢â€â€š  Latency p50:      12ms Ã¢Å“â€¦                     Ã¢â‚¬Â¢ 07:30 - Cache missÃ¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 6.4 AI Alert Rules
 
 | Rule               | Metric            | Threshold | Window      | Severity    | Action                    |
 | ------------------ | ----------------- | --------- | ----------- | ----------- | ------------------------- |
-| High error rate    | AI error count    | > 10/day  | 24h rolling | 🟡 High     | Investigate Sentry        |
-| Latency spike      | p95 response      | > 5s      | 5 min       | 🟡 High     | Check model availability  |
-| Cost anomaly       | Daily cost        | > $0.50   | Instant     | 🟡 High     | Check for abuse           |
-| Budget exceeded    | Monthly cost      | > $10     | Instant     | 🔴 Critical | Disable AI chat           |
-| Service down       | Health endpoint   | Non-200   | 1 min       | 🔴 Critical | Trigger fallback          |
-| RAG degradation    | Avg similarity    | < 0.6     | 1 hour      | 🟡 High     | Check knowledge base      |
-| Cache efficiency   | Cache hit rate    | < 20%     | 1 hour      | 🟢 Medium   | Adjust cache TTL          |
-| Fallback spike     | Fallback events   | > 3/day   | Instant     | 🟡 High     | Investigate primary model |
-| Hallucination flag | Flagged responses | > 3/day   | Instant     | 🟡 High     | Review RAG pipeline       |
+| High error rate    | AI error count    | > 10/day  | 24h rolling | Ã°Å¸Å¸Â¡ High     | Investigate Sentry        |
+| Latency spike      | p95 response      | > 5s      | 5 min       | Ã°Å¸Å¸Â¡ High     | Check model availability  |
+| Cost anomaly       | Daily cost        | > $0.50   | Instant     | Ã°Å¸Å¸Â¡ High     | Check for abuse           |
+| Budget exceeded    | Monthly cost      | > $10     | Instant     | Ã°Å¸â€Â´ Critical | Disable AI chat           |
+| Service down       | Health endpoint   | Non-200   | 1 min       | Ã°Å¸â€Â´ Critical | Trigger fallback          |
+| RAG degradation    | Avg similarity    | < 0.6     | 1 hour      | Ã°Å¸Å¸Â¡ High     | Check knowledge base      |
+| Cache efficiency   | Cache hit rate    | < 20%     | 1 hour      | Ã°Å¸Å¸Â¢ Medium   | Adjust cache TTL          |
+| Fallback spike     | Fallback events   | > 3/day   | Instant     | Ã°Å¸Å¸Â¡ High     | Investigate primary model |
+| Hallucination flag | Flagged responses | > 3/day   | Instant     | Ã°Å¸Å¸Â¡ High     | Review RAG pipeline       |
 
 ---
 
@@ -774,29 +774,29 @@ ORDER BY bloat_pct DESC;
 ### 7.3 Database Monitoring Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ 🗄️ DATABASE MONITORING                       Updated: 5m ago     │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐    │
-│ │ Connections│ │ Storage    │ │ Query p95  │ │ Error Rate │    │
-│ │  3/15     │ │  62MB/500MB│ │  12ms ✅   │ │  0.02% ✅ │    │
-│ │  ━━━━━╸   │ │  ━━━╸      │ │ Target:50ms│ │ Target:1%  │    │
-│ └────────────┘ └────────────┘ └────────────┘ └────────────┘    │
-│                                                                   │
-│ 📊 Top 5 Slowest Queries (Last 24h)                              │
-│  1. Vector search (pgvector)      avg 32ms ████████████         │
-│  2. Analytics aggregation (30d)   avg 28ms ██████████           │
-│  3. Lead search by email          avg 15ms █████                │
-│  4. Project filtering by tech     avg 12ms ████                 │
-│  5. Blog post listing             avg  8ms ██                   │
-│                                                                   │
-│ 📋 Table Sizes                     🔍 Index Health              │
-│  analytics_events:   18 MB         idx_leads_email:       98% ✅ │
-│  chat_messages:       8 MB         idx_sections_visible:  95% ✅ │
-│  document_chunks:     5 MB         idx_projects_tech:     89% ✅ │
-│  leads:               2 MB         idx_blog_tags:         85% ✅ │
-│  sections:          0.5 MB         idx_chunks_embedding:  92% ✅ │
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€”â€žÃ¯Â¸Â DATABASE MONITORING                       Updated: 5m ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š ConnectionsÃ¢â€â€š Ã¢â€â€š Storage    Ã¢â€â€š Ã¢â€â€š Query p95  Ã¢â€â€š Ã¢â€â€š Error Rate Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  3/15     Ã¢â€â€š Ã¢â€â€š  62MB/500MBÃ¢â€â€š Ã¢â€â€š  12ms Ã¢Å“â€¦   Ã¢â€â€š Ã¢â€â€š  0.02% Ã¢Å“â€¦ Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  Ã¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€¢Â¸   Ã¢â€â€š Ã¢â€â€š  Ã¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€¢Â¸      Ã¢â€â€š Ã¢â€â€š Target:50msÃ¢â€â€š Ã¢â€â€š Target:1%  Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Top 5 Slowest Queries (Last 24h)                              Ã¢â€â€š
+Ã¢â€â€š  1. Vector search (pgvector)      avg 32ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†         Ã¢â€â€š
+Ã¢â€â€š  2. Analytics aggregation (30d)   avg 28ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†           Ã¢â€â€š
+Ã¢â€â€š  3. Lead search by email          avg 15ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                Ã¢â€â€š
+Ã¢â€â€š  4. Project filtering by tech     avg 12ms Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                 Ã¢â€â€š
+Ã¢â€â€š  5. Blog post listing             avg  8ms Ã¢â€“Ë†Ã¢â€“Ë†                   Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œâ€¹ Table Sizes                     Ã°Å¸â€Â Index Health              Ã¢â€â€š
+Ã¢â€â€š  analytics_events:   18 MB         idx_leads_email:       98% Ã¢Å“â€¦ Ã¢â€â€š
+Ã¢â€â€š  chat_messages:       8 MB         idx_sections_visible:  95% Ã¢Å“â€¦ Ã¢â€â€š
+Ã¢â€â€š  document_chunks:     5 MB         idx_projects_tech:     89% Ã¢Å“â€¦ Ã¢â€â€š
+Ã¢â€â€š  leads:               2 MB         idx_blog_tags:         85% Ã¢Å“â€¦ Ã¢â€â€š
+Ã¢â€â€š  sections:          0.5 MB         idx_chunks_embedding:  92% Ã¢Å“â€¦ Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 7.4 Database Monitoring Schedule
@@ -928,65 +928,65 @@ export class ApiMonitoringInterceptor implements NestInterceptor {
 
 | Security Event                | Detection Method              | Tool                | Alert Severity | Response                      |
 | ----------------------------- | ----------------------------- | ------------------- | -------------- | ----------------------------- |
-| **Failed login attempts**     | Rate limit threshold exceeded | Sentry + Custom DB  | 🟡 High        | Check for brute force         |
-| **Suspicious admin access**   | Unusual IP/location           | Audit logs          | 🟡 High        | Verify with admin             |
-| **API key leakage**           | GitHub secret scanning        | GitHub Alerts       | 🔴 Critical    | Rotate keys immediately       |
-| **SQL injection attempt**     | WAF rule match                | Cloudflare          | 🟡 High        | Block IP, review logs         |
-| **XSS attempt**               | WAF rule match + CSP report   | Cloudflare + Sentry | 🟡 High        | Block IP, sanitize input      |
-| **CSRF violation**            | CSRF token mismatch           | Application logs    | 🟢 Medium      | Log for investigation         |
-| **Rate limit abuse**          | Multiple 429 responses        | Custom DB           | 🟢 Medium      | Review patterns               |
-| **DDoS attack**               | Traffic anomaly               | Cloudflare          | 🔴 Critical    | Enable Under Attack mode      |
-| **Prompt injection**          | Injection pattern detected    | AI sanitization     | 🟡 High        | Block session, log for review |
-| **Data exfiltration attempt** | Unusual outbound traffic      | Cloudflare + Vercel | 🔴 Critical    | Block outbound, investigate   |
+| **Failed login attempts**     | Rate limit threshold exceeded | Sentry + Custom DB  | Ã°Å¸Å¸Â¡ High        | Check for brute force         |
+| **Suspicious admin access**   | Unusual IP/location           | Audit logs          | Ã°Å¸Å¸Â¡ High        | Verify with admin             |
+| **API key leakage**           | GitHub secret scanning        | GitHub Alerts       | Ã°Å¸â€Â´ Critical    | Rotate keys immediately       |
+| **SQL injection attempt**     | WAF rule match                | Cloudflare          | Ã°Å¸Å¸Â¡ High        | Block IP, review logs         |
+| **XSS attempt**               | WAF rule match + CSP report   | Cloudflare + Sentry | Ã°Å¸Å¸Â¡ High        | Block IP, sanitize input      |
+| **CSRF violation**            | CSRF token mismatch           | Application logs    | Ã°Å¸Å¸Â¢ Medium      | Log for investigation         |
+| **Rate limit abuse**          | Multiple 429 responses        | Custom DB           | Ã°Å¸Å¸Â¢ Medium      | Review patterns               |
+| **DDoS attack**               | Traffic anomaly               | Cloudflare          | Ã°Å¸â€Â´ Critical    | Enable Under Attack mode      |
+| **Prompt injection**          | Injection pattern detected    | AI sanitization     | Ã°Å¸Å¸Â¡ High        | Block session, log for review |
+| **Data exfiltration attempt** | Unusual outbound traffic      | Cloudflare + Vercel | Ã°Å¸â€Â´ Critical    | Block outbound, investigate   |
 
 ### 9.2 Security Monitoring Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ 🔒 SECURITY MONITORING                       Updated: Real-time  │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐    │
-│ │ Failed     │ │ Rate Limit │ │ WAF Blocks │ │ CSP Viol.  │    │
-│ │ Logins     │ │ Hits       │ │ Today      │ │ Today      │    │
-│ │  3 today   │ │  12 today  │ │  0         │ │  0         │    │
-│ │  +1 from   │ │  +5 from   │ │  No Change │ │  No Change │    │
-│ │  yesterday │ │  yesterday │ │            │ │            │    │
-│ └────────────┘ └────────────┘ └────────────┘ └────────────┘    │
-│                                                                   │
-│ 📊 Security Events Timeline (Last 7 days)                        │
-│  ████████████░ Failed Logins                                     │
-│  █████████████ Rate Limit Hits                                   │
-│  ░░░░░░░░░░░░ WAF Blocks                                        │
-│  ░░░░░░░░░░░░ CSP Violations                                    │
-│  Mon   Tue   Wed   Thu   Fri   Sat   Sun                        │
-│                                                                   │
-│ 🚨 Recent Security Events                                        │
-│  • 10:30 - Auth 401 from IP 192.168.x.x (3 attempts)            │
-│  • 09:15 - Rate limit hit - /api/leads (IP: 203.0.113.x)        │
-│  • 08:00 - Security headers scan: A+ ✅                          │
-│  • 07:30 - Dependabot: 0 critical, 2 high alerts                │
-│                                                                   │
-│ 📋 Security Posture                          🛡️ Last Scan        │
-│  Security Headers:   A+ ✅                    24m ago            │
-│  SSL/TLS:           A+ ✅                    24m ago             │
-│  Dependabot:        2 high, 0 critical       3h ago              │
-│  Audit Log Entries: 42 today                 Real-time           │
-│  Active Sessions:   1 admin                   Real-time           │
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€â€™ SECURITY MONITORING                       Updated: Real-time  Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Failed     Ã¢â€â€š Ã¢â€â€š Rate Limit Ã¢â€â€š Ã¢â€â€š WAF Blocks Ã¢â€â€š Ã¢â€â€š CSP Viol.  Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Logins     Ã¢â€â€š Ã¢â€â€š Hits       Ã¢â€â€š Ã¢â€â€š Today      Ã¢â€â€š Ã¢â€â€š Today      Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  3 today   Ã¢â€â€š Ã¢â€â€š  12 today  Ã¢â€â€š Ã¢â€â€š  0         Ã¢â€â€š Ã¢â€â€š  0         Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  +1 from   Ã¢â€â€š Ã¢â€â€š  +5 from   Ã¢â€â€š Ã¢â€â€š  No Change Ã¢â€â€š Ã¢â€â€š  No Change Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  yesterday Ã¢â€â€š Ã¢â€â€š  yesterday Ã¢â€â€š Ã¢â€â€š            Ã¢â€â€š Ã¢â€â€š            Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Security Events Timeline (Last 7 days)                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜ Failed Logins                                     Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë† Rate Limit Hits                                   Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜ WAF Blocks                                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜ CSP Violations                                    Ã¢â€â€š
+Ã¢â€â€š  Mon   Tue   Wed   Thu   Fri   Sat   Sun                        Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å¡Â¨ Recent Security Events                                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â‚¬Â¢ 10:30 - Auth 401 from IP 192.168.x.x (3 attempts)            Ã¢â€â€š
+Ã¢â€â€š  Ã¢â‚¬Â¢ 09:15 - Rate limit hit - /api/leads (IP: 203.0.113.x)        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â‚¬Â¢ 08:00 - Security headers scan: A+ Ã¢Å“â€¦                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â‚¬Â¢ 07:30 - Dependabot: 0 critical, 2 high alerts                Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œâ€¹ Security Posture                          Ã°Å¸â€ºÂ¡Ã¯Â¸Â Last Scan        Ã¢â€â€š
+Ã¢â€â€š  Security Headers:   A+ Ã¢Å“â€¦                    24m ago            Ã¢â€â€š
+Ã¢â€â€š  SSL/TLS:           A+ Ã¢Å“â€¦                    24m ago             Ã¢â€â€š
+Ã¢â€â€š  Dependabot:        2 high, 0 critical       3h ago              Ã¢â€â€š
+Ã¢â€â€š  Audit Log Entries: 42 today                 Real-time           Ã¢â€â€š
+Ã¢â€â€š  Active Sessions:   1 admin                   Real-time           Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 9.3 Security Alert Rules
 
 | Rule                  | Metric                  | Threshold   | Window  | Severity    | Action                       |
 | --------------------- | ----------------------- | ----------- | ------- | ----------- | ---------------------------- |
-| Brute force detection | Failed logins per IP    | > 5         | 15 min  | 🟡 High     | Block IP, notify admin       |
-| Mass registration     | New account attempts    | > 10        | 1 hour  | 🟡 High     | Review source, block if spam |
-| API key usage anomaly | API key calls           | > 3x normal | 1 hour  | 🟡 High     | Check for compromised key    |
-| WAF bypass attempts   | WAF rule matches        | > 5         | 1 hour  | 🟡 High     | Review WAF rules             |
-| CSP violation         | CSP report count        | > 3         | 1 hour  | 🟢 Medium   | Review violation source      |
-| Data volume anomaly   | Outbound data transfer  | > 5x normal | 1 hour  | 🔴 Critical | Check for exfiltration       |
-| Unusual admin access  | Admin login from new IP | Any         | Instant | 🟡 High     | Verify with admin            |
-| Dependabot critical   | Critical vulnerability  | Any         | Instant | 🟡 High     | Patch immediately            |
+| Brute force detection | Failed logins per IP    | > 5         | 15 min  | Ã°Å¸Å¸Â¡ High     | Block IP, notify admin       |
+| Mass registration     | New account attempts    | > 10        | 1 hour  | Ã°Å¸Å¸Â¡ High     | Review source, block if spam |
+| API key usage anomaly | API key calls           | > 3x normal | 1 hour  | Ã°Å¸Å¸Â¡ High     | Check for compromised key    |
+| WAF bypass attempts   | WAF rule matches        | > 5         | 1 hour  | Ã°Å¸Å¸Â¡ High     | Review WAF rules             |
+| CSP violation         | CSP report count        | > 3         | 1 hour  | Ã°Å¸Å¸Â¢ Medium   | Review violation source      |
+| Data volume anomaly   | Outbound data transfer  | > 5x normal | 1 hour  | Ã°Å¸â€Â´ Critical | Check for exfiltration       |
+| Unusual admin access  | Admin login from new IP | Any         | Instant | Ã°Å¸Å¸Â¡ High     | Verify with admin            |
+| Dependabot critical   | Critical vulnerability  | Any         | Instant | Ã°Å¸Å¸Â¡ High     | Patch immediately            |
 
 ### 9.4 Audit Log Monitoring
 
@@ -1059,31 +1059,31 @@ PostHog session replays are reviewed regularly:
 ### 10.3 UX Monitoring Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ 👤 UX MONITORING                              Updated: 5m ago     │
-├─────────────────────────────────────────────────────────────────┤
-│ ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐    │
-│ │ Bounce     │ │ Session    │ │ Pages/     │ │ Scroll     │    │
-│ │ Rate       │ │ Duration   │ │ Session    │ │ Depth      │    │
-│ │  38% ✅   │ │  3.2min ✅ │ │  3.8 ✅    │ │  72% ✅   │    │
-│ │ Target:40% │ │ Target:3min│ │ Target:3   │ │ Target:60% │    │
-│ └────────────┘ └────────────┘ └────────────┘ └────────────┘    │
-│                                                                   │
-│ 📊 Top UX Issues (Last 7 days)                                   │
-│  1. Mobile nav menu slow to open     42 occurrences              │
-│  2. Contact form validation error    18 occurrences              │
-│  3. Project filter not responsive    12 occurrences              │
-│  4. Chat widget not loading          8 occurrences               │
-│  5. Theme toggle flash on page load  5 occurrences               │
-│                                                                   │
-│ 📋 Session Replay Queue                🎯 Form Abandonment       │
-│  Unreviewed: 42 sessions               Step 1 (Name):    8%     │
-│  Flagged:     8 sessions (issues)      Step 2 (Email):  12%     │
-│  Reviewed:   156 sessions (24h)        Step 3 (Message): 22%    │
-│                                         Submit:           58%    │
-│  🎥 Latest Flagged Session                                       │
-│  • User scrolled to hero, clicked Projects twice, bounced        │
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€˜Â¤ UX MONITORING                              Updated: 5m ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Bounce     Ã¢â€â€š Ã¢â€â€š Session    Ã¢â€â€š Ã¢â€â€š Pages/     Ã¢â€â€š Ã¢â€â€š Scroll     Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Rate       Ã¢â€â€š Ã¢â€â€š Duration   Ã¢â€â€š Ã¢â€â€š Session    Ã¢â€â€š Ã¢â€â€š Depth      Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  38% Ã¢Å“â€¦   Ã¢â€â€š Ã¢â€â€š  3.2min Ã¢Å“â€¦ Ã¢â€â€š Ã¢â€â€š  3.8 Ã¢Å“â€¦    Ã¢â€â€š Ã¢â€â€š  72% Ã¢Å“â€¦   Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Target:40% Ã¢â€â€š Ã¢â€â€š Target:3minÃ¢â€â€š Ã¢â€â€š Target:3   Ã¢â€â€š Ã¢â€â€š Target:60% Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Top UX Issues (Last 7 days)                                   Ã¢â€â€š
+Ã¢â€â€š  1. Mobile nav menu slow to open     42 occurrences              Ã¢â€â€š
+Ã¢â€â€š  2. Contact form validation error    18 occurrences              Ã¢â€â€š
+Ã¢â€â€š  3. Project filter not responsive    12 occurrences              Ã¢â€â€š
+Ã¢â€â€š  4. Chat widget not loading          8 occurrences               Ã¢â€â€š
+Ã¢â€â€š  5. Theme toggle flash on page load  5 occurrences               Ã¢â€â€š
+Ã¢â€â€š                                                                   Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œâ€¹ Session Replay Queue                Ã°Å¸Å½Â¯ Form Abandonment       Ã¢â€â€š
+Ã¢â€â€š  Unreviewed: 42 sessions               Step 1 (Name):    8%     Ã¢â€â€š
+Ã¢â€â€š  Flagged:     8 sessions (issues)      Step 2 (Email):  12%     Ã¢â€â€š
+Ã¢â€â€š  Reviewed:   156 sessions (24h)        Step 3 (Message): 22%    Ã¢â€â€š
+Ã¢â€â€š                                         Submit:           58%    Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸Å½Â¥ Latest Flagged Session                                       Ã¢â€â€š
+Ã¢â€â€š  Ã¢â‚¬Â¢ User scrolled to hero, clicked Projects twice, bounced        Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -1094,42 +1094,42 @@ PostHog session replays are reviewed regularly:
 
 | SLO ID      | Service                 | SLI                 | Target     | Measurement Window | Calculation Method                              |
 | ----------- | ----------------------- | ------------------- | ---------- | ------------------ | ----------------------------------------------- |
-| **SLO-001** | Frontend Availability   | Uptime percentage   | 99.9%      | Rolling 30 days    | (Successful checks / Total checks) × 100        |
-| **SLO-002** | API Availability        | Uptime percentage   | 99.9%      | Rolling 30 days    | (Successful health checks / Total checks) × 100 |
-| **SLO-003** | AI Service Availability | Uptime percentage   | 99.5%      | Rolling 30 days    | (Successful health checks / Total checks) × 100 |
+| **SLO-001** | Frontend Availability   | Uptime percentage   | 99.9%      | Rolling 30 days    | (Successful checks / Total checks) Ãƒâ€” 100        |
+| **SLO-002** | API Availability        | Uptime percentage   | 99.9%      | Rolling 30 days    | (Successful health checks / Total checks) Ãƒâ€” 100 |
+| **SLO-003** | AI Service Availability | Uptime percentage   | 99.5%      | Rolling 30 days    | (Successful health checks / Total checks) Ãƒâ€” 100 |
 | **SLO-004** | Frontend Performance    | Page load (p95)     | < 500ms    | Rolling 7 days     | 95th percentile of page load times              |
 | **SLO-005** | API Performance         | Response time (p95) | < 300ms    | Rolling 7 days     | 95th percentile of API response times           |
 | **SLO-006** | AI Performance          | Chat response (p95) | < 3s       | Rolling 7 days     | 95th percentile of chat response times          |
-| **SLO-007** | Error Rate              | Error percentage    | < 1%       | Rolling 24 hours   | (Error requests / Total requests) × 100         |
+| **SLO-007** | Error Rate              | Error percentage    | < 1%       | Rolling 24 hours   | (Error requests / Total requests) Ãƒâ€” 100         |
 | **SLO-008** | Database Performance    | Query latency (p95) | < 50ms     | Rolling 7 days     | 95th percentile of query execution times        |
-| **SLO-009** | API Error Rate          | API 5xx percentage  | < 0.1%     | Rolling 24 hours   | (5xx responses / Total responses) × 100         |
+| **SLO-009** | API Error Rate          | API 5xx percentage  | < 0.1%     | Rolling 24 hours   | (5xx responses / Total responses) Ãƒâ€” 100         |
 | **SLO-010** | AI Cost                 | Monthly spend       | < $10.00   | Rolling 30 days    | Sum of all AI costs for the month               |
 | **SLO-011** | Lead Response           | Time to first reply | < 24 hours | Rolling 30 days    | Average time from lead creation to first reply  |
-| **SLO-012** | Deployment Success      | Build success rate  | > 99%      | Rolling 30 days    | (Successful builds / Total builds) × 100        |
+| **SLO-012** | Deployment Success      | Build success rate  | > 99%      | Rolling 30 days    | (Successful builds / Total builds) Ãƒâ€” 100        |
 
 ### 11.2 SLO Status Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────┐
-│ 📊 SERVICE LEVEL OBJECTIVES                   Updated: Hourly     │
-├─────────────────────────────────────────────────────────────────┤
-│ SLO ID │ Service          │ Target    │ Current   │ Status      │
-│────────┼──────────────────┼───────────┼───────────┼─────────────│
-│ SLO-01 │ Frontend Uptime  │ 99.9%     │ 99.98%    │ ✅ Meeting  │
-│ SLO-02 │ API Uptime       │ 99.9%     │ 99.95%    │ ✅ Meeting  │
-│ SLO-03 │ AI Uptime        │ 99.5%     │ 99.87%    │ ✅ Meeting  │
-│ SLO-04 │ Frontend Perf    │ < 500ms   │ 245ms     │ ✅ Meeting  │
-│ SLO-05 │ API Perf         │ < 300ms   │ 128ms     │ ✅ Meeting  │
-│ SLO-06 │ AI Perf          │ < 3s      │ 2.1s      │ ✅ Meeting  │
-│ SLO-07 │ Error Rate       │ < 1%      │ 0.3%      │ ✅ Meeting  │
-│ SLO-08 │ DB Performance   │ < 50ms    │ 12ms      │ ✅ Meeting  │
-│ SLO-09 │ API Error Rate   │ < 0.1%    │ 0.02%     │ ✅ Meeting  │
-│ SLO-10 │ AI Cost          │ < $10     │ $3.45     │ ✅ Meeting  │
-│ SLO-11 │ Lead Response    │ < 24h     │ 3.2h      │ ✅ Meeting  │
-│ SLO-12 │ Deploy Success   │ > 99%     │ 100%      │ ✅ Meeting  │
-│────────┼──────────────────┼───────────┼───────────┼─────────────│
-│        │ OVERALL SLO      │           │ 100%      │ ✅ ALL MET  │
-└─────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€œÅ  SERVICE LEVEL OBJECTIVES                   Updated: Hourly     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š SLO ID Ã¢â€â€š Service          Ã¢â€â€š Target    Ã¢â€â€š Current   Ã¢â€â€š Status      Ã¢â€â€š
+Ã¢â€â€šÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â€š
+Ã¢â€â€š SLO-01 Ã¢â€â€š Frontend Uptime  Ã¢â€â€š 99.9%     Ã¢â€â€š 99.98%    Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-02 Ã¢â€â€š API Uptime       Ã¢â€â€š 99.9%     Ã¢â€â€š 99.95%    Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-03 Ã¢â€â€š AI Uptime        Ã¢â€â€š 99.5%     Ã¢â€â€š 99.87%    Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-04 Ã¢â€â€š Frontend Perf    Ã¢â€â€š < 500ms   Ã¢â€â€š 245ms     Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-05 Ã¢â€â€š API Perf         Ã¢â€â€š < 300ms   Ã¢â€â€š 128ms     Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-06 Ã¢â€â€š AI Perf          Ã¢â€â€š < 3s      Ã¢â€â€š 2.1s      Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-07 Ã¢â€â€š Error Rate       Ã¢â€â€š < 1%      Ã¢â€â€š 0.3%      Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-08 Ã¢â€â€š DB Performance   Ã¢â€â€š < 50ms    Ã¢â€â€š 12ms      Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-09 Ã¢â€â€š API Error Rate   Ã¢â€â€š < 0.1%    Ã¢â€â€š 0.02%     Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-10 Ã¢â€â€š AI Cost          Ã¢â€â€š < $10     Ã¢â€â€š $3.45     Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-11 Ã¢â€â€š Lead Response    Ã¢â€â€š < 24h     Ã¢â€â€š 3.2h      Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€š SLO-12 Ã¢â€â€š Deploy Success   Ã¢â€â€š > 99%     Ã¢â€â€š 100%      Ã¢â€â€š Ã¢Å“â€¦ Meeting  Ã¢â€â€š
+Ã¢â€â€šÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â€š
+Ã¢â€â€š        Ã¢â€â€š OVERALL SLO      Ã¢â€â€š           Ã¢â€â€š 100%      Ã¢â€â€š Ã¢Å“â€¦ ALL MET  Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 11.3 SLO Compliance Monitoring
@@ -1267,7 +1267,7 @@ class SLICollector {
 | **SLO-003** | AI Uptime       | 99.5%      | 216 minutes downtime   | 8.6 minutes (4.0%)   | 207.4 minutes |
 | **SLO-004** | Frontend Perf   | < 500ms    | 5% of slow pages       | 2.1% (42% used)      | 2.9%          |
 | **SLO-005** | API Perf        | < 300ms    | 5% of slow requests    | 1.8% (36% used)      | 3.2%          |
-| **SLO-006** | AI Perf         | < 3s       | 5% of slow responses   | 4.2% (84% used)      | 0.8% ⚠️       |
+| **SLO-006** | AI Perf         | < 3s       | 5% of slow responses   | 4.2% (84% used)      | 0.8% Ã¢Å¡Â Ã¯Â¸Â       |
 | **SLO-007** | Error Rate      | < 1%       | 0.3% of error budget   | 0.1% (33% used)      | 0.2%          |
 | **SLO-009** | API Error Rate  | < 0.1%     | 0.03% of error budget  | 0.008% (26% used)    | 0.022%        |
 | **SLO-012** | Deploy Success  | > 99%      | 0.3 failed builds      | 0 failures (0% used) | 0.3 builds    |
@@ -1318,35 +1318,35 @@ async function checkErrorBudgetBeforeDeploy(): Promise<boolean> {
 
 | Severity        | Definition                                                 | Response Time | Notification Channel   | Escalation                |
 | --------------- | ---------------------------------------------------------- | ------------- | ---------------------- | ------------------------- |
-| **🔴 Critical** | Service down, data loss, security breach                   | < 15 min      | Telegram + SMS + Email | Owner + All team          |
-| **🟡 High**     | Feature degraded, potential data exposure, high error rate | < 1 hour      | Telegram + Email       | Owner                     |
-| **🟢 Medium**   | Non-critical feature broken, performance regression        | < 1 day       | Email + Dashboard      | Owner (next business day) |
-| **⚪ Low**      | Cosmetic, informational, usage milestone                   | < 1 week      | Dashboard              | None                      |
+| **Ã°Å¸â€Â´ Critical** | Service down, data loss, security breach                   | < 15 min      | Telegram + SMS + Email | Owner + All team          |
+| **Ã°Å¸Å¸Â¡ High**     | Feature degraded, potential data exposure, high error rate | < 1 hour      | Telegram + Email       | Owner                     |
+| **Ã°Å¸Å¸Â¢ Medium**   | Non-critical feature broken, performance regression        | < 1 day       | Email + Dashboard      | Owner (next business day) |
+| **Ã¢Å¡Âª Low**      | Cosmetic, informational, usage milestone                   | < 1 week      | Dashboard              | None                      |
 
 ### 14.2 Complete Alert Rules Catalog
 
 | Alert ID    | Rule Name             | SLI/SLO | Threshold               | Duration    | Severity    | Auto-Remediation          | Runbook |
 | ----------- | --------------------- | ------- | ----------------------- | ----------- | ----------- | ------------------------- | ------- |
-| **ALR-001** | Frontend Down         | SLI-001 | 5xx on health check     | 1 min       | 🔴 Critical | Auto-restart Vercel       | RB-001  |
-| **ALR-002** | API Down              | SLI-002 | Non-200 on /health      | 1 min       | 🔴 Critical | Auto-restart Vercel       | RB-002  |
-| **ALR-003** | AI Service Down       | SLI-003 | Non-200 on /api/health  | 1 min       | 🔴 Critical | Trigger fallback model    | RB-003  |
-| **ALR-004** | SSL Expiring          | —       | Certificate < 30 days   | Daily check | 🟡 High     | Auto-renewal              | RB-004  |
-| **ALR-005** | High Error Rate       | SLI-007 | Error rate > 5%         | 5 min       | 🔴 Critical | Investigate Sentry        | RB-005  |
-| **ALR-006** | Slow API Response     | SLI-005 | p95 > 500ms             | 5 min       | 🟡 High     | Check Sentry traces       | RB-006  |
-| **ALR-007** | Slow AI Response      | SLI-006 | p95 > 5s                | 5 min       | 🟡 High     | Check model availability  | RB-007  |
-| **ALR-008** | Database Connection   | SLI-008 | Connections > 80%       | Instant     | 🟡 High     | Kill idle connections     | RB-008  |
-| **ALR-009** | Database Storage      | —       | Storage > 80%           | Instant     | 🟡 High     | Archive old data          | RB-009  |
-| **ALR-010** | AI Cost Spike         | SLI-010 | Daily cost > $0.50      | Instant     | 🟡 High     | Check for abuse           | RB-010  |
-| **ALR-011** | AI Budget Exceeded    | SLI-010 | Monthly cost > $10      | Instant     | 🔴 Critical | Disable AI chat           | RB-011  |
-| **ALR-012** | Auth Failure Spike    | SLI-015 | > 5 failures/15min      | Instant     | 🟡 High     | Check for brute force     | RB-012  |
-| **ALR-013** | DDoS Detected         | —       | Traffic > 5x normal     | Instant     | 🔴 Critical | Enable Under Attack mode  | RB-013  |
-| **ALR-014** | Build Failure         | SLI-012 | Build failed            | Instant     | 🟡 High     | Fix build                 | RB-014  |
-| **ALR-015** | Cache Hit Rate Drop   | SLI-013 | Cache hit < 20%         | 1 hour      | 🟢 Medium   | Review cache config       | RB-015  |
-| **ALR-016** | RAG Quality Drop      | SLI-014 | Avg similarity < 0.6    | 1 hour      | 🟡 High     | Check knowledge base      | RB-016  |
-| **ALR-017** | Rate Limit Spike      | —       | 429 responses > 100/day | 24h rolling | 🟢 Medium   | Review rate limit config  | RB-017  |
-| **ALR-018** | Fallback Rate High    | —       | Fallback > 10%          | 1 hour      | 🟡 High     | Investigate primary model | RB-018  |
-| **ALR-019** | Lead Response SLA     | SLI-011 | No reply > 24h          | Per lead    | 🟢 Medium   | Send reminder             | RB-019  |
-| **ALR-020** | Pgvector Index Health | —       | Index bloat > 20%       | Weekly      | 🟢 Medium   | REINDEX                   | RB-020  |
+| **ALR-001** | Frontend Down         | SLI-001 | 5xx on health check     | 1 min       | Ã°Å¸â€Â´ Critical | Auto-restart Vercel       | RB-001  |
+| **ALR-002** | API Down              | SLI-002 | Non-200 on /health      | 1 min       | Ã°Å¸â€Â´ Critical | Auto-restart Vercel       | RB-002  |
+| **ALR-003** | AI Service Down       | SLI-003 | Non-200 on /api/health  | 1 min       | Ã°Å¸â€Â´ Critical | Trigger fallback model    | RB-003  |
+| **ALR-004** | SSL Expiring          | Ã¢â‚¬â€       | Certificate < 30 days   | Daily check | Ã°Å¸Å¸Â¡ High     | Auto-renewal              | RB-004  |
+| **ALR-005** | High Error Rate       | SLI-007 | Error rate > 5%         | 5 min       | Ã°Å¸â€Â´ Critical | Investigate Sentry        | RB-005  |
+| **ALR-006** | Slow API Response     | SLI-005 | p95 > 500ms             | 5 min       | Ã°Å¸Å¸Â¡ High     | Check Sentry traces       | RB-006  |
+| **ALR-007** | Slow AI Response      | SLI-006 | p95 > 5s                | 5 min       | Ã°Å¸Å¸Â¡ High     | Check model availability  | RB-007  |
+| **ALR-008** | Database Connection   | SLI-008 | Connections > 80%       | Instant     | Ã°Å¸Å¸Â¡ High     | Kill idle connections     | RB-008  |
+| **ALR-009** | Database Storage      | Ã¢â‚¬â€       | Storage > 80%           | Instant     | Ã°Å¸Å¸Â¡ High     | Archive old data          | RB-009  |
+| **ALR-010** | AI Cost Spike         | SLI-010 | Daily cost > $0.50      | Instant     | Ã°Å¸Å¸Â¡ High     | Check for abuse           | RB-010  |
+| **ALR-011** | AI Budget Exceeded    | SLI-010 | Monthly cost > $10      | Instant     | Ã°Å¸â€Â´ Critical | Disable AI chat           | RB-011  |
+| **ALR-012** | Auth Failure Spike    | SLI-015 | > 5 failures/15min      | Instant     | Ã°Å¸Å¸Â¡ High     | Check for brute force     | RB-012  |
+| **ALR-013** | DDoS Detected         | Ã¢â‚¬â€       | Traffic > 5x normal     | Instant     | Ã°Å¸â€Â´ Critical | Enable Under Attack mode  | RB-013  |
+| **ALR-014** | Build Failure         | SLI-012 | Build failed            | Instant     | Ã°Å¸Å¸Â¡ High     | Fix build                 | RB-014  |
+| **ALR-015** | Cache Hit Rate Drop   | SLI-013 | Cache hit < 20%         | 1 hour      | Ã°Å¸Å¸Â¢ Medium   | Review cache config       | RB-015  |
+| **ALR-016** | RAG Quality Drop      | SLI-014 | Avg similarity < 0.6    | 1 hour      | Ã°Å¸Å¸Â¡ High     | Check knowledge base      | RB-016  |
+| **ALR-017** | Rate Limit Spike      | Ã¢â‚¬â€       | 429 responses > 100/day | 24h rolling | Ã°Å¸Å¸Â¢ Medium   | Review rate limit config  | RB-017  |
+| **ALR-018** | Fallback Rate High    | Ã¢â‚¬â€       | Fallback > 10%          | 1 hour      | Ã°Å¸Å¸Â¡ High     | Investigate primary model | RB-018  |
+| **ALR-019** | Lead Response SLA     | SLI-011 | No reply > 24h          | Per lead    | Ã°Å¸Å¸Â¢ Medium   | Send reminder             | RB-019  |
+| **ALR-020** | Pgvector Index Health | Ã¢â‚¬â€       | Index bloat > 20%       | Weekly      | Ã°Å¸Å¸Â¢ Medium   | REINDEX                   | RB-020  |
 
 ### 14.3 Alert Routing Configuration
 
@@ -1386,23 +1386,23 @@ alert_routing:
 | ALR-001  | Frontend down             | DevOps Lead     | 15 min         | 30 min: Owner  | 1 hr: All team | Vendor support     |
 | ALR-002  | API down                  | Backend Lead    | 15 min         | 30 min: DevOps | 1 hr: Owner    | Vendor support     |
 | ALR-003  | AI service down           | AI Architect    | 15 min         | 30 min: DevOps | 1 hr: Owner    | Railway support    |
-| ALR-004  | SSL expiry                | DevOps Lead     | 7 days (email) | 1 day (SMS)    | —              | Certificate issuer |
+| ALR-004  | SSL expiry                | DevOps Lead     | 7 days (email) | 1 day (SMS)    | Ã¢â‚¬â€              | Certificate issuer |
 | ALR-005  | High error rate           | Backend Lead    | 30 min         | 1 hr: DevOps   | 2 hr: Owner    | Sentry support     |
-| ALR-006  | Slow API response         | Backend Lead    | 1 hour         | 2 hr: DevOps   | 4 hr: Owner    | —                  |
+| ALR-006  | Slow API response         | Backend Lead    | 1 hour         | 2 hr: DevOps   | 4 hr: Owner    | Ã¢â‚¬â€                  |
 | ALR-007  | Slow AI response          | AI Architect    | 1 hour         | 2 hr: DevOps   | 4 hr: Owner    | Provider support   |
 | ALR-008  | Database connections high | Backend Lead    | 30 min         | 1 hr: DevOps   | 2 hr: Owner    | Supabase support   |
-| ALR-009  | Database storage high     | DevOps Lead     | 1 hour         | 4 hr: Owner    | —              | Supabase support   |
-| ALR-010  | AI cost spike             | Owner           | 1 hour         | 4 hr: DevOps   | —              | OpenAI support     |
-| ALR-011  | AI budget exceeded        | Owner           | 15 min         | 30 min: DevOps | —              | Disable AI chat    |
-| ALR-012  | Auth failure spike        | Security Lead   | 15 min         | 30 min: Owner  | 1 hr: All team | —                  |
+| ALR-009  | Database storage high     | DevOps Lead     | 1 hour         | 4 hr: Owner    | Ã¢â‚¬â€              | Supabase support   |
+| ALR-010  | AI cost spike             | Owner           | 1 hour         | 4 hr: DevOps   | Ã¢â‚¬â€              | OpenAI support     |
+| ALR-011  | AI budget exceeded        | Owner           | 15 min         | 30 min: DevOps | Ã¢â‚¬â€              | Disable AI chat    |
+| ALR-012  | Auth failure spike        | Security Lead   | 15 min         | 30 min: Owner  | 1 hr: All team | Ã¢â‚¬â€                  |
 | ALR-013  | DDoS detected             | Security Lead   | 5 min          | 15 min: DevOps | 30 min: Owner  | Cloudflare support |
-| ALR-014  | Build failure             | DevOps Lead     | 1 hour         | 4 hr: Owner    | —              | —                  |
-| ALR-015  | Cache hit rate drop       | DevOps Lead     | 1 day          | —              | —              | —                  |
-| ALR-016  | RAG quality drop          | AI Architect    | 2 hours        | 4 hr: DevOps   | —              | —                  |
-| ALR-017  | Rate limit spike          | DevOps Lead     | 1 day          | —              | —              | —                  |
-| ALR-018  | Model fallback high       | AI Architect    | 2 hours        | 4 hr: DevOps   | —              | Provider support   |
-| ALR-019  | Lead response SLA miss    | Owner           | 1 hour         | 4 hr: Admin    | —              | —                  |
-| ALR-020  | Pgvector index bloat      | Backend Lead    | 1 day          | —              | —              | —                  |
+| ALR-014  | Build failure             | DevOps Lead     | 1 hour         | 4 hr: Owner    | Ã¢â‚¬â€              | Ã¢â‚¬â€                  |
+| ALR-015  | Cache hit rate drop       | DevOps Lead     | 1 day          | Ã¢â‚¬â€              | Ã¢â‚¬â€              | Ã¢â‚¬â€                  |
+| ALR-016  | RAG quality drop          | AI Architect    | 2 hours        | 4 hr: DevOps   | Ã¢â‚¬â€              | Ã¢â‚¬â€                  |
+| ALR-017  | Rate limit spike          | DevOps Lead     | 1 day          | Ã¢â‚¬â€              | Ã¢â‚¬â€              | Ã¢â‚¬â€                  |
+| ALR-018  | Model fallback high       | AI Architect    | 2 hours        | 4 hr: DevOps   | Ã¢â‚¬â€              | Provider support   |
+| ALR-019  | Lead response SLA miss    | Owner           | 1 hour         | 4 hr: Admin    | Ã¢â‚¬â€              | Ã¢â‚¬â€                  |
+| ALR-020  | Pgvector index bloat      | Backend Lead    | 1 day          | Ã¢â‚¬â€              | Ã¢â‚¬â€              | Ã¢â‚¬â€                  |
 
 ---
 
@@ -1421,7 +1421,7 @@ alert_routing:
 
 ```mermaid
 flowchart TD
-    A[🔍 Detection] --> B{Automated or Manual?}
+    A[Ã°Å¸â€Â Detection] --> B{Automated or Manual?}
     B -->|Automated| C[Alert Triggered]
     B -->|Manual| D[User/Bot Reports]
 
@@ -1429,10 +1429,10 @@ flowchart TD
     D --> E
 
     E --> F{Severity Assessment}
-    F -->|Tier 1 Critical| G[🚨 Incident Declared]
-    F -->|Tier 2 Major| H[⚠️ Incident Logged]
-    F -->|Tier 3 Minor| I[📝 Task Created]
-    F -->|Tier 4 Info| J[📊 Noted for Review]
+    F -->|Tier 1 Critical| G[Ã°Å¸Å¡Â¨ Incident Declared]
+    F -->|Tier 2 Major| H[Ã¢Å¡Â Ã¯Â¸Â Incident Logged]
+    F -->|Tier 3 Minor| I[Ã°Å¸â€œÂ Task Created]
+    F -->|Tier 4 Info| J[Ã°Å¸â€œÅ  Noted for Review]
 
     G --> K[Assign Incident Owner]
     K --> L[Create Incident Channel]
@@ -1445,7 +1445,7 @@ flowchart TD
 
     O --> R[Verify Resolution]
     R --> S{Resolved?}
-    S -->|Yes| T[✅ Incident Closed]
+    S -->|Yes| T[Ã¢Å“â€¦ Incident Closed]
     S -->|No| M
 
     T --> U[Post-Mortem: 1 Week]
@@ -1473,48 +1473,48 @@ Applicable to: All Tier 1 (Critical) and Tier 2 (Major) incidents
 
 PHASE 1: DETECTION & TRIAGE (0-5 minutes)
 ==========================================
-□ 1.1 Confirm incident is not a false positive
-□ 1.2 Determine severity (Tier 1-4)
-□ 1.3 Assign incident owner (first available qualified team member)
-□ 1.4 Create incident channel in Telegram: #incident-{timestamp}
-□ 1.5 Notify team: @channel in incident channel
+Ã¢â€“Â¡ 1.1 Confirm incident is not a false positive
+Ã¢â€“Â¡ 1.2 Determine severity (Tier 1-4)
+Ã¢â€“Â¡ 1.3 Assign incident owner (first available qualified team member)
+Ã¢â€“Â¡ 1.4 Create incident channel in Telegram: #incident-{timestamp}
+Ã¢â€“Â¡ 1.5 Notify team: @channel in incident channel
 
 PHASE 2: CONTAINMENT (5-30 minutes)
 =====================================
-□ 2.1 Identify affected components
+Ã¢â€“Â¡ 2.1 Identify affected components
      - Frontend / API / AI / Database / Infrastructure
-□ 2.2 Apply immediate containment
+Ã¢â€“Â¡ 2.2 Apply immediate containment
      - Tier 1: Enable maintenance mode if needed
      - Tier 1: Rotate credentials if breach
      - Tier 2: Feature flag disable
-□ 2.3 Document initial findings in incident channel
+Ã¢â€“Â¡ 2.3 Document initial findings in incident channel
 
 PHASE 3: MITIGATION (30 minutes - 4 hours)
 ============================================
-□ 3.1 Identify root cause
-□ 3.2 Apply fix (code, config, infrastructure)
-□ 3.3 Test fix in staging environment
-□ 3.4 Deploy fix to production
-□ 3.5 Verify fix resolves the incident
+Ã¢â€“Â¡ 3.1 Identify root cause
+Ã¢â€“Â¡ 3.2 Apply fix (code, config, infrastructure)
+Ã¢â€“Â¡ 3.3 Test fix in staging environment
+Ã¢â€“Â¡ 3.4 Deploy fix to production
+Ã¢â€“Â¡ 3.5 Verify fix resolves the incident
 
 PHASE 4: RECOVERY (1-4 hours)
 ===============================
-□ 4.1 Restore from backup if data loss occurred
-□ 4.2 Verify all systems operational
-□ 4.3 Monitor for recurrence (next 24 hours)
-□ 4.4 Communicate resolution to stakeholders
+Ã¢â€“Â¡ 4.1 Restore from backup if data loss occurred
+Ã¢â€“Â¡ 4.2 Verify all systems operational
+Ã¢â€“Â¡ 4.3 Monitor for recurrence (next 24 hours)
+Ã¢â€“Â¡ 4.4 Communicate resolution to stakeholders
 
 PHASE 5: POST-MORTEM (within 1 week)
 =======================================
-□ 5.1 Document timeline of events
+Ã¢â€“Â¡ 5.1 Document timeline of events
      - Detection time, response time, mitigation time, resolution time
      - Key decisions made during incident
-□ 5.2 Identify root cause and contributing factors
+Ã¢â€“Â¡ 5.2 Identify root cause and contributing factors
      - Use 5 Whys methodology
-□ 5.3 Define corrective actions (with owners and deadlines)
-□ 5.4 Update monitoring/alerting to detect faster
-□ 5.5 Update runbooks with lessons learned
-□ 5.6 Share learnings with team
+Ã¢â€“Â¡ 5.3 Define corrective actions (with owners and deadlines)
+Ã¢â€“Â¡ 5.4 Update monitoring/alerting to detect faster
+Ã¢â€“Â¡ 5.5 Update runbooks with lessons learned
+Ã¢â€“Â¡ 5.6 Share learnings with team
 ```
 
 ### 15.4 Incident Timeline Template
@@ -1582,26 +1582,26 @@ PHASE 5: POST-MORTEM (within 1 week)
 
 | Runbook ID | Title                          | Trigger                        | Estimated RTO | Complexity | Last Tested  |
 | ---------- | ------------------------------ | ------------------------------ | ------------- | ---------- | ------------ |
-| **RB-001** | Frontend Service Recovery      | Frontend down or returning 5xx | < 10 min      | 🟢 Low     | Monthly      |
-| **RB-002** | API Service Recovery           | API down or returning 5xx      | < 10 min      | 🟢 Low     | Monthly      |
-| **RB-003** | AI Service Recovery            | AI service unhealthy           | < 15 min      | 🟡 Medium  | Monthly      |
-| **RB-004** | SSL Certificate Renewal        | Certificate expiring < 30 days | < 1 hour      | 🟢 Low     | Quarterly    |
-| **RB-005** | High Error Rate Investigation  | Error rate > 5%                | < 1 hour      | 🟡 Medium  | Monthly      |
-| **RB-006** | API Performance Degradation    | p95 response > 500ms           | < 2 hours     | 🟡 Medium  | Quarterly    |
-| **RB-007** | AI Performance Degradation     | p95 chat > 5s                  | < 1 hour      | 🟡 Medium  | Monthly      |
-| **RB-008** | Database Connection Exhaustion | Connections > 80%              | < 30 min      | 🟡 Medium  | Quarterly    |
-| **RB-009** | Database Storage Full          | Storage > 90%                  | < 1 hour      | 🟢 Low     | Quarterly    |
-| **RB-010** | AI Cost Spike Response         | Daily cost > $0.50             | < 1 hour      | 🟢 Low     | Monthly      |
-| **RB-011** | AI Budget Exceeded             | Monthly cost > $10             | < 15 min      | 🟢 Low     | Monthly      |
-| **RB-012** | Brute Force Attack Response    | > 5 failed logins/15min        | < 30 min      | 🟡 Medium  | Quarterly    |
-| **RB-013** | DDoS Mitigation                | Traffic anomaly detected       | < 5 min       | 🟡 Medium  | Quarterly    |
-| **RB-014** | Build Failure Recovery         | CI/CD pipeline failed          | < 1 hour      | 🟡 Medium  | Per incident |
-| **RB-015** | Cache Miss Rate High           | Cache hit < 20%                | < 2 hours     | 🟢 Low     | Quarterly    |
-| **RB-016** | RAG Quality Degradation        | Avg similarity < 0.6           | < 2 hours     | 🟡 Medium  | Quarterly    |
-| **RB-017** | Rate Limit Abuse Response      | 429 responses spike            | < 1 hour      | 🟢 Low     | Quarterly    |
-| **RB-018** | Model Fallback Spike           | Fallback > 10%                 | < 1 hour      | 🟢 Low     | Monthly      |
-| **RB-019** | Lead Response SLA Miss         | No reply > 24h                 | Immediate     | 🟢 Low     | Weekly       |
-| **RB-020** | Database Backup Restore        | Data loss or corruption        | < 4 hours     | 🔴 High    | Quarterly    |
+| **RB-001** | Frontend Service Recovery      | Frontend down or returning 5xx | < 10 min      | Ã°Å¸Å¸Â¢ Low     | Monthly      |
+| **RB-002** | API Service Recovery           | API down or returning 5xx      | < 10 min      | Ã°Å¸Å¸Â¢ Low     | Monthly      |
+| **RB-003** | AI Service Recovery            | AI service unhealthy           | < 15 min      | Ã°Å¸Å¸Â¡ Medium  | Monthly      |
+| **RB-004** | SSL Certificate Renewal        | Certificate expiring < 30 days | < 1 hour      | Ã°Å¸Å¸Â¢ Low     | Quarterly    |
+| **RB-005** | High Error Rate Investigation  | Error rate > 5%                | < 1 hour      | Ã°Å¸Å¸Â¡ Medium  | Monthly      |
+| **RB-006** | API Performance Degradation    | p95 response > 500ms           | < 2 hours     | Ã°Å¸Å¸Â¡ Medium  | Quarterly    |
+| **RB-007** | AI Performance Degradation     | p95 chat > 5s                  | < 1 hour      | Ã°Å¸Å¸Â¡ Medium  | Monthly      |
+| **RB-008** | Database Connection Exhaustion | Connections > 80%              | < 30 min      | Ã°Å¸Å¸Â¡ Medium  | Quarterly    |
+| **RB-009** | Database Storage Full          | Storage > 90%                  | < 1 hour      | Ã°Å¸Å¸Â¢ Low     | Quarterly    |
+| **RB-010** | AI Cost Spike Response         | Daily cost > $0.50             | < 1 hour      | Ã°Å¸Å¸Â¢ Low     | Monthly      |
+| **RB-011** | AI Budget Exceeded             | Monthly cost > $10             | < 15 min      | Ã°Å¸Å¸Â¢ Low     | Monthly      |
+| **RB-012** | Brute Force Attack Response    | > 5 failed logins/15min        | < 30 min      | Ã°Å¸Å¸Â¡ Medium  | Quarterly    |
+| **RB-013** | DDoS Mitigation                | Traffic anomaly detected       | < 5 min       | Ã°Å¸Å¸Â¡ Medium  | Quarterly    |
+| **RB-014** | Build Failure Recovery         | CI/CD pipeline failed          | < 1 hour      | Ã°Å¸Å¸Â¡ Medium  | Per incident |
+| **RB-015** | Cache Miss Rate High           | Cache hit < 20%                | < 2 hours     | Ã°Å¸Å¸Â¢ Low     | Quarterly    |
+| **RB-016** | RAG Quality Degradation        | Avg similarity < 0.6           | < 2 hours     | Ã°Å¸Å¸Â¡ Medium  | Quarterly    |
+| **RB-017** | Rate Limit Abuse Response      | 429 responses spike            | < 1 hour      | Ã°Å¸Å¸Â¢ Low     | Quarterly    |
+| **RB-018** | Model Fallback Spike           | Fallback > 10%                 | < 1 hour      | Ã°Å¸Å¸Â¢ Low     | Monthly      |
+| **RB-019** | Lead Response SLA Miss         | No reply > 24h                 | Immediate     | Ã°Å¸Å¸Â¢ Low     | Weekly       |
+| **RB-020** | Database Backup Restore        | Data loss or corruption        | < 4 hours     | Ã°Å¸â€Â´ High    | Quarterly    |
 
 ### 16.2 Key Runbooks
 
@@ -1614,38 +1614,38 @@ TRIGGER: Frontend returning 5xx or health check failing
 RTO: < 10 minutes
 
 STEP 1: VERIFY INCIDENT (30 seconds)
-  □ Check https://portfolioowner.com in browser
-  □ Check Better Uptime dashboard for frontend status
-  □ Check Vercel dashboard for deployment status
+  Ã¢â€“Â¡ Check https://portfolioowner.com in browser
+  Ã¢â€“Â¡ Check Better Uptime dashboard for frontend status
+  Ã¢â€“Â¡ Check Vercel dashboard for deployment status
 
 STEP 2: CHECK RECENT CHANGES (2 minutes)
-  □ Review recent deploys in Vercel dashboard
-  □ Check GitHub for recent commits to main branch
-  □ Review GitHub Actions for successful CI run
+  Ã¢â€“Â¡ Review recent deploys in Vercel dashboard
+  Ã¢â€“Â¡ Check GitHub for recent commits to main branch
+  Ã¢â€“Â¡ Review GitHub Actions for successful CI run
 
 STEP 3: ATTEMPT IMMEDIATE FIX (5 minutes)
-  □ If recent deploy caused issue:
-    → Vercel Dashboard → Deployments → Last known good → Promote to Production
-  □ If ISR cache issue:
-    → Trigger revalidation: curl -X POST https://portfolioowner.com/api/revalidate
-  □ If DNS/SSL issue:
-    → Check Cloudflare dashboard → SSL/TLS → Verify Full (Strict)
-    → Check Vercel domain settings
+  Ã¢â€“Â¡ If recent deploy caused issue:
+    Ã¢â€ â€™ Vercel Dashboard Ã¢â€ â€™ Deployments Ã¢â€ â€™ Last known good Ã¢â€ â€™ Promote to Production
+  Ã¢â€“Â¡ If ISR cache issue:
+    Ã¢â€ â€™ Trigger revalidation: curl -X POST https://portfolioowner.com/api/revalidate
+  Ã¢â€“Â¡ If DNS/SSL issue:
+    Ã¢â€ â€™ Check Cloudflare dashboard Ã¢â€ â€™ SSL/TLS Ã¢â€ â€™ Verify Full (Strict)
+    Ã¢â€ â€™ Check Vercel domain settings
 
 STEP 4: CHECK DEPENDENCIES (2 minutes)
-  □ Check Supabase status: https://status.supabase.com
-  □ Check Cloudflare status: https://www.cloudflarestatus.com
-  □ Check Vercel status: https://www.vercel-status.com
+  Ã¢â€“Â¡ Check Supabase status: https://status.supabase.com
+  Ã¢â€“Â¡ Check Cloudflare status: https://www.cloudflarestatus.com
+  Ã¢â€“Â¡ Check Vercel status: https://www.vercel-status.com
 
 STEP 5: ESCALATE IF NOT RESOLVED (within 10 minutes)
-  □ Contact Vercel support (support@vercel.com)
-  □ Notify team in #incident channel
-  □ Post to status page: portfolioowner.statuspage.io
+  Ã¢â€“Â¡ Contact Vercel support (support@vercel.com)
+  Ã¢â€“Â¡ Notify team in #incident channel
+  Ã¢â€“Â¡ Post to status page: portfolioowner.statuspage.io
 
 STEP 6: VERIFY RESOLUTION (2 minutes)
-  □ Confirm 200 OK from health endpoint
-  □ Confirm page loads correctly
-  □ Monitor for 5 minutes post-recovery
+  Ã¢â€“Â¡ Confirm 200 OK from health endpoint
+  Ã¢â€“Â¡ Confirm page loads correctly
+  Ã¢â€“Â¡ Monitor for 5 minutes post-recovery
 ```
 
 #### RB-003: AI Service Recovery
@@ -1657,48 +1657,48 @@ TRIGGER: AI service /api/health returns non-healthy status
 RTO: < 15 minutes
 
 STEP 1: CHECK SERVICE STATUS (30 seconds)
-  □ curl https://ai.portfolioowner.com/api/health
-  □ Check Railway dashboard → AI service container status
-  □ Check Sentry for recent AI errors
+  Ã¢â€“Â¡ curl https://ai.portfolioowner.com/api/health
+  Ã¢â€“Â¡ Check Railway dashboard Ã¢â€ â€™ AI service container status
+  Ã¢â€“Â¡ Check Sentry for recent AI errors
 
 STEP 2: IDENTIFY FAILURE MODE (2 minutes)
 
   If OpenAI API issue:
-    □ Check status.openai.com
-    □ Automatic fallback to Anthropic should trigger within 30s
-    □ Verify by sending test message via chat widget
-    □ If both LLMs down → set ANTHROPIC_ENABLED=false
-      → Show offline message in chat widget
+    Ã¢â€“Â¡ Check status.openai.com
+    Ã¢â€“Â¡ Automatic fallback to Anthropic should trigger within 30s
+    Ã¢â€“Â¡ Verify by sending test message via chat widget
+    Ã¢â€“Â¡ If both LLMs down Ã¢â€ â€™ set ANTHROPIC_ENABLED=false
+      Ã¢â€ â€™ Show offline message in chat widget
 
   If RAG/Database issue:
-    □ Test pgvector: SELECT * FROM document_chunks LIMIT 1
-    □ Rebuild index if corrupted:
-      → REINDEX INDEX CONCURRENTLY idx_document_chunks_embedding;
-    □ Check Supabase connection pooler if DB connection issue
+    Ã¢â€“Â¡ Test pgvector: SELECT * FROM document_chunks LIMIT 1
+    Ã¢â€“Â¡ Rebuild index if corrupted:
+      Ã¢â€ â€™ REINDEX INDEX CONCURRENTLY idx_document_chunks_embedding;
+    Ã¢â€“Â¡ Check Supabase connection pooler if DB connection issue
 
   If Application crash:
-    □ Restart Railway container:
-      → railway service restart
-    □ Check logs: railway logs --service ai-service
-    □ If OOM, increase memory in railway.toml
+    Ã¢â€“Â¡ Restart Railway container:
+      Ã¢â€ â€™ railway service restart
+    Ã¢â€“Â¡ Check logs: railway logs --service ai-service
+    Ã¢â€“Â¡ If OOM, increase memory in railway.toml
 
   If Rate limited:
-    □ Wait for rate limit window (usually 1 minute)
-    □ Check OpenAI dashboard → Usage → Rate limits
-    □ Reduce MAX_TOKENS or increase caching
+    Ã¢â€“Â¡ Wait for rate limit window (usually 1 minute)
+    Ã¢â€“Â¡ Check OpenAI dashboard Ã¢â€ â€™ Usage Ã¢â€ â€™ Rate limits
+    Ã¢â€“Â¡ Reduce MAX_TOKENS or increase caching
 
 STEP 3: APPLY FIX (5 minutes)
-  □ Follow the recovery procedure for the identified failure mode
-  □ Verify fix in staging: https://ai-staging.portfolioowner.com/api/health
+  Ã¢â€“Â¡ Follow the recovery procedure for the identified failure mode
+  Ã¢â€“Â¡ Verify fix in staging: https://ai-staging.portfolioowner.com/api/health
 
 STEP 4: VERIFY RECOVERY (2 minutes)
-  □ Send test chat message
-  □ Verify SSE streaming works
-  □ Check health endpoint returns "healthy"
-  □ Check Sentry for no new errors
+  Ã¢â€“Â¡ Send test chat message
+  Ã¢â€“Â¡ Verify SSE streaming works
+  Ã¢â€“Â¡ Check health endpoint returns "healthy"
+  Ã¢â€“Â¡ Check Sentry for no new errors
 
 STEP 5: DOCUMENT INCIDENT (5 minutes)
-  □ Record in incident log:
+  Ã¢â€“Â¡ Record in incident log:
     - Timestamp of detection and resolution
     - Root cause
     - Actions taken
@@ -1714,41 +1714,41 @@ TRIGGER: Error rate exceeds 5% threshold
 RTO: < 1 hour
 
 STEP 1: IDENTIFY ERROR SOURCE (2 minutes)
-  □ Open Sentry dashboard → Issues tab
-  □ Sort by "Events" (most frequent)
-  □ Identify top 3 error groups
-  □ Check if errors are frontend, API, or AI
+  Ã¢â€“Â¡ Open Sentry dashboard Ã¢â€ â€™ Issues tab
+  Ã¢â€“Â¡ Sort by "Events" (most frequent)
+  Ã¢â€“Â¡ Identify top 3 error groups
+  Ã¢â€“Â¡ Check if errors are frontend, API, or AI
 
 STEP 2: CHECK FOR PATTERNS (3 minutes)
-  □ Browser-specific? (Chrome/Safari/Firefox)
-  □ Version-specific? (recent deploy?)
-  □ Geography-specific? (certain region?)
-  □ Time-specific? (recent spike?)
+  Ã¢â€“Â¡ Browser-specific? (Chrome/Safari/Firefox)
+  Ã¢â€“Â¡ Version-specific? (recent deploy?)
+  Ã¢â€“Â¡ Geography-specific? (certain region?)
+  Ã¢â€“Â¡ Time-specific? (recent spike?)
 
 STEP 3: ANALYZE ROOT CAUSE (10 minutes)
-  □ Open each top error group in Sentry
-  □ Review stack traces
-  □ Check affected users/count
-  □ Review breadcrumbs for context
-  □ Check if it's a known issue
+  Ã¢â€“Â¡ Open each top error group in Sentry
+  Ã¢â€“Â¡ Review stack traces
+  Ã¢â€“Â¡ Check affected users/count
+  Ã¢â€“Â¡ Review breadcrumbs for context
+  Ã¢â€“Â¡ Check if it's a known issue
 
 STEP 4: APPLY FIX (varies)
-  □ If frontend JS error:
-    → Create fix PR → deploy
-  □ If API error:
-    → Check recent changes → rollback if needed → fix
-  □ If third-party dependency:
-    → Check vendor status → implement fallback
+  Ã¢â€“Â¡ If frontend JS error:
+    Ã¢â€ â€™ Create fix PR Ã¢â€ â€™ deploy
+  Ã¢â€“Â¡ If API error:
+    Ã¢â€ â€™ Check recent changes Ã¢â€ â€™ rollback if needed Ã¢â€ â€™ fix
+  Ã¢â€“Â¡ If third-party dependency:
+    Ã¢â€ â€™ Check vendor status Ã¢â€ â€™ implement fallback
 
 STEP 5: MONITOR (30 minutes)
-  □ Verify error rate drops below threshold
-  □ Monitor Sentry for recurrence
-  □ Close incident when stable
+  Ã¢â€“Â¡ Verify error rate drops below threshold
+  Ã¢â€“Â¡ Monitor Sentry for recurrence
+  Ã¢â€“Â¡ Close incident when stable
 
 STEP 6: POST-INCIDENT (within 1 week)
-  □ Create Sentry issue if not already tracked
-  □ Add regression test if applicable
-  □ Update monitoring if detection could be faster
+  Ã¢â€“Â¡ Create Sentry issue if not already tracked
+  Ã¢â€“Â¡ Add regression test if applicable
+  Ã¢â€“Â¡ Update monitoring if detection could be faster
 ```
 
 #### RB-008: Database Connection Exhaustion
@@ -1760,44 +1760,44 @@ TRIGGER: Database connections > 80% (12 of 15)
 RTO: < 30 minutes
 
 STEP 1: ASSESS CURRENT STATE (1 minute)
-  □ Check Supabase dashboard → Database → Connections
-  □ Run: SELECT count(*) FROM pg_stat_activity WHERE state = 'active';
-  □ Check for long-running queries:
-    → SELECT pid, now() - pg_stat_activity.query_start AS duration, query
+  Ã¢â€“Â¡ Check Supabase dashboard Ã¢â€ â€™ Database Ã¢â€ â€™ Connections
+  Ã¢â€“Â¡ Run: SELECT count(*) FROM pg_stat_activity WHERE state = 'active';
+  Ã¢â€“Â¡ Check for long-running queries:
+    Ã¢â€ â€™ SELECT pid, now() - pg_stat_activity.query_start AS duration, query
       FROM pg_stat_activity
       WHERE state = 'active'
       ORDER BY duration DESC
       LIMIT 10;
 
 STEP 2: KILL IDLE CONNECTIONS (2 minutes)
-  □ Kill idle connections:
-    → SELECT pg_terminate_backend(pid)
+  Ã¢â€“Â¡ Kill idle connections:
+    Ã¢â€ â€™ SELECT pg_terminate_backend(pid)
       FROM pg_stat_activity
       WHERE state = 'idle'
       AND pid <> pg_backend_pid();
 
-  □ Kill long-running queries (> 5 minutes):
-    → SELECT pg_terminate_backend(pid)
+  Ã¢â€“Â¡ Kill long-running queries (> 5 minutes):
+    Ã¢â€ â€™ SELECT pg_terminate_backend(pid)
       FROM pg_stat_activity
       WHERE state = 'active'
       AND now() - query_start > INTERVAL '5 minutes'
       AND query NOT LIKE '%pg_stat_activity%';
 
 STEP 3: IDENTIFY ROOT CAUSE (10 minutes)
-  □ Check for connection leaks in application code
-  □ Verify Supabase client is instantiated once (singleton pattern)
-  □ Check for recent code changes that may have introduced leaks
-  □ Review Vercel function configurations for keep-alive settings
+  Ã¢â€“Â¡ Check for connection leaks in application code
+  Ã¢â€“Â¡ Verify Supabase client is instantiated once (singleton pattern)
+  Ã¢â€“Â¡ Check for recent code changes that may have introduced leaks
+  Ã¢â€“Â¡ Review Vercel function configurations for keep-alive settings
 
 STEP 4: APPLY PREVENTIVE MEASURES (10 minutes)
-  □ Add connection pooling if not already configured
-  □ Reduce Supabase client timeouts
-  □ Add connection monitoring alert if not already set
+  Ã¢â€“Â¡ Add connection pooling if not already configured
+  Ã¢â€“Â¡ Reduce Supabase client timeouts
+  Ã¢â€“Â¡ Add connection monitoring alert if not already set
 
 STEP 5: MONITOR (30 minutes)
-  □ Watch connection count for recovery
-  □ Verify no new connections are leaking
-  □ Close incident when connections stable below 80%
+  Ã¢â€“Â¡ Watch connection count for recovery
+  Ã¢â€“Â¡ Verify no new connections are leaking
+  Ã¢â€“Â¡ Close incident when connections stable below 80%
 ```
 
 ### 16.3 Recovery Procedures
@@ -1810,75 +1810,75 @@ STEP 5: MONITOR (30 minutes)
 APPLICABLE TO: Complete system failure, data corruption, security breach
 
 PRE-REQUISITES:
-  □ All secrets stored in Vercel/Railway environment variables (not code)
-  □ Database backups configured (Supabase Point-in-Time Recovery)
-  □ Rollback deployments available (Vercel auto-keeps last 10 deploys)
-  □ Infrastructure as Code documented (Docker Compose, CI/CD configs)
+  Ã¢â€“Â¡ All secrets stored in Vercel/Railway environment variables (not code)
+  Ã¢â€“Â¡ Database backups configured (Supabase Point-in-Time Recovery)
+  Ã¢â€“Â¡ Rollback deployments available (Vercel auto-keeps last 10 deploys)
+  Ã¢â€“Â¡ Infrastructure as Code documented (Docker Compose, CI/CD configs)
 
 RECOVERY STEPS:
 
 1. FAILURE ASSESSMENT (5 minutes)
-   □ Determine scope: Frontend / API / AI / Database / All
-   □ Determine cause: Code / Infrastructure / Security / External
-   □ Determine if data loss occurred
+   Ã¢â€“Â¡ Determine scope: Frontend / API / AI / Database / All
+   Ã¢â€“Â¡ Determine cause: Code / Infrastructure / Security / External
+   Ã¢â€“Â¡ Determine if data loss occurred
 
 2. SERVICE RESTORATION (varies by component)
 
    For Frontend (Next.js) failure:
-     □ Rollback Vercel deployment to last known good version
-       → Vercel Dashboard → Deployments → Select version → Promote
-     □ Estimated RTO: < 5 minutes
+     Ã¢â€“Â¡ Rollback Vercel deployment to last known good version
+       Ã¢â€ â€™ Vercel Dashboard Ã¢â€ â€™ Deployments Ã¢â€ â€™ Select version Ã¢â€ â€™ Promote
+     Ã¢â€“Â¡ Estimated RTO: < 5 minutes
 
    For API (NestJS) failure:
-     □ Rollback Vercel deployment to last known good version
-     □ If serverless function issue:
-       → Vercel Dashboard → Functions → Flush cache
-     □ Estimated RTO: < 5 minutes
+     Ã¢â€“Â¡ Rollback Vercel deployment to last known good version
+     Ã¢â€“Â¡ If serverless function issue:
+       Ã¢â€ â€™ Vercel Dashboard Ã¢â€ â€™ Functions Ã¢â€ â€™ Flush cache
+     Ã¢â€“Â¡ Estimated RTO: < 5 minutes
 
    For AI Service (FastAPI) failure:
-     □ Rollback Railway deployment to last known good version
-       → railway rollback
-     □ If container issue:
-       → railway service restart
-     □ Estimated RTO: < 10 minutes
+     Ã¢â€“Â¡ Rollback Railway deployment to last known good version
+       Ã¢â€ â€™ railway rollback
+     Ã¢â€“Â¡ If container issue:
+       Ã¢â€ â€™ railway service restart
+     Ã¢â€“Â¡ Estimated RTO: < 10 minutes
 
    For Database (Supabase) failure:
-     □ Use Supabase Point-in-Time Recovery
-       → Supabase Dashboard → Database → Backups → PITR
-     □ If no PITR available:
-       → Restore from latest backup dump
-     □ Estimated RTO: < 1 hour (PITR) / < 4 hours (backup dump)
+     Ã¢â€“Â¡ Use Supabase Point-in-Time Recovery
+       Ã¢â€ â€™ Supabase Dashboard Ã¢â€ â€™ Database Ã¢â€ â€™ Backups Ã¢â€ â€™ PITR
+     Ã¢â€“Â¡ If no PITR available:
+       Ã¢â€ â€™ Restore from latest backup dump
+     Ã¢â€“Â¡ Estimated RTO: < 1 hour (PITR) / < 4 hours (backup dump)
 
    For DNS (Cloudflare) failure:
-     □ Verify DNS records in Cloudflare dashboard
-     □ Confirm nameservers are correct
-     □ Estimated RTO: < 15 minutes (TTL propagation)
+     Ã¢â€“Â¡ Verify DNS records in Cloudflare dashboard
+     Ã¢â€“Â¡ Confirm nameservers are correct
+     Ã¢â€“Â¡ Estimated RTO: < 15 minutes (TTL propagation)
 
    For CI/CD (GitHub Actions) failure:
-     □ Run manually: GitHub Actions → Re-run workflows
-     □ If runner issue:
-       → Use self-hosted runner as fallback
-     □ Estimated RTO: < 30 minutes
+     Ã¢â€“Â¡ Run manually: GitHub Actions Ã¢â€ â€™ Re-run workflows
+     Ã¢â€“Â¡ If runner issue:
+       Ã¢â€ â€™ Use self-hosted runner as fallback
+     Ã¢â€“Â¡ Estimated RTO: < 30 minutes
 
 3. DATA INTEGRITY VERIFICATION (30 minutes)
-   □ Verify database integrity:
-     → Run: VACUUM VERBOSE ANALYZE;
-     → Check for orphaned records
-     → Verify referential integrity
-   □ Verify file storage integrity
-   □ Verify user data integrity
+   Ã¢â€“Â¡ Verify database integrity:
+     Ã¢â€ â€™ Run: VACUUM VERBOSE ANALYZE;
+     Ã¢â€ â€™ Check for orphaned records
+     Ã¢â€ â€™ Verify referential integrity
+   Ã¢â€“Â¡ Verify file storage integrity
+   Ã¢â€“Â¡ Verify user data integrity
 
 4. SECURITY RECOVERY (if breach-related)
-   □ Rotate all credentials
-   □ Revoke all sessions
-   □ Enable enhanced monitoring for 72 hours
-   □ Conduct security audit
+   Ã¢â€“Â¡ Rotate all credentials
+   Ã¢â€“Â¡ Revoke all sessions
+   Ã¢â€“Â¡ Enable enhanced monitoring for 72 hours
+   Ã¢â€“Â¡ Conduct security audit
 
 5. FULL SYSTEM VERIFICATION (1 hour)
-   □ All health endpoints return healthy
-   □ Core user flows work end-to-end
-   □ Monitoring tools show green status
-   □ Error rates back to baseline
+   Ã¢â€“Â¡ All health endpoints return healthy
+   Ã¢â€“Â¡ Core user flows work end-to-end
+   Ã¢â€“Â¡ Monitoring tools show green status
+   Ã¢â€“Â¡ Error rates back to baseline
 ```
 
 #### Database Backup & Restore Procedure
@@ -1962,11 +1962,11 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 | Level       | Name       | Characteristics                                            | Current State | Target  |
 | ----------- | ---------- | ---------------------------------------------------------- | ------------- | ------- |
-| **Level 1** | Reactive   | Manual monitoring, no alerting, firefighting mode          | —             | —       |
-| **Level 2** | Basic      | Automated checks on critical services, email alerts        | ✅ Current    | —       |
-| **Level 3** | Standard   | All services monitored, defined SLOs, dashboard visibility | 🎯 Target     | Q3 2026 |
-| **Level 4** | Proactive  | Error budgets, predictive alerting, automated remediation  | 📋 Planned    | Q1 2027 |
-| **Level 5** | Autonomous | Self-healing systems, ML-based anomaly detection           | 🔮 Vision     | 2028    |
+| **Level 1** | Reactive   | Manual monitoring, no alerting, firefighting mode          | Ã¢â‚¬â€             | Ã¢â‚¬â€       |
+| **Level 2** | Basic      | Automated checks on critical services, email alerts        | Ã¢Å“â€¦ Current    | Ã¢â‚¬â€       |
+| **Level 3** | Standard   | All services monitored, defined SLOs, dashboard visibility | Ã°Å¸Å½Â¯ Target     | Q3 2026 |
+| **Level 4** | Proactive  | Error budgets, predictive alerting, automated remediation  | Ã°Å¸â€œâ€¹ Planned    | Q1 2027 |
+| **Level 5** | Autonomous | Self-healing systems, ML-based anomaly detection           | Ã°Å¸â€Â® Vision     | 2028    |
 
 ### 17.4 Monitoring Review Cadence
 
@@ -2009,31 +2009,31 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 ### 18.2 Main Monitoring Dashboard
 
 ```text
-┌─────────────────────────────────────────────────────────────────────┐
-│ 📊 MONITORING OVERVIEW                         Updated: 30s ago      │
-├─────────────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐   │
-│ │ Frontend │ │   API    │ │    AI    │ │ Database │ │ Security │   │
-│ │ ✅ 99.98 │ │ ✅ 99.95 │ │ ✅ 99.87│ │ ✅ OK    │ │ ✅ OK    │   │
-│ │  uptime  │ │  uptime  │ │  uptime  │ │ 3/15 conn│ │ 0 events │   │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘ └──────────┘   │
-│                                                                       │
-│ 📡 Uptime Timeline (Last 24h)                                        │
-│  ████████████████████████████████████████████████████████  100% FE   │
-│  ████████████████████████████████████████████████████████  100% API  │
-│  ████████████████████████████████████████████████████████  100% AI   │
-│  00:00    06:00    12:00    18:00    24:00                           │
-│                                                                       │
-│ 🔴 Active Alerts                      📋 Recent Incidents            │
-│  None ✅ All clear                     • No incidents in last 7 days  │
-│                                        • Last: SSL renewal (auto)     │
-│                                                                       │
-│ 📊 SLO Compliance (This Month)         ⚡ Error Budget Status         │
-│  12 / 12 SLOs met ✅                    Frontend:   98.6% remaining   │
-│  Overall: 100%                          API:        94.9% remaining   │
-│                                         AI:         96.0% remaining   │
-│  🎯 Next Review: 2026-07-01            Deploy:    100.0% remaining   │
-└─────────────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€œÅ  MONITORING OVERVIEW                         Updated: 30s ago      Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â   Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Frontend Ã¢â€â€š Ã¢â€â€š   API    Ã¢â€â€š Ã¢â€â€š    AI    Ã¢â€â€š Ã¢â€â€š Database Ã¢â€â€š Ã¢â€â€š Security Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 99.98 Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 99.95 Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ 99.87Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ OK    Ã¢â€â€š Ã¢â€â€š Ã¢Å“â€¦ OK    Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  uptime  Ã¢â€â€š Ã¢â€â€š  uptime  Ã¢â€â€š Ã¢â€â€š  uptime  Ã¢â€â€š Ã¢â€â€š 3/15 connÃ¢â€â€š Ã¢â€â€š 0 events Ã¢â€â€š   Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ   Ã¢â€â€š
+Ã¢â€â€š                                                                       Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÂ¡ Uptime Timeline (Last 24h)                                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  100% FE   Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  100% API  Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†  100% AI   Ã¢â€â€š
+Ã¢â€â€š  00:00    06:00    12:00    18:00    24:00                           Ã¢â€â€š
+Ã¢â€â€š                                                                       Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€Â´ Active Alerts                      Ã°Å¸â€œâ€¹ Recent Incidents            Ã¢â€â€š
+Ã¢â€â€š  None Ã¢Å“â€¦ All clear                     Ã¢â‚¬Â¢ No incidents in last 7 days  Ã¢â€â€š
+Ã¢â€â€š                                        Ã¢â‚¬Â¢ Last: SSL renewal (auto)     Ã¢â€â€š
+Ã¢â€â€š                                                                       Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  SLO Compliance (This Month)         Ã¢Å¡Â¡ Error Budget Status         Ã¢â€â€š
+Ã¢â€â€š  12 / 12 SLOs met Ã¢Å“â€¦                    Frontend:   98.6% remaining   Ã¢â€â€š
+Ã¢â€â€š  Overall: 100%                          API:        94.9% remaining   Ã¢â€â€š
+Ã¢â€â€š                                         AI:         96.0% remaining   Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸Å½Â¯ Next Review: 2026-07-01            Deploy:    100.0% remaining   Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -2042,12 +2042,12 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 | Decision ID | Date     | Decision                                                                            | Rationale                                                                  | Alternatives Considered                                    | Outcome                                       |
 | ----------- | -------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------- | --------------------------------------------- |
-| DEC-MON-001 | Jun 2026 | Use Sentry as primary APM and error tracker                                         | Deep integration with Next.js, NestJS, FastAPI; free tier covers 5K events | Datadog (cost), New Relic (cost), Grafana (setup overhead) | Adopted — 25% frontend / 10% backend sampling |
-| DEC-MON-002 | Jun 2026 | Better Uptime for external monitoring                                               | Free 5-min checks, Telegram integration, status page                       | Pingdom (cost), UptimeRobot (limited features)             | Adopted — 3 monitors with 1-5 min intervals   |
-| DEC-MON-003 | Jun 2026 | 4-tier severity matrix (Critical/High/Medium/Low) with 15-min Critical response SLA | Proportional response to impact; prevents alert fatigue                    | 3-tier (too coarse), 5-tier (too granular)                 | Adopted — 20 alert rules mapped to tiers      |
-| DEC-MON-004 | Jun 2026 | Error budget system with deployment freeze at 20% remaining                         | Governs deployment velocity based on reliability; aligns dev and ops       | Manual approval gates (slower), no freeze (risky)          | Adopted — automated CI gate                   |
-| DEC-MON-005 | Jun 2026 | 12 SLOs covering all critical services + 15 SLIs                                    | Comprehensive coverage; measurable reliability targets                     | Single SLO (insufficient), per-endpoint SLOs (too complex) | Implemented — monthly review cadence          |
-| DEC-MON-006 | Jun 2026 | Custom DB for application-specific metrics (AI costs, RAG quality)                  | Free-tier friendly; full control over schema and retention                 | Prometheus (infra overhead), Grafana Cloud (cost)          | Adopted — Supabase-based metrics store        |
+| DEC-MON-001 | Jun 2026 | Use Sentry as primary APM and error tracker                                         | Deep integration with Next.js, NestJS, FastAPI; free tier covers 5K events | Datadog (cost), New Relic (cost), Grafana (setup overhead) | Adopted Ã¢â‚¬â€ 25% frontend / 10% backend sampling |
+| DEC-MON-002 | Jun 2026 | Better Uptime for external monitoring                                               | Free 5-min checks, Telegram integration, status page                       | Pingdom (cost), UptimeRobot (limited features)             | Adopted Ã¢â‚¬â€ 3 monitors with 1-5 min intervals   |
+| DEC-MON-003 | Jun 2026 | 4-tier severity matrix (Critical/High/Medium/Low) with 15-min Critical response SLA | Proportional response to impact; prevents alert fatigue                    | 3-tier (too coarse), 5-tier (too granular)                 | Adopted Ã¢â‚¬â€ 20 alert rules mapped to tiers      |
+| DEC-MON-004 | Jun 2026 | Error budget system with deployment freeze at 20% remaining                         | Governs deployment velocity based on reliability; aligns dev and ops       | Manual approval gates (slower), no freeze (risky)          | Adopted Ã¢â‚¬â€ automated CI gate                   |
+| DEC-MON-005 | Jun 2026 | 12 SLOs covering all critical services + 15 SLIs                                    | Comprehensive coverage; measurable reliability targets                     | Single SLO (insufficient), per-endpoint SLOs (too complex) | Implemented Ã¢â‚¬â€ monthly review cadence          |
+| DEC-MON-006 | Jun 2026 | Custom DB for application-specific metrics (AI costs, RAG quality)                  | Free-tier friendly; full control over schema and retention                 | Prometheus (infra overhead), Grafana Cloud (cost)          | Adopted Ã¢â‚¬â€ Supabase-based metrics store        |
 
 ## Risk Register
 
@@ -2063,18 +2063,18 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 | Term                     | Definition                                                                                      |
 | ------------------------ | ----------------------------------------------------------------------------------------------- |
-| **APM**                  | Application Performance Monitoring — tracking response times, error rates, and throughput       |
+| **APM**                  | Application Performance Monitoring Ã¢â‚¬â€ tracking response times, error rates, and throughput       |
 | **Error Budget**         | The allowable amount of downtime or errors within an SLO period (100% - SLO target)             |
-| **MTTR**                 | Mean Time to Resolve — average time from incident detection to resolution                       |
-| **P95**                  | 95th percentile — the value below which 95% of observations fall                                |
+| **MTTR**                 | Mean Time to Resolve Ã¢â‚¬â€ average time from incident detection to resolution                       |
+| **P95**                  | 95th percentile Ã¢â‚¬â€ the value below which 95% of observations fall                                |
 | **Runbook**              | A documented procedure for handling a specific incident or operational task                     |
-| **SLO**                  | Service Level Objective — a target reliability level for a service (e.g., 99.9% uptime)         |
-| **SLI**                  | Service Level Indicator — a measured metric that feeds into an SLO calculation                  |
+| **SLO**                  | Service Level Objective Ã¢â‚¬â€ a target reliability level for a service (e.g., 99.9% uptime)         |
+| **SLI**                  | Service Level Indicator Ã¢â‚¬â€ a measured metric that feeds into an SLO calculation                  |
 | **Sentry**               | An open-source error tracking and performance monitoring platform                               |
 | **Synthetic Monitoring** | Automated external checks that simulate user requests to verify service availability            |
-| **TTFB**                 | Time to First Byte — the time between a request and the first byte of the response              |
+| **TTFB**                 | Time to First Byte Ã¢â‚¬â€ the time between a request and the first byte of the response              |
 | **Uptime**               | The percentage of time a service is accessible and responding correctly                         |
-| **WAF**                  | Web Application Firewall — filters and monitors HTTP traffic between a web app and the Internet |
+| **WAF**                  | Web Application Firewall Ã¢â‚¬â€ filters and monitors HTTP traffic between a web app and the Internet |
 
 ---
 
@@ -2082,7 +2082,7 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 | Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Author            |
 | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| 4.0     | Jun 2026 | **Complete Enterprise-Grade Rewrite**: Upgraded from minimal v3.0 to comprehensive enterprise monitoring architecture with 19 major sections. Added: Full Monitoring Architecture (2 Mermaid diagrams — high-level architecture + data flow, ownership model), 8 monitoring domains (Application, Infrastructure, Performance, AI, Database, API, Security, UX) each with: what-we-monitor tables, implementation code, and dashboards. Added 12 SLOs with compliance dashboard, 15 SLIs with collection methodology, error budgets with policy enforcement. Added 20 alert rules with severity matrix, routing config, and escalation matrix. Complete incident management lifecycle with response runbook and post-mortem template. 20 runbooks (RB-001 through RB-020) with full procedures. Disaster recovery and backup/restore procedures. Enterprise governance framework with maturity model, on-call responsibilities, compliance mapping (SOC 2, GDPR, OWASP), and review cadence. Dashboard inventory with 8 specialized dashboards. | DevOps Lead / SRE |
+| 4.0     | Jun 2026 | **Complete Enterprise-Grade Rewrite**: Upgraded from minimal v3.0 to comprehensive enterprise monitoring architecture with 19 major sections. Added: Full Monitoring Architecture (2 Mermaid diagrams Ã¢â‚¬â€ high-level architecture + data flow, ownership model), 8 monitoring domains (Application, Infrastructure, Performance, AI, Database, API, Security, UX) each with: what-we-monitor tables, implementation code, and dashboards. Added 12 SLOs with compliance dashboard, 15 SLIs with collection methodology, error budgets with policy enforcement. Added 20 alert rules with severity matrix, routing config, and escalation matrix. Complete incident management lifecycle with response runbook and post-mortem template. 20 runbooks (RB-001 through RB-020) with full procedures. Disaster recovery and backup/restore procedures. Enterprise governance framework with maturity model, on-call responsibilities, compliance mapping (SOC 2, GDPR, OWASP), and review cadence. Dashboard inventory with 8 specialized dashboards. | DevOps Lead / SRE |
 | 3.0     | Jun 2026 | Added executive summary, alert escalation matrix (7 alerts), change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | DevOps Lead       |
 | 2.0     | Jun 2026 | Updated for enterprise structure; added Mermaid diagrams, runbook                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | DevOps Lead       |
 | 1.0     | Mar 2026 | Initial monitoring documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | DevOps Lead       |
@@ -2093,20 +2093,20 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 
 | Reference                                         | Description                                                                                                                                                      |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `docs/operations/AnalyticsArchitecture.md` (v5.0) | Enterprise-Grade Analytics Strategy — event taxonomy, metric definitions, conversion funnels, dashboard specs                                                    |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0)      | Enterprise-Grade Observability Architecture — structured logs, distributed traces, correlation IDs, 20-core metric catalog, debugging workflows, cost management |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)            | AI Operating Model — §19 AI Monitoring (10 alert rules, health checks), §20 Failure Recovery (5 procedures + runbook)                                            |
-| `docs/architecture/SystemArchitecture.md` (v5.0)  | System Architecture — §10 Monitoring Architecture (observability stack, alert severity matrix)                                                                   |
-| `docs/security/SecurityArchitecture.md` (v5.0)    | Security Architecture — §29 Security Monitoring (monitoring stack, alert rules, security dashboard)                                                              |
-| `docs/quality/PerformanceArchitecture.md` (v3.0)  | Performance — budgets, targets, optimization techniques                                                                                                          |
-| `docs/operations/DevOpsArchitecture.md` (v3.0)    | DevOps — build metrics, CI/CD health                                                                                                                             |
-| `docs/operations/25-CICD.md` (v3.0)               | CI/CD — pipeline configuration, quality gates                                                                                                                    |
-| `docs/operations/DeploymentGuide.md` (v3.0)       | Deployment — environment matrix, rollback procedures                                                                                                             |
-| `docs/database/DatabaseArchitecture.md` (v5.0)    | Database — schema, indexing, backup strategy                                                                                                                     |
-| `docs/security/16-COMPLIANCE.md` (v3.0)           | Compliance — GDPR, OWASP, WCAG requirements                                                                                                                      |
-| `docs/architecture/10-TECHSTACK.md` (v5.0)        | Tech Stack — all monitoring tools listed with versions                                                                                                           |
-| `docs/MASTER-INDEX.md` (v3.0)                     | Master Index — document dependency graph, version history                                                                                                        |
-| `Ultimate_Portfolio_Plan_2026_v3.docx`            | Complete portfolio blueprint — monitoring setup, uptime monitoring, error tracking                                                                               |
+| `docs/operations/AnalyticsArchitecture.md` (v5.0) | Enterprise-Grade Analytics Strategy Ã¢â‚¬â€ event taxonomy, metric definitions, conversion funnels, dashboard specs                                                    |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0)      | Enterprise-Grade Observability Architecture Ã¢â‚¬â€ structured logs, distributed traces, correlation IDs, 20-core metric catalog, debugging workflows, cost management |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)            | AI Operating Model Ã¢â‚¬â€ Ã‚Â§19 AI Monitoring (10 alert rules, health checks), Ã‚Â§20 Failure Recovery (5 procedures + runbook)                                            |
+| `docs/architecture/SystemArchitecture.md` (v5.0)  | System Architecture Ã¢â‚¬â€ Ã‚Â§10 Monitoring Architecture (observability stack, alert severity matrix)                                                                   |
+| `docs/security/SecurityArchitecture.md` (v5.0)    | Security Architecture Ã¢â‚¬â€ Ã‚Â§29 Security Monitoring (monitoring stack, alert rules, security dashboard)                                                              |
+| `docs/quality/PerformanceArchitecture.md` (v3.0)  | Performance Ã¢â‚¬â€ budgets, targets, optimization techniques                                                                                                          |
+| `docs/operations/DevOpsArchitecture.md` (v3.0)    | DevOps Ã¢â‚¬â€ build metrics, CI/CD health                                                                                                                             |
+| `docs/operations/25-CICD.md` (v3.0)               | CI/CD Ã¢â‚¬â€ pipeline configuration, quality gates                                                                                                                    |
+| `docs/operations/DeploymentGuide.md` (v3.0)       | Deployment Ã¢â‚¬â€ environment matrix, rollback procedures                                                                                                             |
+| `docs/database/DatabaseArchitecture.md` (v5.0)    | Database Ã¢â‚¬â€ schema, indexing, backup strategy                                                                                                                     |
+| `docs/security/16-COMPLIANCE.md` (v3.0)           | Compliance Ã¢â‚¬â€ GDPR, OWASP, WCAG requirements                                                                                                                      |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)        | Tech Stack Ã¢â‚¬â€ all monitoring tools listed with versions                                                                                                           |
+| `docs/MASTER-INDEX.md` (v3.0)                     | Master Index Ã¢â‚¬â€ document dependency graph, version history                                                                                                        |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`            | Complete portfolio blueprint Ã¢â‚¬â€ monitoring setup, uptime monitoring, error tracking                                                                               |
 | Better Uptime Docs                                | https://docs.betteruptime.com                                                                                                                                    |
 | Sentry Docs                                       | https://docs.sentry.io                                                                                                                                           |
 | Vercel Analytics Docs                             | https://vercel.com/docs/analytics                                                                                                                                |
@@ -2123,6 +2123,10 @@ psql "postgresql://..." -c "SELECT tablename, policyname FROM pg_policies;"
 | 2.0     | Jun 2026 | Updated for enterprise structure; added Mermaid, runbook                            | DevOps Lead |
 | 1.0     | Mar 2026 | Initial monitoring documentation                                                    | DevOps Lead |
 
-_Document Version: 4.0 — Enterprise-Grade Monitoring Architecture_  
+_Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade Monitoring Architecture_  
 _Supersedes v3.0 (June 2026) and all previous versions_  
 _Next Review Date: July 2026_
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

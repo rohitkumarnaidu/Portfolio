@@ -77,3 +77,7 @@ This document contains standard operating procedures (Playbooks) for known failu
 ### Mitigation Options
 * **Disable Heavy 3D Assets**: Use PostHog feature flags to toggle off high-resolution textures or complex particle systems for mobile devices.
 * **Fallback to 2D**: If the issue is widespread, toggle the `ENABLE_3D_SCENE` feature flag to `false` to serve the 2D fallback HTML/CSS version of the portfolio until a hotfix is developed.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

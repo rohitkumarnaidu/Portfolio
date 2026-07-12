@@ -57,6 +57,27 @@ The `PrismaService` wrapper (`apps/api/src/common/database/prisma.service.ts`) i
 | **Knex.js** | Query builder only — no schema introspection, no type-safe models, no migration lifecycle management; requires manual type generation. |
 | **Raw SQL (pg)** | Maximum control but zero type safety; no migrations; no schema introspection; unacceptable productivity loss across 25+ models. |
 
+#### Architecture Comparison
+
+```mermaid
+graph LR
+  subgraph "Chosen"
+    Prisma["Prisma ORM<br/>Type-safe queries<br/>Auto-generated client<br/>Declarative migrations<br/>Custom output path"]
+  end
+
+  subgraph "Alternatives"
+    TypeORM["TypeORM<br/>Heavier decorator API<br/>Slower migrations<br/>NestJS stability issues"]
+    Drizzle["Drizzle ORM<br/>Excellent type-safety<br/>Newer ecosystem<br/>Fewer NestJS examples"]
+    Knex["Knex.js<br/>Query builder only<br/>No schema introspection<br/>Manual type gen"]
+    Raw["Raw SQL (pg)<br/>Zero type safety<br/>No migrations<br/>Max control"]
+  end
+
+  Prisma -.->|"Ecosystem maturity<br/>NestJS integration"| TypeORM
+  Prisma -.->|"Migration tooling<br/>Codebase size"| Drizzle
+  Prisma -.->|"Type safety<br/>Developer experience"| Knex
+  Prisma -.->|"Productivity<br/>25+ models"| Raw
+```
+
 ---
 
 ## 4. Consequences
@@ -138,6 +159,27 @@ export class BlogService {
 const results = await this.prisma.$queryRaw`SELECT * FROM ...`;
 ```
 
+#### Data Flow
+
+```mermaid
+sequenceDiagram
+  participant Client as Client (Browser)
+  participant API as API (NestJS)
+  participant Service as Service Layer
+  participant Prisma as Prisma ORM
+  participant PG as PostgreSQL
+
+  Client->>API: HTTP Request (GET/POST/PATCH/DELETE)
+  API->>API: Guard, ValidationPipe, Decorators
+  API->>Service: Controller calls Service method
+  Service->>Prisma: prisma.model.findMany() / create() / update()
+  Prisma->>PG: Generated SQL query
+  PG-->>Prisma: Result set
+  Prisma-->>Service: Typed response (full TypeScript types)
+  Service-->>API: Business logic result
+  API-->>Client: JSON response ({ data, meta })
+```
+
 ### CI integration
 
 The `.github/workflows/ci.yml` validates Prisma schema on every push to `main`/`develop` and every version tag:
@@ -159,3 +201,7 @@ prisma-validate:
 - `apps/api/src/common/database/prisma.service.ts` — PrismaService implementation
 - `.github/workflows/ci.yml` — CI pipeline with prisma-validate job
 - `turbo.json` — Turborepo task dependency graph (build depends on ^build)
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

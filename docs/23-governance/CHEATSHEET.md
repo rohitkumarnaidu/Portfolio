@@ -1,6 +1,6 @@
 # ⚡ AI Engineering Constitution — Quick Reference
 
-> **Document:** `34-CHEATSHEET.md` | **Version:** 1.1 | **Last Updated:** June 2026  
+> **Document:** `34-CHEATSHEET.md` | **Version:** 1.1 | **Last Updated:** July 2026  
 > **Purpose:** Condensed daily reference card for desk use. Full Constitution at `docs/governance/32-SKILL.md`
 
 ---

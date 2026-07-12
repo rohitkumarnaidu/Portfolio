@@ -1,10 +1,5 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# Context Architecture — Enterprise-Grade Context Management for Multi-Agent Systems
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# Context Architecture â€” Enterprise-Grade Context Management for Multi-Agent Systems
 
 > **Document:** ContextArchitecture.md | **Version:** 1.0 | **Last Updated:** June 2026
 > **Status:** Active | **Owner:** Chief AI Architect, Enterprise Architecture
@@ -1819,7 +1814,7 @@ sequenceDiagram
 
     V->>S: "Tell me about your experience with React and your career growth"
     S->>S: Classify multi-intent query
-    Note over S: Split into sub-queries:<br/>1. React experience → Resume Agent<br/>2. Career growth → Career Agent
+    Note over S: Split into sub-queries:<br/>1. React experience â†’ Resume Agent<br/>2. Career growth â†’ Career Agent
 
     S->>A: Context (Resume slice)
     Note over A: query: "React experience",<br/>knowledge: experience, achievement
@@ -2204,8 +2199,8 @@ Where:
 +------------------------------------------------------------------+
 | Assembly Latency p50:  95ms   p95: 240ms   p99: 480ms          |
 | Cache Hit Rate:       32%   (Target: > 40%)                    |
-| Eviction Rate:        18%   (Target: < 10%)   ⚠️               |
-| Oversubscription:      8%   (Target: < 5%)    ⚠️               |
+| Eviction Rate:        18%   (Target: < 10%)   âš ï¸               |
+| Oversubscription:      8%   (Target: < 5%)    âš ï¸               |
 +------------------------------------------------------------------+
 | RECENT EVICTIONS (Last 100 requests)                            |
 +------------------------------------------------------------------+
@@ -2271,7 +2266,7 @@ Reference: docs/ai/18-AGENTS.md
 Visitor Query
     |
     v
-Supervisor.classify_intent(query) ─────────────────────────────┐
+Supervisor.classify_intent(query) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
     |                                                            |
     v                                                            v
 Supervisor.select_agent(intent)                      ContextAssemblyPipeline.assemble()
@@ -2312,16 +2307,16 @@ Reference: docs/ai/MemoryArchitecture.md
 
 ```text
 Memory Tier 1 (Session):
-  conversation_history ← MemoryService.get_session_history(session_id)
-  visitor_context.visitor_type ← MemoryService.get_visitor_type(session_id)
+  conversation_history â† MemoryService.get_session_history(session_id)
+  visitor_context.visitor_type â† MemoryService.get_visitor_type(session_id)
 
 Memory Tier 2 (Cache):
-  Computed context ← cache.get(cache_key)
-  Query embedding ← embedding_cache.get(query_hash)
+  Computed context â† cache.get(cache_key)
+  Query embedding â† embedding_cache.get(query_hash)
 
 Memory Tier 3 (Persistent):
-  visitor_context.is_returning ← MemoryService.get_visit_history(visitor_id)
-  visitor_context.visit_count ← MemoryService.get_visit_count(visitor_id)
+  visitor_context.is_returning â† MemoryService.get_visit_history(visitor_id)
+  visitor_context.visit_count â† MemoryService.get_visit_count(visitor_id)
 ```
 
 ### 53.3 Token-Aware History Pruning
@@ -2353,7 +2348,7 @@ Reference: docs/ai/KnowledgeArchitecture.md
 
 ```text
 Knowledge Architecture Components:
-  Vector DB (pgvector) ──> Hybrid Search ──> Reranker ──> KnowledgeChunks
+  Vector DB (pgvector) â”€â”€> Hybrid Search â”€â”€> Reranker â”€â”€> KnowledgeChunks
                                       |
                                       v
 Context Assembly Pipeline Step 1:
@@ -2424,10 +2419,10 @@ Reference: KnowledgeArchitecture.md Section 21 (Context Assembly: 4-Tier Priorit
 
 | ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
 |----|----------|---------|-----------|------------------------|---------------|--------------|
-| CTX-DEC-001 | 7-source context model (query, session, page, visitor, knowledge, agent, system) | Context composition | Comprehensive coverage of all information needed for accurate responses; each source has explicit priority and token budget allocation | 4-source model (no agent/system context — insufficient for multi-agent handoff), Unified blob (no differentiation — opaque, hard to debug) | Jun 2026 | Dec 2026 |
+| CTX-DEC-001 | 7-source context model (query, session, page, visitor, knowledge, agent, system) | Context composition | Comprehensive coverage of all information needed for accurate responses; each source has explicit priority and token budget allocation | 4-source model (no agent/system context â€” insufficient for multi-agent handoff), Unified blob (no differentiation â€” opaque, hard to debug) | Jun 2026 | Dec 2026 |
 | CTX-DEC-002 | 4000-token total budget with per-source tiered allocation | Token budget management | Sufficient for meaningful context without exceeding model context windows; tiered allocation prevents low-priority sources from crowding out critical ones | Fixed per-source budget (wasteful when sources are empty), Dynamic allocation only (unpredictable, potential priority inversion) | Jun 2026 | Dec 2026 |
-| CTX-DEC-003 | 6-step assembly pipeline (collect → validate → prioritize → compress → distribute → audit) | Context assembly process | Structured pipeline ensures every context is built consistently, validated for quality, and auditable for debugging | Direct assembly (no validation or audit — hard to debug context issues), Lazy assembly (on-demand loading risks incomplete context) | Jun 2026 | Dec 2026 |
-| CTX-DEC-004 | PII stripping at assembly time rather than distribution time | Privacy enforcement | Stripping PII during assembly ensures no downstream consumer ever receives sensitive data; single enforcement point vs per-distributor implementation | Distribution-time stripping (requires every consumer to implement PII filtering — fragmentary, error-prone), Storage-time stripping (too early, loses data for admin review) | Jun 2026 | Dec 2026 |
+| CTX-DEC-003 | 6-step assembly pipeline (collect â†’ validate â†’ prioritize â†’ compress â†’ distribute â†’ audit) | Context assembly process | Structured pipeline ensures every context is built consistently, validated for quality, and auditable for debugging | Direct assembly (no validation or audit â€” hard to debug context issues), Lazy assembly (on-demand loading risks incomplete context) | Jun 2026 | Dec 2026 |
+| CTX-DEC-004 | PII stripping at assembly time rather than distribution time | Privacy enforcement | Stripping PII during assembly ensures no downstream consumer ever receives sensitive data; single enforcement point vs per-distributor implementation | Distribution-time stripping (requires every consumer to implement PII filtering â€” fragmentary, error-prone), Storage-time stripping (too early, loses data for admin review) | Jun 2026 | Dec 2026 |
 | CTX-DEC-005 | Context caching with 5-minute TTL for knowledge and page sources | Performance optimization | Knowledge and page context change infrequently; caching avoids redundant RAG calls and page data fetching for back-to-back queries within same session | No caching (redundant RAG calls on every query), Longer TTL (staleness risk for page context after navigation), Session-only cache (no benefit across sessions) | Jun 2026 | Sep 2026 |
 
 ## 55.2 Risk Register
@@ -2436,7 +2431,7 @@ Reference: KnowledgeArchitecture.md Section 21 (Context Assembly: 4-Tier Priorit
 |----|------|------------|--------|------------|-------|--------|
 | CTX-RSK-001 | Context exceeds 4000-token budget after assembly, causing LLM call failure | Medium | High (query fails, visitor sees error) | Token-counter validation before LLM call; multi-pass compression (summarize low-priority sources first); fallback to context-free response on overflow | AI Engineer | Active |
 | CTX-RSK-002 | Stale cached knowledge context served after portfolio content update | Low | Medium (visitor receives outdated information) | Cache invalidation on content change webhook; 5-min TTL limits maximum staleness; cache-key includes content version hash | AI Engineer | Active |
-| CTX-RSK-003 | PII stripping regex fails on novel PII patterns, exposing sensitive data | Low | Critical (GDPR violation, legal liability) | Multiple PII pattern layers (regex → ML-based → output filter); regular pattern updates; quarterly penetration testing | Security Engineer | Active |
+| CTX-RSK-003 | PII stripping regex fails on novel PII patterns, exposing sensitive data | Low | Critical (GDPR violation, legal liability) | Multiple PII pattern layers (regex â†’ ML-based â†’ output filter); regular pattern updates; quarterly penetration testing | Security Engineer | Active |
 | CTX-RSK-004 | Handoff context truncated due to token budget, losing conversation thread | Low | Medium (visitor must repeat information after agent handoff) | Handoff preserves full context regardless of budget (bypasses compression for handoff); correlation ID enables full context reconstruction from persistent store | AI Engineer | Active |
 | CTX-RSK-005 | Context caching returns stale page context after visitor navigates to different section | Low | Low (response references wrong page section) | Page context cache key includes full URL path; 5-min TTL limits window of staleness; context log analysis for cache hit accuracy monitoring | AI Engineer | Active |
 
@@ -2445,7 +2440,7 @@ Reference: KnowledgeArchitecture.md Section 21 (Context Assembly: 4-Tier Priorit
 | Term | Definition |
 |------|------------|
 | **Agent Context** | Context about the currently active agent, including its capabilities, tools, and permission boundaries |
-| **Assembly Pipeline** | The 6-step process (collect → validate → prioritize → compress → distribute → audit) that builds every context |
+| **Assembly Pipeline** | The 6-step process (collect â†’ validate â†’ prioritize â†’ compress â†’ distribute â†’ audit) that builds every context |
 | **Context Budget** | The maximum token allocation (4000 tokens) for a single context, distributed across sources by priority tier |
 | **Context Cache** | A time-limited cache for slowly changing context sources (knowledge, page) keyed by source identifier and content hash |
 | **Context Distribution** | The process of delivering assembled context to one or more agents, with optional slicing for multi-agent flows |
@@ -2487,4 +2482,4 @@ Reference: KnowledgeArchitecture.md Section 21 (Context Assembly: 4-Tier Priorit
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

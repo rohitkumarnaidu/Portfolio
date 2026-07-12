@@ -1,4 +1,6 @@
-# Model Card: GPT-4o
+﻿# Model Card: GPT-4o
+
+> **Status:** ✅ Active — reflects actual implementation
 
 ## Model Details
 - **Provider:** OpenAI
@@ -40,3 +42,7 @@
 ## Version History
 - Current: gpt-4o-2024-08-06
 - Previous: gpt-4o-2024-05-13
+
+## Cross-References
+- [../../MASTER-INDEX.md](../../MASTER-INDEX.md) â€” Documentation master index
+- [../../26-reference/CROSS-REFERENCE-INDEX.md](../../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

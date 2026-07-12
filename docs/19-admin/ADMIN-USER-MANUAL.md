@@ -448,3 +448,7 @@ The audit log is immutable — entries cannot be edited or deleted. Use it for:
 ---
 
 *Last updated: July 2026. For questions or feature requests, contact the system administrator.*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

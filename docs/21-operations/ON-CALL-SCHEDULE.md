@@ -301,3 +301,45 @@ The DevOps Lead reviews on-call metrics quarterly:
 *Document Version: 1.0 â€” On-Call Schedule*
 *Last Updated: July 2026*
 *Next Review Date: October 2026*
+
+---
+
+## Diagrams
+
+### Escalation Tree
+
+```mermaid
+flowchart TD
+    Alert[Alert Triggered] --> T1["Tier 1 Engineer<br/>5 min SEV-1 / 15 min SEV-2"]
+    T1 -->|Missed ACK SLA| T2["Tier 2 Senior<br/>10 min SEV-1 / 30 min SEV-2"]
+    T2 -->|Missed ACK SLA| T3["Tier 3 Architect<br/>15 min response"]
+    T3 -->|Escalation| EM[Engineering Manager<br/>Authorizes emergency changes]
+    T1 -->|Responded| Resolve[Incident Resolved]
+    T2 -->|Responded| Resolve
+    T3 -->|Responded| Resolve
+    EM -->|DR activation| CTO[CTO - Final Authority]
+```
+
+### Rotation Handoff
+
+```mermaid
+sequenceDiagram
+    participant Current as Current Engineer
+    participant Doc as Handoff Doc
+    participant Next as Next Engineer
+    participant Shadow as Shadow Period
+    participant Live as Full Takeover
+
+    Current->>Doc: Write incident summary & watch items
+    Current->>Next: Brief on active incidents
+    Next->>Doc: Review runbooks & recent changes
+    Next->>Shadow: Shadow primary rotation (1 week)
+    Shadow->>Live: Complete shadow drills & simulations
+    Live->>Current: Confirm full takeover
+    Note over Current,Live: Weekly handoff every Monday 09:00 UTC
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

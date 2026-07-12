@@ -1,7 +1,7 @@
 # Feature Flag Guide
 
 > **Document:** `docs/backend/feature-flag-guide.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Platform Engineer | **Related:** [60-FEATURE-FLAGS.md](../operations/60-FEATURE-FLAGS.md)
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Platform Engineer | **Related:** [60-FEATURE-FLAGS.md](../operations/60-FEATURE-FLAGS.md)
 
 ---
 
@@ -13,13 +13,13 @@ How to create, manage, and use feature flags in the Portfolio platform. Flags ar
 
 ```
 DB (feature_flags table)
-    │
-    ├── FeatureFlagsService  ← evaluation logic (hash-based rollout)
-    │       │
-    │       ├── PortfolioFeatureFlagsController  (public, read-only)
-    │       └── AdminFeatureFlagsController      (authenticated CRUD)
-    │
-    └── client code (controllers, services, guards)
+    Ã¢â€â€š
+    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ FeatureFlagsService  Ã¢â€ Â evaluation logic (hash-based rollout)
+    Ã¢â€â€š       Ã¢â€â€š
+    Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ PortfolioFeatureFlagsController  (public, read-only)
+    Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ AdminFeatureFlagsController      (authenticated CRUD)
+    Ã¢â€â€š
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ client code (controllers, services, guards)
 ```
 
 ### Database Model
@@ -127,7 +127,7 @@ All flags are listed at `/api/admin/feature-flags` (authenticated). The public r
 | **Staging** | `true` | `100` | Enabled for staging via targeting rules. QA verification. |
 | **Canary** | `true` | `10` | 10% rollout to production. Monitor errors. |
 | **Production** | `true` | `100` | Full release. All users get the feature. |
-| **Cleanup** | Removed | — | Delete the flag after code is stabilized. |
+| **Cleanup** | Removed | Ã¢â‚¬â€ | Delete the flag after code is stabilized. |
 
 ## Flag Evaluation Patterns
 
@@ -176,19 +176,19 @@ class CreateFeatureFlagDto {
   description?: string;      // e.g., "Enables the new dashboard UI"
   isEnabled?: boolean;       // default: false
   targetingRules?: object;   // JSON targeting configuration
-  rolloutPercentage?: number; // 0–100, default: 0
+  rolloutPercentage?: number; // 0Ã¢â‚¬â€œ100, default: 0
 }
 ```
 
 ## Best Practices
 
 - **Name flags descriptively:** `feature-{name}-{description}` (e.g., `dashboard_v2_search_bar`)
-- **Default to OFF** for new flags — enable only after testing
-- **Clean up flags within 30 days** of full rollout — stale flags are technical debt
+- **Default to OFF** for new flags Ã¢â‚¬â€ enable only after testing
+- **Clean up flags within 30 days** of full rollout Ã¢â‚¬â€ stale flags are technical debt
 - **Document each flag's purpose** in the `description` field
-- **Test with flag ON and OFF** — both paths must work
-- **Never use feature flags for security gates** — use `RolesGuard` and `@Roles()` instead
-- **Monitor rollout percentage** — increase gradually (10% → 25% → 50% → 100%)
+- **Test with flag ON and OFF** Ã¢â‚¬â€ both paths must work
+- **Never use feature flags for security gates** Ã¢â‚¬â€ use `RolesGuard` and `@Roles()` instead
+- **Monitor rollout percentage** Ã¢â‚¬â€ increase gradually (10% Ã¢â€ â€™ 25% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100%)
 
 ## Flag Inventory
 
@@ -224,3 +224,7 @@ it('returns legacy dashboard when flag disabled', async () => {
   // ...
 });
 ```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

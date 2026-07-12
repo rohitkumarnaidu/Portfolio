@@ -799,12 +799,11 @@ Neuomorphic elements must not have gradient backgrounds. The shadow illusion req
 
 | Reference | Description |
 |-----------|-------------|
-| See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
-
----
-
-## Cross-References
-
-| Reference | Description |
-|-----------|-------------|
-| docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [3D-ARCHITECTURE.md](3D-ARCHITECTURE.md) | 3D architecture implementation |
+| [3D-USAGE-GUIDELINES.md](3D-USAGE-GUIDELINES.md) | 3D usage guidelines |
+| [MOTION-SYSTEM.md](MOTION-SYSTEM.md) | Motion system reference |
+| [VISUAL-EXPERIENCE-SYSTEM.md](VISUAL-EXPERIENCE-SYSTEM.md) | Visual experience system |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |
+| [DesignSystem.md](../04-design/DESIGN-SYSTEM.md) | Design system reference |

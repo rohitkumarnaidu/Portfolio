@@ -38,6 +38,22 @@ We adopt **Framer Motion** as the animation library.
 - `motion` components are client-side only (requires `'use client'` boundary)
 - Performance requires `will-change` and GPU-accelerated properties (transform, opacity)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Animations] --> B[Options: Framer Motion / GSAP / AutoAnimate]
+    B --> C[Decision: Framer Motion]
+    C --> D[Positive: Declarative, layout animations, AnimatePresence]
+    C --> E[Negative: 30KB bundle, client-side only]
+    D --> F[Compliance: §4.3]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §4.3: "Declarative animation system with scroll-triggered reveals"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

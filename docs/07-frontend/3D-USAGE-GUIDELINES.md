@@ -1001,12 +1001,10 @@ flowchart TD
 
 | Reference | Description |
 |-----------|-------------|
-| See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
-
----
-
-## Cross-References
-
-| Reference | Description |
-|-----------|-------------|
-| docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [3D-ARCHITECTURE.md](3D-ARCHITECTURE.md) | 3D architecture implementation |
+| [MOTION-SYSTEM.md](MOTION-SYSTEM.md) | Motion system reference |
+| [NEUMORPHISM.md](NEUMORPHISM.md) | Neumorphism design language |
+| [VISUAL-EXPERIENCE-SYSTEM.md](VISUAL-EXPERIENCE-SYSTEM.md) | Visual experience system |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |

@@ -315,18 +315,23 @@ Every document should reference related documents. This index provides a complet
 | Sandbox-AI-IDE.md | 17-AI_INSTRUCTIONS, SystemArchitecture | 17-AI_INSTRUCTIONS |
 | UNIT-TESTING-GUIDE.md | TestingArchitecture, TestingImplementation, FrontendTestingStrategy | TestingArchitecture |
 | CI-CD-IMPLEMENTATION-GUIDE.md | 25-CICD, 53-CI-CD-PIPELINE, test-strategy-master-plan | 25-CICD |
+| RENDERING-STRATEGY.md (07-frontend) | FrontendArchitecture, PerformanceArchitecture, ADR-005 (ISR) | FrontendArchitecture, PerformanceArchitecture |
+| COMPONENT-LIBRARY.md (07-frontend) | FrontendArchitecture, DesignSystem, ComponentStandards | FrontendArchitecture, COMPONENT-STANDARDS |
+| COMPONENT-STANDARDS.md (07-frontend) | FrontendArchitecture, ComponentStandards, CodingStandards | COMPONENT-LIBRARY, DESIGN-SYSTEM-EXTENDED |
+| DESIGN-SYSTEM-EXTENDED.md (07-frontend) | DesignSystem, DesignTokens, ComponentLibrary | FRONTEND-ARCHITECTURE, COMPONENT-LIBRARY |
+| VISUAL-EXPERIENCE-SYSTEM.md (07-frontend) | 3D-ARCHITECTURE, MOTION-SYSTEM, NEUMORPHISM | FRONTEND-ARCHITECTURE |
+| 3D-USAGE-GUIDELINES.md (07-frontend) | 3D-ARCHITECTURE, MOTION-SYSTEM, NEUMORPHISM | FRONTEND-ARCHITECTURE |
+| MOTION-SYSTEM.md (07-frontend) | 3D-ARCHITECTURE, 3D-USAGE-GUIDELINES, NEUMORPHISM | FRONTEND-ARCHITECTURE, AnimationArchitecture |
+| NEUMORPHISM.md (07-frontend) | 3D-ARCHITECTURE, 3D-USAGE-GUIDELINES, MOTION-SYSTEM | FRONTEND-ARCHITECTURE, DesignSystem |
+| CMS-ARCHITECTURE.md (20-cms) | CONTENT-MODEL, IMAGE-MANAGEMENT, SANDBOX-IDE, AdminArchitecture | CONTENT-MODEL, IMAGE-MANAGEMENT |
+| CONTENT-MODEL.md (20-cms) | CMS-ARCHITECTURE, IMAGE-MANAGEMENT, DATA-MODEL | CMS-ARCHITECTURE |
+| IMAGE-MANAGEMENT.md (20-cms) | CMS-ARCHITECTURE, CONTENT-MODEL, PerformanceArchitecture | CMS-ARCHITECTURE |
+| SANDBOX-IDE.md (20-cms) | CMS-ARCHITECTURE, CONTENT-MODEL, 17-AI_INSTRUCTIONS | CMS-ARCHITECTURE |
+| CIRCADIAN-THEME.md (37-future) | DesignSystem, DesignTokens, MOTION-SYSTEM, 3D-ARCHITECTURE | DesignSystem |
 
 ## Orphan Documents
 
-Documents that currently have NO cross-references to other docs (need cross-links added):
-
-| Document | Path | Action Needed |
-|----------|------|---------------|
-| Backlog.md | docs/product/Backlog.md | Link to ProductRequirements, 02-FEATURES |
-| BusinessRequirements.md | docs/product/BusinessRequirements.md | Link to ProductRequirements |
-| UserResearch.md | docs/product/UserResearch.md | Link to UserPersonas, 03-USER-STORIES |
-| ComponentStandards.md | docs/design/ComponentStandards.md | Link to ComponentLibrary, DesignSystem |
-| Ceremony docs (AGENDA, MATERIALS) | docs/ceremony/* | Already linked to 33-RATIFICATION |
+**Status: 0 orphans** — all documents have cross-references. Last verified July 2026.
 
 ## Highly Connected Documents (Hubs)
 

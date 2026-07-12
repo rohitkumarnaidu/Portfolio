@@ -9,7 +9,55 @@ This document defines the quality gates that every change must pass before progr
 
 ---
 
-## 2. Gate Overview
+## 2. Gate Stages
+
+```mermaid
+flowchart LR
+    subgraph Dev[DEV GATE G1]
+        D1[TypeScript Check]
+        D2[Lint]
+        D3[Format]
+        D4[Secrets Scan]
+        D5[Unit Tests]
+    end
+
+    subgraph PR[PR GATE G2]
+        P1[TypeScript Strict]
+        P2[Lint + Tests]
+        P3[Coverage >= 70%]
+        P4[Dependency Scan]
+        P5[Build]
+        P6[PR Size Check]
+    end
+
+    subgraph Staging[STAGING GATE G3]
+        S1[E2E Tests]
+        S2[Lighthouse >= 90]
+        S3[Bundle Size]
+        S4[API Performance]
+        S5[DB Migration Check]
+        S6[QA Sign-off]
+    end
+
+    subgraph Prod[PROD GATE G4]
+        PR1[Error Rate < 0.1%]
+        PR2[API Latency p95 < 150ms]
+        PR3[Zero P0/P1 Issues]
+        PR4[Health Checks]
+        PR5[Uptime 100%]
+    end
+
+    Dev -->|git push| PR
+    PR -->|merge to main| Staging
+    Staging -->|promote| Prod
+
+    style Dev fill:#2563eb,color:#fff
+    style PR fill:#7c3aed,color:#fff
+    style Staging fill:#ea580c,color:#fff
+    style Prod fill:#16a34a,color:#fff
+```
+
+## 3. Gate Overview
 
 | # | Gate | Stage | Enforcement | Gatekeeper |
 |---|------|-------|-------------|------------|
@@ -140,7 +188,33 @@ This document defines the quality gates that every change must pass before progr
 
 ---
 
-## 5. Gate Failure Runbook
+## 5. Promotion Rules
+
+```mermaid
+stateDiagram-v2
+    [*] --> Dev
+    Dev --> Dev: Commit fails gate
+    Dev --> Test: All checks pass
+
+    Test --> Test: Tests fail
+    Test --> Staging: CI green + review approved
+    Test --> Dev: Rollback requested
+
+    Staging --> Staging: E2E/perf fail
+    Staging --> Prod: QA sign-off + all gates pass
+    Staging --> Test: Rollback / fixes needed
+
+    Prod --> Prod: Monitoring healthy
+    Prod --> Staging: P0/P1 incident → rollback
+    Prod --> Dev: Hotfix required
+
+    note right of Dev : G1: Pre-commit
+    note right of Test : G2: PR gate
+    note right of Staging : G3: Pre-deploy
+    note right of Prod : G4: Post-deploy
+```
+
+## 6. Gate Failure Runbook
 
 | Gate | Failure Escalation | Notification | Remediation SLA |
 |------|-------------------|--------------|-----------------|
@@ -149,3 +223,7 @@ This document defines the quality gates that every change must pass before progr
 | G3 | QA Engineer → QA Lead → Engineering Manager | Slack @channel | < 8 hours |
 | G4 | On-Call → Engineering Lead → Incident Response | PagerDuty + Slack | < 1 hour (P0), < 4 hours (P1) |
 | G5 | Engineering Lead → backlog | Quarterly report | Next sprint |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

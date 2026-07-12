@@ -28,9 +28,9 @@ The CI/CD pipeline is the backbone of our delivery process. Every code change tr
 
 **Every Commit Triggers CI, Every PR Triggers Extended Checks.** There is no such thing as a "trivial" commit. Every push to any tracked branch runs lint, typecheck, and build to catch regressions instantly. Pull requests escalate this to the full suite: unit tests, integration tests, coverage checks, bundle analysis, E2E tests, and security scanning. This asymmetry ensures the fast feedback loop for direct pushes while guaranteeing PRs meet the bar for merge.
 
-**Fail Fast.** The pipeline stages are ordered by speed and specificity. Lint errors surface in seconds, type errors in under two minutes, test failures in under five. Each stage is a gate for the next — there is no point running tests on code that has type errors. This ordering minimizes wasted compute and developer wait time.
+**Fail Fast.** The pipeline stages are ordered by speed and specificity. Lint errors surface in seconds, type errors in under two minutes, test failures in under five. Each stage is a gate for the next Ã¢â‚¬â€ there is no point running tests on code that has type errors. This ordering minimizes wasted compute and developer wait time.
 
-**Quality Gates at Every Stage.** Every stage has a defined pass/fail criterion with zero tolerance for regression. There are no warnings-as-optional-later gates. If a stage fails, the pipeline stops, the commit is marked red, and the author is notified. Quality is not a separate phase — it is embedded in every stage of delivery.
+**Quality Gates at Every Stage.** Every stage has a defined pass/fail criterion with zero tolerance for regression. There are no warnings-as-optional-later gates. If a stage fails, the pipeline stops, the commit is marked red, and the author is notified. Quality is not a separate phase Ã¢â‚¬â€ it is embedded in every stage of delivery.
 
 **Security Scanning Integrated into Pipeline.** Security is not an afterthought scanned quarterly. Dependabot alerts on every dependency change, CodeQL analyzes every push, and `npm audit` fails the build on critical or high vulnerabilities. Container images are scanned with Trivy before registry push. Secrets are checked at commit time via GitHub secret scanning.
 
@@ -59,37 +59,37 @@ The project currently has three CI/CD workflow definitions:
 |----------|----------|---------|--------|--------|
 | `ci.yml` | `.github/workflows/ci.yml` | Push to main/master/develop + tags `v*` | Lint, typecheck, test (ci.yml line 28-33), build, Prisma validate, Docker build & push (API + Web) | Tests run with `continue-on-error: true` for web; no coverage thresholds; no Postgres service container |
 | `pr.yml` | `.github/workflows/pr.yml` | PR to main/master/develop | Lint, typecheck, test (with `continue-on-error: true` for web), build, Prisma validate + migrate (dry-run) | No E2E tests; no bundle analysis; tests allowed to fail for web |
-| `ci.yml` | `infrastructure/ci/ci.yml` | Push to main/develop + PR to main | Lint, typecheck, build, deploy to Vercel | **Orphaned** — uses `amondnet/vercel-action@v25`, legacy Node 20, outdated path references (frontend/.next) |
+| `ci.yml` | `infrastructure/ci/ci.yml` | Push to main/develop + PR to main | Lint, typecheck, build, deploy to Vercel | **Orphaned** Ã¢â‚¬â€ uses `amondnet/vercel-action@v25`, legacy Node 20, outdated path references (frontend/.next) |
 
 ### 2.2 Gap Analysis
 
 | Capability | Current State | Target State | Gap |
 |------------|--------------|--------------|-----|
-| **Lint** | ✅ Present in all workflows | ESLint with `--max-warnings=0` | No `--max-warnings=0` enforced |
-| **Typecheck** | ✅ Present in all workflows | `tsc --noEmit` with strict mode | No strict mode flag |
-| **Unit tests** | ⚠️ Partial — run but allowed to fail for web | Must pass, coverage threshold 40%+ | `continue-on-error: true` for web; no coverage enforcement |
-| **Integration tests** | ❌ Not run in CI | Jest/Supertest against test DB | Missing |
-| **E2E tests** | ❌ Not run in CI | Playwright against preview deployment | Missing entirely |
-| **Coverage reporting** | ❌ Not collected | Published to PR comments | Missing |
-| **Build** | ✅ Present in all workflows | Turbo build with cache | Uses per-workspace build (not turbo `--filter`) |
-| **Docker build** | ✅ Present in `ci.yml` only | multi-arch with buildx caching | Only on push to main/tags, not on PR |
-| **Security scan** | ❌ Not present | CodeQL + npm audit + Trivy | Missing entirely |
-| **Bundle analysis** | ❌ Not present | @next/bundle-analyzer on PR | Missing |
-| **Deploy to Vercel** | ⚠️ Legacy workflow only | Vercel CLI with environment promotion | Old `amondnet/vercel-action` in orphaned workflow |
-| **Postgres service** | ❌ Not configured | GitHub Actions service container | Missing |
-| **Dependabot** | ❌ Not configured | Auto-create PRs for vulnerable deps | Missing |
-| **CodeQL** | ❌ Not configured | GitHub CodeQL analysis on push | Missing |
+| **Lint** | Ã¢Å“â€¦ Present in all workflows | ESLint with `--max-warnings=0` | No `--max-warnings=0` enforced |
+| **Typecheck** | Ã¢Å“â€¦ Present in all workflows | `tsc --noEmit` with strict mode | No strict mode flag |
+| **Unit tests** | Ã¢Å¡Â Ã¯Â¸Â Partial Ã¢â‚¬â€ run but allowed to fail for web | Must pass, coverage threshold 40%+ | `continue-on-error: true` for web; no coverage enforcement |
+| **Integration tests** | Ã¢ÂÅ’ Not run in CI | Jest/Supertest against test DB | Missing |
+| **E2E tests** | Ã¢ÂÅ’ Not run in CI | Playwright against preview deployment | Missing entirely |
+| **Coverage reporting** | Ã¢ÂÅ’ Not collected | Published to PR comments | Missing |
+| **Build** | Ã¢Å“â€¦ Present in all workflows | Turbo build with cache | Uses per-workspace build (not turbo `--filter`) |
+| **Docker build** | Ã¢Å“â€¦ Present in `ci.yml` only | multi-arch with buildx caching | Only on push to main/tags, not on PR |
+| **Security scan** | Ã¢ÂÅ’ Not present | CodeQL + npm audit + Trivy | Missing entirely |
+| **Bundle analysis** | Ã¢ÂÅ’ Not present | @next/bundle-analyzer on PR | Missing |
+| **Deploy to Vercel** | Ã¢Å¡Â Ã¯Â¸Â Legacy workflow only | Vercel CLI with environment promotion | Old `amondnet/vercel-action` in orphaned workflow |
+| **Postgres service** | Ã¢ÂÅ’ Not configured | GitHub Actions service container | Missing |
+| **Dependabot** | Ã¢ÂÅ’ Not configured | Auto-create PRs for vulnerable deps | Missing |
+| **CodeQL** | Ã¢ÂÅ’ Not configured | GitHub CodeQL analysis on push | Missing |
 
 ### 2.3 Pipeline Inventory
 
 ```
 .github/workflows/
-  ci.yml          # Active — push-based CI + Docker build/push
-  pr.yml          # Active — PR-based lint/typecheck/test/build
+  ci.yml          # Active Ã¢â‚¬â€ push-based CI + Docker build/push
+  pr.yml          # Active Ã¢â‚¬â€ PR-based lint/typecheck/test/build
 
 infrastructure/
   ci/
-    ci.yml        # Legacy — orphaned, should be archived
+    ci.yml        # Legacy Ã¢â‚¬â€ orphaned, should be archived
   docker/
     docker-compose.yml  # Local dev orchestration (web + api + ai)
 ```
@@ -108,68 +108,68 @@ infrastructure/
 ### 3.1 End-to-End Pipeline Flow
 
 ```
-                                    ┌─────────────────┐
-                                    │   git push/PR    │
-                                    └────────┬────────┘
-                                             │
-                                    ┌────────▼────────┐
-                                    │  npm ci (cached) │
-                                    └────────┬────────┘
-                                             │
-                                    ┌────────▼────────┐
-                                    │  1. Lint (eslint)│  ◄── Fail fast: ~1 min
-                                    └────────┬────────┘
-                                             │
-                                    ┌────────▼────────┐
-                                    │2. Typecheck (tsc)│  ◄── ~2 min
-                                    └────────┬────────┘
-                                             │
-                                    ┌────────▼────────┐
-                                    │3. Unit Test      │  ◄── ~3 min, coverage > 40%
-                                    │   (Jest/Vitest)  │
-                                    └────────┬────────┘
-                                             │
-                                    ┌────────▼────────┐
-                                    │4. Integration    │  ◄── ~5 min, Postgres service
-                                    │   Test           │
-                                    └────────┬────────┘
-                                             │
-                                    ┌────────▼────────┐
-                                    │5. Build (Turbo)  │  ◄── ~5 min
-                                    └────────┬────────┘
-                                             │
-                      ┌──────────────────────┼──────────────────────┐
-                      │                      │                      │
-              ┌───────▼───────┐    ┌─────────▼─────────┐   ┌───────▼───────┐
-              │6. E2E (PR only)│    │7. Docker Build    │   │8. Security    │
-              │  Playwright    │    │   (buildx)        │   │   Scan        │
-              │  ~8 min        │    │   ~3 min          │   │   ~2 min      │
-              └───────┬───────┘    └─────────┬─────────┘   └───────┬───────┘
-                      │                      │                      │
-              ┌───────▼───────┐             │                      │
-              │9. Bundle      │             │                      │
-              │   Analysis    │             │                      │
-              │   (PR only)   │             │                      │
-              └───────┬───────┘             │                      │
-                      │                     │                      │
-                      └──────────┬──────────┘──────────────────────┘
-                                 │
-                        ┌────────▼────────┐
-                        │  All Passed?    │
-                        └────────┬────────┘
-                                 │
-                    ┌────────────┴────────────┐
-                    │ YES                      │ NO
-                    ▼                          ▼
-            ┌───────────────┐        ┌──────────────────┐
-            │10. Deploy     │        │ Block + Notify   │
-            │   (Vercel)    │        │ Author           │
-            └───────┬───────┘        └──────────────────┘
-                    │
-            ┌───────▼───────┐
-            │ Post-Deploy   │
-            │ Smoke Tests   │
-            └───────────────┘
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š   git push/PR    Ã¢â€â€š
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š  npm ci (cached) Ã¢â€â€š
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š  1. Lint (eslint)Ã¢â€â€š  Ã¢â€”â€žÃ¢â€â‚¬Ã¢â€â‚¬ Fail fast: ~1 min
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š2. Typecheck (tsc)Ã¢â€â€š  Ã¢â€”â€žÃ¢â€â‚¬Ã¢â€â‚¬ ~2 min
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š3. Unit Test      Ã¢â€â€š  Ã¢â€”â€žÃ¢â€â‚¬Ã¢â€â‚¬ ~3 min, coverage > 40%
+                                    Ã¢â€â€š   (Jest/Vitest)  Ã¢â€â€š
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š4. Integration    Ã¢â€â€š  Ã¢â€”â€žÃ¢â€â‚¬Ã¢â€â‚¬ ~5 min, Postgres service
+                                    Ã¢â€â€š   Test           Ã¢â€â€š
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                    Ã¢â€â€š5. Build (Turbo)  Ã¢â€â€š  Ã¢â€”â€žÃ¢â€â‚¬Ã¢â€â‚¬ ~5 min
+                                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                      Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                      Ã¢â€â€š                      Ã¢â€â€š                      Ã¢â€â€š
+              Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+              Ã¢â€â€š6. E2E (PR only)Ã¢â€â€š    Ã¢â€â€š7. Docker Build    Ã¢â€â€š   Ã¢â€â€š8. Security    Ã¢â€â€š
+              Ã¢â€â€š  Playwright    Ã¢â€â€š    Ã¢â€â€š   (buildx)        Ã¢â€â€š   Ã¢â€â€š   Scan        Ã¢â€â€š
+              Ã¢â€â€š  ~8 min        Ã¢â€â€š    Ã¢â€â€š   ~3 min          Ã¢â€â€š   Ã¢â€â€š   ~2 min      Ã¢â€â€š
+              Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                      Ã¢â€â€š                      Ã¢â€â€š                      Ã¢â€â€š
+              Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â             Ã¢â€â€š                      Ã¢â€â€š
+              Ã¢â€â€š9. Bundle      Ã¢â€â€š             Ã¢â€â€š                      Ã¢â€â€š
+              Ã¢â€â€š   Analysis    Ã¢â€â€š             Ã¢â€â€š                      Ã¢â€â€š
+              Ã¢â€â€š   (PR only)   Ã¢â€â€š             Ã¢â€â€š                      Ã¢â€â€š
+              Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ             Ã¢â€â€š                      Ã¢â€â€š
+                      Ã¢â€â€š                     Ã¢â€â€š                      Ã¢â€â€š
+                      Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ËœÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                 Ã¢â€â€š
+                        Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                        Ã¢â€â€š  All Passed?    Ã¢â€â€š
+                        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                 Ã¢â€â€š
+                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                    Ã¢â€â€š YES                      Ã¢â€â€š NO
+                    Ã¢â€“Â¼                          Ã¢â€“Â¼
+            Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+            Ã¢â€â€š10. Deploy     Ã¢â€â€š        Ã¢â€â€š Block + Notify   Ã¢â€â€š
+            Ã¢â€â€š   (Vercel)    Ã¢â€â€š        Ã¢â€â€š Author           Ã¢â€â€š
+            Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                    Ã¢â€â€š
+            Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+            Ã¢â€â€š Post-Deploy   Ã¢â€â€š
+            Ã¢â€â€š Smoke Tests   Ã¢â€â€š
+            Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 3.2 Mermaid Pipeline Diagram
@@ -209,11 +209,11 @@ flowchart TB
     Docker --> Trivy
 
     E2E & BA & CodeQL & Audit & Trivy -->|All Pass| Deploy
-    E2E & BA & CodeQL & Audit & Trivy -->|Any Fail| Block["❌ Blocked"]
+    E2E & BA & CodeQL & Audit & Trivy -->|Any Fail| Block["Ã¢ÂÅ’ Blocked"]
 
     Deploy --> Smoke
-    Smoke -->|Pass| Success["✅ Deployed"]
-    Smoke -->|Fail| Rollback["🔄 Rollback"]
+    Smoke -->|Pass| Success["Ã¢Å“â€¦ Deployed"]
+    Smoke -->|Fail| Rollback["Ã°Å¸â€â€ž Rollback"]
 ```
 
 ### 3.3 Workflow Design
@@ -222,7 +222,7 @@ The target architecture uses three GitHub Actions workflow files:
 
 | Workflow | File | Trigger | Scope |
 |----------|------|---------|-------|
-| **CI** | `.github/workflows/ci.yml` | Push to `main`, `develop` + tags `v*` | Quality gates → Docker build/push → Security scan |
+| **CI** | `.github/workflows/ci.yml` | Push to `main`, `develop` + tags `v*` | Quality gates Ã¢â€ â€™ Docker build/push Ã¢â€ â€™ Security scan |
 | **PR** | `.github/workflows/pr.yml` | Pull requests to `main`, `develop` | Full suite + E2E + Bundle analysis + Coverage comment |
 | **Deploy** | `.github/workflows/deploy.yml` | Push to `main` (after CI passes) + manual workflow_dispatch | Vercel deploy + Post-deploy smoke tests |
 
@@ -230,16 +230,16 @@ The target architecture uses three GitHub Actions workflow files:
 
 ```
 PR Workflow:
-  lint ──► typecheck ──► test ──► build ──► e2e ──► bundle-analyzer
-                                        └──► codeql ──► npm-audit
+  lint Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº typecheck Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº test Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº build Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº e2e Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº bundle-analyzer
+                                        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº codeql Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº npm-audit
 
 CI Workflow (push):
-  lint ──► typecheck ──► test ──► build ──► docker ──► trivy
-                                        └──► codeql ──► npm-audit
+  lint Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº typecheck Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº test Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº build Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº docker Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº trivy
+                                        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº codeql Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº npm-audit
 
 Deploy Workflow:
   [triggered after CI passes on main]
-  vercel-deploy ──► smoke-test
+  vercel-deploy Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº smoke-test
 ```
 
 ---
@@ -345,7 +345,7 @@ Output verification:
 
 The build stage compiles all workspaces. Turborepo's dependency graph ensures correct build order (`^build`). Remote caching dramatically speeds up subsequent runs.
 
-#### 4.2.6 E2E Tests (Stage 6 — PR Only)
+#### 4.2.6 E2E Tests (Stage 6 Ã¢â‚¬â€ PR Only)
 
 ```
 Trigger: Pull requests only
@@ -401,13 +401,13 @@ Trivy (Docker only):
   Note: Only runs after Docker build
 ```
 
-#### 4.2.9 Bundle Analysis (Stage 9 — PR Only)
+#### 4.2.9 Bundle Analysis (Stage 9 Ã¢â‚¬â€ PR Only)
 
 ```
 Trigger: Pull requests only
 Tool: @next/bundle-analyzer
 Command: ANALYZE=true npm run build --workspace=apps/web
-Output: .next/analyze/ — uploaded as CI artifact
+Output: .next/analyze/ Ã¢â‚¬â€ uploaded as CI artifact
 
 Budget thresholds:
   - Initial JS (first load): < 150 KB gzipped
@@ -509,7 +509,7 @@ URL: https://<project>.vercel.app (or custom domain per PR)
 
 Environment variables:
   - Inherited from Vercel project (development overrides)
-  - NEXT_PUBLIC_API_URL → staging API
+  - NEXT_PUBLIC_API_URL Ã¢â€ â€™ staging API
 
 Database: 
   - Ephemeral database for E2E tests (spun up in CI)
@@ -573,20 +573,20 @@ Compliance:
 ### 6.1 Promotion Model
 
 ```
-                    ┌─────────────────────────────────────────────┐
-                    │              Commit Flow                    │
-                    └─────────────────────────────────────────────┘
+                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                    Ã¢â€â€š              Commit Flow                    Ã¢â€â€š
+                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
-  Developer ──► Feature Branch ──► PR ──► Main ──► Staging ──► Production
-                    │               │        │           │            │
-                    │               │        │           │            │
-                    ▼               ▼        ▼           ▼            ▼
+  Developer Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Feature Branch Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº PR Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Main Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Staging Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Production
+                    Ã¢â€â€š               Ã¢â€â€š        Ã¢â€â€š           Ã¢â€â€š            Ã¢â€â€š
+                    Ã¢â€â€š               Ã¢â€â€š        Ã¢â€â€š           Ã¢â€â€š            Ã¢â€â€š
+                    Ã¢â€“Â¼               Ã¢â€“Â¼        Ã¢â€“Â¼           Ã¢â€“Â¼            Ã¢â€“Â¼
               Pre-commit      PR CI     CI + Auto    Auto       Manual
               hooks           (full)    Deploy       Deploy     Approval
                                                             + Smoke Test
 ```
 
-### 6.2 Quality Gate: Feature Branch → PR
+### 6.2 Quality Gate: Feature Branch Ã¢â€ â€™ PR
 
 | Gate | Requirement | Enforcement |
 |------|-------------|-------------|
@@ -594,20 +594,20 @@ Compliance:
 | Branch name | `feature/*`, `fix/*`, `chore/*` | GitHub branch rules |
 | Commit messages | Conventional Commits | Commitlint (optional) |
 
-### 6.3 Quality Gate: PR → Main
+### 6.3 Quality Gate: PR Ã¢â€ â€™ Main
 
 | Gate | Requirement | Blocking |
 |------|-------------|----------|
-| CI passing | All stages green (lint, typecheck, test, build) | ✅ Yes |
-| Coverage | >= 40% global, no decrease from base | ✅ Yes |
-| E2E tests | All Playwright tests pass | ✅ Yes |
-| Bundle analysis | No budget exceeded | ⚠️ Warning (configurable to block) |
-| Security scan | No critical/high vulns | ✅ Yes |
-| Code review | At least 1 approval | ✅ Yes |
-| Branch up to date | Must be rebased on latest main | ✅ Yes |
-| Commit signing | All commits signed | ⚠️ Recommended |
+| CI passing | All stages green (lint, typecheck, test, build) | Ã¢Å“â€¦ Yes |
+| Coverage | >= 40% global, no decrease from base | Ã¢Å“â€¦ Yes |
+| E2E tests | All Playwright tests pass | Ã¢Å“â€¦ Yes |
+| Bundle analysis | No budget exceeded | Ã¢Å¡Â Ã¯Â¸Â Warning (configurable to block) |
+| Security scan | No critical/high vulns | Ã¢Å“â€¦ Yes |
+| Code review | At least 1 approval | Ã¢Å“â€¦ Yes |
+| Branch up to date | Must be rebased on latest main | Ã¢Å“â€¦ Yes |
+| Commit signing | All commits signed | Ã¢Å¡Â Ã¯Â¸Â Recommended |
 
-### 6.4 Quality Gate: Main → Staging
+### 6.4 Quality Gate: Main Ã¢â€ â€™ Staging
 
 | Step | Action | Automation |
 |------|--------|------------|
@@ -618,7 +618,7 @@ Compliance:
 | 5 | Database migration applied | Automatic (Supabase CLI) |
 | 6 | Cache warmed | Automatic (ISR revalidation) |
 
-### 6.5 Quality Gate: Staging → Production
+### 6.5 Quality Gate: Staging Ã¢â€ â€™ Production
 
 | Step | Action | Who |
 |------|--------|-----|
@@ -760,7 +760,7 @@ updates:
 | `TURBO_TOKEN` | GitHub Actions secret | 90 days | All workflows (cache) |
 | `TURBO_TEAM` | GitHub Actions secret | Static | All workflows (cache) |
 
-**Principle:** Tokens are scoped to the minimum permissions required. No production secrets are exposed to CI — the Vercel deploy step uses a project-scoped deploy token, not a user token.
+**Principle:** Tokens are scoped to the minimum permissions required. No production secrets are exposed to CI Ã¢â‚¬â€ the Vercel deploy step uses a project-scoped deploy token, not a user token.
 
 ---
 
@@ -777,7 +777,7 @@ updates:
 | Coverage percentage | Jest/Vitest output | Per-push | PR comment + artifact |
 | Deployment frequency | Vercel API / GitHub deployments | Per-deploy | DORA metrics dashboard |
 | Change failure rate | Sentry / PagerDuty | Post-deploy | DORA metrics dashboard |
-| Lead time for change | GitHub API (commit → deploy) | Per-deploy | DORA metrics dashboard |
+| Lead time for change | GitHub API (commit Ã¢â€ â€™ deploy) | Per-deploy | DORA metrics dashboard |
 | MTTR | Incident management tool | Per-incident | DORA metrics dashboard |
 
 ### 8.2 CI Artifacts
@@ -808,18 +808,18 @@ ci-artifacts/
 The pipeline posts automated comments to PRs with:
 
 ```
-## ✅ CI Pipeline — All Stages Passed
+## Ã¢Å“â€¦ CI Pipeline Ã¢â‚¬â€ All Stages Passed
 
 | Stage | Status | Duration |
 |-------|--------|----------|
-| Lint | ✅ Passed | 45s |
-| Typecheck | ✅ Passed | 1m 20s |
-| Unit Tests | ✅ Passed | 2m 45s |
-| Integration Tests | ✅ Passed | 4m 10s |
-| Build | ✅ Passed | 3m 30s |
-| E2E Tests | ✅ Passed | 7m 55s |
-| Bundle Analysis | ✅ Passed | 55s |
-| Security Scan | ✅ Passed | 1m 30s |
+| Lint | Ã¢Å“â€¦ Passed | 45s |
+| Typecheck | Ã¢Å“â€¦ Passed | 1m 20s |
+| Unit Tests | Ã¢Å“â€¦ Passed | 2m 45s |
+| Integration Tests | Ã¢Å“â€¦ Passed | 4m 10s |
+| Build | Ã¢Å“â€¦ Passed | 3m 30s |
+| E2E Tests | Ã¢Å“â€¦ Passed | 7m 55s |
+| Bundle Analysis | Ã¢Å“â€¦ Passed | 55s |
+| Security Scan | Ã¢Å“â€¦ Passed | 1m 30s |
 
 ### Coverage Report
 
@@ -884,7 +884,7 @@ jobs:
 | **Phase 4: Advanced** | Add E2E tests, bundle analysis, PR comments, performance tracking | 3 days | Medium |
 | **Phase 5: Polish** | Archive legacy workflows, DORA metrics, documentation finalization | 1 day | Low |
 
-### 9.2 Phase 1 — Foundation (Days 1-2)
+### 9.2 Phase 1 Ã¢â‚¬â€ Foundation (Days 1-2)
 
 **Tasks:**
 
@@ -905,7 +905,7 @@ jobs:
 
 **Rollback safety:** These changes only affect CI behavior, not application code. Rollback is a simple revert of the workflow files.
 
-### 9.3 Phase 2 — Testing & Coverage (Days 3-5)
+### 9.3 Phase 2 Ã¢â‚¬â€ Testing & Coverage (Days 3-5)
 
 **Tasks:**
 
@@ -950,7 +950,7 @@ steps:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/portfolio_test?schema=public
 ```
 
-### 9.4 Phase 3 — Security (Days 6-7)
+### 9.4 Phase 3 Ã¢â‚¬â€ Security (Days 6-7)
 
 **Tasks:**
 
@@ -998,7 +998,7 @@ jobs:
       - uses: github/codeql-action/analyze@v3
 ```
 
-### 9.5 Phase 4 — Advanced CI (Days 8-10)
+### 9.5 Phase 4 Ã¢â‚¬â€ Advanced CI (Days 8-10)
 
 **Tasks:**
 
@@ -1044,7 +1044,7 @@ jobs:
           curl -sI https://portfolio.dev | head -3
 ```
 
-### 9.6 Phase 5 — Polish (Day 11)
+### 9.6 Phase 5 Ã¢â‚¬â€ Polish (Day 11)
 
 **Tasks:**
 
@@ -1076,12 +1076,12 @@ Each phase is designed to be independently rollback-able. No phase depends on a 
 
 | File | Status | Purpose |
 |------|--------|---------|
-| `.github/workflows/ci.yml` | ✅ Active | Push-based CI (lint → typecheck → test → build → Docker) |
-| `.github/workflows/pr.yml` | ✅ Active | PR validation (lint → typecheck → test → build) |
-| `.github/workflows/deploy.yml` | 🔄 Planned | Deploy to Vercel on merge to main |
-| `.github/workflows/codeql.yml` | 🔄 Planned | CodeQL security analysis |
-| `.github/dependabot.yml` | 🔄 Planned | Automated dependency updates |
-| `infrastructure/ci/ci.yml` | 🗄️ Legacy (to archive) | Orphaned workflow from previous iteration |
+| `.github/workflows/ci.yml` | Ã¢Å“â€¦ Active | Push-based CI (lint Ã¢â€ â€™ typecheck Ã¢â€ â€™ test Ã¢â€ â€™ build Ã¢â€ â€™ Docker) |
+| `.github/workflows/pr.yml` | Ã¢Å“â€¦ Active | PR validation (lint Ã¢â€ â€™ typecheck Ã¢â€ â€™ test Ã¢â€ â€™ build) |
+| `.github/workflows/deploy.yml` | Ã°Å¸â€â€ž Planned | Deploy to Vercel on merge to main |
+| `.github/workflows/codeql.yml` | Ã°Å¸â€â€ž Planned | CodeQL security analysis |
+| `.github/dependabot.yml` | Ã°Å¸â€â€ž Planned | Automated dependency updates |
+| `infrastructure/ci/ci.yml` | Ã°Å¸â€”â€žÃ¯Â¸Â Legacy (to archive) | Orphaned workflow from previous iteration |
 
 ## Appendix B: Turbo.json Task Configuration
 
@@ -1109,7 +1109,7 @@ Current `turbo.json` with recommended changes:
       // Changed from ["^build"] to [] for fail-fast behavior
     },
     "test": {
-      // New task — enables turbo run test
+      // New task Ã¢â‚¬â€ enables turbo run test
       "dependsOn": ["^build"],
       "outputs": ["coverage/**"]
     },
@@ -1125,14 +1125,18 @@ Current `turbo.json` with recommended changes:
 | ID | Decision | Rationale |
 |----|----------|-----------|
 | D-001 | Sequential quality gates with dependency chain | Fail-fast principle: no point testing code with type errors |
-| D-002 | E2E tests on PR only, not push | E2E tests take 8 min — too expensive for every push but essential for PR validation |
+| D-002 | E2E tests on PR only, not push | E2E tests take 8 min Ã¢â‚¬â€ too expensive for every push but essential for PR validation |
 | D-003 | Postgres service container instead of external test DB | Ephemeral containers are faster, cheaper, and more isolated than shared databases |
 | D-004 | 40% coverage threshold (starting) | Low enough to not block current work, high enough to prevent total neglect; ratchet up quarterly |
 | D-005 | Vercel for deployment (not self-hosted) | Existing infrastructure, preview deployments for every PR, no server management |
-| D-006 | Archive legacy workflow, not migrate | `infrastructure/ci/ci.yml` uses outdated patterns (Node 20, amondnet/vercel-action, frontend/.next path) — cleaner to replace |
+| D-006 | Archive legacy workflow, not migrate | `infrastructure/ci/ci.yml` uses outdated patterns (Node 20, amondnet/vercel-action, frontend/.next path) Ã¢â‚¬â€ cleaner to replace |
 
 ---
 
-*Document Version: 1.0 — CI/CD Pipeline Strategy*  
+*Document Version: 1.0 Ã¢â‚¬â€ CI/CD Pipeline Strategy*  
 *Next Review Date: October 2026*  
 *Author: DevOps Lead*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

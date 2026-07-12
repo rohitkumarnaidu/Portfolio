@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Agent Base Architecture -- Enterprise-Grade Foundation for Multi-Agent System
 
 > **Document:** `docs/ai/Agent.md` | **Version:** 1.0 | **Last Updated:** June 2026
@@ -2289,11 +2284,11 @@ async def test_guardrail_pii_block():
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-AGT-001 | Implement `BaseAgent` as abstract base class using Python ABC + Pydantic v2 | Provides compile-time contract enforcement, type safety, and runtime validation | Interface-only (Protocol) (rejected — no shared implementation); duck typing (rejected — no safety guarantees); JavaScript base agent (rejected — ecosystem mismatch with FastAPI) | Jun 2026 | Chief AI Architect |
-| D-AGT-002 | Design agent lifecycle as a 9-state state machine (Draft → Registered → Ready → Active → Busy → Waiting → Completed → Failed → Retired) | Granular state tracking for observability, debugging, and orchestration | 3-state (Idle/Active/Failed) (rejected — insufficient granularity); 5-state (rejected — no Waiting/Retired states); no lifecycle (rejected — chaos) | Jun 2026 | Chief AI Architect |
-| D-AGT-003 | Implement tool system with explicit permission levels (read/write/admin) and rate limits | Enforces least-privilege access per agent; prevents resource exhaustion | No tool permissions (rejected — security risk); binary read/write only (rejected — insufficient granularity); role-based only (rejected — no per-tool limits) | Jun 2026 | Chief AI Architect |
-| D-AGT-004 | Use in-process message bus for inter-agent communication with Supervisor as hub | Zero-latency messaging; no network overhead; natural fit for single-process FastAPI | Redis pub/sub (rejected — added latency, infrastructure); RabbitMQ (rejected — over-engineering for single-process); HTTP calls (rejected — serialization overhead) | Jun 2026 | Chief AI Architect |
-| D-AGT-005 | Enforce 6 guardrail categories (Truthfulness, Safety, Privacy, Scope, Quality, Operational) with unique IDs per rule | Systematic safety coverage; each guardrail is traceable to code; enables targeted violation handling | Single safety check (rejected — no granularity); per-agent ad-hoc rules (rejected — inconsistent enforcement); no guardrails (rejected — unacceptable risk) | Jun 2026 | Chief AI Architect |
+| D-AGT-001 | Implement `BaseAgent` as abstract base class using Python ABC + Pydantic v2 | Provides compile-time contract enforcement, type safety, and runtime validation | Interface-only (Protocol) (rejected â€” no shared implementation); duck typing (rejected â€” no safety guarantees); JavaScript base agent (rejected â€” ecosystem mismatch with FastAPI) | Jun 2026 | Chief AI Architect |
+| D-AGT-002 | Design agent lifecycle as a 9-state state machine (Draft â†’ Registered â†’ Ready â†’ Active â†’ Busy â†’ Waiting â†’ Completed â†’ Failed â†’ Retired) | Granular state tracking for observability, debugging, and orchestration | 3-state (Idle/Active/Failed) (rejected â€” insufficient granularity); 5-state (rejected â€” no Waiting/Retired states); no lifecycle (rejected â€” chaos) | Jun 2026 | Chief AI Architect |
+| D-AGT-003 | Implement tool system with explicit permission levels (read/write/admin) and rate limits | Enforces least-privilege access per agent; prevents resource exhaustion | No tool permissions (rejected â€” security risk); binary read/write only (rejected â€” insufficient granularity); role-based only (rejected â€” no per-tool limits) | Jun 2026 | Chief AI Architect |
+| D-AGT-004 | Use in-process message bus for inter-agent communication with Supervisor as hub | Zero-latency messaging; no network overhead; natural fit for single-process FastAPI | Redis pub/sub (rejected â€” added latency, infrastructure); RabbitMQ (rejected â€” over-engineering for single-process); HTTP calls (rejected â€” serialization overhead) | Jun 2026 | Chief AI Architect |
+| D-AGT-005 | Enforce 6 guardrail categories (Truthfulness, Safety, Privacy, Scope, Quality, Operational) with unique IDs per rule | Systematic safety coverage; each guardrail is traceable to code; enables targeted violation handling | Single safety check (rejected â€” no granularity); per-agent ad-hoc rules (rejected â€” inconsistent enforcement); no guardrails (rejected â€” unacceptable risk) | Jun 2026 | Chief AI Architect |
 
 ## 18. Risk Register
 
@@ -2302,7 +2297,7 @@ async def test_guardrail_pii_block():
 | R-AGT-001 | BaseAgent interface changes break all agent implementations | High | High | Maintain backward-compatible interface additions; deprecate methods before removal; comprehensive test suite for all agents |
 | R-AGT-002 | In-process message bus becomes bottleneck under high concurrency | Medium | Medium | Monitor bus latency; design for future migration to Redis pub/sub; keep message payloads small (< 10KB) |
 | R-AGT-003 | Agent state machine gets stuck in Waiting or Busy state | Medium | Medium | Implement state timeout with automatic recovery; heartbeat mechanism for stuck agents; admin manual override |
-| R-AGT-004 | Tool permission escalation — agent executes tool beyond its permission level | Low | Critical | Permission check on every tool invocation (not just registration); periodic permission audit; RLS as database-level second layer |
+| R-AGT-004 | Tool permission escalation â€” agent executes tool beyond its permission level | Low | Critical | Permission check on every tool invocation (not just registration); periodic permission audit; RLS as database-level second layer |
 | R-AGT-005 | Agent serialization/deserialization failures cause data loss during handoff | Low | High | Comprehensive Pydantic validation; fallback to raw data on deserialization failure; audit log for handoff events |
 
 ## Glossary
@@ -2312,12 +2307,12 @@ async def test_guardrail_pii_block():
 | Agent | Autonomous software entity that performs tasks on behalf of a user |
 | Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
 | Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| RAG | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
 | Tool | A function an agent can call (read DB, send email, etc.) |
 | Guardrail | Constraint that prevents agents from performing unauthorized actions |
 | Handoff | Transfer of a query from one agent to another with full context |
 | Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model â€” the AI model powering agent reasoning |
+| LLM | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning |
 | Embedding | Vector representation of text used for semantic search |
 | Chunk | A segment of a document stored in the vector database |
 | Confidence Threshold | Minimum confidence score for an agent to respond directly |
@@ -2340,4 +2335,4 @@ async def test_guardrail_pii_block():
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

@@ -1,4 +1,4 @@
-# Blue/Green Deployment Strategy — Zero-Downtime Deployments
+# Blue/Green Deployment Strategy Ã¢â‚¬â€ Zero-Downtime Deployments
 
 > **Document:** `deployment-strategy-blue-green.md` | **Version:** 1.0 | **Last Updated:** July 2026
 > **Status:** Proposed | **Owner:** DevOps Lead | **Review Cadence:** Quarterly
@@ -23,7 +23,7 @@ The Portfolio platform currently uses **Vercel's default deployment model**: eve
 |-------|--------|
 | No zero-downtime guarantee | Brief 503 during deployment cutover |
 | No traffic splitting | Cannot canary-roll new versions |
-| Rollback = redeploy old version | 3–5 minute rollback window |
+| Rollback = redeploy old version | 3Ã¢â‚¬â€œ5 minute rollback window |
 | No pre-production validation on live infra | Bugs discovered post-deploy |
 | Database migrations risk downtime | Schema changes may lock tables |
 
@@ -31,10 +31,10 @@ The Portfolio platform currently uses **Vercel's default deployment model**: eve
 
 Blue/green deployment addresses these limitations by maintaining two identical production environments and switching traffic atomically:
 
-- **Zero downtime** — traffic switches in under 30 seconds
-- **Instant rollback** — switch back to the previous environment
-- **Pre-production validation** — verify the new version on production infrastructure before serving traffic
-- **Canary releases** — route a percentage of traffic to the new version before full switch
+- **Zero downtime** Ã¢â‚¬â€ traffic switches in under 30 seconds
+- **Instant rollback** Ã¢â‚¬â€ switch back to the previous environment
+- **Pre-production validation** Ã¢â‚¬â€ verify the new version on production infrastructure before serving traffic
+- **Canary releases** Ã¢â‚¬â€ route a percentage of traffic to the new version before full switch
 
 ---
 
@@ -106,12 +106,12 @@ graph TB
 Both environments share the same primary database. Read replicas are used during verification:
 
 ```
-Blue ──► Primary DB (read/write)
-Green ──► Primary DB (read/write, migrations only)
-       ──► Read Replica (read-heavy verification queries)
+Blue Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Primary DB (read/write)
+Green Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Primary DB (read/write, migrations only)
+       Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Read Replica (read-heavy verification queries)
 ```
 
-**Critical rule:** Green runs database migrations *before* traffic switch, but only backward-compatible migrations are allowed (see §6).
+**Critical rule:** Green runs database migrations *before* traffic switch, but only backward-compatible migrations are allowed (see Ã‚Â§6).
 
 ---
 
@@ -120,16 +120,16 @@ Green ──► Primary DB (read/write, migrations only)
 ### 3.1 Standard Switch
 
 ```
-    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-    │  Blue    │    │  Blue    │    │  Blue    │    │  Green   │
-    │  Active  │    │  Active  │    │ Draining │    │  Active  │
-    │  (live)  │    │  (live)  │    │  (0%)    │    │  (100%)  │
-    └──────────┘    └──────────┘    └──────────┘    └──────────┘
-    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
-    │  Green   │    │  Green   │    │  Green   │    │  Blue    │
-    │  Idle    │    │  Verify  │    │  Active  │    │  Standby │
-    │          │    │  (5%)    │    │  (100%)  │    │          │
-    └──────────┘    └──────────┘    └──────────┘    └──────────┘
+    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+    Ã¢â€â€š  Blue    Ã¢â€â€š    Ã¢â€â€š  Blue    Ã¢â€â€š    Ã¢â€â€š  Blue    Ã¢â€â€š    Ã¢â€â€š  Green   Ã¢â€â€š
+    Ã¢â€â€š  Active  Ã¢â€â€š    Ã¢â€â€š  Active  Ã¢â€â€š    Ã¢â€â€š Draining Ã¢â€â€š    Ã¢â€â€š  Active  Ã¢â€â€š
+    Ã¢â€â€š  (live)  Ã¢â€â€š    Ã¢â€â€š  (live)  Ã¢â€â€š    Ã¢â€â€š  (0%)    Ã¢â€â€š    Ã¢â€â€š  (100%)  Ã¢â€â€š
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+    Ã¢â€â€š  Green   Ã¢â€â€š    Ã¢â€â€š  Green   Ã¢â€â€š    Ã¢â€â€š  Green   Ã¢â€â€š    Ã¢â€â€š  Blue    Ã¢â€â€š
+    Ã¢â€â€š  Idle    Ã¢â€â€š    Ã¢â€â€š  Verify  Ã¢â€â€š    Ã¢â€â€š  Active  Ã¢â€â€š    Ã¢â€â€š  Standby Ã¢â€â€š
+    Ã¢â€â€š          Ã¢â€â€š    Ã¢â€â€š  (5%)    Ã¢â€â€š    Ã¢â€â€š  (100%)  Ã¢â€â€š    Ã¢â€â€š          Ã¢â€â€š
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
     Phase 1         Phase 2         Phase 3         Phase 4
     Deploy Green    Canary verify   Full switch     Blue drained
 ```
@@ -137,15 +137,15 @@ Green ──► Primary DB (read/write, migrations only)
 ### 3.2 Rollback Switch
 
 ```
-    ┌──────────┐    ┌──────────┐
-    │  Green   │    │  Blue    │
-    │  Active  │    │  Active  │
-    │  (live)  │    │  (100%)  │
-    └──────────┘    └──────────┘
-    ┌──────────┐    ┌──────────┐
-    │  Blue    │    │  Green   │
-    │  Standby │    │ Draining │
-    └──────────┘    └──────────┘
+    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+    Ã¢â€â€š  Green   Ã¢â€â€š    Ã¢â€â€š  Blue    Ã¢â€â€š
+    Ã¢â€â€š  Active  Ã¢â€â€š    Ã¢â€â€š  Active  Ã¢â€â€š
+    Ã¢â€â€š  (live)  Ã¢â€â€š    Ã¢â€â€š  (100%)  Ã¢â€â€š
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+    Ã¢â€â€š  Blue    Ã¢â€â€š    Ã¢â€â€š  Green   Ã¢â€â€š
+    Ã¢â€â€š  Standby Ã¢â€â€š    Ã¢â€â€š Draining Ã¢â€â€š
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
     Phase 1         Phase 2
     Issue detected  Traffic switched back
     Rollback        Blue restored
@@ -160,47 +160,47 @@ Green ──► Primary DB (read/write, migrations only)
 
 ```
 1. Code Push
-   │
-   ▼
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 2. CI Pipeline (GitHub Actions)
-   ├── Lint & Typecheck ──► fail fast if quality gates fail
-   ├── Unit & Integration Tests
-   ├── Build Blue Docker Image (tag: blue-{sha})
-   ├── Build Green Docker Image (tag: green-{sha})
-   └── Push to ghcr.io
-   │
-   ▼
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Lint & Typecheck Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº fail fast if quality gates fail
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Unit & Integration Tests
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Build Blue Docker Image (tag: blue-{sha})
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Build Green Docker Image (tag: green-{sha})
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Push to ghcr.io
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 3. Deploy Green Environment
-   ├── Deploy web + API to Vercel project `portfolio-prod-green`
-   ├── Run backward-compatible DB migrations
-   ├── Deploy AI service (Railway, if changed)
-   └── Run smoke tests against `green.portfolio.dev`
-   │
-   ▼
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Deploy web + API to Vercel project `portfolio-prod-green`
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Run backward-compatible DB migrations
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Deploy AI service (Railway, if changed)
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Run smoke tests against `green.portfolio.dev`
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 4. Verification (Green)
-   ├── Health check: all /health endpoints return 200
-   ├── Smoke test: critical user flows pass
-   ├── Canary: route 5% traffic to Green for 5 minutes
-   ├── Metrics check: error rate, latency, throughput
-   └── Manual approval gate (optional for non-critical releases)
-   │
-   ▼
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Health check: all /health endpoints return 200
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Smoke test: critical user flows pass
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Canary: route 5% traffic to Green for 5 minutes
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Metrics check: error rate, latency, throughput
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Manual approval gate (optional for non-critical releases)
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 5. Traffic Switch
-   ├── Update Cloudflare load balancer: Green = 100%
-   └── Total switch time: <30 seconds (DNS TTL + LB propagation)
-   │
-   ▼
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Update Cloudflare load balancer: Green = 100%
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Total switch time: <30 seconds (DNS TTL + LB propagation)
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 6. Post-Switch Verification
-   ├── Health check against production domain
-   ├── Monitor error rates for 15 minutes
-   ├── Run smoke tests against production
-   └── Confirm alerting is functioning
-   │
-   ▼
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Health check against production domain
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Monitor error rates for 15 minutes
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Run smoke tests against production
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Confirm alerting is functioning
+   Ã¢â€â€š
+   Ã¢â€“Â¼
 7. Drain Blue
-   ├── Keep Blue running for 24 hours (rollback window)
-   ├── After 24 hours, scale Blue to 0
-   └── Blue becomes next deployment target
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Keep Blue running for 24 hours (rollback window)
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ After 24 hours, scale Blue to 0
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Blue becomes next deployment target
 ```
 
 ### 4.2 Switch Timing
@@ -277,7 +277,7 @@ vercel list --scope portfolio --project portfolio-prod-green
 
 **All database migrations must be backward-compatible.** This means the schema at any point must work with both the old (Blue) and new (Green) application code.
 
-| ✅ Allowed | ❌ Not Allowed |
+| Ã¢Å“â€¦ Allowed | Ã¢ÂÅ’ Not Allowed |
 |-----------|---------------|
 | Adding a nullable column | Dropping a column |
 | Adding a table | Renaming a column |
@@ -294,12 +294,12 @@ Deploy 1 (Expand):
   - Add new column `display_name` (nullable)
   - Backfill `display_name` from `name`
   - Update application to prefer `display_name`
-  - Deploy to Green → verify → switch to Green
+  - Deploy to Green Ã¢â€ â€™ verify Ã¢â€ â€™ switch to Green
 
 Deploy 2 (Contract):
   - Remove reads from `name`
   - Drop `name` column
-  - Deploy to Green → verify → switch to Green
+  - Deploy to Green Ã¢â€ â€™ verify Ã¢â€ â€™ switch to Green
 ```
 
 ### 6.3 Migration Execution Order
@@ -312,7 +312,7 @@ Deploy 2 (Contract):
    Blue continues using old schema (must be compatible)
 
 3. After traffic switch, Blue is drained
-   Blue still references old columns — they must still exist
+   Blue still references old columns Ã¢â‚¬â€ they must still exist
 
 4. After 24h (rollback window), Blue is torn down
    Only then can cleanup migrations run (contract phase)
@@ -382,19 +382,19 @@ The following checks run automatically after Green is deployed:
 
 ```
 Phase 1: Health Checks
-  [ ] API liveness: GET /api/health/liveness → 200
-  [ ] API readiness: GET /api/health/readiness → 200 (db: true, redis: true)
-  [ ] Web homepage: GET / → 200 HTML
-  [ ] AI health: GET /health → 200
-  [ ] Database connectivity: Prisma migration status → up-to-date
+  [ ] API liveness: GET /api/health/liveness Ã¢â€ â€™ 200
+  [ ] API readiness: GET /api/health/readiness Ã¢â€ â€™ 200 (db: true, redis: true)
+  [ ] Web homepage: GET / Ã¢â€ â€™ 200 HTML
+  [ ] AI health: GET /health Ã¢â€ â€™ 200
+  [ ] Database connectivity: Prisma migration status Ã¢â€ â€™ up-to-date
 
 Phase 2: Smoke Tests
-  [ ] User login flow — OAuth redirect + JWT issuance
-  [ ] Portfolio page render — project listing + detail
-  [ ] Contact form submission — POST + DB verification
-  [ ] Blog search — full-text query returns results
-  [ ] AI chat — message send + response receive
-  [ ] 3D scene — WebGL context loads without error
+  [ ] User login flow Ã¢â‚¬â€ OAuth redirect + JWT issuance
+  [ ] Portfolio page render Ã¢â‚¬â€ project listing + detail
+  [ ] Contact form submission Ã¢â‚¬â€ POST + DB verification
+  [ ] Blog search Ã¢â‚¬â€ full-text query returns results
+  [ ] AI chat Ã¢â‚¬â€ message send + response receive
+  [ ] 3D scene Ã¢â‚¬â€ WebGL context loads without error
 
 Phase 3: Canary Verification (5% traffic for 5 minutes)
   [ ] Error rate: < 0.1% increase from baseline
@@ -439,7 +439,7 @@ Phase 4: Post-Switch Verification
 ```bash
 # Step 1: Switch traffic back to Blue
 # Update Cloudflare load balancer pool weights
-# Green → 0%, Blue → 100%
+# Green Ã¢â€ â€™ 0%, Blue Ã¢â€ â€™ 100%
 
 # Step 2: Revert database migration (if applied)
 cd apps/api
@@ -458,7 +458,7 @@ curl https://portfolio.dev/api/health/readiness
 | Step | Duration |
 |------|----------|
 | Cloudflare LB update | <30 seconds |
-| DB migration revert | 1–5 minutes |
+| DB migration revert | 1Ã¢â‚¬â€œ5 minutes |
 | Health verification | 1 minute |
 | **Total rollback time** | **<6 minutes** |
 
@@ -466,8 +466,8 @@ curl https://portfolio.dev/api/health/readiness
 
 | Duration | Retention |
 |----------|-----------|
-| 0–24 hours | Full environment running |
-| 24–72 hours | Environment paused, container images retained |
+| 0Ã¢â‚¬â€œ24 hours | Full environment running |
+| 24Ã¢â‚¬â€œ72 hours | Environment paused, container images retained |
 | 72+ hours | Environment destroyed, images in registry |
 
 ---
@@ -479,23 +479,23 @@ curl https://portfolio.dev/api/health/readiness
 During the traffic switch, the on-call engineer monitors the following:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                    DEPLOYMENT DASHBOARD                      │
-├──────────────┬──────────────┬──────────────┬────────────────┤
-│ Error Rate   │ P95 Latency  │ Throughput   │ Active Users   │
-│ Current: 0.2%│ Current: 180 │ Current: 42  │ Current: 127   │
-│ Baseline:0.1%│ Baseline:150 │ Baseline: 38 │ Baseline: 121  │
-│ Status: ✅   │ Status: ✅   │ Status: ✅   │ Status: ✅     │
-├──────────────┴──────────────┴──────────────┴────────────────┤
-│ Alert Log                                                    │
-│ [12:00] Green deployed                                       │
-│ [12:02] Smoke tests passed                                   │
-│ [12:05] Canary started (5% traffic)                          │
-│ [12:10] Canary metrics healthy → proceeding                  │
-│ [12:11] Traffic switch initiated                             │
-│ [12:12] Switch complete                                      │
-│ [12:27] Post-switch monitoring: all clear                    │
-└──────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š                    DEPLOYMENT DASHBOARD                      Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Error Rate   Ã¢â€â€š P95 Latency  Ã¢â€â€š Throughput   Ã¢â€â€š Active Users   Ã¢â€â€š
+Ã¢â€â€š Current: 0.2%Ã¢â€â€š Current: 180 Ã¢â€â€š Current: 42  Ã¢â€â€š Current: 127   Ã¢â€â€š
+Ã¢â€â€š Baseline:0.1%Ã¢â€â€š Baseline:150 Ã¢â€â€š Baseline: 38 Ã¢â€â€š Baseline: 121  Ã¢â€â€š
+Ã¢â€â€š Status: Ã¢Å“â€¦   Ã¢â€â€š Status: Ã¢Å“â€¦   Ã¢â€â€š Status: Ã¢Å“â€¦   Ã¢â€â€š Status: Ã¢Å“â€¦     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Alert Log                                                    Ã¢â€â€š
+Ã¢â€â€š [12:00] Green deployed                                       Ã¢â€â€š
+Ã¢â€â€š [12:02] Smoke tests passed                                   Ã¢â€â€š
+Ã¢â€â€š [12:05] Canary started (5% traffic)                          Ã¢â€â€š
+Ã¢â€â€š [12:10] Canary metrics healthy Ã¢â€ â€™ proceeding                  Ã¢â€â€š
+Ã¢â€â€š [12:11] Traffic switch initiated                             Ã¢â€â€š
+Ã¢â€â€š [12:12] Switch complete                                      Ã¢â€â€š
+Ã¢â€â€š [12:27] Post-switch monitoring: all clear                    Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 10.2 Key Metrics
@@ -504,8 +504,8 @@ During the traffic switch, the on-call engineer monitors the following:
 |--------|--------|----------|------------------|
 | Error rate (5xx) | Vercel Analytics | <0.1% | >2% |
 | API response time (P95) | Sentry Performance | <200ms | >1000ms |
-| Requests per second | Cloudflare Analytics | Baseline ±10% | >25% drop |
-| Active WebSocket connections | Railway | Baseline ±5% | >15% drop |
+| Requests per second | Cloudflare Analytics | Baseline Ã‚Â±10% | >25% drop |
+| Active WebSocket connections | Railway | Baseline Ã‚Â±5% | >15% drop |
 | Database CPU | Supabase Dashboard | <60% | >80% |
 | Database connection count | Supabase Dashboard | <50 | >80 |
 | Memory usage (Green) | Vercel Dashboard | <512MB | >1GB |
@@ -530,7 +530,7 @@ During the traffic switch, the on-call engineer monitors the following:
 git push origin main
 
 # 2. Monitor CI pipeline (GitHub Actions)
-# Wait for: Build → Test → Deploy to Green
+# Wait for: Build Ã¢â€ â€™ Test Ã¢â€ â€™ Deploy to Green
 
 # 3. Verify Green
 curl -s https://green.portfolio.dev/api/health/liveness | jq .
@@ -540,14 +540,14 @@ curl -s https://green.portfolio.dev/api/health/readiness | jq .
 npm run test:smoke -- --base-url https://green.portfolio.dev
 
 # 5. Initiate canary (5% traffic)
-# Cloudflare Dashboard → Load Balancer → Update pool weights
+# Cloudflare Dashboard Ã¢â€ â€™ Load Balancer Ã¢â€ â€™ Update pool weights
 # Green: 5, Blue: 95
 
 # 6. Monitor canary metrics (5 minutes)
 # Dashboards: Vercel Analytics, Sentry, Better Uptime
 
 # 7. Full switch
-# Cloudflare Dashboard → Load Balancer → Update pool weights
+# Cloudflare Dashboard Ã¢â€ â€™ Load Balancer Ã¢â€ â€™ Update pool weights
 # Green: 100, Blue: 0
 
 # 8. Post-switch monitoring (15 minutes)
@@ -561,7 +561,7 @@ npm run test:smoke -- --base-url https://green.portfolio.dev
 
 ```bash
 # 1. Switch traffic back to Blue
-# Cloudflare Dashboard → Load Balancer → Update pool weights
+# Cloudflare Dashboard Ã¢â€ â€™ Load Balancer Ã¢â€ â€™ Update pool weights
 # Blue: 100, Green: 0
 
 # 2. Revert database migration (if needed)
@@ -601,6 +601,10 @@ curl -s https://portfolio.dev/api/health/readiness | jq .
 
 ---
 
-*Document Version: 1.0 — Blue/Green Deployment Strategy*
+*Document Version: 1.0 Ã¢â‚¬â€ Blue/Green Deployment Strategy*
 *Last Updated: July 2026*
 *Next Review Date: October 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

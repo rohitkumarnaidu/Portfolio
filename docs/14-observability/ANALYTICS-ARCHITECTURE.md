@@ -1,9 +1,9 @@
-# Analytics Architecture — FAANG Enterprise-Grade Analytics & Tracking
+# Analytics Architecture Ã¢â‚¬â€ FAANG Enterprise-Grade Analytics & Tracking
 
 > **Document:** `AnalyticsArchitecture.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal Product Owner | **Review Cadence:** Monthly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Product Owner | **Review Cadence:** Monthly  
 > **Classification:** Enterprise Architecture | **Analytics Stack:** PostHog + Vercel Analytics + Custom DB  
-> **Event Architecture:** Unified Event Bus | **Privacy:** GDPR/CCPA Compliant | **Data Retention:** Tiered (7d–2yr)
+> **Event Architecture:** Unified Event Bus | **Privacy:** GDPR/CCPA Compliant | **Data Retention:** Tiered (7dÃ¢â‚¬â€œ2yr)
 
 ---
 
@@ -28,7 +28,7 @@ This document defines the comprehensive FAANG-level analytics architecture for t
 13. [SEO Metrics](#13-seo-metrics)
 14. [Conversion Funnel](#14-conversion-funnel)
 15. [Dashboard Specifications](#15-dashboard-specifications)
-16. [Event Reference — Full Catalog](#16-event-reference--full-catalog)
+16. [Event Reference Ã¢â‚¬â€ Full Catalog](#16-event-reference--full-catalog)
 17. [Privacy & Compliance](#17-privacy--compliance)
 18. [Implementation Guide](#18-implementation-guide)
 19. [Change Log](#19-change-log)
@@ -39,17 +39,17 @@ This document defines the comprehensive FAANG-level analytics architecture for t
 
 ### 1.1 North Star
 
-The analytics system provides **complete, privacy-compliant visibility** into every aspect of the portfolio platform — from visitor behavior to AI performance, from lead conversion to technical health. Every metric is actionable, every event is tracked with purpose, and every dashboard tells a story that drives data-informed decisions.
+The analytics system provides **complete, privacy-compliant visibility** into every aspect of the portfolio platform Ã¢â‚¬â€ from visitor behavior to AI performance, from lead conversion to technical health. Every metric is actionable, every event is tracked with purpose, and every dashboard tells a story that drives data-informed decisions.
 
 ### 1.2 Analytics Stack
 
 | Tool                     | Purpose                                                              | Cost                   | Data Retention          | Events/Month |
 | ------------------------ | -------------------------------------------------------------------- | ---------------------- | ----------------------- | ------------ |
-| **Umami**                | Traffic analytics, real-time visitors, page views, referrers         | 🆓 Free (self-hosted)  | Indefinite (aggregated) | Unlimited    |
-| **PostHog**              | Product analytics, session replays, heatmaps, feature flags, funnels | 🆓 Free (1M events/mo) | 1 year (events)         | < 1M         |
-| **Vercel Analytics**     | Core Web Vitals (LCP, CLS, INP), real-time                           | 🆓 Free                | 30 days (detailed)      | Unlimited    |
-| **Sentry**               | Error tracking, performance traces                                   | 🆓 Free (5K events/mo) | 90 days                 | < 5K         |
-| **Custom DB (Supabase)** | Portfolio-specific events, lead tracking, AI cost tracking           | Included               | Tiered (see §17)        | < 10K        |
+| **Umami**                | Traffic analytics, real-time visitors, page views, referrers         | Ã°Å¸â€ â€œ Free (self-hosted)  | Indefinite (aggregated) | Unlimited    |
+| **PostHog**              | Product analytics, session replays, heatmaps, feature flags, funnels | Ã°Å¸â€ â€œ Free (1M events/mo) | 1 year (events)         | < 1M         |
+| **Vercel Analytics**     | Core Web Vitals (LCP, CLS, INP), real-time                           | Ã°Å¸â€ â€œ Free                | 30 days (detailed)      | Unlimited    |
+| **Sentry**               | Error tracking, performance traces                                   | Ã°Å¸â€ â€œ Free (5K events/mo) | 90 days                 | < 5K         |
+| **Custom DB (Supabase)** | Portfolio-specific events, lead tracking, AI cost tracking           | Included               | Tiered (see Ã‚Â§17)        | < 10K        |
 
 ### 1.3 Event Volume Estimates
 
@@ -69,27 +69,27 @@ The analytics system provides **complete, privacy-compliant visibility** into ev
 
 | Metric                       | Current | Target             | Tool                  | Update Frequency |
 | ---------------------------- | ------- | ------------------ | --------------------- | ---------------- |
-| Monthly visitors             | —       | 1,000+             | Umami                 | Real-time        |
-| Visitor → Lead conversion    | —       | > 3%               | Custom DB             | Daily            |
-| Avg. session duration        | —       | > 3 min            | Umami                 | Real-time        |
-| Portfolio section engagement | —       | > 60% scroll depth | PostHog               | Real-time        |
-| AI chat engagement rate      | —       | > 50% of visitors  | PostHog               | Daily            |
-| Lead capture from AI chat    | —       | > 10% of chats     | Custom DB             | Daily            |
-| Bounce rate                  | —       | < 50%              | Umami                 | Real-time        |
-| Lighthouse performance score | —       | > 90               | Vercel                | Per deploy       |
-| SEO keyword ranking (top 10) | —       | > 20 keywords      | Google Search Console | Weekly           |
+| Monthly visitors             | Ã¢â‚¬â€       | 1,000+             | Umami                 | Real-time        |
+| Visitor Ã¢â€ â€™ Lead conversion    | Ã¢â‚¬â€       | > 3%               | Custom DB             | Daily            |
+| Avg. session duration        | Ã¢â‚¬â€       | > 3 min            | Umami                 | Real-time        |
+| Portfolio section engagement | Ã¢â‚¬â€       | > 60% scroll depth | PostHog               | Real-time        |
+| AI chat engagement rate      | Ã¢â‚¬â€       | > 50% of visitors  | PostHog               | Daily            |
+| Lead capture from AI chat    | Ã¢â‚¬â€       | > 10% of chats     | Custom DB             | Daily            |
+| Bounce rate                  | Ã¢â‚¬â€       | < 50%              | Umami                 | Real-time        |
+| Lighthouse performance score | Ã¢â‚¬â€       | > 90               | Vercel                | Per deploy       |
+| SEO keyword ranking (top 10) | Ã¢â‚¬â€       | > 20 keywords      | Google Search Console | Weekly           |
 
 ### 1.5 Alignment with Other Documents
 
 | Document                                       | Section                             | Relationship                                                             |
 | ---------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------ |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)         | §18 AI Analytics                    | AI-specific events, cost tracking, model usage metrics                   |
-| `docs/ai/18-AGENTS.md` (v5.0)                  | §13 Analytics Agent, §20 Evaluation | Agent performance metrics, per-agent scorecards                          |
-| `docs/ai/19-RAG.md` (v5.0)                     | §15 Monitoring, §16 Evaluation      | RAG retrieval metrics, embedding costs, evaluation                       |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)         | Ã‚Â§18 AI Analytics                    | AI-specific events, cost tracking, model usage metrics                   |
+| `docs/ai/18-AGENTS.md` (v5.0)                  | Ã‚Â§13 Analytics Agent, Ã‚Â§20 Evaluation | Agent performance metrics, per-agent scorecards                          |
+| `docs/ai/19-RAG.md` (v5.0)                     | Ã‚Â§15 Monitoring, Ã‚Â§16 Evaluation      | RAG retrieval metrics, embedding costs, evaluation                       |
 | `docs/product/02-FEATURES.md` (v3.0)           | All sections                        | Per-feature analytics events (52 features)                               |
-| `docs/operations/21-MONITORING.md` (v3.0)      | §7 Alert Escalation                 | Alert rules for metric thresholds                                        |
+| `docs/operations/21-MONITORING.md` (v3.0)      | Ã‚Â§7 Alert Escalation                 | Alert rules for metric thresholds                                        |
 | `docs/operations/22-OBSERVABILITY.md` (v5.0)   | Full Architecture                   | Structured logs, distributed traces, metrics collection, correlation IDs |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | §12 Analytics Tables                | Database schema for analytics events                                     |
+| `docs/database/DatabaseArchitecture.md` (v5.0) | Ã‚Â§12 Analytics Tables                | Database schema for analytics events                                     |
 | `docs/api/12-API.md` (v5.0)                    | Analytics endpoints                 | API for fetching analytics data                                          |
 
 ---
@@ -112,9 +112,9 @@ The analytics system provides **complete, privacy-compliant visibility** into ev
 
 | #   | Principle                    | Description                                              | Violation Penalty                   |
 | --- | ---------------------------- | -------------------------------------------------------- | ----------------------------------- |
-| P1  | **Single source of truth**   | One event definition per action — no duplicate tracking  | Metric inconsistency, trust loss    |
+| P1  | **Single source of truth**   | One event definition per action Ã¢â‚¬â€ no duplicate tracking  | Metric inconsistency, trust loss    |
 | P2  | **Event-first architecture** | Every user action is an event before it's a metric       | Missing data, holes in funnels      |
-| P3  | **Semantic naming**          | Events named `domain_action_detail` — unambiguous        | Confusion, misattribution           |
+| P3  | **Semantic naming**          | Events named `domain_action_detail` Ã¢â‚¬â€ unambiguous        | Confusion, misattribution           |
 | P4  | **Properties carry context** | Every event includes session_id, timestamp, source       | Orphaned events, unusable data      |
 | P5  | **Funnel-ready**             | Events designed to chain into conversion funnels         | Cannot measure conversion           |
 | P6  | **Privacy-bounded**          | PII never in event properties; aggregated reporting only | GDPR violation risk                 |
@@ -124,7 +124,7 @@ The analytics system provides **complete, privacy-compliant visibility** into ev
 ### 2.3 Data Flow Philosophy
 
 ```text
-Visitor Action → Event Emission (Source) → Event Bus → Event Storage (Destination) → Dashboard Visualization → Actionable Insight
+Visitor Action Ã¢â€ â€™ Event Emission (Source) Ã¢â€ â€™ Event Bus Ã¢â€ â€™ Event Storage (Destination) Ã¢â€ â€™ Dashboard Visualization Ã¢â€ â€™ Actionable Insight
 ```
 
 Every event flows through a consistent pipeline:
@@ -145,10 +145,10 @@ Every event flows through a consistent pipeline:
 ```mermaid
 graph TB
     subgraph "Event Sources"
-        BROWSER["🌐 Browser<br/>Next.js Frontend<br/>Umami SDK + PostHog JS"]
-        API["⚙️ NestJS API<br/>Backend Events<br/>AnalyticsModule"]
-        AI["🧠 FastAPI AI Service<br/>AI Events<br/>Custom Logger"]
-        WORKER["🔄 Background Workers<br/>Batch Events<br/>Knowledge Refresh, Cache"]
+        BROWSER["Ã°Å¸Å’Â Browser<br/>Next.js Frontend<br/>Umami SDK + PostHog JS"]
+        API["Ã¢Å¡â„¢Ã¯Â¸Â NestJS API<br/>Backend Events<br/>AnalyticsModule"]
+        AI["Ã°Å¸Â§Â  FastAPI AI Service<br/>AI Events<br/>Custom Logger"]
+        WORKER["Ã°Å¸â€â€ž Background Workers<br/>Batch Events<br/>Knowledge Refresh, Cache"]
     end
 
     subgraph "Event Bus"
@@ -158,18 +158,18 @@ graph TB
     end
 
     subgraph "Event Destinations"
-        UMAMI["📊 Umami (Self-hosted)<br/>Traffic analytics<br/>Page views, referrers, countries"]
-        POSTHOG["📈 PostHog (Cloud)<br/>Product analytics<br/>Custom events, funnels, replays"]
-        VERCEL["⚡ Vercel Analytics<br/>Core Web Vitals<br/>LCP, CLS, INP"]
-        SENTRY["🔍 Sentry<br/>Error tracking<br/>Exceptions, traces"]
-        CUSTOM_DB["🗄️ Custom DB (Supabase)<br/>Analytics events<br/>Leads, AI costs, agent metrics"]
+        UMAMI["Ã°Å¸â€œÅ  Umami (Self-hosted)<br/>Traffic analytics<br/>Page views, referrers, countries"]
+        POSTHOG["Ã°Å¸â€œË† PostHog (Cloud)<br/>Product analytics<br/>Custom events, funnels, replays"]
+        VERCEL["Ã¢Å¡Â¡ Vercel Analytics<br/>Core Web Vitals<br/>LCP, CLS, INP"]
+        SENTRY["Ã°Å¸â€Â Sentry<br/>Error tracking<br/>Exceptions, traces"]
+        CUSTOM_DB["Ã°Å¸â€”â€žÃ¯Â¸Â Custom DB (Supabase)<br/>Analytics events<br/>Leads, AI costs, agent metrics"]
     end
 
     subgraph "Dashboards"
-        ADMIN_DASH["👤 Admin Dashboard<br/>All metrics<br/>/admin + /admin/analytics"]
-        POSTHOG_DASH["📊 PostHog Dashboard<br/>Product analytics<br/>Funnels, trends, replays"]
-        VERCEL_DASH["⚡ Vercel Dashboard<br/>Web Vitals<br/>Performance scorecards"]
-        CUSTOM_DASH["📋 Custom Reports<br/>Portfolio-specific<br/>Lead conversion, AI costs"]
+        ADMIN_DASH["Ã°Å¸â€˜Â¤ Admin Dashboard<br/>All metrics<br/>/admin + /admin/analytics"]
+        POSTHOG_DASH["Ã°Å¸â€œÅ  PostHog Dashboard<br/>Product analytics<br/>Funnels, trends, replays"]
+        VERCEL_DASH["Ã¢Å¡Â¡ Vercel Dashboard<br/>Web Vitals<br/>Performance scorecards"]
+        CUSTOM_DASH["Ã°Å¸â€œâ€¹ Custom Reports<br/>Portfolio-specific<br/>Lead conversion, AI costs"]
     end
 
     BROWSER -->|Page view| UMAMI
@@ -291,7 +291,7 @@ sequenceDiagram
 | ------------------------------ | -------------------------------------------------------- | --------------------------------------------- | --------------------------- |
 | **Analytics Service (API)**    | `apps/api/src/modules/analytics/analytics.service.ts`    | Lead events, system events, batch aggregation | lead*\*, auth*_, content\__ |
 | **Analytics Controller (API)** | `apps/api/src/modules/analytics/analytics.controller.ts` | REST endpoints for analytics data             | HTTP responses              |
-| **Analytics Module (API)**     | `apps/api/src/modules/analytics/analytics.module.ts`     | Module configuration, PostHog client          | —                           |
+| **Analytics Module (API)**     | `apps/api/src/modules/analytics/analytics.module.ts`     | Module configuration, PostHog client          | Ã¢â‚¬â€                           |
 | **Umami Client (Web)**         | `apps/web/src/lib/umami.ts`                              | Umami analytics API client                    | Custom events               |
 | **Analytics Hook (Web)**       | `apps/web/src/hooks/useAnalytics.ts`                     | Track custom events to analytics providers    | All frontend events         |
 | **PostHog Provider (Web)**     | `apps/web/src/components/AnalyticsProvider.tsx`          | PostHog initialization + feature flags        | $pageview, $identify        |
@@ -359,14 +359,14 @@ Every event MUST include these properties:
 
 | Category         | Priority      | Description                                   | Retention | Destinations          |
 | ---------------- | ------------- | --------------------------------------------- | --------- | --------------------- |
-| `engagement`     | ⭐ Critical   | User interactions with portfolio content      | 1 year    | Umami, PostHog, DB    |
-| `conversion`     | ⭐ Critical   | Lead capture, contact, hiring intent          | 2 years   | PostHog, DB           |
-| `navigation`     | 📊 Important  | Page transitions, nav clicks                  | 1 year    | Umami, PostHog        |
-| `ai_interaction` | ⭐ Critical   | Chat messages, agent routing, RAG queries     | 1 year    | PostHog, DB           |
-| `system`         | 📊 Important  | Performance, errors, health checks            | 90 days   | Sentry, DB            |
-| `admin`          | 🔒 Restricted | Admin actions, content updates                | 2 years   | DB                    |
-| `cost`           | ⭐ Critical   | AI costs, token usage, budget tracking        | 1 year    | DB                    |
-| `seo`            | 📊 Important  | Search rankings, crawl stats, organic traffic | 1 year    | Google Search Console |
+| `engagement`     | Ã¢Â­Â Critical   | User interactions with portfolio content      | 1 year    | Umami, PostHog, DB    |
+| `conversion`     | Ã¢Â­Â Critical   | Lead capture, contact, hiring intent          | 2 years   | PostHog, DB           |
+| `navigation`     | Ã°Å¸â€œÅ  Important  | Page transitions, nav clicks                  | 1 year    | Umami, PostHog        |
+| `ai_interaction` | Ã¢Â­Â Critical   | Chat messages, agent routing, RAG queries     | 1 year    | PostHog, DB           |
+| `system`         | Ã°Å¸â€œÅ  Important  | Performance, errors, health checks            | 90 days   | Sentry, DB            |
+| `admin`          | Ã°Å¸â€â€™ Restricted | Admin actions, content updates                | 2 years   | DB                    |
+| `cost`           | Ã¢Â­Â Critical   | AI costs, token usage, budget tracking        | 1 year    | DB                    |
+| `seo`            | Ã°Å¸â€œÅ  Important  | Search rankings, crawl stats, organic traffic | 1 year    | Google Search Console |
 
 ### 4.5 Event Ownership
 
@@ -409,13 +409,13 @@ Every event MUST include these properties:
 | Metric                            | Definition                               | Formula                                                | Target      | Tool      | Frequency |
 | --------------------------------- | ---------------------------------------- | ------------------------------------------------------ | ----------- | --------- | --------- |
 | **Monthly Active Visitors (MAV)** | Unique visitors per month                | COUNT(DISTINCT visitor_id)                             | 1,000+      | Umami     | Monthly   |
-| **Visitor Growth Rate**           | Month-over-month visitor growth          | ((MAV_t - MAV_t-1) / MAV_t-1) × 100                    | > 20%       | Umami     | Monthly   |
-| **Lead Conversion Rate**          | % of visitors who become leads           | (Leads / Unique Visitors) × 100                        | > 3%        | Custom DB | Weekly    |
+| **Visitor Growth Rate**           | Month-over-month visitor growth          | ((MAV_t - MAV_t-1) / MAV_t-1) Ãƒâ€” 100                    | > 20%       | Umami     | Monthly   |
+| **Lead Conversion Rate**          | % of visitors who become leads           | (Leads / Unique Visitors) Ãƒâ€” 100                        | > 3%        | Custom DB | Weekly    |
 | **Lead Quality Score**            | Avg. lead score across all lead sources  | AVG(lead_score)                                        | > 0.5       | Custom DB | Weekly    |
 | **Response Time**                 | Time from lead submission to first reply | AVG(first_reply_at - created_at)                       | < 24h       | Custom DB | Weekly    |
-| **Hire Rate**                     | % of leads that convert to hired         | (Hired / Total Leads) × 100                            | > 5%        | Custom DB | Monthly   |
+| **Hire Rate**                     | % of leads that convert to hired         | (Hired / Total Leads) Ãƒâ€” 100                            | > 5%        | Custom DB | Monthly   |
 | **Referral Source Mix**           | Traffic distribution by source           | COUNT(\*) GROUP BY source                              | Diversified | Umami     | Weekly    |
-| **Engagement Rate**               | % of visitors who interact with content  | (Visitors with > 1 interaction / Total visitors) × 100 | > 60%       | PostHog   | Weekly    |
+| **Engagement Rate**               | % of visitors who interact with content  | (Visitors with > 1 interaction / Total visitors) Ãƒâ€” 100 | > 60%       | PostHog   | Weekly    |
 
 ### 5.2 Events
 
@@ -429,29 +429,29 @@ Every event MUST include these properties:
 ### 5.3 Business Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 📊 BUSINESS METRICS                        Updated: 2m ago   │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │ Visitors │ │  Growth  │ │  Leads   │ │ Conv.    │        │
-│ │  1,234   │ │  +18% 📈 │ │    42    │ │  3.4%   │        │
-│ │  this mo │ │  vs last │ │  this mo │ │  target↑ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📈 Monthly Visitors (12 months)                             │
-│  ████████████████░░░░░░░░░░░░░░░░                          │
-│  ████████████████████░░░░░░░░░░░░                          │
-│  ████████████████████████░░░░░░░░                          │
-│  ████████████████████████████░░░░                          │
-│  J   F   M   A   M   J   J   A   S   O   N   D            │
-│                                                             │
-│ 🎯 Traffic Sources                      🌍 Top Countries   │
-│  Direct:    35%  ███████████████████    US:    42%         │
-│  Organic:   28%  ████████████████       IN:    18%         │
-│  LinkedIn:  15%  ████████               UK:    8%          │
-│  GitHub:    12%  ██████                 DE:    5%          │
-│  Other:     10%  █████                  Others: 27%        │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€œÅ  BUSINESS METRICS                        Updated: 2m ago   Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Visitors Ã¢â€â€š Ã¢â€â€š  Growth  Ã¢â€â€š Ã¢â€â€š  Leads   Ã¢â€â€š Ã¢â€â€š Conv.    Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  1,234   Ã¢â€â€š Ã¢â€â€š  +18% Ã°Å¸â€œË† Ã¢â€â€š Ã¢â€â€š    42    Ã¢â€â€š Ã¢â€â€š  3.4%   Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  this mo Ã¢â€â€š Ã¢â€â€š  vs last Ã¢â€â€š Ã¢â€â€š  this mo Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œË† Monthly Visitors (12 months)                             Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  J   F   M   A   M   J   J   A   S   O   N   D            Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¯ Traffic Sources                      Ã°Å¸Å’Â Top Countries   Ã¢â€â€š
+Ã¢â€â€š  Direct:    35%  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†    US:    42%         Ã¢â€â€š
+Ã¢â€â€š  Organic:   28%  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†       IN:    18%         Ã¢â€â€š
+Ã¢â€â€š  LinkedIn:  15%  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†               UK:    8%          Ã¢â€â€š
+Ã¢â€â€š  GitHub:    12%  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                 DE:    5%          Ã¢â€â€š
+Ã¢â€â€š  Other:     10%  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                  Others: 27%        Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -462,14 +462,14 @@ Every event MUST include these properties:
 
 | Metric                      | Definition                                        | Formula                                                               | Target                | Tool    | Frequency |
 | --------------------------- | ------------------------------------------------- | --------------------------------------------------------------------- | --------------------- | ------- | --------- |
-| **Feature Adoption Rate**   | % of visitors using each feature                  | (Users who triggered feature event / Total visitors) × 100            | > 30% for P0 features | PostHog | Weekly    |
-| **Feature Stickiness**      | % of returning users who use feature              | (Returning users who triggered feature / Total returning users) × 100 | > 40%                 | PostHog | Weekly    |
+| **Feature Adoption Rate**   | % of visitors using each feature                  | (Users who triggered feature event / Total visitors) Ãƒâ€” 100            | > 30% for P0 features | PostHog | Weekly    |
+| **Feature Stickiness**      | % of returning users who use feature              | (Returning users who triggered feature / Total returning users) Ãƒâ€” 100 | > 40%                 | PostHog | Weekly    |
 | **Time-to-Value**           | Time from landing to first meaningful interaction | AVG(time from session_start to section_view or project_click)         | < 30s                 | PostHog | Weekly    |
 | **Navigation Efficiency**   | Avg. clicks to reach key content                  | AVG(path length to project, blog, or contact)                         | < 3 clicks            | PostHog | Weekly    |
-| **Mobile vs Desktop Ratio** | Device type distribution                          | (Mobile users / Total users) × 100                                    | > 30% mobile          | Umami   | Weekly    |
-| **Dark Mode Adoption**      | % of sessions using dark mode                     | (Dark mode sessions / Total sessions) × 100                           | > 40%                 | PostHog | Weekly    |
-| **Chat Widget Open Rate**   | % of visitors who open chat                       | (Chat opens / Unique visitors) × 100                                  | > 50%                 | PostHog | Weekly    |
-| **Theme Toggle Rate**       | % of visitors who switch theme                    | (Theme toggles / Unique visitors) × 100                               | < 10% (set once)      | PostHog | Weekly    |
+| **Mobile vs Desktop Ratio** | Device type distribution                          | (Mobile users / Total users) Ãƒâ€” 100                                    | > 30% mobile          | Umami   | Weekly    |
+| **Dark Mode Adoption**      | % of sessions using dark mode                     | (Dark mode sessions / Total sessions) Ãƒâ€” 100                           | > 40%                 | PostHog | Weekly    |
+| **Chat Widget Open Rate**   | % of visitors who open chat                       | (Chat opens / Unique visitors) Ãƒâ€” 100                                  | > 50%                 | PostHog | Weekly    |
+| **Theme Toggle Rate**       | % of visitors who switch theme                    | (Theme toggles / Unique visitors) Ãƒâ€” 100                               | < 10% (set once)      | PostHog | Weekly    |
 
 ### 6.2 Events
 
@@ -491,31 +491,31 @@ Every event MUST include these properties:
 ### 6.3 Product Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 📱 PRODUCT METRICS                        Updated: 5m ago    │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │ Chat     │ │Section   │ │Scroll    │ │Theme     │        │
-│ │ Open     │ │Engagement│ │Depth     │ │Adoption  │        │
-│ │  52%    │ │  68%    │ │  72%    │ │  44%    │        │
-│ │  target↑ │ │  target↑ │ │  target↑ │ │  target↑ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Section Engagement Ranking                               │
-│  Hero:      95% ████████████████████                        │
-│  Projects:  72% ████████████████                            │
-│  Skills:    58% ████████████                                │
-│  About:     45% █████████                                   │
-│  Contact:   35% ███████                                     │
-│  Blog:      22% ████                                        │
-│                                                             │
-│ 🎯 CTA Click-Through Rates                                  │
-│  "View Work" (Hero):       8.2%                             │
-│  "Contact Me" (Hero):      5.1%                             │
-│  "Download Resume" (Nav):  2.3%                             │
-│  "View Project" (Card):   12.4%                             │
-│  "Learn More" (Blog):      6.7%                             │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€œÂ± PRODUCT METRICS                        Updated: 5m ago    Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Chat     Ã¢â€â€š Ã¢â€â€šSection   Ã¢â€â€š Ã¢â€â€šScroll    Ã¢â€â€š Ã¢â€â€šTheme     Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Open     Ã¢â€â€š Ã¢â€â€šEngagementÃ¢â€â€š Ã¢â€â€šDepth     Ã¢â€â€š Ã¢â€â€šAdoption  Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  52%    Ã¢â€â€š Ã¢â€â€š  68%    Ã¢â€â€š Ã¢â€â€š  72%    Ã¢â€â€š Ã¢â€â€š  44%    Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Section Engagement Ranking                               Ã¢â€â€š
+Ã¢â€â€š  Hero:      95% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                        Ã¢â€â€š
+Ã¢â€â€š  Projects:  72% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                            Ã¢â€â€š
+Ã¢â€â€š  Skills:    58% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                Ã¢â€â€š
+Ã¢â€â€š  About:     45% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                   Ã¢â€â€š
+Ã¢â€â€š  Contact:   35% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                     Ã¢â€â€š
+Ã¢â€â€š  Blog:      22% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¯ CTA Click-Through Rates                                  Ã¢â€â€š
+Ã¢â€â€š  "View Work" (Hero):       8.2%                             Ã¢â€â€š
+Ã¢â€â€š  "Contact Me" (Hero):      5.1%                             Ã¢â€â€š
+Ã¢â€â€š  "Download Resume" (Nav):  2.3%                             Ã¢â€â€š
+Ã¢â€â€š  "View Project" (Card):   12.4%                             Ã¢â€â€š
+Ã¢â€â€š  "Learn More" (Blog):      6.7%                             Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -527,12 +527,12 @@ Every event MUST include these properties:
 | Metric                          | Definition                               | Formula                                              | Target | Tool    | Frequency |
 | ------------------------------- | ---------------------------------------- | ---------------------------------------------------- | ------ | ------- | --------- |
 | **Projects Viewed per Session** | Avg. projects clicked per session        | SUM(project_clicks) / COUNT(sessions)                | > 2    | PostHog | Weekly    |
-| **Project Detail Completion**   | % who visit detail page from card        | (Project_detail_page / Project_card_click) × 100     | > 40%  | PostHog | Weekly    |
-| **GitHub Link CTR**             | % of project viewers who click GitHub    | (github_click / project_view) × 100                  | > 15%  | PostHog | Weekly    |
-| **Live Demo CTR**               | % of project viewers who click live demo | (live_demo_click / project_view) × 100               | > 25%  | PostHog | Weekly    |
-| **Skills Interest**             | % of visitors who hover/click skills     | (skill_interaction / section_view_skills) × 100      | > 50%  | PostHog | Weekly    |
+| **Project Detail Completion**   | % who visit detail page from card        | (Project_detail_page / Project_card_click) Ãƒâ€” 100     | > 40%  | PostHog | Weekly    |
+| **GitHub Link CTR**             | % of project viewers who click GitHub    | (github_click / project_view) Ãƒâ€” 100                  | > 15%  | PostHog | Weekly    |
+| **Live Demo CTR**               | % of project viewers who click live demo | (live_demo_click / project_view) Ãƒâ€” 100               | > 25%  | PostHog | Weekly    |
+| **Skills Interest**             | % of visitors who hover/click skills     | (skill_interaction / section_view_skills) Ãƒâ€” 100      | > 50%  | PostHog | Weekly    |
 | **Testimonial Engagement**      | % who scroll through testimonials        | (testimonial_next + testimonial_prev) / section_view | > 30%  | PostHog | Weekly    |
-| **Case Study Read Rate**        | % who reach 75%+ of case study           | (scroll_depth_75 / case_study_view) × 100            | > 50%  | PostHog | Weekly    |
+| **Case Study Read Rate**        | % who reach 75%+ of case study           | (scroll_depth_75 / case_study_view) Ãƒâ€” 100            | > 50%  | PostHog | Weekly    |
 | **Portfolio Stats Clicks**      | Impact stat interactions                 | stat_hover / stat_view                               | > 20%  | PostHog | Monthly   |
 
 ### 7.2 Events
@@ -557,29 +557,29 @@ Every event MUST include these properties:
 ### 7.3 Portfolio Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 🚀 PORTFOLIO METRICS                      Updated: 5m ago    │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │Projects  │ │Project   │ │GitHub    │ │Live Demo │        │
-│ │Viewed    │ │Detail    │ │CTR       │ │CTR       │        │
-│ │  2.4/ssn │ │  38%    │ │  18%    │ │  32%    │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Top Projects by Views                                    │
-│  1. Real-time Chat App      245 views ████████████████      │
-│  2. E-commerce Platform     198 views ██████████████        │
-│  3. AI Content Generator    167 views ████████████          │
-│  4. Dev Dashboard           134 views █████████             │
-│  5. Portfolio Site          112 views ███████               │
-│                                                             │
-│ 🎨 Skill Interest by Category                               │
-│  Frontend:   62% ███████████████                            │
-│  Backend:    48% ████████████                              │
-│  DevOps:     25% ██████                                    │
-│  AI/ML:      35% ████████                                  │
-│  Mobile:     18% ████                                      │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸Å¡â‚¬ PORTFOLIO METRICS                      Updated: 5m ago    Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šProjects  Ã¢â€â€š Ã¢â€â€šProject   Ã¢â€â€š Ã¢â€â€šGitHub    Ã¢â€â€š Ã¢â€â€šLive Demo Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šViewed    Ã¢â€â€š Ã¢â€â€šDetail    Ã¢â€â€š Ã¢â€â€šCTR       Ã¢â€â€š Ã¢â€â€šCTR       Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  2.4/ssn Ã¢â€â€š Ã¢â€â€š  38%    Ã¢â€â€š Ã¢â€â€š  18%    Ã¢â€â€š Ã¢â€â€š  32%    Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Top Projects by Views                                    Ã¢â€â€š
+Ã¢â€â€š  1. Real-time Chat App      245 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†      Ã¢â€â€š
+Ã¢â€â€š  2. E-commerce Platform     198 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†        Ã¢â€â€š
+Ã¢â€â€š  3. AI Content Generator    167 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†          Ã¢â€â€š
+Ã¢â€â€š  4. Dev Dashboard           134 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†             Ã¢â€â€š
+Ã¢â€â€š  5. Portfolio Site          112 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†               Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¨ Skill Interest by Category                               Ã¢â€â€š
+Ã¢â€â€š  Frontend:   62% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                            Ã¢â€â€š
+Ã¢â€â€š  Backend:    48% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                              Ã¢â€â€š
+Ã¢â€â€š  DevOps:     25% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                    Ã¢â€â€š
+Ã¢â€â€š  AI/ML:      35% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                  Ã¢â€â€š
+Ã¢â€â€š  Mobile:     18% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                      Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -590,13 +590,13 @@ Every event MUST include these properties:
 
 | Metric                         | Definition                                          | Formula                                                        | Target            | Tool      | Frequency |
 | ------------------------------ | --------------------------------------------------- | -------------------------------------------------------------- | ----------------- | --------- | --------- |
-| **Recruiter Session Ratio**    | % of sessions from recruiter-like sources           | (Recruiter sessions / Total sessions) × 100                    | > 15%             | Custom DB | Weekly    |
+| **Recruiter Session Ratio**    | % of sessions from recruiter-like sources           | (Recruiter sessions / Total sessions) Ãƒâ€” 100                    | > 15%             | Custom DB | Weekly    |
 | **Recruiter Resume Downloads** | Resume downloads from recruiter-identified visitors | COUNT(resume_download) WHERE visitor_type = 'recruiter'        | > 10/mo           | Custom DB | Weekly    |
 | **Recruiter Engagement Score** | Avg. pages viewed by recruiters                     | AVG(pages_per_session) WHERE visitor_type = 'recruiter'        | > 5 pages         | Custom DB | Weekly    |
-| **Recruiter→Lead Rate**        | % of recruiters who contact                         | (Recruiter leads / Recruiter sessions) × 100                   | > 5%              | Custom DB | Monthly   |
+| **RecruiterÃ¢â€ â€™Lead Rate**        | % of recruiters who contact                         | (Recruiter leads / Recruiter sessions) Ãƒâ€” 100                   | > 5%              | Custom DB | Monthly   |
 | **Recruiter Source Breakdown** | Which channels send recruiters                      | COUNT(\*) GROUP BY utm_source WHERE visitor_type = 'recruiter' | LinkedIn > GitHub | Custom DB | Weekly    |
-| **Experience Section CTR**     | % of recruiters who view experience                 | (section_view_experience / recruiter_session) × 100            | > 80%             | PostHog   | Weekly    |
-| **Resume Download by Source**  | Resume downloads per referral source                | COUNT(\*) GROUP BY source, visitor_type                        | —                 | Custom DB | Monthly   |
+| **Experience Section CTR**     | % of recruiters who view experience                 | (section_view_experience / recruiter_session) Ãƒâ€” 100            | > 80%             | PostHog   | Weekly    |
+| **Resume Download by Source**  | Resume downloads per referral source                | COUNT(\*) GROUP BY source, visitor_type                        | Ã¢â‚¬â€                 | Custom DB | Monthly   |
 
 ### 8.2 Events
 
@@ -606,35 +606,35 @@ Every event MUST include these properties:
 | `resume_download`        | Resume PDF downloaded                       | `source` (nav/hero/contact/chat), `visitor_type`, `visitor_source`, `file_size_bytes`        | Browser (PostHog) | PostHog + DB | Resume download conversion    | Measure recruiter interest       |
 | `experience_view`        | Experience section viewed                   | `visitor_type`, `time_on_page_ms`                                                            | Browser (PostHog) | PostHog      | Experience section engagement | Recruiter behavior analysis      |
 | `achievement_view`       | Achievement section viewed                  | `visitor_type`, `achievement_count_visible`                                                  | Browser (PostHog) | PostHog      | Credibility metrics           | Achievement impact               |
-| `recruiter_lead_created` | Lead created where visitor_type = recruiter | `source`, `utm_source`, `company_domain` (if provided), `message_length`                     | API (NestJS)      | PostHog + DB | Recruiter→lead conversion     | Recruiter pipeline               |
+| `recruiter_lead_created` | Lead created where visitor_type = recruiter | `source`, `utm_source`, `company_domain` (if provided), `message_length`                     | API (NestJS)      | PostHog + DB | RecruiterÃ¢â€ â€™lead conversion     | Recruiter pipeline               |
 | `portfolio_inquiry`      | Visitor asks about hiring/availability      | `inquiry_type` (full-time/contract/consulting), `source`, `visitor_type`                     | Browser (PostHog) | PostHog + DB | Hiring intent volume          | Opportunity pipeline             |
 
 ### 8.3 Recruiter Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 💼 RECRUITER METRICS                      Updated: 1h ago    │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │Recruiter │ │Resume    │ │Avg. Pages│ │Rec→Lead  │        │
-│ │ Sessions │ │Downloads │ │Per Visit │ │Rate      │        │
-│ │   45    │ │   12    │ │  6.2    │ │  6.7%   │        │
-│ │  +22% 📈│ │  +50% 📈│ │  +1.2 📈│ │  target↑ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 🎯 Recruiter Sources                                        │
-│  LinkedIn:      42% █████████████████████                   │
-│  Direct Search: 22% ███████████                             │
-│  Job Boards:    18% █████████                               │
-│  GitHub:        12% ██████                                  │
-│  Other:          6% ███                                     │
-│                                                             │
-│ 📊 Resume Downloads Over Time (Weekly)                      │
-│  ████████░░░░░░░░░░░░░░░░░░░░░░░░                          │
-│  ██████████████░░░░░░░░░░░░░░░░░░                          │
-│  ████████████████████░░░░░░░░░░░░                          │
-│  Week 1  Week 2  Week 3  Week 4                            │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€™Â¼ RECRUITER METRICS                      Updated: 1h ago    Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šRecruiter Ã¢â€â€š Ã¢â€â€šResume    Ã¢â€â€š Ã¢â€â€šAvg. PagesÃ¢â€â€š Ã¢â€â€šRecÃ¢â€ â€™Lead  Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š Sessions Ã¢â€â€š Ã¢â€â€šDownloads Ã¢â€â€š Ã¢â€â€šPer Visit Ã¢â€â€š Ã¢â€â€šRate      Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š   45    Ã¢â€â€š Ã¢â€â€š   12    Ã¢â€â€š Ã¢â€â€š  6.2    Ã¢â€â€š Ã¢â€â€š  6.7%   Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  +22% Ã°Å¸â€œË†Ã¢â€â€š Ã¢â€â€š  +50% Ã°Å¸â€œË†Ã¢â€â€š Ã¢â€â€š  +1.2 Ã°Å¸â€œË†Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¯ Recruiter Sources                                        Ã¢â€â€š
+Ã¢â€â€š  LinkedIn:      42% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                   Ã¢â€â€š
+Ã¢â€â€š  Direct Search: 22% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                             Ã¢â€â€š
+Ã¢â€â€š  Job Boards:    18% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                               Ã¢â€â€š
+Ã¢â€â€š  GitHub:        12% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                  Ã¢â€â€š
+Ã¢â€â€š  Other:          6% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                     Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Resume Downloads Over Time (Weekly)                      Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜                          Ã¢â€â€š
+Ã¢â€â€š  Week 1  Week 2  Week 3  Week 4                            Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -650,9 +650,9 @@ Every event MUST include these properties:
 | **Lead Response Time**        | Avg. time to first reply     | AVG(first_response_at - created_at)        | < 24h           | Custom DB | Daily     |
 | **Lead Status Distribution**  | Current pipeline status      | COUNT(\*) GROUP BY status                  | Balanced funnel | Custom DB | Weekly    |
 | **Lead Quality (Avg. Score)** | ML-calculated lead score     | AVG(lead_score)                            | > 0.5           | Custom DB | Weekly    |
-| **Chat→Lead Conversion**      | % of chats that create leads | (Chat leads / Total chat sessions) × 100   | > 10%           | Custom DB | Weekly    |
-| **Form→Lead Completion**      | % of form starts that submit | (Form submits / Form starts) × 100         | > 60%           | PostHog   | Weekly    |
-| **Lead→Hired Rate**           | % of leads that become hired | (Hired / Total leads) × 100                | > 5%            | Custom DB | Monthly   |
+| **ChatÃ¢â€ â€™Lead Conversion**      | % of chats that create leads | (Chat leads / Total chat sessions) Ãƒâ€” 100   | > 10%           | Custom DB | Weekly    |
+| **FormÃ¢â€ â€™Lead Completion**      | % of form starts that submit | (Form submits / Form starts) Ãƒâ€” 100         | > 60%           | PostHog   | Weekly    |
+| **LeadÃ¢â€ â€™Hired Rate**           | % of leads that become hired | (Hired / Total leads) Ãƒâ€” 100                | > 5%            | Custom DB | Monthly   |
 
 ### 9.2 Events
 
@@ -673,29 +673,29 @@ Every event MUST include these properties:
 ### 9.3 Lead Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 🎯 LEAD METRICS                           Updated: Real-time  │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │New Leads │ │Response  │ │Chat→Lead │ │Avg. Lead │        │
-│ │ This Week│ │ Time     │ │ Conv.    │ │ Score    │        │
-│ │   8     │ │  3.2h   │ │  12%    │ │  0.62   │        │
-│ │  +3 📈  │ │  target↓ │ │  target↑ │ │  target↑ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Lead Pipeline                                            │
-│  New:       8  ████████████████                             │
-│  Replied:   5  ██████████                                   │
-│  In-Progress: 3 ██████                                      │
-│  Hired:     1  ██                                           │
-│  Archived:  2  ████                                         │
-│                                                             │
-│ 🎯 Lead Sources                        ⏱ Response Time     │
-│  Contact Form: 62% ███████████████    Contact:  2.1h       │
-│  AI Chat:      25% ███████           Chat:     4.5h       │
-│  Resume:       13% ████              Resume:   1.3h       │
-│                                      Avg:      3.2h       │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸Å½Â¯ LEAD METRICS                           Updated: Real-time  Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šNew Leads Ã¢â€â€š Ã¢â€â€šResponse  Ã¢â€â€š Ã¢â€â€šChatÃ¢â€ â€™Lead Ã¢â€â€š Ã¢â€â€šAvg. Lead Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š This WeekÃ¢â€â€š Ã¢â€â€š Time     Ã¢â€â€š Ã¢â€â€š Conv.    Ã¢â€â€š Ã¢â€â€š Score    Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š   8     Ã¢â€â€š Ã¢â€â€š  3.2h   Ã¢â€â€š Ã¢â€â€š  12%    Ã¢â€â€š Ã¢â€â€š  0.62   Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  +3 Ã°Å¸â€œË†  Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€œ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Lead Pipeline                                            Ã¢â€â€š
+Ã¢â€â€š  New:       8  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                             Ã¢â€â€š
+Ã¢â€â€š  Replied:   5  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                   Ã¢â€â€š
+Ã¢â€â€š  In-Progress: 3 Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                      Ã¢â€â€š
+Ã¢â€â€š  Hired:     1  Ã¢â€“Ë†Ã¢â€“Ë†                                           Ã¢â€â€š
+Ã¢â€â€š  Archived:  2  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                         Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¯ Lead Sources                        Ã¢ÂÂ± Response Time     Ã¢â€â€š
+Ã¢â€â€š  Contact Form: 62% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†    Contact:  2.1h       Ã¢â€â€š
+Ã¢â€â€š  AI Chat:      25% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†           Chat:     4.5h       Ã¢â€â€š
+Ã¢â€â€š  Resume:       13% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†              Resume:   1.3h       Ã¢â€â€š
+Ã¢â€â€š                                      Avg:      3.2h       Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -709,13 +709,13 @@ Every event MUST include these properties:
 | **Chat Sessions**            | Total chat sessions initiated    | COUNT(chat_sessions)                                   | > 200/mo | PostHog       | Daily     |
 | **Messages per Session**     | Avg. messages per chat           | AVG(messages_per_session)                              | > 3      | Custom DB     | Weekly    |
 | **Chat Response Time (p95)** | 95th percentile response latency | PERCENTILE(0.95, response_time_ms)                     | < 3s     | Custom DB     | Daily     |
-| **AI Uptime**                | AI service availability          | (Successful health checks / Total health checks) × 100 | > 99.5%  | Better Uptime | Real-time |
+| **AI Uptime**                | AI service availability          | (Successful health checks / Total health checks) Ãƒâ€” 100 | > 99.5%  | Better Uptime | Real-time |
 | **Monthly AI Cost**          | Total LLM + embedding costs      | SUM(cost_cents)                                        | < $10    | Custom DB     | Daily     |
 | **Cost per Chat Session**    | Avg. cost per session            | SUM(cost) / COUNT(sessions)                            | < $0.02  | Custom DB     | Weekly    |
-| **Agent Routing Accuracy**   | % correctly routed queries       | (Correct routes / Total routes) × 100                  | > 98%    | Custom DB     | Weekly    |
-| **Model Fallback Rate**      | % of requests using fallback     | (Fallback requests / Total requests) × 100             | < 5%     | Custom DB     | Daily     |
-| **Cache Hit Rate**           | Response + embedding cache hits  | (Cache hits / Cache lookups) × 100                     | > 40%    | Custom DB     | Daily     |
-| **Hallucination Flag Rate**  | % of responses flagged           | (Flagged responses / Total responses) × 100            | < 1%     | Custom DB     | Weekly    |
+| **Agent Routing Accuracy**   | % correctly routed queries       | (Correct routes / Total routes) Ãƒâ€” 100                  | > 98%    | Custom DB     | Weekly    |
+| **Model Fallback Rate**      | % of requests using fallback     | (Fallback requests / Total requests) Ãƒâ€” 100             | < 5%     | Custom DB     | Daily     |
+| **Cache Hit Rate**           | Response + embedding cache hits  | (Cache hits / Cache lookups) Ãƒâ€” 100                     | > 40%    | Custom DB     | Daily     |
+| **Hallucination Flag Rate**  | % of responses flagged           | (Flagged responses / Total responses) Ãƒâ€” 100            | < 1%     | Custom DB     | Weekly    |
 
 ### 10.2 Events
 
@@ -739,37 +739,37 @@ Every event MUST include these properties:
 ### 10.3 AI Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 🤖 AI METRICS                            Updated: 1m ago     │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │Chat      │ │Avg. Resp │ │Cost Today│ │Fallback  │        │
-│ │Sessions  │ │ Time     │ │          │ │ Rate     │        │
-│ │  142    │ │  2.1s   │ │  $0.14  │ │  3.2%   │        │
-│ │  +12% 📈│ │  -5% 📉 │ │  +$0.02 │ │  target↓ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Model Usage Breakdown                                    │
-│  GPT-4 Chat:      72% ████████████████████                  │
-│  Claude Fallback:  8% ██                                    │
-│  GPT-3.5 Analysis: 8% ██                                    │
-│  Embeddings:      12% ███                                   │
-│                                                             │
-│ 📋 Agent Routing Distribution                               │
-│  Portfolio:   42% ████████████████████                      │
-│  Projects:    22% ███████████                               │
-│  Resume:      15% ███████                                   │
-│  Lead Qual:   10% ████                                      │
-│  Other:       11% █████                                     │
-│                                                             │
-│ 💰 Cost Breakdown (This Month)                              │
-│  Chat:        $2.80  ████████████████                       │
-│  Embeddings:  $0.35  ██                                     │
-│  Analysis:    $0.20  █                                      │
-│  Suggestions: $0.10  ░                                      │
-│  Total:       $3.45  ████████████████████                   │
-│  Budget:      $10.00 ████████████████████████████████████   │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸Â¤â€“ AI METRICS                            Updated: 1m ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šChat      Ã¢â€â€š Ã¢â€â€šAvg. Resp Ã¢â€â€š Ã¢â€â€šCost TodayÃ¢â€â€š Ã¢â€â€šFallback  Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šSessions  Ã¢â€â€š Ã¢â€â€š Time     Ã¢â€â€š Ã¢â€â€š          Ã¢â€â€š Ã¢â€â€š Rate     Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  142    Ã¢â€â€š Ã¢â€â€š  2.1s   Ã¢â€â€š Ã¢â€â€š  $0.14  Ã¢â€â€š Ã¢â€â€š  3.2%   Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  +12% Ã°Å¸â€œË†Ã¢â€â€š Ã¢â€â€š  -5% Ã°Å¸â€œâ€° Ã¢â€â€š Ã¢â€â€š  +$0.02 Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€œ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Model Usage Breakdown                                    Ã¢â€â€š
+Ã¢â€â€š  GPT-4 Chat:      72% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                  Ã¢â€â€š
+Ã¢â€â€š  Claude Fallback:  8% Ã¢â€“Ë†Ã¢â€“Ë†                                    Ã¢â€â€š
+Ã¢â€â€š  GPT-3.5 Analysis: 8% Ã¢â€“Ë†Ã¢â€“Ë†                                    Ã¢â€â€š
+Ã¢â€â€š  Embeddings:      12% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                   Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œâ€¹ Agent Routing Distribution                               Ã¢â€â€š
+Ã¢â€â€š  Portfolio:   42% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                      Ã¢â€â€š
+Ã¢â€â€š  Projects:    22% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                               Ã¢â€â€š
+Ã¢â€â€š  Resume:      15% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                   Ã¢â€â€š
+Ã¢â€â€š  Lead Qual:   10% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                      Ã¢â€â€š
+Ã¢â€â€š  Other:       11% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                     Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€™Â° Cost Breakdown (This Month)                              Ã¢â€â€š
+Ã¢â€â€š  Chat:        $2.80  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                       Ã¢â€â€š
+Ã¢â€â€š  Embeddings:  $0.35  Ã¢â€“Ë†Ã¢â€“Ë†                                     Ã¢â€â€š
+Ã¢â€â€š  Analysis:    $0.20  Ã¢â€“Ë†                                      Ã¢â€â€š
+Ã¢â€â€š  Suggestions: $0.10  Ã¢â€“â€˜                                      Ã¢â€â€š
+Ã¢â€â€š  Total:       $3.45  Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                   Ã¢â€â€š
+Ã¢â€â€š  Budget:      $10.00 Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†   Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -783,11 +783,11 @@ Every event MUST include these properties:
 | **Blog Post Views**         | Total blog page views per month  | COUNT(page_view WHERE page = /blog/\*)                          | > 500/mo | Umami     | Weekly    |
 | **Avg. Read Time**          | Avg. time on blog article        | AVG(time_on_page) WHERE page = /blog/[slug]                     | > 3 min  | Umami     | Weekly    |
 | **Scroll Depth (Articles)** | Avg. scroll depth on articles    | AVG(scroll_depth) WHERE page_type = blog                        | > 70%    | PostHog   | Weekly    |
-| **Blog→Lead Conversion**    | % of blog readers who contact    | (Blog readers who submitted contact / Total blog readers) × 100 | > 2%     | Custom DB | Monthly   |
-| **Top Performing Posts**    | Posts ranked by views/time       | COUNT(\*) GROUP BY post_slug, ORDER BY views                    | —        | PostHog   | Weekly    |
+| **BlogÃ¢â€ â€™Lead Conversion**    | % of blog readers who contact    | (Blog readers who submitted contact / Total blog readers) Ãƒâ€” 100 | > 2%     | Custom DB | Monthly   |
+| **Top Performing Posts**    | Posts ranked by views/time       | COUNT(\*) GROUP BY post_slug, ORDER BY views                    | Ã¢â‚¬â€        | PostHog   | Weekly    |
 | **RSS Subscribers**         | RSS feed subscribers             | COUNT(rss_feed_requests)                                        | > 50     | Custom DB | Monthly   |
 | **Social Shares per Post**  | Avg. shares per article          | AVG(share_count) per post                                       | > 5      | PostHog   | Monthly   |
-| **Blog Return Readers**     | % returning to read another post | (Returning blog visitors / Total blog visitors) × 100           | > 20%    | PostHog   | Monthly   |
+| **Blog Return Readers**     | % returning to read another post | (Returning blog visitors / Total blog visitors) Ãƒâ€” 100           | > 20%    | PostHog   | Monthly   |
 
 ### 11.2 Events
 
@@ -806,29 +806,29 @@ Every event MUST include these properties:
 ### 11.3 Blog Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 📝 BLOG METRICS                          Updated: 1h ago     │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │Post Views│ │Avg. Read │ │Scroll    │ │Blog→Lead │        │
-│ │  This Mo │ │ Time     │ │ Depth    │ │ Conv.    │        │
-│ │  423    │ │  3.8min │ │  74%    │ │  2.3%   │        │
-│ │  +8% 📈 │ │  target↑ │ │  target↑ │ │  target↑ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Top Posts This Month                                     │
-│  1. Building APIs with Node.js    142 views ████████████    │
-│  2. React Performance Tips        118 views ██████████      │
-│  3. Why TypeScript Matters         95 views ████████        │
-│  4. Docker for Devs                72 views ██████          │
-│                                                             │
-│ 🎯 Post Categories Distribution                             │
-│  Backend:     35% ███████████████████                       │
-│  Frontend:    28% ████████████████                          │
-│  DevOps:      18% █████████                                 │
-│  Career:      12% ██████                                    │
-│  Tutorial:     7% ███                                       │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€œÂ BLOG METRICS                          Updated: 1h ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šPost ViewsÃ¢â€â€š Ã¢â€â€šAvg. Read Ã¢â€â€š Ã¢â€â€šScroll    Ã¢â€â€š Ã¢â€â€šBlogÃ¢â€ â€™Lead Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  This Mo Ã¢â€â€š Ã¢â€â€š Time     Ã¢â€â€š Ã¢â€â€š Depth    Ã¢â€â€š Ã¢â€â€š Conv.    Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  423    Ã¢â€â€š Ã¢â€â€š  3.8min Ã¢â€â€š Ã¢â€â€š  74%    Ã¢â€â€š Ã¢â€â€š  2.3%   Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  +8% Ã°Å¸â€œË† Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Top Posts This Month                                     Ã¢â€â€š
+Ã¢â€â€š  1. Building APIs with Node.js    142 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†    Ã¢â€â€š
+Ã¢â€â€š  2. React Performance Tips        118 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†      Ã¢â€â€š
+Ã¢â€â€š  3. Why TypeScript Matters         95 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†        Ã¢â€â€š
+Ã¢â€â€š  4. Docker for Devs                72 views Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†          Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸Å½Â¯ Post Categories Distribution                             Ã¢â€â€š
+Ã¢â€â€š  Backend:     35% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                       Ã¢â€â€š
+Ã¢â€â€š  Frontend:    28% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                          Ã¢â€â€š
+Ã¢â€â€š  DevOps:      18% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                 Ã¢â€â€š
+Ã¢â€â€š  Career:      12% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                    Ã¢â€â€š
+Ã¢â€â€š  Tutorial:     7% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                                       Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -846,10 +846,10 @@ Every event MUST include these properties:
 | **FCP (First Contentful Paint)**    | Time to first content render           | PERCENTILE(75, fcp_value)                       | < 1.8s   | Vercel Analytics | Per page load   |
 | **API Response Time (p95)**         | API endpoint latency                   | PERCENTILE(95, api_response_ms)                 | < 500ms  | Sentry           | Per request     |
 | **AI Service Response (p95)**       | AI chat response latency               | PERCENTILE(95, ai_response_ms)                  | < 3s     | Custom DB        | Per message     |
-| **Error Rate**                      | % of requests with errors              | (Error count / Total requests) × 100            | < 1%     | Sentry           | Rolling 24h     |
-| **Uptime (Frontend)**               | Site availability                      | (Successful checks / Total checks) × 100        | > 99.9%  | Better Uptime    | Every 1 min     |
-| **Uptime (API)**                    | API availability                       | (Successful health checks / Total checks) × 100 | > 99.9%  | Better Uptime    | Every 1 min     |
-| **Uptime (AI)**                     | AI service availability                | (Successful health checks / Total checks) × 100 | > 99.5%  | Better Uptime    | Every 1 min     |
+| **Error Rate**                      | % of requests with errors              | (Error count / Total requests) Ãƒâ€” 100            | < 1%     | Sentry           | Rolling 24h     |
+| **Uptime (Frontend)**               | Site availability                      | (Successful checks / Total checks) Ãƒâ€” 100        | > 99.9%  | Better Uptime    | Every 1 min     |
+| **Uptime (API)**                    | API availability                       | (Successful health checks / Total checks) Ãƒâ€” 100 | > 99.9%  | Better Uptime    | Every 1 min     |
+| **Uptime (AI)**                     | AI service availability                | (Successful health checks / Total checks) Ãƒâ€” 100 | > 99.5%  | Better Uptime    | Every 1 min     |
 | **Build Time**                      | CI/CD pipeline duration                | Pipeline duration                               | < 10 min | GitHub Actions   | Per deploy      |
 | **Bundle Size**                     | JS bundle size                         | Total JS per page                               | < 200KB  | Bundle Analyzer  | Per deploy      |
 
@@ -871,32 +871,32 @@ Every event MUST include these properties:
 ### 12.3 Performance Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ ⚡ PERFORMANCE METRICS                    Updated: 5m ago     │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │LCP       │ │ CLS      │ │  INP     │ │  TTFB    │        │
-│ │  1.8s   │ │  0.05   │ │  120ms  │ │  450ms  │        │
-│ │  ✅ Good │ │  ✅ Good │ │  ✅ Good │ │  ✅ Good │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Core Web Vitals Over Time (7 days)                       │
-│  LCP: ████████████████░░░░░░ 1.8s ✅                       │
-│  CLS: ████████████████████░░ 0.05 ✅                        │
-│  INP: ████████████████████░░ 120ms ✅                       │
-│                                                             │
-│ 🔴 Error Rate (24h)                  📡 Uptime Status       │
-│  Frontend:  0.3% ██                  Frontend: 99.98% ✅   │
-│  API:       0.1% ░                   API:      99.95% ✅   │
-│  AI:        0.8% ███                 AI:       99.87% ✅   │
-│  Target:   <1.0% ✅                  Target:   >99.5% ✅   │
-│                                                             │
-│ 📦 Bundle Sizes (Production)                                │
-│  Home:      185 KB ████████████████████                     │
-│  Projects:  210 KB █████████████████████                    │
-│  Blog:      165 KB ██████████████████                       │
-│  Target:   <200 KB ❌ (Projects over budget)                │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã¢Å¡Â¡ PERFORMANCE METRICS                    Updated: 5m ago     Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šLCP       Ã¢â€â€š Ã¢â€â€š CLS      Ã¢â€â€š Ã¢â€â€š  INP     Ã¢â€â€š Ã¢â€â€š  TTFB    Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  1.8s   Ã¢â€â€š Ã¢â€â€š  0.05   Ã¢â€â€š Ã¢â€â€š  120ms  Ã¢â€â€š Ã¢â€â€š  450ms  Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  Ã¢Å“â€¦ Good Ã¢â€â€š Ã¢â€â€š  Ã¢Å“â€¦ Good Ã¢â€â€š Ã¢â€â€š  Ã¢Å“â€¦ Good Ã¢â€â€š Ã¢â€â€š  Ã¢Å“â€¦ Good Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Core Web Vitals Over Time (7 days)                       Ã¢â€â€š
+Ã¢â€â€š  LCP: Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜Ã¢â€“â€˜ 1.8s Ã¢Å“â€¦                       Ã¢â€â€š
+Ã¢â€â€š  CLS: Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜ 0.05 Ã¢Å“â€¦                        Ã¢â€â€š
+Ã¢â€â€š  INP: Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“â€˜Ã¢â€“â€˜ 120ms Ã¢Å“â€¦                       Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€Â´ Error Rate (24h)                  Ã°Å¸â€œÂ¡ Uptime Status       Ã¢â€â€š
+Ã¢â€â€š  Frontend:  0.3% Ã¢â€“Ë†Ã¢â€“Ë†                  Frontend: 99.98% Ã¢Å“â€¦   Ã¢â€â€š
+Ã¢â€â€š  API:       0.1% Ã¢â€“â€˜                   API:      99.95% Ã¢Å“â€¦   Ã¢â€â€š
+Ã¢â€â€š  AI:        0.8% Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                 AI:       99.87% Ã¢Å“â€¦   Ã¢â€â€š
+Ã¢â€â€š  Target:   <1.0% Ã¢Å“â€¦                  Target:   >99.5% Ã¢Å“â€¦   Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÂ¦ Bundle Sizes (Production)                                Ã¢â€â€š
+Ã¢â€â€š  Home:      185 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                     Ã¢â€â€š
+Ã¢â€â€š  Projects:  210 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                    Ã¢â€â€š
+Ã¢â€â€š  Blog:      165 KB Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†Ã¢â€“Ë†                       Ã¢â€â€š
+Ã¢â€â€š  Target:   <200 KB Ã¢ÂÅ’ (Projects over budget)                Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -907,10 +907,10 @@ Every event MUST include these properties:
 
 | Metric                       | Definition                       | Formula                                   | Target               | Tool         | Frequency |
 | ---------------------------- | -------------------------------- | ----------------------------------------- | -------------------- | ------------ | --------- |
-| **Organic Traffic Share**    | % of traffic from search engines | (Organic sessions / Total sessions) × 100 | > 30%                | Umami        | Weekly    |
+| **Organic Traffic Share**    | % of traffic from search engines | (Organic sessions / Total sessions) Ãƒâ€” 100 | > 30%                | Umami        | Weekly    |
 | **Top Keywords**             | Keywords driving traffic         | COUNT(\*) GROUP BY search_keyword         | > 20 in top 10       | GSC          | Weekly    |
 | **Keyword Position**         | Avg. ranking for target keywords | AVG(position) for keyword set             | Top 10               | GSC          | Weekly    |
-| **Click-Through Rate (CTR)** | % searchers who click            | (Clicks / Impressions) × 100              | > 5%                 | GSC          | Weekly    |
+| **Click-Through Rate (CTR)** | % searchers who click            | (Clicks / Impressions) Ãƒâ€” 100              | > 5%                 | GSC          | Weekly    |
 | **Indexed Pages**            | Pages in Google index            | COUNT(indexed URLs)                       | 100% of public pages | GSC          | Weekly    |
 | **Crawl Errors**             | Pages Google can't crawl         | COUNT(crawl_errors)                       | 0                    | GSC          | Weekly    |
 | **Core Web Vitals (SEO)**    | CWVs as SEO ranking factor       | % good LCP/CLS/INP                        | > 90% good           | GSC + Vercel | Weekly    |
@@ -932,125 +932,125 @@ Every event MUST include these properties:
 ### 13.3 SEO Metric Dashboard
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│ 🔍 SEO METRICS                           Updated: Daily      │
-├─────────────────────────────────────────────────────────────┤
-│ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│ │Organic   │ │Top       │ │Avg.      │ │CTR       │        │
-│ │Traffic   │ │Keywords  │ │Position  │ │          │        │
-│ │  28%    │ │   24    │ │   7.2   │ │  6.8%   │        │
-│ │  target↑ │ │  target↑ │ │  target↑ │ │  target↑ │        │
-│ └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│                                                             │
-│ 📊 Top 10 Keywords                                          │
-│  1. full stack developer portfolio     #3   12.4% CTR      │
-│  2. react developer                    #5    8.2% CTR      │
-│  3. node.js projects                   #4    7.1% CTR      │
-│  4. portfolio website example          #6    5.8% CTR      │
-│  5. typescript developer               #8    4.5% CTR      │
-│                                                             │
-│ 📋 SEO Health Scorecard                    ✅ 87/100        │
-│  Indexed Pages:   18/20                                    │
-│  Crawl Errors:    0                                        │
-│  Structured Data: ✅ Valid (Person, Project, BlogPosting)   │
-│  Meta Tags:       18/20 pages complete                      │
-│  Sitemap:         ✅ Submitted (20 URLs)                    │
-│  robots.txt:      ✅ Valid                                  │
-└─────────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€Â SEO METRICS                           Updated: Daily      Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šOrganic   Ã¢â€â€š Ã¢â€â€šTop       Ã¢â€â€š Ã¢â€â€šAvg.      Ã¢â€â€š Ã¢â€â€šCTR       Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€šTraffic   Ã¢â€â€š Ã¢â€â€šKeywords  Ã¢â€â€š Ã¢â€â€šPosition  Ã¢â€â€š Ã¢â€â€š          Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  28%    Ã¢â€â€š Ã¢â€â€š   24    Ã¢â€â€š Ã¢â€â€š   7.2   Ã¢â€â€š Ã¢â€â€š  6.8%   Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š Ã¢â€â€š  targetÃ¢â€ â€˜ Ã¢â€â€š        Ã¢â€â€š
+Ã¢â€â€š Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ        Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œÅ  Top 10 Keywords                                          Ã¢â€â€š
+Ã¢â€â€š  1. full stack developer portfolio     #3   12.4% CTR      Ã¢â€â€š
+Ã¢â€â€š  2. react developer                    #5    8.2% CTR      Ã¢â€â€š
+Ã¢â€â€š  3. node.js projects                   #4    7.1% CTR      Ã¢â€â€š
+Ã¢â€â€š  4. portfolio website example          #6    5.8% CTR      Ã¢â€â€š
+Ã¢â€â€š  5. typescript developer               #8    4.5% CTR      Ã¢â€â€š
+Ã¢â€â€š                                                             Ã¢â€â€š
+Ã¢â€â€š Ã°Å¸â€œâ€¹ SEO Health Scorecard                    Ã¢Å“â€¦ 87/100        Ã¢â€â€š
+Ã¢â€â€š  Indexed Pages:   18/20                                    Ã¢â€â€š
+Ã¢â€â€š  Crawl Errors:    0                                        Ã¢â€â€š
+Ã¢â€â€š  Structured Data: Ã¢Å“â€¦ Valid (Person, Project, BlogPosting)   Ã¢â€â€š
+Ã¢â€â€š  Meta Tags:       18/20 pages complete                      Ã¢â€â€š
+Ã¢â€â€š  Sitemap:         Ã¢Å“â€¦ Submitted (20 URLs)                    Ã¢â€â€š
+Ã¢â€â€š  robots.txt:      Ã¢Å“â€¦ Valid                                  Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
 
 ## 14. Conversion Funnel
 
-### 14.1 Primary Funnel: Visitor → Lead → Hired
+### 14.1 Primary Funnel: Visitor Ã¢â€ â€™ Lead Ã¢â€ â€™ Hired
 
 ```text
-                    ┌─────────────────────────────────────────────────────────┐
-                    │                CONVERSION FUNNEL                        │
-                    ├─────────────────────────────────────────────────────────┤
-                    │                                                         │
-                    │  100% Visitors                                         │
-                    │    │                                                    │
-                    │    ▼                                                    │
-                    │  65% ──→ Engaged (scroll > 50% or interact)            │
-                    │    │                                                    │
-                    │    ▼                                                    │
-                    │  40% ──→ Section Viewer (view 3+ sections)            │
-                    │    │                                                    │
-                    │    ├──────────────────────────────────┐                 │
-                    │    ▼                                  ▼                 │
-                    │  25% ──→ Project Viewer            15% ──→ Chat User   │
-                    │    │                                  │                 │
-                    │    ▼                                  ▼                 │
-                    │  15% ──→ Detail Viewer             12% ──→ Chat Engaged│
-                    │    │                                  │                 │
-                    │    ▼                                  ▼                 │
-                    │   8% ──→ CTA Click                  8% ──→ Lead Intent │
-                    │    │                                  │                 │
-                    │    └──────────────┬──────────────────┘                  │
-                    │                   ▼                                     │
-                    │                 3.4% ──→ Lead Created                   │
-                    │                   │                                     │
-                    │                   ▼                                     │
-                    │                 2.1% ──→ Lead Contacted                 │
-                    │                   │                                     │
-                    │                   ▼                                     │
-                    │                 1.2% ──→ Lead Qualified                 │
-                    │                   │                                     │
-                    │                   ▼                                     │
-                    │                 0.5% ──→ Hired                          │
-                    │                                                         │
-                    ├─────────────────────────────────────────────────────────┤
-                    │  Funnel Metrics:                                        │
-                    │  Visitor → Engaged: 65%                                 │
-                    │  Engaged → Lead:     5.2%                               │
-                    │  Lead → Hired:      14.7%                               │
-                    │  Visitor → Hired:    0.5%                               │
-                    └─────────────────────────────────────────────────────────┘
+                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                    Ã¢â€â€š                CONVERSION FUNNEL                        Ã¢â€â€š
+                    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+                    Ã¢â€â€š                                                         Ã¢â€â€š
+                    Ã¢â€â€š  100% Visitors                                         Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€š                                                    Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€“Â¼                                                    Ã¢â€â€š
+                    Ã¢â€â€š  65% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Engaged (scroll > 50% or interact)            Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€š                                                    Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€“Â¼                                                    Ã¢â€â€š
+                    Ã¢â€â€š  40% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Section Viewer (view 3+ sections)            Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€š                                                    Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â                 Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€“Â¼                                  Ã¢â€“Â¼                 Ã¢â€â€š
+                    Ã¢â€â€š  25% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Project Viewer            15% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Chat User   Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€š                                  Ã¢â€â€š                 Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€“Â¼                                  Ã¢â€“Â¼                 Ã¢â€â€š
+                    Ã¢â€â€š  15% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Detail Viewer             12% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Chat EngagedÃ¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€š                                  Ã¢â€â€š                 Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€“Â¼                                  Ã¢â€“Â¼                 Ã¢â€â€š
+                    Ã¢â€â€š   8% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ CTA Click                  8% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Lead Intent Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€š                                  Ã¢â€â€š                 Ã¢â€â€š
+                    Ã¢â€â€š    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ                  Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€“Â¼                                     Ã¢â€â€š
+                    Ã¢â€â€š                 3.4% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Lead Created                   Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€â€š                                     Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€“Â¼                                     Ã¢â€â€š
+                    Ã¢â€â€š                 2.1% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Lead Contacted                 Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€â€š                                     Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€“Â¼                                     Ã¢â€â€š
+                    Ã¢â€â€š                 1.2% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Lead Qualified                 Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€â€š                                     Ã¢â€â€š
+                    Ã¢â€â€š                   Ã¢â€“Â¼                                     Ã¢â€â€š
+                    Ã¢â€â€š                 0.5% Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Hired                          Ã¢â€â€š
+                    Ã¢â€â€š                                                         Ã¢â€â€š
+                    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+                    Ã¢â€â€š  Funnel Metrics:                                        Ã¢â€â€š
+                    Ã¢â€â€š  Visitor Ã¢â€ â€™ Engaged: 65%                                 Ã¢â€â€š
+                    Ã¢â€â€š  Engaged Ã¢â€ â€™ Lead:     5.2%                               Ã¢â€â€š
+                    Ã¢â€â€š  Lead Ã¢â€ â€™ Hired:      14.7%                               Ã¢â€â€š
+                    Ã¢â€â€š  Visitor Ã¢â€ â€™ Hired:    0.5%                               Ã¢â€â€š
+                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 14.2 AI Chat Funnel
 
 ```text
 100% Visitors
-  │
-  ├── 52% Open Chat Widget
-  │     │
-  │     ├── 82% Send First Message
-  │     │     │
-  │     │     ├── 95% Receive Response
-  │     │     │     │
-  │     │     │     ├── 45% Send Follow-up (3+ messages)
-  │     │     │     │     │
-  │     │     │     │     ├── 12% Express Lead Intent
-  │     │     │     │     │     │
-  │     │     │     │     │     └── 85% Lead Captured → 10.2% of chat users
-  │     │     │     │     │
-  │     │     │     │     └── 55% One-off Question
-  │     │     │     │
-  │     │     │     └── 5% Error / No Response
-  │     │     │
-  │     │     └── 18% Abandon Before First Response
-  │     │
-  │     └── 48% Never Send Message
-  │
-  └── 48% Never Open Chat
+  Ã¢â€â€š
+  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 52% Open Chat Widget
+  Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 82% Send First Message
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 95% Receive Response
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 45% Send Follow-up (3+ messages)
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 12% Express Lead Intent
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 85% Lead Captured Ã¢â€ â€™ 10.2% of chat users
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 55% One-off Question
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 5% Error / No Response
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 18% Abandon Before First Response
+  Ã¢â€â€š     Ã¢â€â€š
+  Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 48% Never Send Message
+  Ã¢â€â€š
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 48% Never Open Chat
 ```
 
 ### 14.3 Funnel Events
 
 | Stage              | Event                              | Conversion Target  | Action on Drop-off                       |
 | ------------------ | ---------------------------------- | ------------------ | ---------------------------------------- |
-| **Visitor**        | `page_view`                        | 100%               | —                                        |
+| **Visitor**        | `page_view`                        | 100%               | Ã¢â‚¬â€                                        |
 | **Engaged**        | `scroll_depth_50` + `section_view` | > 60%              | Improve hero CTA, reduce bounce rate     |
 | **Section Viewer** | `section_view` (3+)                | > 40%              | Improve navigation, section quality      |
 | **Project Viewer** | `project_click`                    | > 25%              | Improve project card visibility          |
 | **Chat User**      | `chat_session_started`             | > 15%              | Improve chat widget visibility           |
 | **Lead Intent**    | `lead_created`                     | > 3%               | Improve contact form + chat lead capture |
-| **Lead Contacted** | `lead_status_changed` (→ replied)  | > 60%              | Improve response time, notification      |
+| **Lead Contacted** | `lead_status_changed` (Ã¢â€ â€™ replied)  | > 60%              | Improve response time, notification      |
 | **Lead Qualified** | `lead_qualified`                   | > 30%              | Improve qualification criteria, scoring  |
-| **Hired**          | `lead_status_changed` (→ hired)    | > 15% of qualified | Improve closing process                  |
+| **Hired**          | `lead_status_changed` (Ã¢â€ â€™ hired)    | > 15% of qualified | Improve closing process                  |
 
 ### 14.4 Funnel Monitoring Rules
 
@@ -1058,8 +1058,8 @@ Every event MUST include these properties:
 | ----------------------- | ---------- | ---------------------------------------------------------------- |
 | **Funnel Health Check** | FUNNEL-001 | Weekly review of all funnel stages; flag > 10% drop-off increase |
 | **Stage Alert**         | FUNNEL-002 | If any stage drops > 20% week-over-week, investigate root cause  |
-| **Conversion Target**   | FUNNEL-003 | Visitor → Lead conversion must be > 3% or trigger optimization   |
-| **Chat Funnel**         | FUNNEL-004 | Chat → Lead conversion must be > 10% or improve lead agent       |
+| **Conversion Target**   | FUNNEL-003 | Visitor Ã¢â€ â€™ Lead conversion must be > 3% or trigger optimization   |
+| **Chat Funnel**         | FUNNEL-004 | Chat Ã¢â€ â€™ Lead conversion must be > 10% or improve lead agent       |
 | **Lead Response SLA**   | FUNNEL-005 | Lead contacted within 24h or auto-escalate                       |
 | **Funnel Reporting**    | FUNNEL-006 | Funnel report generated weekly and sent to admin                 |
 
@@ -1069,9 +1069,9 @@ Every event MUST include these properties:
 
 ### 15.1 Public Visitor Dashboard (No Auth)
 
-_Not publicly accessible — admin-only. Visitors have no access to analytics._
+_Not publicly accessible Ã¢â‚¬â€ admin-only. Visitors have no access to analytics._
 
-### 15.2 Admin Dashboard — Overview Page (`/admin`)
+### 15.2 Admin Dashboard Ã¢â‚¬â€ Overview Page (`/admin`)
 
 | Widget                 | Position     | Data Source       | Refresh | Type                  |
 | ---------------------- | ------------ | ----------------- | ------- | --------------------- |
@@ -1084,7 +1084,7 @@ _Not publicly accessible — admin-only. Visitors have no access to analytics._
 | Top pages today        | Bottom-left  | Umami API         | 5min    | Bar chart             |
 | Quick actions          | Bottom-right | N/A               | Static  | Action cards          |
 
-### 15.3 Admin Dashboard — Analytics Page (`/admin/analytics`)
+### 15.3 Admin Dashboard Ã¢â‚¬â€ Analytics Page (`/admin/analytics`)
 
 | Widget              | Position    | Data Source | Date Range | Type               |
 | ------------------- | ----------- | ----------- | ---------- | ------------------ |
@@ -1139,7 +1139,7 @@ _Not publicly accessible — admin-only. Visitors have no access to analytics._
 
 ---
 
-## 16. Event Reference — Full Catalog
+## 16. Event Reference Ã¢â‚¬â€ Full Catalog
 
 ### 16.1 All Events by Domain
 
@@ -1186,28 +1186,28 @@ _Not publicly accessible — admin-only. Visitors have no access to analytics._
 
 | Priority            | Label             | Definition                                 | Count | Examples                                         |
 | ------------------- | ----------------- | ------------------------------------------ | ----- | ------------------------------------------------ |
-| ⭐ **Critical**     | Must-track        | Directly tied to business goals or revenue | ~25   | lead_created, chat_message, page_view, rag_query |
-| 📊 **Important**    | Should-track      | Tied to engagement or product quality      | ~35   | section_view, project_click, agent_routing       |
-| 🔮 **Nice to have** | Track if possible | Used for optimization or deep analysis     | ~30   | stat_animation, testimonial_next, code_copy      |
+| Ã¢Â­Â **Critical**     | Must-track        | Directly tied to business goals or revenue | ~25   | lead_created, chat_message, page_view, rag_query |
+| Ã°Å¸â€œÅ  **Important**    | Should-track      | Tied to engagement or product quality      | ~35   | section_view, project_click, agent_routing       |
+| Ã°Å¸â€Â® **Nice to have** | Track if possible | Used for optimization or deep analysis     | ~30   | stat_animation, testimonial_next, code_copy      |
 
 ### 16.3 Implementation Priority Matrix
 
 | Event                    | Priority        | Implementation Complexity   | Expected Volume | First Implement |
 | ------------------------ | --------------- | --------------------------- | --------------- | --------------- |
-| `page_view`              | ⭐ Critical     | Low (Umami auto-capture)    | ~5,000/mo       | ✅ Phase 1      |
-| `section_view`           | ⭐ Critical     | Low (Intersection Observer) | ~15,000/mo      | ✅ Phase 1      |
-| `project_click`          | ⭐ Critical     | Low (onClick handler)       | ~500/mo         | ✅ Phase 1      |
-| `contact_form_submit`    | ⭐ Critical     | Low (form submit handler)   | ~50/mo          | ✅ Phase 1      |
-| `lead_created`           | ⭐ Critical     | Medium (API event)          | ~50/mo          | ✅ Phase 2      |
-| `chat_message_sent`      | ⭐ Critical     | Medium (chat widget)        | ~1,500/mo       | ✅ Phase 2      |
-| `chat_response_received` | ⭐ Critical     | Medium (AI service)         | ~1,500/mo       | ✅ Phase 2      |
-| `agent_routing`          | ⭐ Critical     | Medium (Supervisor agent)   | ~500/mo         | ✅ Phase 3      |
-| `rag_query`              | ⭐ Critical     | Medium (RAG service)        | ~1,500/mo       | ✅ Phase 3      |
-| `cost_tracking`          | ⭐ Critical     | Medium (Cost controller)    | ~1,500/mo       | ✅ Phase 3      |
-| `web_vital_lcp`          | 📊 Important    | Low (Vercel auto-capture)   | ~5,000/mo       | ✅ Phase 1      |
-| `blog_post_click`        | 📊 Important    | Low                         | ~200/mo         | ✅ Phase 2      |
-| `skill_hover`            | 🔮 Nice to have | Low                         | ~500/mo         | Phase 4         |
-| `code_copy`              | 🔮 Nice to have | Medium (clipboard API)      | ~50/mo          | Future          |
+| `page_view`              | Ã¢Â­Â Critical     | Low (Umami auto-capture)    | ~5,000/mo       | Ã¢Å“â€¦ Phase 1      |
+| `section_view`           | Ã¢Â­Â Critical     | Low (Intersection Observer) | ~15,000/mo      | Ã¢Å“â€¦ Phase 1      |
+| `project_click`          | Ã¢Â­Â Critical     | Low (onClick handler)       | ~500/mo         | Ã¢Å“â€¦ Phase 1      |
+| `contact_form_submit`    | Ã¢Â­Â Critical     | Low (form submit handler)   | ~50/mo          | Ã¢Å“â€¦ Phase 1      |
+| `lead_created`           | Ã¢Â­Â Critical     | Medium (API event)          | ~50/mo          | Ã¢Å“â€¦ Phase 2      |
+| `chat_message_sent`      | Ã¢Â­Â Critical     | Medium (chat widget)        | ~1,500/mo       | Ã¢Å“â€¦ Phase 2      |
+| `chat_response_received` | Ã¢Â­Â Critical     | Medium (AI service)         | ~1,500/mo       | Ã¢Å“â€¦ Phase 2      |
+| `agent_routing`          | Ã¢Â­Â Critical     | Medium (Supervisor agent)   | ~500/mo         | Ã¢Å“â€¦ Phase 3      |
+| `rag_query`              | Ã¢Â­Â Critical     | Medium (RAG service)        | ~1,500/mo       | Ã¢Å“â€¦ Phase 3      |
+| `cost_tracking`          | Ã¢Â­Â Critical     | Medium (Cost controller)    | ~1,500/mo       | Ã¢Å“â€¦ Phase 3      |
+| `web_vital_lcp`          | Ã°Å¸â€œÅ  Important    | Low (Vercel auto-capture)   | ~5,000/mo       | Ã¢Å“â€¦ Phase 1      |
+| `blog_post_click`        | Ã°Å¸â€œÅ  Important    | Low                         | ~200/mo         | Ã¢Å“â€¦ Phase 2      |
+| `skill_hover`            | Ã°Å¸â€Â® Nice to have | Low                         | ~500/mo         | Phase 4         |
+| `code_copy`              | Ã°Å¸â€Â® Nice to have | Medium (clipboard API)      | ~50/mo          | Future          |
 
 ---
 
@@ -1257,14 +1257,14 @@ _Not publicly accessible — admin-only. Visitors have no access to analytics._
 
 | Requirement                 | Status        | Implementation                             |
 | --------------------------- | ------------- | ------------------------------------------ |
-| Cookie consent banner       | ✅ Planned    | PostHog banner with preference persistence |
-| IP anonymization            | ✅ Configured | Umami: last octet masked                   |
-| DNT header respect          | ✅ Configured | `navigator.doNotTrack` check               |
-| GDPR data processing record | ✅ Documented | `docs/security/16-COMPLIANCE.md`           |
-| CCPA opt-out                | ✅ Planned    | "Do not sell my info" link                 |
-| Privacy policy              | ✅ Planned    | `/privacy` page                            |
-| Data retention enforcement  | ✅ Configured | Automated cleanup scripts                  |
-| No third-party data sharing | ✅ Configured | All tools self-hosted or EU-hosted         |
+| Cookie consent banner       | Ã¢Å“â€¦ Planned    | PostHog banner with preference persistence |
+| IP anonymization            | Ã¢Å“â€¦ Configured | Umami: last octet masked                   |
+| DNT header respect          | Ã¢Å“â€¦ Configured | `navigator.doNotTrack` check               |
+| GDPR data processing record | Ã¢Å“â€¦ Documented | `docs/security/16-COMPLIANCE.md`           |
+| CCPA opt-out                | Ã¢Å“â€¦ Planned    | "Do not sell my info" link                 |
+| Privacy policy              | Ã¢Å“â€¦ Planned    | `/privacy` page                            |
+| Data retention enforcement  | Ã¢Å“â€¦ Configured | Automated cleanup scripts                  |
+| No third-party data sharing | Ã¢Å“â€¦ Configured | All tools self-hosted or EU-hosted         |
 
 ### 17.5 Privacy Rules
 
@@ -1339,65 +1339,65 @@ gantt
 === ANALYTICS IMPLEMENTATION CHECKLIST ===
 
 PHASE 1: FOUNDATION
-□ Install Umami tracking snippet in layout.tsx
-□ Install PostHog JS SDK + initialize in AnalyticsProvider
-□ Configure Umami: IP anonymization, DNT respect
-□ Configure PostHog: data retention, feature flags
-□ Implement page_view auto-capture (Umami does auto)
-□ Implement section_view with Intersection Observer
-□ Implement scroll_depth tracking
-□ Implement nav_click tracking
-□ Test all Phase 1 events in development
+Ã¢â€“Â¡ Install Umami tracking snippet in layout.tsx
+Ã¢â€“Â¡ Install PostHog JS SDK + initialize in AnalyticsProvider
+Ã¢â€“Â¡ Configure Umami: IP anonymization, DNT respect
+Ã¢â€“Â¡ Configure PostHog: data retention, feature flags
+Ã¢â€“Â¡ Implement page_view auto-capture (Umami does auto)
+Ã¢â€“Â¡ Implement section_view with Intersection Observer
+Ã¢â€“Â¡ Implement scroll_depth tracking
+Ã¢â€“Â¡ Implement nav_click tracking
+Ã¢â€“Â¡ Test all Phase 1 events in development
 
 PHASE 2: CONVERSION
-□ Implement contact_form_start/progress/submit tracking
-□ Implement cta_click tracking
-□ Implement social_link_click tracking
-□ Implement resume_download tracking
-□ Create API AnalyticsModule (NestJS)
-□ Implement lead_created event in NestJS
-□ Implement lead_status_changed event
-□ Implement auto_reply_sent event
-□ Test all Phase 2 events end-to-end
+Ã¢â€“Â¡ Implement contact_form_start/progress/submit tracking
+Ã¢â€“Â¡ Implement cta_click tracking
+Ã¢â€“Â¡ Implement social_link_click tracking
+Ã¢â€“Â¡ Implement resume_download tracking
+Ã¢â€“Â¡ Create API AnalyticsModule (NestJS)
+Ã¢â€“Â¡ Implement lead_created event in NestJS
+Ã¢â€“Â¡ Implement lead_status_changed event
+Ã¢â€“Â¡ Implement auto_reply_sent event
+Ã¢â€“Â¡ Test all Phase 2 events end-to-end
 
 PHASE 3: AI & AGENT
-□ Implement chat_session_started (frontend)
-□ Implement chat_message_sent (frontend)
-□ Implement chat_response_received (AI service)
-□ Implement cost_tracking (AI service)
-□ Implement agent_routing (Supervisor agent)
-□ Implement model_fallback (Model Router)
-□ Implement rag_query (RAG service)
-□ Implement agent_handoff (Agent comm protocol)
-□ Implement chat_feedback (chat widget)
-□ Test all AI events
+Ã¢â€“Â¡ Implement chat_session_started (frontend)
+Ã¢â€“Â¡ Implement chat_message_sent (frontend)
+Ã¢â€“Â¡ Implement chat_response_received (AI service)
+Ã¢â€“Â¡ Implement cost_tracking (AI service)
+Ã¢â€“Â¡ Implement agent_routing (Supervisor agent)
+Ã¢â€“Â¡ Implement model_fallback (Model Router)
+Ã¢â€“Â¡ Implement rag_query (RAG service)
+Ã¢â€“Â¡ Implement agent_handoff (Agent comm protocol)
+Ã¢â€“Â¡ Implement chat_feedback (chat widget)
+Ã¢â€“Â¡ Test all AI events
 
 PHASE 4: DEEP ANALYTICS
-□ Implement project_click, project_detail_view events
-□ Implement skill_hover, skill_filter events
-□ Implement testimonial_next, testimonial_prev events
-□ Implement blog_post_click, article_view events
-□ Implement experience_click, case_study_view events
-□ Implement filter_applied, search_performed events
-□ Test all events across all sections
+Ã¢â€“Â¡ Implement project_click, project_detail_view events
+Ã¢â€“Â¡ Implement skill_hover, skill_filter events
+Ã¢â€“Â¡ Implement testimonial_next, testimonial_prev events
+Ã¢â€“Â¡ Implement blog_post_click, article_view events
+Ã¢â€“Â¡ Implement experience_click, case_study_view events
+Ã¢â€“Â¡ Implement filter_applied, search_performed events
+Ã¢â€“Â¡ Test all events across all sections
 
 PHASE 5: SEO & PERFORMANCE
-□ Configure Google Search Console API
-□ Implement SEO metric tracking (keyword rankings, indexed pages)
-□ Configure Sentry SDK for frontend + backend errors
-□ Configure Vercel Analytics + Speed Insights
-□ Implement Lighthouse CI score tracking
-□ Implement build_* and deploy_* events
-□ Implement uptime_* events from Better Uptime
+Ã¢â€“Â¡ Configure Google Search Console API
+Ã¢â€“Â¡ Implement SEO metric tracking (keyword rankings, indexed pages)
+Ã¢â€“Â¡ Configure Sentry SDK for frontend + backend errors
+Ã¢â€“Â¡ Configure Vercel Analytics + Speed Insights
+Ã¢â€“Â¡ Implement Lighthouse CI score tracking
+Ã¢â€“Â¡ Implement build_* and deploy_* events
+Ã¢â€“Â¡ Implement uptime_* events from Better Uptime
 
 PHASE 6: DASHBOARDS
-□ Build admin overview page (stat cards + charts)
-□ Build admin analytics page (all charts + date picker)
-□ Build AI analytics dashboard
-□ Build performance dashboard
-□ Implement CSV export for lead data
-□ Implement PDF report generation (future)
-□ Add loading/error states to all widgets
+Ã¢â€“Â¡ Build admin overview page (stat cards + charts)
+Ã¢â€“Â¡ Build admin analytics page (all charts + date picker)
+Ã¢â€“Â¡ Build AI analytics dashboard
+Ã¢â€“Â¡ Build performance dashboard
+Ã¢â€“Â¡ Implement CSV export for lead data
+Ã¢â€“Â¡ Implement PDF report generation (future)
+Ã¢â€“Â¡ Add loading/error states to all widgets
 ```
 
 ### 18.4 Cost Budget
@@ -1418,7 +1418,7 @@ PHASE 6: DASHBOARDS
 | D-ANA-001   | Jun 2026 | Adopt Umami + PostHog dual-stack for analytics                     | Combination covers real-time traffic (Umami) and product analytics (PostHog) at zero cost | Single-tool approach (all-in-one) rejected due to feature gaps  | Adopted |
 | D-ANA-002   | Jun 2026 | Unified event bus architecture for all analytics events            | Ensures consistent event processing pipeline, enables future tool swaps                   | Direct API integration per tool rejected as unscalable          | Adopted |
 | D-ANA-003   | Jun 2026 | 3-tier event ownership model (First-party / Product / Third-party) | Clarifies responsibility boundaries and retention policies                                | Flat ownership model rejected due to compliance complexity      | Adopted |
-| D-ANA-004   | Jun 2026 | Tiered data retention (7d–2yr) based on event category             | Balances analytical value against privacy compliance and storage cost                     | Uniform retention rejected for over-retaining PII-adjacent data | Adopted |
+| D-ANA-004   | Jun 2026 | Tiered data retention (7dÃ¢â‚¬â€œ2yr) based on event category             | Balances analytical value against privacy compliance and storage cost                     | Uniform retention rejected for over-retaining PII-adjacent data | Adopted |
 | D-ANA-005   | Jun 2026 | Custom DB (Supabase) for portfolio-specific events                 | Needed for lead tracking and AI cost data not supported by off-the-shelf tools            | Pure PostHog solution rejected due to event volume limits       | Adopted |
 
 ## 20. Risk Register
@@ -1435,7 +1435,7 @@ PHASE 6: DASHBOARDS
 
 | Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Author        |
 | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| 4.0     | Jun 2026 | **Enterprise-Grade Analytics Rewrite**: Complete overhaul from v3.0 (minimal placeholder) to full enterprise analytics strategy with 19 sections. Added: Executive Summary with stack, volume estimates, key metrics dashboard, and cross-document alignment table. Analytics Vision & Principles (8 core beliefs, 8 design principles). Analytics Architecture (3-tier event ownership model with Mermaid diagrams: event pipeline, ownership, event flow sequence). Tracking Taxonomy (naming convention `domain_action_detail`, property type system with 8 types, common properties template, 8 event categories, ownership table, 8 taxonomy rules). 9 Metric Categories (Business, Product, Portfolio, Recruiter, Lead, AI, Blog, Performance, SEO) each with: metric overview table, full event definitions (trigger, properties, source, destination, dashboard usage, business value), and ASCII dashboard mockup. Conversion Funnel (§14) with 8-stage Visitor→Hired funnel and AI Chat sub-funnel with percentages. Dashboard Specifications (§15) for 4 dashboards (Overview, Analytics, AI, Performance) with widget tables. Full Event Catalog (§16) with 90 events across 35 domains, priority classification matrix, implementation priority matrix. Privacy & Compliance (§17) with 8 privacy principles, retention schedule, cookie consent configuration, compliance checklist, 8 privacy rules. Implementation Guide (§18) with 6-phase roadmap, Gantt chart, 60-item checklist, cost budget. | Product Owner |
+| 4.0     | Jun 2026 | **Enterprise-Grade Analytics Rewrite**: Complete overhaul from v3.0 (minimal placeholder) to full enterprise analytics strategy with 19 sections. Added: Executive Summary with stack, volume estimates, key metrics dashboard, and cross-document alignment table. Analytics Vision & Principles (8 core beliefs, 8 design principles). Analytics Architecture (3-tier event ownership model with Mermaid diagrams: event pipeline, ownership, event flow sequence). Tracking Taxonomy (naming convention `domain_action_detail`, property type system with 8 types, common properties template, 8 event categories, ownership table, 8 taxonomy rules). 9 Metric Categories (Business, Product, Portfolio, Recruiter, Lead, AI, Blog, Performance, SEO) each with: metric overview table, full event definitions (trigger, properties, source, destination, dashboard usage, business value), and ASCII dashboard mockup. Conversion Funnel (Ã‚Â§14) with 8-stage VisitorÃ¢â€ â€™Hired funnel and AI Chat sub-funnel with percentages. Dashboard Specifications (Ã‚Â§15) for 4 dashboards (Overview, Analytics, AI, Performance) with widget tables. Full Event Catalog (Ã‚Â§16) with 90 events across 35 domains, priority classification matrix, implementation priority matrix. Privacy & Compliance (Ã‚Â§17) with 8 privacy principles, retention schedule, cookie consent configuration, compliance checklist, 8 privacy rules. Implementation Guide (Ã‚Â§18) with 6-phase roadmap, Gantt chart, 60-item checklist, cost budget. | Product Owner |
 | 3.0     | Jun 2026 | Added executive summary, analytics budget, change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Product Owner |
 | 2.0     | Jun 2026 | Updated for enterprise structure; added feature flags, privacy compliance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Product Owner |
 | 1.0     | Mar 2026 | Initial analytics documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Product Owner |
@@ -1446,18 +1446,18 @@ PHASE 6: DASHBOARDS
 
 | Reference                                        | Description                                                                                   |
 | ------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI Operating Model — §18 AI Analytics (12 AI events, dashboard, cost tracking)                |
-| `docs/ai/18-AGENTS.md` (v5.0)                    | Multi-Agent Architecture — §13 Analytics Agent, §20 Agent Evaluation (per-agent metrics)      |
-| `docs/ai/19-RAG.md` (v5.0)                       | RAG Pipeline — §15 Monitoring (9 RAG metrics), §16 Evaluation (test suite), §18 Cost Analysis |
-| `docs/product/02-FEATURES.md` (v3.0)             | Feature catalog — all 52 features with per-feature analytics events                           |
-| `docs/operations/21-MONITORING.md` (v3.0)        | Monitoring — §7 Alert Escalation Matrix for metric-based alerts                               |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0)     | Enterprise Observability Architecture — logs, metrics, traces, correlation IDs                |
-| `docs/database/DatabaseArchitecture.md` (v5.0)   | Database schema — §12 Analytics Tables (analytics_events, lead tracking)                      |
-| `docs/api/12-API.md` (v5.0)                      | API documentation — Analytics endpoints for dashboard data                                    |
-| `docs/security/SecurityArchitecture.md` (v5.0)   | Security — §12 AI Security, data protection for analytics                                     |
-| `docs/security/16-COMPLIANCE.md` (v3.0)          | Compliance — GDPR, CCPA, data retention policies                                              |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — data flow, service integration                                          |
-| `Ultimate_Portfolio_Plan_2026_v3.docx`           | Complete portfolio blueprint — Umami + PostHog setup, visitor intelligence                    |
+| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI Operating Model Ã¢â‚¬â€ Ã‚Â§18 AI Analytics (12 AI events, dashboard, cost tracking)                |
+| `docs/ai/18-AGENTS.md` (v5.0)                    | Multi-Agent Architecture Ã¢â‚¬â€ Ã‚Â§13 Analytics Agent, Ã‚Â§20 Agent Evaluation (per-agent metrics)      |
+| `docs/ai/19-RAG.md` (v5.0)                       | RAG Pipeline Ã¢â‚¬â€ Ã‚Â§15 Monitoring (9 RAG metrics), Ã‚Â§16 Evaluation (test suite), Ã‚Â§18 Cost Analysis |
+| `docs/product/02-FEATURES.md` (v3.0)             | Feature catalog Ã¢â‚¬â€ all 52 features with per-feature analytics events                           |
+| `docs/operations/21-MONITORING.md` (v3.0)        | Monitoring Ã¢â‚¬â€ Ã‚Â§7 Alert Escalation Matrix for metric-based alerts                               |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0)     | Enterprise Observability Architecture Ã¢â‚¬â€ logs, metrics, traces, correlation IDs                |
+| `docs/database/DatabaseArchitecture.md` (v5.0)   | Database schema Ã¢â‚¬â€ Ã‚Â§12 Analytics Tables (analytics_events, lead tracking)                      |
+| `docs/api/12-API.md` (v5.0)                      | API documentation Ã¢â‚¬â€ Analytics endpoints for dashboard data                                    |
+| `docs/security/SecurityArchitecture.md` (v5.0)   | Security Ã¢â‚¬â€ Ã‚Â§12 AI Security, data protection for analytics                                     |
+| `docs/security/16-COMPLIANCE.md` (v3.0)          | Compliance Ã¢â‚¬â€ GDPR, CCPA, data retention policies                                              |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ data flow, service integration                                          |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`           | Complete portfolio blueprint Ã¢â‚¬â€ Umami + PostHog setup, visitor intelligence                    |
 
 ---
 
@@ -1482,11 +1482,15 @@ PHASE 6: DASHBOARDS
 | **Conversion Funnel**                         | A sequence of steps from visitor arrival to hired client, with tracked drop-off at each stage                                               |
 | **Data Retention Tier**                       | A storage policy defining how long different event categories are kept (7 days to 2 years)                                                  |
 | **Dashboard Widget**                          | A single visualization component (chart, stat, table) within an analytics dashboard                                                         |
-| **PII (Personally Identifiable Information)** | Data that can identify an individual (email, IP, name) — subject to strict privacy controls                                                 |
+| **PII (Personally Identifiable Information)** | Data that can identify an individual (email, IP, name) Ã¢â‚¬â€ subject to strict privacy controls                                                 |
 | **Session Replay**                            | A recorded sequence of a visitor's interactions captured by PostHog for UX analysis                                                         |
 | **UTM Parameter**                             | Tracking tags appended to URLs (utm_source, utm_medium, utm_campaign) for campaign attribution                                              |
 | **Event Volume Estimate**                     | The projected monthly count of events in a category, used for cost and capacity planning                                                    |
 
-_Document Version: 4.0 — Enterprise-Grade Analytics Strategy_  
+_Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade Analytics Strategy_  
 _Supersedes v3.0 (June 2026) and all previous versions_  
 _Next Review Date: July 2026_
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

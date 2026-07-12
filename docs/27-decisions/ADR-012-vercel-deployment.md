@@ -39,7 +39,23 @@ We adopt **Vercel** (Hobby plan, free) as the primary deployment platform for th
 - Soft lock-in through `@vercel/analytics`, `@vercel/og` packages (mitigated by abstraction)
 - API routes on Vercel use serverless functions (10s timeout on Hobby, 60s on Pro)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Deployment] --> B[Options: Vercel / AWS / Netlify]
+    B --> C[Decision: Vercel]
+    C --> D[Positive: Zero-config Next.js, preview deploys, edge network]
+    C --> E[Negative: Hobby limits, soft lock-in]
+    D --> F[Compliance: §1.1, §2.2]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §1.1: "Free tier deployment for portfolio workload"
 - Aligns with Constitution §2.2: "Global edge delivery network"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

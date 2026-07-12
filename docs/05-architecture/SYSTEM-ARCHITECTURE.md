@@ -1,7 +1,7 @@
-# System Architecture Document — Enterprise FAANG-Grade Architecture
+# System Architecture Document Ã¢â‚¬â€ Enterprise FAANG-Grade Architecture
 
 > **Document:** `SystemArchitecture.md` | **Version:** 5.0 (Enterprise Multi-LLM Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal Architecture Lead | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Architecture Lead | **Review Cadence:** Quarterly  
 > **Architecture Style:** FAANG-Level Microservices | **Deployment Model:** Serverless + Container + Edge
 
 ---
@@ -55,52 +55,52 @@ The portfolio platform follows a **three-tier microservices architecture** stric
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        Browser["🌐 Browser<br/>Chrome, Firefox, Safari, Edge"]
+        Browser["Ã°Å¸Å’Â Browser<br/>Chrome, Firefox, Safari, Edge"]
     end
 
     subgraph "CDN / Edge Layer"
-        VercelEdge["⚡ Vercel Edge Network<br/>ISR Cache (60s)<br/>Global CDN"]
+        VercelEdge["Ã¢Å¡Â¡ Vercel Edge Network<br/>ISR Cache (60s)<br/>Global CDN"]
     end
 
     subgraph "Frontend Tier (Next.js 14)"
         direction TB
-        PublicPages["📄 Public Pages<br/>ISR (60s)<br/>SSR (admin only)"]
-        AdminSPA["🔐 Admin SPA<br/>Client-side rendering<br/>JWT session"]
-        SharedUI["🧩 Shared Components<br/>@portfolio/ui<br/>@portfolio/shared"]
-        Sandbox["💻 WebContainer Sandbox<br/>In-browser Node.js IDE"]
+        PublicPages["Ã°Å¸â€œâ€ž Public Pages<br/>ISR (60s)<br/>SSR (admin only)"]
+        AdminSPA["Ã°Å¸â€Â Admin SPA<br/>Client-side rendering<br/>JWT session"]
+        SharedUI["Ã°Å¸Â§Â© Shared Components<br/>@portfolio/ui<br/>@portfolio/shared"]
+        Sandbox["Ã°Å¸â€™Â» WebContainer Sandbox<br/>In-browser Node.js IDE"]
     end
 
     subgraph "API Tier (NestJS 10)"
         direction TB
-        AuthAPI["🔑 Auth Module<br/>JWT issue/verify<br/>Passport strategies"]
-        ContentAPI["📝 Content Module<br/>Sections, Projects, Skills<br/>CRUD operations"]
-        LeadAPI["📧 Lead Module<br/>Contact form, auto-reply<br/>CSV export"]
-        Gateway["🚪 API Gateway<br/>Rate limiting, CORS<br/>Swagger docs"]
+        AuthAPI["Ã°Å¸â€â€˜ Auth Module<br/>JWT issue/verify<br/>Passport strategies"]
+        ContentAPI["Ã°Å¸â€œÂ Content Module<br/>Sections, Projects, Skills<br/>CRUD operations"]
+        LeadAPI["Ã°Å¸â€œÂ§ Lead Module<br/>Contact form, auto-reply<br/>CSV export"]
+        Gateway["Ã°Å¸Å¡Âª API Gateway<br/>Rate limiting, CORS<br/>Swagger docs"]
     end
 
     subgraph "AI Tier (FastAPI)"
         direction TB
-        ChatAPI["💬 Chat Endpoint<br/>POST /api/ai/chat<br/>SSE streaming"]
-        AnalyzeAPI["🔍 Analyze Endpoint<br/>POST /api/ai/analyze<br/>Content scoring"]
-        SuggestAPI["💡 Suggest Endpoint<br/>POST /api/ai/suggest<br/>Content generation"]
-        RAGService["📚 RAG Service<br/>LangChain orchestration<br/>pgvector retrieval"]
+        ChatAPI["Ã°Å¸â€™Â¬ Chat Endpoint<br/>POST /api/ai/chat<br/>SSE streaming"]
+        AnalyzeAPI["Ã°Å¸â€Â Analyze Endpoint<br/>POST /api/ai/analyze<br/>Content scoring"]
+        SuggestAPI["Ã°Å¸â€™Â¡ Suggest Endpoint<br/>POST /api/ai/suggest<br/>Content generation"]
+        RAGService["Ã°Å¸â€œÅ¡ RAG Service<br/>LangChain orchestration<br/>pgvector retrieval"]
     end
 
     subgraph "Data Tier (Supabase)"
         direction TB
-        PG["🐘 PostgreSQL 15<br/>7 core tables<br/>RLS policies"]
-        VectorDB["🧠 pgvector<br/>1536-dim embeddings<br/>IVFFlat index"]
-        AuthDB["🔐 Auth Service<br/>User management<br/>Session storage"]
-        Storage["📦 Object Storage<br/>Images, assets<br/>CDN-backed"]
-        Realtime["⚡ Realtime Service<br/>Analytics events<br/>DB changes"]
+        PG["Ã°Å¸ÂËœ PostgreSQL 15<br/>7 core tables<br/>RLS policies"]
+        VectorDB["Ã°Å¸Â§Â  pgvector<br/>1536-dim embeddings<br/>IVFFlat index"]
+        AuthDB["Ã°Å¸â€Â Auth Service<br/>User management<br/>Session storage"]
+        Storage["Ã°Å¸â€œÂ¦ Object Storage<br/>Images, assets<br/>CDN-backed"]
+        Realtime["Ã¢Å¡Â¡ Realtime Service<br/>Analytics events<br/>DB changes"]
     end
 
     subgraph "External Services"
-        OpenAI["🤖 OpenAI API<br/>GPT-4, Embeddings"]
-        Resend["📨 Resend API<br/>Transactional email"]
-        PostHog["📊 PostHog Cloud<br/>Analytics, flags"]
-        Sentry["🐛 Sentry<br/>Error tracking"]
-        GitHub["🐙 GitHub<br/>Source, CI/CD"]
+        OpenAI["Ã°Å¸Â¤â€“ OpenAI API<br/>GPT-4, Embeddings"]
+        Resend["Ã°Å¸â€œÂ¨ Resend API<br/>Transactional email"]
+        PostHog["Ã°Å¸â€œÅ  PostHog Cloud<br/>Analytics, flags"]
+        Sentry["Ã°Å¸Ââ€º Sentry<br/>Error tracking"]
+        GitHub["Ã°Å¸Ââ„¢ GitHub<br/>Source, CI/CD"]
     end
 
     Browser --> VercelEdge
@@ -143,11 +143,11 @@ graph TB
 
 | Flow | Direction | Protocol | Caching | SLA |
 |------|-----------|----------|---------|-----|
-| Public page request | Browser → Vercel CDN → ISR cache → Next.js | HTTPS | CDN + ISR | < 100ms |
-| Admin API request | Browser → Vercel → NestJS → Supabase | HTTPS + JWT | None (fresh) | < 200ms |
-| AI Chat request | Browser → FastAPI → OpenAI → pgvector | HTTPS + SSE | Response cache | < 3s |
-| Analytics event | Browser → PostHog SDK → PostHog Cloud | HTTPS | Batched | < 5s |
-| Lead form submit | Browser → NestJS → Supabase → Resend | HTTPS | None | < 2s |
+| Public page request | Browser Ã¢â€ â€™ Vercel CDN Ã¢â€ â€™ ISR cache Ã¢â€ â€™ Next.js | HTTPS | CDN + ISR | < 100ms |
+| Admin API request | Browser Ã¢â€ â€™ Vercel Ã¢â€ â€™ NestJS Ã¢â€ â€™ Supabase | HTTPS + JWT | None (fresh) | < 200ms |
+| AI Chat request | Browser Ã¢â€ â€™ FastAPI Ã¢â€ â€™ OpenAI Ã¢â€ â€™ pgvector | HTTPS + SSE | Response cache | < 3s |
+| Analytics event | Browser Ã¢â€ â€™ PostHog SDK Ã¢â€ â€™ PostHog Cloud | HTTPS | Batched | < 5s |
+| Lead form submit | Browser Ã¢â€ â€™ NestJS Ã¢â€ â€™ Supabase Ã¢â€ â€™ Resend | HTTPS | None | < 2s |
 
 ### 1.3 Key Architectural Decisions
 
@@ -369,8 +369,8 @@ graph TB
 ### 3.3 Middleware Execution Order
 
 ```text
-Request → CORS → Rate Limit → Auth Guard (if required) → Validation Pipe → 
-Route Handler → Logging Interceptor (response timing) → Response
+Request Ã¢â€ â€™ CORS Ã¢â€ â€™ Rate Limit Ã¢â€ â€™ Auth Guard (if required) Ã¢â€ â€™ Validation Pipe Ã¢â€ â€™ 
+Route Handler Ã¢â€ â€™ Logging Interceptor (response timing) Ã¢â€ â€™ Response
 ```
 
 ### 3.4 FastAPI AI Service Structure
@@ -642,10 +642,10 @@ sequenceDiagram
 ### 5.3 Image Upload Pipeline
 
 ```text
-User drops image → Client validates (type, size) → 
-Upload to Supabase Storage → WebP conversion (Sharp) → 
-Thumbnail generation → URL returned → 
-Inserted into editor → CDN caches image
+User drops image Ã¢â€ â€™ Client validates (type, size) Ã¢â€ â€™ 
+Upload to Supabase Storage Ã¢â€ â€™ WebP conversion (Sharp) Ã¢â€ â€™ 
+Thumbnail generation Ã¢â€ â€™ URL returned Ã¢â€ â€™ 
+Inserted into editor Ã¢â€ â€™ CDN caches image
 ```
 
 ### References
@@ -691,7 +691,7 @@ sequenceDiagram
 | Event Category | Events | Volume (Monthly Est.) | Importance |
 |---------------|--------|----------------------|------------|
 | Page views | `$pageview`, `$pageleave` | 5,000-10,000 | Critical |
-| Section views | `section_view` (×15 sections) | 15,000-30,000 | Critical |
+| Section views | `section_view` (Ãƒâ€”15 sections) | 15,000-30,000 | Critical |
 | Interactions | `project_click`, `cta_click`, `skill_hover` | 2,000-5,000 | High |
 | Conversions | `contact_form_submit`, `lead_created` | 50-200 | Critical |
 | Admin | `admin_login`, `admin_action` | 500-1,000 | Important |
@@ -786,15 +786,15 @@ sequenceDiagram
 
 ```text
 POST /api/ai/analyze
-  ↓
+  Ã¢â€ â€œ
 Input: Section content (text + metadata)
-  ↓
+  Ã¢â€ â€œ
 1. Readability Analysis (Flesch-Kincaid)
 2. SEO Scoring (keyword density, heading structure, meta readiness)
 3. Tone Detection (professional/casual/technical)
 4. Keyword Extraction (TF-IDF scoring)
 5. Improvement Suggestions (GPT-3.5)
-  ↓
+  Ã¢â€ â€œ
 Output: { readability, seo_score, tone, keywords, suggestions }
 ```
 
@@ -1099,7 +1099,7 @@ graph TB
 
 ### References
 - **Monitoring:** `docs/operations/MonitoringArchitecture.md` (Full monitoring configuration)
-- **Observability:** `docs/operations/22-OBSERVABILITY.md` (v5.0 — Enterprise observability covering logging, metrics, tracing, monitoring, alerting, incident management, SLOs, SLIs, runbooks, escalation, RCA, recovery, and enterprise standards)
+- **Observability:** `docs/operations/22-OBSERVABILITY.md` (v5.0 Ã¢â‚¬â€ Enterprise observability covering logging, metrics, tracing, monitoring, alerting, incident management, SLOs, SLIs, runbooks, escalation, RCA, recovery, and enterprise standards)
 
 ---
 
@@ -1195,28 +1195,28 @@ const securityHeaders = [
 ```mermaid
 graph TB
     subgraph "Root"
-        Root["📁 portfolio-monorepo/"]
+        Root["Ã°Å¸â€œÂ portfolio-monorepo/"]
     end
 
     subgraph "Applications"
-        Web["📁 apps/web/<br/>Next.js 14 Frontend"]
-        API["📁 apps/api/<br/>NestJS 10 Backend"]
-        AI["📁 apps/ai/<br/>FastAPI AI Service"]
+        Web["Ã°Å¸â€œÂ apps/web/<br/>Next.js 14 Frontend"]
+        API["Ã°Å¸â€œÂ apps/api/<br/>NestJS 10 Backend"]
+        AI["Ã°Å¸â€œÂ apps/ai/<br/>FastAPI AI Service"]
     end
 
     subgraph "Packages"
-        Shared["📁 packages/shared/<br/>TypeScript Types"]
-        UI["📁 packages/ui/<br/>React Components"]
-        Config["📁 packages/config/<br/>ESLint, TS Config"]
+        Shared["Ã°Å¸â€œÂ packages/shared/<br/>TypeScript Types"]
+        UI["Ã°Å¸â€œÂ packages/ui/<br/>React Components"]
+        Config["Ã°Å¸â€œÂ packages/config/<br/>ESLint, TS Config"]
     end
 
     subgraph "Infrastructure"
-        Docker["📁 infrastructure/docker/<br/>Docker Compose"]
-        CI["📁 infrastructure/ci/<br/>CI/CD Reference"]
+        Docker["Ã°Å¸â€œÂ infrastructure/docker/<br/>Docker Compose"]
+        CI["Ã°Å¸â€œÂ infrastructure/ci/<br/>CI/CD Reference"]
     end
 
     subgraph "Documentation"
-        Docs["📁 docs/<br/>36 Enterprise Documents"]
+        Docs["Ã°Å¸â€œÂ docs/<br/>36 Enterprise Documents"]
     end
 
     Root --> Web
@@ -1233,10 +1233,10 @@ graph TB
 ### 12.2 Dependency Direction Rules
 
 ```
-packages/  →  can depend on other packages/ (e.g., ui → shared)
-apps/      →  can depend on packages/ (e.g., web → ui, web → shared)
-apps/      →  can NOT depend on other apps/ (no web → api)
-packages/  →  can NOT depend on apps/ packages/  (never: ui → web)
+packages/  Ã¢â€ â€™  can depend on other packages/ (e.g., ui Ã¢â€ â€™ shared)
+apps/      Ã¢â€ â€™  can depend on packages/ (e.g., web Ã¢â€ â€™ ui, web Ã¢â€ â€™ shared)
+apps/      Ã¢â€ â€™  can NOT depend on other apps/ (no web Ã¢â€ â€™ api)
+packages/  Ã¢â€ â€™  can NOT depend on apps/ packages/  (never: ui Ã¢â€ â€™ web)
 ```
 
 ### 12.3 Key Folder Conventions
@@ -1359,20 +1359,20 @@ graph TB
 
 | ADR ID | Decision | Context | Options Considered | Consequence | Status |
 |--------|----------|---------|-------------------|-------------|--------|
-| ADR-001 | **Monorepo with Turborepo** | Need shared types, UI, configs across 3 apps | Nx, Lerna, pnpm workspaces | ✅ Shared packages; complex tooling |
-| ADR-002 | **ISR over SSR for public pages** | Content changes infrequently, perf priority | SSR, SSG, CSR, ISR | ✅ Near-static speed; 60s content delay |
-| ADR-003 | **Supabase over raw PostgreSQL** | Need managed auth, storage, realtime | PlanetScale, Neon, AWS RDS | ✅ Single provider; free tier adequate |
-| ADR-004 | **NestJS over Express** | Need structured API with modules/guards | Express, Fastify, Hono | ✅ Better DX; built-in validation; Swagger |
-| ADR-005 | **FastAPI over Node.js for AI** | Python ecosystem dominance for ML/AI | NestJS AI, Flask, Django | ✅ LangChain native; separate service overhead |
-| ADR-006 | **Vercel for frontend + API** | Simplify deployment, colocate | Railway, Fly.io, Netlify | ✅ Reduced latency; single pipeline |
-| ADR-007 | **Railway for AI service** | Python runtime not supported on Vercel | Fly.io, DigitalOcean, Render | ✅ Scales independently; $5 credit |
-| ADR-008 | **JWT over session-based auth** | Stateless API design | Session cookies, OAuth2 only | ✅ 15/7 day tokens; httpOnly cookies |
-| ADR-009 | **NestJS Passport over Supabase Auth for admin** | Need OAuth providers + session management | Supabase Auth alone, Auth0 | ✅ OAuth support; simpler session API |
-| ADR-010 | **pgvector for RAG** | PostgreSQL-native vector search | Pinecone, Weaviate, Qdrant | ✅ No additional service; integrated with Supabase |
-| ADR-011 | **PostHog over Google Analytics** | Developer-friendly, event-based, feature flags | GA4, Plausible, Fathom | ✅ Better DX; 1M free events; no cookies |
-| ADR-012 | **TanStack React Query for client data fetching** | Stale-while-revalidate pattern with cache deduplication, optimistic updates, and devtools | SWR, RTK Query, Apollo | ✅ Rich feature set; devtools; mutation support |
-| ADR-013 | **Serverless NestJS on Vercel** | No server management, auto-scaling | Railway, Fly.io, Docker | ✅ Zero ops; cold start trade-off |
-| ADR-014 | **CSS custom properties for theming** | Runtime theme switching without JS | Tailwind dark:, styled-components | ✅ Instant toggle; no re-render |
+| ADR-001 | **Monorepo with Turborepo** | Need shared types, UI, configs across 3 apps | Nx, Lerna, pnpm workspaces | Ã¢Å“â€¦ Shared packages; complex tooling |
+| ADR-002 | **ISR over SSR for public pages** | Content changes infrequently, perf priority | SSR, SSG, CSR, ISR | Ã¢Å“â€¦ Near-static speed; 60s content delay |
+| ADR-003 | **Supabase over raw PostgreSQL** | Need managed auth, storage, realtime | PlanetScale, Neon, AWS RDS | Ã¢Å“â€¦ Single provider; free tier adequate |
+| ADR-004 | **NestJS over Express** | Need structured API with modules/guards | Express, Fastify, Hono | Ã¢Å“â€¦ Better DX; built-in validation; Swagger |
+| ADR-005 | **FastAPI over Node.js for AI** | Python ecosystem dominance for ML/AI | NestJS AI, Flask, Django | Ã¢Å“â€¦ LangChain native; separate service overhead |
+| ADR-006 | **Vercel for frontend + API** | Simplify deployment, colocate | Railway, Fly.io, Netlify | Ã¢Å“â€¦ Reduced latency; single pipeline |
+| ADR-007 | **Railway for AI service** | Python runtime not supported on Vercel | Fly.io, DigitalOcean, Render | Ã¢Å“â€¦ Scales independently; $5 credit |
+| ADR-008 | **JWT over session-based auth** | Stateless API design | Session cookies, OAuth2 only | Ã¢Å“â€¦ 15/7 day tokens; httpOnly cookies |
+| ADR-009 | **NestJS Passport over Supabase Auth for admin** | Need OAuth providers + session management | Supabase Auth alone, Auth0 | Ã¢Å“â€¦ OAuth support; simpler session API |
+| ADR-010 | **pgvector for RAG** | PostgreSQL-native vector search | Pinecone, Weaviate, Qdrant | Ã¢Å“â€¦ No additional service; integrated with Supabase |
+| ADR-011 | **PostHog over Google Analytics** | Developer-friendly, event-based, feature flags | GA4, Plausible, Fathom | Ã¢Å“â€¦ Better DX; 1M free events; no cookies |
+| ADR-012 | **TanStack React Query for client data fetching** | Stale-while-revalidate pattern with cache deduplication, optimistic updates, and devtools | SWR, RTK Query, Apollo | Ã¢Å“â€¦ Rich feature set; devtools; mutation support |
+| ADR-013 | **Serverless NestJS on Vercel** | No server management, auto-scaling | Railway, Fly.io, Docker | Ã¢Å“â€¦ Zero ops; cold start trade-off |
+| ADR-014 | **CSS custom properties for theming** | Runtime theme switching without JS | Tailwind dark:, styled-components | Ã¢Å“â€¦ Instant toggle; no re-render |
 
 ---
 
@@ -1391,7 +1391,7 @@ graph TB
 | Email | Resend | $0 | Yes | 100 emails/day |
 | CI/CD | GitHub Actions | $0 | Yes | 2,000 min/month (public repo) |
 | DNS | Cloudflare | $0 | Yes | Unlimited |
-| Domain | Namecheap/Cloudflare | ~$0.83 | — | ~$10/year |
+| Domain | Namecheap/Cloudflare | ~$0.83 | Ã¢â‚¬â€ | ~$10/year |
 | **TOTAL** | | **~$0.83** | | **~$10/year** |
 
 ### 15.2 Scaling Triggers & Actions
@@ -1402,7 +1402,7 @@ graph TB
 | Database > 1GB | @ 100% capacity | Archive old data, upgrade to Pro ($25/mo) | +$25/mo |
 | Bandwidth > 100GB | @ 80% capacity | Optimize images, reduce bundle size | $0 |
 | Bandwidth > 1TB | Sustained | Upgrade Vercel Pro ($20/mo) | +$20/mo |
-| AI costs > $10/mo | Monthly | Reduce model quality, increase cache | —$3-8/mo |
+| AI costs > $10/mo | Monthly | Reduce model quality, increase cache | Ã¢â‚¬â€$3-8/mo |
 | Railway credits depleted | Monthly | Upgrade to $5 plan | +$5/mo |
 | PostHog events > 1M | Monthly | Sample events, reduce tracking | $0 |
 | Sentry events > 5K | Monthly | Reduce traces, filter errors | $0 |
@@ -1423,13 +1423,13 @@ graph TB
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-ARCH-001 | Adopt three-tier microservices (Next.js + NestJS + FastAPI) | Clear separation of concerns; cost-optimized free tiers; independent scaling per service | Monolithic Next.js (rejected — no separation of AI concerns); single BE service (rejected — mixing REST and AI workloads) | Mar 2026 | Architecture Lead |
-| D-ARCH-002 | Use Turborepo monorepo with npm workspaces | Code sharing across apps; parallel builds; shared TypeScript/ESLint configs | Multi-repo (rejected — coordination overhead); pnpm (rejected — less ecosystem support) | Mar 2026 | Architecture Lead |
-| D-ARCH-003 | Vercel ISR for public page delivery | Sub-100ms global page loads; automatic CDN caching; free tier handling | SSR-only (rejected — no caching, higher cost); SSG-only (rejected — stale content on update) | Mar 2026 | Architecture Lead |
-| D-ARCH-004 | Containerized FastAPI on Railway/Fly.io | LLM orchestrations need >10s timeouts; WebSocket/SSE support; container control | Vercel serverless (rejected — 10s timeout limit); AWS Lambda (rejected — cold start complexity) | Jun 2026 | Architecture Lead |
-| D-ARCH-005 | Supabase as single data platform (DB + Auth + Storage + Realtime) | All-in-one free tier (500MB DB, 1GB storage, built-in auth, RLS, pgvector) | MongoDB Atlas (rejected — no pgvector); Firebase (rejected — NoSQL vendor lock-in) | Mar 2026 | Architecture Lead |
-| D-ARCH-006 | Edge-first deployment with ISR + CDN | Cost-effective global performance; Vercel handles edge distribution automatically | Multi-region servers (rejected — cost prohibitive for portfolio) | Mar 2026 | Architecture Lead |
-| D-ARCH-007 | Defense-in-depth security across all 4 layers (Edge, API Gateway, Database, Response) | Compartmentalized security; RLS at DB level as second auth layer | Single-layer auth (rejected — insufficient for OWASP compliance); API-only security (rejected — no DB-level protection) | Mar 2026 | Architecture Lead |
+| D-ARCH-001 | Adopt three-tier microservices (Next.js + NestJS + FastAPI) | Clear separation of concerns; cost-optimized free tiers; independent scaling per service | Monolithic Next.js (rejected Ã¢â‚¬â€ no separation of AI concerns); single BE service (rejected Ã¢â‚¬â€ mixing REST and AI workloads) | Mar 2026 | Architecture Lead |
+| D-ARCH-002 | Use Turborepo monorepo with npm workspaces | Code sharing across apps; parallel builds; shared TypeScript/ESLint configs | Multi-repo (rejected Ã¢â‚¬â€ coordination overhead); pnpm (rejected Ã¢â‚¬â€ less ecosystem support) | Mar 2026 | Architecture Lead |
+| D-ARCH-003 | Vercel ISR for public page delivery | Sub-100ms global page loads; automatic CDN caching; free tier handling | SSR-only (rejected Ã¢â‚¬â€ no caching, higher cost); SSG-only (rejected Ã¢â‚¬â€ stale content on update) | Mar 2026 | Architecture Lead |
+| D-ARCH-004 | Containerized FastAPI on Railway/Fly.io | LLM orchestrations need >10s timeouts; WebSocket/SSE support; container control | Vercel serverless (rejected Ã¢â‚¬â€ 10s timeout limit); AWS Lambda (rejected Ã¢â‚¬â€ cold start complexity) | Jun 2026 | Architecture Lead |
+| D-ARCH-005 | Supabase as single data platform (DB + Auth + Storage + Realtime) | All-in-one free tier (500MB DB, 1GB storage, built-in auth, RLS, pgvector) | MongoDB Atlas (rejected Ã¢â‚¬â€ no pgvector); Firebase (rejected Ã¢â‚¬â€ NoSQL vendor lock-in) | Mar 2026 | Architecture Lead |
+| D-ARCH-006 | Edge-first deployment with ISR + CDN | Cost-effective global performance; Vercel handles edge distribution automatically | Multi-region servers (rejected Ã¢â‚¬â€ cost prohibitive for portfolio) | Mar 2026 | Architecture Lead |
+| D-ARCH-007 | Defense-in-depth security across all 4 layers (Edge, API Gateway, Database, Response) | Compartmentalized security; RLS at DB level as second auth layer | Single-layer auth (rejected Ã¢â‚¬â€ insufficient for OWASP compliance); API-only security (rejected Ã¢â‚¬â€ no DB-level protection) | Mar 2026 | Architecture Lead |
 
 ---
 
@@ -1448,18 +1448,18 @@ graph TB
 
 | Reference | Description |
 |-----------|-------------|
-| `docs/product/ProductRequirements.md` (v3.0) | Product Requirements — architecture requirements traceability |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog — F-XXX IDs referenced throughout |
-| `docs/design/UserFlows.md` (v5.0) | Screen specifications — pages built on this architecture |
-| `docs/design/DesignSystem.md` (v5.0) | Design system — components implemented on this architecture |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology decisions — rationale for each tech choice |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema — full DDL and RLS policies |
-| `docs/api/12-API.md` (v5.0) | API documentation — all endpoint specs |
-| `docs/architecture/13-INTEGRATIONS.md` (v5.0) | Third-party integrations — setup and config |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security implementation — OWASP compliance |
-| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment — environment-specific configuration |
-| `docs/operations/25-CICD.md` (v5.0) | CI/CD pipeline — workflow definitions |
-| `docs/MASTER-INDEX.md` | Directory structure — complete file tree |
+| `docs/product/ProductRequirements.md` (v3.0) | Product Requirements Ã¢â‚¬â€ architecture requirements traceability |
+| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog Ã¢â‚¬â€ F-XXX IDs referenced throughout |
+| `docs/design/UserFlows.md` (v5.0) | Screen specifications Ã¢â‚¬â€ pages built on this architecture |
+| `docs/design/DesignSystem.md` (v5.0) | Design system Ã¢â‚¬â€ components implemented on this architecture |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology decisions Ã¢â‚¬â€ rationale for each tech choice |
+| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema Ã¢â‚¬â€ full DDL and RLS policies |
+| `docs/api/12-API.md` (v5.0) | API documentation Ã¢â‚¬â€ all endpoint specs |
+| `docs/architecture/13-INTEGRATIONS.md` (v5.0) | Third-party integrations Ã¢â‚¬â€ setup and config |
+| `docs/security/SecurityArchitecture.md` (v5.0) | Security implementation Ã¢â‚¬â€ OWASP compliance |
+| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment Ã¢â‚¬â€ environment-specific configuration |
+| `docs/operations/25-CICD.md` (v5.0) | CI/CD pipeline Ã¢â‚¬â€ workflow definitions |
+| `docs/MASTER-INDEX.md` | Directory structure Ã¢â‚¬â€ complete file tree |
 
 ---
 
@@ -1474,7 +1474,7 @@ graph TB
 | 2.0 | Jun 2026 | Added deployment architecture, security architecture | Chief Architect |
 | 1.0 | Mar 2026 | Initial architecture documentation | Chief Architect |
 
-*Document Version: 4.0 — Enterprise Edition*
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise Edition*
 
 ---
 
@@ -1497,3 +1497,7 @@ graph TB
 | **RLS (Row-Level Security)** | A PostgreSQL feature that restricts which rows a user can query or modify based on a security policy expression |
 | **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that controls which domains can access resources from a different origin |
 | **CDN (Content Delivery Network)** | A geographically distributed network of proxy servers that cache content near users for faster delivery |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

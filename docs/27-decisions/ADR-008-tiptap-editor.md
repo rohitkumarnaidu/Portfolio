@@ -37,6 +37,22 @@ We adopt **TipTap** as the rich text editor.
 - Custom extension development has steeper learning curve than config-based editors
 - Bundle size ~50KB gzipped (acceptable for admin-only)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Rich text editor] --> B[Options: TipTap / Quill / ProseMirror]
+    B --> C[Decision: TipTap]
+    C --> D[Positive: Headless, JSON output, extensible]
+    C --> E[Negative: Premium features paid, custom ext learning curve]
+    D --> F[Compliance: §5.2]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §5.2: "Headless editor with structured output"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

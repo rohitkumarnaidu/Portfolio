@@ -103,6 +103,18 @@ We adopt **Passport.js** (`@nestjs/passport`) as the authentication framework wi
 - OAuth auto-provisioning means the first Google/GitHub login also creates the DB user record
 - `@Public()` decorator can selectively bypass `JwtAuthGuard` on specific routes
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Auth framework] --> B[Options: Passport.js / Auth0 / NextAuth]
+    B --> C[Decision: Passport.js]
+    C --> D[Positive: Battle-tested, 500+ strategies, NestJS-native]
+    C --> E[Negative: Boilerplate per strategy, callback complexity]
+    D --> F[Compliance: §6.1, §6.2, §6.4]
+    E --> F
+```
+
 ## Compliance
 
 - OWASP ASVS L1: Password complexity (bcrypt cost 12), lockout (5 attempts), session management (refresh rotation)
@@ -110,3 +122,7 @@ We adopt **Passport.js** (`@nestjs/passport`) as the authentication framework wi
 - Aligns with Constitution §6.2: "Stateless JWT authentication compatible with microservices"
 - Aligns with Constitution §6.4: "OWASP ASVS L1 minimum for authentication controls"
 - GDPR: OAuth flows respect scope consent; no PII logged in auth tokens; refresh tokens hashed at rest
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

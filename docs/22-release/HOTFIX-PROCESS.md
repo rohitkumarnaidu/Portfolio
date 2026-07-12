@@ -99,3 +99,7 @@ Within 24 hours of a hotfix deployment:
 - Prevention: <how to avoid recurrence>
 - Action items: [list with owners]
 ```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

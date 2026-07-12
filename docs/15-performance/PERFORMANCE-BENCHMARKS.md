@@ -27,43 +27,43 @@ This document tracks performance benchmarks for the Portfolio platform. Benchmar
 
 | Metric | Desktop | Mobile | Budget | Status |
 |--------|:-------:|:------:|:------:|:------:|
-| Performance | TBD | TBD | > 90 | ⏳ |
-| Accessibility | TBD | TBD | > 95 | ⏳ |
-| Best Practices | TBD | TBD | > 95 | ⏳ |
-| SEO | TBD | TBD | > 95 | ⏳ |
-| LCP | TBD | TBD | < 2.5s | ⏳ |
-| TBT | TBD | TBD | < 200ms | ⏳ |
-| CLS | TBD | TBD | < 0.1 | ⏳ |
+| Performance | TBD | TBD | > 90 | Ã¢ÂÂ³ |
+| Accessibility | TBD | TBD | > 95 | Ã¢ÂÂ³ |
+| Best Practices | TBD | TBD | > 95 | Ã¢ÂÂ³ |
+| SEO | TBD | TBD | > 95 | Ã¢ÂÂ³ |
+| LCP | TBD | TBD | < 2.5s | Ã¢ÂÂ³ |
+| TBT | TBD | TBD | < 200ms | Ã¢ÂÂ³ |
+| CLS | TBD | TBD | < 0.1 | Ã¢ÂÂ³ |
 
 ### API Performance
 
 | Endpoint | P50 | P95 | P99 | Budget (P95) | Status |
 |----------|:---:|:---:|:---:|:------------:|:------:|
-| GET /api/portfolio/sections | TBD | TBD | TBD | < 200ms | ⏳ |
-| GET /api/portfolio/projects | TBD | TBD | TBD | < 200ms | ⏳ |
-| GET /api/portfolio/blog | TBD | TBD | TBD | < 200ms | ⏳ |
-| POST /api/portfolio/leads | TBD | TBD | TBD | < 500ms | ⏳ |
-| POST /api/admin/auth/login | TBD | TBD | TBD | < 500ms | ⏳ |
-| CRUD /api/admin/projects | TBD | TBD | TBD | < 300ms | ⏳ |
+| GET /api/portfolio/sections | TBD | TBD | TBD | < 200ms | Ã¢ÂÂ³ |
+| GET /api/portfolio/projects | TBD | TBD | TBD | < 200ms | Ã¢ÂÂ³ |
+| GET /api/portfolio/blog | TBD | TBD | TBD | < 200ms | Ã¢ÂÂ³ |
+| POST /api/portfolio/leads | TBD | TBD | TBD | < 500ms | Ã¢ÂÂ³ |
+| POST /api/admin/auth/login | TBD | TBD | TBD | < 500ms | Ã¢ÂÂ³ |
+| CRUD /api/admin/projects | TBD | TBD | TBD | < 300ms | Ã¢ÂÂ³ |
 
 ### Database Performance
 
 | Query | Execution Time | Rows Scanned | Index Used | Status |
 |-------|:-------------:|:------------:|:----------:|:------:|
-| Section listing | TBD | TBD | TBD | ⏳ |
-| Project with images | TBD | TBD | TBD | ⏳ |
-| Blog with tags | TBD | TBD | TBD | ⏳ |
-| Vector similarity search | TBD | TBD | HNSW | ⏳ |
+| Section listing | TBD | TBD | TBD | Ã¢ÂÂ³ |
+| Project with images | TBD | TBD | TBD | Ã¢ÂÂ³ |
+| Blog with tags | TBD | TBD | TBD | Ã¢ÂÂ³ |
+| Vector similarity search | TBD | TBD | HNSW | Ã¢ÂÂ³ |
 
 ### Bundle Size
 
 | Asset | Size (gzipped) | Budget | Status |
 |-------|:--------------:|:------:|:------:|
-| Homepage JS | TBD | < 300KB | ⏳ |
-| Admin JS | TBD | < 400KB | ⏳ |
-| Blog JS | TBD | < 300KB | ⏳ |
-| Three.js bundle | TBD | < 150KB | ⏳ |
-| CSS (global) | TBD | < 50KB | ⏳ |
+| Homepage JS | TBD | < 300KB | Ã¢ÂÂ³ |
+| Admin JS | TBD | < 400KB | Ã¢ÂÂ³ |
+| Blog JS | TBD | < 300KB | Ã¢ÂÂ³ |
+| Three.js bundle | TBD | < 150KB | Ã¢ÂÂ³ |
+| CSS (global) | TBD | < 50KB | Ã¢ÂÂ³ |
 
 ## Historical Trends
 
@@ -74,6 +74,10 @@ This document tracks performance benchmarks for the Portfolio platform. Benchmar
 *Benchmarks will be tracked starting Q3 2026 after initial load testing.*
 
 ## Related Documents
-- `docs/quality/performance-budget.md` — Performance budgets
-- `docs/quality/PerformanceArchitecture.md` — Performance architecture
-- `docs/quality/load-test-specification.md` — Load test scenarios
+- `docs/quality/performance-budget.md` Ã¢â‚¬â€ Performance budgets
+- `docs/quality/PerformanceArchitecture.md` Ã¢â‚¬â€ Performance architecture
+- `docs/quality/load-test-specification.md` Ã¢â‚¬â€ Load test scenarios
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -108,3 +108,36 @@ A dashboard with > 2 red KPIs triggers a **KPI Recovery Plan** â€” a focused spr
 ### KPI Recovery Plan Template
 
 When triggered, the recovery plan follows a three-step process: (1) root cause analysis within 48 hours, (2) targeted sprint with defined success criteria and daily check-ins, and (3) 30-day monitoring period with enhanced reporting to ensure sustained improvement.
+
+---
+
+## Diagram
+
+### KPI Dashboard Layout
+
+```mermaid
+graph LR
+    NSM["North Star Metric<br/>Portfolio Engagement Score"] --> KR1["Key Result<br/>Pages per Session"]
+    NSM --> KR2["Key Result<br/>Conversion Rate"]
+    NSM --> KR3["Key Result<br/>AI Chat Engagement"]
+
+    KR1 --> LI1["Leading<br/>Deploy Frequency"]
+    KR1 --> LI2["Leading<br/>Core Web Vitals Pass Rate"]
+    KR2 --> LI3["Leading<br/>Feature Adoption Rate"]
+    KR3 --> LI4["Leading<br/>AI Chat Turns per Session"]
+
+    LI1 --> LAG1["Lagging<br/>Lead Time for Change"]
+    LI2 --> LAG2["Lagging<br/>Bounce Rate"]
+    LI3 --> LAG3["Lagging<br/>Visitor-to-Lead Conversion"]
+    LI4 --> LAG4["Lagging<br/>AI User Satisfaction"]
+
+    LAG1 --> NSM
+    LAG2 --> NSM
+    LAG3 --> NSM
+    LAG4 --> NSM
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

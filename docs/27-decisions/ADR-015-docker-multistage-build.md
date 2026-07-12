@@ -97,9 +97,25 @@ We adopt a **two-stage multi-stage Docker build** pattern for both Node.js appli
 - Docker layer caching requires consistent `COPY` ordering — adding new files to source dirs invalidates the build layer
 - Health check port/endpoint changes must be synchronized between Dockerfile and orchestrator config
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Docker builds] --> B[Options: Multi-stage / Single-stage / Distroless]
+    B --> C[Decision: Multi-stage build]
+    C --> D[Positive: ~150MB images, non-root user, cached layers]
+    C --> E[Negative: Two-stage complexity, Alpine base ~120MB]
+    D --> F[Compliance: §1.2, §4.1, §4.3]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §1.2: "Containerized deployments for all production services"
 - Aligns with Constitution §4.1: "Non-root runtime for all containers"
 - Aligns with Constitution §4.3: "Health checks for orchestrator auto-recovery"
 - Dockerfile best practices: minimal layers, ordered COPY for caching, specific tag pinning, .dockerignore recommended
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

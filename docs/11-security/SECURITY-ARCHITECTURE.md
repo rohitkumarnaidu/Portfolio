@@ -1,7 +1,7 @@
-# Security Architecture — FAANG Enterprise-Grade Security Posture
+# Security Architecture Ã¢â‚¬â€ FAANG Enterprise-Grade Security Posture
 
 > **Document:** `SecurityArchitecture.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Standard:** OWASP Top 10:2025 | **Owner:** Principal Security Architect  
+> **Status:** Ã¢Å“â€¦ Active | **Standard:** OWASP Top 10:2025 | **Owner:** Principal Security Architect  
 > **Review Cadence:** Quarterly | **Classification:** Enterprise Architecture  
 > **Compliance:** OWASP Top 10:2025 | GDPR | CCPA | WCAG 2.2 AA  
 > **Defense Layers:** 5 | **Security Controls:** 40+ | **Incident Response Tiers:** 3
@@ -55,7 +55,7 @@ This document defines the FAANG-grade security architecture across 10 domains: a
 
 ### 1.1 North Star
 
-The portfolio platform implements **defense-in-depth security** across 5 layers — Edge (Cloudflare/Vercel WAF), Gateway (NestJS guards/middleware), Application (validation/sanitization/auth), Data (Supabase RLS/encryption), and External (service API key protection). Security is not a feature; it is the foundation upon which every other feature is built. The platform targets **OWASP Top 10:2025 compliance** with 40+ security controls, all within free-tier constraints.
+The portfolio platform implements **defense-in-depth security** across 5 layers Ã¢â‚¬â€ Edge (Cloudflare/Vercel WAF), Gateway (NestJS guards/middleware), Application (validation/sanitization/auth), Data (Supabase RLS/encryption), and External (service API key protection). Security is not a feature; it is the foundation upon which every other feature is built. The platform targets **OWASP Top 10:2025 compliance** with 40+ security controls, all within free-tier constraints.
 
 ### 1.2 Design Principles
 
@@ -179,9 +179,9 @@ graph TB
 ```mermaid
 graph TB
     subgraph "PUBLIC INTERNET"
-        USER["🌐 Visitor"]
-        ATTACKER["💀 Attacker"]
-        BOTNET["🤖 Botnet"]
+        USER["Ã°Å¸Å’Â Visitor"]
+        ATTACKER["Ã°Å¸â€™â‚¬ Attacker"]
+        BOTNET["Ã°Å¸Â¤â€“ Botnet"]
     end
 
     subgraph "EDGE (Cloudflare + Vercel)"
@@ -247,52 +247,52 @@ graph TB
 
 | Threat Category | Threat | Target | Impact | Likelihood | Risk Rating | Mitigation |
 |----------------|--------|--------|--------|------------|-------------|------------|
-| **S**poofing | Identity theft via JWT forgery | Auth system | High | Low | 🟡 Medium | Short TTL (15min), strong JWT secret, httpOnly cookies |
-| **S**poofing | OAuth token interception | Google OAuth | High | Low | 🟡 Medium | PKCE flow, HTTPS enforced, state parameter |
-| **T**ampering | Lead form data manipulation | Contact form | Medium | Low | 🟢 Low | CSRF tokens, input validation, HTTPS |
-| **T**ampering | API request modification (MITM) | All endpoints | High | Very Low | 🟢 Low | TLS 1.3, HSTS preload, certificate pinning |
-| **R**epudiation | Admin denies performing action | Audit logs | Medium | Low | 🟢 Low | Immutable audit trail, correlation IDs |
-| **I**nformation Disclosure | Stack trace in error response | API errors | Medium | Low | 🟡 Medium | Global exception filter hides internals |
-| **I**nformation Disclosure | Database schema exposure | API responses | Low | Very Low | 🟢 Low | RLS filters, DTOs never expose raw schema |
-| **D**enial of Service | API endpoint flooding | All endpoints | High | Medium | 🟡 Medium | Rate limiting (8 tiers), DDoS protection |
-| **D**enial of Service | AI service cost exhaustion | AI chat | Medium | Low | 🟢 Low | Token caps, rate limiting, cost monitoring |
-| **E**levation of Privilege | Admin role escalation | Auth/RBAC | Critical | Very Low | 🟡 Medium | JWT role claim verification, RLS double-check |
-| **E**levation of Privilege | IDOR on lead management | Leads API | High | Low | 🟡 Medium | Ownership validation, RLS on all tables |
+| **S**poofing | Identity theft via JWT forgery | Auth system | High | Low | Ã°Å¸Å¸Â¡ Medium | Short TTL (15min), strong JWT secret, httpOnly cookies |
+| **S**poofing | OAuth token interception | Google OAuth | High | Low | Ã°Å¸Å¸Â¡ Medium | PKCE flow, HTTPS enforced, state parameter |
+| **T**ampering | Lead form data manipulation | Contact form | Medium | Low | Ã°Å¸Å¸Â¢ Low | CSRF tokens, input validation, HTTPS |
+| **T**ampering | API request modification (MITM) | All endpoints | High | Very Low | Ã°Å¸Å¸Â¢ Low | TLS 1.3, HSTS preload, certificate pinning |
+| **R**epudiation | Admin denies performing action | Audit logs | Medium | Low | Ã°Å¸Å¸Â¢ Low | Immutable audit trail, correlation IDs |
+| **I**nformation Disclosure | Stack trace in error response | API errors | Medium | Low | Ã°Å¸Å¸Â¡ Medium | Global exception filter hides internals |
+| **I**nformation Disclosure | Database schema exposure | API responses | Low | Very Low | Ã°Å¸Å¸Â¢ Low | RLS filters, DTOs never expose raw schema |
+| **D**enial of Service | API endpoint flooding | All endpoints | High | Medium | Ã°Å¸Å¸Â¡ Medium | Rate limiting (8 tiers), DDoS protection |
+| **D**enial of Service | AI service cost exhaustion | AI chat | Medium | Low | Ã°Å¸Å¸Â¢ Low | Token caps, rate limiting, cost monitoring |
+| **E**levation of Privilege | Admin role escalation | Auth/RBAC | Critical | Very Low | Ã°Å¸Å¸Â¡ Medium | JWT role claim verification, RLS double-check |
+| **E**levation of Privilege | IDOR on lead management | Leads API | High | Low | Ã°Å¸Å¸Â¡ Medium | Ownership validation, RLS on all tables |
 
 ### 3.2 Data Flow Threat Analysis
 
 | Data Flow | Data Type | Threats | Controls |
 |-----------|-----------|---------|----------|
-| Browser → Vercel Edge | HTTP requests | MITM, injection, CSRF | TLS 1.3, CSP, CSRF tokens |
-| Vercel → Supabase | SQL queries, auth tokens | SQL injection, token leak | Parameterized queries, server-only env vars |
-| Vercel → OpenAI | Chat messages | Prompt injection, data exfiltration | Input sanitization, max token limits, system prompt boundary |
-| Vercel → Resend | Lead emails | API key leak, email spoofing | Server-only API key, SPF/DKIM/DMARC |
-| Browser → PostHog | Analytics events | PII leakage, event manipulation | Anonymization, IP masking, no sensitive fields |
-| Supabase → Vercel (ISR) | Public content | Data tampering via stale cache | RLS policies, 60s TTL limits stale data exposure |
+| Browser Ã¢â€ â€™ Vercel Edge | HTTP requests | MITM, injection, CSRF | TLS 1.3, CSP, CSRF tokens |
+| Vercel Ã¢â€ â€™ Supabase | SQL queries, auth tokens | SQL injection, token leak | Parameterized queries, server-only env vars |
+| Vercel Ã¢â€ â€™ OpenAI | Chat messages | Prompt injection, data exfiltration | Input sanitization, max token limits, system prompt boundary |
+| Vercel Ã¢â€ â€™ Resend | Lead emails | API key leak, email spoofing | Server-only API key, SPF/DKIM/DMARC |
+| Browser Ã¢â€ â€™ PostHog | Analytics events | PII leakage, event manipulation | Anonymization, IP masking, no sensitive fields |
+| Supabase Ã¢â€ â€™ Vercel (ISR) | Public content | Data tampering via stale cache | RLS policies, 60s TTL limits stale data exposure |
 
 ### 3.3 Attack Tree: Admin Account Compromise
 
 ```
 Goal: Compromise Admin Account
-├── 1.0 Credential Theft
-│   ├── 1.1 Phishing (admin email)
-│   │   └── Mitigation: Email filtering, awareness training
-│   ├── 1.2 Brute Force
-│   │   ├── 1.2.1 Online brute force → Mitigation: Rate limiting (5/15min), account lockout
-│   │   └── 1.2.2 Credential stuffing → Mitigation: MFA, password complexity requirements
-│   └── 1.3 Token Interception
-│       ├── 1.3.1 XSS → Mitigation: CSP, DOMPurify, output encoding
-│       └── 1.3.2 MITM → Mitigation: TLS 1.3, HSTS
-├── 2.0 Session Hijacking
-│   ├── 2.1 Session cookie theft
-│   │   └── Mitigation: httpOnly, Secure, SameSite=Strict cookies
-│   └── 2.2 Session fixation
-│       └── Mitigation: Regenerate session after login
-└── 3.0 OAuth Compromise
-    ├── 3.1 OAuth token theft
-    │   └── Mitigation: PKCE flow, short-lived tokens
-    └── 3.2 Malicious OAuth app
-        └── Mitigation: Verified publisher, allowlisted redirect URIs
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.0 Credential Theft
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.1 Phishing (admin email)
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigation: Email filtering, awareness training
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.2 Brute Force
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.2.1 Online brute force Ã¢â€ â€™ Mitigation: Rate limiting (5/15min), account lockout
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.2.2 Credential stuffing Ã¢â€ â€™ Mitigation: MFA, password complexity requirements
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.3 Token Interception
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 1.3.1 XSS Ã¢â€ â€™ Mitigation: CSP, DOMPurify, output encoding
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 1.3.2 MITM Ã¢â€ â€™ Mitigation: TLS 1.3, HSTS
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 2.0 Session Hijacking
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 2.1 Session cookie theft
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigation: httpOnly, Secure, SameSite=Strict cookies
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 2.2 Session fixation
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigation: Regenerate session after login
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 3.0 OAuth Compromise
+    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ 3.1 OAuth token theft
+    Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigation: PKCE flow, short-lived tokens
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ 3.2 Malicious OAuth app
+        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Mitigation: Verified publisher, allowlisted redirect URIs
 ```
 
 ---
@@ -303,39 +303,39 @@ Goal: Compromise Admin Account
 
 | Surface | Protocol | Port | Exposure | Risk | Mitigation |
 |---------|----------|------|----------|------|------------|
-| `https://portfolioowner.com` | HTTPS (TLS 1.3) | 443 | Public | 🟡 Medium | WAF, CSP, HSTS, rate limiting |
-| `https://api.portfolioowner.com` | HTTPS (TLS 1.3) | 443 | Public | 🟡 Medium | JWT auth, rate limiting, validation |
-| `https://ai.portfolioowner.com` | HTTPS (TLS 1.3) | 443 | Public | 🟡 Medium | API key auth, rate limiting |
-| `https://supabase.co` | HTTPS + WS | 443 | Supabase managed | 🟢 Low | RLS, IP restrictions |
-| SMTP (Resend outbound) | STARTTLS | 587 | Resend managed | 🟢 Low | SPF, DKIM, DMARC |
-| DNS (Cloudflare) | UDP/TCP | 53 | Public | 🟢 Low | DNSSEC enabled |
+| `https://portfolioowner.com` | HTTPS (TLS 1.3) | 443 | Public | Ã°Å¸Å¸Â¡ Medium | WAF, CSP, HSTS, rate limiting |
+| `https://api.portfolioowner.com` | HTTPS (TLS 1.3) | 443 | Public | Ã°Å¸Å¸Â¡ Medium | JWT auth, rate limiting, validation |
+| `https://ai.portfolioowner.com` | HTTPS (TLS 1.3) | 443 | Public | Ã°Å¸Å¸Â¡ Medium | API key auth, rate limiting |
+| `https://supabase.co` | HTTPS + WS | 443 | Supabase managed | Ã°Å¸Å¸Â¢ Low | RLS, IP restrictions |
+| SMTP (Resend outbound) | STARTTLS | 587 | Resend managed | Ã°Å¸Å¸Â¢ Low | SPF, DKIM, DMARC |
+| DNS (Cloudflare) | UDP/TCP | 53 | Public | Ã°Å¸Å¸Â¢ Low | DNSSEC enabled |
 
 ### 4.2 Internal Attack Surface
 
 | Surface | Access | Risk | Mitigation |
 |---------|--------|------|------------|
-| Supabase Dashboard | Admin only (email + password + MFA) | 🟡 Medium | Strong password, MFA, audit logging |
-| Vercel Dashboard | Admin only (GitHub OAuth) | 🟡 Medium | GitHub SSO, team isolation |
-| GitHub Repository | Admin only (SSH + PAT) | 🟡 Medium | Branch protection, signed commits, 2FA |
-| Railway Dashboard | Admin only (email + password) | 🟡 Medium | Strong password, 2FA |
-| PostHog Dashboard | Admin only (Google SSO) | 🟢 Low | SSO, RBAC |
-| Sentry Dashboard | Admin only (Google SSO) | 🟢 Low | SSO, RBAC |
-| Resend Dashboard | Admin only (email + password) | 🟢 Low | Strong password, 2FA |
-| Cloudflare Dashboard | Admin only (email + 2FA) | 🟡 Medium | 2FA required, API token scoping |
-| OpenAI Dashboard | Admin only (email + password) | 🟡 Medium | Usage alerts, spending limits |
+| Supabase Dashboard | Admin only (email + password + MFA) | Ã°Å¸Å¸Â¡ Medium | Strong password, MFA, audit logging |
+| Vercel Dashboard | Admin only (GitHub OAuth) | Ã°Å¸Å¸Â¡ Medium | GitHub SSO, team isolation |
+| GitHub Repository | Admin only (SSH + PAT) | Ã°Å¸Å¸Â¡ Medium | Branch protection, signed commits, 2FA |
+| Railway Dashboard | Admin only (email + password) | Ã°Å¸Å¸Â¡ Medium | Strong password, 2FA |
+| PostHog Dashboard | Admin only (Google SSO) | Ã°Å¸Å¸Â¢ Low | SSO, RBAC |
+| Sentry Dashboard | Admin only (Google SSO) | Ã°Å¸Å¸Â¢ Low | SSO, RBAC |
+| Resend Dashboard | Admin only (email + password) | Ã°Å¸Å¸Â¢ Low | Strong password, 2FA |
+| Cloudflare Dashboard | Admin only (email + 2FA) | Ã°Å¸Å¸Â¡ Medium | 2FA required, API token scoping |
+| OpenAI Dashboard | Admin only (email + password) | Ã°Å¸Å¸Â¡ Medium | Usage alerts, spending limits |
 
 ### 4.3 API Endpoint Attack Surface
 
 | Endpoint Group | Count | Auth | Rate Limit | Attack Vector | Risk |
 |---------------|-------|------|------------|--------------|------|
-| Public GET | 16 | None | 100/15min | Information gathering | 🟢 Low |
-| Public POST (leads) | 1 | None | 10/15min | Form spam, injection | 🟡 Medium |
-| Public POST (analytics) | 1 | None | 100/15min | Event pollution | 🟢 Low |
-| Public POST (chat) | 1 | None | 20/session | Prompt injection, cost abuse | 🟡 Medium |
-| Admin GET | 18 | JWT | 1000/15min | Data exfiltration | 🟡 Medium |
-| Admin POST/PATCH/DELETE | 25 | JWT | 1000/15min | Data manipulation | 🟡 Medium |
-| Webhooks | 3 | Secret | 50/min | Webhook spoofing | 🟡 Medium |
-| Auth endpoints | 5 | Varies | 5/15min | Credential brute force | 🔴 High |
+| Public GET | 16 | None | 100/15min | Information gathering | Ã°Å¸Å¸Â¢ Low |
+| Public POST (leads) | 1 | None | 10/15min | Form spam, injection | Ã°Å¸Å¸Â¡ Medium |
+| Public POST (analytics) | 1 | None | 100/15min | Event pollution | Ã°Å¸Å¸Â¢ Low |
+| Public POST (chat) | 1 | None | 20/session | Prompt injection, cost abuse | Ã°Å¸Å¸Â¡ Medium |
+| Admin GET | 18 | JWT | 1000/15min | Data exfiltration | Ã°Å¸Å¸Â¡ Medium |
+| Admin POST/PATCH/DELETE | 25 | JWT | 1000/15min | Data manipulation | Ã°Å¸Å¸Â¡ Medium |
+| Webhooks | 3 | Secret | 50/min | Webhook spoofing | Ã°Å¸Å¸Â¡ Medium |
+| Auth endpoints | 5 | Varies | 5/15min | Credential brute force | Ã°Å¸â€Â´ High |
 
 ---
 
@@ -345,12 +345,12 @@ Goal: Compromise Admin Account
 
 | Method | Used For | Security Level | MFA Support | Token Type | Expiry |
 |--------|----------|---------------|-------------|------------|--------|
-| **JWT Bearer** | Admin API access | 🟢 Strong | Planned | `access_token` | 15 minutes |
-| **JWT Refresh** | Token renewal | 🟢 Strong | — | `refresh_token` | 7 days |
-| **Google OAuth 2.0** | Admin login (NextAuth) | 🟢 Strong | ✅ (Google MFA) | ID token | 1 hour |
-| **Email + Password** | Admin fallback login | 🟡 Medium | ❌ | Session cookie | 24 hours |
-| **Supabase Anon Key** | Public ISR reads | 🟡 Medium | — | Static key | Permanent |
-| **API Key (SHA-256)** | Service-to-service | 🟢 Strong | — | Pre-shared key | Rotated quarterly |
+| **JWT Bearer** | Admin API access | Ã°Å¸Å¸Â¢ Strong | Planned | `access_token` | 15 minutes |
+| **JWT Refresh** | Token renewal | Ã°Å¸Å¸Â¢ Strong | Ã¢â‚¬â€ | `refresh_token` | 7 days |
+| **Google OAuth 2.0** | Admin login (NextAuth) | Ã°Å¸Å¸Â¢ Strong | Ã¢Å“â€¦ (Google MFA) | ID token | 1 hour |
+| **Email + Password** | Admin fallback login | Ã°Å¸Å¸Â¡ Medium | Ã¢ÂÅ’ | Session cookie | 24 hours |
+| **Supabase Anon Key** | Public ISR reads | Ã°Å¸Å¸Â¡ Medium | Ã¢â‚¬â€ | Static key | Permanent |
+| **API Key (SHA-256)** | Service-to-service | Ã°Å¸Å¸Â¢ Strong | Ã¢â‚¬â€ | Pre-shared key | Rotated quarterly |
 
 ### 5.2 Password Policy
 
@@ -463,69 +463,69 @@ sequenceDiagram
 
 | Layer | Technology | What It Protects | Bypass Risk |
 |-------|-----------|-----------------|-------------|
-| **Next.js Middleware** | Route matching (`/admin/*`) | Admin page access | 🟡 Medium (client-side bypass) |
-| **NextAuth Session** | Session cookie validation | Admin page access | 🟢 Low (cryptographic) |
-| **NestJS JwtAuthGuard** | JWT token verification | All admin API endpoints | 🟢 Low (cryptographic) |
-| **NestJS RolesGuard** | Role claim validation | Role-specific endpoints | 🟢 Low (JWT claim) |
-| **Supabase RLS** | Row-level SQL policies | Data access at database level | 🟢 Very Low (database-level) |
+| **Next.js Middleware** | Route matching (`/admin/*`) | Admin page access | Ã°Å¸Å¸Â¡ Medium (client-side bypass) |
+| **NextAuth Session** | Session cookie validation | Admin page access | Ã°Å¸Å¸Â¢ Low (cryptographic) |
+| **NestJS JwtAuthGuard** | JWT token verification | All admin API endpoints | Ã°Å¸Å¸Â¢ Low (cryptographic) |
+| **NestJS RolesGuard** | Role claim validation | Role-specific endpoints | Ã°Å¸Å¸Â¢ Low (JWT claim) |
+| **Supabase RLS** | Row-level SQL policies | Data access at database level | Ã°Å¸Å¸Â¢ Very Low (database-level) |
 
 ### 6.3 Permission Matrix
 
 | Resource | Action | anon | super_admin | admin | editor | viewer |
 |----------|--------|------|-------------|-------|--------|--------|
-| Sections | Create | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Sections | Read (live) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Sections | Read (all) | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Sections | Update | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Sections | Delete | ❌ | ✅ | ✅ | ❌ | ❌ |
-| Projects | Create | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Projects | Read (public) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Projects | Read (private/NDA) | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Projects | Update | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Projects | Delete | ❌ | ✅ | ✅ | ❌ | ❌ |
-| Blog | Create | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Blog | Read (published) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Blog | Update | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Blog | Delete | ❌ | ✅ | ✅ | ❌ | ❌ |
-| Leads | Insert | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Leads | Read | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Leads | Update status | ❌ | ✅ | ✅ | ❌ | ❌ |
-| Leads | Delete | ❌ | ✅ | ❌ | ❌ | ❌ |
-| Analytics | Insert events | ✅ | ✅ | ✅ | ❌ | ❌ |
-| Analytics | Read dashboard | ❌ | ✅ | ✅ | ❌ | ✅ |
-| Media | Upload | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Media | Read (public) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Media | Delete | ❌ | ✅ | ✅ | ❌ | ❌ |
-| Settings | Read | ❌ | ✅ | ✅ | ❌ | ❌ |
-| Settings | Update | ❌ | ✅ | ❌ | ❌ | ❌ |
-| Audit Logs | Read | ❌ | ✅ | ❌ | ❌ | ❌ |
-| Users | Manage | ❌ | ✅ | ❌ | ❌ | ❌ |
-| API Keys | Manage | ❌ | ✅ | ❌ | ❌ | ❌ |
-| Feature Flags | Manage | ❌ | ✅ | ✅ | ❌ | ❌ |
-| AI Chat | Send message | ✅ | ✅ | ✅ | ❌ | ❌ |
-| AI Chat | View history | ❌ | ✅ | ✅ | ❌ | ❌ |
+| Sections | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Sections | Read (live) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Sections | Read (all) | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Sections | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Sections | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Projects | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Projects | Read (public) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Projects | Read (private/NDA) | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Projects | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Projects | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Blog | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Blog | Read (published) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Blog | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Blog | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Leads | Insert | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Leads | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Leads | Update status | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Leads | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Analytics | Insert events | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Analytics | Read dashboard | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
+| Media | Upload | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
+| Media | Read (public) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Media | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Settings | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Settings | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Audit Logs | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Users | Manage | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| API Keys | Manage | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Feature Flags | Manage | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| AI Chat | Send message | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| AI Chat | View history | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
 
 ### 6.4 Authorization Flow
 
 ```text
-Request → Next.js Middleware (admin route check)
-                    │
-                    ▼
+Request Ã¢â€ â€™ Next.js Middleware (admin route check)
+                    Ã¢â€â€š
+                    Ã¢â€“Â¼
           NextAuth Session (cookie validation)
-                    │
-                    ▼
+                    Ã¢â€â€š
+                    Ã¢â€“Â¼
           NestJS JwtAuthGuard (token verification)
-                    │
-                    ▼
+                    Ã¢â€â€š
+                    Ã¢â€“Â¼
           NestJS RolesGuard (role claim check)
-                    │
-                    ▼
+                    Ã¢â€â€š
+                    Ã¢â€“Â¼
           Supabase RLS (row-level filter)
-                    │
-                    ▼
+                    Ã¢â€â€š
+                    Ã¢â€“Â¼
           Application-Level Check (ownership, resource access)
-                    │
-                    ▼
+                    Ã¢â€â€š
+                    Ã¢â€“Â¼
           Response (200 OK or 401/403 error)
 ```
 
@@ -662,7 +662,7 @@ export class AuthService {
 | Concurrent session limit | Max 5 sessions per user | Database constraint |
 | Session revocation | On password change, admin revoke | Integration test |
 | Refresh token rotation | Old token invalidated on use | Integration test |
-| Brute force protection | 5 failed attempts → 15-min lockout | Load test |
+| Brute force protection | 5 failed attempts Ã¢â€ â€™ 15-min lockout | Load test |
 | Session cookie encryption | AES-256-GCM | Cookie inspection |
 | Fingerprint validation | IP + user agent on sensitive actions | Functional test |
 
@@ -797,7 +797,7 @@ app.use(helmet({
 |-----------|------------|--------------|----------------|
 | Email | RFC 5321 regex, max 255 chars | Lowercased, trimmed | Generic: "Invalid email format" |
 | Password | 8-128 chars, mixed case + number + special | Never logged or returned | Generic: "Invalid credentials" |
-| URLs | Valid HTTP/HTTPS URL format | Protocol-relative → absolute | "Invalid URL format" |
+| URLs | Valid HTTP/HTTPS URL format | Protocol-relative Ã¢â€ â€™ absolute | "Invalid URL format" |
 | HTML Content | Allowed tags allowlist | DOMPurify (strip dangerous tags) | Strip only, no error |
 | File upload | MIME type + magic bytes + size | Virus scan (ClamAV, future) | "Invalid file type or size" |
 | Name/Text | Length limits, character allowlist | HTML entity encoding | "Invalid input length" |
@@ -825,25 +825,25 @@ All 37 tables have RLS enabled. Key policies:
 | Table | Policy | Operation | Role | Condition |
 |-------|--------|-----------|------|-----------|
 | sections | Public read | SELECT | anon | `is_live = true OR is_always_visible = true` |
-| sections | Admin full | ALL | authenticated | — |
+| sections | Admin full | ALL | authenticated | Ã¢â‚¬â€ |
 | projects | Public read | SELECT | anon | `is_private = false` |
-| projects | Admin full | ALL | authenticated | — |
+| projects | Admin full | ALL | authenticated | Ã¢â‚¬â€ |
 | blog_posts | Public read | SELECT | anon | `published = true` |
-| blog_posts | Admin full | ALL | authenticated | — |
+| blog_posts | Admin full | ALL | authenticated | Ã¢â‚¬â€ |
 | leads | Public insert | INSERT | anon | (rate limited at API layer) |
-| leads | Admin read | SELECT | authenticated | — |
-| leads | Admin update | UPDATE | authenticated | — |
-| leads | Soft delete | UPDATE deleted_at | authenticated | — |
+| leads | Admin read | SELECT | authenticated | Ã¢â‚¬â€ |
+| leads | Admin update | UPDATE | authenticated | Ã¢â‚¬â€ |
+| leads | Soft delete | UPDATE deleted_at | authenticated | Ã¢â‚¬â€ |
 | analytics_events | Public insert | INSERT | anon | (rate limited) |
-| analytics_events | Admin read | SELECT | authenticated | — |
-| availability_status | Public read | SELECT | anon | — |
-| availability_status | Admin update | UPDATE | authenticated | — |
-| audit_logs | Admin read | SELECT | authenticated | — |
+| analytics_events | Admin read | SELECT | authenticated | Ã¢â‚¬â€ |
+| availability_status | Public read | SELECT | anon | Ã¢â‚¬â€ |
+| availability_status | Admin update | UPDATE | authenticated | Ã¢â‚¬â€ |
+| audit_logs | Admin read | SELECT | authenticated | Ã¢â‚¬â€ |
 
 ### 9.3 SQL Injection Prevention
 
 ```typescript
-// ✅ SAFE: Parameterized queries (Supabase SDK)
+// Ã¢Å“â€¦ SAFE: Parameterized queries (Supabase SDK)
 const { data, error } = await supabase
   .from('leads')
   .select('id, name, email, created_at')
@@ -851,19 +851,19 @@ const { data, error } = await supabase
   .order('created_at', { ascending: false })
   .limit(50);
 
-// ✅ SAFE: Filtered query with type-safe parameters
+// Ã¢Å“â€¦ SAFE: Filtered query with type-safe parameters
 const { data, error } = await supabase
   .from('projects')
   .select('*')
   .in('tech_stack', ['React', 'Node.js'])
   .contains('tech_stack', ['TypeScript']);
 
-// ❌ DANGEROUS: Raw SQL string concatenation (NEVER DO THIS)
+// Ã¢ÂÅ’ DANGEROUS: Raw SQL string concatenation (NEVER DO THIS)
 const { data, error } = await supabase.rpc('unsafe_query', {
   query_string: `SELECT * FROM leads WHERE status = '${userInput}'` // SQL Injection!
 });
 
-// ✅ SAFE: Raw SQL with parameterized arguments (when necessary)
+// Ã¢Å“â€¦ SAFE: Raw SQL with parameterized arguments (when necessary)
 const { data, error } = await supabase.rpc('search_projects', {
   search_term: userInput, // Parameterized
   category_filter: category,
@@ -949,15 +949,15 @@ const supabase = createClient(
 
 | System | Authentication | MFA | Access Audit | Notes |
 |--------|---------------|-----|-------------|-------|
-| Cloudflare Dashboard | Email + password | ✅ Required | Available | API token scoped to DNS |
-| Vercel Dashboard | GitHub OAuth | ✅ Team requirement | Available | Team isolation |
-| Supabase Dashboard | Email + password | ✅ Optional | Available | Password rotation 90 days |
-| GitHub Repository | SSH + PAT | ✅ Required | Built-in | Branch protection |
-| Railway Dashboard | Email + password | ✅ Optional | Available | Service tokens scoped |
-| PostHog Dashboard | Google SSO | ✅ Inherited | Available | RBAC configured |
-| Sentry Dashboard | Google SSO | ✅ Inherited | Available | Team-based access |
-| Resend Dashboard | Email + password | ✅ Optional | Available | API key role restriction |
-| OpenAI Dashboard | Email + password | ✅ Optional | Available | Usage alerts configured |
+| Cloudflare Dashboard | Email + password | Ã¢Å“â€¦ Required | Available | API token scoped to DNS |
+| Vercel Dashboard | GitHub OAuth | Ã¢Å“â€¦ Team requirement | Available | Team isolation |
+| Supabase Dashboard | Email + password | Ã¢Å“â€¦ Optional | Available | Password rotation 90 days |
+| GitHub Repository | SSH + PAT | Ã¢Å“â€¦ Required | Built-in | Branch protection |
+| Railway Dashboard | Email + password | Ã¢Å“â€¦ Optional | Available | Service tokens scoped |
+| PostHog Dashboard | Google SSO | Ã¢Å“â€¦ Inherited | Available | RBAC configured |
+| Sentry Dashboard | Google SSO | Ã¢Å“â€¦ Inherited | Available | Team-based access |
+| Resend Dashboard | Email + password | Ã¢Å“â€¦ Optional | Available | API key role restriction |
+| OpenAI Dashboard | Email + password | Ã¢Å“â€¦ Optional | Available | Usage alerts configured |
 
 ### 10.4 Infrastructure Security Controls
 
@@ -981,15 +981,15 @@ const supabase = createClient(
 
 | Control | Implementation | Severity if Bypassed |
 |---------|---------------|---------------------|
-| Route protection | Next.js middleware (`/admin/*`) | 🟡 Medium |
-| Session validation | NestJS Passport | 🟢 Low |
-| JWT authentication | NestJS JwtAuthGuard | 🟢 Low |
-| Role-based authorization | NestJS RolesGuard | 🟢 Low |
-| RLS (data layer) | Supabase RLS | 🟢 Very Low |
-| Audit logging | Immutable audit trail | 🟢 Low |
-| Session timeout | 24h inactivity | 🟡 Medium |
-| Concurrent session limit | Max 5 sessions | 🟡 Medium |
-| IP allowlisting | Vercel/Cloudflare (optional) | 🟢 Low |
+| Route protection | Next.js middleware (`/admin/*`) | Ã°Å¸Å¸Â¡ Medium |
+| Session validation | NestJS Passport | Ã°Å¸Å¸Â¢ Low |
+| JWT authentication | NestJS JwtAuthGuard | Ã°Å¸Å¸Â¢ Low |
+| Role-based authorization | NestJS RolesGuard | Ã°Å¸Å¸Â¢ Low |
+| RLS (data layer) | Supabase RLS | Ã°Å¸Å¸Â¢ Very Low |
+| Audit logging | Immutable audit trail | Ã°Å¸Å¸Â¢ Low |
+| Session timeout | 24h inactivity | Ã°Å¸Å¸Â¡ Medium |
+| Concurrent session limit | Max 5 sessions | Ã°Å¸Å¸Â¡ Medium |
+| IP allowlisting | Vercel/Cloudflare (optional) | Ã°Å¸Å¸Â¢ Low |
 
 ### 11.2 Admin Attack Protection
 
@@ -1047,12 +1047,12 @@ export class AdminActivityInterceptor implements NestInterceptor {
 
 | Rule | Implementation | Breach Impact |
 |------|---------------|--------------|
-| Single active session (enforced) | Supabase sessions table | 🟢 Low |
-| IP change detection | Alert on IP change (planned) | 🟡 Medium |
-| Unusual location alert | Send notification (planned) | 🟡 Medium |
-| Inactivity timeout (24h) | NestJS Passport maxAge | 🟢 Low |
-| Session revocation on password change | Delete all sessions | 🟢 Low |
-| Force logout all sessions | Admin panel feature | 🟢 Low |
+| Single active session (enforced) | Supabase sessions table | Ã°Å¸Å¸Â¢ Low |
+| IP change detection | Alert on IP change (planned) | Ã°Å¸Å¸Â¡ Medium |
+| Unusual location alert | Send notification (planned) | Ã°Å¸Å¸Â¡ Medium |
+| Inactivity timeout (24h) | NestJS Passport maxAge | Ã°Å¸Å¸Â¢ Low |
+| Session revocation on password change | Delete all sessions | Ã°Å¸Å¸Â¢ Low |
+| Force logout all sessions | Admin panel feature | Ã°Å¸Å¸Â¢ Low |
 
 ---
 
@@ -1062,12 +1062,12 @@ export class AdminActivityInterceptor implements NestInterceptor {
 
 | Threat | Vector | Impact | Likelihood | Mitigation |
 |--------|--------|--------|------------|------------|
-| **Prompt injection** | User chat message | Model manipulates behavior | 🟡 Medium | System prompt boundary, input sanitization, context isolation |
-| **Data exfiltration** | Model response reveals sensitive data | Portfolio content exposed | 🟢 Low | Context filtering, token limit, response validation |
-| **Cost abuse** | Repeated requests consume quota | Financial loss | 🟡 Medium | Rate limiting (20/session), daily budget caps |
-| **Denial of service** | Concurrent requests overwhelm API | Service unavailable | 🟢 Low | Queue management, max concurrency (5) |
-| **Model manipulation** | Repeated attempts to jailbreak | Violates content policy | 🟢 Low | Content filtering, abuse detection |
-| **API key theft** | Key exposed in client code | Full API access | 🟢 Very Low | Server-side only, never in client bundle |
+| **Prompt injection** | User chat message | Model manipulates behavior | Ã°Å¸Å¸Â¡ Medium | System prompt boundary, input sanitization, context isolation |
+| **Data exfiltration** | Model response reveals sensitive data | Portfolio content exposed | Ã°Å¸Å¸Â¢ Low | Context filtering, token limit, response validation |
+| **Cost abuse** | Repeated requests consume quota | Financial loss | Ã°Å¸Å¸Â¡ Medium | Rate limiting (20/session), daily budget caps |
+| **Denial of service** | Concurrent requests overwhelm API | Service unavailable | Ã°Å¸Å¸Â¢ Low | Queue management, max concurrency (5) |
+| **Model manipulation** | Repeated attempts to jailbreak | Violates content policy | Ã°Å¸Å¸Â¢ Low | Content filtering, abuse detection |
+| **API key theft** | Key exposed in client code | Full API access | Ã°Å¸Å¸Â¢ Very Low | Server-side only, never in client bundle |
 
 ### 12.2 AI Security Controls
 
@@ -1206,11 +1206,11 @@ const CSP_DIRECTIVES = {
 
 | Layer | Technology | Prevention | Bypass Difficulty |
 |-------|-----------|------------|------------------|
-| **CSP** | script-src restriction | Blocks inline scripts | 🟢 High |
-| **DOMPurify** | HTML sanitization on input | Strips dangerous HTML | 🟢 High |
-| **React** | JSX auto-escaping | Contextual output encoding | 🟢 Very High |
-| **Helmet** | X-Content-Type-Options: nosniff | Prevents MIME sniffing | 🟢 High |
-| **HttpOnly cookies** | Cookie flag | Prevents session token theft | 🟢 High |
+| **CSP** | script-src restriction | Blocks inline scripts | Ã°Å¸Å¸Â¢ High |
+| **DOMPurify** | HTML sanitization on input | Strips dangerous HTML | Ã°Å¸Å¸Â¢ High |
+| **React** | JSX auto-escaping | Contextual output encoding | Ã°Å¸Å¸Â¢ Very High |
+| **Helmet** | X-Content-Type-Options: nosniff | Prevents MIME sniffing | Ã°Å¸Å¸Â¢ High |
+| **HttpOnly cookies** | Cookie flag | Prevents session token theft | Ã°Å¸Å¸Â¢ High |
 
 ### 13.3 CSRF Protection
 
@@ -1272,16 +1272,16 @@ export class CsrfGuard implements CanActivate {
 
 | Category | Risk | Protection | Implementation | Verification |
 |----------|------|-----------|----------------|-------------|
-| **A01: Broken Access Control** | 🔴 Critical | JWT auth + RBAC + RLS | JwtAuthGuard, RolesGuard, Supabase RLS on 37 tables | Integration tests + RLS verification |
-| **A02: Cryptographic Failures** | 🔴 Critical | Strong crypto + TLS | bcrypt (cost 12), TLS 1.3, HSTS, AES-256 at rest | SSL Labs + crypto audit |
-| **A03: Injection** | 🔴 Critical | Input validation + parameterized queries | class-validator, Zod, Supabase SDK (never raw SQL) | Fuzz testing + code review |
-| **A04: Insecure Design** | 🟡 Medium | Security-by-default | Admin routes require auth; no default credentials | Design review |
-| **A05: Security Misconfiguration** | 🟡 Medium | Security headers + WAF | Helmet (CSP, HSTS, XFO), Cloudflare WAF, CORS | securityheaders.com + WAF review |
-| **A06: Vulnerable Components** | 🟡 Medium | Regular updates + scanning | Dependabot (weekly), npm audit (CI gate), Snyk (planned) | Weekly dependency scan |
-| **A07: Auth Failures** | 🔴 Critical | Rate limiting + lockout + MFA | 5-attempt lockout, 15-min cooldown, bcrypt hashing | Load testing |
-| **A08: Data Integrity Failures** | 🟡 Medium | CSRF + idempotency | SameSite=Strict, CSRF tokens, Idempotency-Key header | Integration tests |
-| **A09: Logging Failures** | 🟡 Medium | Structured logging + audit | Correlation IDs, audit_logs table, 30-day retention | Log inspection |
-| **A10: SSRF** | 🟡 Medium | URL validation + allowlist | Outbound request domain restriction, private IP block | Network test |
+| **A01: Broken Access Control** | Ã°Å¸â€Â´ Critical | JWT auth + RBAC + RLS | JwtAuthGuard, RolesGuard, Supabase RLS on 37 tables | Integration tests + RLS verification |
+| **A02: Cryptographic Failures** | Ã°Å¸â€Â´ Critical | Strong crypto + TLS | bcrypt (cost 12), TLS 1.3, HSTS, AES-256 at rest | SSL Labs + crypto audit |
+| **A03: Injection** | Ã°Å¸â€Â´ Critical | Input validation + parameterized queries | class-validator, Zod, Supabase SDK (never raw SQL) | Fuzz testing + code review |
+| **A04: Insecure Design** | Ã°Å¸Å¸Â¡ Medium | Security-by-default | Admin routes require auth; no default credentials | Design review |
+| **A05: Security Misconfiguration** | Ã°Å¸Å¸Â¡ Medium | Security headers + WAF | Helmet (CSP, HSTS, XFO), Cloudflare WAF, CORS | securityheaders.com + WAF review |
+| **A06: Vulnerable Components** | Ã°Å¸Å¸Â¡ Medium | Regular updates + scanning | Dependabot (weekly), npm audit (CI gate), Snyk (planned) | Weekly dependency scan |
+| **A07: Auth Failures** | Ã°Å¸â€Â´ Critical | Rate limiting + lockout + MFA | 5-attempt lockout, 15-min cooldown, bcrypt hashing | Load testing |
+| **A08: Data Integrity Failures** | Ã°Å¸Å¸Â¡ Medium | CSRF + idempotency | SameSite=Strict, CSRF tokens, Idempotency-Key header | Integration tests |
+| **A09: Logging Failures** | Ã°Å¸Å¸Â¡ Medium | Structured logging + audit | Correlation IDs, audit_logs table, 30-day retention | Log inspection |
+| **A10: SSRF** | Ã°Å¸Å¸Â¡ Medium | URL validation + allowlist | Outbound request domain restriction, private IP block | Network test |
 
 ### 14.1 OWASP Implementation Details
 
@@ -1367,7 +1367,7 @@ The platform uses a **defense-in-depth** approach to CSRF:
 3. JavaScript reads cookie value
 4. JavaScript sets `X-CSRF-Token` header on state-changing requests
 5. Server verifies cookie value matches header value
-6. If mismatch → 403 Forbidden
+6. If mismatch Ã¢â€ â€™ 403 Forbidden
 ```
 
 ### 15.3 CSRF Configuration
@@ -1485,7 +1485,7 @@ for (const testCase of xssTestCases) {
 ### 17.2 Prohibited Patterns
 
 ```typescript
-// ❌ NEVER DO THESE:
+// Ã¢ÂÅ’ NEVER DO THESE:
 // 1. Raw SQL string concatenation
 const { data } = await supabase.rpc('query', { sql: `SELECT * FROM leads WHERE id = '${id}'` });
 
@@ -1495,7 +1495,7 @@ const { data } = await supabase.from('leads').select('*').textSearch('name', `'$
 // 3. Dynamic table/column names from user input
 const { data } = await supabase.from(userInputTable).select('*');
 
-// ✅ ALWAYS DO THIS:
+// Ã¢Å“â€¦ ALWAYS DO THIS:
 const { data } = await supabase
   .from('leads')
   .select('id, name, email')
@@ -1506,7 +1506,7 @@ const { data } = await supabase
 ### 17.3 ESLint Rule Configuration
 
 ```javascript
-// .eslintrc.js — Ban SQL injection patterns
+// .eslintrc.js Ã¢â‚¬â€ Ban SQL injection patterns
 module.exports = {
   rules: {
     'no-template-curly-in-string': 'error',
@@ -1650,12 +1650,12 @@ function FrameBreaker() {
 
 | Layer | Protection | Implementation | Bypass Difficulty |
 |-------|-----------|---------------|-------------------|
-| **Cloudflare** | Bot Fight Mode, JS challenge | Dashboard config | 🟢 High |
-| **hCaptcha** | Challenge widget | Contact form, admin login | 🟢 High |
-| **Honeypot** | Hidden field trap | Contact form | 🟡 Medium |
-| **Rate limiting** | Per-IP + per-session limits | @nestjs/throttler | 🟡 Medium |
-| **Timing analysis** | Form fill time < 1s = bot | Server-side validation | 🟡 Medium |
-| **Browser fingerprint** | Canvas/WebGL fingerprinting | Future enhancement | 🟢 High |
+| **Cloudflare** | Bot Fight Mode, JS challenge | Dashboard config | Ã°Å¸Å¸Â¢ High |
+| **hCaptcha** | Challenge widget | Contact form, admin login | Ã°Å¸Å¸Â¢ High |
+| **Honeypot** | Hidden field trap | Contact form | Ã°Å¸Å¸Â¡ Medium |
+| **Rate limiting** | Per-IP + per-session limits | @nestjs/throttler | Ã°Å¸Å¸Â¡ Medium |
+| **Timing analysis** | Form fill time < 1s = bot | Server-side validation | Ã°Å¸Å¸Â¡ Medium |
+| **Browser fingerprint** | Canvas/WebGL fingerprinting | Future enhancement | Ã°Å¸Å¸Â¢ High |
 
 ### 20.2 Honeypot Implementation
 
@@ -1762,14 +1762,14 @@ export class CaptchaService {
 
 | Tier | Endpoints | Limit | Window | Penalty | Burst | Key Type |
 |------|-----------|-------|--------|---------|-------|----------|
-| **🔴 Strict** | Auth (login, register, refresh) | 5 | 15 min | 15 min cooldown | 0 | IP-based |
-| **🟡 Medium** | POST /leads, POST /contact | 10 | 15 min | 15 min cooldown | 2 | IP-based |
-| **🟢 Low** | POST /analytics/events | 100 | 15 min | 15 min cooldown | 10 | IP-based |
-| **🔵 Default** | All public GET endpoints | 100 | 15 min | 15 min cooldown | 20 | IP-based |
-| **🟣 Admin** | All authenticated admin endpoints | 1000 | 15 min | 15 min cooldown | 50 | User-based |
-| **⚪ AI Chat** | POST /ai/chat | 20 | Per session | Return hourly | 5 | Session-based |
-| **🔸 GitHub** | GET /github/* | 10 | 1 min | Respect GitHub limits | 2 | IP-based |
-| **🔹 Webhook** | POST /webhooks/* | 50 | 1 min | 1 min cooldown | 10 | IP-based |
+| **Ã°Å¸â€Â´ Strict** | Auth (login, register, refresh) | 5 | 15 min | 15 min cooldown | 0 | IP-based |
+| **Ã°Å¸Å¸Â¡ Medium** | POST /leads, POST /contact | 10 | 15 min | 15 min cooldown | 2 | IP-based |
+| **Ã°Å¸Å¸Â¢ Low** | POST /analytics/events | 100 | 15 min | 15 min cooldown | 10 | IP-based |
+| **Ã°Å¸â€Âµ Default** | All public GET endpoints | 100 | 15 min | 15 min cooldown | 20 | IP-based |
+| **Ã°Å¸Å¸Â£ Admin** | All authenticated admin endpoints | 1000 | 15 min | 15 min cooldown | 50 | User-based |
+| **Ã¢Å¡Âª AI Chat** | POST /ai/chat | 20 | Per session | Return hourly | 5 | Session-based |
+| **Ã°Å¸â€Â¸ GitHub** | GET /github/* | 10 | 1 min | Respect GitHub limits | 2 | IP-based |
+| **Ã°Å¸â€Â¹ Webhook** | POST /webhooks/* | 50 | 1 min | 1 min cooldown | 10 | IP-based |
 
 ### 22.2 Rate Limit Implementation
 
@@ -1838,10 +1838,10 @@ Content-Type: application/json
 
 | Classification | Example | Storage | Access | Rotation |
 |---------------|---------|---------|--------|----------|
-| **🔴 Critical** | SUPABASE_SERVICE_ROLE_KEY, JWT_SECRET, JWT_SECRET | Server env vars only, never in code | Server-side applications | 90 days |
-| **🟡 Sensitive** | OPENAI_API_KEY, RESEND_API_KEY, GITHUB_TOKEN | Server env vars | Specific services | 90-180 days |
-| **🟢 Public** | NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_POSTHOG_KEY | Client + server env vars | Any client | Never rotated |
-| **⚪ Config** | OPENAI_MODEL_CHAT, RESEND_FROM_EMAIL | Environment variables | Any app | As needed |
+| **Ã°Å¸â€Â´ Critical** | SUPABASE_SERVICE_ROLE_KEY, JWT_SECRET, JWT_SECRET | Server env vars only, never in code | Server-side applications | 90 days |
+| **Ã°Å¸Å¸Â¡ Sensitive** | OPENAI_API_KEY, RESEND_API_KEY, GITHUB_TOKEN | Server env vars | Specific services | 90-180 days |
+| **Ã°Å¸Å¸Â¢ Public** | NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_POSTHOG_KEY | Client + server env vars | Any client | Never rotated |
+| **Ã¢Å¡Âª Config** | OPENAI_MODEL_CHAT, RESEND_FROM_EMAIL | Environment variables | Any app | As needed |
 
 ### 23.2 Secret Storage Rules
 
@@ -1915,7 +1915,7 @@ function validateEnvironment(): void {
     throw new Error(`Invalid secret format: ${invalid.join(', ')}`);
   }
 
-  console.log(`✅ All ${Object.keys(requiredSecrets).length} secrets validated`);
+  console.log(`Ã¢Å“â€¦ All ${Object.keys(requiredSecrets).length} secrets validated`);
 }
 ```
 
@@ -1935,32 +1935,32 @@ function validateEnvironment(): void {
 
 | Variable | Development | Staging | Production | Exposed to Client? |
 |----------|-------------|---------|------------|--------------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | ✅ Local | ✅ Staging | ✅ Production | ✅ Yes |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ Local | ✅ Staging | ✅ Production | ✅ Yes |
-| `SUPABASE_SERVICE_ROLE_KEY` | ✅ Local | ✅ Staging | ✅ Production | ❌ No |
-| `JWT_SECRET` | ✅ Local (dev value) | ✅ Staging | ✅ Production | ❌ No |
-| `GOOGLE_CLIENT_ID` | ✅ Local | ✅ Staging | ✅ Production | ❌ No |
-| `GOOGLE_CLIENT_SECRET` | ✅ Local | ✅ Staging | ✅ Production | ❌ No |
-| `GITHUB_TOKEN` | ❌ | ✅ Staging (read-only) | ✅ Production | ❌ No |
-| `RESEND_API_KEY` | ❌ (test mode) | ✅ Staging | ✅ Production | ❌ No |
-| `OPENAI_API_KEY` | ❌ (test key) | ✅ Staging | ✅ Production | ❌ No |
-| `ANTHROPIC_API_KEY` | ❌ | ✅ Staging | ✅ Production | ❌ No |
-| `NEXT_PUBLIC_POSTHOG_KEY` | ✅ Dev | ✅ Staging | ✅ Production | ✅ Yes |
-| `NEXT_PUBLIC_SENTRY_DSN` | ✅ Dev | ✅ Staging | ✅ Production | ✅ Yes |
+| `NEXT_PUBLIC_SUPABASE_URL` | Ã¢Å“â€¦ Local | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢Å“â€¦ Yes |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Ã¢Å“â€¦ Local | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢Å“â€¦ Yes |
+| `SUPABASE_SERVICE_ROLE_KEY` | Ã¢Å“â€¦ Local | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `JWT_SECRET` | Ã¢Å“â€¦ Local (dev value) | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `GOOGLE_CLIENT_ID` | Ã¢Å“â€¦ Local | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `GOOGLE_CLIENT_SECRET` | Ã¢Å“â€¦ Local | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `GITHUB_TOKEN` | Ã¢ÂÅ’ | Ã¢Å“â€¦ Staging (read-only) | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `RESEND_API_KEY` | Ã¢ÂÅ’ (test mode) | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `OPENAI_API_KEY` | Ã¢ÂÅ’ (test key) | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `ANTHROPIC_API_KEY` | Ã¢ÂÅ’ | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢ÂÅ’ No |
+| `NEXT_PUBLIC_POSTHOG_KEY` | Ã¢Å“â€¦ Dev | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢Å“â€¦ Yes |
+| `NEXT_PUBLIC_SENTRY_DSN` | Ã¢Å“â€¦ Dev | Ã¢Å“â€¦ Staging | Ã¢Å“â€¦ Production | Ã¢Å“â€¦ Yes |
 
 ### 24.3 Environment Validation Script
 
 ```bash
-# validate-env.sh — Run as part of CI/CD
+# validate-env.sh Ã¢â‚¬â€ Run as part of CI/CD
 #!/bin/bash
 
-echo "🔍 Validating environment..."
+echo "Ã°Å¸â€Â Validating environment..."
 
 # Check for exposed secrets in client code
 EXPOSED_VARS=$(grep -r "process.env.SUPABASE_SERVICE_ROLE_KEY\|process.env.OPENAI_API_KEY\|process.env.RESEND_API_KEY" apps/web/src/ 2>/dev/null || true)
 
 if [ -n "$EXPOSED_VARS" ]; then
-  echo "❌ CRITICAL: Server-side secrets found in client code!"
+  echo "Ã¢ÂÅ’ CRITICAL: Server-side secrets found in client code!"
   echo "$EXPOSED_VARS"
   exit 1
 fi
@@ -1969,12 +1969,12 @@ fi
 HARDCODED=$(grep -r "sk-proj-\|ghp_\|re_\|sk-ant-\|GOCSPX-" apps/ packages/ --include="*.ts" --include="*.tsx" 2>/dev/null || true)
 
 if [ -n "$HARDCODED" ]; then
-  echo "❌ CRITICAL: Potential hardcoded secrets in source code!"
+  echo "Ã¢ÂÅ’ CRITICAL: Potential hardcoded secrets in source code!"
   echo "$HARDCODED"
   exit 1
 fi
 
-echo "✅ Environment validation passed"
+echo "Ã¢Å“â€¦ Environment validation passed"
 ```
 
 ---
@@ -2046,7 +2046,7 @@ CREATE TRIGGER trg_prevent_audit_tampering
 
 | Event Type | Tables | Data Captured | Retention |
 |-----------|--------|--------------|-----------|
-| Admin login/logout | — | Email, IP, user agent, timestamp | 1 year |
+| Admin login/logout | Ã¢â‚¬â€ | Email, IP, user agent, timestamp | 1 year |
 | Content CRUD | sections, projects, blog_posts | Old values, new values, actor | 1 year |
 | Lead status change | leads | Old status, new status, actor | 1 year |
 | Settings change | system_settings | Old value, new value, actor | 1 year |
@@ -2063,16 +2063,16 @@ CREATE TRIGGER trg_prevent_audit_tampering
 
 | Data Type | At Rest | In Transit | Algorithm | Key Management |
 |-----------|---------|------------|-----------|----------------|
-| Database content | ✅ AES-256 (Supabase) | ✅ TLS 1.3 | AES-256-GCM | AWS KMS (Supabase managed) |
-| Passwords | ✅ bcrypt (cost 12) | ✅ TLS 1.3 | bcrypt + salt | Per-password salt |
-| JWT tokens | ✅ (signed, not encrypted) | ✅ TLS 1.3 | HS256 | 64-char secret in env var |
-| Session cookies | ✅ AES-256 (NextAuth) | ✅ TLS 1.3 | AES-256-GCM | JWT_SECRET |
-| API keys (stored) | ✅ SHA-256 hash | ✅ TLS 1.3 | SHA-256 | One-way hash |
-| File uploads | ✅ AES-256 (Supabase Storage) | ✅ TLS 1.3 | AES-256-GCM | AWS KMS |
-| Backups | ✅ AES-256 (S3 SSE-S3) | ✅ TLS 1.3 | AES-256 | AWS KMS |
-| Environment variables | ✅ AES-256 (Vercel) | ✅ TLS 1.3 | AES-256-GCM | Vercel managed |
-| AI chat messages | ✅ (in DB) | ✅ TLS 1.3 | AES-256 (Supabase) | AWS KMS |
-| Analytics events | ✅ (in DB) | ✅ TLS 1.3 | AES-256 (Supabase) | AWS KMS |
+| Database content | Ã¢Å“â€¦ AES-256 (Supabase) | Ã¢Å“â€¦ TLS 1.3 | AES-256-GCM | AWS KMS (Supabase managed) |
+| Passwords | Ã¢Å“â€¦ bcrypt (cost 12) | Ã¢Å“â€¦ TLS 1.3 | bcrypt + salt | Per-password salt |
+| JWT tokens | Ã¢Å“â€¦ (signed, not encrypted) | Ã¢Å“â€¦ TLS 1.3 | HS256 | 64-char secret in env var |
+| Session cookies | Ã¢Å“â€¦ AES-256 (NextAuth) | Ã¢Å“â€¦ TLS 1.3 | AES-256-GCM | JWT_SECRET |
+| API keys (stored) | Ã¢Å“â€¦ SHA-256 hash | Ã¢Å“â€¦ TLS 1.3 | SHA-256 | One-way hash |
+| File uploads | Ã¢Å“â€¦ AES-256 (Supabase Storage) | Ã¢Å“â€¦ TLS 1.3 | AES-256-GCM | AWS KMS |
+| Backups | Ã¢Å“â€¦ AES-256 (S3 SSE-S3) | Ã¢Å“â€¦ TLS 1.3 | AES-256 | AWS KMS |
+| Environment variables | Ã¢Å“â€¦ AES-256 (Vercel) | Ã¢Å“â€¦ TLS 1.3 | AES-256-GCM | Vercel managed |
+| AI chat messages | Ã¢Å“â€¦ (in DB) | Ã¢Å“â€¦ TLS 1.3 | AES-256 (Supabase) | AWS KMS |
+| Analytics events | Ã¢Å“â€¦ (in DB) | Ã¢Å“â€¦ TLS 1.3 | AES-256 (Supabase) | AWS KMS |
 
 ### 26.2 TLS Configuration
 
@@ -2129,16 +2129,16 @@ echo | openssl s_client -connect portfolioowner.com:443 2>/dev/null | openssl x5
 
 | Requirement | Implementation | Status |
 |------------|---------------|--------|
-| **Right to be informed** | Privacy policy on `/privacy` page | ✅ Complete |
-| **Right of access** | Data export API (`GET /api/v1/leads/export`) | ✅ Complete |
-| **Right to rectification** | Admin can update lead data | ✅ Complete |
-| **Right to erasure** | Soft delete with 30-day permanent delete window | ✅ Complete |
-| **Right to restrict processing** | Opt-out contact form fields | ✅ Complete |
-| **Right to data portability** | CSV export of all lead data | ✅ Complete |
-| **Right to object** | Unsubscribe link in all automated emails | ✅ Complete |
-| **Automated decision-making** | AI chat is opt-in, transparently disclosed | ✅ Complete |
-| **Data breach notification** | 72-hour notification plan | ✅ Documented |
-| **Data Protection Officer** | Portfolio owner (contact@portfolio.com) | ✅ Documented |
+| **Right to be informed** | Privacy policy on `/privacy` page | Ã¢Å“â€¦ Complete |
+| **Right of access** | Data export API (`GET /api/v1/leads/export`) | Ã¢Å“â€¦ Complete |
+| **Right to rectification** | Admin can update lead data | Ã¢Å“â€¦ Complete |
+| **Right to erasure** | Soft delete with 30-day permanent delete window | Ã¢Å“â€¦ Complete |
+| **Right to restrict processing** | Opt-out contact form fields | Ã¢Å“â€¦ Complete |
+| **Right to data portability** | CSV export of all lead data | Ã¢Å“â€¦ Complete |
+| **Right to object** | Unsubscribe link in all automated emails | Ã¢Å“â€¦ Complete |
+| **Automated decision-making** | AI chat is opt-in, transparently disclosed | Ã¢Å“â€¦ Complete |
+| **Data breach notification** | 72-hour notification plan | Ã¢Å“â€¦ Documented |
+| **Data Protection Officer** | Portfolio owner (contact@portfolio.com) | Ã¢Å“â€¦ Documented |
 
 ### 27.3 Privacy-by-Design Practices
 
@@ -2147,7 +2147,7 @@ echo | openssl s_client -connect portfolioowner.com:443 2>/dev/null | openssl x5
 | **Data minimization** | Only collect name, email, message (phone is optional) |
 | **Purpose limitation** | Data used only for communication, never sold or shared |
 | **Storage limitation** | Retention schedules for all data categories |
-| **Anonymization** | IP addresses truncated before storage (`192.168.x.x` → `192.168.0.0`) |
+| **Anonymization** | IP addresses truncated before storage (`192.168.x.x` Ã¢â€ â€™ `192.168.0.0`) |
 | **Consent** | Checkbox on contact form for data processing consent |
 | **Cookie consent** | Minimal cookies (PostHog EU uses local storage, not cookies) |
 | **Third-party data** | No data shared with third parties (PostHog EU is DPA-compliant) |
@@ -2200,10 +2200,10 @@ Step 7: Log the request
 
 | Severity | Definition | Response Time | Escalation | Example |
 |----------|-----------|---------------|------------|---------|
-| **🔴 Critical** | Site unavailable, data breach, auth bypass | < 15 min | Owner + all team | Database compromised, API key leaked |
-| **🟡 High** | Feature degraded, potential data exposure | < 1 hour | Owner | OpenAI API rate limited, email down |
-| **🟢 Medium** | Non-critical feature broken | < 1 day | Owner | Analytics dashboard stale, CSP violation |
-| **⚪ Low** | Cosmetic, informational | < 1 week | — | Stale cached data, slow query |
+| **Ã°Å¸â€Â´ Critical** | Site unavailable, data breach, auth bypass | < 15 min | Owner + all team | Database compromised, API key leaked |
+| **Ã°Å¸Å¸Â¡ High** | Feature degraded, potential data exposure | < 1 hour | Owner | OpenAI API rate limited, email down |
+| **Ã°Å¸Å¸Â¢ Medium** | Non-critical feature broken | < 1 day | Owner | Analytics dashboard stale, CSP violation |
+| **Ã¢Å¡Âª Low** | Cosmetic, informational | < 1 week | Ã¢â‚¬â€ | Stale cached data, slow query |
 
 ### 28.2 Incident Response Runbook
 
@@ -2213,41 +2213,41 @@ Step 7: Log the request
 TRIGGER: Security alert, user report, monitoring alert
 
 PHASE 1: DETECTION (0-5 minutes)
-  □ 1.1 Confirm incident (verify alert is not false positive)
-  □ 1.2 Determine severity (see severity matrix)
-  □ 1.3 Assign incident owner (admin/portfolio owner)
-  □ 1.4 Create incident channel (Telegram group)
+  Ã¢â€“Â¡ 1.1 Confirm incident (verify alert is not false positive)
+  Ã¢â€“Â¡ 1.2 Determine severity (see severity matrix)
+  Ã¢â€“Â¡ 1.3 Assign incident owner (admin/portfolio owner)
+  Ã¢â€“Â¡ 1.4 Create incident channel (Telegram group)
 
 PHASE 2: CONTAINMENT (5-30 minutes)
-  □ 2.1 For data breach: Rotate all credentials
+  Ã¢â€“Â¡ 2.1 For data breach: Rotate all credentials
        - Supabase service role key
        - JWT secret
        - JWT_SECRET
        - OpenAI/Resend/GitHub API keys
-  □ 2.2 For auth bypass: Disable admin login
+  Ã¢â€“Â¡ 2.2 For auth bypass: Disable admin login
        - Set feature flag: admin_login_enabled = false
        - Revoke all sessions
-  □ 2.3 For DDoS: Enable Cloudflare "Under Attack" mode
-  □ 2.4 For compromised service: Revoke API key + rotate
+  Ã¢â€“Â¡ 2.3 For DDoS: Enable Cloudflare "Under Attack" mode
+  Ã¢â€“Â¡ 2.4 For compromised service: Revoke API key + rotate
 
 PHASE 3: ERADICATION (30 minutes - 4 hours)
-  □ 3.1 Identify root cause
-  □ 3.2 Apply fix (code change, config change, credential rotation)
-  □ 3.3 Verify fix in staging environment
-  □ 3.4 Deploy fix to production
+  Ã¢â€“Â¡ 3.1 Identify root cause
+  Ã¢â€“Â¡ 3.2 Apply fix (code change, config change, credential rotation)
+  Ã¢â€“Â¡ 3.3 Verify fix in staging environment
+  Ã¢â€“Â¡ 3.4 Deploy fix to production
 
 PHASE 4: RECOVERY (1-4 hours)
-  □ 4.1 Restore from backup if data loss occurred
-  □ 4.2 Verify all systems operational
-  □ 4.3 Monitor for recurrence (next 24 hours)
-  □ 4.4 Confirm incident resolved
+  Ã¢â€“Â¡ 4.1 Restore from backup if data loss occurred
+  Ã¢â€“Â¡ 4.2 Verify all systems operational
+  Ã¢â€“Â¡ 4.3 Monitor for recurrence (next 24 hours)
+  Ã¢â€“Â¡ 4.4 Confirm incident resolved
 
 PHASE 5: POST-MORTEM (within 1 week)
-  □ 5.1 Document timeline of events
-  □ 5.2 Identify root cause and contributing factors
-  □ 5.3 Define corrective actions (with owners and deadlines)
-  □ 5.4 Update security controls to prevent recurrence
-  □ 5.5 Share learnings with team
+  Ã¢â€“Â¡ 5.1 Document timeline of events
+  Ã¢â€“Â¡ 5.2 Identify root cause and contributing factors
+  Ã¢â€“Â¡ 5.3 Define corrective actions (with owners and deadlines)
+  Ã¢â€“Â¡ 5.4 Update security controls to prevent recurrence
+  Ã¢â€“Â¡ 5.5 Share learnings with team
 ```
 
 ### 28.3 Common Incident Scenarios
@@ -2312,40 +2312,40 @@ Preventive measures: {prevention}
 
 | Rule | Metric | Threshold | Duration | Severity | Action |
 |------|--------|-----------|----------|----------|--------|
-| High error rate | Error count | > 10/day | 24h rolling | 🟡 High | Investigate error groups |
-| Spike in errors | Error rate | > 5% of requests | 5 min | 🔴 Critical | Alert + investigate |
-| Auth failure spike | Failed logins | > 5 in 15 min | Instant | 🟡 High | Check for brute force |
-| Rate limit threshold | 429 responses | > 100/day | 24h rolling | 🟢 Medium | Review rate limit config |
-| API latency | p95 response time | > 500ms | 5 min | 🟡 High | Check Sentry traces |
-| Database size | Storage usage | > 400MB (80%) | Instant | 🟡 High | Clean up old data |
-| SSL expiry | Certificate valid until | < 30 days | Daily check | 🟡 High | Renew certificate |
-| Dependabot alert | Vulnerability severity | Critical/High | Instant | 🟡 High | Update dependency |
-| Deployment failure | Build status | Failed | Instant | 🟡 High | Fix build |
-| Traffic anomaly | Page views | > 3x normal | 1 hour | 🟢 Medium | Check for DDoS |
+| High error rate | Error count | > 10/day | 24h rolling | Ã°Å¸Å¸Â¡ High | Investigate error groups |
+| Spike in errors | Error rate | > 5% of requests | 5 min | Ã°Å¸â€Â´ Critical | Alert + investigate |
+| Auth failure spike | Failed logins | > 5 in 15 min | Instant | Ã°Å¸Å¸Â¡ High | Check for brute force |
+| Rate limit threshold | 429 responses | > 100/day | 24h rolling | Ã°Å¸Å¸Â¢ Medium | Review rate limit config |
+| API latency | p95 response time | > 500ms | 5 min | Ã°Å¸Å¸Â¡ High | Check Sentry traces |
+| Database size | Storage usage | > 400MB (80%) | Instant | Ã°Å¸Å¸Â¡ High | Clean up old data |
+| SSL expiry | Certificate valid until | < 30 days | Daily check | Ã°Å¸Å¸Â¡ High | Renew certificate |
+| Dependabot alert | Vulnerability severity | Critical/High | Instant | Ã°Å¸Å¸Â¡ High | Update dependency |
+| Deployment failure | Build status | Failed | Instant | Ã°Å¸Å¸Â¡ High | Fix build |
+| Traffic anomaly | Page views | > 3x normal | 1 hour | Ã°Å¸Å¸Â¢ Medium | Check for DDoS |
 
 ### 29.3 Security Dashboard (Admin Panel)
 
 The admin panel includes a security widget showing:
 
 ```
-┌─────────────────────────────────────────────────────┐
-│ 🔒 SECURITY STATUS                        Updated: 2m ago │
-├─────────────────────────────────────────────────────┤
-│ Security Headers:  ✅ A+ (securityheaders.com)      │
-│ SSL Certificate:   ✅ Valid (expires in 89 days)    │
-│ Dependabot Alerts: ✅ 0 critical, 2 high           │
-│ Failed Logins:     ✅ 3 today (1 blocked by rate limit) │
-│ Rate Limits Hit:   ✅ 12 today (all expected)       │
-│ CSP Violations:    ✅ 0 reported                    │
-│ Audit Log Entries: ✅ 42 today                      │
-│ Session Count:     ✅ 1 active (admin)              │
-├─────────────────────────────────────────────────────┤
-│ Recent Security Events:                             │
-│ • 10:30 - Admin login (IP: 192.168.x.x)            │
-│ • 09:15 - Lead created (contact form)              │
-│ • 08:00 - Rate limit hit (5th login attempt)       │
-│ • 07:30 - Project updated (content change)          │
-└─────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š Ã°Å¸â€â€™ SECURITY STATUS                        Updated: 2m ago Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Security Headers:  Ã¢Å“â€¦ A+ (securityheaders.com)      Ã¢â€â€š
+Ã¢â€â€š SSL Certificate:   Ã¢Å“â€¦ Valid (expires in 89 days)    Ã¢â€â€š
+Ã¢â€â€š Dependabot Alerts: Ã¢Å“â€¦ 0 critical, 2 high           Ã¢â€â€š
+Ã¢â€â€š Failed Logins:     Ã¢Å“â€¦ 3 today (1 blocked by rate limit) Ã¢â€â€š
+Ã¢â€â€š Rate Limits Hit:   Ã¢Å“â€¦ 12 today (all expected)       Ã¢â€â€š
+Ã¢â€â€š CSP Violations:    Ã¢Å“â€¦ 0 reported                    Ã¢â€â€š
+Ã¢â€â€š Audit Log Entries: Ã¢Å“â€¦ 42 today                      Ã¢â€â€š
+Ã¢â€â€š Session Count:     Ã¢Å“â€¦ 1 active (admin)              Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š Recent Security Events:                             Ã¢â€â€š
+Ã¢â€â€š Ã¢â‚¬Â¢ 10:30 - Admin login (IP: 192.168.x.x)            Ã¢â€â€š
+Ã¢â€â€š Ã¢â‚¬Â¢ 09:15 - Lead created (contact form)              Ã¢â€â€š
+Ã¢â€â€š Ã¢â‚¬Â¢ 08:00 - Rate limit hit (5th login attempt)       Ã¢â€â€š
+Ã¢â€â€š Ã¢â‚¬Â¢ 07:30 - Project updated (content change)          Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -2493,56 +2493,56 @@ describe('CSRF Protection', () => {
 ### 31.1 Pre-Deployment Checklist
 
 ```markdown
-# Security Checklist — Run Before Every Production Deployment
+# Security Checklist Ã¢â‚¬â€ Run Before Every Production Deployment
 
-## 🔐 Authentication & Authorization
+## Ã°Å¸â€Â Authentication & Authorization
 - [ ] JWT secret is 64+ characters and unique
 - [ ] Rate limiting configured for all endpoints
 - [ ] Admin routes protected by middleware
 - [ ] API endpoints protected by JwtAuthGuard
 - [ ] RolesGuard configured for role-specific endpoints
 
-## 🛡️ Headers & Configuration
+## Ã°Å¸â€ºÂ¡Ã¯Â¸Â Headers & Configuration
 - [ ] CSP configured ('unsafe-inline' for script-src is acceptable for Next.js hydration; verify no other unsafe directives, review CSP report endpoint)
-- [ ] HSTS max-age ≥ 1 year (preload-ready)
+- [ ] HSTS max-age Ã¢â€°Â¥ 1 year (preload-ready)
 - [ ] X-Frame-Options: DENY
 - [ ] X-Content-Type-Options: nosniff
 - [ ] CORS allowlist correct (no wildcard origins)
 
-## 🗃️ Database
+## Ã°Å¸â€”Æ’Ã¯Â¸Â Database
 - [ ] All 37 tables have RLS enabled
 - [ ] RLS policies tested with anon role
 - [ ] Audit triggers active
 - [ ] No raw SQL in application code
 - [ ] Connection pooler configured (max 15 connections)
 
-## 🔑 Secrets
+## Ã°Å¸â€â€˜ Secrets
 - [ ] No secrets in source code
 - [ ] No secrets in client-side bundles
 - [ ] Environment variables validated on startup
 - [ ] .env files in .gitignore
 - [ ] Secrets rotated if > 90 days since last rotation
 
-## 🔍 Monitoring
+## Ã°Å¸â€Â Monitoring
 - [ ] Sentry DSN configured
 - [ ] Better Uptime monitors active
 - [ ] Error alerting configured
 - [ ] Rate limit alerting configured
 
-## 🧪 Testing
-- [ ] Security headers scanned (securityheaders.com) — target A+
+## Ã°Å¸Â§Âª Testing
+- [ ] Security headers scanned (securityheaders.com) Ã¢â‚¬â€ target A+
 - [ ] SSL Labs test passed (rating A or A+)
 - [ ] npm audit passed (no high/critical vulnerabilities)
 - [ ] OWASP ZAP scan passed (no high findings, verify against docs/api/12-API.md v4.0 endpoint inventory)
 - [ ] SQL injection test suite passed
 - [ ] XSS test suite passed
 
-## 📦 Dependencies
+## Ã°Å¸â€œÂ¦ Dependencies
 - [ ] Dependabot alerts reviewed
 - [ ] No deprecated packages with known vulnerabilities
 - [ ] All packages up to date within minor version
 
-## 🚀 Deployment
+## Ã°Å¸Å¡â‚¬ Deployment
 - [ ] Previous deploy was successful (rollback available)
 - [ ] Database migration tested on staging
 - [ ] Migration is reversible (down script exists)
@@ -2554,7 +2554,7 @@ describe('CSRF Protection', () => {
 # Weekly Security Review
 
 ## Monday
-- [ ] Review Dependabot alerts (GitHub → Security → Dependabot)
+- [ ] Review Dependabot alerts (GitHub Ã¢â€ â€™ Security Ã¢â€ â€™ Dependabot)
 - [ ] Review Sentry error trends (new errors, error rate changes)
 - [ ] Check Supabase DB size (Supabase dashboard)
 
@@ -2577,8 +2577,8 @@ describe('CSRF Protection', () => {
 # Monthly Security Review
 
 ## Security Posture
-- [ ] Run securityheaders.com scan — target A+
-- [ ] Run SSL Labs test — target A+
+- [ ] Run securityheaders.com scan Ã¢â‚¬â€ target A+
+- [ ] Run SSL Labs test Ã¢â‚¬â€ target A+
 - [ ] Review CSP reports for violations
 - [ ] Check OWASP Top 10 compliance status
 - [ ] Review incident response runbook (update if needed)
@@ -2657,13 +2657,13 @@ describe('CSRF Protection', () => {
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-SEC-001 | 5-layer defense-in-depth architecture (Edge, API Gateway, Application, Database, Response) | Compartmentalized security; no single point of failure; OWASP Top 10:2025 compliance | Single perimeter firewall (rejected — insufficient depth); application-layer only (rejected — no DB or edge protection) | Mar 2026 | Principal Security Architect |
-| D-SEC-002 | JWT with short-lived access tokens (15min) + refresh token rotation | Stateless auth; limited blast radius on token theft; OWASP ASVS L2 compliant | Long-lived tokens (rejected — larger theft window); opaque session tokens (rejected — server state needed) | Mar 2026 | Principal Security Architect |
-| D-SEC-003 | RLS on all 37 database tables as second auth layer | Defense-in-depth even if API layer is compromised; no trust in application layer | Application-only auth (rejected — single layer); API gateway only (rejected — no database-level protection) | Mar 2026 | Principal Security Architect |
-| D-SEC-004 | AI prompt injection protection with input sanitization + output validation | Dual guard: strip injection patterns on input, validate safety on output; prevents prompt leak and data extraction | Input-only sanitization (rejected — injection can bypass via encoding); output-only (rejected — damage already done by generation) | Jun 2026 | Principal Security Architect |
-| D-SEC-005 | Cloudflare WAF + Vercel firewall + rate limiting at 3 tiers (edge, API, per-endpoint) | Multi-layer DDoS/bot protection; Cloudflare absorbs volumetric attacks; Vercel handles application-layer | Single CDN/WAF (rejected — single point of defense); cloud-only (rejected — no application-layer protection) | Mar 2026 | Principal Security Architect |
-| D-SEC-006 | Immutable audit logging with append-only RLS and trigger-based enforcement | Non-repudiation; compliance with SOC 2, GDPR; tamper-evident by database design | Mutable audit table (rejected — tampering risk); external SIEM (rejected — cost for portfolio scale) | Mar 2026 | Principal Security Architect |
-| D-SEC-007 | CSP with strict-dynamic + nonce-based script whitelisting | Mitigates XSS even if inline scripts are injected; modern browser support | CSP with allowlist only (rejected — bypassable via CDN-hosted libraries); no CSP (rejected — OWASP non-compliance) | Mar 2026 | Principal Security Architect |
+| D-SEC-001 | 5-layer defense-in-depth architecture (Edge, API Gateway, Application, Database, Response) | Compartmentalized security; no single point of failure; OWASP Top 10:2025 compliance | Single perimeter firewall (rejected Ã¢â‚¬â€ insufficient depth); application-layer only (rejected Ã¢â‚¬â€ no DB or edge protection) | Mar 2026 | Principal Security Architect |
+| D-SEC-002 | JWT with short-lived access tokens (15min) + refresh token rotation | Stateless auth; limited blast radius on token theft; OWASP ASVS L2 compliant | Long-lived tokens (rejected Ã¢â‚¬â€ larger theft window); opaque session tokens (rejected Ã¢â‚¬â€ server state needed) | Mar 2026 | Principal Security Architect |
+| D-SEC-003 | RLS on all 37 database tables as second auth layer | Defense-in-depth even if API layer is compromised; no trust in application layer | Application-only auth (rejected Ã¢â‚¬â€ single layer); API gateway only (rejected Ã¢â‚¬â€ no database-level protection) | Mar 2026 | Principal Security Architect |
+| D-SEC-004 | AI prompt injection protection with input sanitization + output validation | Dual guard: strip injection patterns on input, validate safety on output; prevents prompt leak and data extraction | Input-only sanitization (rejected Ã¢â‚¬â€ injection can bypass via encoding); output-only (rejected Ã¢â‚¬â€ damage already done by generation) | Jun 2026 | Principal Security Architect |
+| D-SEC-005 | Cloudflare WAF + Vercel firewall + rate limiting at 3 tiers (edge, API, per-endpoint) | Multi-layer DDoS/bot protection; Cloudflare absorbs volumetric attacks; Vercel handles application-layer | Single CDN/WAF (rejected Ã¢â‚¬â€ single point of defense); cloud-only (rejected Ã¢â‚¬â€ no application-layer protection) | Mar 2026 | Principal Security Architect |
+| D-SEC-006 | Immutable audit logging with append-only RLS and trigger-based enforcement | Non-repudiation; compliance with SOC 2, GDPR; tamper-evident by database design | Mutable audit table (rejected Ã¢â‚¬â€ tampering risk); external SIEM (rejected Ã¢â‚¬â€ cost for portfolio scale) | Mar 2026 | Principal Security Architect |
+| D-SEC-007 | CSP with strict-dynamic + nonce-based script whitelisting | Mitigates XSS even if inline scripts are injected; modern browser support | CSP with allowlist only (rejected Ã¢â‚¬â€ bypassable via CDN-hosted libraries); no CSP (rejected Ã¢â‚¬â€ OWASP non-compliance) | Mar 2026 | Principal Security Architect |
 
 ---
 
@@ -2714,16 +2714,16 @@ graph TD
 | Reference | Description |
 |-----------|-------------|
 | `docs/MASTER-INDEX.md` | Document navigation and dependency graph |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — security layers and deployment topology |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — versions of security libraries |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema — RLS policies, audit table, encryption |
-| `docs/api/12-API.md` (v5.0) | API documentation — auth guards, rate limiting, CORS |
-| `docs/architecture/13-INTEGRATIONS.md` (v5.0) | Third-party integrations — each with security considerations |
-| `docs/security/15-AUTHORIZATION.md` (v5.0) | Authorization model — RBAC, permission matrix |
-| `docs/security/16-COMPLIANCE.md` (v5.0) | Compliance — GDPR, CCPA, OWASP |
-| `docs/quality/TestingArchitecture.md` (v5.0) | Testing — security test suites |
-| `docs/quality/30-QA.md` (v3.0) | Quality assurance — security QA gates |
-| `OWASP Top 10:2025` | OWASP Foundation — latest vulnerability categories |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ security layers and deployment topology |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ versions of security libraries |
+| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema Ã¢â‚¬â€ RLS policies, audit table, encryption |
+| `docs/api/12-API.md` (v5.0) | API documentation Ã¢â‚¬â€ auth guards, rate limiting, CORS |
+| `docs/architecture/13-INTEGRATIONS.md` (v5.0) | Third-party integrations Ã¢â‚¬â€ each with security considerations |
+| `docs/security/15-AUTHORIZATION.md` (v5.0) | Authorization model Ã¢â‚¬â€ RBAC, permission matrix |
+| `docs/security/16-COMPLIANCE.md` (v5.0) | Compliance Ã¢â‚¬â€ GDPR, CCPA, OWASP |
+| `docs/quality/TestingArchitecture.md` (v5.0) | Testing Ã¢â‚¬â€ security test suites |
+| `docs/quality/30-QA.md` (v3.0) | Quality assurance Ã¢â‚¬â€ security QA gates |
+| `OWASP Top 10:2025` | OWASP Foundation Ã¢â‚¬â€ latest vulnerability categories |
 | `GDPR (EU) 2016/679` | EU General Data Protection Regulation |
 | `NIST SP 800-53` | NIST security and privacy controls (reference) |
 
@@ -2740,10 +2740,10 @@ graph TD
 | 2.0 | Jun 2026 | Added auth flows, RLS policies | Security Lead |
 | 1.0 | Mar 2026 | Initial security documentation | Security Lead |
 
-*Document Version: 4.0 — Enterprise-Grade Security Architecture*  
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade Security Architecture*  
 *Supersedes v3.0 (June 2026) and all previous versions*  
 *Next Review Date: September 2026*  |
-*Classification: CONFIDENTIAL — Internal Use Only*
+*Classification: CONFIDENTIAL Ã¢â‚¬â€ Internal Use Only*
 
 ---
 
@@ -2766,3 +2766,7 @@ graph TD
 | **CSP with strict-dynamic** | A CSP configuration that trusts scripts loaded by previously trusted scripts, enabling better XSS protection |
 | **Nonce (Number Used Once)** | A cryptographic value used once per request to whitelist inline scripts in CSP policy |
 | **DSAR (Data Subject Access Request)** | A GDPR right allowing individuals to request access to their personal data held by an organization |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

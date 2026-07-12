@@ -1209,3 +1209,17 @@ export interface Project {
 |---------|------|---------|--------|
 | 1.1 | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (18 terms), Mermaid component dependency diagram, Change Log | Chief Architect |
 | 1.0 | Jun 2026 | Initial component library documentation — 26 components across 4 categories | Frontend Lead |
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |
+| [COMPONENT-STANDARDS.md](COMPONENT-STANDARDS.md) | Component design standards |
+| [DESIGN-SYSTEM-EXTENDED.md](DESIGN-SYSTEM-EXTENDED.md) | Extended design system reference |
+| [DesignSystem.md](../04-design/DESIGN-SYSTEM.md) | Core design system documentation |
+| [Storybook.md](../13-testing/STORYBOOK.md) | Storybook testing and documentation |

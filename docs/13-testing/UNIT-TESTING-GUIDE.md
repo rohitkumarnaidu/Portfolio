@@ -1,11 +1,37 @@
 # Unit Testing Guide
 
 > **Document:** `13-testing/UNIT-TESTING-GUIDE.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** QA Lead | **Related:** E2EStrategy.md, FrontendTestingStrategy.md, TestingImplementation.md
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** QA Lead | **Related:** E2EStrategy.md, FrontendTestingStrategy.md, TestingImplementation.md
 
 ---
 
-## 1. Jest Configuration (apps/api)
+## 1. Unit Test Structure
+
+```mermaid
+graph LR
+    A[describe] --> B[describe or it]
+    B --> C[Arrange]
+    C --> D[Act]
+    D --> E[Assert]
+    E --> F{Mock<br/>Dependencies?}
+    F -->|Yes| G[Setup Mocks<br/>beforeEach / vi.mock]
+    G --> C
+    F -->|No| H[Expect Results]
+    H --> I[Test Passes]
+
+    subgraph T[Test Anatomy]
+        A
+        B
+        C
+        D
+        E
+    end
+
+    style T fill:#1e293b,color:#e2e8f0
+    style I fill:#16a34a,color:#fff
+```
+
+## 2. Jest Configuration (apps/api)
 
 ```typescript
 // apps/api/jest.config.ts
@@ -209,3 +235,7 @@ Coverage is enforced in CI via `coverage.thresholds` in Jest/Vitest config. The 
 ---
 
 *Document Version: 1.0 | Last Updated: July 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

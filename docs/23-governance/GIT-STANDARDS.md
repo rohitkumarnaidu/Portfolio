@@ -7,6 +7,41 @@
 
 This document outlines the strict Git conventions mandated for the monorepo. It details branching strategies, commit message formatting (Conventional Commits), pull request workflows, and release management processes designed to support continuous delivery and automated semantic versioning.
 
+```mermaid
+flowchart TD
+    A["Branch Type?"] --> B{feat/}
+    A --> C{fix/}
+    A --> D{chore/}
+    A --> E{docs/}
+    A --> F{refactor/}
+    A --> G{test/}
+    B --> H["feat/PORT-42-description"]
+    C --> I["fix/PORT-99-description"]
+    D --> J["chore/update-deps"]
+    E --> K["docs/api-guide"]
+    F --> L["refactor/extract-service"]
+    G --> M["test/e2e-coverage"]
+```
+
+```mermaid
+sequenceDiagram
+    participant D as Developer
+    participant B as Branch
+    participant R as Repository
+    participant P as PR
+    participant RV as Reviewer
+
+    D->>B: Create branch from main
+    D->>B: Commit frequently
+    D->>R: Push branch
+    D->>P: Open Pull Request
+    P->>RV: Request review
+    RV->>P: Approve or request changes
+    D->>P: Address feedback
+    P->>R: Squash merge to main
+    R->>B: Delete branch
+```
+
 ## 2. Branching Strategy
 
 ### 2.1 Permanent Branches
@@ -203,3 +238,7 @@ We follow **Semantic Versioning** (SemVer): `MAJOR.MINOR.PATCH`
 - **Branch name lint:** Validates branch name format on push (CI).
 - **PR title lint:** Validates PR title follows Conventional Commits.
 - **Size check:** Fails CI if PR exceeds 400 lines changed.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

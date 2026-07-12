@@ -12,3 +12,30 @@ This register tracks known technical debts, compromises, and temporary workaroun
 
 ## Managing Debt
 Technical debt should be reviewed at the start of every iteration. High-impact items blocking critical paths must be prioritized.
+
+---
+
+## Diagram
+
+### Tech Debt Quadrant
+
+```mermaid
+quadrantChart
+    title Tech Debt Classification
+    x-axis "Deliberate" --> "Inadvertent"
+    y-axis "Prudent" --> "Reckless"
+    quadrant-1 "Reckless-Deliberate"
+    quadrant-2 "Reckless-Inadvertent"
+    quadrant-3 "Prudent-Deliberate"
+    quadrant-4 "Prudent-Inadvertent"
+    TD-01 AI Placeholder: [0.25, 0.75]
+    TD-04 JWT in localStorage: [0.35, 0.65]
+    TD-03 R3F Bundle Size: [0.3, 0.25]
+    TD-02 Prisma Coupling: [0.7, 0.35]
+    TD-05 Missing E2E: [0.6, 0.55]
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

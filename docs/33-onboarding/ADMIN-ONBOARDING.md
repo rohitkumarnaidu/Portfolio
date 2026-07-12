@@ -12,6 +12,19 @@ The Portfolio Platform is the content management system behind your personal or 
 
 ---
 
+## Admin Onboarding Flow
+
+```mermaid
+flowchart TD
+    Access[Account Setup<br/>& Access] --> Overview[Dashboard Tour<br/>& Navigation]
+    Overview --> Features[Key Features<br/>Overview]
+    Features --> Workflows[Daily Tasks<br/>& Workflows]
+    Workflows --> Support[Getting Help<br/>& Documentation]
+    Support --> Handoff[Ready to<br/>Go!]
+```
+
+---
+
 ## Step 1: Account Setup
 
 ### Getting Invited
@@ -148,3 +161,7 @@ The full [Admin User Manual](../19-admin/ADMIN-USER-MANUAL.md) covers every modu
 ---
 
 *Welcome aboard! The dashboard is designed to be intuitive, so don't be afraid to explore. If something breaks, it's not your fault — just report it and we'll fix it.*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

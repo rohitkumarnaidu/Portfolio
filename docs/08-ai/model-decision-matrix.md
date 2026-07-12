@@ -1,5 +1,7 @@
 # AI Model Decision Matrix
 
+> **Status:** ✅ Active — reflects actual implementation
+
 **Last updated:** July 2026
 **Purpose:** Guide model selection for portfolio AI features. Based on actual usage and pricing as of July 2026.
 
@@ -53,7 +55,7 @@ GPT-4o-mini is the default model in the `ModelRouter` (`apps/ai/app/services/mod
 | Model | Why Considered | Why Rejected (for now) |
 |-------|---------------|----------------------|
 | **GPT-4.1** | Potentially better reasoning | Not yet evaluated against current use cases |
-| **Claude Opus 4** | Best-in-class for complex analysis | $15/M output tokens — not cost-justified for portfolio |
+| **Claude Opus 4** | Best-in-class for complex analysis | $15/M output tokens Ã¢â‚¬â€ not cost-justified for portfolio |
 | **Gemini 2.5 Pro** | Competitive pricing, 1M context | Adds third-provider maintenance burden; no clear quality advantage |
 | **text-embedding-3-large** | Higher accuracy (1536d vs 512d) | 5x cost increase for marginal accuracy gain on small dataset |
 | **Cohere Embed v3** | Good multilingual support | No multilingual requirement; another API key to manage |
@@ -65,28 +67,28 @@ GPT-4o-mini is the default model in the `ModelRouter` (`apps/ai/app/services/mod
 
 ```
 User Request
-    │
-    ▼
-┌─────────────────────────────────────┐
-│  Is this a code generation request   │
-│  from the Admin Sandbox?            │
-└──────────┬──────────────────────────┘
-           │
-    Yes ───┴───► GPT-4o (temp=0.2, max_tokens=4000)
-           │
-    No  ───┴───► ┌────────────────────────────────────┐
-                 │  Is this an embedding operation?     │
-                 └──────────┬──────────────────────────┘
-                            │
-                     Yes ───┴───► text-embedding-3-small → pgvector
-                            │
-                     No  ───┴───► ┌───────────────────────────────┐
-                                  │  What complexity level?        │
-                                  └──────────┬────────────────────┘
-                                             │
-                               "low" ────────┴───► GPT-4o-mini
-                               "medium" ──────┴───► GPT-4o
-                               "high" ────────┴───► Claude Sonnet 4
+    Ã¢â€â€š
+    Ã¢â€“Â¼
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š  Is this a code generation request   Ã¢â€â€š
+Ã¢â€â€š  from the Admin Sandbox?            Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+           Ã¢â€â€š
+    Yes Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº GPT-4o (temp=0.2, max_tokens=4000)
+           Ã¢â€â€š
+    No  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                 Ã¢â€â€š  Is this an embedding operation?     Ã¢â€â€š
+                 Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                            Ã¢â€â€š
+                     Yes Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº text-embedding-3-small Ã¢â€ â€™ pgvector
+                            Ã¢â€â€š
+                     No  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                                  Ã¢â€â€š  What complexity level?        Ã¢â€â€š
+                                  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                             Ã¢â€â€š
+                               "low" Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº GPT-4o-mini
+                               "medium" Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº GPT-4o
+                               "high" Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Claude Sonnet 4
 ```
 
 ### Decision Rules (implemented in `ModelRouter`)
@@ -102,7 +104,7 @@ def get_model(query_complexity: str = "low") -> str:
     return "gpt-4o"                    # Default safe fallback
 ```
 
-**Note:** All current routes hardcode complexity="low". The complexity detection logic does not exist yet — this is a planned improvement.
+**Note:** All current routes hardcode complexity="low". The complexity detection logic does not exist yet Ã¢â‚¬â€ this is a planned improvement.
 
 ### Heuristic Guidelines (for future complexity detection)
 
@@ -138,10 +140,10 @@ def get_model(query_complexity: str = "low") -> str:
 ### Budget Alert Flow
 
 ```
-Normal ▼
-  Usage > 70% cap → Slack notification, no action
-Usage > 90% cap → Route all to gpt-4o-mini, send alert
-Usage > 100% cap → Reject non-authenticated requests
+Normal Ã¢â€“Â¼
+  Usage > 70% cap Ã¢â€ â€™ Slack notification, no action
+Usage > 90% cap Ã¢â€ â€™ Route all to gpt-4o-mini, send alert
+Usage > 100% cap Ã¢â€ â€™ Reject non-authenticated requests
 ```
 
 **Current status:** This alert system is not implemented. The `CostController` is a stub. Budget monitoring relies on OpenAI's dashboard.
@@ -184,3 +186,7 @@ Usage > 100% cap → Reject non-authenticated requests
 - **Monthly:** Review API spend against budget. Check if new model versions are available (OpenAI/Anthropic ship frequently).
 - **Quarterly:** Re-run benchmarks with test queries. Re-evaluate model choices if a new model offers significantly better price/performance.
 - **On roadmap trigger:** Whenever a new feature (e.g., content suggestions, agents) is implemented, revisit model selection for that feature.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

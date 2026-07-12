@@ -68,18 +68,18 @@ These actions do not require additional approval during a Severity 1 or 2 incide
 
 ```text
 Alert Received
-  │
-  ├─ Is this a known false positive?
-  │     ├─ Yes → Document and dismiss
-  │     └─ No  → Continue
-  │
-  ├─ Determine severity (see matrix below)
-  │
-  ├─ Severity 1 or 2?
-  │     ├─ Yes → Open incident war room, notify on-call
-  │     └─ No  → Create ticket, handle during business hours
-  │
-  └─ Assign Incident Commander
+  Ã¢â€â€š
+  Ã¢â€Å“Ã¢â€â‚¬ Is this a known false positive?
+  Ã¢â€â€š     Ã¢â€Å“Ã¢â€â‚¬ Yes Ã¢â€ â€™ Document and dismiss
+  Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬ No  Ã¢â€ â€™ Continue
+  Ã¢â€â€š
+  Ã¢â€Å“Ã¢â€â‚¬ Determine severity (see matrix below)
+  Ã¢â€â€š
+  Ã¢â€Å“Ã¢â€â‚¬ Severity 1 or 2?
+  Ã¢â€â€š     Ã¢â€Å“Ã¢â€â‚¬ Yes Ã¢â€ â€™ Open incident war room, notify on-call
+  Ã¢â€â€š     Ã¢â€â€Ã¢â€â‚¬ No  Ã¢â€ â€™ Create ticket, handle during business hours
+  Ã¢â€â€š
+  Ã¢â€â€Ã¢â€â‚¬ Assign Incident Commander
 ```
 
 ### 2.3 Severity Matrix
@@ -218,13 +218,13 @@ Alert Received
 
 ## 4. Communication Templates
 
-### 4.1 Severity 1 (Critical) — Initial Alert
+### 4.1 Severity 1 (Critical) Ã¢â‚¬â€ Initial Alert
 
 ```text
-🚨 SECURITY INCIDENT — SEVERITY 1
+Ã°Å¸Å¡Â¨ SECURITY INCIDENT Ã¢â‚¬â€ SEVERITY 1
 Type: [Admin Compromise / Data Breach / Service Outage]
 Time: [UTC timestamp]
-Impact: [Brief scope — e.g., "Admin account 'jdoe' used from unknown IP"]
+Impact: [Brief scope Ã¢â‚¬â€ e.g., "Admin account 'jdoe' used from unknown IP"]
 Status: [Investigating / Containing / Resolved]
 IC: [Name]
 -------------------------------------------------------
@@ -234,10 +234,10 @@ Current actions:
 Next update: [time +30min]
 ```
 
-### 4.2 Severity 2 (High) — Notification
+### 4.2 Severity 2 (High) Ã¢â‚¬â€ Notification
 
 ```text
-⚠️ SECURITY INCIDENT — SEVERITY 2
+Ã¢Å¡Â Ã¯Â¸Â SECURITY INCIDENT Ã¢â‚¬â€ SEVERITY 2
 Type: [API Key Leak / DDoS / XSS]
 Time: [UTC timestamp]
 Affected: [Service / Endpoint]
@@ -250,10 +250,10 @@ Action taken:
 SLA: Resolution within [remaining time]
 ```
 
-### 4.3 Severity 3/4 — Ticket Template
+### 4.3 Severity 3/4 Ã¢â‚¬â€ Ticket Template
 
 ```text
-📋 SECURITY TASK — SEVERITY [3/4]
+Ã°Å¸â€œâ€¹ SECURITY TASK Ã¢â‚¬â€ SEVERITY [3/4]
 Source: [PostHog anomaly / Dependabot / Scan result]
 Description: [Brief finding]
 Assigned to: [Name]
@@ -263,7 +263,7 @@ Fix SLA: [4h / 24h / 30d]
 
 ### 4.4 Post-Incident User Notification
 
-Subject: Security Incident Notification — Portfolio Platform
+Subject: Security Incident Notification Ã¢â‚¬â€ Portfolio Platform
 
 ```text
 Dear User,
@@ -277,7 +277,7 @@ Actions taken:
 - [Action 3]
 
 If you were affected:
-- Your password has been reset — you will need to set a new one
+- Your password has been reset Ã¢â‚¬â€ you will need to set a new one
 - Please enable MFA if not already active
 - Review your recent account activity
 
@@ -330,7 +330,7 @@ For questions, contact security@portfolio.dev
 Date: [Date]
 Author: [Name]
 Severity: [S1/S2/S3/S4]
-Duration: [Start time → End time, UTC]
+Duration: [Start time Ã¢â€ â€™ End time, UTC]
 
 ## Timeline
 - [Time] Detection
@@ -354,8 +354,8 @@ Duration: [Start time → End time, UTC]
 2. [Observation]
 
 ## What Went Wrong
-1. [Observation] → [Action item]
-2. [Observation] → [Action item]
+1. [Observation] Ã¢â€ â€™ [Action item]
+2. [Observation] Ã¢â€ â€™ [Action item]
 
 ## Action Items
 | # | Action | Owner | Due Date | Ticket |
@@ -381,3 +381,25 @@ Duration: [Start time → End time, UTC]
 | DB restore drill | Quarterly | Restore PITR backup to test DB | Data integrity verified |
 | WAF rule test | Monthly | Deploy rate limit / IP block rule | Rule activates correctly |
 | Full DR drill | Annually | Complete failover to backup | RTO < 4h, RPO < 1h |
+
+---
+
+## Incident Severity Classification
+
+```mermaid
+flowchart TD
+    A[Alert Received] --> B[Impact Assessment]
+    B --> C{Severity?}
+    C -->|Active Breach<br/>Data Loss| D[SEV-1 Critical]
+    C -->|Degraded Service<br/>Suspected Breach| E[SEV-2 High]
+    C -->|Scan Findings<br/>Isolated Event| F[SEV-3 Medium]
+    C -->|Port Scan<br/>Cosmetic Issue| G[SEV-4 Low]
+    D --> D1[Response: 15min]
+    E --> E1[Response: 1hr]
+    F --> F1[Response: 4hr]
+    G --> G1[Response: 24hr]
+```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

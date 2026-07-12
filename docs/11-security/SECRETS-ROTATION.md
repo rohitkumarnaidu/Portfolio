@@ -1,7 +1,7 @@
 # Secrets Rotation Schedule
 
 > **Document:** `secrets-rotation-schedule.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Standard:** NIST SP 800-57 (Key Management) | **Owner:** Staff DevOps
+> **Status:** Ã¢Å“â€¦ Active | **Standard:** NIST SP 800-57 (Key Management) | **Owner:** Staff DevOps
 > **Review Cadence:** Quarterly | **Classification:** L4-Restricted
 
 ---
@@ -42,6 +42,29 @@ This document defines the rotation schedule, method, and runbook for all secrets
 | **HCAPTCHA_SECRET_KEY** | Captcha verification key | **365 days** | 0h (immediate switch) | Rotate in hCaptcha dashboard | Staff DevOps |
 | **JWT_SECRET** | NestJS Passport JWT signing key | **90 days** | 24h (old key valid) | Generate new, deploy, keep old for 24h | Staff DevOps |
 ---
+### 2.2 Rotation Schedule Timeline
+
+```mermaid
+gantt
+    title Rotation Schedule Timeline
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b
+
+    section 90-Day Cadence
+    JWT Secrets          :crit, 2026-01-15, 90d
+    OpenAI API Key       :2026-01-15, 90d
+    Anthropic API Key    :2026-01-15, 90d
+
+    section 180-Day Cadence
+    Database URL         :2026-01-15, 180d
+    Resend API Key       :2026-01-15, 180d
+
+    section 365-Day Cadence
+    Supabase Keys        :2026-01-15, 365d
+    Sentry DSN           :2026-01-15, 365d
+    OAuth Secrets        :2026-01-15, 365d
+    hCaptcha Secret      :2026-01-15, 365d
+```
 
 ## 3. Rotation Runbooks
 
@@ -72,8 +95,8 @@ Step 4: Deploy updated config
 
 Step 5: After 24h, remove old secrets
   - Delete JWT_SECRET and JWT_REFRESH_SECRET from environment
-  - Rename JWT_SECRET_NEW → JWT_SECRET
-  - Rename JWT_REFRESH_SECRET_NEW → JWT_REFRESH_SECRET
+  - Rename JWT_SECRET_NEW Ã¢â€ â€™ JWT_SECRET
+  - Rename JWT_REFRESH_SECRET_NEW Ã¢â€ â€™ JWT_REFRESH_SECRET
   - Redeploy
 
 Step 6: Verify
@@ -92,7 +115,7 @@ Step 1: Prepare
   - Take manual snapshot of database
 
 Step 2: Rotate in Supabase
-  - Navigate to Supabase Dashboard → Project Settings → Database
+  - Navigate to Supabase Dashboard Ã¢â€ â€™ Project Settings Ã¢â€ â€™ Database
   - Click "Rotate Database Password"
   - Copy new connection string
 
@@ -122,7 +145,7 @@ Step 6: Emergency rollback
 
 ```text
 Step 1: Generate new key
-  - Navigate to Resend Dashboard → API Keys
+  - Navigate to Resend Dashboard Ã¢â€ â€™ API Keys
   - Click "Create API Key"
   - Set permissions: "Sending access" only (no full access)
   - Copy new key
@@ -138,7 +161,7 @@ Step 3: Update application config
 Step 4: After 24h grace period
   - Delete old RESEND_API_KEY from Resend dashboard
   - Remove RESEND_API_KEY from environment
-  - Rename RESEND_API_KEY_NEW → RESEND_API_KEY
+  - Rename RESEND_API_KEY_NEW Ã¢â€ â€™ RESEND_API_KEY
   - Redeploy
 
 Step 5: Verify
@@ -152,8 +175,8 @@ Step 5: Verify
 
 ```text
 Step 1: Generate new key
-  - OpenAI: Dashboard → API Keys → Create new secret key
-  - Anthropic: Dashboard → API Keys → Create new key
+  - OpenAI: Dashboard Ã¢â€ â€™ API Keys Ã¢â€ â€™ Create new secret key
+  - Anthropic: Dashboard Ã¢â€ â€™ API Keys Ã¢â€ â€™ Create new key
   - Copy new key immediately (shown once)
 
 Step 2: Deploy new key alongside old
@@ -181,7 +204,7 @@ Step 5: Verify
 
 ```text
 Step 1: Rotate anon key
-  - Supabase Dashboard → Project Settings → API
+  - Supabase Dashboard Ã¢â€ â€™ Project Settings Ã¢â€ â€™ API
   - Click "Rotate anon key"
   - Copy new anon key
 
@@ -190,7 +213,7 @@ Step 2: Update environment
   - Redeploy frontend
 
 Step 3: Rotate service role key
-  - Supabase Dashboard → Project Settings → API
+  - Supabase Dashboard Ã¢â€ â€™ Project Settings Ã¢â€ â€™ API
   - Click "Rotate service_role key"
   - Copy new service role key
 
@@ -211,13 +234,13 @@ Step 5: Verify
 
 ```text
 Step 1: GitHub OAuth
-  - Navigate to GitHub → Settings → Developer Settings → OAuth Apps
+  - Navigate to GitHub Ã¢â€ â€™ Settings Ã¢â€ â€™ Developer Settings Ã¢â€ â€™ OAuth Apps
   - Select the Portfolio OAuth App
   - Click "Generate a new client secret"
   - Copy new secret
 
 Step 2: Google OAuth
-  - Navigate to Google Cloud Console → APIs & Services → Credentials
+  - Navigate to Google Cloud Console Ã¢â€ â€™ APIs & Services Ã¢â€ â€™ Credentials
   - Select the OAuth 2.0 Client ID
   - Click "Regenerate secret"
   - Copy new secret
@@ -239,7 +262,7 @@ Step 4: Verify
 
 ```text
 Step 1: Rotate in Sentry
-  - Navigate to Sentry Dashboard → Settings → Projects → Portfolio
+  - Navigate to Sentry Dashboard Ã¢â€ â€™ Settings Ã¢â€ â€™ Projects Ã¢â€ â€™ Portfolio
   - Click "Client Keys (DSN)"
   - Click "Rotate DSN"
   - Copy new DSN
@@ -261,7 +284,7 @@ Step 3: Verify
 
 ```text
 Step 1: Rotate in hCaptcha
-  - Navigate to hCaptcha Dashboard → Settings
+  - Navigate to hCaptcha Dashboard Ã¢â€ â€™ Settings
   - Click "Rotate Secret Key"
   - Copy new secret key
 
@@ -344,12 +367,12 @@ Step 6: Check audit logs for unauthorized access
 
 | Date | Secret | Rotated By | Method | Status |
 |------|--------|------------|--------|--------|
-| 2026-07-15 | JWT_SECRET | Staff DevOps | Scheduled | ✅ Completed |
-| 2026-07-15 | JWT_REFRESH_SECRET | Staff DevOps | Scheduled | ✅ Completed |
-| 2026-04-15 | JWT_SECRET | Staff DevOps | Scheduled | ✅ Completed |
-| 2026-04-15 | JWT_REFRESH_SECRET | Staff DevOps | Scheduled | ✅ Completed |
-| 2026-04-15 | OPENAI_API_KEY | Staff DevOps | Scheduled | ✅ Completed |
-| 2026-04-15 | ANTHROPIC_API_KEY | Staff DevOps | Scheduled | ✅ Completed |
+| 2026-07-15 | JWT_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-07-15 | JWT_REFRESH_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | JWT_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | JWT_REFRESH_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | OPENAI_API_KEY | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | ANTHROPIC_API_KEY | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
 
 ---
 
@@ -369,3 +392,7 @@ Step 6: Check audit logs for unauthorized access
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | July 2026 | Security Team | Initial secrets rotation schedule |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

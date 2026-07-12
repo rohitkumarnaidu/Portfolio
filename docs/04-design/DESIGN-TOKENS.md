@@ -1,8 +1,8 @@
-# Design Tokens — FAANG Enterprise Visual Identity
+# Design Tokens Ã¢â‚¬â€ FAANG Enterprise Visual Identity
 
 > **Document:** `DesignTokens.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal Design Lead | **Review Cadence:** Quarterly  
-> **Design Philosophy:** "Purposeful Elegance" — every visual decision serves a functional purpose, adhering to FAANG standards.
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Design Lead | **Review Cadence:** Quarterly  
+> **Design Philosophy:** "Purposeful Elegance" Ã¢â‚¬â€ every visual decision serves a functional purpose, adhering to FAANG standards.
 
 ---
 
@@ -21,17 +21,17 @@ flowchart LR
     ITER --> VIS
 ```
 
-This document defines the complete creative direction and visual identity for the portfolio platform. The brand essence — **"Modern craftsmanship meets technical precision"** — guides every visual decision from typography to micro-interactions. The design system supports both light and dark modes, targets WCAG 2.2 AA accessibility, and follows a mobile-first responsive strategy.
+This document defines the complete creative direction and visual identity for the portfolio platform. The brand essence Ã¢â‚¬â€ **"Modern craftsmanship meets technical precision"** Ã¢â‚¬â€ guides every visual decision from typography to micro-interactions. The design system supports both light and dark modes, targets WCAG 2.2 AA accessibility, and follows a mobile-first responsive strategy.
 
-**Design Personality:** 80% Professional / 20% Playful • 75% Minimal / 25% Ornate • 60% Warm / 40% Cool
+**Design Personality:** 80% Professional / 20% Playful Ã¢â‚¬Â¢ 75% Minimal / 25% Ornate Ã¢â‚¬Â¢ 60% Warm / 40% Cool
 
 **Key Design Metrics:**
-- Color token pairs verified: 12 (all ≥ 4.5:1 contrast)
+- Color token pairs verified: 12 (all Ã¢â€°Â¥ 4.5:1 contrast)
 - Typography scale levels: 11 (Display through Caption)
 - Spacing units: 12 (2px through 64px)
 - Glassmorphism layers: 3 (subtle, medium, prominent)
-- Neumorphism elevations: 3 (flat, raised, pressed) + 2 variants (soft, hard) — see [`08n`](./08n-NEUMORPHISM.md)
-- Immersive effects: depth layers, parallax, backgrounds, glow policy — see [`08o`](./08o-IMMERSIVE-EXPERIENCE.md)
+- Neumorphism elevations: 3 (flat, raised, pressed) + 2 variants (soft, hard) Ã¢â‚¬â€ see [`08n`](./08n-NEUMORPHISM.md)
+- Immersive effects: depth layers, parallax, backgrounds, glow policy Ã¢â‚¬â€ see [`08o`](./08o-IMMERSIVE-EXPERIENCE.md)
 - Shadow elevation levels: 5 (flat through floating)
 - Animation duration range: 100ms-1000ms (micro to macro)
 - 3D scene performance target: 60fps on mid-range devices
@@ -69,7 +69,7 @@ This document defines the complete creative direction and visual identity for th
 
 > **"Modern craftsmanship meets technical precision."**
 
-The brand sits at the intersection of artistry and engineering. Every visual element communicates both creative vision and technical competence — the two qualities that define a world-class developer.
+The brand sits at the intersection of artistry and engineering. Every visual element communicates both creative vision and technical competence Ã¢â‚¬â€ the two qualities that define a world-class developer.
 
 ### 1.2 Brand Archetype
 
@@ -94,11 +94,11 @@ The brand sits at the intersection of artistry and engineering. Every visual ele
 
 | Dimension | Scale | Position |
 |-----------|-------|----------|
-| Formal ↔ Casual | — | 70% Formal / 30% Casual |
-| Serious ↔ Playful | — | 75% Professional / 25% Playful |
-| Minimal ↔ Ornate | — | 60% Minimal / 40% Ornate |
-| Warm ↔ Cool | — | 50% Warm / 50% Cool |
-| Modern ↔ Classic | — | 85% Modern / 15% Classic |
+| Formal Ã¢â€ â€ Casual | Ã¢â‚¬â€ | 70% Formal / 30% Casual |
+| Serious Ã¢â€ â€ Playful | Ã¢â‚¬â€ | 75% Professional / 25% Playful |
+| Minimal Ã¢â€ â€ Ornate | Ã¢â‚¬â€ | 60% Minimal / 40% Ornate |
+| Warm Ã¢â€ â€ Cool | Ã¢â‚¬â€ | 50% Warm / 50% Cool |
+| Modern Ã¢â€ â€ Classic | Ã¢â‚¬â€ | 85% Modern / 15% Classic |
 
 ---
 
@@ -107,16 +107,16 @@ The brand sits at the intersection of artistry and engineering. Every visual ele
 ### 2.1 Personality Spectrum
 
 ```
-Technical ──────────●────────────────── Creative
+Technical Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€”ÂÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Creative
    (Analytical)                    (Visionary)
 
-Reserved ─────────────●─────────────── Expressive
+Reserved Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€”ÂÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Expressive
    (Minimalist)                   (Artistic)
 
-Structured ───●─────────────────────── Fluid
+Structured Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€”ÂÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Fluid
    (Systematic)                    (Organic)
 
-Serious ──────────────●─────────────── Playful
+Serious Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€”ÂÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Playful
    (Professional)                 (Witty)
 ```
 
@@ -124,12 +124,12 @@ Serious ──────────────●─────────
 
 | Attribute | Description |
 |-----------|-------------|
-| **Age** | 30 — experienced but not old |
+| **Age** | 30 Ã¢â‚¬â€ experienced but not old |
 | **Occupation** | Senior full-stack developer and designer |
 | **Personality** | Professional but approachable, deep expertise without arrogance |
-| **Style** | Minimalist with intentional accents — tailored navy blazer with a pop of color |
+| **Style** | Minimalist with intentional accents Ã¢â‚¬â€ tailored navy blazer with a pop of color |
 | **Workspace** | Clean desk, mechanical keyboard, dual monitors, one piece of art |
-| **Music** | Electronic (ambient, IDM) — complex, layered, precise |
+| **Music** | Electronic (ambient, IDM) Ã¢â‚¬â€ complex, layered, precise |
 | **Communication** | Clear, direct, occasionally witty; no jargon for jargon's sake |
 | **Values** | Quality over quantity, substance over style, accessibility as default |
 
@@ -137,7 +137,7 @@ Serious ──────────────●─────────
 
 | Personality Trait | Design Decision |
 |-------------------|-----------------|
-| **Precise** | 4px grid with 8px increments — no arbitrary spacing |
+| **Precise** | 4px grid with 8px increments Ã¢â‚¬â€ no arbitrary spacing |
 | **Innovative** | Glassmorphism with backdrop blur, subtle 3D elements |
 | **Approachable** | Friendly copy, welcoming empty states, human error messages |
 | **Expert** | Clean code snippets, technical depth in case studies |
@@ -157,7 +157,7 @@ Serious ──────────────●─────────
 | **Primary Logo** | Initials or monogram (e.g., "AR" for Alex Rivera) | Navigation, favicon, OG image |
 | **Wordmark** | Full name in Cabinet Grotesk Bold | Hero section, admin header |
 | **Signature** | Full name + "Full-Stack Developer" subtitle | About section, resume |
-| **Favicon** | 32×32px SVG monogram | Browser tab, bookmark |
+| **Favicon** | 32Ãƒâ€”32px SVG monogram | Browser tab, bookmark |
 
 ### 3.2 Logo Rules
 
@@ -175,7 +175,7 @@ Serious ──────────────●─────────
 |-------------|---------|---------------|
 | **Indigo accent** | Color signature, instantly recognizable | All CTAs, links, active states |
 | **Glass cards** | Modern, premium feel | Skill cards, stat cards, admin widgets |
-| **Neumorphic cards** | Soft UI extruded depth | Stat cards, metric displays, toggles — see [`08n-NEUMORPHISM.md`](./08n-NEUMORPHISM.md) |
+| **Neumorphic cards** | Soft UI extruded depth | Stat cards, metric displays, toggles Ã¢â‚¬â€ see [`08n-NEUMORPHISM.md`](./08n-NEUMORPHISM.md) |
 | **Noise texture** | Subtle depth, tactile quality | 0.03 opacity grain overlay on surfaces |
 | **3D hero background** | Immersive first impression | Three.js particles or shapes |
 | **Spring animations** | Natural, delightful feel | Button press, card hover, toast entry |
@@ -189,23 +189,23 @@ Serious ──────────────●─────────
 ### 4.1 Color System Architecture
 
 ```
-                    ┌─────────────┐
-                    │  ACCENT     │
-                    │  Indigo-500 │
-                    │  #6366F1    │
-                    └──────┬──────┘
-                           │
-        ┌──────────────────┼──────────────────┐
-        │                  │                  │
-   ┌────▼────┐      ┌─────▼─────┐      ┌────▼────┐
-   │ DARK    │      │ LIGHT     │      │ SEMANTIC│
-   │ THEME   │      │ THEME     │      │ COLORS  │
-   ├─────────┤      ├───────────┤      ├─────────┤
-   │ Surface │      │ Surface   │      │ Success │
-   │ Text    │      │ Text      │      │ Warning │
-   │ Border  │      │ Border    │      │ Error   │
-   │ Elevated│      │ Elevated  │      │ Info    │
-   └─────────┘      └───────────┘      └─────────┘
+                    Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                    Ã¢â€â€š  ACCENT     Ã¢â€â€š
+                    Ã¢â€â€š  Indigo-500 Ã¢â€â€š
+                    Ã¢â€â€š  #6366F1    Ã¢â€â€š
+                    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                           Ã¢â€â€š
+        Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+        Ã¢â€â€š                  Ã¢â€â€š                  Ã¢â€â€š
+   Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â      Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â      Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+   Ã¢â€â€š DARK    Ã¢â€â€š      Ã¢â€â€š LIGHT     Ã¢â€â€š      Ã¢â€â€š SEMANTICÃ¢â€â€š
+   Ã¢â€â€š THEME   Ã¢â€â€š      Ã¢â€â€š THEME     Ã¢â€â€š      Ã¢â€â€š COLORS  Ã¢â€â€š
+   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+   Ã¢â€â€š Surface Ã¢â€â€š      Ã¢â€â€š Surface   Ã¢â€â€š      Ã¢â€â€š Success Ã¢â€â€š
+   Ã¢â€â€š Text    Ã¢â€â€š      Ã¢â€â€š Text      Ã¢â€â€š      Ã¢â€â€š Warning Ã¢â€â€š
+   Ã¢â€â€š Border  Ã¢â€â€š      Ã¢â€â€š Border    Ã¢â€â€š      Ã¢â€â€š Error   Ã¢â€â€š
+   Ã¢â€â€š ElevatedÃ¢â€â€š      Ã¢â€â€š Elevated  Ã¢â€â€š      Ã¢â€â€š Info    Ã¢â€â€š
+   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ      Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ      Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 4.2 Color Palette
@@ -214,42 +214,42 @@ Serious ──────────────●─────────
 
 | Token | Hex (Light) | Hex (Dark) | Usage | Contrast |
 |-------|-------------|------------|-------|----------|
-| `accent-50` | `#EEF2FF` | `#1E1B4B` | Background tint | — |
-| `accent-100` | `#E0E7FF` | `#312E81` | Hover bg | — |
-| `accent-200` | `#C7D2FE` | `#3730A3` | Active bg | — |
-| `accent-300` | `#A5B4FC` | `#4338CA` | Border accent | — |
-| `accent-400` | `#818CF8` | `#4F46E5` | Soft accent | — |
+| `accent-50` | `#EEF2FF` | `#1E1B4B` | Background tint | Ã¢â‚¬â€ |
+| `accent-100` | `#E0E7FF` | `#312E81` | Hover bg | Ã¢â‚¬â€ |
+| `accent-200` | `#C7D2FE` | `#3730A3` | Active bg | Ã¢â‚¬â€ |
+| `accent-300` | `#A5B4FC` | `#4338CA` | Border accent | Ã¢â‚¬â€ |
+| `accent-400` | `#818CF8` | `#4F46E5` | Soft accent | Ã¢â‚¬â€ |
 | **`accent-500`** | **`#6366F1`** | **`#6366F1`** | **Primary accent** | 4.8:1 on dark, 6.2:1 on light |
-| `accent-600` | `#4F46E5` | `#818CF8` | Hover on accent | — |
-| `accent-700` | `#4338CA` | `#A5B4FC` | Active on accent | — |
+| `accent-600` | `#4F46E5` | `#818CF8` | Hover on accent | Ã¢â‚¬â€ |
+| `accent-700` | `#4338CA` | `#A5B4FC` | Active on accent | Ã¢â‚¬â€ |
 
 #### Neutral Colors (Dark Theme)
 
 | Token | Hex | Usage | Contrast |
 |-------|-----|-------|----------|
-| `surface-primary` | `#09090B` | Page background | — |
-| `surface-secondary` | `#18181B` | Card/section background | — |
-| `surface-elevated` | `#27272A` | Elevated card, dropdown | — |
-| `border-primary` | `#3F3F46` | Subtle borders | — |
-| `border-accent` | `#52525B` | Emphasized borders | — |
+| `surface-primary` | `#09090B` | Page background | Ã¢â‚¬â€ |
+| `surface-secondary` | `#18181B` | Card/section background | Ã¢â‚¬â€ |
+| `surface-elevated` | `#27272A` | Elevated card, dropdown | Ã¢â‚¬â€ |
+| `border-primary` | `#3F3F46` | Subtle borders | Ã¢â‚¬â€ |
+| `border-accent` | `#52525B` | Emphasized borders | Ã¢â‚¬â€ |
 | `text-primary` | `#FAFAFA` | Main body text | 15.3:1 on surface |
 | `text-secondary` | `#A1A1AA` | Secondary text | 7.2:1 on surface |
 | `text-tertiary` | `#71717A` | Placeholder, caption | 4.8:1 on surface |
-| `text-inverse` | `#18181B` | Text on light surfaces | — |
+| `text-inverse` | `#18181B` | Text on light surfaces | Ã¢â‚¬â€ |
 
 #### Neutral Colors (Light Theme)
 
 | Token | Hex | Usage | Contrast |
 |-------|-----|-------|----------|
-| `surface-primary` | `#FAFAFA` | Page background | — |
-| `surface-secondary` | `#FFFFFF` | Card/section background | — |
-| `surface-elevated` | `#F4F4F5` | Elevated card, dropdown | — |
-| `border-primary` | `#E4E4E7` | Subtle borders | — |
-| `border-accent` | `#D4D4D8` | Emphasized borders | — |
+| `surface-primary` | `#FAFAFA` | Page background | Ã¢â‚¬â€ |
+| `surface-secondary` | `#FFFFFF` | Card/section background | Ã¢â‚¬â€ |
+| `surface-elevated` | `#F4F4F5` | Elevated card, dropdown | Ã¢â‚¬â€ |
+| `border-primary` | `#E4E4E7` | Subtle borders | Ã¢â‚¬â€ |
+| `border-accent` | `#D4D4D8` | Emphasized borders | Ã¢â‚¬â€ |
 | `text-primary` | `#18181B` | Main body text | 15.3:1 on surface |
 | `text-secondary` | `#52525B` | Secondary text | 7.2:1 on surface |
 | `text-tertiary` | `#71717A` | Placeholder, caption | 4.8:1 on surface |
-| `text-inverse` | `#FAFAFA` | Text on dark surfaces | — |
+| `text-inverse` | `#FAFAFA` | Text on dark surfaces | Ã¢â‚¬â€ |
 
 #### Semantic Colors
 
@@ -266,7 +266,7 @@ Serious ──────────────●─────────
 |------|---------------|-----------|
 | **Accent is the only "color"** | All interactive elements use accent-500 | Consistent brand recognition, not a rainbow UI |
 | **Never use accent for text** | Accent is for CTAs, links, indicators | Poor readability at small sizes (4.8:1) |
-| **Semantic colors need icons** | Never rely on color alone for meaning | WCAG 1.4.1 — color is not the only indicator |
+| **Semantic colors need icons** | Never rely on color alone for meaning | WCAG 1.4.1 Ã¢â‚¬â€ color is not the only indicator |
 | **Dark mode = desaturated colors** | Dark theme uses slightly desaturated tones | Reduces eye strain, more comfortable |
 | **No raw hex in components** | Always use CSS custom property tokens | Enables theme switching, consistent updates |
 | **Gradient for hero heading only** | Subtle accent-to-cyan gradient on hero H1 | Creates visual impact without overuse |
@@ -291,25 +291,25 @@ Serious ──────────────●─────────
 
 | Typeface | Rationale |
 |----------|-----------|
-| **Cabinet Grotesk** | Unique grotesque character with personality — not Inter, not SF Pro, not System UI. The rounded terminals and compact letterforms give it a distinctive yet professional appearance. Variable font enables smooth weight transitions. |
+| **Cabinet Grotesk** | Unique grotesque character with personality Ã¢â‚¬â€ not Inter, not SF Pro, not System UI. The rounded terminals and compact letterforms give it a distinctive yet professional appearance. Variable font enables smooth weight transitions. |
 | **Inter** | The gold standard for UI body text. Excellent readability at all sizes, wide language support (147 languages), variable font, perfect hinting for screen rendering. Chosen over System UI for cross-platform consistency. |
-| **JetBrains Mono** | Developer-focused monospace with intentional ligatures (→, !==, =>), increased x-height for readability, and clear distinction between similar characters (1/l/I, 0/O). Chosen over Fira Code for better screen rendering at small sizes. |
+| **JetBrains Mono** | Developer-focused monospace with intentional ligatures (Ã¢â€ â€™, !==, =>), increased x-height for readability, and clear distinction between similar characters (1/l/I, 0/O). Chosen over Fira Code for better screen rendering at small sizes. |
 
 ### 5.3 Type Scale
 
 ```
                   Desktop              Mobile
-Display  ──→  72px (4.5rem)     48px (3rem)
-H1       ──→  60px (3.75rem)    36px (2.25rem)
-H2       ──→  36px (2.25rem)    28px (1.75rem)
-H3       ──→  28px (1.75rem)    22px (1.375rem)
-H4       ──→  22px (1.375rem)   18px (1.125rem)
-Body LG  ──→  18px (1.125rem)   16px (1rem)
-Body     ──→  16px (1rem)       15px (0.938rem)
-Body SM  ──→  14px (0.875rem)   13px (0.813rem)
-Caption  ──→  12px (0.75rem)    12px (0.75rem)
-Code     ──→  14px (0.875rem)   13px (0.813rem)
-Button   ──→  14-16px           14px
+Display  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  72px (4.5rem)     48px (3rem)
+H1       Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  60px (3.75rem)    36px (2.25rem)
+H2       Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  36px (2.25rem)    28px (1.75rem)
+H3       Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  28px (1.75rem)    22px (1.375rem)
+H4       Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  22px (1.375rem)   18px (1.125rem)
+Body LG  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  18px (1.125rem)   16px (1rem)
+Body     Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  16px (1rem)       15px (0.938rem)
+Body SM  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  14px (0.875rem)   13px (0.813rem)
+Caption  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  12px (0.75rem)    12px (0.75rem)
+Code     Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  14px (0.875rem)   13px (0.813rem)
+Button   Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™  14-16px           14px
 ```
 
 ### 5.4 Typography Rules
@@ -317,7 +317,7 @@ Button   ──→  14-16px           14px
 | Rule | Value | Rationale |
 |------|-------|-----------|
 | **Body size minimum** | 16px desktop, 15px mobile | Prevents iOS zoom on focus, WCAG recommendation |
-| **Line height (body)** | 1.5-1.75 | WCAG 1.4.12 — spacing must not lose content |
+| **Line height (body)** | 1.5-1.75 | WCAG 1.4.12 Ã¢â‚¬â€ spacing must not lose content |
 | **Line length (body)** | 60-75 characters | Readability research, `max-w-prose` (65ch) |
 | **Heading line height** | 1.1 (Display) - 1.3 (H4) | Tighter for headings creates hierarchy |
 | **Modular scale** | 1.25 (major third) | Natural musical ratio, proven readability |
@@ -339,18 +339,18 @@ Button   ──→  14-16px           14px
 ```
 Base unit: 4px
 
-   2px  =  0.5×  ← hairline spacing
-   4px  =  1×    ← minimum unit
-   8px  =  2×    ← icon padding, badge padding
-  12px  =  3×    ← input padding, button padding
-  16px  =  4×    ← card padding, section padding (mobile)
-  20px  =  5×    ← avatar/icon margins
-  24px  =  6×    ← grid gaps, card grid gaps
-  32px  =  8×    ← section spacing (mobile), form field spacing
-  40px  =  10×   ← section spacing (tablet), modal padding
-  48px  =  12×   ← section spacing (desktop), hero bottom margin
-  64px  =  16×   ← major section separation
-  96px  =  24×   ← page section spacing
+   2px  =  0.5Ãƒâ€”  Ã¢â€ Â hairline spacing
+   4px  =  1Ãƒâ€”    Ã¢â€ Â minimum unit
+   8px  =  2Ãƒâ€”    Ã¢â€ Â icon padding, badge padding
+  12px  =  3Ãƒâ€”    Ã¢â€ Â input padding, button padding
+  16px  =  4Ãƒâ€”    Ã¢â€ Â card padding, section padding (mobile)
+  20px  =  5Ãƒâ€”    Ã¢â€ Â avatar/icon margins
+  24px  =  6Ãƒâ€”    Ã¢â€ Â grid gaps, card grid gaps
+  32px  =  8Ãƒâ€”    Ã¢â€ Â section spacing (mobile), form field spacing
+  40px  =  10Ãƒâ€”   Ã¢â€ Â section spacing (tablet), modal padding
+  48px  =  12Ãƒâ€”   Ã¢â€ Â section spacing (desktop), hero bottom margin
+  64px  =  16Ãƒâ€”   Ã¢â€ Â major section separation
+  96px  =  24Ãƒâ€”   Ã¢â€ Â page section spacing
 ```
 
 ### 6.2 Spacing Rules
@@ -358,17 +358,17 @@ Base unit: 4px
 | Rule | Value | Usage |
 |------|-------|-------|
 | **Base unit** | 4px | All spacing derived from this |
-| **Increment** | 8px (2× base) | Major spacing decisions |
+| **Increment** | 8px (2Ãƒâ€” base) | Major spacing decisions |
 | **Card padding** | 16px (mobile), 24px (desktop) | Responsive card gutters |
 | **Section padding Y** | 64px (mobile), 80px (tablet), 96px (desktop) | Responsive vertical rhythm |
 | **Grid gap** | 16px (mobile), 24px (tablet), 32px (desktop) | Responsive grid spacing |
 | **Content max-width** | 1280px | Page container |
-| **Readable max-width** | 65ch (≈ 720px) | Body text paragraphs |
-| **Touch target gap** | ≥ 8px between touch targets | Prevents mis-taps |
+| **Readable max-width** | 65ch (Ã¢â€°Ë† 720px) | Body text paragraphs |
+| **Touch target gap** | Ã¢â€°Â¥ 8px between touch targets | Prevents mis-taps |
 
 ### 6.3 Spacing Anti-Patterns
 
-| ❌ Don't | ✅ Do | Why |
+| Ã¢ÂÅ’ Don't | Ã¢Å“â€¦ Do | Why |
 |----------|-------|-----|
 | Use odd spacing values (17px, 23px) | Use 4px/8px increments | Inconsistent rhythm, unprofessional |
 | Vary spacing between similar components | Consistent spacing per component type | Users build mental models |
@@ -382,16 +382,16 @@ Base unit: 4px
 ### 7.1 Grid Architecture
 
 ```
-┌────────────────── 1280px (max-width) ──────────────────┐
-│                                                         │
-│  ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐  │
-│  │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │  │  │
-│  │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │ │  │  │  │
-│  └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘  │
-│                                                         │
-│  16px gutter                        16px gutter         │
-│                                                         │
-└─────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ 1280px (max-width) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š                                                         Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â  Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š  Ã¢â€â€š  Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š Ã¢â€â€š  Ã¢â€â€š  Ã¢â€â€š  Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ  Ã¢â€â€š
+Ã¢â€â€š                                                         Ã¢â€â€š
+Ã¢â€â€š  16px gutter                        16px gutter         Ã¢â€â€š
+Ã¢â€â€š                                                         Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 
 Columns: 10
 Gutter: 16px (mobile), 24px (tablet), 32px (desktop)
@@ -403,12 +403,12 @@ Margin: 16px (mobile), 24px (tablet), auto centered (desktop)
 | Layout | Columns Used | Breakpoint | Usage |
 |--------|-------------|------------|-------|
 | **Single column** | 1/10 | < 640px | Mobile content |
-| **Two column** | 2/10 (60/40), 5/10 (50/50) | ≥ 640px | Hero split, about section |
-| **Three column** | 3/10 (30/30/30) | ≥ 1024px | Project grid, skills categories |
-| **Four column** | 4/10 (22/22/22/22) | ≥ 1280px | Stat cards, client logos |
+| **Two column** | 2/10 (60/40), 5/10 (50/50) | Ã¢â€°Â¥ 640px | Hero split, about section |
+| **Three column** | 3/10 (30/30/30) | Ã¢â€°Â¥ 1024px | Project grid, skills categories |
+| **Four column** | 4/10 (22/22/22/22) | Ã¢â€°Â¥ 1280px | Stat cards, client logos |
 | **Full width** | 10/10 | All | Hero background, admin panels |
-| **Sidebar + content** | 3/10 + 7/10 | ≥ 1024px | Article with TOC, admin layout |
-| **Content + sidebar** | 7/10 + 3/10 | ≥ 1024px | Blog detail, project detail |
+| **Sidebar + content** | 3/10 + 7/10 | Ã¢â€°Â¥ 1024px | Article with TOC, admin layout |
+| **Content + sidebar** | 7/10 + 3/10 | Ã¢â€°Â¥ 1024px | Blog detail, project detail |
 
 ### 7.3 Grid Rules
 
@@ -418,11 +418,11 @@ Margin: 16px (mobile), 24px (tablet), auto centered (desktop)
 | **Cards fill container width** | `grid-cols-1 md:grid-cols-2 lg:grid-cols-3` | Responsive without media query hacks |
 | **No fixed-width containers** | `max-w-7xl` (1280px) + padding | Ensures consistency across viewports |
 | **Grids have consistent gaps** | Gap = one spacing unit per breakpoint | Uniform rhythm, predictable layouts |
-| **Vertical rhythm follows horizontal** | Section spacing = 4× horizontal gutter | Balanced proportions |
+| **Vertical rhythm follows horizontal** | Section spacing = 4Ãƒâ€” horizontal gutter | Balanced proportions |
 
 ---
 
-> **🔗 Consolidated Source of Truth:** All motion rules, tokens, scroll/hover/focus/transition specifications, accessibility kill-switch, and performance budgets are now centralized in [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md). The sections below are maintained as a high-level summary; refer to `08l` for the complete enterprise motion architecture.
+> **Ã°Å¸â€â€” Consolidated Source of Truth:** All motion rules, tokens, scroll/hover/focus/transition specifications, accessibility kill-switch, and performance budgets are now centralized in [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md). The sections below are maintained as a high-level summary; refer to `08l` for the complete enterprise motion architecture.
 
 ## 8. Motion Language
 
@@ -431,15 +431,15 @@ Margin: 16px (mobile), 24px (tablet), auto centered (desktop)
 > **"Motion should communicate, not decorate."**
 
 Every animation in the portfolio serves one of three purposes:
-1. **Guide attention** — direct the eye to important content
-2. **Provide feedback** — confirm user actions
-3. **Establish hierarchy** — show relationships between elements
+1. **Guide attention** Ã¢â‚¬â€ direct the eye to important content
+2. **Provide feedback** Ã¢â‚¬â€ confirm user actions
+3. **Establish hierarchy** Ã¢â‚¬â€ show relationships between elements
 
 ### 8.2 Motion Vocabulary
 
 | Motion Type | Duration | Easing | Purpose |
 |-------------|----------|--------|---------|
-| **Micro-bounce** | 100-200ms | `spring(300, 20)` | Button press, toggle — feels alive |
+| **Micro-bounce** | 100-200ms | `spring(300, 20)` | Button press, toggle Ã¢â‚¬â€ feels alive |
 | **Fade** | 200-300ms | `ease-out` | Toast, tooltip, modal overlay |
 | **Slide** | 300-400ms | `ease-out` | Drawer, mobile menu, panel |
 | **Reveal** | 400-600ms | `ease-out-smooth (0.16, 1, 0.3, 1)` | Section entrance, card stagger |
@@ -455,9 +455,9 @@ Every animation in the portfolio serves one of three purposes:
 |------|---------------|-----------|
 | **Never animate width/height** | Use `transform: scale()` | N/A |
 | **Never animate top/left** | Use `transform: translate()` | N/A |
-| **Duration ≤ 600ms for UI** | Micro-interactions 100-300ms | Shimmer (1.5s loop) |
+| **Duration Ã¢â€°Â¤ 600ms for UI** | Micro-interactions 100-300ms | Shimmer (1.5s loop) |
 | **One animation at a time** | Sequential, not parallel | Stagger children |
-| **Respect reduced motion** | `prefers-reduced-motion: reduce` — disable all non-essential | Loading indicator |
+| **Respect reduced motion** | `prefers-reduced-motion: reduce` Ã¢â‚¬â€ disable all non-essential | Loading indicator |
 | **60fps on mid-range devices** | Only animate `transform` and `opacity` | Test on Moto G4 |
 | **Exit faster than enter** | Exit = 60-70% of enter duration | Modal close 150ms vs open 200ms |
 | **No decorative motion** | Every animation must serve a purpose | Background particles exempt |
@@ -466,13 +466,13 @@ Every animation in the portfolio serves one of three purposes:
 
 ## 9. 3D Language
 
-> **Full guidelines:** See [08j-3D-USAGE-GUIDELINES.md](./08j-3D-USAGE-GUIDELINES.md) — strategic rationale, experience goals, performance/accessibility/device constraints, decision flowchart, and fallback chain.
+> **Full guidelines:** See [08j-3D-USAGE-GUIDELINES.md](./08j-3D-USAGE-GUIDELINES.md) Ã¢â‚¬â€ strategic rationale, experience goals, performance/accessibility/device constraints, decision flowchart, and fallback chain.
 
 ### 9.1 3D Philosophy
 
 > **"3D should enhance, not overwhelm."**
 
-3D elements are used sparingly — only in the hero section and as subtle background effects. They create an immersive first impression without distracting from content.
+3D elements are used sparingly Ã¢â‚¬â€ only in the hero section and as subtle background effects. They create an immersive first impression without distracting from content.
 
 ### 9.2 3D Elements
 
@@ -487,7 +487,7 @@ Every animation in the portfolio serves one of three purposes:
 
 | Rule | Implementation | Rationale |
 |------|---------------|-----------|
-| **Start static, enhance with JS** | CSS-only hero → Three.js enhancement | Progressive enhancement |
+| **Start static, enhance with JS** | CSS-only hero Ã¢â€ â€™ Three.js enhancement | Progressive enhancement |
 | **Respect reduced motion** | Static fallback when `prefers-reduced-motion` | Accessibility |
 | **Reduce on low-end devices** | `navigator.hardwareConcurrency` check | Performance |
 | **Never block content** | 3D is background-only, behind text | Content always accessible |
@@ -498,11 +498,11 @@ Every animation in the portfolio serves one of three purposes:
 ### 9.4 Fallback Chain
 
 ```
-Primary: Three.js WebGL 2.0 with 200 particles → 60fps
-├── WebGL 2.0 not supported → Three.js WebGL 1.0 → 100 particles
-├── WebGL not supported → CSS animated gradient → static
-├── Reduced motion → Static gradient/image → always works
-└── Low-end device (4 cores) → 100 particles → 30fps cap
+Primary: Three.js WebGL 2.0 with 200 particles Ã¢â€ â€™ 60fps
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ WebGL 2.0 not supported Ã¢â€ â€™ Three.js WebGL 1.0 Ã¢â€ â€™ 100 particles
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ WebGL not supported Ã¢â€ â€™ CSS animated gradient Ã¢â€ â€™ static
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Reduced motion Ã¢â€ â€™ Static gradient/image Ã¢â€ â€™ always works
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Low-end device (4 cores) Ã¢â€ â€™ 100 particles Ã¢â€ â€™ 30fps cap
 ```
 
 ---
@@ -519,28 +519,28 @@ Interactions provide clear feedback, respect user preferences, and never surpris
 
 | Action | Visual Feedback | Time to Feedback | Sound (Future) |
 |--------|----------------|------------------|----------------|
-| **Hover** | Color/opacity/shadow change | < 50ms | — |
-| **Press/Tap** | Scale 0.97 | < 30ms | — |
-| **Click/Submit** | Button → spinner | < 100ms | — |
-| **Focus (keyboard)** | Focus ring | Immediate | — |
-| **Drag** | Element follows cursor/touch | < 16ms (60fps) | — |
-| **Scroll** | Content reveals | Scroll-sync | — |
-| **Swipe** | Content follows finger | < 16ms (60fps) | — |
+| **Hover** | Color/opacity/shadow change | < 50ms | Ã¢â‚¬â€ |
+| **Press/Tap** | Scale 0.97 | < 30ms | Ã¢â‚¬â€ |
+| **Click/Submit** | Button Ã¢â€ â€™ spinner | < 100ms | Ã¢â‚¬â€ |
+| **Focus (keyboard)** | Focus ring | Immediate | Ã¢â‚¬â€ |
+| **Drag** | Element follows cursor/touch | < 16ms (60fps) | Ã¢â‚¬â€ |
+| **Scroll** | Content reveals | Scroll-sync | Ã¢â‚¬â€ |
+| **Swipe** | Content follows finger | < 16ms (60fps) | Ã¢â‚¬â€ |
 
 ### 10.3 Interaction States
 
 | State | Visual | Cursor | ARIA |
 |-------|--------|--------|------|
-| **Default** | Normal appearance | `cursor: pointer` (interactive) | — |
-| **Hover** | Darken bg 10% (button), lift 2px (card) | `cursor: pointer` | — |
+| **Default** | Normal appearance | `cursor: pointer` (interactive) | Ã¢â‚¬â€ |
+| **Hover** | Darken bg 10% (button), lift 2px (card) | `cursor: pointer` | Ã¢â‚¬â€ |
 | **Active/Pressed** | Scale 0.97 (button), darker bg | `cursor: pointer` | `aria-pressed="true"` |
 | **Focus** | 2px accent ring, 2px offset | `cursor: pointer` | `:focus-visible` CSS |
 | **Disabled** | Opacity 50%, no shadow | `cursor: not-allowed` | `aria-disabled="true"` |
 | **Loading** | Spinner replaces text, inputs disabled | `cursor: wait` | `aria-busy="true"` |
-| **Error** | Red border, shake animation | — | `aria-invalid="true"` |
-| **Success** | Green check, brief animation | — | `role="status"` |
-| **Selected/Active** | Accent bg, bold text, underline | — | `aria-current="page"` |
-| **Empty** | Placeholder state with message | — | — |
+| **Error** | Red border, shake animation | Ã¢â‚¬â€ | `aria-invalid="true"` |
+| **Success** | Green check, brief animation | Ã¢â‚¬â€ | `role="status"` |
+| **Selected/Active** | Accent bg, bold text, underline | Ã¢â‚¬â€ | `aria-current="page"` |
+| **Empty** | Placeholder state with message | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
 
 ### 10.4 Interaction Rules
 
@@ -549,7 +549,7 @@ Interactions provide clear feedback, respect user preferences, and never surpris
 | **Visual feedback within 100ms** | All interactive elements respond instantly | Perceived performance |
 | **Hover is never required** | Touch devices have no hover | Mobile-first design |
 | **Focus is always visible** | `:focus-visible` polyfill, 2px ring | WCAG 2.4.7 |
-| **Disabled ≠ invisible** | Opacity 50%, cursor change, still visible | Users need to see what's unavailable |
+| **Disabled Ã¢â€°Â  invisible** | Opacity 50%, cursor change, still visible | Users need to see what's unavailable |
 | **No unexpected navigation** | Context change only on user intent | WCAG 3.2 |
 | **Optimistic UI for admin** | Update UI before API confirms | Perceived speed |
 
@@ -560,15 +560,15 @@ Interactions provide clear feedback, respect user preferences, and never surpris
 ### 11.1 Glassmorphism Specification
 
 ```
-┌──────────────────────────────────┐
-│  Glass Card                      │
-│  ┌──────────────────────────┐    │
-│  │  background: rgba(white)  │    │
-│  │  backdrop-filter: blur()  │    │
-│  │  border: 1px rgba(border) │    │
-│  │  box-shadow: subtle       │    │
-│  └──────────────────────────┘    │
-└──────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š  Glass Card                      Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  background: rgba(white)  Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  backdrop-filter: blur()  Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  border: 1px rgba(border) Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  box-shadow: subtle       Ã¢â€â€š    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ    Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 11.2 Glassmorphism Levels
@@ -581,14 +581,14 @@ Interactions provide clear feedback, respect user preferences, and never surpris
 
 ### 11.3 Glassmorphism Rules
 
-> **See also:** [`08o-IMMERSIVE-EXPERIENCE.md`](./08o-IMMERSIVE-EXPERIENCE.md) §3 (Background System) for glass variant integration with section backgrounds.
+> **See also:** [`08o-IMMERSIVE-EXPERIENCE.md`](./08o-IMMERSIVE-EXPERIENCE.md) Ã‚Â§3 (Background System) for glass variant integration with section backgrounds.
 
 | Rule | Rationale |
 |------|-----------|
 | **Only on dark theme** | Glassmorphism relies on dark background for contrast |
 | **Text never on glass alone** | Cards have a solid background layer for text, glass is decorative |
 | **Maximum 3 glass layers** | More than 3 creates visual confusion |
-| **Backdrop blur ≤ 16px** | Higher blur values cause motion sickness |
+| **Backdrop blur Ã¢â€°Â¤ 16px** | Higher blur values cause motion sickness |
 | **Not for interactive elements** | Buttons and inputs are solid, not glass |
 | **No glass on glass** | Never stack glass elements on top of each other |
 | **Fallback: solid card** | If backdrop-filter unsupported, fallback to `surface-elevated` |
@@ -628,12 +628,12 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 
 | Level | Shadow | Use Case | z-index |
 |-------|--------|----------|---------|
-| **0 — Flat** | `none` | Page background, surface elements | auto |
-| **1 — Raised** | `0 1px 2px rgba(0,0,0,0.05)` | Cards on surface | 10 |
-| **2 — Elevated** | `0 4px 6px rgba(0,0,0,0.1)` | Elevated cards, dropdown | 20 |
-| **3 — Floating** | `0 10px 15px rgba(0,0,0,0.15)` | Modals, popovers | 40 |
-| **4 — Overlay** | `0 20px 30px rgba(0,0,0,0.2)` | Full-screen modals, toasts | 50 |
-| **5 — Top** | `0 30px 50px rgba(0,0,0,0.3)` | Loading overlay | 100 |
+| **0 Ã¢â‚¬â€ Flat** | `none` | Page background, surface elements | auto |
+| **1 Ã¢â‚¬â€ Raised** | `0 1px 2px rgba(0,0,0,0.05)` | Cards on surface | 10 |
+| **2 Ã¢â‚¬â€ Elevated** | `0 4px 6px rgba(0,0,0,0.1)` | Elevated cards, dropdown | 20 |
+| **3 Ã¢â‚¬â€ Floating** | `0 10px 15px rgba(0,0,0,0.15)` | Modals, popovers | 40 |
+| **4 Ã¢â‚¬â€ Overlay** | `0 20px 30px rgba(0,0,0,0.2)` | Full-screen modals, toasts | 50 |
+| **5 Ã¢â‚¬â€ Top** | `0 30px 50px rgba(0,0,0,0.3)` | Loading overlay | 100 |
 
 ### 12.2 z-index Scale
 
@@ -653,19 +653,19 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 
 ### 12.3 Depth Rules
 
-> **See also:** [`08o-IMMERSIVE-EXPERIENCE.md`](./08o-IMMERSIVE-EXPERIENCE.md) §1 (Depth Layer System) for z-space perspective layering.
+> **See also:** [`08o-IMMERSIVE-EXPERIENCE.md`](./08o-IMMERSIVE-EXPERIENCE.md) Ã‚Â§1 (Depth Layer System) for z-space perspective layering.
 
 | Rule | Implementation |
 |------|---------------|
 | **Consistent elevation per element type** | All cards = level 1, all modals = level 3 |
-| **Hover elevates one level** | Card hover: level 1 → level 2 (lift 2px) |
+| **Hover elevates one level** | Card hover: level 1 Ã¢â€ â€™ level 2 (lift 2px) |
 | **Modal backdrop = level below content** | Backdrop at z-index 50, modal at 60 |
 | **No competing elevations** | Two elements at same elevation shouldn't overlap |
-| **Light mode uses darker shadows** | Shadow opacity higher in light mode (0.1 → 0.2) |
+| **Light mode uses darker shadows** | Shadow opacity higher in light mode (0.1 Ã¢â€ â€™ 0.2) |
 | **Dark mode uses lighter shadows** | Shadow color tinted white in dark mode |
 
 ### References
-- **Features:** F-023 (Design System — Card variants)
+- **Features:** F-023 (Design System Ã¢â‚¬â€ Card variants)
 - **Other Docs:** `docs/design/DesignSystem.md` (Component implementation)
 
 ---
@@ -688,15 +688,15 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 |------|-----------|
 | **One shadow per element** | Multi-shadow elements are visually confusing |
 | **Shadow = elevation, not decoration** | Shadows indicate how high an element is above the page |
-| **Hover = larger shadow** | Card hover elevates, shadow goes from md → lg |
+| **Hover = larger shadow** | Card hover elevates, shadow goes from md Ã¢â€ â€™ lg |
 | **Dark mode shadows are stronger** | Higher opacity to maintain visibility on dark backgrounds |
 | **No colored shadows for elevation** | Elevation shadows are always black; accent shadows reserved for focus/active states only |
 | **Inset shadows only for inputs** | `shadow-inner` on text inputs shows depth |
-| **Glow policy — enterprise split (see [08o-IMMERSIVE-EXPERIENCE.md](./08o-IMMERSIVE-EXPERIENCE.md) §6):** 3D/particle glow allowed (physically-based rendering); UI glow limited to accent-colored shadow on focus/active states only (`--shadow-accent-focus`, `--shadow-accent-active`, `--shadow-accent-hover`). No neon/bloom/screen glow in UI elements. | Maintains professional UI while enabling physically-accurate glow in 3D contexts |
+| **Glow policy Ã¢â‚¬â€ enterprise split (see [08o-IMMERSIVE-EXPERIENCE.md](./08o-IMMERSIVE-EXPERIENCE.md) Ã‚Â§6):** 3D/particle glow allowed (physically-based rendering); UI glow limited to accent-colored shadow on focus/active states only (`--shadow-accent-focus`, `--shadow-accent-active`, `--shadow-accent-hover`). No neon/bloom/screen glow in UI elements. | Maintains professional UI while enabling physically-accurate glow in 3D contexts |
 
 ### 13.3 Shadow Anti-Patterns
 
-| ❌ Don't | ✅ Do |
+| Ã¢ÂÅ’ Don't | Ã¢Å“â€¦ Do |
 |----------|-------|
 | Multiple box-shadows on one element | Single clean shadow per elevation |
 | Colored shadows (accent, brand) | Neutral black shadows only |
@@ -706,7 +706,7 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 
 ---
 
-> **🔗 Consolidated Source of Truth:** All animation rules, tokens, and accessibility overrides are centralized in [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md). This section provides a summary; refer to `08l` for the complete motion architecture including frame budgets, device-aware hover, page transitions, and the 3-layer kill-switch.
+> **Ã°Å¸â€â€” Consolidated Source of Truth:** All animation rules, tokens, and accessibility overrides are centralized in [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md). This section provides a summary; refer to `08l` for the complete motion architecture including frame budgets, device-aware hover, page transitions, and the 3-layer kill-switch.
 
 ## 14. Animation Rules
 
@@ -722,7 +722,7 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 
 ### 14.2 What to Animate (and What Not To)
 
-| ✅ Animate | ❌ Don't Animate |
+| Ã¢Å“â€¦ Animate | Ã¢ÂÅ’ Don't Animate |
 |------------|-----------------|
 | Element entrance (fade + slide) | Page transitions (instant route change) |
 | Hover states (lift, color) | Background images |
@@ -801,7 +801,7 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 | **Content priority** | Core content first, secondary hidden/deferred | Mobile users have limited attention |
 | **No horizontal scroll** | All content fits 320px viewport | WCAG 1.4.10 Reflow |
 | **Fluid typography** | `clamp()` for heading sizes | Smooth scaling, no breakpoint jumps |
-| **Touch targets ≥ 44px** | All interactive elements | Apple HIG, prevents mis-taps |
+| **Touch targets Ã¢â€°Â¥ 44px** | All interactive elements | Apple HIG, prevents mis-taps |
 | **Sticky elements adapt** | Sticky nav on desktop, hamburger on mobile | Context-appropriate navigation |
 | **Images scale with container** | `max-width: 100%; height: auto` | No overflow, always fits |
 | **Text never smaller than 16px** | 16px minimum on mobile | Prevents iOS zoom on focus |
@@ -812,22 +812,22 @@ Depth is communicated through shadows, elevation, and layering. The system uses 
 /* Fluid typography using clamp() */
 h1 {
   font-size: clamp(2.25rem, 4vw + 1rem, 3.75rem);
-  /* 36px on mobile → 60px on desktop */
+  /* 36px on mobile Ã¢â€ â€™ 60px on desktop */
 }
 
 h2 {
   font-size: clamp(1.75rem, 3vw + 0.75rem, 2.25rem);
-  /* 28px on mobile → 36px on desktop */
+  /* 28px on mobile Ã¢â€ â€™ 36px on desktop */
 }
 
 h3 {
   font-size: clamp(1.375rem, 2vw + 0.5rem, 1.75rem);
-  /* 22px on mobile → 28px on desktop */
+  /* 22px on mobile Ã¢â€ â€™ 28px on desktop */
 }
 
 body {
   font-size: clamp(0.938rem, 1vw + 0.5rem, 1rem);
-  /* 15px on mobile → 16px on desktop */
+  /* 15px on mobile Ã¢â€ â€™ 16px on desktop */
 }
 ```
 
@@ -843,9 +843,9 @@ body {
 
 | Rule | Target | Verification |
 |------|--------|-------------|
-| **Body text contrast** | ≥ 4.5:1 (WCAG AA) | All text tokens verified |
-| **Large text contrast (> 24px)** | ≥ 3:1 (WCAG AA) | Heading tokens verified |
-| **Non-text contrast** | ≥ 3:1 (WCAG AA) | Focus rings, borders, icons verified |
+| **Body text contrast** | Ã¢â€°Â¥ 4.5:1 (WCAG AA) | All text tokens verified |
+| **Large text contrast (> 24px)** | Ã¢â€°Â¥ 3:1 (WCAG AA) | Heading tokens verified |
+| **Non-text contrast** | Ã¢â€°Â¥ 3:1 (WCAG AA) | Focus rings, borders, icons verified |
 | **Color not sole indicator** | Always pair with icon/text | Error states, status badges |
 
 ### 16.2 Focus & Keyboard
@@ -863,9 +863,9 @@ body {
 
 | Rule | Implementation |
 |------|---------------|
-| **Body text ≥ 16px** | Prevents iOS zoom, WCAG recommendation |
-| **Line height ≥ 1.5** | WCAG 1.4.12 Text Spacing |
-| **Line length ≤ 80 chars** | `max-w-prose` (65ch) |
+| **Body text Ã¢â€°Â¥ 16px** | Prevents iOS zoom, WCAG recommendation |
+| **Line height Ã¢â€°Â¥ 1.5** | WCAG 1.4.12 Text Spacing |
+| **Line length Ã¢â€°Â¤ 80 chars** | `max-w-prose` (65ch) |
 | **No justified text** | Left-aligned only |
 | **Text resizable to 200%** | No content loss at 200% zoom |
 
@@ -873,7 +873,7 @@ body {
 
 | Rule | Implementation |
 |------|---------------|
-| **Respect reduced motion** | `prefers-reduced-motion: reduce` — disable animations |
+| **Respect reduced motion** | `prefers-reduced-motion: reduce` Ã¢â‚¬â€ disable animations |
 | **Auto-play only with pause** | Carousel pauses on hover/focus |
 | **No flashing content** | No strobing or rapid flashing (> 3Hz) |
 | **Animations are interruptible** | User action cancels animation |
@@ -891,7 +891,7 @@ body {
 | Principle | Description | Applied To |
 |-----------|-------------|------------|
 | **Single responsibility** | Each component does one thing well | All components |
-| **Composable** | Small components combine into larger ones | Card → CardHeader + CardBody + CardFooter |
+| **Composable** | Small components combine into larger ones | Card Ã¢â€ â€™ CardHeader + CardBody + CardFooter |
 | **Predictable** | Same inputs always produce same output | Pure components where possible |
 | **Accessible** | ARIA attributes, keyboard nav built-in | Button, Card, Input |
 | **Themeable** | Uses CSS custom properties, not hard-coded values | All components |
@@ -903,14 +903,14 @@ Every interactive component must define these states:
 
 | State | Required | Implementation |
 |-------|----------|----------------|
-| **Default** | ✅ | Normal appearance |
-| **Hover** | ✅ | Visual feedback on mouse hover |
-| **Focus** | ✅ | Visible focus ring |
-| **Active** | ✅ (interactive) | Pressed state feedback |
-| **Disabled** | ✅ (when applicable) | 50% opacity, no pointer events |
-| **Loading** | ✅ (async actions) | Spinner, reduced opacity |
-| **Error** | ✅ (form inputs) | Red border, error message |
-| **Success** | ✅ (form feedback) | Green indicator, checkmark |
+| **Default** | Ã¢Å“â€¦ | Normal appearance |
+| **Hover** | Ã¢Å“â€¦ | Visual feedback on mouse hover |
+| **Focus** | Ã¢Å“â€¦ | Visible focus ring |
+| **Active** | Ã¢Å“â€¦ (interactive) | Pressed state feedback |
+| **Disabled** | Ã¢Å“â€¦ (when applicable) | 50% opacity, no pointer events |
+| **Loading** | Ã¢Å“â€¦ (async actions) | Spinner, reduced opacity |
+| **Error** | Ã¢Å“â€¦ (form inputs) | Red border, error message |
+| **Success** | Ã¢Å“â€¦ (form feedback) | Green indicator, checkmark |
 
 ### 17.3 Component Spacing Standards
 
@@ -944,23 +944,23 @@ Every interactive component must define these states:
 | **6** | **Whitespace Is Content** | Empty space communicates importance | Generous section spacing, clean layouts |
 | **7** | **Motion Must Matter** | Animations guide, never distract | Every animation has a purpose |
 | **8** | **Mobile Is Not Secondary** | Mobile experience is equal to desktop | Mobile-first breakpoints, touch targets |
-| **9** | **Progressive Enhancement** | Core content works without JS | Static HTML → enhanced with JS |
+| **9** | **Progressive Enhancement** | Core content works without JS | Static HTML Ã¢â€ â€™ enhanced with JS |
 | **10** | **Personality Over Template** | The design reflects a real person | Custom typefaces, indigo accent, glass cards |
 
 ### 18.2 Principle Application Matrix
 
 | Principle | Homepage | Projects | Blog | Admin |
 |-----------|----------|----------|------|-------|
-| Purposeful Elegance | ✅ Hero serves as introduction | ✅ Cards show key info | ✅ Clean reading experience | ✅ Data density with purpose |
-| Clarity Over Cleverness | ✅ CTA is obvious | ✅ Filters are clear | ✅ TOC aids navigation | ✅ Labels are descriptive |
-| Performance Is Design | ✅ ISR, lazy images | ✅ Skeleton grid | ✅ Progressive loading | ✅ SWR caching |
-| Accessibility Is Default | ✅ Skip link, focus rings | ✅ Filter keyboard nav | ✅ Code block a11y | ✅ Table keyboard nav |
-| Consistency Creates Trust | ✅ Same nav pattern | ✅ Card grid consistent | ✅ Same article format | ✅ Same table pattern |
-| Whitespace Is Content | ✅ Section spacing | ✅ Grid gaps | ✅ Prose max-width | ✅ Data density balanced |
-| Motion Must Matter | ✅ Staggered reveals | ✅ Card hover lift | ✅ Reading progress | ✅ Widget transitions |
-| Mobile Is Not Secondary | ✅ Touch targets, stack | ✅ Filter bottom sheet | ✅ Full-width content | ✅ Bottom tab nav |
-| Progressive Enhancement | ✅ Static hero first | ✅ Grid without JS | ✅ Article without JS | ✅ Core UI without JS |
-| Personality Over Template | ✅ Custom type, 3D | ✅ Glass cards | ✅ Reading progress bar | ✅ Indigo accent theme |
+| Purposeful Elegance | Ã¢Å“â€¦ Hero serves as introduction | Ã¢Å“â€¦ Cards show key info | Ã¢Å“â€¦ Clean reading experience | Ã¢Å“â€¦ Data density with purpose |
+| Clarity Over Cleverness | Ã¢Å“â€¦ CTA is obvious | Ã¢Å“â€¦ Filters are clear | Ã¢Å“â€¦ TOC aids navigation | Ã¢Å“â€¦ Labels are descriptive |
+| Performance Is Design | Ã¢Å“â€¦ ISR, lazy images | Ã¢Å“â€¦ Skeleton grid | Ã¢Å“â€¦ Progressive loading | Ã¢Å“â€¦ SWR caching |
+| Accessibility Is Default | Ã¢Å“â€¦ Skip link, focus rings | Ã¢Å“â€¦ Filter keyboard nav | Ã¢Å“â€¦ Code block a11y | Ã¢Å“â€¦ Table keyboard nav |
+| Consistency Creates Trust | Ã¢Å“â€¦ Same nav pattern | Ã¢Å“â€¦ Card grid consistent | Ã¢Å“â€¦ Same article format | Ã¢Å“â€¦ Same table pattern |
+| Whitespace Is Content | Ã¢Å“â€¦ Section spacing | Ã¢Å“â€¦ Grid gaps | Ã¢Å“â€¦ Prose max-width | Ã¢Å“â€¦ Data density balanced |
+| Motion Must Matter | Ã¢Å“â€¦ Staggered reveals | Ã¢Å“â€¦ Card hover lift | Ã¢Å“â€¦ Reading progress | Ã¢Å“â€¦ Widget transitions |
+| Mobile Is Not Secondary | Ã¢Å“â€¦ Touch targets, stack | Ã¢Å“â€¦ Filter bottom sheet | Ã¢Å“â€¦ Full-width content | Ã¢Å“â€¦ Bottom tab nav |
+| Progressive Enhancement | Ã¢Å“â€¦ Static hero first | Ã¢Å“â€¦ Grid without JS | Ã¢Å“â€¦ Article without JS | Ã¢Å“â€¦ Core UI without JS |
+| Personality Over Template | Ã¢Å“â€¦ Custom type, 3D | Ã¢Å“â€¦ Glass cards | Ã¢Å“â€¦ Reading progress bar | Ã¢Å“â€¦ Indigo accent theme |
 
 ### 18.3 Design Quality Checklist
 
@@ -977,7 +977,7 @@ Before marking any screen as complete, verify:
 - [ ] WCAG contrast ratios met (verified with tool)
 - [ ] Keyboard navigable (Tab, Enter, Escape)
 - [ ] Focus ring visible on all interactive
-- [ ] Touch target ≥ 44×44px (mobile)
+- [ ] Touch target Ã¢â€°Â¥ 44Ãƒâ€”44px (mobile)
 - [ ] Responsive at 3 breakpoints (mobile, tablet, desktop)
 - [ ] Reduced motion respected
 - [ ] No horizontal scroll at 320px
@@ -1003,7 +1003,7 @@ Before marking any screen as complete, verify:
 | D-012 | Skeleton shimmer loading | Spinner, skeleton, blank | Skeleton sets expectation for content structure; preferred over spinner for layout stability | Jun 2026 |
 | D-013 | Noise texture overlay (0.03 opacity) | Grain, grid, solid, none | Adds subtle tactile quality without distraction; only on surface backgrounds | Jun 2026 |
 | D-014 | Spring easing for micro-interactions | Spring, cubic-bezier, linear | Spring physics feels natural and alive; slight overshoot adds delight | Jun 2026 |
-| D-015 | 5 elevation levels | 3, 5, 7 levels | 5 levels cover all use cases (flat → top) without unnecessary granularity | Jun 2026 |
+| D-015 | 5 elevation levels | 3, 5, 7 levels | 5 levels cover all use cases (flat Ã¢â€ â€™ top) without unnecessary granularity | Jun 2026 |
 | D-016 | Floor shadow for card hover | Lift + shadow, color change, border change | Lift + shadow communicates physical depth; doesn't break contrast like color change | Jun 2026 |
 | D-017 | Dark theme shadows = higher opacity | Black shadows with varied opacity | Dark backgrounds need stronger shadows to be visible; tested at all 5 levels | Jun 2026 |
 | D-018 | clamp() for fluid typography | clamp(), calc(), breakpoints only | Fluid scaling eliminates breakpoint jumps; smooth transition between all viewport sizes | Jun 2026 |
@@ -1027,17 +1027,17 @@ Before marking any screen as complete, verify:
 
 | Reference | Description |
 |-----------|-------------|
-| `docs/product/ProductRequirements.md` (v3.0) | Product requirements — design-related FRs |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog — all F-XXX IDs referenced |
-| `docs/design/UserFlows.md` (v5.0) | Screen specifications — visual context for design decisions |
-| `docs/design/DesignSystem.md` (v5.0) | UI/UX architecture — user experience layer built on visual design |
-| `docs/design/DesignSystem.md` (v5.0) | Component specifications — implementation of design tokens |
-| `docs/design/08a-DESIGN-SYSTEM-EXTENDED.md` (v1.0) | Extended design tokens — glow policy, neumorphism tokens |
-| `docs/design/08n-NEUMORPHISM.md` (v1.0) | Neumorphism design language — soft UI elevation system |
-| `docs/design/08o-IMMERSIVE-EXPERIENCE.md` (v1.0) | Visual effects & background systems — depth, parallax, gradients, glow policy |
-| `docs/quality/PerformanceArchitecture.md` (v3.0) | Performance budgets — affecting design decisions (3D, animations) |
-| `docs/quality/AccessibilityArchitecture.md` (v3.0) | Full WCAG implementation — accessibility rules reference |
-| `docs/archive/MASTER-INDEX.md` (v3.0) | Folder structure — design token file locations |
+| `docs/product/ProductRequirements.md` (v3.0) | Product requirements Ã¢â‚¬â€ design-related FRs |
+| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog Ã¢â‚¬â€ all F-XXX IDs referenced |
+| `docs/design/UserFlows.md` (v5.0) | Screen specifications Ã¢â‚¬â€ visual context for design decisions |
+| `docs/design/DesignSystem.md` (v5.0) | UI/UX architecture Ã¢â‚¬â€ user experience layer built on visual design |
+| `docs/design/DesignSystem.md` (v5.0) | Component specifications Ã¢â‚¬â€ implementation of design tokens |
+| `docs/design/08a-DESIGN-SYSTEM-EXTENDED.md` (v1.0) | Extended design tokens Ã¢â‚¬â€ glow policy, neumorphism tokens |
+| `docs/design/08n-NEUMORPHISM.md` (v1.0) | Neumorphism design language Ã¢â‚¬â€ soft UI elevation system |
+| `docs/design/08o-IMMERSIVE-EXPERIENCE.md` (v1.0) | Visual effects & background systems Ã¢â‚¬â€ depth, parallax, gradients, glow policy |
+| `docs/quality/PerformanceArchitecture.md` (v3.0) | Performance budgets Ã¢â‚¬â€ affecting design decisions (3D, animations) |
+| `docs/quality/AccessibilityArchitecture.md` (v3.0) | Full WCAG implementation Ã¢â‚¬â€ accessibility rules reference |
+| `docs/archive/MASTER-INDEX.md` (v3.0) | Folder structure Ã¢â‚¬â€ design token file locations |
 
 ---
 
@@ -1090,4 +1090,8 @@ Before marking any screen as complete, verify:
 | 3.0 | Jun 2026 | Updated for enterprise structure | Product Owner |
 | 1.0 | Mar 2026 | Initial design documentation | Product Owner |
 
-*Document Version: 4.0 — Enterprise Edition*
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise Edition*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

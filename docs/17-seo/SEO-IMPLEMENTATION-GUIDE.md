@@ -147,3 +147,7 @@ All schemas are injected via the `JsonLd` component (`apps/web/src/components/Js
 - `docs/07-frontend/RENDERING-STRATEGY.md` — ISR/SSR/SSG rendering patterns
 - `docs/13-testing/VISUAL-REGRESSION.md` — Visual regression testing for UI changes
 - `apps/web/next.config.js` — Image optimization, caching headers
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

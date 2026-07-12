@@ -1,15 +1,15 @@
-# DevOps Architecture — FAANG Enterprise-Grade DevOps Strategy
+# DevOps Architecture Ã¢â‚¬â€ FAANG Enterprise-Grade DevOps Strategy
 
 > **Document:** `DevOpsArchitecture.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal DevOps Architect | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal DevOps Architect | **Review Cadence:** Quarterly  
 > **Standard:** GitOps | **Build System:** Turborepo v2 | **CI/CD:** GitHub Actions | **Infra as Code:** Docker Compose
-> **Providers:** Vercel, Railway, Supabase, Cloudflare | **Environment Model:** 4-Tier (Dev → Testing → Staging → Production)
+> **Providers:** Vercel, Railway, Supabase, Cloudflare | **Environment Model:** 4-Tier (Dev Ã¢â€ â€™ Testing Ã¢â€ â€™ Staging Ã¢â€ â€™ Production)
 
 ---
 
 ## 1. Executive Summary
 
-The platform follows **GitOps-driven DevOps** — every push to `main` triggers automated quality gates and deployment. The monorepo (Turborepo + npm workspaces) orchestrates **3 apps across 4 hosting providers** (Vercel, Railway, Supabase, **Cloudflare**) with zero-touch deployment, using a **4-environment model** (Development → Testing → Staging → Production).
+The platform follows **GitOps-driven DevOps** Ã¢â‚¬â€ every push to `main` triggers automated quality gates and deployment. The monorepo (Turborepo + npm workspaces) orchestrates **3 apps across 4 hosting providers** (Vercel, Railway, Supabase, **Cloudflare**) with zero-touch deployment, using a **4-environment model** (Development Ã¢â€ â€™ Testing Ã¢â€ â€™ Staging Ã¢â€ â€™ Production).
 
 **13 Key DevOps Capabilities:**
 
@@ -20,7 +20,7 @@ The platform follows **GitOps-driven DevOps** — every push to `main` triggers 
 | 3 | Quality gates | ESLint + TypeScript + Tests | Gates block deploy |
 | 4 | CI automation | GitHub Actions | < 10 min pipeline |
 | 5 | CD automation | Vercel + Railway auto-deploy | < 3 min deploy |
-| 6 | Infrastructure as Code | Docker Compose + railway.toml | Local ↔ Prod parity |
+| 6 | Infrastructure as Code | Docker Compose + railway.toml | Local Ã¢â€ â€ Prod parity |
 | 7 | Secret management | Vercel/Railway env vars | 90-day rotation |
 | 8 | Environment management | 4-tier (dev/test/staging/prod) | Isolated per environment |
 | 9 | Release management | Semantic versioning + release notes | Every main merge |
@@ -52,28 +52,28 @@ The platform follows **GitOps-driven DevOps** — every push to `main` triggers 
 
 | Category | Tool | Version | Purpose | Free Tier Limit |
 |----------|------|---------|---------|-----------------|
-| **Version Control** | GitHub | — | Source control, PRs, code review | Unlimited (public) |
-| **Package Manager** | npm | 10.x | Dependency management | — |
+| **Version Control** | GitHub | Ã¢â‚¬â€ | Source control, PRs, code review | Unlimited (public) |
+| **Package Manager** | npm | 10.x | Dependency management | Ã¢â‚¬â€ |
 | **Build System** | Turborepo | 2.x | Monorepo build orchestration, caching | Unlimited |
-| **Linter** | ESLint | 8.x | Code quality, security rules | — |
-| **Formatter** | Prettier | 3.x | Code formatting | — |
-| **Type Checker** | TypeScript | 5.x | Static type checking | — |
-| **CI/CD** | GitHub Actions | — | Pipeline automation | 2,000 min/mo (public) |
-| **CD (Frontend)** | Vercel | — | Serverless deployment | 100GB bandwidth, 6K build min |
-| **CD (AI)** | Railway | — | Container deployment | $5 credit |
-| **DNS** | Cloudflare | — | Authoritative DNS, DNSSEC | Unlimited |
-| **CDN** | Cloudflare | — | Global CDN, 330+ PoPs | Unlimited bandwidth |
-| **DDoS Protection** | Cloudflare WAF | — | L3-L7 DDoS, bot management | Unlimited |
-| **SSL/TLS** | Cloudflare | — | Auto cert management, Full Strict | Unlimited |
-| **Edge Workers** | Cloudflare Workers | — | Edge compute, URL rewrites | 100K req/day |
+| **Linter** | ESLint | 8.x | Code quality, security rules | Ã¢â‚¬â€ |
+| **Formatter** | Prettier | 3.x | Code formatting | Ã¢â‚¬â€ |
+| **Type Checker** | TypeScript | 5.x | Static type checking | Ã¢â‚¬â€ |
+| **CI/CD** | GitHub Actions | Ã¢â‚¬â€ | Pipeline automation | 2,000 min/mo (public) |
+| **CD (Frontend)** | Vercel | Ã¢â‚¬â€ | Serverless deployment | 100GB bandwidth, 6K build min |
+| **CD (AI)** | Railway | Ã¢â‚¬â€ | Container deployment | $5 credit |
+| **DNS** | Cloudflare | Ã¢â‚¬â€ | Authoritative DNS, DNSSEC | Unlimited |
+| **CDN** | Cloudflare | Ã¢â‚¬â€ | Global CDN, 330+ PoPs | Unlimited bandwidth |
+| **DDoS Protection** | Cloudflare WAF | Ã¢â‚¬â€ | L3-L7 DDoS, bot management | Unlimited |
+| **SSL/TLS** | Cloudflare | Ã¢â‚¬â€ | Auto cert management, Full Strict | Unlimited |
+| **Edge Workers** | Cloudflare Workers | Ã¢â‚¬â€ | Edge compute, URL rewrites | 100K req/day |
 | **Containerization** | Docker Compose | 3.x | Local dev parity | Unlimited |
-| **Dependency Audit** | Dependabot | — | Automated vulnerability PRs | Unlimited |
-| **Secret Scanning** | GitHub Secret Scanning | — | Credential leak detection | Unlimited |
-| **Feature Flags** | PostHog | — | Gradual rollouts, A/B testing | 1M events/mo |
-| **Release Notes** | Release Please | — | Auto-generated changelogs | Unlimited |
-| **Monitoring** | Better Uptime | — | External uptime monitoring | 5-min checks free |
-| **Error Tracking** | Sentry | — | Error aggregation, performance traces | 5K events/mo |
-| **Analytics** | PostHog | — | Product analytics, session replay | 1M events/mo |
+| **Dependency Audit** | Dependabot | Ã¢â‚¬â€ | Automated vulnerability PRs | Unlimited |
+| **Secret Scanning** | GitHub Secret Scanning | Ã¢â‚¬â€ | Credential leak detection | Unlimited |
+| **Feature Flags** | PostHog | Ã¢â‚¬â€ | Gradual rollouts, A/B testing | 1M events/mo |
+| **Release Notes** | Release Please | Ã¢â‚¬â€ | Auto-generated changelogs | Unlimited |
+| **Monitoring** | Better Uptime | Ã¢â‚¬â€ | External uptime monitoring | 5-min checks free |
+| **Error Tracking** | Sentry | Ã¢â‚¬â€ | Error aggregation, performance traces | 5K events/mo |
+| **Analytics** | PostHog | Ã¢â‚¬â€ | Product analytics, session replay | 1M events/mo |
 
 ### 3.2 Developer Workstation Requirements
 
@@ -98,20 +98,20 @@ The platform uses a strict **4-tier environment model** with clear promotion gat
 ```mermaid
 graph TB
     subgraph "Development"
-        Local["💻 Local Dev<br/>localhost:3000<br/>Docker Compose"]
-        Feature["🌿 Feature Branch<br/>Vercel Preview<br/>Ephemeral DB"]
+        Local["Ã°Å¸â€™Â» Local Dev<br/>localhost:3000<br/>Docker Compose"]
+        Feature["Ã°Å¸Å’Â¿ Feature Branch<br/>Vercel Preview<br/>Ephemeral DB"]
     end
 
     subgraph "Testing (CI)"
-        Test["🧪 Testing Environment<br/>Ephemeral per CI run<br/>Quality Gates<br/>SQLite in-memory DB"]
+        Test["Ã°Å¸Â§Âª Testing Environment<br/>Ephemeral per CI run<br/>Quality Gates<br/>SQLite in-memory DB"]
     end
 
     subgraph "Staging"
-        Staging["🧪 Staging<br/>staging.portfolio.com<br/>Staging DB (anonymized)"]
+        Staging["Ã°Å¸Â§Âª Staging<br/>staging.portfolio.com<br/>Staging DB (anonymized)"]
     end
 
     subgraph "Production"
-        Prod["🚀 Production<br/>portfolio.com<br/>Production DB<br/>Cloudflare Edge"]
+        Prod["Ã°Å¸Å¡â‚¬ Production<br/>portfolio.com<br/>Production DB<br/>Cloudflare Edge"]
     end
 
     Local -->|git push feature| Feature
@@ -121,9 +121,9 @@ graph TB
     Staging -->|Release PR to main| Prod
     
     subgraph "Gates"
-        Gate1["🔒 PR Gate<br/>CI passes<br/>Review approved<br/>No conflicts"]
-        Gate2["🔒 Staging Gate<br/>Deploy succeeds<br/>Health checks pass<br/>Smoke tests pass"]
-        Gate3["🔒 Production Gate<br/>Release approved<br/>Deploy window open<br/>Rollback ready"]
+        Gate1["Ã°Å¸â€â€™ PR Gate<br/>CI passes<br/>Review approved<br/>No conflicts"]
+        Gate2["Ã°Å¸â€â€™ Staging Gate<br/>Deploy succeeds<br/>Health checks pass<br/>Smoke tests pass"]
+        Gate3["Ã°Å¸â€â€™ Production Gate<br/>Release approved<br/>Deploy window open<br/>Rollback ready"]
     end
 
     Feature --> Gate1
@@ -213,14 +213,14 @@ gitGraph
 
 | Branch Pattern | Example | Purpose | Protected | Auto-Deploy |
 |----------------|---------|---------|-----------|-------------|
-| `main` | `main` | Production-ready code | ✅ Required reviews | ✅ To production |
-| `develop` | `develop` | Integration branch | ✅ Required reviews | ✅ To staging |
-| `feature/<name>` | `feature/ai-chat` | New features | ❌ | ❌ (preview only) |
-| `fix/<name>` | `fix/rate-limit-typo` | Bug fixes | ❌ | ❌ (preview only) |
-| `chore/<name>` | `chore/update-deps` | Maintenance | ❌ | ❌ (preview only) |
-| `docs/<name>` | `docs/mermaid-validation` | Documentation | ❌ | ❌ |
-| `release/<version>` | `release/v1.2.0` | Release preparation | ✅ Required reviews | Preview only |
-| `hotfix/<name>` | `hotfix/security-fix` | Urgent production fix | ✅ Emergency approval | ✅ Direct to prod |
+| `main` | `main` | Production-ready code | Ã¢Å“â€¦ Required reviews | Ã¢Å“â€¦ To production |
+| `develop` | `develop` | Integration branch | Ã¢Å“â€¦ Required reviews | Ã¢Å“â€¦ To staging |
+| `feature/<name>` | `feature/ai-chat` | New features | Ã¢ÂÅ’ | Ã¢ÂÅ’ (preview only) |
+| `fix/<name>` | `fix/rate-limit-typo` | Bug fixes | Ã¢ÂÅ’ | Ã¢ÂÅ’ (preview only) |
+| `chore/<name>` | `chore/update-deps` | Maintenance | Ã¢ÂÅ’ | Ã¢ÂÅ’ (preview only) |
+| `docs/<name>` | `docs/mermaid-validation` | Documentation | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| `release/<version>` | `release/v1.2.0` | Release preparation | Ã¢Å“â€¦ Required reviews | Preview only |
+| `hotfix/<name>` | `hotfix/security-fix` | Urgent production fix | Ã¢Å“â€¦ Emergency approval | Ã¢Å“â€¦ Direct to prod |
 
 ### 5.3 Commit Convention
 
@@ -234,14 +234,14 @@ gitGraph
 
 | Type | Scope Examples | Usage | Included in Changelog |
 |------|---------------|-------|----------------------|
-| `feat` | `web`, `api`, `ai`, `shared` | New feature | ✅ Yes |
-| `fix` | `api`, `ai` | Bug fix | ✅ Yes |
-| `chore` | `deps`, `config`, `ci` | Maintenance | ❌ No |
-| `docs` | `docs` | Documentation | ❌ No |
-| `refactor` | `web`, `api` | Code restructure | ❌ No |
-| `style` | `ui` | Formatting | ❌ No |
-| `test` | `web`, `api` | Tests | ❌ No |
-| `perf` | `web`, `api` | Performance | ✅ Yes |
+| `feat` | `web`, `api`, `ai`, `shared` | New feature | Ã¢Å“â€¦ Yes |
+| `fix` | `api`, `ai` | Bug fix | Ã¢Å“â€¦ Yes |
+| `chore` | `deps`, `config`, `ci` | Maintenance | Ã¢ÂÅ’ No |
+| `docs` | `docs` | Documentation | Ã¢ÂÅ’ No |
+| `refactor` | `web`, `api` | Code restructure | Ã¢ÂÅ’ No |
+| `style` | `ui` | Formatting | Ã¢ÂÅ’ No |
+| `test` | `web`, `api` | Tests | Ã¢ÂÅ’ No |
+| `perf` | `web`, `api` | Performance | Ã¢Å“â€¦ Yes |
 
 ### 5.4 Code Review Process
 
@@ -249,12 +249,12 @@ gitGraph
 
 | Requirement | Automated Gate | Approver | SLA |
 |-------------|---------------|----------|-----|
-| ✅ All CI checks pass | Required (blocks merge) | — | < 10 min |
-| ✅ No merge conflicts | Required (blocks merge) | — | Auto-check |
-| ✅ At least 1 review | Required | Code owner | < 4 hours |
-| ✅ Linear history (squash merge) | Recommended | — | — |
-| ✅ Branch up to date with `main` | Required | — | Auto-check |
-| ✅ No unresolved threads | Required | Reviewer | < 24 hours |
+| Ã¢Å“â€¦ All CI checks pass | Required (blocks merge) | Ã¢â‚¬â€ | < 10 min |
+| Ã¢Å“â€¦ No merge conflicts | Required (blocks merge) | Ã¢â‚¬â€ | Auto-check |
+| Ã¢Å“â€¦ At least 1 review | Required | Code owner | < 4 hours |
+| Ã¢Å“â€¦ Linear history (squash merge) | Recommended | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| Ã¢Å“â€¦ Branch up to date with `main` | Required | Ã¢â‚¬â€ | Auto-check |
+| Ã¢Å“â€¦ No unresolved threads | Required | Reviewer | < 24 hours |
 
 #### 5.4.2 Reviewer Assignment Policy
 
@@ -271,10 +271,10 @@ gitGraph
 
 | Priority | Response Time (First Review) | Approval Time (Total) | Escalation After |
 |----------|------------------------------|----------------------|-------------------|
-| 🔴 Critical (security, downtime) | < 1 hour | < 2 hours | 2 hours |
-| 🟡 High (feature, bug fix) | < 4 hours | < 8 hours | 8 hours |
-| 🟢 Normal (chore, docs) | < 24 hours | < 48 hours | 48 hours |
-| ⚪ Low (cosmetic, minor) | < 72 hours | < 1 week | 1 week |
+| Ã°Å¸â€Â´ Critical (security, downtime) | < 1 hour | < 2 hours | 2 hours |
+| Ã°Å¸Å¸Â¡ High (feature, bug fix) | < 4 hours | < 8 hours | 8 hours |
+| Ã°Å¸Å¸Â¢ Normal (chore, docs) | < 24 hours | < 48 hours | 48 hours |
+| Ã¢Å¡Âª Low (cosmetic, minor) | < 72 hours | < 1 week | 1 week |
 
 #### 5.4.4 Escalation Path
 
@@ -403,7 +403,7 @@ flowchart TB
     PR --> Install
     Install --> Lint & TypeCheck & Build & Test & Security & Mermaid
     Lint & TypeCheck & Build & Test & Security & Mermaid -->|All Pass| Vercel & Railway & Supabase
-    Lint & TypeCheck & Build & Test & Security & Mermaid -->|Any Fail| Fail["❌ Blocked - Fix Required"]
+    Lint & TypeCheck & Build & Test & Security & Mermaid -->|Any Fail| Fail["Ã¢ÂÅ’ Blocked - Fix Required"]
     Vercel & Railway & Supabase --> Health & Smoke & E2E & Perf
 ```
 
@@ -411,34 +411,34 @@ flowchart TB
 
 | Gate | Tool | Threshold | Failure Action | Severity | Scope |
 |------|------|-----------|----------------|----------|-------|
-| **Lint** | ESLint | 0 errors, 0 warnings | Block PR merge | 🔴 Critical | All apps |
-| **TypeScript** | `tsc --noEmit` | 0 errors (strict mode) | Block PR merge | 🔴 Critical | All apps |
-| **Build** | Turborepo | All apps compile | Block PR merge | 🔴 Critical | All apps |
-| **Tests** | Jest | 100% pass, >80% coverage | Block PR merge | 🔴 Critical | Changed apps |
-| **Security** | `npm audit` | 0 high/critical vulns | Block PR merge | 🔴 Critical | Root |
-| **Mermaid** | Custom script | 100% diagrams valid | Block PR merge | 🟡 Warning | Docs |
-| **Bundle Size** | `@next/bundle-analyzer` | < 200KB first load JS | Warning only | 🟢 Info | Web |
-| **Performance** | Lighthouse CI | Score >= 90 | Warning only | 🟢 Info | Web |
-| **E2E** | Playwright | 100% pass | Block deploy | 🔴 Critical | All apps |
-| **Secrets** | GitHub secret scanning | 0 leaks detected | Block push | 🔴 Critical | Root |
+| **Lint** | ESLint | 0 errors, 0 warnings | Block PR merge | Ã°Å¸â€Â´ Critical | All apps |
+| **TypeScript** | `tsc --noEmit` | 0 errors (strict mode) | Block PR merge | Ã°Å¸â€Â´ Critical | All apps |
+| **Build** | Turborepo | All apps compile | Block PR merge | Ã°Å¸â€Â´ Critical | All apps |
+| **Tests** | Jest | 100% pass, >80% coverage | Block PR merge | Ã°Å¸â€Â´ Critical | Changed apps |
+| **Security** | `npm audit` | 0 high/critical vulns | Block PR merge | Ã°Å¸â€Â´ Critical | Root |
+| **Mermaid** | Custom script | 100% diagrams valid | Block PR merge | Ã°Å¸Å¸Â¡ Warning | Docs |
+| **Bundle Size** | `@next/bundle-analyzer` | < 200KB first load JS | Warning only | Ã°Å¸Å¸Â¢ Info | Web |
+| **Performance** | Lighthouse CI | Score >= 90 | Warning only | Ã°Å¸Å¸Â¢ Info | Web |
+| **E2E** | Playwright | 100% pass | Block deploy | Ã°Å¸â€Â´ Critical | All apps |
+| **Secrets** | GitHub secret scanning | 0 leaks detected | Block push | Ã°Å¸â€Â´ Critical | Root |
 
 ### 7.3 CI Pipeline Timing
 
 | Stage | Job | Avg Time | Parallel | Dependencies |
 |-------|-----|----------|----------|--------------|
-| Setup | `npm ci` | 90s | — | — |
-| Quality | Lint | 20s | ✅ With all quality gates | Setup |
-| Quality | TypeScript | 45s | ✅ With all quality gates | Setup |
-| Quality | Build | 3min | — | Lint + TypeCheck |
-| Quality | Tests | 2min | ✅ With build | Setup |
-| Quality | Security audit | 15s | ✅ With build | Setup |
-| Quality | Mermaid validate | 10s | ✅ With build | Setup |
-| Deploy | Vercel | 2min | ✅ With Railway | Build |
-| Deploy | Railway | 3min | ✅ With Vercel | Build |
-| Deploy | DB migration | 30s | ✅ With Vercel | Build |
-| Verify | Health checks | 30s | ✅ Smoke + E2E | Deploy |
-| Verify | Smoke tests | 2min | ✅ With health | Deploy |
-| Verify | E2E tests | 3min | ✅ With health | Deploy |
+| Setup | `npm ci` | 90s | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| Quality | Lint | 20s | Ã¢Å“â€¦ With all quality gates | Setup |
+| Quality | TypeScript | 45s | Ã¢Å“â€¦ With all quality gates | Setup |
+| Quality | Build | 3min | Ã¢â‚¬â€ | Lint + TypeCheck |
+| Quality | Tests | 2min | Ã¢Å“â€¦ With build | Setup |
+| Quality | Security audit | 15s | Ã¢Å“â€¦ With build | Setup |
+| Quality | Mermaid validate | 10s | Ã¢Å“â€¦ With build | Setup |
+| Deploy | Vercel | 2min | Ã¢Å“â€¦ With Railway | Build |
+| Deploy | Railway | 3min | Ã¢Å“â€¦ With Vercel | Build |
+| Deploy | DB migration | 30s | Ã¢Å“â€¦ With Vercel | Build |
+| Verify | Health checks | 30s | Ã¢Å“â€¦ Smoke + E2E | Deploy |
+| Verify | Smoke tests | 2min | Ã¢Å“â€¦ With health | Deploy |
+| Verify | E2E tests | 3min | Ã¢Å“â€¦ With health | Deploy |
 | **Total** | | **~8min** | | |
 
 ### 7.4 CI/CD Metrics Dashboard
@@ -458,12 +458,12 @@ flowchart TB
 
 | Date | Change | Before | After | Impact |
 |------|--------|--------|-------|--------|
-| Jun 2026 | Added Mermaid validation gate | — | +10s | Documentation quality |
+| Jun 2026 | Added Mermaid validation gate | Ã¢â‚¬â€ | +10s | Documentation quality |
 | Jun 2026 | Parallelized lint, typecheck, test | 10 min | 8 min | -20% pipeline time |
 | Jun 2026 | Added npm caching | 11 min | 10 min | -9% pipeline time |
-| Jun 2026 | Added CI metrics dashboard | — | — | Visibility into trends |
+| Jun 2026 | Added CI metrics dashboard | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Visibility into trends |
 | Apr 2026 | Switched to `npm ci` | Non-deterministic | Deterministic | Reproducible builds |
-| Mar 2026 | Initial GitHub Actions setup | — | 15 min | Baseline |
+| Mar 2026 | Initial GitHub Actions setup | Ã¢â‚¬â€ | 15 min | Baseline |
 
 ---
 
@@ -479,19 +479,19 @@ vMAJOR.MINOR.PATCH
 
 | Component | Increment When | Example | Release Type |
 |-----------|---------------|---------|--------------|
-| **MAJOR** | Breaking API/DB changes, framework upgrades | `v2.0.0` | 🚀 Major release |
-| **MINOR** | New features, non-breaking additions | `v1.3.0` | ✨ Feature release |
-| **PATCH** | Bug fixes, performance improvements | `v1.2.1` | 🐛 Patch release |
-| **PRERELEASE** | Alpha/beta/rc builds | `v1.3.0-beta.1` | 🧪 Pre-release |
+| **MAJOR** | Breaking API/DB changes, framework upgrades | `v2.0.0` | Ã°Å¸Å¡â‚¬ Major release |
+| **MINOR** | New features, non-breaking additions | `v1.3.0` | Ã¢Å“Â¨ Feature release |
+| **PATCH** | Bug fixes, performance improvements | `v1.2.1` | Ã°Å¸Ââ€º Patch release |
+| **PRERELEASE** | Alpha/beta/rc builds | `v1.3.0-beta.1` | Ã°Å¸Â§Âª Pre-release |
 
 ### 8.2 Release Cadence
 
 | Release Type | Frequency | Process | Approval |
 |-------------|-----------|---------|----------|
-| 🐛 Patch | As needed (avg 1-2/week) | Automated hotfix → main | Single review |
-| ✨ Feature | Weekly (Friday deploy freeze) | Release branch → staging → main | Tech lead + QA |
-| 🚀 Major | Monthly | Feature freeze → RC → staging (3d) → prod | Full CAB |
-| 🔴 Emergency | Immediate | Hotfix branch → expedited review → deploy | Emergency CAB |
+| Ã°Å¸Ââ€º Patch | As needed (avg 1-2/week) | Automated hotfix Ã¢â€ â€™ main | Single review |
+| Ã¢Å“Â¨ Feature | Weekly (Friday deploy freeze) | Release branch Ã¢â€ â€™ staging Ã¢â€ â€™ main | Tech lead + QA |
+| Ã°Å¸Å¡â‚¬ Major | Monthly | Feature freeze Ã¢â€ â€™ RC Ã¢â€ â€™ staging (3d) Ã¢â€ â€™ prod | Full CAB |
+| Ã°Å¸â€Â´ Emergency | Immediate | Hotfix branch Ã¢â€ â€™ expedited review Ã¢â€ â€™ deploy | Emergency CAB |
 
 ### 8.3 Release Process Flow
 
@@ -523,7 +523,7 @@ flowchart TB
     subgraph "Post-Release"
         NotesPub["Publish Release Notes"]
         Announce["Announce in #releases"]
-        MergeBack["Merge release → develop"]
+        MergeBack["Merge release Ã¢â€ â€™ develop"]
     end
 
     Develop --> Branch
@@ -535,7 +535,7 @@ flowchart TB
     CAB -->|Rejected| Branch
     Tag --> Prod --> Monitor
     Monitor -->|Pass| NotesPub & Announce & MergeBack
-    Monitor -->|Fail| Rollback["Rollback Procedure<br/>§10.2"]
+    Monitor -->|Fail| Rollback["Rollback Procedure<br/>Ã‚Â§10.2"]
 ```
 
 ### 8.4 Release Notes Automation
@@ -576,13 +576,13 @@ Generated release notes include:
 | Flag Name | Purpose | Owner | Rollout Strategy | Max Duration |
 |-----------|---------|-------|-----------------|--------------|
 | `hero-cta-variant` | A/B test CTA button text | Frontend Lead | 50/50 split | 14 days |
-| `ai-chat-v2` | New chat model | AI Lead | 10% → 25% → 50% → 100% | 7 days |
-| `admin-dashboard-redesign` | New admin layout | Full-stack Lead | Internal only → 10% → 100% | 14 days |
-| `new-contact-form` | Updated form validation | Backend Lead | 5% → 50% → 100% | 7 days |
+| `ai-chat-v2` | New chat model | AI Lead | 10% Ã¢â€ â€™ 25% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100% | 7 days |
+| `admin-dashboard-redesign` | New admin layout | Full-stack Lead | Internal only Ã¢â€ â€™ 10% Ã¢â€ â€™ 100% | 14 days |
+| `new-contact-form` | Updated form validation | Backend Lead | 5% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100% | 7 days |
 
 **Flag Lifecycle:**
 ```
-Create → Enable (internal) → Enable (canary) → Enable (gradual) → Full rollout → Remove flag
+Create Ã¢â€ â€™ Enable (internal) Ã¢â€ â€™ Enable (canary) Ã¢â€ â€™ Enable (gradual) Ã¢â€ â€™ Full rollout Ã¢â€ â€™ Remove flag
 ```
 
 ### 8.6 Canary Releases
@@ -595,7 +595,7 @@ For high-risk changes, a **canary release** strategy is used:
 | **5%** | 5% of users | 2 hours | Error rate < 0.1%, no p95 regression | Error rate > 0.5% |
 | **25%** | 25% of users | 4 hours | Error rate < baseline | Error rate > baseline |
 | **50%** | 50% of users | 4 hours | All metrics stable | Any metric degrades |
-| **100%** | All users | — | — | — |
+| **100%** | All users | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
 
 ---
 
@@ -605,10 +605,10 @@ For high-risk changes, a **canary release** strategy is used:
 
 | Environment | Gate Type | Approver(s) | Automatic? | Conditions |
 |-------------|-----------|-------------|------------|------------|
-| **Preview** | None | — | ✅ Auto | CI passes |
-| **Staging** | Code review | Code owner | ✅ Auto after merge to develop | CI passes + review approved |
-| **Production** | Release approval | Tech Lead + PO | 🟡 Semi-auto | CI passes + all tests pass |
-| **Production (Major)** | Change Advisory Board | CAB (3 members) | ❌ Manual | Full regression + security review |
+| **Preview** | None | Ã¢â‚¬â€ | Ã¢Å“â€¦ Auto | CI passes |
+| **Staging** | Code review | Code owner | Ã¢Å“â€¦ Auto after merge to develop | CI passes + review approved |
+| **Production** | Release approval | Tech Lead + PO | Ã°Å¸Å¸Â¡ Semi-auto | CI passes + all tests pass |
+| **Production (Major)** | Change Advisory Board | CAB (3 members) | Ã¢ÂÅ’ Manual | Full regression + security review |
 
 ### 9.2 Change Advisory Board (CAB)
 
@@ -634,23 +634,23 @@ For high-risk changes, a **canary release** strategy is used:
 
 | Change Type | Definition | Approval Path | Deploy Window |
 |-------------|-----------|---------------|---------------|
-| **Standard** | Bug fixes, routine updates | Code review → auto-deploy | Any window |
-| **Normal** | New features, minor improvements | Code review → PO approval | Production window |
-| **Major** | Architecture changes, breaking changes | Code review → CAB approval | Major release window |
-| **Emergency** | Security patches, outage fixes | Emergency CAB → post-deploy review | Any time |
-| **Trivial** | Documentation, CI config, dependencies | Single review → auto-deploy | Any window |
+| **Standard** | Bug fixes, routine updates | Code review Ã¢â€ â€™ auto-deploy | Any window |
+| **Normal** | New features, minor improvements | Code review Ã¢â€ â€™ PO approval | Production window |
+| **Major** | Architecture changes, breaking changes | Code review Ã¢â€ â€™ CAB approval | Major release window |
+| **Emergency** | Security patches, outage fixes | Emergency CAB Ã¢â€ â€™ post-deploy review | Any time |
+| **Trivial** | Documentation, CI config, dependencies | Single review Ã¢â€ â€™ auto-deploy | Any window |
 
 ### 9.5 Emergency Change Process
 
 ```mermaid
 flowchart TB
-    Incident["🚨 Incident Detected<br/>Production outage / Security vuln"]
+    Incident["Ã°Å¸Å¡Â¨ Incident Detected<br/>Production outage / Security vuln"]
     
     EMG["Emergency Change Request<br/>Filed within 15 min"]
     
     Approval{"Emergency CAB<br/>Available?"}
     
-    Deploy["Deploy Fix Immediately<br/>Hotfix branch → main"]
+    Deploy["Deploy Fix Immediately<br/>Hotfix branch Ã¢â€ â€™ main"]
     
     Post["Post-Deploy Review<br/>Within 24 hours"]
     
@@ -813,17 +813,17 @@ cpuThreshold = 80
 
 | Alert Type | Severity | Channel | First Responder | Escalation (15 min) |
 |------------|----------|---------|-----------------|-------------------|
-| Site down | 🔴 Critical | Telegram + SMS + Email | On-call DevOps | DevOps Lead |
-| API 500 rate > 5% | 🔴 Critical | Telegram + Email | On-call Backend | Backend Lead |
-| AI service unreachable | 🟡 High | Telegram | On-call AI | AI Lead |
-| DB connection failures | 🔴 Critical | Telegram + SMS | On-call DevOps | Architecture Lead |
-| CDN cache miss ratio > 15% | 🟡 High | Telegram | DevOps Lead | Cloudflare analytics check |
-| SSL cert expiring (14d) | 🟢 Warning | Email | DevOps Lead | — |
-| DNS resolution failure | 🔴 Critical | Telegram + SMS | On-call DevOps | Cloudflare status check |
-| Cloudflare WAF blockage spike | 🟡 High | Telegram | DevOps Lead | Review WAF rules |
-| Performance regression | 🟡 High | Telegram | Frontend/Backend Lead | Tech Lead |
-| Deploy failure | 🟡 High | Telegram | DevOps Lead | Engineering Lead |
-| Cost anomaly (>20% budget) | 🟢 Warning | Telegram + Email | DevOps Lead | — |
+| Site down | Ã°Å¸â€Â´ Critical | Telegram + SMS + Email | On-call DevOps | DevOps Lead |
+| API 500 rate > 5% | Ã°Å¸â€Â´ Critical | Telegram + Email | On-call Backend | Backend Lead |
+| AI service unreachable | Ã°Å¸Å¸Â¡ High | Telegram | On-call AI | AI Lead |
+| DB connection failures | Ã°Å¸â€Â´ Critical | Telegram + SMS | On-call DevOps | Architecture Lead |
+| CDN cache miss ratio > 15% | Ã°Å¸Å¸Â¡ High | Telegram | DevOps Lead | Cloudflare analytics check |
+| SSL cert expiring (14d) | Ã°Å¸Å¸Â¢ Warning | Email | DevOps Lead | Ã¢â‚¬â€ |
+| DNS resolution failure | Ã°Å¸â€Â´ Critical | Telegram + SMS | On-call DevOps | Cloudflare status check |
+| Cloudflare WAF blockage spike | Ã°Å¸Å¸Â¡ High | Telegram | DevOps Lead | Review WAF rules |
+| Performance regression | Ã°Å¸Å¸Â¡ High | Telegram | Frontend/Backend Lead | Tech Lead |
+| Deploy failure | Ã°Å¸Å¸Â¡ High | Telegram | DevOps Lead | Engineering Lead |
+| Cost anomaly (>20% budget) | Ã°Å¸Å¸Â¢ Warning | Telegram + Email | DevOps Lead | Ã¢â‚¬â€ |
 
 ### 12.4 Monitoring Dashboard Specifications
 
@@ -904,33 +904,33 @@ Trigger: Service returns 5xx or unreachable
 RTO: 5 minutes
 
 STEP 1: DETECT (automated)
-  □ Better Uptime alert received (Telegram + SMS)
-  □ OR: Sentry error spike alert received
+  Ã¢â€“Â¡ Better Uptime alert received (Telegram + SMS)
+  Ã¢â€“Â¡ OR: Sentry error spike alert received
 
 STEP 2: DIAGNOSE (1 minute)
-  □ Check Better Uptime dashboard: which service is down?
-  □ Check Sentry: recent error spike?
-  □ Check provider dashboards: Vercel, Railway, Supabase status pages
+  Ã¢â€“Â¡ Check Better Uptime dashboard: which service is down?
+  Ã¢â€“Â¡ Check Sentry: recent error spike?
+  Ã¢â€“Â¡ Check provider dashboards: Vercel, Railway, Supabase status pages
 
 STEP 3: AUTO-RECOVERY (2 minutes)
-  □ Railway: Service auto-restarts (check railway logs)
-  □ Vercel: Previous deployment is still cached
-  □ Supabase: Auto-failover (if applicable)
+  Ã¢â€“Â¡ Railway: Service auto-restarts (check railway logs)
+  Ã¢â€“Â¡ Vercel: Previous deployment is still cached
+  Ã¢â€“Â¡ Supabase: Auto-failover (if applicable)
 
 STEP 4: MANUAL RECOVERY (5 minutes) [if auto-recovery fails]
-  □ Vercel: Trigger rollback → vercel rollback --confirm
-  □ Railway: Trigger restart → railway service restart
-  □ Database: Check Supabase dashboard for connection pool status
+  Ã¢â€“Â¡ Vercel: Trigger rollback Ã¢â€ â€™ vercel rollback --confirm
+  Ã¢â€“Â¡ Railway: Trigger restart Ã¢â€ â€™ railway service restart
+  Ã¢â€“Â¡ Database: Check Supabase dashboard for connection pool status
 
 STEP 5: VERIFY (2 minutes)
-  □ Run health checks against all services
-  □ Verify error rates returning to baseline in Sentry
-  □ Run smoke tests against critical paths
+  Ã¢â€“Â¡ Run health checks against all services
+  Ã¢â€“Â¡ Verify error rates returning to baseline in Sentry
+  Ã¢â€“Â¡ Run smoke tests against critical paths
 
 STEP 6: DOCUMENT (10 minutes)
-  □ Create incident report in GitHub Issues
-  □ Update runbook with lessons learned
-  □ Notify team in #incidents channel
+  Ã¢â€“Â¡ Create incident report in GitHub Issues
+  Ã¢â€“Â¡ Update runbook with lessons learned
+  Ã¢â€“Â¡ Notify team in #incidents channel
 ```
 
 #### RR-002: Database Recovery
@@ -941,34 +941,34 @@ Trigger: Data corruption, accidental data loss, migration failure
 RTO: 1 hour (data restore), 2 hours (full recovery)
 
 STEP 1: ASSESS DAMAGE (5 minutes)
-  □ Identify affected tables and data
-  □ Determine scope: single table vs full database
-  □ Check if migration was the cause (rollback migration first)
+  Ã¢â€“Â¡ Identify affected tables and data
+  Ã¢â€“Â¡ Determine scope: single table vs full database
+  Ã¢â€“Â¡ Check if migration was the cause (rollback migration first)
 
 STEP 2: STOP THE BLEEDING (2 minutes)
-  □ If migration failure → rollback: supabase db push --target rollback
-  □ If data corruption → stop write operations
-  □ If security breach → rotate all credentials immediately
+  Ã¢â€“Â¡ If migration failure Ã¢â€ â€™ rollback: supabase db push --target rollback
+  Ã¢â€“Â¡ If data corruption Ã¢â€ â€™ stop write operations
+  Ã¢â€“Â¡ If security breach Ã¢â€ â€™ rotate all credentials immediately
 
 STEP 3: RESTORE FROM BACKUP (15-45 minutes)
-  □ Latest automated backup: Restore from Supabase dashboard
-  □ Point-in-time recovery: Choose recovery time (within RPO)
-  □ Verify backup integrity before restore
+  Ã¢â€“Â¡ Latest automated backup: Restore from Supabase dashboard
+  Ã¢â€“Â¡ Point-in-time recovery: Choose recovery time (within RPO)
+  Ã¢â€“Â¡ Verify backup integrity before restore
 
 STEP 4: VERIFY DATA INTEGRITY (10 minutes)
-  □ Run data integrity checks (referential integrity, row counts)
-  □ Verify application functionality against restored data
-  □ Check for any data loss vs RPO target
+  Ã¢â€“Â¡ Run data integrity checks (referential integrity, row counts)
+  Ã¢â€“Â¡ Verify application functionality against restored data
+  Ã¢â€“Â¡ Check for any data loss vs RPO target
 
 STEP 5: RESUME SERVICE (2 minutes)
-  □ Re-enable write operations
-  □ Run health checks
-  □ Monitor error rates for 30 minutes
+  Ã¢â€“Â¡ Re-enable write operations
+  Ã¢â€“Â¡ Run health checks
+  Ã¢â€“Â¡ Monitor error rates for 30 minutes
 
 STEP 6: POST-MORTEM (30 minutes)
-  □ Root cause analysis
-  □ Preventive measures (additional backups, migration safeguards)
-  □ Update runbook
+  Ã¢â€“Â¡ Root cause analysis
+  Ã¢â€“Â¡ Preventive measures (additional backups, migration safeguards)
+  Ã¢â€“Â¡ Update runbook
 ```
 
 #### RR-003: Full Provider Outage
@@ -979,53 +979,53 @@ Trigger: Vercel, Railway, or Supabase becomes unavailable
 RTO: 4 hours (alternative deployment)
 
 STEP 1: CONFIRM OUTAGE (2 minutes)
-  □ Check provider status page (status.vercel.com, status.railway.app, status.supabase.com)
-  □ Check third-party monitors (Better Uptime)
-  □ Confirm it's not a local/network issue
+  Ã¢â€“Â¡ Check provider status page (status.vercel.com, status.railway.app, status.supabase.com)
+  Ã¢â€“Â¡ Check third-party monitors (Better Uptime)
+  Ã¢â€“Â¡ Confirm it's not a local/network issue
 
 STEP 2: ASSESS IMPACT (5 minutes)
-  □ Which services are affected?
-  □ Is there a published ETA for resolution?
-  □ Can we wait it out, or must we failover?
+  Ã¢â€“Â¡ Which services are affected?
+  Ã¢â€“Â¡ Is there a published ETA for resolution?
+  Ã¢â€“Â¡ Can we wait it out, or must we failover?
 
 STEP 3: DECISION GATE (2 minutes)
-  □ If provider ETA < 1 hour → WAIT (monitor status page)
-  □ If provider ETA > 1 hour → BEGIN FAILOVER
+  Ã¢â€“Â¡ If provider ETA < 1 hour Ã¢â€ â€™ WAIT (monitor status page)
+  Ã¢â€“Â¡ If provider ETA > 1 hour Ã¢â€ â€™ BEGIN FAILOVER
 
 STEP 4: FAILOVER (2-4 hours) [if ETA > 1 hour]
-  □ Vercel outage: Deploy static export to Netlify/Cloudflare Pages
+  Ã¢â€“Â¡ Vercel outage: Deploy static export to Netlify/Cloudflare Pages
     - Run: npm run build && npx netlify deploy --prod
     - Update DNS: Change CNAME to Netlify
-  □ Railway outage: Deploy AI service to Render/Fly.io
+  Ã¢â€“Â¡ Railway outage: Deploy AI service to Render/Fly.io
     - Push Docker image to alternate container registry
     - Deploy and update health check monitoring
-  □ Supabase outage: Restore from backup to alternate PostgreSQL
+  Ã¢â€“Â¡ Supabase outage: Restore from backup to alternate PostgreSQL
     - Provision new PostgreSQL (Neon/PlanetScale free tier)
     - Restore latest backup
     - Update connection strings
-  □ DNS: Update TTL to 60s temporarily for fast failover
+  Ã¢â€“Â¡ DNS: Update TTL to 60s temporarily for fast failover
 
 STEP 5: VERIFY (10 minutes)
-  □ Run health checks against all failover services
-  □ Verify critical user flows
-  □ Update status page
+  Ã¢â€“Â¡ Run health checks against all failover services
+  Ã¢â€“Â¡ Verify critical user flows
+  Ã¢â€“Â¡ Update status page
 
 STEP 6: RECOVER (post-outage)
-  □ Switch back to primary provider once service restored
-  □ Restore any data generated during failover period
-  □ Document lessons learned and update DR plan
+  Ã¢â€“Â¡ Switch back to primary provider once service restored
+  Ã¢â€“Â¡ Restore any data generated during failover period
+  Ã¢â€“Â¡ Document lessons learned and update DR plan
 ```
 
 ### 13.5 Business Continuity Checklist
 
 | Check | Frequency | Owner | Verification |
 |-------|-----------|-------|-------------|
-| □ Test backup restoration | Monthly | DevOps Lead | Restore to staging, verify data integrity |
-| □ Review RTO/RPO targets | Quarterly | Architecture Lead | SLA review with stakeholders |
-| □ Practice DR drill (tabletop) | Quarterly | DevOps Lead | Walk through RR-001, RR-002, RR-003 |
-| □ Full DR drill (actual failover) | Bi-annual | DevOps Lead | Actual failover to backup provider |
-| □ Update runbooks | Per-incident | On-call engineer | Incorporate lessons learned |
-| □ Audit backup retention | Monthly | DevOps Lead | Verify backup files exist and are valid |
+| Ã¢â€“Â¡ Test backup restoration | Monthly | DevOps Lead | Restore to staging, verify data integrity |
+| Ã¢â€“Â¡ Review RTO/RPO targets | Quarterly | Architecture Lead | SLA review with stakeholders |
+| Ã¢â€“Â¡ Practice DR drill (tabletop) | Quarterly | DevOps Lead | Walk through RR-001, RR-002, RR-003 |
+| Ã¢â€“Â¡ Full DR drill (actual failover) | Bi-annual | DevOps Lead | Actual failover to backup provider |
+| Ã¢â€“Â¡ Update runbooks | Per-incident | On-call engineer | Incorporate lessons learned |
+| Ã¢â€“Â¡ Audit backup retention | Monthly | DevOps Lead | Verify backup files exist and are valid |
 
 ---
 
@@ -1035,23 +1035,23 @@ STEP 6: RECOVER (post-outage)
 
 | Metric | Target | Elite | High | Medium | Low | Measurement |
 |--------|--------|-------|------|--------|-----|-------------|
-| **Deployment frequency** | Daily | On-demand (multiple/day) | Weekly–Monthly | Monthly–Every 6 months | < 6 months | GitHub Actions deploys |
-| **Lead time for changes** | < 1 day | < 1 hour | 1 day–1 week | 1 month–6 months | > 6 months | PR → production |
-| **Change failure rate** | < 5% | < 5% | 5–10% | 10–20% | > 20% | Deploys causing incidents |
-| **Time to restore service** | < 1 hour | < 1 hour | < 1 day | 1 day–1 week | > 1 week | Incident → resolution |
+| **Deployment frequency** | Daily | On-demand (multiple/day) | WeeklyÃ¢â‚¬â€œMonthly | MonthlyÃ¢â‚¬â€œEvery 6 months | < 6 months | GitHub Actions deploys |
+| **Lead time for changes** | < 1 day | < 1 hour | 1 dayÃ¢â‚¬â€œ1 week | 1 monthÃ¢â‚¬â€œ6 months | > 6 months | PR Ã¢â€ â€™ production |
+| **Change failure rate** | < 5% | < 5% | 5Ã¢â‚¬â€œ10% | 10Ã¢â‚¬â€œ20% | > 20% | Deploys causing incidents |
+| **Time to restore service** | < 1 hour | < 1 hour | < 1 day | 1 dayÃ¢â‚¬â€œ1 week | > 1 week | Incident Ã¢â€ â€™ resolution |
 
 ### 14.2 Platform Metrics
 
 | Metric | Target | Current | Measurement | Tool |
 |--------|--------|---------|-------------|------|
-| **Build time (full)** | < 5 min | — | `turbo run build` | GitHub Actions timing |
-| **Build time (cached)** | < 30s | — | Turbo cache hit | Turborepo logs |
-| **CI pass rate** | > 95% | — | Pipeline success rate | GitHub Actions |
-| **Test coverage** | > 80% | — | Line coverage | Jest `--coverage` |
-| **Dependency freshness** | < 30d | — | Days since last `npm audit` | Dependabot |
-| **Cost per deployment** | < $0.01 | — | Total CI/CD costs | Provider billing |
-| **Deploy success rate** | > 99% | — | Successful vs failed deploys | GitHub Actions |
-| **Rollback rate** | < 5% | — | Deployments rolled back | GitHub Actions |
+| **Build time (full)** | < 5 min | Ã¢â‚¬â€ | `turbo run build` | GitHub Actions timing |
+| **Build time (cached)** | < 30s | Ã¢â‚¬â€ | Turbo cache hit | Turborepo logs |
+| **CI pass rate** | > 95% | Ã¢â‚¬â€ | Pipeline success rate | GitHub Actions |
+| **Test coverage** | > 80% | Ã¢â‚¬â€ | Line coverage | Jest `--coverage` |
+| **Dependency freshness** | < 30d | Ã¢â‚¬â€ | Days since last `npm audit` | Dependabot |
+| **Cost per deployment** | < $0.01 | Ã¢â‚¬â€ | Total CI/CD costs | Provider billing |
+| **Deploy success rate** | > 99% | Ã¢â‚¬â€ | Successful vs failed deploys | GitHub Actions |
+| **Rollback rate** | < 5% | Ã¢â‚¬â€ | Deployments rolled back | GitHub Actions |
 
 ### 14.3 Dashboard Composition
 
@@ -1072,8 +1072,8 @@ graph TB
 
 | Severity | Definition | Response Time | Escalation | Examples |
 |----------|-----------|---------------|------------|----------|
-| **SEV-1** | Complete site outage, data loss, security breach | < 15 min | DevOps Lead → CTO | Site down, DB corrupted |
-| **SEV-2** | Major feature broken, degraded performance | < 1 hour | Tech Lead → DevOps Lead | AI chat down, slow page loads |
+| **SEV-1** | Complete site outage, data loss, security breach | < 15 min | DevOps Lead Ã¢â€ â€™ CTO | Site down, DB corrupted |
+| **SEV-2** | Major feature broken, degraded performance | < 1 hour | Tech Lead Ã¢â€ â€™ DevOps Lead | AI chat down, slow page loads |
 | **SEV-3** | Minor feature broken, cosmetic issues | < 24 hours | Team lead | Styling issue, non-critical bug |
 | **SEV-4** | Low-priority bug, enhancement request | Next sprint | Product owner | Minor UI glitch, typo |
 
@@ -1085,36 +1085,36 @@ graph TB
 TRIGGER: CI pipeline fails
 
 STEP 1: DIAGNOSE (2 minutes)
-  □ Check which job failed (Lint / TypeScript / Build / Test / Security / Mermaid)
-  □ Click "Details" in GitHub Actions to view logs
-  □ Identify the specific error message
+  Ã¢â€“Â¡ Check which job failed (Lint / TypeScript / Build / Test / Security / Mermaid)
+  Ã¢â€“Â¡ Click "Details" in GitHub Actions to view logs
+  Ã¢â€“Â¡ Identify the specific error message
 
 STEP 2: LINT/TYPE FAILURE (5 minutes)
-  □ Fix the reported error locally
-  □ Run `npx turbo lint` and `npx turbo typecheck` locally
-  □ Push fix and re-trigger CI
+  Ã¢â€“Â¡ Fix the reported error locally
+  Ã¢â€“Â¡ Run `npx turbo lint` and `npx turbo typecheck` locally
+  Ã¢â€“Â¡ Push fix and re-trigger CI
 
 STEP 3: BUILD FAILURE (10 minutes)
-  □ Check for missing dependencies
-  □ Check for TypeScript compilation errors
-  □ Run `npx turbo build --dry` to see dependency graph
-  □ Clear cache: `npx turbo clean && rm -rf node_modules && npm ci`
+  Ã¢â€“Â¡ Check for missing dependencies
+  Ã¢â€“Â¡ Check for TypeScript compilation errors
+  Ã¢â€“Â¡ Run `npx turbo build --dry` to see dependency graph
+  Ã¢â€“Â¡ Clear cache: `npx turbo clean && rm -rf node_modules && npm ci`
 
 STEP 4: TEST FAILURE (10 minutes)
-  □ Check which test failed
-  □ Run specific test: `npx jest --testPathPattern=<test-name>`
-  □ Fix test or code, re-run
+  Ã¢â€“Â¡ Check which test failed
+  Ã¢â€“Â¡ Run specific test: `npx jest --testPathPattern=<test-name>`
+  Ã¢â€“Â¡ Fix test or code, re-run
 
 STEP 5: SECURITY FAILURE (5 minutes)
-  □ Check `npm audit` report for vulnerable packages
-  □ Update vulnerable package: `npm update <package>`
-  □ If no patch available, add override in `package.json`
+  Ã¢â€“Â¡ Check `npm audit` report for vulnerable packages
+  Ã¢â€“Â¡ Update vulnerable package: `npm update <package>`
+  Ã¢â€“Â¡ If no patch available, add override in `package.json`
 
 STEP 6: DEPLOY FAILURE (15 minutes)
-  □ Check Vercel/Railway deploy logs
-  □ Verify environment variables are set
-  □ Check for build size limits
-  □ Previous build is still live (no downtime)
+  Ã¢â€“Â¡ Check Vercel/Railway deploy logs
+  Ã¢â€“Â¡ Verify environment variables are set
+  Ã¢â€“Â¡ Check for build size limits
+  Ã¢â€“Â¡ Previous build is still live (no downtime)
 ```
 
 ### 15.3 Deploy Failure Rollback Procedure
@@ -1170,12 +1170,12 @@ supabase db diff --use-migra | supabase db push
 
 | Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
 |-------------|------|----------|-----------|------------------------|---------|
-| DEC-DEV-001 | Jun 2026 | GitOps-driven DevOps with GitHub Actions as single CI/CD orchestrator | Unified pipeline; no provider lock-in; free tier for public repos | Jenkins (self-hosted cost), GitLab CI (migration cost) | Adopted — 8-min pipeline, 3-stage flow |
-| DEC-DEV-002 | Jun 2026 | 4-environment model (Dev → Testing → Staging → Production) with promotion gates | Isolation per stage; catch issues before production; ephemeral CI environment | 2-env (dev+prod — too risky), 3-env (missing CI isolation) | Adopted — full parity matrix |
-| DEC-DEV-003 | Jun 2026 | Turborepo with npm workspaces for monorepo orchestration | Deterministic builds; remote caching; parallel task execution | Nx (vendor lock-in), Lerna (maintenance mode), pnpm workspaces (less mature) | Adopted — sub-5-min builds |
-| DEC-DEV-004 | Jun 2026 | Cloudflare as single DNS + CDN + DDoS + SSL provider | Unified edge control; free tier covers all needs; global anycast network | AWS CloudFront + Route53 (cost), Fastly (cost) | Adopted — full-stack Cloudflare integration |
-| DEC-DEV-005 | Jun 2026 | Feature flags via PostHog for gradual rollouts | Integrated with existing analytics; no extra infrastructure; A/B testing built in | LaunchDarkly (cost), custom solution (maintenance) | Adopted — canary release strategy |
-| DEC-DEV-006 | Jun 2026 | Secret management via provider env vars + GitHub Secrets; 90-day rotation | No secrets in code; auditable rotation; least-privilege tokens | HashiCorp Vault (overhead), Doppler (cost) | Adopted — 20+ secrets in inventory |
+| DEC-DEV-001 | Jun 2026 | GitOps-driven DevOps with GitHub Actions as single CI/CD orchestrator | Unified pipeline; no provider lock-in; free tier for public repos | Jenkins (self-hosted cost), GitLab CI (migration cost) | Adopted Ã¢â‚¬â€ 8-min pipeline, 3-stage flow |
+| DEC-DEV-002 | Jun 2026 | 4-environment model (Dev Ã¢â€ â€™ Testing Ã¢â€ â€™ Staging Ã¢â€ â€™ Production) with promotion gates | Isolation per stage; catch issues before production; ephemeral CI environment | 2-env (dev+prod Ã¢â‚¬â€ too risky), 3-env (missing CI isolation) | Adopted Ã¢â‚¬â€ full parity matrix |
+| DEC-DEV-003 | Jun 2026 | Turborepo with npm workspaces for monorepo orchestration | Deterministic builds; remote caching; parallel task execution | Nx (vendor lock-in), Lerna (maintenance mode), pnpm workspaces (less mature) | Adopted Ã¢â‚¬â€ sub-5-min builds |
+| DEC-DEV-004 | Jun 2026 | Cloudflare as single DNS + CDN + DDoS + SSL provider | Unified edge control; free tier covers all needs; global anycast network | AWS CloudFront + Route53 (cost), Fastly (cost) | Adopted Ã¢â‚¬â€ full-stack Cloudflare integration |
+| DEC-DEV-005 | Jun 2026 | Feature flags via PostHog for gradual rollouts | Integrated with existing analytics; no extra infrastructure; A/B testing built in | LaunchDarkly (cost), custom solution (maintenance) | Adopted Ã¢â‚¬â€ canary release strategy |
+| DEC-DEV-006 | Jun 2026 | Secret management via provider env vars + GitHub Secrets; 90-day rotation | No secrets in code; auditable rotation; least-privilege tokens | HashiCorp Vault (overhead), Doppler (cost) | Adopted Ã¢â‚¬â€ 20+ secrets in inventory |
 
 ## Risk Register
 
@@ -1191,18 +1191,18 @@ supabase db diff --use-migra | supabase db push
 
 | Term | Definition |
 |------|------------|
-| **CAB** | Change Advisory Board — a group that reviews and approves major production changes |
+| **CAB** | Change Advisory Board Ã¢â‚¬â€ a group that reviews and approves major production changes |
 | **Canary Release** | A deployment strategy that gradually rolls out changes to a small subset of users |
-| **DORA Metrics** | DevOps Research and Assessment — four key metrics measuring software delivery performance |
+| **DORA Metrics** | DevOps Research and Assessment Ã¢â‚¬â€ four key metrics measuring software delivery performance |
 | **GitOps** | An operational model where Git is the single source of truth for infrastructure and deployment |
-| **IaC** | Infrastructure as Code — managing and provisioning infrastructure through machine-readable definition files |
+| **IaC** | Infrastructure as Code Ã¢â‚¬â€ managing and provisioning infrastructure through machine-readable definition files |
 | **Monorepo** | A single repository containing multiple distinct projects with shared tooling |
 | **Semantic Versioning** | A versioning scheme (MAJOR.MINOR.PATCH) that communicates change impact |
 | **Turbo Cache** | Turborepo's remote caching mechanism that skips unchanged task executions |
 | **Quality Gate** | An automated check in the CI pipeline that must pass before deployment proceeds |
 | **Rollback** | The process of reverting a deployment to a previous known-good version |
-| **SSR** | Server-Side Rendering — generating HTML on the server for each request |
-| **WAF** | Web Application Firewall — security layer that filters malicious traffic at the edge |
+| **SSR** | Server-Side Rendering Ã¢â‚¬â€ generating HTML on the server for each request |
+| **WAF** | Web Application Firewall Ã¢â‚¬â€ security layer that filters malicious traffic at the edge |
 
 ---
 
@@ -1210,9 +1210,9 @@ supabase db diff --use-migra | supabase db push
 
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
-| **5.1** | Jun 2026 | **Aligned with DEPLOYMENT.md v5.0**: Upgraded to 4-environment model (added Testing tier between Dev and Staging) across §1 Executive Summary, §4 Environment Strategy (new 4-tier diagram, expanded matrix with Testing column, parity requirements). Added Cloudflare as 4th provider in header, §3 Toolchain (6 new Cloudflare services), §11 Secrets (9 new Cloudflare/R2/Redis secrets), §12 Monitoring (aligned SLAs to 99.99%, added CDN/DNS/DNS alerts). Updated §13 Backup Strategy (RPO/RTO columns, Cloudflare R2 storage). Added Cloudflare to §16 Cost Management. Updated document references to point to DEPLOYMENT v5.0. | DevOps Lead |
-| 5.0 | Jun 2026 | **Enterprise v5.0 Upgrade**: Added 4 new sections — §4 Environment Strategy (3-tier matrix, promotion gates, parity requirements, ephemeral previews), §8 CD & Release Strategy (semver, release cadence, release notes automation, feature flags, canary releases), §9 Deployment Approval Process (approval gates, CAB, deploy windows, emergency change), §13 Disaster Recovery & Business Continuity (RTO/RPO targets, 4-tier DR plan, backup strategy, 3 recovery runbooks, continuity checklist). Upgraded 3 sections — §5 Git Workflow → added §5.4 Code Review Process with review SLAs, reviewer assignment policy, escalation paths; §7 CI Strategy & Quality Gates → added formal quality gate matrix (10 gates), CI/CD metrics dashboard, optimization history; §12 Monitoring & Observability Strategy → added SLOs/SLIs (8 services), error budgets, alert routing matrix, monitoring dashboards. Added DORA metrics (14.1). Integrated insights from Ultimate Portfolio Plan docx (Ch. 7 & Agent 9). | DevOps Lead |
-| 4.0 | Jun 2026 | **Enterprise-Grade Rewrite**: Added 13 sections — Executive Summary (10 capabilities), DevOps Principles, Toolchain Inventory, Build System Architecture, Git Workflow, Development Workflow, CI/CD Pipeline, Infrastructure as Code, DevOps Metrics, Incident Response, Cost Management, Security & Compliance. | DevOps Lead |
+| **5.1** | Jun 2026 | **Aligned with DEPLOYMENT.md v5.0**: Upgraded to 4-environment model (added Testing tier between Dev and Staging) across Ã‚Â§1 Executive Summary, Ã‚Â§4 Environment Strategy (new 4-tier diagram, expanded matrix with Testing column, parity requirements). Added Cloudflare as 4th provider in header, Ã‚Â§3 Toolchain (6 new Cloudflare services), Ã‚Â§11 Secrets (9 new Cloudflare/R2/Redis secrets), Ã‚Â§12 Monitoring (aligned SLAs to 99.99%, added CDN/DNS/DNS alerts). Updated Ã‚Â§13 Backup Strategy (RPO/RTO columns, Cloudflare R2 storage). Added Cloudflare to Ã‚Â§16 Cost Management. Updated document references to point to DEPLOYMENT v5.0. | DevOps Lead |
+| 5.0 | Jun 2026 | **Enterprise v5.0 Upgrade**: Added 4 new sections Ã¢â‚¬â€ Ã‚Â§4 Environment Strategy (3-tier matrix, promotion gates, parity requirements, ephemeral previews), Ã‚Â§8 CD & Release Strategy (semver, release cadence, release notes automation, feature flags, canary releases), Ã‚Â§9 Deployment Approval Process (approval gates, CAB, deploy windows, emergency change), Ã‚Â§13 Disaster Recovery & Business Continuity (RTO/RPO targets, 4-tier DR plan, backup strategy, 3 recovery runbooks, continuity checklist). Upgraded 3 sections Ã¢â‚¬â€ Ã‚Â§5 Git Workflow Ã¢â€ â€™ added Ã‚Â§5.4 Code Review Process with review SLAs, reviewer assignment policy, escalation paths; Ã‚Â§7 CI Strategy & Quality Gates Ã¢â€ â€™ added formal quality gate matrix (10 gates), CI/CD metrics dashboard, optimization history; Ã‚Â§12 Monitoring & Observability Strategy Ã¢â€ â€™ added SLOs/SLIs (8 services), error budgets, alert routing matrix, monitoring dashboards. Added DORA metrics (14.1). Integrated insights from Ultimate Portfolio Plan docx (Ch. 7 & Agent 9). | DevOps Lead |
+| 4.0 | Jun 2026 | **Enterprise-Grade Rewrite**: Added 13 sections Ã¢â‚¬â€ Executive Summary (10 capabilities), DevOps Principles, Toolchain Inventory, Build System Architecture, Git Workflow, Development Workflow, CI/CD Pipeline, Infrastructure as Code, DevOps Metrics, Incident Response, Cost Management, Security & Compliance. | DevOps Lead |
 | 3.0 | Jun 2026 | Added executive summary, DevOps metrics, change log | DevOps Lead |
 | 2.0 | Jun 2026 | Updated for enterprise structure; added Mermaid git graph, PR checklist | DevOps Lead |
 | 1.0 | Mar 2026 | Initial DevOps documentation | DevOps Lead |
@@ -1223,14 +1223,14 @@ supabase db diff --use-migra | supabase db push
 
 | Reference | Description |
 |-----------|-------------|
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — §9 Deployment Architecture, §13 Dependency Architecture |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — dev tooling details |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security — CI/CD security gates, secret management |
-| `docs/operations/21-MONITORING.md` (v5.0) | Monitoring — SLOs, SLIs, alerting configuration |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Observability — tracing across the pipeline |
-| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment — enterprise deployment architecture, 4-environment model, domain/DNS/SSL/CDN strategy, backup/rollback, zero-downtime, scaling |
-| `docs/operations/25-CICD.md` (v5.0) | CI/CD — complete workflow YAML, pipeline configuration |
-| `docx_content.json` | Ultimate Portfolio Plan — Ch. 7 DevOps Pipeline, Agent 9 setup prompts |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ Ã‚Â§9 Deployment Architecture, Ã‚Â§13 Dependency Architecture |
+| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ dev tooling details |
+| `docs/security/SecurityArchitecture.md` (v5.0) | Security Ã¢â‚¬â€ CI/CD security gates, secret management |
+| `docs/operations/21-MONITORING.md` (v5.0) | Monitoring Ã¢â‚¬â€ SLOs, SLIs, alerting configuration |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Observability Ã¢â‚¬â€ tracing across the pipeline |
+| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment Ã¢â‚¬â€ enterprise deployment architecture, 4-environment model, domain/DNS/SSL/CDN strategy, backup/rollback, zero-downtime, scaling |
+| `docs/operations/25-CICD.md` (v5.0) | CI/CD Ã¢â‚¬â€ complete workflow YAML, pipeline configuration |
+| `docx_content.json` | Ultimate Portfolio Plan Ã¢â‚¬â€ Ch. 7 DevOps Pipeline, Agent 9 setup prompts |
 | `.github/workflows/ci.yml` | CI/CD workflow definition |
 | `turbo.json` | Turborepo pipeline configuration |
 | `infrastructure/docker/docker-compose.yml` | Local development environment |
@@ -1249,6 +1249,10 @@ supabase db diff --use-migra | supabase db push
 | 2.0 | Jun 2026 | Updated for enterprise structure; added Mermaid git graph, PR checklist | DevOps Lead |
 | 1.0 | Mar 2026 | Initial DevOps documentation | DevOps Lead |
 
-*Document Version: 5.0 — Enterprise-Grade DevOps*  
+*Document Version: 5.0 Ã¢â‚¬â€ Enterprise-Grade DevOps*  
 *Supersedes v4.0 (June 2026) and all previous versions*  
 *Next Review Date: September 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

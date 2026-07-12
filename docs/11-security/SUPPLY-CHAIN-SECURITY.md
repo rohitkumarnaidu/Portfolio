@@ -1,7 +1,7 @@
 # Supply Chain Security Policy
 
 > **Document:** `supply-chain-security-policy.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Standard:** SLSA Level 1 (Target: Level 3) | **Owner:** Staff DevOps
+> **Status:** Ã¢Å“â€¦ Active | **Standard:** SLSA Level 1 (Target: Level 3) | **Owner:** Staff DevOps
 > **Review Cadence:** Quarterly | **Classification:** L3-Confidential
 
 ---
@@ -150,7 +150,7 @@ security-gates:
 
 | Alert Type | Action | SLA | Owner |
 |------------|--------|-----|-------|
-| Critical CVE (CVSS ≥ 9.0) | Emergency patch PR | 24h | Staff DevOps |
+| Critical CVE (CVSS Ã¢â€°Â¥ 9.0) | Emergency patch PR | 24h | Staff DevOps |
 | High CVE (CVSS 7.0-8.9) | Priority patch PR | 72h | Engineering Lead |
 | Medium CVE (CVSS 4.0-6.9) | Scheduled patch | 14 days | Team Lead |
 | Low CVE (CVSS < 4.0) | Next sprint | 30 days | Engineer |
@@ -173,10 +173,10 @@ security-gates:
 
 | Update Type | SLA | Auto-Merge | Review Required |
 |-------------|-----|------------|----------------|
-| Security patch (critical) | 7 days | ✅ (after CI passes) | Post-merge review |
-| Security patch (high) | 14 days | ✅ (after CI passes) | Post-merge review |
-| Minor update | 30 days | ❌ | Manual review |
-| Major update | 90 days | ❌ | Breaking change assessment |
+| Security patch (critical) | 7 days | Ã¢Å“â€¦ (after CI passes) | Post-merge review |
+| Security patch (high) | 14 days | Ã¢Å“â€¦ (after CI passes) | Post-merge review |
+| Minor update | 30 days | Ã¢ÂÅ’ | Manual review |
+| Major update | 90 days | Ã¢ÂÅ’ | Breaking change assessment |
 
 ### 4.3 Dependency Graph
 
@@ -217,10 +217,10 @@ graph TD
 
 | Tier | Criteria | Examples | Count |
 |------|----------|---------|-------|
-| **🔴 Critical** | Auth, crypto, database, network | bcrypt, jsonwebtoken, Prisma, Supabase SDK | ~15 |
-| **🟡 High** | Data processing, file handling, rendering | DOMPurify, Sharp, Three.js | ~30 |
-| **🟠 Medium** | Utility, logging, formatting | Pino, Zod, class-validator | ~50 |
-| **🟢 Low** | Dev tools, linting, testing | ESLint, Jest, Prettier | ~160 |
+| **Ã°Å¸â€Â´ Critical** | Auth, crypto, database, network | bcrypt, jsonwebtoken, Prisma, Supabase SDK | ~15 |
+| **Ã°Å¸Å¸Â¡ High** | Data processing, file handling, rendering | DOMPurify, Sharp, Three.js | ~30 |
+| **Ã°Å¸Å¸Â  Medium** | Utility, logging, formatting | Pino, Zod, class-validator | ~50 |
+| **Ã°Å¸Å¸Â¢ Low** | Dev tools, linting, testing | ESLint, Jest, Prettier | ~160 |
 
 ### 4.5 Update Process
 
@@ -271,9 +271,9 @@ When a major version update is proposed, the following assessment is required:
 | 5 | Run full test suite | CI | 30 min |
 | 6 | Run typecheck across all workspaces | CI | 10 min |
 | 7 | Deploy to staging | DevOps | 1 hour |
-| 8 | Staged rollout (10% → 50% → 100%) | DevOps | 3 days |
+| 8 | Staged rollout (10% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100%) | DevOps | 3 days |
 | 9 | Monitor for regressions | QA | 7 days |
-| 10 | Close update ticket | Engineer | — |
+| 10 | Close update ticket | Engineer | Ã¢â‚¬â€ |
 
 ### 5.2 Breaking Change Decision Matrix
 
@@ -282,7 +282,7 @@ When a major version update is proposed, the following assessment is required:
 | **Security fix** | Always | Never | Never |
 | **API compatibility** | Breaking changes documented | Breaking changes undocumented | No migration path |
 | **Test coverage** | > 80% affected code | 50-80% affected code | < 50% affected code |
-| **Deprecation notice** | ≥ 6 months notice | < 6 months notice | No notice |
+| **Deprecation notice** | Ã¢â€°Â¥ 6 months notice | < 6 months notice | No notice |
 | **Alternative available** | No better alternative | Comparable alternative | Better alternative exists |
 
 ### 5.3 Breaking Change Workflow
@@ -312,7 +312,7 @@ graph TD
 | TypeScript types verified | `tsc --noEmit` passes across all workspaces | Engineer |
 | Full test suite passes | `npm test` across all workspaces | CI |
 | E2E tests pass | Playwright tests | CI |
-| Staged rollout completed | 10% → 50% → 100% traffic | DevOps |
+| Staged rollout completed | 10% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100% traffic | DevOps |
 | Rollback plan documented | Steps to revert the update | Engineer |
 
 ---
@@ -323,13 +323,13 @@ graph TD
 
 | SLSA Requirement | Status | Evidence |
 |-----------------|--------|----------|
-| **L1: Provenance available** | ✅ | npm registry provenance, GitHub Actions build logs |
-| **L2: Signed provenance** | ❌ | Not yet implemented |
-| **L2: Hosted build platform** | ✅ | GitHub Actions |
-| **L3: Hardened build platform** | ❌ | No SLSA3 builder |
-| **L3: Non-falsifiable provenance** | ❌ | Not yet implemented |
-| **L4: Two-person review** | ⚠️ Partial | PR review required, not enforced for all |
-| **L4: Hermetic builds** | ❌ | Not yet implemented |
+| **L1: Provenance available** | Ã¢Å“â€¦ | npm registry provenance, GitHub Actions build logs |
+| **L2: Signed provenance** | Ã¢ÂÅ’ | Not yet implemented |
+| **L2: Hosted build platform** | Ã¢Å“â€¦ | GitHub Actions |
+| **L3: Hardened build platform** | Ã¢ÂÅ’ | No SLSA3 builder |
+| **L3: Non-falsifiable provenance** | Ã¢ÂÅ’ | Not yet implemented |
+| **L4: Two-person review** | Ã¢Å¡Â Ã¯Â¸Â Partial | PR review required, not enforced for all |
+| **L4: Hermetic builds** | Ã¢ÂÅ’ | Not yet implemented |
 
 ### 6.2 SLSA Roadmap
 
@@ -350,7 +350,7 @@ graph TD
 | Category | Rationale | Examples |
 |----------|-----------|----------|
 | **Unmaintained packages** | No updates for > 2 years, known CVEs unpatched | left-pad, unmaintained forks |
-| **Packages with known CVEs** | Any package with open CVE ≥ 7.0 | Check via npm audit |
+| **Packages with known CVEs** | Any package with open CVE Ã¢â€°Â¥ 7.0 | Check via npm audit |
 | **Telemetry-heavy packages** | Excessive data collection without consent | Sentry (allowed, configured), analytics SDKs |
 | **Packages with malicious history** | Known typosquatting, dependency confusion | Check via npm security advisories |
 | **GPL-licensed (copyleft)** | License incompatibility with MIT project | GPLv3, AGPLv3 |
@@ -419,7 +419,7 @@ jobs:
 |-------------|-----------|--------|---------|
 | Production releases | Indefinite | CycloneDX JSON | GitHub Releases |
 | Staging builds | 90 days | CycloneDX JSON | Build artifacts |
-| Development | Not retained | — | — |
+| Development | Not retained | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
 
 ### 8.3 Changelog Requirements
 
@@ -451,3 +451,7 @@ All dependency updates must be documented in the project changelog:
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | July 2026 | Security Team | Initial supply chain security policy |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

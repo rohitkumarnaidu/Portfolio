@@ -23,3 +23,7 @@ In a highly competitive digital landscape, a static portfolio is no longer suffi
 - **Accessibility is Fundamental**: Inclusive design is not an afterthought. Keyboard navigation, screen readers, and high contrast are built into the foundational design system.
 - **AI Augments, Not Replaces**: AI assists visitors and admins, respects privacy, and never hallucinates professional facts.
 - **Open and Maintainable**: Clean Architecture, SOLID principles, and meticulous documentation ensure the codebase scales seamlessly and welcomes community contributions.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -523,3 +523,7 @@ If content issues are detected:
 | **Call to Action (CTA)** | A prompt encouraging the visitor to take a specific action (contact, download, explore, etc.) |
 | **Banned Words List** | Terms and phrases excluded from portfolio content because they are cliché, vague, or overused |
 
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

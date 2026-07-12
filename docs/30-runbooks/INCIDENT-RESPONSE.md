@@ -46,6 +46,17 @@ This Incident Response (IR) Plan establishes the procedures and responsibilities
 - Document what happened, what was done well, and what failed.
 - Create actionable tasks (Jira/Linear tickets) to improve defenses and update the Risk Register.
 
+## 6. Response Workflow Diagram
+
+```mermaid
+flowchart TD
+    A[Alert] --> B[Acknowledge]
+    B --> C[Assess]
+    C --> D[Respond]
+    D --> E[Resolve]
+    E --> F[Postmortem]
+```
+
 ## 5. Specific Playbooks
 
 ### 5.1 Credential / Secret Leak Playbook
@@ -61,3 +72,7 @@ This Incident Response (IR) Plan establishes the procedures and responsibilities
 3. Assess the extent of the damage.
 4. Restore the database to the most recent clean state.
 5. Identify and patch the vulnerability that allowed unauthorized write access.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

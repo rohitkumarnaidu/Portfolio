@@ -1,7 +1,9 @@
 # AI Strategy
 
+> **Status:** ✅ Active — reflects actual implementation
+
 **Last updated:** July 2026
-**Status:** Living document — grounded in implemented code, not design specs
+**Status:** Living document Ã¢â‚¬â€ grounded in implemented code, not design specs
 
 ---
 
@@ -27,7 +29,7 @@ The chat assistant is used on the portfolio's public pages. The NestJS API (`app
 
 ### 2.1 AI Chat (Streaming)
 
-**Flow:** Web (Next.js) → NestJS API (`POST /api/portfolio/chat/messages`) → FastAPI (`POST /api/chat`) → OpenAI/Anthropic
+**Flow:** Web (Next.js) Ã¢â€ â€™ NestJS API (`POST /api/portfolio/chat/messages`) Ã¢â€ â€™ FastAPI (`POST /api/chat`) Ã¢â€ â€™ OpenAI/Anthropic
 
 - The NestJS `ChatService.streamChat()` (`apps/api/src/modules/chat/chat.service.ts:69`) creates/retrieves a conversation session, stores the user message in Prisma, then forwards to FastAPI.
 - The FastAPI `AIService` (`apps/ai/app/services/ai_service.py`) performs RAG retrieval, builds a prompt with context + conversation history, and streams the response via Server-Sent Events.
@@ -69,27 +71,27 @@ The RAG pipeline lives in two services:
 | `CHUNK_SIZE` | 500 | Target characters per chunk |
 | `CHUNK_OVERLAP` | 50 | Overlap between consecutive chunks |
 | `TOP_K_VECTOR` | 20 | Candidates retrieved from vector search |
-| `TOP_K_KEYWORD` | 10 | Candidates from keyword search (unused — no hybrid search yet) |
+| `TOP_K_KEYWORD` | 10 | Candidates from keyword search (unused Ã¢â‚¬â€ no hybrid search yet) |
 | `RERANK_TOP_K` | 5 | Final results after reranking (no reranker implemented yet) |
 | `EMBEDDING_BATCH_SIZE` | 10 | Documents per embedding API call |
 
 **Current limitations:**
-- No hybrid search (keyword + vector) — only pure vector similarity
-- No reranking stage — top K from vector search is used directly
-- No reindexing pipeline — content is ingested once and never refreshed
-- No chunk strategy experimentation — only `RecursiveCharacterTextSplitter`
+- No hybrid search (keyword + vector) Ã¢â‚¬â€ only pure vector similarity
+- No reranking stage Ã¢â‚¬â€ top K from vector search is used directly
+- No reindexing pipeline Ã¢â‚¬â€ content is ingested once and never refreshed
+- No chunk strategy experimentation Ã¢â‚¬â€ only `RecursiveCharacterTextSplitter`
 
 ### 2.3 Model Routing
 
 The `ModelRouter` (`apps/ai/app/services/model_router.py`) selects models based on query complexity:
 
 ```python
-"low"    → gpt-4o-mini    (budget, used as default)
-"medium" → gpt-4o          (standard)
-"high"   → claude-sonnet   (premium, if ANTHROPIC_API_KEY is set)
+"low"    Ã¢â€ â€™ gpt-4o-mini    (budget, used as default)
+"medium" Ã¢â€ â€™ gpt-4o          (standard)
+"high"   Ã¢â€ â€™ claude-sonnet   (premium, if ANTHROPIC_API_KEY is set)
 ```
 
-The complexity tier is currently **hardcoded to "low"** in all routes — the router itself works, but no route calls it with anything other than the default. This is an optimization opportunity.
+The complexity tier is currently **hardcoded to "low"** in all routes Ã¢â‚¬â€ the router itself works, but no route calls it with anything other than the default. This is an optimization opportunity.
 
 ### 2.4 Cost Control
 
@@ -108,46 +110,46 @@ Three middleware layers in FastAPI (`apps/ai/app/middleware/`):
 |-----------|------|-------------|
 | `RateLimitMiddleware` | `rate_limit.py` | In-memory, per-IP: 30 requests / 60s window, returns 429 |
 | `InputSanitizerMiddleware` | `input_sanitizer.py` | Rejects POST payloads > ~8000 bytes (413 Payload Too Large) |
-| `PIIFilterMiddleware` | `pii_filter.py` | **Stub** — passes through unchanged |
+| `PIIFilterMiddleware` | `pii_filter.py` | **Stub** Ã¢â‚¬â€ passes through unchanged |
 
 ### 2.6 Agent (Sandbox Code Assistant)
 
-The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpose streaming code assistant for the Admin Sandbox IDE. It takes `file_content` + `instruction` and streams a GPT-4o response. This is **not** an agent framework — it's a stateless code-completion endpoint.
+The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpose streaming code assistant for the Admin Sandbox IDE. It takes `file_content` + `instruction` and streams a GPT-4o response. This is **not** an agent framework Ã¢â‚¬â€ it's a stateless code-completion endpoint.
 
 ---
 
 ## 3. Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        Docker Compose                        │
-│                                                              │
-│  ┌───────────┐     ┌───────────┐     ┌───────────┐          │
-│  │  Web       │────▶│  API       │────▶│  AI        │          │
-│  │  Next.js   │     │  NestJS    │     │  FastAPI   │          │
-│  │  :3000     │     │  :3001↔4000│     │  :8000     │          │
-│  └───────────┘     └───────────┘     └─────┬─────┘          │
-│       │                                     │                │
-│       │                                     │                │
-│  ┌────▼─────────────────────────────┐       │                │
-│  │  PostgreSQL (via Supabase)       │◀──────┘                │
-│  │  - ChatConversation              │                        │
-│  │  - ChatMessage                   │                        │
-│  │  - content_embeddings (pgvector)│                        │
-│  └──────────────────────────────────┘                        │
-└─────────────────────────────────────────────────────────────┘
-                                       │
-                              ┌────────▼────────┐
-                              │  OpenAI GPT-4o   │
-                              │  Anthropic Sonnet│
-                              │  text-embedding-3│
-                              └─────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š                        Docker Compose                        Ã¢â€â€š
+Ã¢â€â€š                                                              Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â     Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â     Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  Web       Ã¢â€â€šÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¶Ã¢â€â€š  API       Ã¢â€â€šÃ¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¶Ã¢â€â€š  AI        Ã¢â€â€š          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  Next.js   Ã¢â€â€š     Ã¢â€â€š  NestJS    Ã¢â€â€š     Ã¢â€â€š  FastAPI   Ã¢â€â€š          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  :3000     Ã¢â€â€š     Ã¢â€â€š  :3001Ã¢â€ â€4000Ã¢â€â€š     Ã¢â€â€š  :8000     Ã¢â€â€š          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ     Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ          Ã¢â€â€š
+Ã¢â€â€š       Ã¢â€â€š                                     Ã¢â€â€š                Ã¢â€â€š
+Ã¢â€â€š       Ã¢â€â€š                                     Ã¢â€â€š                Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â       Ã¢â€â€š                Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  PostgreSQL (via Supabase)       Ã¢â€â€šÃ¢â€”â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ                Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  - ChatConversation              Ã¢â€â€š                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  - ChatMessage                   Ã¢â€â€š                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€š  - content_embeddings (pgvector)Ã¢â€â€š                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ                        Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+                                       Ã¢â€â€š
+                              Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Â¼Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+                              Ã¢â€â€š  OpenAI GPT-4o   Ã¢â€â€š
+                              Ã¢â€â€š  Anthropic SonnetÃ¢â€â€š
+                              Ã¢â€â€š  text-embedding-3Ã¢â€â€š
+                              Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### Key Design Decisions
 
 1. **AI is a separate service, not a module in NestJS.** This allows Python's rich ML ecosystem (LangChain, sentence-transformers, pgvector) without polluting the Node.js API. The downside is network overhead for every chat request.
-2. **NestJS owns data persistence** (chat history, conversations). FastAPI is stateless with respect to conversation storage — it receives message + history and returns a stream.
+2. **NestJS owns data persistence** (chat history, conversations). FastAPI is stateless with respect to conversation storage Ã¢â‚¬â€ it receives message + history and returns a stream.
 3. **RAG is synchronous within the chat request.** There is no background indexing pipeline. Content is ingested manually or via the `ingest_content` method.
 
 ---
@@ -167,7 +169,7 @@ The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpo
 - **OpenAI o-series** (o3, o4): Excellent reasoning but high latency and cost. Not justified for portfolio Q&A. Could be valuable for analysis if usage grows.
 - **Claude Opus**: Overkill for current use cases. Expensive ($15/M output tokens) with no measurable benefit over Sonnet for portfolio content.
 - **Gemini**: No advantage in quality for this use case. Adding a third provider increases maintenance burden.
-- **Local models** (via Ollama/LM Studio): Tried and rejected — latency and quality on consumer hardware (even with quantization) was inferior to API models, and GPU passthrough in Docker adds complexity.
+- **Local models** (via Ollama/LM Studio): Tried and rejected Ã¢â‚¬â€ latency and quality on consumer hardware (even with quantization) was inferior to API models, and GPU passthrough in Docker adds complexity.
 
 ---
 
@@ -187,7 +189,7 @@ The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpo
 
 | Scenario | Monthly Cost | Annual Cost | Notes |
 |----------|-------------|-------------|-------|
-| Current (~100 chats/mo) | $3.00 | $36.00 | — |
+| Current (~100 chats/mo) | $3.00 | $36.00 | Ã¢â‚¬â€ |
 | 10x (~1,000 chats/mo) | $18.00 | $216.00 | Batch embeddings reduce per-chat cost; caching helps |
 | 100x (~10,000 chats/mo) | $130.00 | $1,560.00 | Would need aggressive caching + cost controls; may switch to gpt-4o-mini default |
 
@@ -214,11 +216,11 @@ The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpo
 
 | Limitation | Impact | Why It Exists |
 |-----------|--------|---------------|
-| **No agent framework** | Cannot chain tool calls or run autonomous workflows | Design spec only — see `docs/design-spec/18-AGENTS.md` |
-| **No agent marketplace** | Cannot discover or install third-party agents | Design spec only — see `docs/design-spec/AgentMarketplace.md` |
+| **No agent framework** | Cannot chain tool calls or run autonomous workflows | Design spec only Ã¢â‚¬â€ see `docs/design-spec/18-AGENTS.md` |
+| **No agent marketplace** | Cannot discover or install third-party agents | Design spec only Ã¢â‚¬â€ see `docs/design-spec/AgentMarketplace.md` |
 | **No multi-agent coordination** | Each request is single-model, single-response | Would require agent framework first |
 | **No autonomous workflows** | AI only responds to direct prompts | No scheduler, no event-driven triggers |
-| **RAG accuracy depends on chunk size/strategy** | Poor chunking → poor answers | No chunk strategy experimentation done |
+| **RAG accuracy depends on chunk size/strategy** | Poor chunking Ã¢â€ â€™ poor answers | No chunk strategy experimentation done |
 | **No hybrid search** | Vector-only misses keyword matches | Reranking + keyword search not implemented |
 | **No budget enforcement** | Budget cap is config but not enforced | CostController is a stub |
 | **Cost tracking is stub** | No per-session, per-user cost visibility | AnalyticsService is a stub |
@@ -237,7 +239,7 @@ The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpo
 | Task | Detail | Code Area |
 |------|--------|-----------|
 | Implement hybrid search | Add keyword search (pgvector supports full-text search + vector via `tsvector`) parallel to vector search, combine results | `rag_service.py` |
-| Add reranking stage | Use a cross-encoder model (or Cohere Rerank API) to re-rank top 20 candidates → top 5 | `rag_service.py` |
+| Add reranking stage | Use a cross-encoder model (or Cohere Rerank API) to re-rank top 20 candidates Ã¢â€ â€™ top 5 | `rag_service.py` |
 | Chunk strategy experiments | Test different chunk sizes (200, 500, 1000), overlaps (10%, 20%), and splitters (recursive, semantic) | `ingestion_service.py` |
 | Implement embedding cache | Cache query embeddings in Redis with 30-day TTL | `cache_service.py`, `embedding_service.py` |
 | Implement budget enforcement | Make `CostController` actually track spend and reject when over budget | `cost_controller.py` |
@@ -260,7 +262,7 @@ The `/api/agent/code` endpoint (`apps/ai/app/routes/agent.py`) is a single-purpo
 |------|--------|-----------|
 | Implement tool use | Start with 2-3 tools: `search_portfolio`, `get_project_details`, `send_contact_message` | `agent_service.py` |
 | Add conversation state machine | Track ongoing agent tasks across multiple turns | New: `agent_state.py` |
-| Limit scope explicitly | **This is NOT a general-purpose agent** — it only handles predefined task flows | All agent code |
+| Limit scope explicitly | **This is NOT a general-purpose agent** Ã¢â‚¬â€ it only handles predefined task flows | All agent code |
 
 **Explicitly excluded from this roadmap:**
 - Agent marketplace (design spec only)
@@ -306,11 +308,11 @@ The `PIIFilterMiddleware` (`apps/ai/app/middleware/pii_filter.py`) is registered
 
 - **Global:** `RateLimitMiddleware` in FastAPI: 30 requests/60s per IP. Returns 429 with Retry-After header.
 - **IP-based tracking:** In-memory dictionary (lost on restart, not shared across instances).
-- **Limitation:** No rate limiting on the NestJS side — all traffic reaches FastAPI before being limited. A reverse proxy (Nginx, Cloudflare) would be more robust.
+- **Limitation:** No rate limiting on the NestJS side Ã¢â‚¬â€ all traffic reaches FastAPI before being limited. A reverse proxy (Nginx, Cloudflare) would be more robust.
 
 ### 9.2 Prompt Injection
 
-- **Input sanitization:** `InputSanitizerMiddleware` checks payload size only — no content-level sanitization.
+- **Input sanitization:** `InputSanitizerMiddleware` checks payload size only Ã¢â‚¬â€ no content-level sanitization.
 - **No injection detection:** No LLM-based injection classifier, no pattern matching for known attack vectors.
 - **Mitigation:** The system prompt instructs the model not to reveal its instructions, but this is trivially bypassable. **Recommendation:** Add a guard layer using a lightweight model (gpt-4o-mini) to classify inputs before processing.
 
@@ -354,7 +356,7 @@ The `PIIFilterMiddleware` (`apps/ai/app/middleware/pii_filter.py`) is registered
 | `apps/api/src/portfolio/controllers/chat.controller.ts` | Public chat API endpoints |
 | `docs/ai/README.md` | AI docs index with implementation status |
 
-### Design Specs (not implemented — use for reference only)
+### Design Specs (not implemented Ã¢â‚¬â€ use for reference only)
 
 | Document | What It Describes |
 |----------|-------------------|
@@ -377,3 +379,7 @@ The `PIIFilterMiddleware` (`apps/ai/app/middleware/pii_filter.py`) is registered
 | `docs/ai/model-cards/gpt4o.md` | GPT-4o model details |
 | `docs/ai/model-cards/claude-sonnet.md` | Claude Sonnet model details |
 | `docs/ai/model-cards/text-embedding-3.md` | text-embedding-3 model details |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

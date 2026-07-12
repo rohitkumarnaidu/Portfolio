@@ -1,8 +1,4 @@
-> **Status:** 🟡 PARTIALLY IMPLEMENTED
-> This document blends implemented features with aspirational design content. Sections marked with [DESIGN SPEC] describe future work that does **not** yet exist in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
+﻿> **Status:** ⚠️ Partially Implemented — some aspects are aspirational
 
 # AI Observability
 
@@ -48,4 +44,8 @@ An Admin Dashboard (built into the Next.js frontend or a Grafana instance) visua
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

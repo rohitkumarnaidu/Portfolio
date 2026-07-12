@@ -17,11 +17,11 @@ graph TB
     end
 
     subgraph "Quality Gates"
-        LINT["🔍 Lint (ESLint)<br/>api + web"]
-        TC["📐 TypeCheck (tsc)<br/>api + web"]
-        TEST["🧪 Test<br/>Jest (api) / Vitest (web)"]
-        BUILD["🏗️ Build (Turbo)<br/>All workspaces"]
-        PRISMA["🗄️ Prisma Validate<br/>Schema + migrations"]
+        LINT["Ã°Å¸â€Â Lint (ESLint)<br/>api + web"]
+        TC["Ã°Å¸â€œÂ TypeCheck (tsc)<br/>api + web"]
+        TEST["Ã°Å¸Â§Âª Test<br/>Jest (api) / Vitest (web)"]
+        BUILD["Ã°Å¸Ââ€”Ã¯Â¸Â Build (Turbo)<br/>All workspaces"]
+        PRISMA["Ã°Å¸â€”â€žÃ¯Â¸Â Prisma Validate<br/>Schema + migrations"]
     end
 
     subgraph "Security"
@@ -58,11 +58,11 @@ graph TB
 
 | Stage | Duration | Parallelism | Depends On |
 |-------|----------|-------------|------------|
-| Lint | 20s | api + web (parallel matrix) | — |
-| TypeCheck | 45s | api + web (parallel matrix) | — |
-| Test | 2min | api + web (parallel matrix) | — |
-| Build | 3min | api + web (parallel matrix) | — |
-| Prisma Validate | 30s | single job | — |
+| Lint | 20s | api + web (parallel matrix) | Ã¢â‚¬â€ |
+| TypeCheck | 45s | api + web (parallel matrix) | Ã¢â‚¬â€ |
+| Test | 2min | api + web (parallel matrix) | Ã¢â‚¬â€ |
+| Build | 3min | api + web (parallel matrix) | Ã¢â‚¬â€ |
+| Prisma Validate | 30s | single job | Ã¢â‚¬â€ |
 | npm audit / CodeQL | 1min | sequential after quality | Quality gates pass |
 | Docker build + push | 2min | api + web (parallel) | Quality + Security pass |
 | Health checks | 30s | parallel | Deploy complete |
@@ -117,7 +117,7 @@ npm run build --workspace=apps/api; if ($?) { npm run build --workspace=apps/web
 
 ---
 
-## 3. Pipeline Stages — Detailed
+## 3. Pipeline Stages Ã¢â‚¬â€ Detailed
 
 ### 3.1 Lint (ESLint)
 
@@ -194,7 +194,7 @@ Turborepo task graph from `turbo.json`:
 }
 ```
 
-Build order: `packages/shared` → `packages/ui` → `apps/api` + `apps/web`
+Build order: `packages/shared` Ã¢â€ â€™ `packages/ui` Ã¢â€ â€™ `apps/api` + `apps/web`
 
 **Remote caching** is configured via `TURBO_TEAM` and `TURBO_TOKEN` GitHub secrets. This allows CI to skip unchanged workspace builds.
 
@@ -219,14 +219,14 @@ This validates:
 **Web Dockerfile** (`apps/web/Dockerfile`):
 
 ```
-Builder stage:   npm ci → npm run build → .next/standalone
+Builder stage:   npm ci Ã¢â€ â€™ npm run build Ã¢â€ â€™ .next/standalone
 Runner stage:    alpine, non-root user (nextjs), HEALTHCHECK
 ```
 
 **API Dockerfile** (`apps/api/Dockerfile`):
 
 ```
-Builder stage:   npm ci → prisma generate → npm run build
+Builder stage:   npm ci Ã¢â€ â€™ prisma generate Ã¢â€ â€™ npm run build
 Runner stage:    alpine, non-root user (nestjs), HEALTHCHECK on /api/health/liveness
 ```
 
@@ -256,7 +256,7 @@ Uses GitHub Container Registry (`ghcr.io`) with Docker BuildKit cache (`type=gha
 
 Deploy handles two paths:
 
-**Vercel (Frontend + API):** Handled by Vercel GitHub integration — `push` to `main` auto-deploys. Preview deployments auto-create for each PR.
+**Vercel (Frontend + API):** Handled by Vercel GitHub integration Ã¢â‚¬â€ `push` to `main` auto-deploys. Preview deployments auto-create for each PR.
 
 **Docker Images (ghcr.io):** Built and pushed in the `docker-api` and `docker-web` jobs. Images tagged with `latest` and commit SHA.
 
@@ -284,27 +284,27 @@ Applied to `main` branch in GitHub repository settings:
 
 | Rule | Setting |
 |------|---------|
-| Require PR before merging | ✅ |
+| Require PR before merging | Ã¢Å“â€¦ |
 | Required approvals | 1 |
-| Dismiss stale reviews | ✅ |
+| Dismiss stale reviews | Ã¢Å“â€¦ |
 | Require status checks | `lint`, `test`, `build`, `prisma` |
-| Require branches up-to-date | ✅ |
-| Include administrators | ✅ |
-| Allow force pushes | ❌ |
-| Allow deletions | ❌ |
+| Require branches up-to-date | Ã¢Å“â€¦ |
+| Include administrators | Ã¢Å“â€¦ |
+| Allow force pushes | Ã¢ÂÅ’ |
+| Allow deletions | Ã¢ÂÅ’ |
 
 ### 5.2 Pass/Fail Conditions
 
 | Gate | Pass | Fail | Block Merge? |
 |------|------|------|-------------|
-| Lint | No ESLint errors | Any error or warning | ✅ |
-| TypeCheck | Clean `tsc --noEmit` | Any type error | ✅ |
-| Test | All tests pass | Any test failure (api) | ✅ (api) |
-| Build | Exit code 0 | Build error | ✅ |
-| Prisma Validate | Exit code 0 | Schema/migration error | ✅ |
-| npm audit | No high/critical | High or critical found | ✅ |
-| Docker build | Image pushed | Build failure | ❌ (main only) |
-| Health check | 200 response | Non-200 response | ❌ (post-deploy) |
+| Lint | No ESLint errors | Any error or warning | Ã¢Å“â€¦ |
+| TypeCheck | Clean `tsc --noEmit` | Any type error | Ã¢Å“â€¦ |
+| Test | All tests pass | Any test failure (api) | Ã¢Å“â€¦ (api) |
+| Build | Exit code 0 | Build error | Ã¢Å“â€¦ |
+| Prisma Validate | Exit code 0 | Schema/migration error | Ã¢Å“â€¦ |
+| npm audit | No high/critical | High or critical found | Ã¢Å“â€¦ |
+| Docker build | Image pushed | Build failure | Ã¢ÂÅ’ (main only) |
+| Health check | 200 response | Non-200 response | Ã¢ÂÅ’ (post-deploy) |
 
 ---
 
@@ -312,7 +312,7 @@ Applied to `main` branch in GitHub repository settings:
 
 ### 6.1 CI Environment Secrets
 
-Set via `gh secret set` or GitHub UI → Settings → Secrets and variables → Actions:
+Set via `gh secret set` or GitHub UI Ã¢â€ â€™ Settings Ã¢â€ â€™ Secrets and variables Ã¢â€ â€™ Actions:
 
 ```bash
 # All secrets required for CI
@@ -348,7 +348,7 @@ Error: The lockfile would have been modified by this install
 ```text
 remote cache miss: inputs changed
 ```
-**Fix:** If cache frequently misses on unchanged files, check `turbo.json` `globalDependencies` — ensure `**/.env.*local` is listed to avoid cache invalidation from local env changes.
+**Fix:** If cache frequently misses on unchanged files, check `turbo.json` `globalDependencies` Ã¢â‚¬â€ ensure `**/.env.*local` is listed to avoid cache invalidation from local env changes.
 
 ### 7.3 Prisma Client Generation Fails
 
@@ -424,9 +424,13 @@ updates:
 
 | Update Type | Auto-Merge | Requires | Notify |
 |-------------|------------|----------|--------|
-| Patch deps | ✅ | CI passes | PR comment |
-| Minor deps | ✅ | CI passes + 1 approval | PR comment |
-| Major deps | ❌ | Human review | #devops slack |
-| Security advisory | ✅ (high/critical) | CI passes | #security-alerts |
-| GitHub Actions | ✅ | CI passes | PR comment |
-| Docker base images | ❌ | Human review | #devops |
+| Patch deps | Ã¢Å“â€¦ | CI passes | PR comment |
+| Minor deps | Ã¢Å“â€¦ | CI passes + 1 approval | PR comment |
+| Major deps | Ã¢ÂÅ’ | Human review | #devops slack |
+| Security advisory | Ã¢Å“â€¦ (high/critical) | CI passes | #security-alerts |
+| GitHub Actions | Ã¢Å“â€¦ | CI passes | PR comment |
+| Docker base images | Ã¢ÂÅ’ | Human review | #devops |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

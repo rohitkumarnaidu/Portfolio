@@ -38,7 +38,23 @@ We adopt **NestJS 10** as the API framework.
 - Decorators and DI can be over-engineered for simple endpoints
 - TypeORM/Prisma integration paths exist but we use Supabase SDK directly
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Backend framework] --> B[Options: NestJS / Express / Fastify]
+    B --> C[Decision: NestJS]
+    C --> D[Positive: DI, modules, Swagger, guards]
+    C --> E[Negative: Heavier footprint, steeper learning curve]
+    D --> F[Compliance: §3.1, §5.2]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §3.1: "Modular, testable backend with clear boundaries"
 - Aligns with Constitution §5.2: "API documentation auto-generated from code"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

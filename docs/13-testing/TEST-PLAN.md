@@ -1,9 +1,29 @@
 # Master Test Plan
 
 > **Document:** `TestPlan.md` | **Version:** 2.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** QA Lead
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** QA Lead
 
-## 1. Overview
+## 1. Test Planning Workflow
+
+```mermaid
+flowchart LR
+    A[Requirements] --> B[Test Scope]
+    B --> C[Test Cases]
+    C --> D[Test Data]
+    D --> E[Test Execution]
+    E --> F{Results}
+    F -->|Bugs Found| G[Bug Reports]
+    G --> C
+    F -->|All Pass| H[Sign-off]
+    H --> I[Release]
+
+    style A fill:#2563eb,color:#fff
+    style H fill:#16a34a,color:#fff
+    style I fill:#16a34a,color:#fff
+    style G fill:#dc2626,color:#fff
+```
+
+## 2. Overview
 
 This Master Test Plan outlines the testing scope, approach, resources, and schedule for the Ultimate Portfolio project. It serves as the template for release-level and feature-level test plans.
 
@@ -207,3 +227,7 @@ A release is considered "Done" when ALL of the following are true:
 | Test environment availability     | Low        | High   | Infrastructure as Code, automated provisioning             |
 | Insufficient test coverage        | Medium     | Medium | Coverage targets enforced in CI, quarterly coverage review |
 | Performance regression undetected | Low        | High   | Lighthouse CI on every PR, k6 weekly                       |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -1,24 +1,24 @@
 # User Personas
 
 > **Document:** `UserPersonas.md` | **Version:** 2.0 (Enterprise) | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Product Owner | **Review Cadence:** Quarterly
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Product Owner | **Review Cadence:** Quarterly
 > **Related:** `UserResearch.md`, `UserFlows.md`, `ProductRequirements.md`
 
 ---
 
 ## 1. Overview
 
-This document defines the primary user personas for the Portfolio platform. Each persona represents a validated user segment with specific goals, pain points, behaviors, and success criteria. Personas are derived from the research findings documented in `UserResearch.md` and drive design decisions across all platform surfaces — public portfolio, admin dashboard, and AI service.
+This document defines the primary user personas for the Portfolio platform. Each persona represents a validated user segment with specific goals, pain points, behaviors, and success criteria. Personas are derived from the research findings documented in `UserResearch.md` and drive design decisions across all platform surfaces Ã¢â‚¬â€ public portfolio, admin dashboard, and AI service.
 
 ### 1.1 Persona Ecosystem
 
 | # | Persona | Primary Motivation | Platform Surface | Business Value |
 |---|---------|-------------------|-----------------|----------------|
-| 1 | Sarah Chen — The Recruiter | Candidate evaluation | Public portfolio | Lead generation pipeline |
-| 2 | Marcus Johnson — The Client | Vendor assessment | Public portfolio | Revenue conversion |
-| 3 | Alex Rivera — The Admin/Owner | Content management | Admin dashboard | Platform sustainability |
-| 4 | Jordan Kim — The OSS Contributor | Learn & contribute | GitHub + Docs | Community growth |
-| 5 | Priya Sharma — The Peer/Visitor | Inspiration & learning | Public portfolio | Brand authority |
+| 1 | Sarah Chen Ã¢â‚¬â€ The Recruiter | Candidate evaluation | Public portfolio | Lead generation pipeline |
+| 2 | Marcus Johnson Ã¢â‚¬â€ The Client | Vendor assessment | Public portfolio | Revenue conversion |
+| 3 | Alex Rivera Ã¢â‚¬â€ The Admin/Owner | Content management | Admin dashboard | Platform sustainability |
+| 4 | Jordan Kim Ã¢â‚¬â€ The OSS Contributor | Learn & contribute | GitHub + Docs | Community growth |
+| 5 | Priya Sharma Ã¢â‚¬â€ The Peer/Visitor | Inspiration & learning | Public portfolio | Brand authority |
 
 ### 1.2 How to Use This Document
 
@@ -30,11 +30,11 @@ This document defines the primary user personas for the Portfolio platform. Each
 
 ---
 
-## 2. Persona 1: Sarah Chen — The Recruiter
+## 2. Persona 1: Sarah Chen Ã¢â‚¬â€ The Recruiter
 
 **Role:** Senior Technical Recruiter, FAANG company
 **Experience Level:** 8 years in tech recruiting
-**Persona Type:** Primary — highest traffic source and conversion driver
+**Persona Type:** Primary Ã¢â‚¬â€ highest traffic source and conversion driver
 
 ### 2.1 Demographics
 
@@ -46,7 +46,7 @@ This document defines the primary user personas for the Portfolio platform. Each
 | Primary Device | MacBook Pro 16" (work), iPhone 15 (mobile scanning) |
 | Primary Browser | Chrome (work), Safari (personal) |
 | Network | Office fiber (500Mbps), Mobile 5G |
-| Time per Visit | 30–60 seconds initial scan; 2–3 minutes if qualified |
+| Time per Visit | 30Ã¢â‚¬â€œ60 seconds initial scan; 2Ã¢â‚¬â€œ3 minutes if qualified |
 | Visit Frequency | Single session per candidate review cycle |
 | Entry Source | LinkedIn profile link, resume URL, Google search, referral |
 
@@ -72,37 +72,37 @@ This document defines the primary user personas for the Portfolio platform. Each
 ### 2.4 Behavioral Patterns
 
 ```
-Landing (3s) → Hero scan (5s) → Skills glance (5s) → Project deep-dive (20s)
-→ GitHub/repo check (10s) → Resume download or contact (10s)
+Landing (3s) Ã¢â€ â€™ Hero scan (5s) Ã¢â€ â€™ Skills glance (5s) Ã¢â€ â€™ Project deep-dive (20s)
+Ã¢â€ â€™ GitHub/repo check (10s) Ã¢â€ â€™ Resume download or contact (10s)
 ```
 
-1. **Scan phase (0–10s)**: Reads hero headline, checks name, role, location, current company, availability. Forms yes/no qualification decision.
-2. **Skills validation (10–20s)**: Scans skills section for specific technologies matching open roles. Looks for proficiency indicators.
-3. **Evidence phase (20–45s)**: Opens 1–3 featured projects. Reads descriptions, looks at architecture diagrams, screenshots, or live links.
-4. **Verification (45–55s)**: Checks GitHub repos for code quality, commit history, README quality. Looks at LinkedIn or resume.
-5. **Action (55–60s)**: Downloads resume, clicks contact, or navigates away.
+1. **Scan phase (0Ã¢â‚¬â€œ10s)**: Reads hero headline, checks name, role, location, current company, availability. Forms yes/no qualification decision.
+2. **Skills validation (10Ã¢â‚¬â€œ20s)**: Scans skills section for specific technologies matching open roles. Looks for proficiency indicators.
+3. **Evidence phase (20Ã¢â‚¬â€œ45s)**: Opens 1Ã¢â‚¬â€œ3 featured projects. Reads descriptions, looks at architecture diagrams, screenshots, or live links.
+4. **Verification (45Ã¢â‚¬â€œ55s)**: Checks GitHub repos for code quality, commit history, README quality. Looks at LinkedIn or resume.
+5. **Action (55Ã¢â‚¬â€œ60s)**: Downloads resume, clicks contact, or navigates away.
 
 ### 2.5 User Story
 
-> *"As a recruiter screening 50+ candidates this week, I want to verify within 30 seconds whether this candidate has the React Native and NestJS experience my team needs, see a real project they built, and grab their resume — without fighting a slow, confusing portfolio."*
+> *"As a recruiter screening 50+ candidates this week, I want to verify within 30 seconds whether this candidate has the React Native and NestJS experience my team needs, see a real project they built, and grab their resume Ã¢â‚¬â€ without fighting a slow, confusing portfolio."*
 
 ### 2.6 Success Metrics
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
 | Time to key info discovery | < 10 seconds | Session recording analysis |
-| Resume download rate | ≥ 15% of recruiter visits | Analytics event tracking |
-| Contact form initiation | ≥ 8% of recruiter visits | Form analytics |
-| Return visits per recruiter | ≥ 1.5 over 30 days | Cookie/GA4 user stitching |
+| Resume download rate | Ã¢â€°Â¥ 15% of recruiter visits | Analytics event tracking |
+| Contact form initiation | Ã¢â€°Â¥ 8% of recruiter visits | Form analytics |
+| Return visits per recruiter | Ã¢â€°Â¥ 1.5 over 30 days | Cookie/GA4 user stitching |
 | Bounce rate (recruiter segment) | < 40% | Segment-filtered analytics |
-| GitHub profile click rate | ≥ 25% of recruiter visits | Click tracking |
+| GitHub profile click rate | Ã¢â€°Â¥ 25% of recruiter visits | Click tracking |
 
 ### 2.7 Journey Map (Text)
 
 ```
-ENTRY → HERO → SKILLS → PROJECTS → GITHUB/RESUME → CONTACT
-  │        │       │         │            │             │
-  ▼        ▼       ▼         ▼            ▼             ▼
+ENTRY Ã¢â€ â€™ HERO Ã¢â€ â€™ SKILLS Ã¢â€ â€™ PROJECTS Ã¢â€ â€™ GITHUB/RESUME Ã¢â€ â€™ CONTACT
+  Ã¢â€â€š        Ã¢â€â€š       Ã¢â€â€š         Ã¢â€â€š            Ã¢â€â€š             Ã¢â€â€š
+  Ã¢â€“Â¼        Ã¢â€“Â¼       Ã¢â€“Â¼         Ã¢â€“Â¼            Ã¢â€“Â¼             Ã¢â€“Â¼
 Search  Qualify  Match    Verify      Download     Schedule
 result  (3s)    (5s)     (20s)       (5s)         or leave
 click                                              (5s)
@@ -110,11 +110,11 @@ click                                              (5s)
 
 | Phase | Emotion | Success Criteria | Risk |
 |-------|---------|-----------------|------|
-| Entry | Curious | Page loads < 2s LCP | Slow load → bounce |
-| Hero | Interested | Name/role visible above fold | Generic tagline → no interest |
+| Entry | Curious | Page loads < 2s LCP | Slow load Ã¢â€ â€™ bounce |
+| Hero | Interested | Name/role visible above fold | Generic tagline Ã¢â€ â€™ no interest |
 | Skills | Skeptical | Skills match open req | Buzzwords with no evidence |
-| Projects | Engaged | Real screenshots + architecture | Lorem ipsum projects → distrust |
-| Action | Confident | Resume downloads instantly | Dead link → negative signal |
+| Projects | Engaged | Real screenshots + architecture | Lorem ipsum projects Ã¢â€ â€™ distrust |
+| Action | Confident | Resume downloads instantly | Dead link Ã¢â€ â€™ negative signal |
 
 ### 2.8 Key Design Implications
 
@@ -126,11 +126,11 @@ click                                              (5s)
 
 ---
 
-## 3. Persona 2: Marcus Johnson — The Client
+## 3. Persona 2: Marcus Johnson Ã¢â‚¬â€ The Client
 
 **Role:** CTO / Startup Founder / Engineering Leader
 **Experience Level:** 18 years in tech, now hiring for his team
-**Persona Type:** Primary — highest revenue impact per conversion
+**Persona Type:** Primary Ã¢â‚¬â€ highest revenue impact per conversion
 
 ### 3.1 Demographics
 
@@ -141,9 +141,9 @@ click                                              (5s)
 | Technical Level | High (can evaluate architecture quality) |
 | Primary Device | iPad Pro 12.9" (browsing), MacBook Pro (deep evaluation) |
 | Primary Browser | Safari (iPad), Chrome (desktop) |
-| Network | Variable — WiFi, 4G, coworking spaces |
-| Time per Visit | 2–5 minutes initial; returns 2–3 times before decision |
-| Visit Frequency | 2–3 sessions over 1–2 weeks |
+| Network | Variable Ã¢â‚¬â€ WiFi, 4G, coworking spaces |
+| Time per Visit | 2Ã¢â‚¬â€œ5 minutes initial; returns 2Ã¢â‚¬â€œ3 times before decision |
+| Visit Frequency | 2Ã¢â‚¬â€œ3 sessions over 1Ã¢â‚¬â€œ2 weeks |
 | Entry Source | Google search, referral from peer, LinkedIn, blog post |
 
 ### 3.2 Goals
@@ -168,68 +168,68 @@ click                                              (5s)
 ### 3.4 Behavioral Patterns
 
 ```
-Landing → About → Services → Case Studies → Testimonials → Contact
-  │        │        │           │              │              │
-  ▼        ▼        ▼           ▼              ▼              ▼
+Landing Ã¢â€ â€™ About Ã¢â€ â€™ Services Ã¢â€ â€™ Case Studies Ã¢â€ â€™ Testimonials Ã¢â€ â€™ Contact
+  Ã¢â€â€š        Ã¢â€â€š        Ã¢â€â€š           Ã¢â€â€š              Ã¢â€â€š              Ã¢â€â€š
+  Ã¢â€“Â¼        Ã¢â€“Â¼        Ã¢â€“Â¼           Ã¢â€“Â¼              Ã¢â€“Â¼              Ã¢â€“Â¼
 Qualify  Connect  Evaluate   Validate       Trust         Convert
 (10s)    (30s)    (30s)      (2min)         (30s)         (1min)
 ```
 
-1. **Qualification (0–10s)**: Assesses overall quality and relevance from hero and initial scroll.
-2. **Connection (10–40s)**: Reads About section for personal story, values, and professional philosophy.
-3. **Service evaluation (40–70s)**: Reviews services/offerings for fit with their needs.
-4. **Deep validation (70s–3min)**: Reads 1–2 case studies in detail, looking for methodology, challenges, and results.
-5. **Trust building (3–3.5min)**: Reads testimonials, looks for recognizable names or companies.
-6. **Conversion (3.5–5min)**: Submits contact form with detailed requirements or schedules a call.
+1. **Qualification (0Ã¢â‚¬â€œ10s)**: Assesses overall quality and relevance from hero and initial scroll.
+2. **Connection (10Ã¢â‚¬â€œ40s)**: Reads About section for personal story, values, and professional philosophy.
+3. **Service evaluation (40Ã¢â‚¬â€œ70s)**: Reviews services/offerings for fit with their needs.
+4. **Deep validation (70sÃ¢â‚¬â€œ3min)**: Reads 1Ã¢â‚¬â€œ2 case studies in detail, looking for methodology, challenges, and results.
+5. **Trust building (3Ã¢â‚¬â€œ3.5min)**: Reads testimonials, looks for recognizable names or companies.
+6. **Conversion (3.5Ã¢â‚¬â€œ5min)**: Submits contact form with detailed requirements or schedules a call.
 
 ### 3.5 User Story
 
-> *"As a CTO needing to hire a contract architect for our microservices migration, I want to see case studies showing similar work with measurable outcomes, understand your engagement model, and easily reach out for a conversation — all in one smooth visit."*
+> *"As a CTO needing to hire a contract architect for our microservices migration, I want to see case studies showing similar work with measurable outcomes, understand your engagement model, and easily reach out for a conversation Ã¢â‚¬â€ all in one smooth visit."*
 
 ### 3.6 Success Metrics
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| Case study read completion | ≥ 60% scroll depth | Scroll tracking |
-| Contact form conversion rate | ≥ 12% of client visits | Form analytics |
-| Average session duration | ≥ 3 minutes | Analytics |
-| Return visits before conversion | ≤ 3 | Cookie stitching |
-| Testimonial section engagement | ≥ 40% scroll-to | Scroll tracking |
-| Lead quality score (message length) | ≥ 100 chars | Form validation |
+| Case study read completion | Ã¢â€°Â¥ 60% scroll depth | Scroll tracking |
+| Contact form conversion rate | Ã¢â€°Â¥ 12% of client visits | Form analytics |
+| Average session duration | Ã¢â€°Â¥ 3 minutes | Analytics |
+| Return visits before conversion | Ã¢â€°Â¤ 3 | Cookie stitching |
+| Testimonial section engagement | Ã¢â€°Â¥ 40% scroll-to | Scroll tracking |
+| Lead quality score (message length) | Ã¢â€°Â¥ 100 chars | Form validation |
 
 ### 3.7 Journey Map (Text)
 
 ```
-ENTRY → ABOUT → SERVICES → CASE STUDIES → TESTIMONIALS → CONTACT
-  │        │        │            │              │             │
-  ▼        ▼        ▼            ▼              ▼             ▼
+ENTRY Ã¢â€ â€™ ABOUT Ã¢â€ â€™ SERVICES Ã¢â€ â€™ CASE STUDIES Ã¢â€ â€™ TESTIMONIALS Ã¢â€ â€™ CONTACT
+  Ã¢â€â€š        Ã¢â€â€š        Ã¢â€â€š            Ã¢â€â€š              Ã¢â€â€š             Ã¢â€â€š
+  Ã¢â€“Â¼        Ã¢â€“Â¼        Ã¢â€“Â¼            Ã¢â€“Â¼              Ã¢â€“Â¼             Ã¢â€“Â¼
 Search   Connect  Evaluate     Validate       Trust        Convert
 result                                                  form submit
 ```
 
 | Phase | Emotion | Success Criteria | Risk |
 |-------|---------|-----------------|------|
-| Landing | Curious | Professional design, fast load | Slow or poor design → bounce |
-| About | Interested | Authentic personal story | Generic bio → no connection |
-| Case Studies | Engaged | Quantified results (e.g., "40% perf gain") | Vague descriptions → distrust |
-| Testimonials | Trusting | Recognizable names/comments | Missing or fake-feeling → leave |
-| Contact | Confident | Easy form, clear next step | Form friction → abandon |
+| Landing | Curious | Professional design, fast load | Slow or poor design Ã¢â€ â€™ bounce |
+| About | Interested | Authentic personal story | Generic bio Ã¢â€ â€™ no connection |
+| Case Studies | Engaged | Quantified results (e.g., "40% perf gain") | Vague descriptions Ã¢â€ â€™ distrust |
+| Testimonials | Trusting | Recognizable names/comments | Missing or fake-feeling Ã¢â€ â€™ leave |
+| Contact | Confident | Easy form, clear next step | Form friction Ã¢â€ â€™ abandon |
 
 ### 3.8 Key Design Implications
 
 - About section must convey personality and professional philosophy
 - Services section: clear offerings, engagement models, rate ranges (or "contact for quote")
-- Case studies must include: problem → approach → result (with metrics)
+- Case studies must include: problem Ã¢â€ â€™ approach Ã¢â€ â€™ result (with metrics)
 - Testimonials with real names, photos, and company logos
 - Contact form with message length validation for quality filtering
 
 ---
 
-## 4. Persona 3: Alex Rivera — The Portfolio Owner (Admin)
+## 4. Persona 3: Alex Rivera Ã¢â‚¬â€ The Portfolio Owner (Admin)
 
 **Role:** Full-Stack Developer / Platform Owner
 **Experience Level:** 7 years in software development
-**Persona Type:** Secondary — essential for platform maintenance and content freshness
+**Persona Type:** Secondary Ã¢â‚¬â€ essential for platform maintenance and content freshness
 
 ### 4.1 Demographics
 
@@ -237,11 +237,11 @@ result                                                  form submit
 |-----------|--------|
 | Age | 29 |
 | Role | Portfolio Creator, Developer, Content Manager |
-| Technical Level | Expert — knows the codebase intimately |
+| Technical Level | Expert Ã¢â‚¬â€ knows the codebase intimately |
 | Primary Device | Windows desktop + Android phone |
 | Primary Browser | Chrome (dev), Edge (testing) |
 | Update Frequency | Weekly content updates, daily lead/analytics checks |
-| Session Duration | 10–30 minutes per update session |
+| Session Duration | 10Ã¢â‚¬â€œ30 minutes per update session |
 | Visit Frequency | Daily quick checks (5 min), weekly deep sessions (30 min) |
 | Entry Source | Direct URL or bookmark to admin dashboard |
 
@@ -267,14 +267,14 @@ result                                                  form submit
 ### 4.4 Behavioral Patterns
 
 ```
-Login → Dashboard overview → Leads check → Analytics review
-→ Content edit session → Publish → Logout
+Login Ã¢â€ â€™ Dashboard overview Ã¢â€ â€™ Leads check Ã¢â€ â€™ Analytics review
+Ã¢â€ â€™ Content edit session Ã¢â€ â€™ Publish Ã¢â€ â€™ Logout
 ```
 
-1. **Quick check (2–5 min)**: Logs in, scans lead inbox, glances at visitor analytics, logs out.
-2. **Content update (15–30 min)**: Navigates to CMS, edits project page or blog post, previews, publishes.
-3. **Analytics deep-dive (10–15 min)**: Reviews visitor trends, popular sections, conversion funnels, adjusts strategy.
-4. **System maintenance (30–60 min)**: Checks system health, applies updates, reviews AI chat logs for quality.
+1. **Quick check (2Ã¢â‚¬â€œ5 min)**: Logs in, scans lead inbox, glances at visitor analytics, logs out.
+2. **Content update (15Ã¢â‚¬â€œ30 min)**: Navigates to CMS, edits project page or blog post, previews, publishes.
+3. **Analytics deep-dive (10Ã¢â‚¬â€œ15 min)**: Reviews visitor trends, popular sections, conversion funnels, adjusts strategy.
+4. **System maintenance (30Ã¢â‚¬â€œ60 min)**: Checks system health, applies updates, reviews AI chat logs for quality.
 
 ### 4.5 User Story
 
@@ -285,11 +285,11 @@ Login → Dashboard overview → Leads check → Analytics review
 | Metric | Target | Measurement |
 |--------|--------|-------------|
 | Time to publish content update | < 5 minutes | CMS session duration |
-| Content update frequency | ≥ 1 per week | CMS activity log |
-| Admin login frequency | ≥ 5 per week | Auth logs |
+| Content update frequency | Ã¢â€°Â¥ 1 per week | CMS activity log |
+| Admin login frequency | Ã¢â€°Â¥ 5 per week | Auth logs |
 | Lead response time | < 24 hours | Lead timestamp analysis |
-| System uptime | ≥ 99.5% | Uptime monitor |
-| Admin dashboard NPS | ≥ 70 | Quarterly survey |
+| System uptime | Ã¢â€°Â¥ 99.5% | Uptime monitor |
+| Admin dashboard NPS | Ã¢â€°Â¥ 70 | Quarterly survey |
 
 ### 4.7 Key Design Implications
 
@@ -302,11 +302,11 @@ Login → Dashboard overview → Leads check → Analytics review
 
 ---
 
-## 5. Persona 4: Jordan Kim — The Open-Source Contributor
+## 5. Persona 4: Jordan Kim Ã¢â‚¬â€ The Open-Source Contributor
 
 **Role:** Full-Stack Developer (contributor)
 **Experience Level:** 4 years, looking to build portfolio and contribute to OSS
-**Persona Type:** Tertiary — community growth and platform improvement
+**Persona Type:** Tertiary Ã¢â‚¬â€ community growth and platform improvement
 
 ### 5.1 Demographics
 
@@ -314,12 +314,12 @@ Login → Dashboard overview → Leads check → Analytics review
 |-----------|--------|
 | Age | 26 |
 | Industry | Software Development |
-| Technical Level | Intermediate-Expert — comfortable with full stack |
+| Technical Level | Intermediate-Expert Ã¢â‚¬â€ comfortable with full stack |
 | Primary Device | Linux workstation, multiple monitors |
 | Primary Browser | Firefox (primary), Chromium (secondary) |
-| GitHub Activity | Moderate (5–15 contributions/month) |
-| Time per Visit | 30–90 minutes exploring codebase |
-| Visit Frequency | 1–2 times per month initially; weekly if engaged |
+| GitHub Activity | Moderate (5Ã¢â‚¬â€œ15 contributions/month) |
+| Time per Visit | 30Ã¢â‚¬â€œ90 minutes exploring codebase |
+| Visit Frequency | 1Ã¢â‚¬â€œ2 times per month initially; weekly if engaged |
 | Entry Source | GitHub trending, Hacker News, peer referral, blog post |
 
 ### 5.2 Goals
@@ -344,32 +344,32 @@ Login → Dashboard overview → Leads check → Analytics review
 ### 5.4 Behavioral Patterns
 
 ```
-Discover → README → Setup → Explore → Find issue → Submit PR
-   │         │        │        │          │            │
-   ▼         ▼        ▼        ▼          ▼            ▼
+Discover Ã¢â€ â€™ README Ã¢â€ â€™ Setup Ã¢â€ â€™ Explore Ã¢â€ â€™ Find issue Ã¢â€ â€™ Submit PR
+   Ã¢â€â€š         Ã¢â€â€š        Ã¢â€â€š        Ã¢â€â€š          Ã¢â€â€š            Ã¢â€â€š
+   Ã¢â€“Â¼         Ã¢â€“Â¼        Ã¢â€“Â¼        Ã¢â€“Â¼          Ã¢â€“Â¼            Ã¢â€“Â¼
 GitHub    Read      Clone &  Browse    Claim &     Open PR
 trending  docs     run      issues    fork
 ```
 
-1. **Discovery (0–5min)**: Finds repo on GitHub, reads README, scans tech stack.
-2. **Evaluation (5–15min)**: Reviews docs folder, project structure, CI status badges.
-3. **Setup (15–45min)**: Clones repo, follows setup instructions, runs dev environment.
-4. **Exploration (45–60min)**: Browses codebase, reads issue tracker, looks for "good first issue" labels.
-5. **Contribution (60–90min)**: Forks repo, implements fix/feature, submits PR with description.
+1. **Discovery (0Ã¢â‚¬â€œ5min)**: Finds repo on GitHub, reads README, scans tech stack.
+2. **Evaluation (5Ã¢â‚¬â€œ15min)**: Reviews docs folder, project structure, CI status badges.
+3. **Setup (15Ã¢â‚¬â€œ45min)**: Clones repo, follows setup instructions, runs dev environment.
+4. **Exploration (45Ã¢â‚¬â€œ60min)**: Browses codebase, reads issue tracker, looks for "good first issue" labels.
+5. **Contribution (60Ã¢â‚¬â€œ90min)**: Forks repo, implements fix/feature, submits PR with description.
 
 ### 5.5 User Story
 
-> *"As a developer looking to level up my React and NestJS skills, I want to clone this portfolio repo, understand its architecture from the docs, and contribute a meaningful PR — so I can learn from production code and grow my OSS profile."*
+> *"As a developer looking to level up my React and NestJS skills, I want to clone this portfolio repo, understand its architecture from the docs, and contribute a meaningful PR Ã¢â‚¬â€ so I can learn from production code and grow my OSS profile."*
 
 ### 5.6 Success Metrics
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
 | Time-to-first-PR from clone | < 1 week | GitHub event tracking |
-| Setup success rate | ≥ 80% of clone attempts | Anonymous setup telemetry |
-| Contributors who submit >1 PR | ≥ 25% | GitHub contributor stats |
-| Issue-to-PR conversion rate | ≥ 40% | GitHub metrics |
-| Documentation accuracy score | ≥ 4.5/5 | Contributor survey |
+| Setup success rate | Ã¢â€°Â¥ 80% of clone attempts | Anonymous setup telemetry |
+| Contributors who submit >1 PR | Ã¢â€°Â¥ 25% | GitHub contributor stats |
+| Issue-to-PR conversion rate | Ã¢â€°Â¥ 40% | GitHub metrics |
+| Documentation accuracy score | Ã¢â€°Â¥ 4.5/5 | Contributor survey |
 | Average PR merge time | < 48 hours | GitHub metrics |
 
 ### 5.7 Key Design Implications
@@ -383,11 +383,11 @@ trending  docs     run      issues    fork
 
 ---
 
-## 6. Persona 5: Priya Sharma — The Peer/Visitor
+## 6. Persona 5: Priya Sharma Ã¢â‚¬â€ The Peer/Visitor
 
 **Role:** Senior/Staff Engineer at tech company
 **Experience Level:** 10+ years
-**Persona Type:** Secondary — brand authority and network expansion
+**Persona Type:** Secondary Ã¢â‚¬â€ brand authority and network expansion
 
 ### 6.1 Demographics
 
@@ -395,11 +395,11 @@ trending  docs     run      issues    fork
 |-----------|--------|
 | Age | 33 |
 | Industry | Technology (big tech, late-stage startup) |
-| Technical Level | Expert — evaluates architecture and code quality |
+| Technical Level | Expert Ã¢â‚¬â€ evaluates architecture and code quality |
 | Primary Device | MacBook Pro (personal), work laptop |
 | Primary Browser | Arc or Chrome |
 | Network | Home fiber, office WiFi |
-| Time per Visit | 5–15 minutes for deep reading |
+| Time per Visit | 5Ã¢â‚¬â€œ15 minutes for deep reading |
 | Visit Frequency | Weekly blog reader, quarterly full revisit |
 | Entry Source | Blog post link, Twitter/X, newsletter, peer referral |
 
@@ -424,17 +424,17 @@ trending  docs     run      issues    fork
 ### 6.4 Behavioral Patterns
 
 ```
-Entry → Blog → Deep read → Explore → Connect → Return cycle
-  │       │        │         │          │           │
-  ▼       ▼        ▼         ▼          ▼           ▼
+Entry Ã¢â€ â€™ Blog Ã¢â€ â€™ Deep read Ã¢â€ â€™ Explore Ã¢â€ â€™ Connect Ã¢â€ â€™ Return cycle
+  Ã¢â€â€š       Ã¢â€â€š        Ã¢â€â€š         Ã¢â€â€š          Ã¢â€â€š           Ã¢â€â€š
+  Ã¢â€“Â¼       Ã¢â€“Â¼        Ã¢â€“Â¼         Ã¢â€“Â¼          Ã¢â€“Â¼           Ã¢â€“Â¼
 Social  Browse   Read with  Check     Twitter/   Weekly RSS
 link    posts    code       projects  LinkedIn   reader
 ```
 
-1. **Entry (0–5s)**: Lands on blog post or portfolio from social/share link.
-2. **Content consumption (5s–10min)**: Reads blog post with code snippets, watches embedded demos, evaluates technical depth.
-3. **Exploration (10–12min)**: Checks projects section, skills, and overall portfolio design.
-4. **Connection (12–15min)**: Follows social links, shares blog post, or sends a message.
+1. **Entry (0Ã¢â‚¬â€œ5s)**: Lands on blog post or portfolio from social/share link.
+2. **Content consumption (5sÃ¢â‚¬â€œ10min)**: Reads blog post with code snippets, watches embedded demos, evaluates technical depth.
+3. **Exploration (10Ã¢â‚¬â€œ12min)**: Checks projects section, skills, and overall portfolio design.
+4. **Connection (12Ã¢â‚¬â€œ15min)**: Follows social links, shares blog post, or sends a message.
 
 ### 6.5 User Story
 
@@ -444,11 +444,11 @@ link    posts    code       projects  LinkedIn   reader
 
 | Metric | Target | Measurement |
 |--------|--------|-------------|
-| Average blog read time | ≥ 5 minutes | Analytics scroll depth |
-| Blog return visitor rate | ≥ 30% | Cookie-based return tracking |
-| Social share rate per post | ≥ 5% of readers | Share button analytics |
-| Newsletter signup from blog | ≥ 3% of readers | Conversion tracking |
-| Blog posts published per month | ≥ 2 | CMS content calendar |
+| Average blog read time | Ã¢â€°Â¥ 5 minutes | Analytics scroll depth |
+| Blog return visitor rate | Ã¢â€°Â¥ 30% | Cookie-based return tracking |
+| Social share rate per post | Ã¢â€°Â¥ 5% of readers | Share button analytics |
+| Newsletter signup from blog | Ã¢â€°Â¥ 3% of readers | Conversion tracking |
+| Blog posts published per month | Ã¢â€°Â¥ 2 | CMS content calendar |
 | Peer referral to recruiter | Measured qual. | Testimonial/interview |
 
 ### 6.7 Key Design Implications
@@ -466,35 +466,35 @@ link    posts    code       projects  LinkedIn   reader
 
 | Dimension | Sarah (Recruiter) | Marcus (Client) | Alex (Admin) | Jordan (Contributor) | Priya (Peer) |
 |-----------|-------------------|-----------------|--------------|----------------------|--------------|
-| **Priority** | P0 — Primary | P0 — Primary | P1 — Secondary | P2 — Tertiary | P1 — Secondary |
-| **Time per visit** | 30–60s | 2–5min | 5–30min | 30–90min | 5–15min |
-| **Technical level** | Low–Med | High | Expert | Int–Expert | Expert |
+| **Priority** | P0 Ã¢â‚¬â€ Primary | P0 Ã¢â‚¬â€ Primary | P1 Ã¢â‚¬â€ Secondary | P2 Ã¢â‚¬â€ Tertiary | P1 Ã¢â‚¬â€ Secondary |
+| **Time per visit** | 30Ã¢â‚¬â€œ60s | 2Ã¢â‚¬â€œ5min | 5Ã¢â‚¬â€œ30min | 30Ã¢â‚¬â€œ90min | 5Ã¢â‚¬â€œ15min |
+| **Technical level** | LowÃ¢â‚¬â€œMed | High | Expert | IntÃ¢â‚¬â€œExpert | Expert |
 | **Primary device** | Desktop | Tablet/Desktop | Desktop | Linux WS | Desktop |
 | **Key need** | Speed + clarity | Trust + evidence | Ease of use | Docs + setup | Depth + inspiration |
 | **Entry source** | LinkedIn | Google/referral | Direct | GitHub | Social/blog |
 | **Bounce sensitivity** | Extremely high | High | N/A | Medium | Medium |
 | **Conversion action** | Resume download | Contact form | Content publish | PR submit | Social share |
-| **Emotional arc** | Curious → Confident | Curious → Trusting | Efficient → Satisfied | Curious → Accomplished | Inspired → Connected |
+| **Emotional arc** | Curious Ã¢â€ â€™ Confident | Curious Ã¢â€ â€™ Trusting | Efficient Ã¢â€ â€™ Satisfied | Curious Ã¢â€ â€™ Accomplished | Inspired Ã¢â€ â€™ Connected |
 
 ---
 
 ## 8. Prioritization Matrix
 
-Design and development priority is determined by: **Business Value × User Frequency × Conversion Impact**
+Design and development priority is determined by: **Business Value Ãƒâ€” User Frequency Ãƒâ€” Conversion Impact**
 
 | Persona | Business Value | Frequency | Conversion Impact | Priority Score | Design Rank |
 |---------|---------------|-----------|-------------------|----------------|-------------|
-| Sarah — Recruiter | High (leads) | High (daily) | High (direct funnel) | **9.5/10** | **P0 — Design First** |
-| Marcus — Client | High (revenue) | Medium | High (highest value) | **9.0/10** | **P0 — Design First** |
-| Alex — Admin | Medium (ops) | High (daily) | Medium (indirect) | **7.5/10** | **P1 — Design Second** |
-| Priya — Peer | Medium (brand) | Medium (weekly) | Low (indirect) | **6.5/10** | **P1 — Design Second** |
-| Jordan — Contributor | Low (community) | Low (monthly) | Low (indirect) | **4.5/10** | **P2 — Design Third** |
+| Sarah Ã¢â‚¬â€ Recruiter | High (leads) | High (daily) | High (direct funnel) | **9.5/10** | **P0 Ã¢â‚¬â€ Design First** |
+| Marcus Ã¢â‚¬â€ Client | High (revenue) | Medium | High (highest value) | **9.0/10** | **P0 Ã¢â‚¬â€ Design First** |
+| Alex Ã¢â‚¬â€ Admin | Medium (ops) | High (daily) | Medium (indirect) | **7.5/10** | **P1 Ã¢â‚¬â€ Design Second** |
+| Priya Ã¢â‚¬â€ Peer | Medium (brand) | Medium (weekly) | Low (indirect) | **6.5/10** | **P1 Ã¢â‚¬â€ Design Second** |
+| Jordan Ã¢â‚¬â€ Contributor | Low (community) | Low (monthly) | Low (indirect) | **4.5/10** | **P2 Ã¢â‚¬â€ Design Third** |
 
 ### 8.1 Design Principles by Priority
 
-- **P0 — Recruiter & Client**: Optimize for speed, clarity, conversion. Test with real users before launch. Performance budgets are strict. Above-the-fold content must communicate value in < 3 seconds.
-- **P1 — Admin & Peer**: Optimize for usability, content freshness, and engagement. Build after P0 is validated. Admin analytics should reveal how P0 users behave.
-- **P2 — Contributor**: Optimize for documentation quality and onboarding. Implement last, leveraging lessons from production.
+- **P0 Ã¢â‚¬â€ Recruiter & Client**: Optimize for speed, clarity, conversion. Test with real users before launch. Performance budgets are strict. Above-the-fold content must communicate value in < 3 seconds.
+- **P1 Ã¢â‚¬â€ Admin & Peer**: Optimize for usability, content freshness, and engagement. Build after P0 is validated. Admin analytics should reveal how P0 users behave.
+- **P2 Ã¢â‚¬â€ Contributor**: Optimize for documentation quality and onboarding. Implement last, leveraging lessons from production.
 
 ---
 
@@ -525,7 +525,7 @@ These personas were validated through the research methodology described in `Use
 ### 9.3 Limitation & Next Steps
 
 - **Sample size**: 8 interviews is sufficient for initial persona definition but not statistically significant. Plan to expand to 20+ interviews in Q4 2026.
-- **Quantitative validation**: Deploy analytics event tracking mapped to persona behaviors (see `UserFlows.md` §12 Performance Budgets per Persona) and validate assumptions after launch.
+- **Quantitative validation**: Deploy analytics event tracking mapped to persona behaviors (see `UserFlows.md` Ã‚Â§12 Performance Budgets per Persona) and validate assumptions after launch.
 - **A/B testing**: Plan structured A/B tests per persona journey (e.g., hero layout variants for recruiters, case study format for clients).
 
 ---
@@ -539,4 +539,8 @@ These personas were validated through the research methodology described in `Use
 
 ---
 
-*Document Version: 2.0 — Enterprise Personas*
+*Document Version: 2.0 Ã¢â‚¬â€ Enterprise Personas*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

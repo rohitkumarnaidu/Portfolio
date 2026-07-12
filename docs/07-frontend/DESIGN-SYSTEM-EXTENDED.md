@@ -2234,3 +2234,18 @@ Every component PR must pass these checks (blocking):
 |---------|------|--------|---------|
 | 5.0 | 2026-06 | Design Systems Lead | Enterprise-grade component library: 72+ components across 9 categories, 280+ tokens in 6-tier semantic hierarchy, 3 theme modes (Light/Dark/HC), WCAG 2.2 AA+ compliance matrix, 6-tier testing strategy, enterprise governance (lifecycle, review checklist, versioning, breaking change protocol, performance budget) |
 | 5.1 | 2026-06 | Design Systems Lead | Added Executive Summary with Mermaid architecture diagram, Decision Log (5 entries), Risk Register (5 entries), Glossary (16 terms)
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |
+| [COMPONENT-LIBRARY.md](COMPONENT-LIBRARY.md) | Component library reference |
+| [COMPONENT-STANDARDS.md](COMPONENT-STANDARDS.md) | Component design standards |
+| [DesignSystem.md](../04-design/DESIGN-SYSTEM.md) | Core design system (design category) |
+| [DesignTokens.md](../04-design/DESIGN-TOKENS.md) | Design tokens reference |
+| [Storybook.md](../13-testing/STORYBOOK.md) | Storybook testing and documentation |

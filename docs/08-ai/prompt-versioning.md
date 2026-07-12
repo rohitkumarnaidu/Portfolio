@@ -1,8 +1,4 @@
-> **Status:** 🟡 PARTIALLY IMPLEMENTED
-> This document blends implemented features with aspirational design content. Sections marked with [DESIGN SPEC] describe future work that does **not** yet exist in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
+﻿> **Status:** ⚠️ Partially Implemented — some aspects are aspirational
 
 # Prompt Versioning Guide
 
@@ -56,3 +52,7 @@ Each prompt version should document:
 - Why it changed
 - Impact on model behavior
 - Author and reviewer
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

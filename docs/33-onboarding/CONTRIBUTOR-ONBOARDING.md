@@ -26,6 +26,30 @@ Before you begin, make sure you have these installed:
 
 ---
 
+## Contribution Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Contributor
+    participant GH as GitHub
+    participant CI as CI Pipeline
+    participant M as Maintainer
+
+    C->>GH: Fork Repository
+    C->>GH: Clone to Local
+    C->>C: Create Feature Branch
+    C->>C: Make Changes & Commit
+    C->>GH: Push Branch & Open PR
+    GH->>CI: Trigger Checks
+    CI->>CI: Lint / Typecheck / Test
+    CI-->>M: Results
+    M->>C: Review & Feedback
+    C->>C: Address Feedback
+    M->>GH: Approve & Merge
+```
+
+---
+
 ## Quick Setup
 
 ### 1. Clone the Repository
@@ -170,3 +194,7 @@ This project follows a [Code of Conduct](../34-contributing/CODE_OF_CONDUCT.md).
 ---
 
 *Happy contributing! Every contribution — whether it's fixing a typo or building a new feature — makes the project better for everyone.*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

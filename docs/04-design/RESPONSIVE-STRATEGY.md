@@ -1,19 +1,19 @@
 # Responsive Strategy
 
-> **Version:** 2.0 | **Status:** ✅ Active | **Grid:** Tailwind 12-column fluid | **Owner:** UX Lead
+> **Version:** 2.0 | **Status:** Ã¢Å“â€¦ Active | **Grid:** Tailwind 12-column fluid | **Owner:** UX Lead
 
 ## 1. Breakpoint System
 
 | Breakpoint | Width   | Device        | What Changes                                   |
 | ---------- | ------- | ------------- | ---------------------------------------------- |
-| `xs`       | 0–639px | Phone         | Single-column, bottom nav, no 3D               |
+| `xs`       | 0Ã¢â‚¬â€œ639px | Phone         | Single-column, bottom nav, no 3D               |
 | `sm`       | 640px+  | Large phone   | Larger type, increased padding                 |
 | `md`       | 768px+  | Tablet        | 2-column grids, hamburger menu, reduced 3D     |
 | `lg`       | 1024px+ | Laptop        | Sidebar docks, 3D hero activates, multi-column |
 | `xl`       | 1280px+ | Desktop       | Full expanded layout, sticky sidebars          |
 | `2xl`      | 1536px+ | Large monitor | Content capped at 1440px, centered             |
 
-**Principle:** Each breakpoint re-structures layout (column count, navigation, component arrangement) — not just spacing.
+**Principle:** Each breakpoint re-structures layout (column count, navigation, component arrangement) Ã¢â‚¬â€ not just spacing.
 
 ## 2. Layout Grid
 
@@ -21,7 +21,7 @@
 
 | Property        | xs             | md             | xl             |
 | --------------- | -------------- | -------------- | -------------- |
-| Columns         | 1              | 2              | 3–4            |
+| Columns         | 1              | 2              | 3Ã¢â‚¬â€œ4            |
 | Gap             | 16px (`gap-4`) | 24px (`gap-6`) | 24px (`gap-6`) |
 | H padding       | `px-4` (16px)  | `px-8` (32px)  | `px-16` (64px) |
 | Section spacing | `py-12`        | `py-16`        | `py-24`        |
@@ -51,7 +51,7 @@ CSS `clamp()` eliminates mid-breakpoint type jumps:
 | Small      | `0.875rem`                         | 14px           | 14px             |
 | Caption    | `0.75rem`                          | 12px           | 12px             |
 
-**Line height:** Body paragraphs 1.5 (1.4 on mobile), headings 1.1–1.2, display 0.95.
+**Line height:** Body paragraphs 1.5 (1.4 on mobile), headings 1.1Ã¢â‚¬â€œ1.2, display 0.95.
 
 ## 4. Responsive Images
 
@@ -67,7 +67,7 @@ sizes = '(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw';
 
 ## 5. Component-Level Responsive Patterns
 
-| Component    | Mobile (< 768px)           | Desktop (≥ 1024px)           |
+| Component    | Mobile (< 768px)           | Desktop (Ã¢â€°Â¥ 1024px)           |
 | ------------ | -------------------------- | ---------------------------- |
 | Project Card | Stacked (image above text) | Side-by-side                 |
 | Feature Grid | Single column, centered    | Multi-column (`grid-cols-3`) |
@@ -76,10 +76,10 @@ sizes = '(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw';
 | CTA          | Full-width, stacked        | Inline with text             |
 | Blog Post    | Full-width                 | Max 768px reading area       |
 | Admin Table  | Horizontal scroll          | Full table, sticky header    |
-| AI Chat      | Full-screen bottom sheet   | Floating panel (300×500px)   |
+| AI Chat      | Full-screen bottom sheet   | Floating panel (300Ãƒâ€”500px)   |
 | Modals       | 95% width                  | Centered, max-width          |
 
-**Stack → side pattern:** `flex flex-col md:flex-row md:items-center gap-4 md:gap-8`.
+**Stack Ã¢â€ â€™ side pattern:** `flex flex-col md:flex-row md:items-center gap-4 md:gap-8`.
 
 ## 6. Hide/Show Strategies
 
@@ -93,19 +93,36 @@ sizes = '(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw';
 
 Desktop hover effects are no-op on touch devices (browsers handle `:hover` natively on touch).
 
+## 9. Breakpoints Diagram
+
+```mermaid
+graph LR
+    Mobile[Mobile 0-639px] --> Tablet[Tablet 768-1023px]
+    Tablet --> Desktop[Desktop 1024-1279px]
+    Desktop --> Wide[Wide 1280px+]
+    Mobile -->|Single column, bottom nav| ML[Mobile Layout]
+    Tablet -->|2-column, hamburger| TL[Tablet Layout]
+    Desktop -->|Multi-column, sidebar| DL[Desktop Layout]
+    Wide -->|Expanded, max 1440px| WL[Wide Layout]
+```
+
 ## 7. Responsive Data Tables
 
-- **≥ 1024px:** Full HTML table with sticky `<thead>`, column sorting
-- **768–1023px:** Horizontal scroll container, frozen first column
-- **< 768px:** Card layout — each row becomes a labeled card with dt/dd pattern
+- **Ã¢â€°Â¥ 1024px:** Full HTML table with sticky `<thead>`, column sorting
+- **768Ã¢â‚¬â€œ1023px:** Horizontal scroll container, frozen first column
+- **< 768px:** Card layout Ã¢â‚¬â€ each row becomes a labeled card with dt/dd pattern
 
 ## 8. Testing (Playwright)
 
 Every PR tested at 3 viewports:
 | Viewport | Width | Key Checks |
 |----------|-------|------------|
-| Mobile | 375px (iPhone 14 Pro Max) | Touch targets ≥ 44px, single column, no overflow, bottom nav |
+| Mobile | 375px (iPhone 14 Pro Max) | Touch targets Ã¢â€°Â¥ 44px, single column, no overflow, bottom nav |
 | Tablet | 834px (iPad Pro 11") | 2-column grids, hamburger menu, scroll tables |
 | Desktop | 1440px (MacBook Pro 16") | Full nav, 3D loaded, multi-column, sidebar |
 
 **Checks:** No horizontal overflow, text doesn't overflow containers, images not pixelated, 3D degrades gracefully on mobile, forms single-column. Run from `apps/web` via `npm run test:e2e`.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

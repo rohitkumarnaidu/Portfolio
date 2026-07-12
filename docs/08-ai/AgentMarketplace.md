@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Agent Marketplace
 
 **Version:** 1.0  
@@ -1722,12 +1717,12 @@ The marketplace connects to the registry via the following REST endpoints:
 | Agent | Autonomous software entity that performs tasks on behalf of a user |
 | Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
 | Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| RAG | Retrieval-Augmented Generation ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â enhances LLM responses with retrieved documents |
 | Tool | A function an agent can call (read DB, send email, etc.) |
 | Guardrail | Constraint that prevents agents from performing unauthorized actions |
 | Handoff | Transfer of a query from one agent to another with full context |
 | Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model â€” the AI model powering agent reasoning |
+| LLM | Large Language Model ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â the AI model powering agent reasoning |
 | Embedding | Vector representation of text used for semantic search |
 | Chunk | A segment of a document stored in the vector database |
 | Confidence Threshold | Minimum confidence score for an agent to respond directly |
@@ -1745,4 +1740,8 @@ The marketplace connects to the registry via the following REST endpoints:
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

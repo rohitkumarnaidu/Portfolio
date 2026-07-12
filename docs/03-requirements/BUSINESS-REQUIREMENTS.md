@@ -40,3 +40,7 @@ This document outlines the business requirements for the AI-Native Ultimate Port
 - **Scalability**: The architecture must support handling spikes in traffic (e.g., from a viral post) without degrading the AI response time.
 - **Security**: All API endpoints must be secure; database access must utilize Row Level Security (RLS) in Supabase.
 - **Maintainability**: The codebase must strictly adhere to TypeScript/Python linting rules and modular design patterns.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -1,4 +1,6 @@
-# AI Documentation
+﻿# AI Documentation
+
+> **Status:** ✅ Active — reflects actual implementation
 
 ## Implementation Status
 
@@ -20,7 +22,11 @@ The AI system is under active development. The current implementation status:
 
 | Category        | Description                                      |
 | --------------- | ------------------------------------------------ |
-| `design-spec/`  | Aspirational future designs (⚠️ not implemented) |
+| `design-spec/`  | Aspirational future designs (Ã¢Å¡Â Ã¯Â¸Â not implemented) |
 | (root ai/ docs) | Mixed - some implemented, some aspirational      |
 
 > **Navigation:** See the `docs/MASTER-INDEX.md` for the complete document inventory.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -1,8 +1,8 @@
 # UI/UX Architecture & Design Document
 
 > **Document:** `DesignSystem.md` | **Version:** 4.0 | **Last Updated:** June 2026  
-> **Status:** ✅ Active | **Owner:** Design Lead | **Review Cadence:** Quarterly  
-> **Design Philosophy:** "Purposeful Elegance" — every design decision serves a functional purpose
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Design Lead | **Review Cadence:** Quarterly  
+> **Design Philosophy:** "Purposeful Elegance" Ã¢â‚¬â€ every design decision serves a functional purpose
 
 ---
 
@@ -20,7 +20,7 @@ flowchart LR
     ITER --> UID
 ```
 
-This document defines the complete UI/UX architecture for the portfolio platform, covering 15 dedicated UX domains from information architecture to admin-specific interaction patterns. The system is grounded in the philosophy of **"Purposeful Elegance"** — every pixel, animation, and interaction serves a goal. Built on a 4px grid with 8px increments, it supports light/dark themes via CSS custom properties, targets WCAG 2.2 AA compliance, and follows mobile-first responsive design.
+This document defines the complete UI/UX architecture for the portfolio platform, covering 15 dedicated UX domains from information architecture to admin-specific interaction patterns. The system is grounded in the philosophy of **"Purposeful Elegance"** Ã¢â‚¬â€ every pixel, animation, and interaction serves a goal. Built on a 4px grid with 8px increments, it supports light/dark themes via CSS custom properties, targets WCAG 2.2 AA compliance, and follows mobile-first responsive design.
 
 **Design System Foundation:**
 - **Framework:** CSS Custom Properties + Tailwind CSS 3.4
@@ -30,10 +30,10 @@ This document defines the complete UI/UX architecture for the portfolio platform
 - **Theme:** CSS variables with `data-theme` attribute, system detection + user override
 
 **Key UX Metrics:**
-- **Target Lighthouse Performance:** ≥ 95
+- **Target Lighthouse Performance:** Ã¢â€°Â¥ 95
 - **WCAG Compliance:** 2.2 AA (all criteria)
 - **Responsive Breakpoints:** 4 (mobile, tablet, desktop, wide)
-- **Touch Target Minimum:** 44×44px (mobile), 24×24px (desktop)
+- **Touch Target Minimum:** 44Ãƒâ€”44px (mobile), 24Ãƒâ€”24px (desktop)
 - **Animation Duration Range:** 100-600ms (micro to macro)
 - **Form Error Read Time:** < 3 seconds to identify and fix
 
@@ -66,46 +66,46 @@ This document defines the complete UI/UX architecture for the portfolio platform
 ### 1.1 Site Map
 
 ```
-┌─ PUBLIC (No Auth Required) ─────────────────────────────┐
-│                                                          │
-│  / → Homepage                                            │
-│  ├── Hero Section (above the fold)                       │
-│  ├── About Section (bio + stats)                         │
-│  ├── Skills Section (categorized proficiency)            │
-│  ├── Featured Projects Carousel                          │
-│  ├── Experience Timeline                                 │
-│  ├── Testimonials Carousel                               │
-│  ├── Services Section                                    │
-│  ├── FAQ Accordion                                       │
-│  ├── Blog Preview                                        │
-│  └── Contact Form                                        │
-│                                                          │
-│  /projects → Project Grid (filterable)                   │
-│  └── /projects/[slug] → Project Detail + Case Study      │
-│                                                          │
-│  /case-studies → Case Study Grid                         │
-│  └── /case-studies/[slug] → Full Case Study              │
-│                                                          │
-│  /blog → Blog Listing (searchable, paginated)            │
-│  └── /blog/[slug] → Blog Article                         │
-│                                                          │
-│  /about → About Page (extended)                          │
-│  /contact → Contact Form Page                            │
-│  /services → Services & Pricing                          │
-│  /ai-assistant → AI Chat Interface                       │
-│  /404 → Not Found                                        │
-│                                                          │
-├─ ADMIN (JWT Required) ───────────────────────────────────┤
-│                                                          │
-│  /admin/login → Authentication                           │
-│  /admin → Dashboard Overview                             │
-│  /admin/analytics → Analytics Dashboard                  │
-│  /admin/leads → Lead Management                          │
-│  /admin/cms → Content Management System                  │
-│  /admin/monitoring → System Health                       │
-│  /admin/settings → Configuration                         │
-│                                                          │
-└──────────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬ PUBLIC (No Auth Required) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€š  / Ã¢â€ â€™ Homepage                                            Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Hero Section (above the fold)                       Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ About Section (bio + stats)                         Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Skills Section (categorized proficiency)            Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Featured Projects Carousel                          Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Experience Timeline                                 Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Testimonials Carousel                               Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Services Section                                    Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ FAQ Accordion                                       Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Blog Preview                                        Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Contact Form                                        Ã¢â€â€š
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€š  /projects Ã¢â€ â€™ Project Grid (filterable)                   Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ /projects/[slug] Ã¢â€ â€™ Project Detail + Case Study      Ã¢â€â€š
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€š  /case-studies Ã¢â€ â€™ Case Study Grid                         Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ /case-studies/[slug] Ã¢â€ â€™ Full Case Study              Ã¢â€â€š
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€š  /blog Ã¢â€ â€™ Blog Listing (searchable, paginated)            Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ /blog/[slug] Ã¢â€ â€™ Blog Article                         Ã¢â€â€š
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€š  /about Ã¢â€ â€™ About Page (extended)                          Ã¢â€â€š
+Ã¢â€â€š  /contact Ã¢â€ â€™ Contact Form Page                            Ã¢â€â€š
+Ã¢â€â€š  /services Ã¢â€ â€™ Services & Pricing                          Ã¢â€â€š
+Ã¢â€â€š  /ai-assistant Ã¢â€ â€™ AI Chat Interface                       Ã¢â€â€š
+Ã¢â€â€š  /404 Ã¢â€ â€™ Not Found                                        Ã¢â€â€š
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬ ADMIN (JWT Required) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€š  /admin/login Ã¢â€ â€™ Authentication                           Ã¢â€â€š
+Ã¢â€â€š  /admin Ã¢â€ â€™ Dashboard Overview                             Ã¢â€â€š
+Ã¢â€â€š  /admin/analytics Ã¢â€ â€™ Analytics Dashboard                  Ã¢â€â€š
+Ã¢â€â€š  /admin/leads Ã¢â€ â€™ Lead Management                          Ã¢â€â€š
+Ã¢â€â€š  /admin/cms Ã¢â€ â€™ Content Management System                  Ã¢â€â€š
+Ã¢â€â€š  /admin/monitoring Ã¢â€ â€™ System Health                       Ã¢â€â€š
+Ã¢â€â€š  /admin/settings Ã¢â€ â€™ Configuration                         Ã¢â€â€š
+Ã¢â€â€š                                                          Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 1.2 Content Organization Principles
@@ -124,13 +124,13 @@ This document defines the complete UI/UX architecture for the portfolio platform
 | Content Type | Label Format | Example | URL Pattern |
 |-------------|-------------|---------|-------------|
 | Navigation items | Title Case, max 2 words | "Project Details" | `/projects` |
-| Section titles | Title Case, max 5 words | "Featured Work" | — |
-| Buttons/CTAs | Sentence case, action-oriented | "View all projects" | — |
-| Form fields | Title Case with colon | "Full Name:" | — |
-| Error messages | Sentence case, human-readable | "This field is required" | — |
-| Empty states | Sentence case, friendly | "No projects yet" | — |
+| Section titles | Title Case, max 5 words | "Featured Work" | Ã¢â‚¬â€ |
+| Buttons/CTAs | Sentence case, action-oriented | "View all projects" | Ã¢â‚¬â€ |
+| Form fields | Title Case with colon | "Full Name:" | Ã¢â‚¬â€ |
+| Error messages | Sentence case, human-readable | "This field is required" | Ã¢â‚¬â€ |
+| Empty states | Sentence case, friendly | "No projects yet" | Ã¢â‚¬â€ |
 | Admin labels | Title Case, descriptive | "Lead Management" | `/admin/leads` |
-| Breadcrumbs | Title Case, separated by "/" | "Home / Projects / E-Commerce Platform" | — |
+| Breadcrumbs | Title Case, separated by "/" | "Home / Projects / E-Commerce Platform" | Ã¢â‚¬â€ |
 
 ### 1.4 Search Strategy
 
@@ -166,10 +166,10 @@ This document defines the complete UI/UX architecture for the portfolio platform
 ### 2.2 Public Navigation Structure
 
 ```
-┌─────────────────────────────────────────────────────┐
-│ [Logo]  About  Skills  Projects  Blog  Contact  [🌙]│  ← Desktop (full)
-│ [Logo]  [☰ Hamburger]                          [🌙]│  ← Mobile (collapsed)
-└─────────────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š [Logo]  About  Skills  Projects  Blog  Contact  [Ã°Å¸Å’â„¢]Ã¢â€â€š  Ã¢â€ Â Desktop (full)
+Ã¢â€â€š [Logo]  [Ã¢ËœÂ° Hamburger]                          [Ã°Å¸Å’â„¢]Ã¢â€â€š  Ã¢â€ Â Mobile (collapsed)
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 **Navigation Items (Priority Order):**
@@ -186,33 +186,33 @@ This document defines the complete UI/UX architecture for the portfolio platform
 | Services | `/#services` | Smooth scroll to section | In drawer |
 | Contact | `/#contact` | Smooth scroll to section | In drawer |
 | AI Chat | `/ai-assistant` | Open chat page / FAB | In drawer + FAB |
-| Theme Toggle | — | Dark/light switch | In drawer |
+| Theme Toggle | Ã¢â‚¬â€ | Dark/light switch | In drawer |
 | Social Links | External | New tab | In drawer |
 
 ### 2.3 Admin Navigation Structure
 
 ```
-┌──────────────┬──────────────────────────────────────┐
-│  Sidebar (collapsible)  │   Main Content Area       │
-│                          │                           │
-│  📊 Dashboard           │   [Active Page Content]   │
-│  📈 Analytics           │                           │
-│  📩 Leads               │                           │
-│  📝 CMS                 │                           │
-│  🖥️ Monitoring          │                           │
-│  ⚙️ Settings            │                           │
-│                          │                           │
-│  ─────────────────────  │                           │
-│  👤 Alex Rivera         │                           │
-│  🔒 Logout              │                           │
-└──────────────────────────┴──────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š  Sidebar (collapsible)  Ã¢â€â€š   Main Content Area       Ã¢â€â€š
+Ã¢â€â€š                          Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€œÅ  Dashboard           Ã¢â€â€š   [Active Page Content]   Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€œË† Analytics           Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€œÂ© Leads               Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€œÂ CMS                 Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€“Â¥Ã¯Â¸Â Monitoring          Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã¢Å¡â„¢Ã¯Â¸Â Settings            Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š                          Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬  Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€˜Â¤ Alex Rivera         Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€š  Ã°Å¸â€â€™ Logout              Ã¢â€â€š                           Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â´Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 2.4 Navigation Rules
 
 | Rule | Implementation | WCAG Reference |
 |------|---------------|----------------|
-| **Sticky header** | `position: sticky; top: 0;` with backdrop blur | — |
+| **Sticky header** | `position: sticky; top: 0;` with backdrop blur | Ã¢â‚¬â€ |
 | **Active section highlight** | Intersection Observer updates active nav link | 2.4.2 Page Titled |
 | **Smooth scroll** | `scroll-behavior: smooth;` with offset for fixed header | 2.4.8 Location |
 | **Mobile hamburger** | Slide-in drawer, 300ms ease-out, backdrop overlay | 2.1.1 Keyboard |
@@ -248,33 +248,33 @@ This document defines the complete UI/UX architecture for the portfolio platform
 
 ```
 RootLayout
-├── PublicLayout (default)
-│   ├── Navigation (sticky)
-│   ├── main#main-content
-│   │   ├── HomePage (scrollable)
-│   │   ├── ProjectsPage
-│   │   ├── ProjectDetailPage
-│   │   ├── BlogPage (listing)
-│   │   ├── BlogDetailPage
-│   │   ├── AboutPage
-│   │   ├── ContactPage
-│   │   ├── ServicesPage
-│   │   ├── AIAssistantPage
-│   │   └── NotFoundPage
-│   └── Footer
-│
-├── AuthLayout (minimal)
-│   └── AdminLoginPage
-│
-└── AdminLayout (protected)
-    ├── AdminSidebar (persistent)
-    └── main
-        ├── DashboardPage
-        ├── AnalyticsPage
-        ├── LeadsPage
-        ├── CMSPage
-        ├── MonitoringPage
-        └── SettingsPage
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ PublicLayout (default)
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Navigation (sticky)
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ main#main-content
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HomePage (scrollable)
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ProjectsPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ProjectDetailPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ BlogPage (listing)
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ BlogDetailPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ AboutPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ContactPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ServicesPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ AIAssistantPage
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ NotFoundPage
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Footer
+Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ AuthLayout (minimal)
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ AdminLoginPage
+Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ AdminLayout (protected)
+    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ AdminSidebar (persistent)
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ main
+        Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ DashboardPage
+        Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ AnalyticsPage
+        Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ LeadsPage
+        Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ CMSPage
+        Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ MonitoringPage
+        Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ SettingsPage
 ```
 
 ### 3.2 Visual Weight Distribution
@@ -349,11 +349,11 @@ RootLayout
 |--------|--------|----------------|
 | Line length (body) | 60-75 characters | `max-w-prose` (65ch) |
 | Line height (body) | 1.5-1.75 | `leading-relaxed` (1.625) |
-| Paragraph spacing | 1.5× line height | `space-y-6` between paragraphs |
-| Body font size | ≥ 16px | Prevents iOS zoom on focus |
-| Heading-to-body ratio | Display: 4.5×, H1: 3.75×, H2: 2.25× | Follows modular scale |
-| Contrast (body) | ≥ 4.5:1 (AA) | Token pair verification |
-| Contrast (large text) | ≥ 3:1 | Token pair verification |
+| Paragraph spacing | 1.5Ãƒâ€” line height | `space-y-6` between paragraphs |
+| Body font size | Ã¢â€°Â¥ 16px | Prevents iOS zoom on focus |
+| Heading-to-body ratio | Display: 4.5Ãƒâ€”, H1: 3.75Ãƒâ€”, H2: 2.25Ãƒâ€” | Follows modular scale |
+| Contrast (body) | Ã¢â€°Â¥ 4.5:1 (AA) | Token pair verification |
+| Contrast (large text) | Ã¢â€°Â¥ 3:1 | Token pair verification |
 
 ### References
 - **Features:** F-001 (Hero), F-002 (Skills), F-004 (About), F-005 (Experience)
@@ -368,26 +368,26 @@ RootLayout
 | Element | Trigger | Response | Duration | Easing | A11y Alternative |
 |---------|---------|----------|----------|--------|------------------|
 | Button | Hover | Background darken 10% | 150ms | `ease-out` | Focus ring on keyboard focus |
-| Button | Click/Press | Scale 0.97 → 1.0 | 100ms | `spring(300,20)` | `aria-pressed` state |
-| Button | Disabled | Opacity 50%, no hover | — | — | `aria-disabled="true"` |
-| Card | Hover | Lift 2px, shadow-lg → shadow-xl | 200ms | `ease-out` | Focus ring on keyboard focus |
+| Button | Click/Press | Scale 0.97 Ã¢â€ â€™ 1.0 | 100ms | `spring(300,20)` | `aria-pressed` state |
+| Button | Disabled | Opacity 50%, no hover | Ã¢â‚¬â€ | Ã¢â‚¬â€ | `aria-disabled="true"` |
+| Card | Hover | Lift 2px, shadow-lg Ã¢â€ â€™ shadow-xl | 200ms | `ease-out` | Focus ring on keyboard focus |
 | Card | Click | Ripple from click point | 300ms | `ease-out` | Navigate on Enter |
 | Link | Hover | Opacity 80% | 100ms | `ease-out` | Focus underline |
-| Nav Link | Active | Accent color + underline | — | — | `aria-current="page"` |
-| Theme Toggle | Click | Icon rotate 360° | 300ms | `ease-smooth` | Announce theme change |
+| Nav Link | Active | Accent color + underline | Ã¢â‚¬â€ | Ã¢â‚¬â€ | `aria-current="page"` |
+| Theme Toggle | Click | Icon rotate 360Ã‚Â° | 300ms | `ease-smooth` | Announce theme change |
 | Form Input | Focus | Border accent, subtle glow | 200ms | `ease-out` | Focus ring visible |
 | Form Input | Error | Red border + shake (100ms) | 300ms | `ease-out` | `aria-invalid="true"` + error text |
-| Form Submit | Click | Button → spinner, inputs disabled | — | — | `aria-busy="true"` |
+| Form Submit | Click | Button Ã¢â€ â€™ spinner, inputs disabled | Ã¢â‚¬â€ | Ã¢â‚¬â€ | `aria-busy="true"` |
 | Success Toast | Appear | Slide in from top-right | 300ms | `spring` | `role="status"` |
 | Error Toast | Appear | Slide in from top-right | 300ms | `spring` | `role="alert"` |
-| Modal | Open | Scale 0.95→1 + fade in | 200ms | `ease-out` | Focus trap + `aria-modal` |
-| Modal | Close | Scale 1→0.95 + fade out | 150ms | `ease-in` | Return focus to trigger |
+| Modal | Open | Scale 0.95Ã¢â€ â€™1 + fade in | 200ms | `ease-out` | Focus trap + `aria-modal` |
+| Modal | Close | Scale 1Ã¢â€ â€™0.95 + fade out | 150ms | `ease-in` | Return focus to trigger |
 | Accordion | Toggle | Content height animate | 250ms | `ease-out` | `aria-expanded` |
 | Toggle Switch | Click | Knob slide + bg transition | 200ms | `ease-out` | `aria-checked` |
 | Carousel | Next/Prev | Slide horizontal | 300ms | `ease-out` | Keyboard arrow keys |
 | Skeleton | Appear | Shimmer sweep | 1.5s loop | `linear` | No animation (reduced motion) |
 | Section Reveal | Scroll | Fade up 20px + opacity | 600ms | `ease-out` | No animation (reduced motion) |
-| Counter | Scroll into view | Count 0→target | 1000ms | `ease-out` | Static number display |
+| Counter | Scroll into view | Count 0Ã¢â€ â€™target | 1000ms | `ease-out` | Static number display |
 
 ### 5.2 Form Interaction Design
 
@@ -396,13 +396,13 @@ RootLayout
 | **Visible labels** | `<label>` with `for` attribute, never placeholder-only | 3.3.2 Labels |
 | **Inline validation** | Validate on blur, not keystroke; show error below field | 3.3.1 Error ID |
 | **Error recovery** | Keep entered data, highlight error field, autofocus first error | 3.3.3 Suggestions |
-| **Success feedback** | Brief animation + message, then redirect or clear | — |
-| **Disabled state** | Reduced opacity (50%), no hover, no pointer events | — |
+| **Success feedback** | Brief animation + message, then redirect or clear | Ã¢â‚¬â€ |
+| **Disabled state** | Reduced opacity (50%), no hover, no pointer events | Ã¢â‚¬â€ |
 | **Required indicators** | Asterisk `*` with `aria-required="true"` | 3.3.2 |
-| **Auto-fill support** | `autocomplete` attribute on all fields | — |
-| **Keyboard type** | `inputmode="email"` etc. for mobile keyboard | — |
-| **Character count** | Show remaining for textarea (`maxLength`) | — |
-| **Debounce auto-save** | 30-second debounce for admin editor | — |
+| **Auto-fill support** | `autocomplete` attribute on all fields | Ã¢â‚¬â€ |
+| **Keyboard type** | `inputmode="email"` etc. for mobile keyboard | Ã¢â‚¬â€ |
+| **Character count** | Show remaining for textarea (`maxLength`) | Ã¢â‚¬â€ |
+| **Debounce auto-save** | 30-second debounce for admin editor | Ã¢â‚¬â€ |
 
 ### 5.3 Gesture Design (Mobile/Touch)
 
@@ -421,13 +421,13 @@ RootLayout
 | Action | Instant Feedback (< 100ms) | Delayed Feedback (> 300ms) | Error Feedback |
 |--------|---------------------------|---------------------------|----------------|
 | Button click | Scale animation | Success checkmark if async | Red toast |
-| Form submit | Button → spinner | Success message | Inline error + toast |
-| Theme toggle | Icon rotate | — | — |
+| Form submit | Button Ã¢â€ â€™ spinner | Success message | Inline error + toast |
+| Theme toggle | Icon rotate | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
 | Image upload | Progress bar | Success thumbnail | Error + retry |
-| Settings save | Button → "Saved!" | — | Inline error |
+| Settings save | Button Ã¢â€ â€™ "Saved!" | Ã¢â‚¬â€ | Inline error |
 | Section publish | Toggle state change | "Published" toast | Error with rollback |
-| Lead status change | Optimistic UI update | — | Revert on failure |
-| AI message send | Message bubble appears | Typing indicator → response | Error bubble + retry |
+| Lead status change | Optimistic UI update | Ã¢â‚¬â€ | Revert on failure |
+| AI message send | Message bubble appears | Typing indicator Ã¢â€ â€™ response | Error bubble + retry |
 
 ---
 
@@ -442,23 +442,23 @@ RootLayout
 | **Performance** | Reduced JS, lighter images, Critical CSS | 3G/4G connections, slower CPUs |
 | **One hand operation** | Primary actions in thumb zone (bottom 1/3 of screen) | Average usable thumb zone |
 | **No horizontal scroll** | All content fits viewport width at 320px | Common small phone width |
-| **Readable text** | Body text ≥ 16px prevents iOS auto-zoom | Accessibility requirement |
+| **Readable text** | Body text Ã¢â€°Â¥ 16px prevents iOS auto-zoom | Accessibility requirement |
 | **Offline resilience** | Handle network errors gracefully | Mobile networks are unreliable |
 
 ### 6.2 Touch Target Sizes
 
 | Element Type | Minimum Size | Recommended Size | Notes |
 |-------------|--------------|-----------------|-------|
-| Buttons (primary) | 44×44px | 48×48px | Full padding inside |
-| Buttons (icon-only) | 44×44px | 48×48px | Always include aria-label |
-| Links in text | 44×44px (inline) | — | Use extra padding if needed |
+| Buttons (primary) | 44Ãƒâ€”44px | 48Ãƒâ€”48px | Full padding inside |
+| Buttons (icon-only) | 44Ãƒâ€”44px | 48Ãƒâ€”48px | Always include aria-label |
+| Links in text | 44Ãƒâ€”44px (inline) | Ã¢â‚¬â€ | Use extra padding if needed |
 | Form inputs | 44px height | 48px height | Comfortable tap target |
-| Toggle switches | 44×44px | 48×48px | Entire toggle is tappable |
-| Checkboxes | 44×44px | 48×48px | Expand hit area beyond visual |
-| Radio buttons | 44×44px | 48×48px | Expand hit area beyond visual |
-| Tab bar items | 44×44px | 48×64px | Icon + label |
-| Bottom sheet handles | 44×44px | 48×8px | Visual + hit area |
-| Carousel arrows | 44×44px | 48×48px | On mobile, use swipe instead |
+| Toggle switches | 44Ãƒâ€”44px | 48Ãƒâ€”48px | Entire toggle is tappable |
+| Checkboxes | 44Ãƒâ€”44px | 48Ãƒâ€”48px | Expand hit area beyond visual |
+| Radio buttons | 44Ãƒâ€”44px | 48Ãƒâ€”48px | Expand hit area beyond visual |
+| Tab bar items | 44Ãƒâ€”44px | 48Ãƒâ€”64px | Icon + label |
+| Bottom sheet handles | 44Ãƒâ€”44px | 48Ãƒâ€”8px | Visual + hit area |
+| Carousel arrows | 44Ãƒâ€”44px | 48Ãƒâ€”48px | On mobile, use swipe instead |
 
 ### 6.3 Mobile-Specific Patterns
 
@@ -504,7 +504,7 @@ RootLayout
 | **Split view** | 2-column layouts for content + sidebar |
 | **Hover support** | Restore hover states (pen/pointer input detected) |
 | **Landscape optimization** | Horizontal layouts use wider format |
-| **Keyboard support** | External keyboard detected → show keyboard hints |
+| **Keyboard support** | External keyboard detected Ã¢â€ â€™ show keyboard hints |
 | **Touch + pointer** | Support both simultaneously |
 | **Medium density** | More content visible than mobile, less than desktop |
 
@@ -596,38 +596,38 @@ RootLayout
 
 | Principle | Criterion | Level | Status | Implementation | Test Method |
 |-----------|-----------|-------|--------|----------------|-------------|
-| **Perceivable** | 1.1.1 Non-text Content | A | ✅ | All images have alt text, icons have aria-label | axe DevTools |
-| **Perceivable** | 1.3.1 Info and Relationships | A | ✅ | Semantic HTML, ARIA landmarks | axe DevTools |
-| **Perceivable** | 1.3.2 Meaningful Sequence | A | ✅ | DOM order matches visual order | Manual review |
-| **Perceivable** | 1.4.1 Use of Color | A | ✅ | Color not sole indicator (icons + text) | axe DevTools |
-| **Perceivable** | 1.4.3 Contrast (Minimum) | AA | ✅ | All text pairs ≥ 4.5:1 | axe DevTools |
-| **Perceivable** | 1.4.4 Resize Text | AA | ✅ | 200% zoom no content loss | Manual test |
-| **Perceivable** | 1.4.5 Images of Text | AA | ✅ | No images of text; all real text | Manual test |
-| **Perceivable** | 1.4.10 Reflow | AA | ✅ | No horizontal scroll at 320px | Manual test |
-| **Perceivable** | 1.4.11 Non-text Contrast | AA | ✅ | UI components ≥ 3:1 | axe DevTools |
-| **Perceivable** | 1.4.12 Text Spacing | AA | ✅ | No loss at 1.5x spacing | Manual test |
-| **Perceivable** | 1.4.13 Content on Hover/Focus | AA | ✅ | Dismissible, hoverable, persistent | Manual test |
-| **Operable** | 2.1.1 Keyboard | A | ✅ | All functions via keyboard | Manual test |
-| **Operable** | 2.1.2 No Keyboard Trap | A | ✅ | No trap in modals (Esc closes) | Manual test |
-| **Operable** | 2.4.1 Bypass Blocks | A | ✅ | Skip link on every page | Manual test |
-| **Operable** | 2.4.2 Page Titled | A | ✅ | Unique title per page | axe DevTools |
-| **Operable** | 2.4.3 Focus Order | A | ✅ | Tab order matches visual | Manual test |
-| **Operable** | 2.4.4 Link Purpose (In Context) | A | ✅ | Descriptive link text | axe DevTools |
-| **Operable** | 2.4.6 Headings and Labels | AA | ✅ | All sections have headings | axe DevTools |
-| **Operable** | 2.4.7 Focus Visible | AA | ✅ | 2px accent-color ring, 2px offset | axe DevTools |
-| **Operable** | 2.4.11 Focus Not Obscured | AA | ✅ | Focusable elements not hidden | Manual test |
-| **Operable** | 2.5.7 Dragging Movements | AA | ✅ | Pointer alternative for drag | Manual test |
-| **Operable** | 2.5.8 Target Size (Minimum) | AA | ✅ | All targets ≥ 24×24px | Manual test |
-| **Understandable** | 3.1.1 Language of Page | A | ✅ | `<html lang="en">` | axe DevTools |
-| **Understandable** | 3.2.1 On Focus | A | ✅ | No context change on focus | Manual test |
-| **Understandable** | 3.2.2 On Input | A | ✅ | No context change on input | Manual test |
-| **Understandable** | 3.3.1 Error Identification | A | ✅ | Field-level error with description | axe DevTools |
-| **Understandable** | 3.3.2 Labels or Instructions | A | ✅ | All inputs have labels | axe DevTools |
-| **Understandable** | 3.3.3 Error Suggestion | AA | ✅ | Clear error + fix suggestion | Manual test |
-| **Understandable** | 3.3.4 Error Prevention | AA | ✅ | Confirm before destructive actions | Manual test |
-| **Robust** | 4.1.1 Parsing | A | ✅ | Valid HTML | W3C Validator |
-| **Robust** | 4.1.2 Name, Role, Value | A | ✅ | ARIA attributes on custom components | axe DevTools |
-| **Robust** | 4.1.3 Status Messages | AA | ✅ | Toasts with `role="status"` or `role="alert"` | VoiceOver test |
+| **Perceivable** | 1.1.1 Non-text Content | A | Ã¢Å“â€¦ | All images have alt text, icons have aria-label | axe DevTools |
+| **Perceivable** | 1.3.1 Info and Relationships | A | Ã¢Å“â€¦ | Semantic HTML, ARIA landmarks | axe DevTools |
+| **Perceivable** | 1.3.2 Meaningful Sequence | A | Ã¢Å“â€¦ | DOM order matches visual order | Manual review |
+| **Perceivable** | 1.4.1 Use of Color | A | Ã¢Å“â€¦ | Color not sole indicator (icons + text) | axe DevTools |
+| **Perceivable** | 1.4.3 Contrast (Minimum) | AA | Ã¢Å“â€¦ | All text pairs Ã¢â€°Â¥ 4.5:1 | axe DevTools |
+| **Perceivable** | 1.4.4 Resize Text | AA | Ã¢Å“â€¦ | 200% zoom no content loss | Manual test |
+| **Perceivable** | 1.4.5 Images of Text | AA | Ã¢Å“â€¦ | No images of text; all real text | Manual test |
+| **Perceivable** | 1.4.10 Reflow | AA | Ã¢Å“â€¦ | No horizontal scroll at 320px | Manual test |
+| **Perceivable** | 1.4.11 Non-text Contrast | AA | Ã¢Å“â€¦ | UI components Ã¢â€°Â¥ 3:1 | axe DevTools |
+| **Perceivable** | 1.4.12 Text Spacing | AA | Ã¢Å“â€¦ | No loss at 1.5x spacing | Manual test |
+| **Perceivable** | 1.4.13 Content on Hover/Focus | AA | Ã¢Å“â€¦ | Dismissible, hoverable, persistent | Manual test |
+| **Operable** | 2.1.1 Keyboard | A | Ã¢Å“â€¦ | All functions via keyboard | Manual test |
+| **Operable** | 2.1.2 No Keyboard Trap | A | Ã¢Å“â€¦ | No trap in modals (Esc closes) | Manual test |
+| **Operable** | 2.4.1 Bypass Blocks | A | Ã¢Å“â€¦ | Skip link on every page | Manual test |
+| **Operable** | 2.4.2 Page Titled | A | Ã¢Å“â€¦ | Unique title per page | axe DevTools |
+| **Operable** | 2.4.3 Focus Order | A | Ã¢Å“â€¦ | Tab order matches visual | Manual test |
+| **Operable** | 2.4.4 Link Purpose (In Context) | A | Ã¢Å“â€¦ | Descriptive link text | axe DevTools |
+| **Operable** | 2.4.6 Headings and Labels | AA | Ã¢Å“â€¦ | All sections have headings | axe DevTools |
+| **Operable** | 2.4.7 Focus Visible | AA | Ã¢Å“â€¦ | 2px accent-color ring, 2px offset | axe DevTools |
+| **Operable** | 2.4.11 Focus Not Obscured | AA | Ã¢Å“â€¦ | Focusable elements not hidden | Manual test |
+| **Operable** | 2.5.7 Dragging Movements | AA | Ã¢Å“â€¦ | Pointer alternative for drag | Manual test |
+| **Operable** | 2.5.8 Target Size (Minimum) | AA | Ã¢Å“â€¦ | All targets Ã¢â€°Â¥ 24Ãƒâ€”24px | Manual test |
+| **Understandable** | 3.1.1 Language of Page | A | Ã¢Å“â€¦ | `<html lang="en">` | axe DevTools |
+| **Understandable** | 3.2.1 On Focus | A | Ã¢Å“â€¦ | No context change on focus | Manual test |
+| **Understandable** | 3.2.2 On Input | A | Ã¢Å“â€¦ | No context change on input | Manual test |
+| **Understandable** | 3.3.1 Error Identification | A | Ã¢Å“â€¦ | Field-level error with description | axe DevTools |
+| **Understandable** | 3.3.2 Labels or Instructions | A | Ã¢Å“â€¦ | All inputs have labels | axe DevTools |
+| **Understandable** | 3.3.3 Error Suggestion | AA | Ã¢Å“â€¦ | Clear error + fix suggestion | Manual test |
+| **Understandable** | 3.3.4 Error Prevention | AA | Ã¢Å“â€¦ | Confirm before destructive actions | Manual test |
+| **Robust** | 4.1.1 Parsing | A | Ã¢Å“â€¦ | Valid HTML | W3C Validator |
+| **Robust** | 4.1.2 Name, Role, Value | A | Ã¢Å“â€¦ | ARIA attributes on custom components | axe DevTools |
+| **Robust** | 4.1.3 Status Messages | AA | Ã¢Å“â€¦ | Toasts with `role="status"` or `role="alert"` | VoiceOver test |
 
 ### 9.2 ARIA Patterns
 
@@ -637,13 +637,13 @@ RootLayout
 | Skip Link | `a` | `href="#main-content"` | First Tab press shows link |
 | Mobile Menu | `dialog` | `aria-modal="true"`, `aria-label="Navigation menu"` | Tab trap, Esc to close |
 | Modal | `dialog` | `aria-modal="true"`, `aria-labelledby` | Tab trap, Esc to close |
-| Accordion | — | `aria-expanded` on button, `aria-controls` on panel | Enter/Space to toggle |
+| Accordion | Ã¢â‚¬â€ | `aria-expanded` on button, `aria-controls` on panel | Enter/Space to toggle |
 | Tabs | `tablist` | `aria-selected` on tab, `aria-labelledby` on panel | Arrow keys to navigate |
-| Carousel | — | `aria-label="Testimonials"`, `aria-roledescription="carousel"` | Arrow keys |
+| Carousel | Ã¢â‚¬â€ | `aria-label="Testimonials"`, `aria-roledescription="carousel"` | Arrow keys |
 | Tooltip | `tooltip` | `aria-describedby` | Hover + focus |
-| Progress Bar | `progressbar` | `aria-valuenow`, `aria-valuemin`, `aria-valuemax` | — |
-| Alert | `alert` | — | Announce immediately |
-| Status | `status` | — | Polite announcement |
+| Progress Bar | `progressbar` | `aria-valuenow`, `aria-valuemin`, `aria-valuemax` | Ã¢â‚¬â€ |
+| Alert | `alert` | Ã¢â‚¬â€ | Announce immediately |
+| Status | `status` | Ã¢â‚¬â€ | Polite announcement |
 | Form Error | `alert` or `status` | `aria-describedby` links to error | Focus first error |
 
 ### 9.3 Focus Management
@@ -682,7 +682,7 @@ RootLayout
 
 ---
 
-> **🔗 Consolidated Source of Truth:** All motion UX rules, timing/easing tokens, microinteraction catalog, and accessibility kill-switch are now centralized in [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md). This section provides a high-level summary; refer to `08l` for the complete enterprise motion architecture.
+> **Ã°Å¸â€â€” Consolidated Source of Truth:** All motion UX rules, timing/easing tokens, microinteraction catalog, and accessibility kill-switch are now centralized in [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md). This section provides a high-level summary; refer to `08l` for the complete enterprise motion architecture.
 
 ## 10. Motion UX
 
@@ -708,15 +708,15 @@ RootLayout
 | **Reveal** | 400-600ms | `ease-out` | Section entrance on scroll |
 | **Emphasis** | 600-1000ms | `ease-out` | Counter animation, confetti |
 | **Ambient** | 2-5s loop | `ease-in-out` | Background particles, shimmer |
-| **Stagger delay** | 50-80ms between items | — | Card grid reveals |
+| **Stagger delay** | 50-80ms between items | Ã¢â‚¬â€ | Card grid reveals |
 
 ### 10.3 Easing Curves
 
 | Name | Cubic Bezier | Usage |
 |------|-------------|-------|
-| `ease-out-smooth` | `cubic-bezier(0.16, 1, 0.3, 1)` | Entrances, reveals — smooth deceleration |
+| `ease-out-smooth` | `cubic-bezier(0.16, 1, 0.3, 1)` | Entrances, reveals Ã¢â‚¬â€ smooth deceleration |
 | `ease-in-out` | `cubic-bezier(0.65, 0, 0.35, 1)` | Transitions between states |
-| `ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Micro-interactions — slight overshoot |
+| `ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Micro-interactions Ã¢â‚¬â€ slight overshoot |
 | `ease-linear` | `cubic-bezier(0, 0, 1, 1)` | Shimmer, progress bars only |
 
 ### 10.4 Reduced Motion Respect
@@ -761,35 +761,35 @@ RootLayout
 ### 11.1 Error Pattern Library
 
 ```
-┌──────────────────────────────────────┐
-│  ⚠️  Icon (optional)                 │
-│                                      │
-│  Title: What went wrong              │
-│  Description: Why it happened        │
-│  Action: What the user can do        │
-│                                      │
-│  [Retry]  [Go Back]  [Contact]       │
-└──────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š  Ã¢Å¡Â Ã¯Â¸Â  Icon (optional)                 Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  Title: What went wrong              Ã¢â€â€š
+Ã¢â€â€š  Description: Why it happened        Ã¢â€â€š
+Ã¢â€â€š  Action: What the user can do        Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  [Retry]  [Go Back]  [Contact]       Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 | Error Type | Icon | Title Pattern | Description Pattern | Action |
 |------------|------|---------------|-------------------|--------|
-| **Network** | 📡 | "Connection lost" | "Unable to reach our servers. Check your internet connection." | Retry button |
-| **Not found** | 🔍 | "Page not found" | "The page you're looking for doesn't exist or has been moved." | Go home, Search |
-| **Server error** | ⚠️ | "Something went wrong" | "We've been notified and are working on it. Please try again." | Retry, Contact |
-| **Permission** | 🔒 | "Access denied" | "You don't have permission to view this page." | Go back, Log in |
-| **Rate limit** | ⏳ | "Too many requests" | "Please wait a moment before trying again." | Wait, Retry |
-| **Validation** | ❌ | "Invalid input" | "Please check the highlighted fields and try again." | Fix errors |
-| **Upload fail** | 📁 | "Upload failed" | "The file couldn't be uploaded. Try a different file." | Retry, Try different |
-| **Save fail** | 💾 | "Save failed" | "Changes couldn't be saved. Your work is preserved." | Retry |
-| **AI unavailable** | 🤖 | "AI assistant unavailable" | "The AI service is temporarily unavailable. Please try again or use the contact form." | Retry, Contact |
+| **Network** | Ã°Å¸â€œÂ¡ | "Connection lost" | "Unable to reach our servers. Check your internet connection." | Retry button |
+| **Not found** | Ã°Å¸â€Â | "Page not found" | "The page you're looking for doesn't exist or has been moved." | Go home, Search |
+| **Server error** | Ã¢Å¡Â Ã¯Â¸Â | "Something went wrong" | "We've been notified and are working on it. Please try again." | Retry, Contact |
+| **Permission** | Ã°Å¸â€â€™ | "Access denied" | "You don't have permission to view this page." | Go back, Log in |
+| **Rate limit** | Ã¢ÂÂ³ | "Too many requests" | "Please wait a moment before trying again." | Wait, Retry |
+| **Validation** | Ã¢ÂÅ’ | "Invalid input" | "Please check the highlighted fields and try again." | Fix errors |
+| **Upload fail** | Ã°Å¸â€œÂ | "Upload failed" | "The file couldn't be uploaded. Try a different file." | Retry, Try different |
+| **Save fail** | Ã°Å¸â€™Â¾ | "Save failed" | "Changes couldn't be saved. Your work is preserved." | Retry |
+| **AI unavailable** | Ã°Å¸Â¤â€“ | "AI assistant unavailable" | "The AI service is temporarily unavailable. Please try again or use the contact form." | Retry, Contact |
 
 ### 11.2 Error Message Guidelines
 
 | Rule | Correct Example | Incorrect Example |
 |------|----------------|-------------------|
 | **Be specific** | "Email must contain '@' symbol" | "Invalid input" |
-| **Be human** | "Looks like something went wrong on our end — we're on it!" | "500 Error: Internal Server Error" |
+| **Be human** | "Looks like something went wrong on our end Ã¢â‚¬â€ we're on it!" | "500 Error: Internal Server Error" |
 | **Be actionable** | "Try again, or contact me directly" | "An error occurred" |
 | **Show the fix** | "Password must be at least 8 characters" | "Invalid password" |
 | **Don't blame** | "This field is required" | "You forgot to fill this in" |
@@ -810,21 +810,21 @@ RootLayout
 ### 11.4 Error Boundary Strategy
 
 ```
-[Global Error Boundary] ← Catches uncaught render errors
-  └─ Shows "Something went wrong" page with "Go Home" button
-  └─ Logs to Sentry with full context
+[Global Error Boundary] Ã¢â€ Â Catches uncaught render errors
+  Ã¢â€â€Ã¢â€â‚¬ Shows "Something went wrong" page with "Go Home" button
+  Ã¢â€â€Ã¢â€â‚¬ Logs to Sentry with full context
 
-[Page Error Boundary] ← One per route
-  └─ Shows page-level error with navigation
-  └─ Catches route-specific failures
+[Page Error Boundary] Ã¢â€ Â One per route
+  Ã¢â€â€Ã¢â€â‚¬ Shows page-level error with navigation
+  Ã¢â€â€Ã¢â€â‚¬ Catches route-specific failures
 
-[Section Error Boundary] ← One per data-fetching section
-  └─ Shows inline error with retry
-  └─ Non-failing sections continue to render
+[Section Error Boundary] Ã¢â€ Â One per data-fetching section
+  Ã¢â€â€Ã¢â€â‚¬ Shows inline error with retry
+  Ã¢â€â€Ã¢â€â‚¬ Non-failing sections continue to render
 
-[Widget Error Boundary] ← Admin dashboard widgets
-  └─ Shows widget-level error without breaking dashboard
-  └─ Per-widget retry
+[Widget Error Boundary] Ã¢â€ Â Admin dashboard widgets
+  Ã¢â€â€Ã¢â€â‚¬ Shows widget-level error without breaking dashboard
+  Ã¢â€â€Ã¢â€â‚¬ Per-widget retry
 ```
 
 ### References
@@ -838,50 +838,50 @@ RootLayout
 ### 12.1 Empty State Pattern
 
 ```
-┌──────────────────────────────────────┐
-│                                      │
-│         📭 / 🎉 / 📝 Icon           │
-│                                      │
-│    Title: What's going on here       │
-│                                      │
-│    Description: Why it's empty       │
-│    and what to do about it           │
-│                                      │
-│    [Action Button: What to do next]  │
-│                                      │
-└──────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š         Ã°Å¸â€œÂ­ / Ã°Å¸Å½â€° / Ã°Å¸â€œÂ Icon           Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š    Title: What's going on here       Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š    Description: Why it's empty       Ã¢â€â€š
+Ã¢â€â€š    and what to do about it           Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š    [Action Button: What to do next]  Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 12.2 Empty State Catalog
 
 | Screen/Component | Icon | Title | Description | Action | Feature |
 |------------------|------|-------|-------------|--------|---------|
-| **Projects Grid** | 📦 | "No projects yet" | "Projects will appear here once you've added them in the admin panel." | "Add your first project" | F-100 |
-| **Case Studies** | 📄 | "Case studies coming soon" | "In-depth case studies of notable projects will be published here." | "Explore projects instead" | F-105 |
-| **Blog Listing** | ✍️ | "No articles published yet" | "Blog posts will be published here. Check back for new content!" | "Subscribe to updates" | F-200 |
-| **Testimonials** | 💬 | "No testimonials yet" | "Client feedback will appear here. Want to leave one? Reach out!" | "Get in touch" | F-006 |
-| **Skills** | 🛠️ | "Skills being configured" | "Skill categories and proficiency will be shown here once set up." | — | F-002 |
-| **FAQ** | ❓ | "FAQs coming soon" | "Common questions and answers will be added here." | "Ask me anything" | F-008 |
-| **Contact Form** | 📬 | "Form ready" | "Fill in the form above to get in touch. I typically respond within 24 hours." | — | F-007 |
-| **AI Chat** | 🤖 | "Chat ready" | "Ask me anything about my skills, experience, or projects!" | "Get started →" | F-300 |
-| **Admin Dashboard** | 📊 | "Welcome to your dashboard!" | "⚡ Quick setup checklist: Add your first project, write your first blog post, update your profile." | "Start setup wizard" | F-400 |
-| **Admin Leads** | 📭 | "No leads yet" | "Leads will appear here when someone reaches out via the contact form." | "Share your portfolio" | F-800 |
-| **Admin Analytics** | 📈 | "Collecting data..." | "Analytics will be available in 24-48 hours after setting up PostHog." | "Configure PostHog" | F-900 |
-| **Admin CMS** | 📝 | "No {contentType} yet" | "Create your first piece of content to get started." | "Create now" | F-600 |
-| **Experience** | 🕐 | "Experience timeline empty" | "Work experience entries will appear here once added." | — | F-005 |
-| **Services** | 📋 | "Services coming soon" | "Service offerings and pricing will be listed here." | "Contact for inquiries" | F-009 |
-| **Stats** | 📊 | "Statistics loading..." | "Portfolio statistics will appear here once content is added." | — | F-010 |
-| **Clients** | 🤝 | "Clients coming soon" | "Company logos and client names will be displayed here." | — | F-011 |
-| **Monitoring** | 🛡️ | "All clear — no incidents" | "No errors or incidents reported in the selected period." | — | F-1001 |
+| **Projects Grid** | Ã°Å¸â€œÂ¦ | "No projects yet" | "Projects will appear here once you've added them in the admin panel." | "Add your first project" | F-100 |
+| **Case Studies** | Ã°Å¸â€œâ€ž | "Case studies coming soon" | "In-depth case studies of notable projects will be published here." | "Explore projects instead" | F-105 |
+| **Blog Listing** | Ã¢Å“ÂÃ¯Â¸Â | "No articles published yet" | "Blog posts will be published here. Check back for new content!" | "Subscribe to updates" | F-200 |
+| **Testimonials** | Ã°Å¸â€™Â¬ | "No testimonials yet" | "Client feedback will appear here. Want to leave one? Reach out!" | "Get in touch" | F-006 |
+| **Skills** | Ã°Å¸â€ºÂ Ã¯Â¸Â | "Skills being configured" | "Skill categories and proficiency will be shown here once set up." | Ã¢â‚¬â€ | F-002 |
+| **FAQ** | Ã¢Ââ€œ | "FAQs coming soon" | "Common questions and answers will be added here." | "Ask me anything" | F-008 |
+| **Contact Form** | Ã°Å¸â€œÂ¬ | "Form ready" | "Fill in the form above to get in touch. I typically respond within 24 hours." | Ã¢â‚¬â€ | F-007 |
+| **AI Chat** | Ã°Å¸Â¤â€“ | "Chat ready" | "Ask me anything about my skills, experience, or projects!" | "Get started Ã¢â€ â€™" | F-300 |
+| **Admin Dashboard** | Ã°Å¸â€œÅ  | "Welcome to your dashboard!" | "Ã¢Å¡Â¡ Quick setup checklist: Add your first project, write your first blog post, update your profile." | "Start setup wizard" | F-400 |
+| **Admin Leads** | Ã°Å¸â€œÂ­ | "No leads yet" | "Leads will appear here when someone reaches out via the contact form." | "Share your portfolio" | F-800 |
+| **Admin Analytics** | Ã°Å¸â€œË† | "Collecting data..." | "Analytics will be available in 24-48 hours after setting up PostHog." | "Configure PostHog" | F-900 |
+| **Admin CMS** | Ã°Å¸â€œÂ | "No {contentType} yet" | "Create your first piece of content to get started." | "Create now" | F-600 |
+| **Experience** | Ã°Å¸â€¢Â | "Experience timeline empty" | "Work experience entries will appear here once added." | Ã¢â‚¬â€ | F-005 |
+| **Services** | Ã°Å¸â€œâ€¹ | "Services coming soon" | "Service offerings and pricing will be listed here." | "Contact for inquiries" | F-009 |
+| **Stats** | Ã°Å¸â€œÅ  | "Statistics loading..." | "Portfolio statistics will appear here once content is added." | Ã¢â‚¬â€ | F-010 |
+| **Clients** | Ã°Å¸Â¤Â | "Clients coming soon" | "Company logos and client names will be displayed here." | Ã¢â‚¬â€ | F-011 |
+| **Monitoring** | Ã°Å¸â€ºÂ¡Ã¯Â¸Â | "All clear Ã¢â‚¬â€ no incidents" | "No errors or incidents reported in the selected period." | Ã¢â‚¬â€ | F-1001 |
 
 ### 12.3 First-Time Experience Flows
 
 | User | First Visit | Empty State Strategy | Conversion Goal |
 |------|-------------|---------------------|-----------------|
 | **Visitor** | Homepage loads with all sections | Static content (hero, about) always present; dynamic sections show empty state gracefully | Explore further or contact |
-| **Recruiter** | Lands on projects page | If no projects: "No projects yet — check back soon" with CTA to about/skills | View skills or download resume |
+| **Recruiter** | Lands on projects page | If no projects: "No projects yet Ã¢â‚¬â€ check back soon" with CTA to about/skills | View skills or download resume |
 | **Admin** | First login to dashboard | Onboarding wizard: "Let's set up your portfolio" with checklist | Add first section |
-| **Blog Reader** | Lands on empty blog | "No articles yet — subscribe to be notified" with email input | Subscribe or explore projects |
+| **Blog Reader** | Lands on empty blog | "No articles yet Ã¢â‚¬â€ subscribe to be notified" with email input | Subscribe or explore projects |
 | **AI User** | Opens AI chat | Welcome message + suggested starter questions | Engage with AI |
 
 ### References
@@ -895,41 +895,41 @@ RootLayout
 ### 13.1 Loading Pattern Decision Tree
 
 ```
-User action → Expected response time?
+User action Ã¢â€ â€™ Expected response time?
 
 < 100ms: No loading indicator (instant)
-├── Button press → scale feedback
-└── Input focus → border highlight
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Button press Ã¢â€ â€™ scale feedback
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Input focus Ã¢â€ â€™ border highlight
 
 100-300ms: Micro-loading
-├── Button becomes disabled + inner state change
-└── Inline content swap (no full skeleton)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Button becomes disabled + inner state change
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Inline content swap (no full skeleton)
 
 300ms-1s: Skeleton screen
-├── Show content-shaped skeleton with shimmer
-└── Replace with actual content when ready
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Show content-shaped skeleton with shimmer
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Replace with actual content when ready
 
 1-5s: Skeleton + progress indicator
-├── Skeleton continues
-├── Add estimated time if known
-└── Allow user action (retry, cancel)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Skeleton continues
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Add estimated time if known
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Allow user action (retry, cancel)
 
 > 5s: Timeout handling
-├── Show error state with retry
-└── Show partial content if available
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Show error state with retry
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Show partial content if available
 ```
 
 ### 13.2 Skeleton Pattern Library
 
 | Component | Skeleton Shape | Dimensions | Animation | CLS Prevention |
 |-----------|---------------|------------|-----------|----------------|
-| **Hero** | Full-width rect + 2 text lines | 100vw × 80vh | Shimmer sweep 1.5s | Fixed aspect-ratio container |
-| **Card** | Image rect (3:2) + 2 text lines | 100% × 240px | Shimmer, stagger in 80ms | `aspect-[3/2]` container |
-| **Project Detail** | Hero rect + tags (5 pills) + content (8 lines) | 100% × 600px | Shimmer sections | Sequential section loading |
-| **Blog Card** | Image rect + title + date + excerpt (2 lines) | 100% × 200px | Shimmer, stagger in 60ms | Fixed card dimensions |
-| **Table Row** | 4 varying-width rects | 100% × 40px × 8 rows | Shimmer rows, 100ms delay | Fixed row height |
-| **Stat Card** | Icon rect + number + label + mini-chart | 100% × 120px | Fade in, then number pulse | Fixed card dimensions |
-| **Chart** | Chart area + axis lines + legend | 100% × 300px | Gradient sweep | Fixed chart container |
+| **Hero** | Full-width rect + 2 text lines | 100vw Ãƒâ€” 80vh | Shimmer sweep 1.5s | Fixed aspect-ratio container |
+| **Card** | Image rect (3:2) + 2 text lines | 100% Ãƒâ€” 240px | Shimmer, stagger in 80ms | `aspect-[3/2]` container |
+| **Project Detail** | Hero rect + tags (5 pills) + content (8 lines) | 100% Ãƒâ€” 600px | Shimmer sections | Sequential section loading |
+| **Blog Card** | Image rect + title + date + excerpt (2 lines) | 100% Ãƒâ€” 200px | Shimmer, stagger in 60ms | Fixed card dimensions |
+| **Table Row** | 4 varying-width rects | 100% Ãƒâ€” 40px Ãƒâ€” 8 rows | Shimmer rows, 100ms delay | Fixed row height |
+| **Stat Card** | Icon rect + number + label + mini-chart | 100% Ãƒâ€” 120px | Fade in, then number pulse | Fixed card dimensions |
+| **Chart** | Chart area + axis lines + legend | 100% Ãƒâ€” 300px | Gradient sweep | Fixed chart container |
 | **Form** | 4 input-shaped rects + button | 100% per field | Shimmer fields | Field height match |
 | **Chat Bubble** | 2 bot bubbles + typing indicator | 60% max-width each | Bubble fade-in + typing dots | Min-height message area |
 | **Admin Widget** | Varies by widget type | Widget container size | Shimmer per widget | Fixed widget grid |
@@ -952,7 +952,7 @@ User action → Expected response time?
 | Technique | Implementation | Impact |
 |-----------|---------------|--------|
 | **Optimistic UI** | Update UI before API response | Feels instant |
-| **Minimum skeleton duration** | Show skeleton for ≥ 400ms | Prevents flashing |
+| **Minimum skeleton duration** | Show skeleton for Ã¢â€°Â¥ 400ms | Prevents flashing |
 | **Progressive loading** | Load critical content first, secondary later | Content appears faster |
 | **Instant back/forward** | Cache previous pages in memory | Instant navigation |
 | **Prefetch on hover** | Prefetch link on hover, not just click | Sub-second page loads |
@@ -971,28 +971,28 @@ User action → Expected response time?
 ### 14.1 Chat Interface Design
 
 ```
-┌──────────────────────────────────────┐
-│  🤖 AI Assistant  ● Online   [✕]    │  ← Header
-├──────────────────────────────────────┤
-│                                      │
-│  [Bot] 👋 Hi! I'm the AI assistant   │
-│        for Alex. Ask me about...     │
-│                                      │
-│  [Quick] 💻 What technologies do     │  ← Suggested chip
-│  [Quick] 📁 Show me your best work  │  ← Suggested chip
-│  [Quick] 📞 How can I hire you?     │  ← Suggested chip
-│                                      │
-│  [User] Tell me about your React     │  ← User bubble (right)
-│         experience                   │
-│                                      │
-│  [Bot] I have 5+ years of React...  │  ← Bot bubble (left)
-│        I've built 10+ projects...   │  with markdown
-│                                      │
-│  [Bot] ● ● ●                        │  ← Typing indicator
-│                                      │
-├──────────────────────────────────────┤
-│  [📎]  [Type a message...]  [📤]    │  ← Input bar
-└──────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š  Ã°Å¸Â¤â€“ AI Assistant  Ã¢â€”Â Online   [Ã¢Å“â€¢]    Ã¢â€â€š  Ã¢â€ Â Header
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  [Bot] Ã°Å¸â€˜â€¹ Hi! I'm the AI assistant   Ã¢â€â€š
+Ã¢â€â€š        for Alex. Ask me about...     Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  [Quick] Ã°Å¸â€™Â» What technologies do     Ã¢â€â€š  Ã¢â€ Â Suggested chip
+Ã¢â€â€š  [Quick] Ã°Å¸â€œÂ Show me your best work  Ã¢â€â€š  Ã¢â€ Â Suggested chip
+Ã¢â€â€š  [Quick] Ã°Å¸â€œÅ¾ How can I hire you?     Ã¢â€â€š  Ã¢â€ Â Suggested chip
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  [User] Tell me about your React     Ã¢â€â€š  Ã¢â€ Â User bubble (right)
+Ã¢â€â€š         experience                   Ã¢â€â€š
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  [Bot] I have 5+ years of React...  Ã¢â€â€š  Ã¢â€ Â Bot bubble (left)
+Ã¢â€â€š        I've built 10+ projects...   Ã¢â€â€š  with markdown
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€â€š  [Bot] Ã¢â€”Â Ã¢â€”Â Ã¢â€”Â                        Ã¢â€â€š  Ã¢â€ Â Typing indicator
+Ã¢â€â€š                                      Ã¢â€â€š
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¤
+Ã¢â€â€š  [Ã°Å¸â€œÅ½]  [Type a message...]  [Ã°Å¸â€œÂ¤]    Ã¢â€â€š  Ã¢â€ Â Input bar
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ### 14.2 AI Interaction Patterns
@@ -1005,9 +1005,9 @@ User action → Expected response time?
 | **Streaming response** | Content appears word-by-word | SSE with incremental rendering |
 | **Source attribution** | "Based on my portfolio:" before RAG responses | Italic source prefix |
 | **Follow-up suggestions** | Contextual follow-ups after each response | 2-3 chips below bot message |
-| **Error recovery** | Graceful handling of AI failure | "I'm having trouble — try asking another way" + retry |
+| **Error recovery** | Graceful handling of AI failure | "I'm having trouble Ã¢â‚¬â€ try asking another way" + retry |
 | **Human handoff** | Escalate to contact form | "Want to talk to a human?" CTA |
-| **Rate limit feedback** | Clear messaging when limit reached | "You've reached the message limit — feel free to contact me directly" |
+| **Rate limit feedback** | Clear messaging when limit reached | "You've reached the message limit Ã¢â‚¬â€ feel free to contact me directly" |
 | **Session persistence** | Chat history preserved in session | localStorage with expiry |
 
 ### 14.3 RAG Transparency
@@ -1047,7 +1047,7 @@ User action → Expected response time?
 
 | Element | Desktop | Tablet | Mobile |
 |---------|---------|--------|--------|
-| Stat cards | 4 in a row (compact) | 2×2 grid | 2×2 grid (full width) |
+| Stat cards | 4 in a row (compact) | 2Ãƒâ€”2 grid | 2Ãƒâ€”2 grid (full width) |
 | Charts | 2 side-by-side | Stacked | Stacked |
 | Tables | Full table (all columns) | Condensed (key columns) | Card list |
 | Sidebar | 250px, full labels | Icons only (50px) | Bottom tab bar |
@@ -1081,22 +1081,22 @@ User action → Expected response time?
 | **Modal form** | Creating new items | Center modal, focus trap, Esc to close |
 | **Full page editor** | Rich content editing | CMS editor, full-width, auto-save |
 | **Wizard** | Multi-step setup | Step indicator, back/next, progress |
-| **Bulk actions** | Mass updates | Select items → action bar appears |
+| **Bulk actions** | Mass updates | Select items Ã¢â€ â€™ action bar appears |
 | **Confirm dialog** | Destructive actions | "Are you sure?" + action name + confirm/cancel |
 | **Auto-save indicator** | Long-form editing | "Saved" / "Saving..." / "Changes unsaved" |
 
 ### 15.4 Confirmation Dialog Pattern
 
 ```
-┌──────────────────────────────────┐
-│  ⚠️  Title (e.g., "Delete lead") │
-│                                  │
-│  Are you sure you want to        │
-│  delete this lead? This action   │
-│  cannot be undone.               │
-│                                  │
-│  [Cancel]  [Delete (red)]        │
-└──────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š  Ã¢Å¡Â Ã¯Â¸Â  Title (e.g., "Delete lead") Ã¢â€â€š
+Ã¢â€â€š                                  Ã¢â€â€š
+Ã¢â€â€š  Are you sure you want to        Ã¢â€â€š
+Ã¢â€â€š  delete this lead? This action   Ã¢â€â€š
+Ã¢â€â€š  cannot be undone.               Ã¢â€â€š
+Ã¢â€â€š                                  Ã¢â€â€š
+Ã¢â€â€š  [Cancel]  [Delete (red)]        Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 | Action | Dialog Title | Confirm Button | Severity |
@@ -1117,8 +1117,8 @@ User action → Expected response time?
 | Site (title, description, SEO) | Text inputs, textarea | Required | On blur |
 | Logo/Favicon | File upload | Type (PNG/SVG), size (< 2MB) | On upload complete |
 | Integrations (API keys) | Password input with toggle | Required, format validation | On save click |
-| Notifications | Toggle switches | — | Immediate |
-| Password | Password × 3 (current, new, confirm) | Min 8 chars, complexity | On save click |
+| Notifications | Toggle switches | Ã¢â‚¬â€ | Immediate |
+| Password | Password Ãƒâ€” 3 (current, new, confirm) | Min 8 chars, complexity | On save click |
 | Danger zone | Confirm text + delete button | Type exact phrase | On confirmation |
 
 ### 15.6 Admin Data Density Rules
@@ -1130,7 +1130,7 @@ User action → Expected response time?
 | **Column show/hide** | Allow customization of visible columns | Task-dependent data needs |
 | **Export** | All data views offer CSV export | Data portability for admin |
 | **Keyboard navigation** | All table actions from keyboard | Power user efficiency |
-| **Bulk edit** | Select → edit → apply to all | Efficiency for repeated tasks |
+| **Bulk edit** | Select Ã¢â€ â€™ edit Ã¢â€ â€™ apply to all | Efficiency for repeated tasks |
 | **Search + filter** | Every list view has search + filter | Find data quickly |
 | **Sort by column** | Click column header to sort | Flexible data ordering |
 
@@ -1182,15 +1182,15 @@ User action → Expected response time?
 
 | Reference | Description |
 |-----------|-------------|
-| `docs/product/ProductRequirements.md` (v3.0) | Product requirements — UX requirements traceability |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog — all F-XXX IDs referenced |
-| `docs/product/03-USER-STORIES.md` (v3.0) | User stories — US-XXX IDs referenced |
-| `docs/design/UserFlows.md` (v5.0) | Screen specifications — all screen states referenced |
-| `docs/design/DesignTokens.md` (v5.0) | Visual design — micro-interactions, color system |
-| `docs/design/DesignSystem.md` (v5.0) | Component specifications — design tokens |
-| `docs/quality/PerformanceArchitecture.md` (v5.0) | Performance budgets — animation performance targets |
+| `docs/product/ProductRequirements.md` (v3.0) | Product requirements Ã¢â‚¬â€ UX requirements traceability |
+| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog Ã¢â‚¬â€ all F-XXX IDs referenced |
+| `docs/product/03-USER-STORIES.md` (v3.0) | User stories Ã¢â‚¬â€ US-XXX IDs referenced |
+| `docs/design/UserFlows.md` (v5.0) | Screen specifications Ã¢â‚¬â€ all screen states referenced |
+| `docs/design/DesignTokens.md` (v5.0) | Visual design Ã¢â‚¬â€ micro-interactions, color system |
+| `docs/design/DesignSystem.md` (v5.0) | Component specifications Ã¢â‚¬â€ design tokens |
+| `docs/quality/PerformanceArchitecture.md` (v5.0) | Performance budgets Ã¢â‚¬â€ animation performance targets |
 | `docs/quality/AccessibilityArchitecture.md` (v3.0) | Full WCAG implementation details |
-| `docs/quality/TestingArchitecture.md` (v3.0) | Testing strategy — a11y and UX test coverage |
+| `docs/quality/TestingArchitecture.md` (v3.0) | Testing strategy Ã¢â‚¬â€ a11y and UX test coverage |
 
 ---
 
@@ -1233,8 +1233,8 @@ The `admin/sandbox` page introduces a "Lovable-style" IDE layout, combining powe
 
 | Term | Definition |
 |------|------------|
-| UX | User Experience â€” overall experience of using a product |
-| UI | User Interface â€” visual elements users interact with |
+| UX | User Experience ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â overall experience of using a product |
+| UI | User Interface ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â visual elements users interact with |
 | Information Architecture | Organization and structure of content |
 | Wireframe | Low-fidelity layout showing structure without visual design |
 | Prototype | Interactive simulation of the final product |
@@ -1259,4 +1259,8 @@ The `admin/sandbox` page introduces a "Lovable-style" IDE layout, combining powe
 | 3.0 | Jun 2026 | Updated for enterprise structure | Product Owner |
 | 1.0 | Mar 2026 | Initial UI/UX documentation | Product Owner |
 
-*Document Version: 4.0 — Enterprise Edition*
+*Document Version: 4.0 Ã¢â‚¬â€ Enterprise Edition*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -37,6 +37,19 @@ During a SEV-1 or SEV-2 incident, the following roles are established:
 2. Status pages are updated to "Resolved".
 3. The Slack channel is archived, and the Post-Incident Review phase begins.
 
+## 5. Incident Lifecycle Diagram
+
+```mermaid
+stateDiagram-v2
+    [*] --> Detected
+    Detected --> Triage
+    Triage --> Investigated
+    Investigated --> Mitigated
+    Mitigated --> Resolved
+    Resolved --> Reviewed
+    Reviewed --> [*]
+```
+
 ## 4. Post-Incident Review (PIR)
 Within 48 hours of a SEV-1 or SEV-2 incident, a **Blameless Post-Mortem** meeting is held.
 
@@ -53,3 +66,7 @@ Within 48 hours of a SEV-1 or SEV-2 incident, a **Blameless Post-Mortem** meetin
    * *Fix*: Permanent code fix for the bug.
    * *Detect*: Improve alerting so we catch it sooner next time.
    * *Mitigate*: Automate the mitigation or update the Runbook.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

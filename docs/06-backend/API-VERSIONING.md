@@ -1,7 +1,7 @@
 # API Versioning Strategy
 
 > **Document:** `docs/backend/api-versioning.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** API Architect | **Related:** [44-API-STANDARDS.md](../api/44-API-STANDARDS.md), [12-API.md](../api/12-API.md)
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** API Architect | **Related:** [44-API-STANDARDS.md](../api/44-API-STANDARDS.md), [12-API.md](../api/12-API.md)
 
 ---
 
@@ -59,9 +59,9 @@ The parsed version is available on every request via `req.apiVersion` for use in
 
 | Phase | Status | Duration | What It Means |
 |-------|--------|----------|---------------|
-| **Active** | ✅ Current | Indefinite | Additive changes only. No breaking changes. |
-| **Deprecated** | ⚠️ Warning | 6 months | Bug fixes only. `Deprecation: true` header set. |
-| **Sunset** | 🚫 Removed | After deprecation | Endpoint returns `410 Gone`. No support. |
+| **Active** | Ã¢Å“â€¦ Current | Indefinite | Additive changes only. No breaking changes. |
+| **Deprecated** | Ã¢Å¡Â Ã¯Â¸Â Warning | 6 months | Bug fixes only. `Deprecation: true` header set. |
+| **Sunset** | Ã°Å¸Å¡Â« Removed | After deprecation | Endpoint returns `410 Gone`. No support. |
 
 ### Deprecation Headers
 
@@ -85,7 +85,7 @@ Link: <https://api.portfolio.dev/api/portfolio/sections>; rel="successor-version
 | Changing error response format | New major version |
 | Removing endpoints | New major version |
 | Changing auth requirements | New major version |
-| Changing field types (string → number) | New major version |
+| Changing field types (string Ã¢â€ â€™ number) | New major version |
 | Adding required request fields | New major version |
 
 ### Does NOT Constitute a Breaking Change
@@ -139,8 +139,12 @@ The global prefix `api` is set in `main.ts`, followed by the domain segment:
 ```
 Accept: application/vnd.portfolio.v1+json
 
-GET /api/portfolio/sections    → PortfolioSectionController
-GET /api/admin/sections        → AdminSectionController (authenticated)
+GET /api/portfolio/sections    Ã¢â€ â€™ PortfolioSectionController
+GET /api/admin/sections        Ã¢â€ â€™ AdminSectionController (authenticated)
 ```
 
-Versioning is orthogonal to routing — the same controller can serve multiple versions via the `req.apiVersion` check.
+Versioning is orthogonal to routing Ã¢â‚¬â€ the same controller can serve multiple versions via the `req.apiVersion` check.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

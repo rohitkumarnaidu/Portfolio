@@ -40,7 +40,23 @@ npx vercel certs add certificate.crt private.key
 curl -vI https://portfolio.dev 2>&1 | grep -i "ssl\|certificate"
 ```
 
+## SSL Renewal Flow Diagram
+
+```mermaid
+sequenceDiagram
+    actor Admin
+    Admin->>Alert: Expiry notification
+    Alert->>Admin: Generate CSR
+    Admin->>Submit: Submit to CA
+    Submit->>Deploy: Install certificate
+    Deploy->>Verify: Check expiration
+```
+
 ## Monitoring
 - Set calendar reminders 30 days before expiry
 - Use uptime monitor (Better Stack) with SSL expiry check
 - Check monthly: `openssl s_client -connect portfolio.dev:443`
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

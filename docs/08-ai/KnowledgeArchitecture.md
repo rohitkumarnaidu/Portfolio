@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Knowledge Architecture
 
 **Version:** 1.0  
@@ -22,11 +17,11 @@ The Knowledge Architecture defines the complete knowledge management infrastruct
 
 | Reference                                 | Description                                                    |
 | ----------------------------------------- | -------------------------------------------------------------- |
-| `docs/ai/19-RAG.md`                       | RAG pipeline — retrieval, context assembly, source attribution |
-| `docs/ai/18-AGENTS.md`                    | Multi-agent architecture — each agent's knowledge sources      |
-| `docs/ai/17-AI_INSTRUCTIONS.md`           | AI Operating Model — knowledge governance rules                |
+| `docs/ai/19-RAG.md`                       | RAG pipeline â€” retrieval, context assembly, source attribution |
+| `docs/ai/18-AGENTS.md`                    | Multi-agent architecture â€” each agent's knowledge sources      |
+| `docs/ai/17-AI_INSTRUCTIONS.md`           | AI Operating Model â€” knowledge governance rules                |
 | `docs/database/DatabaseArchitecture.md`   | pgvector schema for vector storage                             |
-| `docs/architecture/SystemArchitecture.md` | System architecture — AI service layer                         |
+| `docs/architecture/SystemArchitecture.md` | System architecture â€” AI service layer                         |
 | `docs/architecture/13-INTEGRATIONS.md`    | OpenAI embedding service configuration                         |
 | `docs/security/43-DATA-GOVERNANCE.md`     | Data quality and lifecycle management                          |
 
@@ -1786,7 +1781,7 @@ async def classify_query(query: str) -> str:
 | **Cross-Encoder**          | A joint encoder model that processes query-passage pairs together for high-accuracy relevance scoring (slower but more accurate than bi-encoder) |
 | **Entity**                 | A distinct, identifiable object in the knowledge graph (Person, Project, Skill, Company, Technology)                                             |
 | **Entity Disambiguation**  | The process of resolving which specific entity a query refers to when names are ambiguous                                                        |
-| **Entity Relationship**    | A typed connection between two entities (e.g., Person → WORKS_AT → Company, Project → USES → Technology)                                         |
+| **Entity Relationship**    | A typed connection between two entities (e.g., Person â†’ WORKS_AT â†’ Company, Project â†’ USES â†’ Technology)                                         |
 | **Fusion Strategy**        | The algorithm for combining ranked results from multiple retrieval modalities into a single coherent list                                        |
 | **Graph Traversal**        | The process of navigating entity relationships to answer multi-hop queries (e.g., "What projects did person X build using technology Y?")        |
 | **Knowledge Gap Analysis** | The process of identifying topics visitors ask about that have no or insufficient coverage in the knowledge base                                 |
@@ -1895,4 +1890,4 @@ _End of Document -- Knowledge Architecture v1.0_
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

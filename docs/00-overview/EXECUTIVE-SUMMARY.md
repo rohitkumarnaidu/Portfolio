@@ -1,22 +1,71 @@
-# Executive Summary — Portfolio Platform
+# Executive Summary Ã¢â‚¬â€ Portfolio Platform
 
 > **Document:** `00-overview/EXECUTIVE-SUMMARY.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Owner:** CTO | **Status:** ✅ Active | **Review Cadence:** Quarterly
+> **Owner:** CTO | **Status:** Ã¢Å“â€¦ Active | **Review Cadence:** Quarterly
 
 ---
 
 ## 1. Project Overview
 
 **Project Name:** My Portfolio
-**Tagline:** *Enterprise-grade personal portfolio — proving that a portfolio can be both a technical demonstration and a genuinely useful tool for its visitors.*
+**Tagline:** *Enterprise-grade personal portfolio Ã¢â‚¬â€ proving that a portfolio can be both a technical demonstration and a genuinely useful tool for its visitors.*
 
 My Portfolio is a full-stack monorepo platform that showcases software engineering excellence through immersive, interactive, and performant web experiences. Built on a near-zero-cost infrastructure model (~$10/year for domain only), it demonstrates enterprise-grade architecture using free and open-source technologies. The platform serves four distinct audiences: recruiters and hiring managers evaluating skills, potential clients scoping collaboration, developer peers inspecting architecture, and the portfolio owner managing content and leads through an admin dashboard.
 
-The project is the portfolio itself — every architectural decision, every animation, every interaction is intentionally designed to demonstrate the caliber of engineer behind it. It is not a static page but a living CMS with AI capabilities, 3D visualizations, and a WebContainer-powered sandbox IDE.
+The project is the portfolio itself Ã¢â‚¬â€ every architectural decision, every animation, every interaction is intentionally designed to demonstrate the caliber of engineer behind it. It is not a static page but a living CMS with AI capabilities, 3D visualizations, and a WebContainer-powered sandbox IDE.
 
 ---
 
 ## 2. Architecture Overview
+
+```mermaid
+graph TD
+    subgraph Frontend
+        WEB[Next.js 14<br/>App Router]
+        R3F[Three.js / R3F<br/>3D Experience]
+        WEB --> R3F
+    end
+
+    subgraph API
+        NEST[NestJS 10<br/>REST API]
+        PRISMA[Prisma ORM<br/>pg Adapter]
+        NEST --> PRISMA
+    end
+
+    subgraph AI
+        FAST[FastAPI<br/>Python]
+        LANG[LangChain<br/>RAG Pipeline]
+        FAST --> LANG
+    end
+
+    subgraph Data
+        PG[PostgreSQL<br/>Supabase]
+        PGX[pgvector<br/>Embeddings]
+        REDIS[Redis / Upstash<br/>Cache & Queues]
+        PG --> PGX
+    end
+
+    subgraph Infra
+        VERCEL[Vercel<br/>Edge Network]
+        DOCKER[Docker<br/>Container Registry]
+        GH[GitHub Actions<br/>CI/CD]
+    end
+
+    WEB -->|ISR / SSR| VERCEL
+    WEB -->|API Calls| NEST
+    WEB -->|AI Chat| FAST
+    NEST -->|ORM| PG
+    NEST -->|Queues| REDIS
+    FAST -->|Vector Search| PGX
+    FAST -->|LLM Calls| OPENAI[OpenAI / Anthropic]
+    NEST -->|Auth| SUPABASE[Supabase Auth]
+
+    style WEB fill:#e1f5fe
+    style NEST fill:#f3e5f5
+    style FAST fill:#e8f5e9
+    style PG fill:#fff3e0
+    style VERCEL fill:#fce4ec
+```
 
 The platform follows a **three-tier microservices architecture** within a **Turborepo v2 monorepo**:
 
@@ -30,11 +79,11 @@ The platform follows a **three-tier microservices architecture** within a **Turb
 
 | Package | Purpose |
 |---------|---------|
-| `packages/shared` (`@portfolio/shared`) | TypeScript types + Zod schemas — the source of truth for data contracts |
+| `packages/shared` (`@portfolio/shared`) | TypeScript types + Zod schemas Ã¢â‚¬â€ the source of truth for data contracts |
 | `packages/ui` (`@portfolio/ui`) | Shared React component library (Button, Card, Input, `cn` utility) |
 | `packages/config` | Shared ESLint preset + base TypeScript config |
 
-**Data Flow:** Browser → Vercel CDN → ISR cache → Next.js (public pages), or Browser → Vercel → NestJS → Supabase PostgreSQL (admin API). AI requests route Browser → FastAPI → OpenAI/pgvector with SSE streaming. Supabase provides PostgreSQL 15, Auth, Storage, and Realtime — all managed behind a single endpoint.
+**Data Flow:** Browser Ã¢â€ â€™ Vercel CDN Ã¢â€ â€™ ISR cache Ã¢â€ â€™ Next.js (public pages), or Browser Ã¢â€ â€™ Vercel Ã¢â€ â€™ NestJS Ã¢â€ â€™ Supabase PostgreSQL (admin API). AI requests route Browser Ã¢â€ â€™ FastAPI Ã¢â€ â€™ OpenAI/pgvector with SSE streaming. Supabase provides PostgreSQL 15, Auth, Storage, and Realtime Ã¢â‚¬â€ all managed behind a single endpoint.
 
 ---
 
@@ -68,10 +117,10 @@ The platform follows a **three-tier microservices architecture** within a **Turb
 
 | Component | Platform | Method | URL |
 |-----------|----------|--------|-----|
-| Frontend (Next.js) | **Vercel** | Git push → auto-deploy from `main` | `https://portfolio.vercel.app` |
-| API (NestJS) | **Docker** → GitHub Container Registry | Multi-stage Dockerfile → `ghcr.io` → any VPS/PaaS | Port 3001 |
-| AI (FastAPI) | **Docker** → GitHub Container Registry | Multi-stage Dockerfile → `ghcr.io` → any VPS/PaaS | Port 8000 |
-| Database | **Supabase Managed** | SaaS — no self-hosting | Supabase project URL |
+| Frontend (Next.js) | **Vercel** | Git push Ã¢â€ â€™ auto-deploy from `main` | `https://portfolio.vercel.app` |
+| API (NestJS) | **Docker** Ã¢â€ â€™ GitHub Container Registry | Multi-stage Dockerfile Ã¢â€ â€™ `ghcr.io` Ã¢â€ â€™ any VPS/PaaS | Port 3001 |
+| AI (FastAPI) | **Docker** Ã¢â€ â€™ GitHub Container Registry | Multi-stage Dockerfile Ã¢â€ â€™ `ghcr.io` Ã¢â€ â€™ any VPS/PaaS | Port 8000 |
+| Database | **Supabase Managed** | SaaS Ã¢â‚¬â€ no self-hosting | Supabase project URL |
 | Cache/Queue | **Redis** (Upstash or Docker) | Managed or containerized | Configurable via `REDIS_URL` |
 | CI/CD | **GitHub Actions** | PR checks (lint, typecheck, build) + auto-deploy on merge | `.github/workflows/pr.yml` |
 
@@ -98,18 +147,18 @@ The platform follows a **three-tier microservices architecture** within a **Turb
 
 | Area | Status | Details |
 |------|--------|---------|
-| **Monorepo Scaffolding** | ✅ Complete | Turborepo, npm workspaces, all `apps/` and `packages/` initialized |
-| **Infrastructure** | ✅ Complete | Docker Compose, multi-stage Dockerfiles, CI/CD pipeline, env templates |
-| **Documentation** | ✅ Complete | 280+ enterprise-grade documents across architecture, security, operations, product, design |
-| **Shared Packages** | ✅ Complete | `packages/shared` (types + Zod), `packages/ui` (components), `packages/config` (ESLint + TS) |
-| **Design System** | 🔄 In Progress | Design tokens defined, base components done. Visual refinement ongoing. |
-| **Application Code** | 📋 Planned | All apps have scaffolded files with prose descriptions — actual implementation not started |
-| **NestJS Modules** | 📋 Planned | Auth, Sections, Projects, Skills, Leads, Analytics modules scaffolded but placeholder |
-| **FastAPI AI Service** | 📋 Planned | `app/main.py` is an empty stub. AI/agent docs are aspirational design specs. |
-| **Admin Dashboard** | ❌ Not Started | No admin pages implemented yet |
-| **Testing** | 📋 Planned | Jest/Vitest configured. CI has Postgres service container. Zero tests written. |
-| **WebContainer Sandbox** | ❌ Not Started | Route defined, no implementation |
-| **3D Components** | ❌ Not Started | Three.js/r3f dependencies listed, no scenes created |
+| **Monorepo Scaffolding** | Ã¢Å“â€¦ Complete | Turborepo, npm workspaces, all `apps/` and `packages/` initialized |
+| **Infrastructure** | Ã¢Å“â€¦ Complete | Docker Compose, multi-stage Dockerfiles, CI/CD pipeline, env templates |
+| **Documentation** | Ã¢Å“â€¦ Complete | 280+ enterprise-grade documents across architecture, security, operations, product, design |
+| **Shared Packages** | Ã¢Å“â€¦ Complete | `packages/shared` (types + Zod), `packages/ui` (components), `packages/config` (ESLint + TS) |
+| **Design System** | Ã°Å¸â€â€ž In Progress | Design tokens defined, base components done. Visual refinement ongoing. |
+| **Application Code** | Ã°Å¸â€œâ€¹ Planned | All apps have scaffolded files with prose descriptions Ã¢â‚¬â€ actual implementation not started |
+| **NestJS Modules** | Ã°Å¸â€œâ€¹ Planned | Auth, Sections, Projects, Skills, Leads, Analytics modules scaffolded but placeholder |
+| **FastAPI AI Service** | Ã°Å¸â€œâ€¹ Planned | `app/main.py` is an empty stub. AI/agent docs are aspirational design specs. |
+| **Admin Dashboard** | Ã¢ÂÅ’ Not Started | No admin pages implemented yet |
+| **Testing** | Ã°Å¸â€œâ€¹ Planned | Jest/Vitest configured. CI has Postgres service container. Zero tests written. |
+| **WebContainer Sandbox** | Ã¢ÂÅ’ Not Started | Route defined, no implementation |
+| **3D Components** | Ã¢ÂÅ’ Not Started | Three.js/r3f dependencies listed, no scenes created |
 
 ---
 
@@ -149,11 +198,11 @@ The platform follows a **three-tier microservices architecture** within a **Turb
 | Quality standards | 45 | 95 | Coding/git standards defined; enforcement automations pending |
 
 **Priority actions to close the gap:**
-1. Implement test suite (target: 80% coverage) — moves testing from 40 to 80+
-2. Create executive overview layer (this document) — architecture from 85 to 90
-3. Establish automated documentation validation in CI — all dimensions gain 5-10 points
-4. Complete penetration testing — security from 70 to 90
-5. Implement quality gate automation — quality from 45 to 80
+1. Implement test suite (target: 80% coverage) Ã¢â‚¬â€ moves testing from 40 to 80+
+2. Create executive overview layer (this document) Ã¢â‚¬â€ architecture from 85 to 90
+3. Establish automated documentation validation in CI Ã¢â‚¬â€ all dimensions gain 5-10 points
+4. Complete penetration testing Ã¢â‚¬â€ security from 70 to 90
+5. Implement quality gate automation Ã¢â‚¬â€ quality from 45 to 80
 
 ---
 
@@ -161,10 +210,10 @@ The platform follows a **three-tier microservices architecture** within a **Turb
 
 | Stakeholder | Interest | Influence | Engagement |
 |-------------|----------|-----------|------------|
-| Portfolio Owner (CTO) | Strategic direction, code quality | High | Daily — active development |
-| Recruiters / Hiring Managers | Fast evaluation, clear signal | Medium | Passive — site visitors |
-| Open Source Contributors | Architecture reference | Low | Asynchronous — PRs |
-| Developer Community | Innovation showcase | Low | Public — blog, social |
+| Portfolio Owner (CTO) | Strategic direction, code quality | High | Daily Ã¢â‚¬â€ active development |
+| Recruiters / Hiring Managers | Fast evaluation, clear signal | Medium | Passive Ã¢â‚¬â€ site visitors |
+| Open Source Contributors | Architecture reference | Low | Asynchronous Ã¢â‚¬â€ PRs |
+| Developer Community | Innovation showcase | Low | Public Ã¢â‚¬â€ blog, social |
 
 ---
 
@@ -184,4 +233,8 @@ The platform follows a **three-tier microservices architecture** within a **Turb
 
 | Date | Version | Author | Changes |
 |------|---------|--------|---------|
-| July 2026 | 1.0 | CTO | Initial executive summary — created for enterprise documentation restructure |
+| July 2026 | 1.0 | CTO | Initial executive summary Ã¢â‚¬â€ created for enterprise documentation restructure |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

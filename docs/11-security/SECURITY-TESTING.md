@@ -1,7 +1,7 @@
 # Security Testing Strategy
 
 > **Document:** `SecurityTesting.md` | **Version:** 2.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Security Lead
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Security Lead
 
 ## 1. Overview
 
@@ -87,6 +87,17 @@ As an enterprise application managing a portfolio, AI interactions, and an admin
 - No `root` user in container.
 - Pin base image versions (no `latest` tag).
 - Scan enforced via pre-commit hook.
+### 6.2 SAST/DAST Pipeline
+
+```mermaid
+flowchart LR
+    A[Commit] --> B[SAST: CodeQL]
+    B --> C[Build]
+    C --> D[DAST: OWASP ZAP]
+    D --> E[Dependency Scan: Dependabot]
+    E --> F[Container Scan: Trivy]
+    F --> G[Report]
+```
 
 ## 7. Secret Scanning
 
@@ -108,6 +119,21 @@ As an enterprise application managing a portfolio, AI interactions, and an admin
 - All secrets stored in Vercel Environment Variables or Doppler vault.
 - Secrets are never committed to the repository.
 - `.env` files are in `.gitignore`. `.env.example` contains placeholder values.
+### 7.4 CI Security Gates
+
+```mermaid
+graph LR
+    PR[Pull Request] --> SS[Secret Scan]
+    SS -->|Fail| SSFail[Blocked]
+    SS -->|Pass| SAST
+    SAST[SAST] -->|Fail| SASTFail[Blocked]
+    SAST -->|Pass| DS[Dependency Scan]
+    DS -->|Fail| DSFail[Blocked]
+    DS -->|Pass| CS[Container Scan]
+    CS -->|Fail| CSFail[Blocked]
+    CS -->|Pass| OK[Pass]
+    OK --> Merge[Merge]
+```
 
 ## 8. Penetration Testing
 
@@ -166,3 +192,7 @@ As an enterprise application managing a portfolio, AI interactions, and an admin
 - **XSS Testing:** Automated injection of script payloads in all form fields and URL parameters.
 - **CSP Testing:** Verify Content-Security-Policy headers block inline scripts and unknown origins.
 - **CSRF Testing:** Verify state-changing requests without proper tokens are rejected.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

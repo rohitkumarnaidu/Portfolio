@@ -4,6 +4,43 @@
 
 Testing approach for mobile and tablet form factors.
 
+## Mobile Test Matrix
+
+```mermaid
+flowchart TB
+    subgraph Devices[Device Types]
+        D1[Smartphone]
+        D2[Tablet]
+        D3[Foldable]
+    end
+
+    subgraph OS[OS Versions]
+        O1[iOS 16/17/18]
+        O2[Android 13/14/15]
+    end
+
+    subgraph Screens[Screen Sizes]
+        S1[375Ãƒâ€”667]
+        S2[390Ãƒâ€”844]
+        S3[414Ãƒâ€”896]
+        S4[768Ãƒâ€”1024]
+        S5[1024Ãƒâ€”1366]
+    end
+
+    subgraph Network[Network Conditions]
+        N1[Wi-Fi]
+        N2[4G LTE]
+        N3[3G]
+        N4[Offline]
+    end
+
+    D1 --> OS
+    D2 --> OS
+    D3 --> OS
+    OS --> Screens
+    Screens --> Network
+```
+
 ## Device Coverage
 
 | Category | Devices                              | Screen Sizes                          |
@@ -63,3 +100,7 @@ Testing approach for mobile and tablet form factors.
 - Touch interactions: Manual
 - Real device testing: Manual (weekly)
 - Performance: Automated (Lighthouse)
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

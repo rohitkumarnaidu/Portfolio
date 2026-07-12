@@ -43,3 +43,23 @@ The system utilizes several types of secrets:
 - **Pre-commit Checks:** Developers must use tools like `git-secrets`, `trufflehog`, or `talisman` as pre-commit hooks to prevent accidental commits of secrets.
 - **Repository Scanning:** The central Git repository (e.g., GitHub Advanced Security) must have secret scanning enabled to detect and alert on any leaked secrets in the commit history.
 - **Access Logs:** The Secrets Manager must be configured to log every instance of a secret being accessed or modified, generating alerts for unauthorized access attempts.
+
+---
+
+## Secrets Lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> Created
+    Created --> Active
+    Active --> Rotating
+    Rotating --> Active
+    Active --> Expired
+    Expired --> Revoked
+    Revoked --> [*]
+    Active --> Revoked : Compromise
+```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

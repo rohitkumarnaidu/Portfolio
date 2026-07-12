@@ -169,3 +169,7 @@ The following matrix defines which component versions are compatible with each o
 - `@portfolio/shared` versions must be on the same MAJOR as the API for type safety
 
 Cross-version compatibility is verified in CI via integration tests that test each API version against the corresponding web version.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

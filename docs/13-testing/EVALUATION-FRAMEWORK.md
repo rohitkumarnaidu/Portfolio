@@ -1,7 +1,7 @@
-# Evaluation Framework — Tools, Libraries & Architecture Decisions
+# Evaluation Framework Ã¢â‚¬â€ Tools, Libraries & Architecture Decisions
 
 > **Document:** `EvaluationFramework.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Principal Architect
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Architect
 
 ## 1. Purpose
 
@@ -120,12 +120,12 @@ A review may be triggered earlier if:
 
 | Dependency     | Last Reviewed | Next Review | Status  |
 | -------------- | ------------- | ----------- | ------- |
-| Zustand        | 2026-07       | 2027-01     | ✅ Pass |
-| TanStack Query | 2026-07       | 2027-01     | ✅ Pass |
-| Zod            | 2026-07       | 2027-07     | ✅ Pass |
-| Prisma         | 2026-07       | 2027-01     | ✅ Pass |
-| Next.js        | 2026-07       | 2027-07     | ✅ Pass |
-| Three.js/R3F   | 2026-07       | 2027-01     | ✅ Pass |
+| Zustand        | 2026-07       | 2027-01     | Ã¢Å“â€¦ Pass |
+| TanStack Query | 2026-07       | 2027-01     | Ã¢Å“â€¦ Pass |
+| Zod            | 2026-07       | 2027-07     | Ã¢Å“â€¦ Pass |
+| Prisma         | 2026-07       | 2027-01     | Ã¢Å“â€¦ Pass |
+| Next.js        | 2026-07       | 2027-07     | Ã¢Å“â€¦ Pass |
+| Three.js/R3F   | 2026-07       | 2027-01     | Ã¢Å“â€¦ Pass |
 
 ## 8. AI Evaluation (LLM-as-a-Judge)
 
@@ -149,3 +149,7 @@ For AI model and prompt evaluation, additional criteria apply:
 ### 8.3 Continuous Improvement
 
 Poorly rated responses are anonymized, reviewed weekly, and added to the Golden Dataset.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

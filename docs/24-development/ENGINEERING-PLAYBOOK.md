@@ -144,6 +144,19 @@ Create branch → Develop → Commit → Push → Open PR → Self-review → As
 6. **Address feedback** with additional commits. Never rebase or force-push during review — additional commits make it easy to see what changed between review rounds.
 7. **Squash merge** when all reviewers have approved and CI is green. The squash commit message should be a clean Conventional Commit message (combine the PR title + key details).
 
+#### Dev Workflow Diagram
+
+```mermaid
+flowchart LR
+  A["Code"] --> B["Commit"]
+  B --> C["PR"]
+  C --> D["Review"]
+  D --> E["Approve"]
+  E --> F["Merge"]
+  F --> G["Deploy"]
+  G --> H["Monitor"]
+```
+
 ### 2.5 PR Size Limits
 
 | Limit | Rule |
@@ -231,6 +244,29 @@ Before opening a PR, authors should verify:
 - [ ] No secrets, credentials, or local paths are committed
 - [ ] PR description explains what and why, with screenshots if UI changed
 - [ ] PR is under 400 lines changed
+
+#### PR Lifecycle
+
+```mermaid
+sequenceDiagram
+  participant Dev as Developer
+  participant CI as CI Pipeline
+  participant Rev as Reviewer
+  participant Main as Main Branch
+
+  Dev->>Main: Create branch
+  Dev->>Dev: Develop & commit locally
+  Dev->>CI: Push branch
+  CI->>CI: Lint, typecheck, test, build
+  CI-->>Dev: All checks pass
+  Dev->>Rev: Open PR & assign
+  Rev->>Rev: Review diff
+  Rev-->>Dev: Comments / Request Changes
+  Dev->>Dev: Address feedback
+  Rev-->>Dev: Approve (LGTM)
+  Dev->>Main: Squash merge
+  Main->>CI: Trigger deploy
+```
 
 ---
 
@@ -367,6 +403,20 @@ The quality stage runs on the matrix `[apps/api, apps/web]`. Web tests have `con
 - AI Service: Railway (`main` branch auto-deploy)
 - Database: Supabase migrations (manual via `prisma:migrate:deploy`)
 - See [`docs/operations/DeploymentGuide.md`](../operations/DeploymentGuide.md) for provider-specific configuration.
+
+#### CI Pipeline Flow
+
+```mermaid
+flowchart LR
+  Push["Git Push"] --> Parallel{"Quality Gates"}
+  Parallel --> Lint["Lint"]
+  Parallel --> TypeCheck["TypeCheck"]
+  Parallel --> Test["Test"]
+  Parallel --> Build["Build"]
+  Lint & TypeCheck & Test & Build --> Docker["Docker Build & Push"]
+  Docker --> Deploy["Deploy"]
+  Deploy --> Verify["Verify Health"]
+```
 
 ### 5.2 Quality Gates
 

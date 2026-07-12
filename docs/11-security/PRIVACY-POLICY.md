@@ -105,3 +105,42 @@ For privacy-related inquiries:
 - **Email:** [privacy@portfolio.dev](mailto:privacy@portfolio.dev)
 - **Data Protection Officer:** [dpo@portfolio.dev](mailto:dpo@portfolio.dev)
 - **Address:** 123 Innovation Drive, Suite 400, San Francisco, CA 94105, United States
+
+---
+
+## Data Subject Rights Overview
+
+```mermaid
+graph LR
+    subgraph Rights
+        A[Right to Access]
+        R[Right to Rectification]
+        E[Right to Erasure]
+        P[Right to Portability]
+        O[Right to Object]
+        Res[Right to Restrict]
+        W[Right to Withdraw Consent]
+    end
+    subgraph Process
+        A --> A1[JSON Export via API]
+        R --> R1[Dashboard Profile Edit]
+        E --> E1[Account Deletion API]
+        P --> P1[JSON/CSV Download]
+        O --> O1[Analytics Opt-Out]
+        Res --> Res1[Processing Flag]
+        W --> W1[Consent Toggle]
+    end
+    subgraph SLA
+        A1 --> S1[30 Days]
+        R1 --> S2[15 Days]
+        E1 --> S3[30 Days]
+        P1 --> S4[30 Days]
+        O1 --> S5[30 Days]
+        Res1 --> S6[15 Days]
+        W1 --> S7[Immediate]
+    end
+```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

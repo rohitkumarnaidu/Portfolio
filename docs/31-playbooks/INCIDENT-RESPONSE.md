@@ -19,6 +19,26 @@ Refer to [56-SLA-SLO.md](./56-SLA-SLO.md#81-violation-severity-classification) f
 
 ---
 
+## Full Response Flow Diagram
+
+```mermaid
+sequenceDiagram
+    participant Monitor
+    participant Alert
+    participant Oncall as On-call
+    participant Triage
+    participant Respond
+    participant Resolve
+    participant Review
+
+    Monitor->>Alert: Anomaly detected
+    Alert->>Oncall: Notification
+    Oncall->>Triage: Acknowledge & assess
+    Triage->>Respond: Diagnose & mitigate
+    Respond->>Resolve: Fix deployed
+    Resolve->>Review: Postmortem
+```
+
 ## Incident Lifecycle
 
 ### 1. Detection
@@ -289,3 +309,7 @@ See [56-SLA-SLO.md §6.3 Alerting Thresholds](./56-SLA-SLO.md#63-alerting-thresh
 *Document Version: 1.0 — Incident Response Playbook*  
 *Last Updated: July 2026*  
 *Next Review Date: October 2026*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

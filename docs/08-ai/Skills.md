@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Skills System Architecture -- Enterprise-Grade Agent Capability Framework
 
 > **Document:** `docs/ai/Skills.md` | **Version:** 1.0.0 | **Last Updated:** June 2026
@@ -2675,12 +2670,12 @@ When the agent marketplace (`docs/ai/AgentMarketplace.md`) is implemented, third
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-SKL-001 | Define skills as self-contained, versioned, permission-bounded capabilities distinct from tools | Clear separation of concerns: skills are reusable cross-agent capabilities; tools are agent-local utilities | Unify skills and tools (rejected — no versioning, no registry); tools-only approach (rejected — no reuse); skills-only approach (rejected — no agent-specific utilities) | Jun 2026 | Chief AI Architect |
-| D-SKL-002 | Implement 6-stage skill lifecycle (Development → Testing → Staging → Production → Deprecated → Retired) | Provides governance, testing gates, and deprecation window for all skills | 3-stage (Dev/Prod/Retired) (rejected — insufficient testing); 4-stage (rejected — no deprecation); no lifecycle (rejected — chaos) | Jun 2026 | Chief AI Architect |
-| D-SKL-003 | Support 4 composition patterns (Sequential, Parallel, Conditional, Fallback) | Covers all common orchestration needs; enables complex workflows without custom code | DAG-based only (rejected — overkill for simple chains); sequential only (rejected — no parallel/conditional); no composition (rejected — single-skill only) | Jun 2026 | Chief AI Architect |
-| D-SKL-004 | Implement 3-tier isolation model (shared, sandboxed, privileged) with default sandboxed for third-party skills | Security-first: third-party skills execute in restricted environment; trusted skills run with full access | Single isolation level (rejected — no flexibility); VM-per-skill (rejected — overhead); no isolation (rejected — security risk) | Jun 2026 | Chief AI Architect |
-| D-SKL-005 | Adopt semantic versioning (semver) with explicit dependency constraints for all skills | Enables version compatibility management, dependency resolution, and safe upgrades | Sequential numbering (rejected — no compatibility signal); date-based (rejected — no sematic meaning); floating versions (rejected — unpredictable) | Jun 2026 | Chief AI Architect |
-| D-SKL-006 | Store skill registry in PostgreSQL with JSONB metadata and audit log | Leverages existing database infrastructure; JSONB enables flexible metadata without schema changes | Dedicated skill DB (rejected — infrastructure overhead); Redis (rejected — no persistence guarantees); file-based (rejected — no concurrency safety) | Jun 2026 | Chief AI Architect |
+| D-SKL-001 | Define skills as self-contained, versioned, permission-bounded capabilities distinct from tools | Clear separation of concerns: skills are reusable cross-agent capabilities; tools are agent-local utilities | Unify skills and tools (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no versioning, no registry); tools-only approach (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no reuse); skills-only approach (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no agent-specific utilities) | Jun 2026 | Chief AI Architect |
+| D-SKL-002 | Implement 6-stage skill lifecycle (Development ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Testing ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Staging ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Production ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Deprecated ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Retired) | Provides governance, testing gates, and deprecation window for all skills | 3-stage (Dev/Prod/Retired) (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â insufficient testing); 4-stage (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no deprecation); no lifecycle (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â chaos) | Jun 2026 | Chief AI Architect |
+| D-SKL-003 | Support 4 composition patterns (Sequential, Parallel, Conditional, Fallback) | Covers all common orchestration needs; enables complex workflows without custom code | DAG-based only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â overkill for simple chains); sequential only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no parallel/conditional); no composition (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â single-skill only) | Jun 2026 | Chief AI Architect |
+| D-SKL-004 | Implement 3-tier isolation model (shared, sandboxed, privileged) with default sandboxed for third-party skills | Security-first: third-party skills execute in restricted environment; trusted skills run with full access | Single isolation level (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no flexibility); VM-per-skill (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â overhead); no isolation (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â security risk) | Jun 2026 | Chief AI Architect |
+| D-SKL-005 | Adopt semantic versioning (semver) with explicit dependency constraints for all skills | Enables version compatibility management, dependency resolution, and safe upgrades | Sequential numbering (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no compatibility signal); date-based (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no sematic meaning); floating versions (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â unpredictable) | Jun 2026 | Chief AI Architect |
+| D-SKL-006 | Store skill registry in PostgreSQL with JSONB metadata and audit log | Leverages existing database infrastructure; JSONB enables flexible metadata without schema changes | Dedicated skill DB (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â infrastructure overhead); Redis (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no persistence guarantees); file-based (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no concurrency safety) | Jun 2026 | Chief AI Architect |
 
 ### 49.3 Risk Register
 
@@ -2745,4 +2740,8 @@ When the agent marketplace (`docs/ai/AgentMarketplace.md`) is implemented, third
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

@@ -296,6 +296,41 @@ The Portfolio platform is a full-stack monorepo (Next.js 14 frontend, NestJS RES
 
 ---
 
+---
+
+## SOC 2 Readiness Timeline
+
+```mermaid
+gantt
+    title SOC 2 Readiness Roadmap
+    dateFormat  YYYY-MM
+    section Phase 1: Gap Analysis
+    Policy Documentation & Risk Assessment    :2026-07, 3M
+    section Phase 2: Implementation
+    Technical Controls & Remediation          :2026-10, 3M
+    section Phase 3: Evidence
+    Evidence Collection & Readiness Review    :2027-01, 2M
+    section Phase 4: Audit
+    Type I Audit                              :2027-03, 1M
+    Type II Evidence Collection               :2027-04, 6M
+```
+
+## Trust Service Criteria Mapping
+
+```mermaid
+graph LR
+    TSC[Trust Service Criteria] --> S[Security<br/>CC1-CC9]
+    TSC --> A[Availability<br/>A1]
+    TSC --> PI[Processing Integrity<br/>PI1]
+    TSC --> C[Confidentiality<br/>C1]
+    TSC --> P[Privacy<br/>P1]
+    S --> S1[JWT Auth, RBAC,<br/>Encryption, Audit Logs]
+    A --> A1[Better Uptime,<br/>99.5% Availability Target]
+    PI --> PI1[Zod Validation,<br/>Prisma Transactions]
+    C --> C1[Data Classification,<br/>AES-256 Encryption]
+    P --> P1[GDPR Framework,<br/>DSAR Process]
+```
+
 ## 5. Key Assumptions and Exceptions
 
 1. **Single-operator model**: As a sole developer project, certain SOC 2 controls (segregation of duties, board oversight, formal CAB) cannot be implemented as specified. These will be documented as compensating controls with risk acceptance.
@@ -303,3 +338,7 @@ The Portfolio platform is a full-stack monorepo (Next.js 14 frontend, NestJS RES
 3. **Sub-processor reliance**: Vercel, Supabase, Sentry, PostHog, Resend, OpenAI, and Anthropic each operate independently. Their SOC 2/compliance reports will be collected as evidence.
 4. **Exclusion of local dev**: Development environments are excluded from SOC 2 scope. Production-only controls are assessed.
 5. **Timeline**: Type I readiness targets Q1 2027. Type II requires 6+ months of operating evidence and targets Q3 2027.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

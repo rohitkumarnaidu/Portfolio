@@ -121,3 +121,7 @@ Secrets are stored in: Vercel Environment Variables (web + api), Railway Secrets
 ---
 
 *Document Version: 1.0 | Last Updated: July 2026*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

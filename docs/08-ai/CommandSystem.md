@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Command System
 
 | Attribute | Value |
@@ -1522,8 +1517,8 @@ Agents implement a command loop that:
 | ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
 |----|----------|---------|-----------|------------------------|---------------|--------------|
 | CMD-DEC-001 | Command envelope with typed payload over raw message passing | Command model design | Envelope provides standardized metadata (correlation ID, timestamp, TTL, priority) without coupling to payload schema; typed payload enables per-command validation and routing | Raw message passing (no metadata, harder to trace and debug), Unified payload (tight coupling between command types, painful to extend) | Jun 2026 | Dec 2026 |
-| CMD-DEC-002 | Topic-based publish-subscribe as primary routing mechanism | Routing architecture | Topics enable flexible fan-out (one command → multiple consumers), dynamic subscription, and content-based sub-routing without modifying producers | Direct point-to-point routing (requires explicit producer-consumer mapping, fragile), Service mesh routing (infrastructure overhead, over-engineered for current scale) | Jun 2026 | Dec 2026 |
-| CMD-DEC-003 | In-process command bus over external message broker for synchronous commands | Bus implementation | Eliminates message broker dependency for latency-sensitive agent-to-agent communication; sub-5ms delivery vs 50ms+ with external broker | External message broker (RabbitMQ/Kafka — operational overhead, higher latency), Hybrid (in-process for sync + broker for async — complexity of two systems) | Jun 2026 | Dec 2026 |
+| CMD-DEC-002 | Topic-based publish-subscribe as primary routing mechanism | Routing architecture | Topics enable flexible fan-out (one command â†’ multiple consumers), dynamic subscription, and content-based sub-routing without modifying producers | Direct point-to-point routing (requires explicit producer-consumer mapping, fragile), Service mesh routing (infrastructure overhead, over-engineered for current scale) | Jun 2026 | Dec 2026 |
+| CMD-DEC-003 | In-process command bus over external message broker for synchronous commands | Bus implementation | Eliminates message broker dependency for latency-sensitive agent-to-agent communication; sub-5ms delivery vs 50ms+ with external broker | External message broker (RabbitMQ/Kafka â€” operational overhead, higher latency), Hybrid (in-process for sync + broker for async â€” complexity of two systems) | Jun 2026 | Dec 2026 |
 | CMD-DEC-004 | Dead letter queue (DLQ) with configurable max retries (default 3) | Error handling | DLQ captures undeliverable commands for analysis and replay; exponential backoff (2s, 4s, 8s) prevents retry storms | Immediate discard (lose commands, no debugging path), Infinite retry (retry storm, resource exhaustion), Single retry (insufficient for transient failures) | Jun 2026 | Sep 2026 |
 | CMD-DEC-005 | HMAC-SHA256 signing for command authentication | Security model | Symmetric signing provides integrity verification without PKI infrastructure; HMAC is fast (microsecond verification); key per agent type limits blast radius | JWT signing (more complex, requires token issuance service), No signing (no source authentication, vulnerable to command injection) | Jun 2026 | Dec 2026 |
 
@@ -1648,8 +1643,8 @@ Agents implement a command loop that:
 | ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
 |----|----------|---------|-----------|------------------------|---------------|--------------|
 | CMD-DEC-001 | Command envelope with typed payload over raw message passing | Command model design | Envelope provides standardized metadata (correlation ID, timestamp, TTL, priority) without coupling to payload schema; typed payload enables per-command validation and routing | Raw message passing (no metadata, harder to trace and debug), Unified payload (tight coupling between command types, painful to extend) | Jun 2026 | Dec 2026 |
-| CMD-DEC-002 | Topic-based publish-subscribe as primary routing mechanism | Routing architecture | Topics enable flexible fan-out (one command → multiple consumers), dynamic subscription, and content-based sub-routing without modifying producers | Direct point-to-point routing (requires explicit producer-consumer mapping, fragile), Service mesh routing (infrastructure overhead, over-engineered for current scale) | Jun 2026 | Dec 2026 |
-| CMD-DEC-003 | In-process command bus over external message broker for synchronous commands | Bus implementation | Eliminates message broker dependency for latency-sensitive agent-to-agent communication; sub-5ms delivery vs 50ms+ with external broker | External message broker (RabbitMQ/Kafka — operational overhead, higher latency), Hybrid (in-process for sync + broker for async — complexity of two systems) | Jun 2026 | Dec 2026 |
+| CMD-DEC-002 | Topic-based publish-subscribe as primary routing mechanism | Routing architecture | Topics enable flexible fan-out (one command â†’ multiple consumers), dynamic subscription, and content-based sub-routing without modifying producers | Direct point-to-point routing (requires explicit producer-consumer mapping, fragile), Service mesh routing (infrastructure overhead, over-engineered for current scale) | Jun 2026 | Dec 2026 |
+| CMD-DEC-003 | In-process command bus over external message broker for synchronous commands | Bus implementation | Eliminates message broker dependency for latency-sensitive agent-to-agent communication; sub-5ms delivery vs 50ms+ with external broker | External message broker (RabbitMQ/Kafka â€” operational overhead, higher latency), Hybrid (in-process for sync + broker for async â€” complexity of two systems) | Jun 2026 | Dec 2026 |
 | CMD-DEC-004 | Dead letter queue (DLQ) with configurable max retries (default 3) | Error handling | DLQ captures undeliverable commands for analysis and replay; exponential backoff (2s, 4s, 8s) prevents retry storms | Immediate discard (lose commands, no debugging path), Infinite retry (retry storm, resource exhaustion), Single retry (insufficient for transient failures) | Jun 2026 | Sep 2026 |
 | CMD-DEC-005 | HMAC-SHA256 signing for command authentication | Security model | Symmetric signing provides integrity verification without PKI infrastructure; HMAC is fast (microsecond verification); key per agent type limits blast radius | JWT signing (more complex, requires token issuance service), No signing (no source authentication, vulnerable to command injection) | Jun 2026 | Dec 2026 |
 
@@ -1685,8 +1680,8 @@ Agents implement a command loop that:
 | ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
 |----|----------|---------|-----------|------------------------|---------------|--------------|
 | CMD-DEC-001 | Command envelope with typed payload over raw message passing | Command model design | Envelope provides standardized metadata (correlation ID, timestamp, TTL, priority) without coupling to payload schema; typed payload enables per-command validation and routing | Raw message passing (no metadata, harder to trace and debug), Unified payload (tight coupling between command types, painful to extend) | Jun 2026 | Dec 2026 |
-| CMD-DEC-002 | Topic-based publish-subscribe as primary routing mechanism | Routing architecture | Topics enable flexible fan-out (one command → multiple consumers), dynamic subscription, and content-based sub-routing without modifying producers | Direct point-to-point routing (requires explicit producer-consumer mapping, fragile), Service mesh routing (infrastructure overhead, over-engineered for current scale) | Jun 2026 | Dec 2026 |
-| CMD-DEC-003 | In-process command bus over external message broker for synchronous commands | Bus implementation | Eliminates message broker dependency for latency-sensitive agent-to-agent communication; sub-5ms delivery vs 50ms+ with external broker | External message broker (RabbitMQ/Kafka — operational overhead, higher latency), Hybrid (in-process for sync + broker for async — complexity of two systems) | Jun 2026 | Dec 2026 |
+| CMD-DEC-002 | Topic-based publish-subscribe as primary routing mechanism | Routing architecture | Topics enable flexible fan-out (one command â†’ multiple consumers), dynamic subscription, and content-based sub-routing without modifying producers | Direct point-to-point routing (requires explicit producer-consumer mapping, fragile), Service mesh routing (infrastructure overhead, over-engineered for current scale) | Jun 2026 | Dec 2026 |
+| CMD-DEC-003 | In-process command bus over external message broker for synchronous commands | Bus implementation | Eliminates message broker dependency for latency-sensitive agent-to-agent communication; sub-5ms delivery vs 50ms+ with external broker | External message broker (RabbitMQ/Kafka â€” operational overhead, higher latency), Hybrid (in-process for sync + broker for async â€” complexity of two systems) | Jun 2026 | Dec 2026 |
 | CMD-DEC-004 | Dead letter queue (DLQ) with configurable max retries (default 3) | Error handling | DLQ captures undeliverable commands for analysis and replay; exponential backoff (2s, 4s, 8s) prevents retry storms | Immediate discard (lose commands, no debugging path), Infinite retry (retry storm, resource exhaustion), Single retry (insufficient for transient failures) | Jun 2026 | Sep 2026 |
 | CMD-DEC-005 | HMAC-SHA256 signing for command authentication | Security model | Symmetric signing provides integrity verification without PKI infrastructure; HMAC is fast (microsecond verification); key per agent type limits blast radius | JWT signing (more complex, requires token issuance service), No signing (no source authentication, vulnerable to command injection) | Jun 2026 | Dec 2026 |
 
@@ -1699,12 +1694,12 @@ Agents implement a command loop that:
 | Agent | Autonomous software entity that performs tasks on behalf of a user |
 | Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
 | Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| RAG | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
 | Tool | A function an agent can call (read DB, send email, etc.) |
 | Guardrail | Constraint that prevents agents from performing unauthorized actions |
 | Handoff | Transfer of a query from one agent to another with full context |
 | Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model â€” the AI model powering agent reasoning |
+| LLM | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning |
 | Embedding | Vector representation of text used for semantic search |
 | Chunk | A segment of a document stored in the vector database |
 | Confidence Threshold | Minimum confidence score for an agent to respond directly |
@@ -1754,4 +1749,4 @@ Agents implement a command loop that:
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

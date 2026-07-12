@@ -9,6 +9,52 @@
 
 ## 1. Roadmap Overview
 
+```mermaid
+gantt
+    title Product Roadmap — Q3 2026 – Q2 2027
+    dateFormat  YYYY-MM
+    axisFormat  %Y Q%q
+
+    section Foundation
+    Monorepo & CI/CD Setup       :done, f1, 2026-07, 2026-09
+    Supabase Provisioning        :done, f2, 2026-07, 2026-09
+    Auth & RBAC                  :active, f3, 2026-08, 2026-10
+    Monitoring & Logging         :active, f4, 2026-08, 2026-10
+    API Caching (Redis)          :f5, 2026-10, 2026-12
+    E2E Test Expansion           :f6, 2026-11, 2026-12
+    Open-Source Guide            :f7, 2027-01, 2027-03
+    Performance Budget CI        :f8, 2027-04, 2027-06
+
+    section Portfolio
+    25 Portfolio Sections        :active, p1, 2026-07, 2026-09
+    3D Hero Experience           :active, p2, 2026-08, 2026-10
+    SEO & Metadata               :p3, 2026-09, 2026-12
+    Case Studies Deep-Dive       :p4, 2026-10, 2026-12
+    Performance Optimization     :p5, 2026-10, 2026-12
+    Multi-Language i18n          :p6, 2027-01, 2027-03
+    Drag-and-Drop Layout Editor  :p7, 2027-04, 2027-06
+
+    section Admin
+    Projects CRUD                :active, a1, 2026-07, 2026-09
+    Blog CMS                     :a2, 2026-09, 2026-12
+    Admin UI Framework           :active, a3, 2026-08, 2026-10
+    Visitor Analytics Dashboard  :a4, 2026-10, 2026-12
+    Newsletter Integration       :a5, 2027-04, 2027-06
+
+    section AI
+    RAG Pipeline                 :active, ai1, 2026-08, 2026-10
+    AI Chat UI                   :ai2, 2026-09, 2026-12
+    AI Quality Optimization      :ai3, 2026-10, 2026-12
+    AI Code Review Agent         :ai4, 2027-01, 2027-03
+    Multi-Modal AI               :ai5, 2027-04, 2027-06
+
+    section Platform
+    Architecture Public Docs     :pl1, 2027-01, 2027-03
+    Public REST API              :pl2, 2027-04, 2027-06
+    Section Template System      :pl3, 2027-04, 2027-06
+    Community Features           :pl4, 2027-04, 2027-06
+```
+
 The product roadmap is organized into **5 strategic swimlanes** across **4 quarters**. Each initiative is categorized by status and linked to measurable success criteria. Dependencies between swimlanes are explicitly noted to guide sequencing decisions.
 
 ### Theme Swimlanes

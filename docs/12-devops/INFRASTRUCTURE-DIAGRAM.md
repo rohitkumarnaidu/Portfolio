@@ -59,12 +59,12 @@ graph TB
 ## Network Flow
 
 ### Request Flow (Public Visitor)
-1. DNS: Cloudflare → Vercel edge
+1. DNS: Cloudflare Ã¢â€ â€™ Vercel edge
 2. Vercel edge: Serve static assets (CDN cached), WAF filtering
 3. Next.js: Render page (ISR if cached, SSR/SSG if not)
-4. API calls: Web → NestJS API on Vercel (serverless)
-5. Data: API → Supabase (PostgreSQL via PgBouncer pool)
-6. Cache: API → Redis (Upstash)
+4. API calls: Web Ã¢â€ â€™ NestJS API on Vercel (serverless)
+5. Data: API Ã¢â€ â€™ Supabase (PostgreSQL via PgBouncer pool)
+6. Cache: API Ã¢â€ â€™ Redis (Upstash)
 
 ### Request Flow (Admin)
 1-3 same as public flow
@@ -74,10 +74,10 @@ graph TB
 7. Cache: Admin routes bypass CDN cache; server-side caching via @CacheTTL
 
 ### Request Flow (AI Chat)
-1. Web → FastAPI (SSE streaming)
-2. FastAPI → OpenAI/Anthropic API (model inference)
-3. RAG: FastAPI → pgvector for embedding similarity search
-4. Cache: FastAPI → Redis for conversation context
+1. Web Ã¢â€ â€™ FastAPI (SSE streaming)
+2. FastAPI Ã¢â€ â€™ OpenAI/Anthropic API (model inference)
+3. RAG: FastAPI Ã¢â€ â€™ pgvector for embedding similarity search
+4. Cache: FastAPI Ã¢â€ â€™ Redis for conversation context
 
 ## Deployment Architecture
 
@@ -108,9 +108,9 @@ graph TB
 ### Vercel Environments
 | Environment | Branch | Auto-deploy | Domains |
 |-------------|--------|-------------|---------|
-| Production | main | ✅ | portfolio.dev, www.portfolio.dev |
-| Preview | feature/* | ✅ | *.vercel.app (ephemeral) |
-| Staging | develop | ✅ | staging.portfolio.dev |
+| Production | main | Ã¢Å“â€¦ | portfolio.dev, www.portfolio.dev |
+| Preview | feature/* | Ã¢Å“â€¦ | *.vercel.app (ephemeral) |
+| Staging | develop | Ã¢Å“â€¦ | staging.portfolio.dev |
 
 ## Security Boundaries
 
@@ -151,6 +151,10 @@ graph TB
 | Upstash Redis | Free | $0 |
 | Render / Fly.io | Free | $0 |
 | Resend | Free | $0 |
-| OpenAI | Pay-as-you-go | ~$2–$5 |
+| OpenAI | Pay-as-you-go | ~$2Ã¢â‚¬â€œ$5 |
 | Domain | Registrar | ~$1/mo |
-| **Total** | | **$3–$6/mo** |
+| **Total** | | **$3Ã¢â‚¬â€œ$6/mo** |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

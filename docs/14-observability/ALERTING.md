@@ -1,7 +1,7 @@
 # Alerting Strategy
 
 > **Document:** `AlertingStrategy.md` | **Version:** 2.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** DevOps Lead
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** DevOps Lead
 
 ## 1. Overview
 
@@ -146,14 +146,18 @@ Every alert MUST have a corresponding runbook in `docs/runbooks/`. Each runbook 
 
 ### 9.1 Required Runbooks
 
-- `api-high-error-rate.md` — Steps to diagnose and mitigate API 5xx spikes.
-- `database-connection-pool.md` — How to identify and clear stuck connections.
-- `ai-service-down.md` — LLM provider failover and health check recovery.
-- `deployment-rollback.md` — How to rollback a failed deployment on Vercel.
-- `ssl-certificate-expiry.md` — Certificate renewal process.
+- `api-high-error-rate.md` Ã¢â‚¬â€ Steps to diagnose and mitigate API 5xx spikes.
+- `database-connection-pool.md` Ã¢â‚¬â€ How to identify and clear stuck connections.
+- `ai-service-down.md` Ã¢â‚¬â€ LLM provider failover and health check recovery.
+- `deployment-rollback.md` Ã¢â‚¬â€ How to rollback a failed deployment on Vercel.
+- `ssl-certificate-expiry.md` Ã¢â‚¬â€ Certificate renewal process.
 
 ## 10. Continuous Improvement
 
 - **Alert Tuning:** On-call handoffs must include a review of noisy alerts from the past week. Noisy alerts must be tuned or muted.
 - **Post-Mortem Action Items:** Every incident post-mortem must result in at least one action item to improve alerting.
 - **Quarterly Review:** Full review of all alert definitions, thresholds, and routing rules.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

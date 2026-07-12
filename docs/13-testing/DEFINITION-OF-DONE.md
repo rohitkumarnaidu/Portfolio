@@ -7,7 +7,49 @@
 
 The Definition of Done ensures that all features, bug fixes, and infrastructure changes deployed to production meet rigorous FAANG-level enterprise standards. A ticket is not "Done" until every condition below is satisfied. DoD is enforced at the PR merge gate and verified during release sign-off.
 
-## 2. Universal Requirements (All Work Types)
+## 2. DoD Decision Tree
+
+```mermaid
+flowchart TD
+    A[Start] --> B{Work Type?}
+    B -->|Feature| C[Feature Path]
+    B -->|Bug Fix| D[Bug Fix Path]
+    B -->|Refactor| E[Refactor Path]
+    B -->|Documentation| F[Docs Path]
+    B -->|Infrastructure| G[Infra Path]
+
+    C --> C1[Code Reviewed]
+    C1 --> C2[Unit Tests >= 90%]
+    C2 --> C3[Integration Tests]
+    C3 --> C4[E2E Tests]
+    C4 --> C5[A11y Checked]
+    C5 --> C6[Performance Verified]
+    C6 --> C7[Docs Updated]
+    C7 --> CD[✅ DONE]
+
+    D --> D1[Root Cause Identified]
+    D1 --> D2[Regression Test Added]
+    D2 --> D3[Verified on Staging]
+    D3 --> DD[✅ DONE]
+
+    E --> E1[Behavior Preserved]
+    E1 --> E2[Tests Still Pass]
+    E2 --> E3[No New Warnings]
+    E3 --> E4[Migration Guide]
+    E4 --> ED[✅ DONE]
+
+    F --> F1[Accuracy Reviewed]
+    F1 --> F2[Cross-refs Valid]
+    F2 --> F3[Examples Tested]
+    F3 --> FD[✅ DONE]
+
+    G --> G1[IaC Updated]
+    G1 --> G2[Rollback Plan]
+    G2 --> G3[Monitoring Added]
+    G3 --> GD[✅ DONE]
+```
+
+## 3. Universal Requirements (All Work Types)
 
 - [ ] Code is peer-reviewed and approved by at least 1 domain expert. Architecture changes require 2 approvals.
 - [ ] All code conforms to [Coding Standards](../docs/governance/CodingStandards.md) and passes static analysis (`npm run lint`, `npm run typecheck`).

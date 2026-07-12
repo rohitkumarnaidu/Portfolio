@@ -212,3 +212,39 @@ This document reviews the Portfolio platform against the AWS Well-Architected Fr
 - `docs/operations/55-DISASTER-RECOVERY.md` — Disaster recovery
 - `docs/quality/performance-budget.md` — Performance budgets
 - `docs/operations/58-COST-MANAGEMENT.md` — Cost strategy
+
+---
+
+## Well-Architected Pillars Assessment
+
+```mermaid
+graph LR
+    subgraph Pillars
+        OE[Operational Excellence<br/>Score: 75]
+        S[Security<br/>Score: 70]
+        R[Reliability<br/>Score: 60]
+        PE[Performance Efficiency<br/>Score: 65]
+        CO[Cost Optimization<br/>Score: 70]
+        SU[Sustainability<br/>Score: 40]
+    end
+    subgraph Assessment
+        OE --> OE1[CI/CD, Feature Flags<br/>Incident Response Proc.]
+        S --> S1[JWT+OAuth, RBAC<br/>Audit Logging]
+        R --> R1[Health Checks<br/>Backup & Recovery Docs]
+        PE --> PE1[ISR Caching<br/>Redis Cache-Aside]
+        CO --> CO1[Pay-per-Use Model<br/>Free Tier Maximized]
+        SU --> SU1[Serverless Arch.<br/>Efficient Asset Pipeline]
+    end
+    subgraph Overall
+        OE1 --> O[Overall: 63/100]
+        S1 --> O
+        R1 --> O
+        PE1 --> O
+        CO1 --> O
+        SU1 --> O
+    end
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -25,5 +25,21 @@ This document provides the standard operating procedures (SOPs) for maintaining 
 ## 3. Incident Response & Troubleshooting
 Refer to the [Monitoring Architecture](../docs/operations/21-MONITORING.md) for detailed incident response protocols, alert tiers, and on-call escalation paths.
 
+## 5. Maintenance Workflow Diagram
+
+```mermaid
+sequenceDiagram
+    actor Admin
+    Admin->>Schedule: Plan maintenance
+    Schedule->>Notify: Send notification
+    Notify->>Execute: Begin maintenance
+    Execute->>Verify: Check results
+    Verify->>Resume: Resume services
+```
+
 ## 4. Environment Refresh
 - Staging databases must be scrubbed of any PII (if applicable) and refreshed from production backups bi-weekly to ensure testing accuracy.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

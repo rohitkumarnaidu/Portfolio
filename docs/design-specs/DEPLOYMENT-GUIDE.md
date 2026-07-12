@@ -189,3 +189,8 @@ All rollbacks are logged to `audit_logs` with actor identity, version diff, trig
 ---
 
 *Document Version: 1.0 â€” Enterprise Edition*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

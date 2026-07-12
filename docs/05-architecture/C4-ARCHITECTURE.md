@@ -49,7 +49,7 @@ C4Context
 | **Vercel** | Edge CDN, ISR caching, serverless compute for web + API | DNS, Deployment via `vercel deploy` | 100 GB bandwidth, 10s timeout |
 | **Supabase** | PostgreSQL 15 + pgvector, Auth (GoTrue), Storage (S3-compatible), Realtime | `DATABASE_URL` connection via PgBouncer, REST API | 500 MB DB, 1 GB storage |
 | **Upstash** | Redis caching (`CacheService`), BullMQ queues (email, background jobs) | Redis REST + SDK | 10K requests/day |
-| **OpenAI** | GPT-4o for AI chat, `text-embedding-3-small` for pgvector embeddings | `apps/ai` FastAPI service via SDK | Pay-as-you-go (~$2–5/mo) |
+| **OpenAI** | GPT-4o for AI chat, `text-embedding-3-small` for pgvector embeddings | `apps/ai` FastAPI service via SDK | Pay-as-you-go (~$2Ã¢â‚¬â€œ5/mo) |
 | **PostHog** | Web analytics, feature flags, session replays | PostHog JS SDK on frontend | 1M events/month |
 | **Sentry** | Error tracking, performance traces, profiling | `@sentry/node` in NestJS, `@sentry/nextjs` on web | 5K events/month |
 | **Resend** | Contact form emails, admin notifications | NestJS `MailModule` via REST API | 3K emails/month |
@@ -100,10 +100,10 @@ C4Container
 | Next.js | NestJS | HTTPS/JSON | 3001 | Data fetching (typed `ApiClient`) |
 | Next.js | FastAPI | HTTPS/SSE | 8000 | AI chat streaming |
 | NestJS | PostgreSQL | SQL/SSL | 5432/6543 | Prisma ORM operations |
-| NestJS | Redis | RESP/HTTPS | — | Cache + queues (Upstash) |
-| NestJS | Supabase Storage | HTTPS | — | Image uploads, asset management |
+| NestJS | Redis | RESP/HTTPS | Ã¢â‚¬â€ | Cache + queues (Upstash) |
+| NestJS | Supabase Storage | HTTPS | Ã¢â‚¬â€ | Image uploads, asset management |
 | FastAPI | PostgreSQL | SQL/SSL | 5432/6543 | pgvector embedding queries |
-| FastAPI | OpenAI | HTTPS | — | LLM inference, embeddings |
+| FastAPI | OpenAI | HTTPS | Ã¢â‚¬â€ | LLM inference, embeddings |
 
 ---
 
@@ -115,11 +115,11 @@ The Next.js application follows the App Router convention with React Server Comp
 
 ```mermaid
 C4Component
-  title Web Container — Component diagram
+  title Web Container Ã¢â‚¬â€ Component diagram
 
   Container_Boundary(web, "Next.js App") {
     Component(root_layout, "Root Layout", "layout.tsx", "Providers (Theme, Query, PostHog), fonts, global metadata, shared shell")
-    Component(public_pages, "Public Pages (ISR)", "app/page.tsx, app/projects/**, etc.", "Server Components rendered at build time + ISR revalidation (60–300s)")
+    Component(public_pages, "Public Pages (ISR)", "app/page.tsx, app/projects/**, etc.", "Server Components rendered at build time + ISR revalidation (60Ã¢â‚¬â€œ300s)")
     Component(admin_pages, "Admin Pages (SPA)", "app/admin/**", "Client-rendered authenticated dashboard pages with JWT session")
 
     Component(api_layer, "API Client Layer", "src/lib/api.ts", "Typed fetch wrapper with envelope unwrapping, error handling, JWT attachment")
@@ -151,12 +151,12 @@ The NestJS API follows a strict three-layer pattern. Business logic lives in `sr
 
 ```mermaid
 C4Component
-  title API Container — Component diagram
+  title API Container Ã¢â‚¬â€ Component diagram
 
   Container_Boundary(api, "NestJS API") {
     Component(bootstrap, "Bootstrap / AppModule", "src/main.ts", "Global pipes (ValidationPipe with whitelist+transform), filters (GlobalExceptionFilter), middleware (Helmet, CORS, compression, API versioning), Swagger docs")
 
-    System_Boundary(modules, "Business Logic Layer — src/modules/") {
+    System_Boundary(modules, "Business Logic Layer Ã¢â‚¬â€ src/modules/") {
       Component(module_projects, "ProjectsModule", "projects.service.ts", "CRUD for portfolio projects, 3D asset references, Markdown content")
       Component(module_blog, "BlogModule", "blog.service.ts", "Blog post management, tags, pagination")
       Component(module_experiences, "ExperiencesModule", "experiences.service.ts", "Work history and timeline entries")
@@ -168,14 +168,14 @@ C4Component
       Component(other_modules, "Other Modules (15 more)", "services, sections, faqs, testimonials, case-studies, ...", "Remaining domain services following the same pattern")
     }
 
-    System_Boundary(portfolio_ctrl, "Portfolio Layer — src/portfolio/controllers/") {
+    System_Boundary(portfolio_ctrl, "Portfolio Layer Ã¢â‚¬â€ src/portfolio/controllers/") {
       Component(port_projects, "ProjectsController", "portfolio/controllers/projects.controller.ts", "Public GET /api/portfolio/projects, cached with @CacheTTL")
       Component(port_blog, "BlogController", "portfolio/controllers/blog.controller.ts", "Public GET /api/portfolio/blog, cached")
       Component(port_skills, "SkillsController", "portfolio/controllers/skills.controller.ts", "Public GET /api/portfolio/skills, cached")
       Component(port_other, "Other Controllers (15 more)", "portfolio/controllers/*.controller.ts", "Public read-only endpoints, no auth, response-cached")
     }
 
-    System_Boundary(admin_ctrl, "Admin Layer — src/admin/controllers/") {
+    System_Boundary(admin_ctrl, "Admin Layer Ã¢â‚¬â€ src/admin/controllers/") {
       Component(admin_projects, "ProjectsController", "admin/controllers/projects.controller.ts", "CRUD @Controller('admin/projects'), @UseGuards(JwtAuthGuard, RolesGuard), @Audit()")
       Component(admin_users, "UsersController", "admin/controllers/users.controller.ts", "User management, role assignment")
       Component(admin_auth, "AuthController", "admin/controllers/auth.controller.ts", "Login, OAuth callback, token refresh")
@@ -184,7 +184,7 @@ C4Component
       Component(admin_other, "Other Controllers (24 more)", "admin/controllers/*.controller.ts", "Admin CRUD for all entities, guarded + audited")
     }
 
-    System_Boundary(common, "Cross-Cutting — src/common/") {
+    System_Boundary(common, "Cross-Cutting Ã¢â‚¬â€ src/common/") {
       Component(prisma, "PrismaService", "src/common/database/prisma.service.ts", "Global DatabaseModule, PrismaClient over pg.Pool with pg adapter")
       Component(cache_service, "CacheService", "src/common/cache/cache.service.ts", "Redis-backed response cache, decorator-based TTL")
       Component(queue, "QueueModule", "src/common/queue/*", "BullMQ job processing (email dispatch, background tasks)")
@@ -248,11 +248,11 @@ All 27 modules in `apps/api/src/modules/`:
 
 ### AI Container Components
 
-The FastAPI AI service handles LLM operations — chat streaming, content analysis, suggestions, and RAG. It routes requests to OpenAI models, manages conversation state, and controls costs.
+The FastAPI AI service handles LLM operations Ã¢â‚¬â€ chat streaming, content analysis, suggestions, and RAG. It routes requests to OpenAI models, manages conversation state, and controls costs.
 
 ```mermaid
 C4Component
-  title AI Container — Component diagram
+  title AI Container Ã¢â‚¬â€ Component diagram
 
   Container_Boundary(ai, "FastAPI AI Service") {
     Component(ai_routes, "API Routes", "app/routes/*.py", "chat (SSE), analyze, suggest, agent, health endpoints")
@@ -318,7 +318,7 @@ This is the most important architectural pattern in the API. A single domain ent
 
 ```mermaid
 C4Dynamic
-  title Dynamic diagram — Three-Layer Module Pattern for Projects
+  title Dynamic diagram Ã¢â‚¬â€ Three-Layer Module Pattern for Projects
 
   Person(visitor, "Site Visitor", "Public user")
   Person(admin_user, "Admin User", "Authenticated admin")
@@ -331,7 +331,7 @@ C4Dynamic
   }
 
   Rel(visitor, port_ctrl, "1: GET /api/portfolio/projects", "Returns cached response")
-  Rel(port_ctrl, port_ctrl, "Cache check", "@CacheTTL — returns cached if fresh")
+  Rel(port_ctrl, port_ctrl, "Cache check", "@CacheTTL Ã¢â‚¬â€ returns cached if fresh")
   Rel(port_ctrl, module_svc, "2: projectsService.findAll()", "method call")
   Rel(module_svc, prisma, "3: prisma.project.findMany()", "SQL query")
   Rel(port_ctrl, visitor, "4: { data: Project[], meta: { total, page, limit } }", "JSON envelope")
@@ -350,19 +350,19 @@ C4Dynamic
 
 ```
 src/
-├── modules/
-│   └── projects/
-│       ├── projects.module.ts        # NestJS module, exports ProjectsService
-│       ├── projects.service.ts       # Business logic (CRUD, queries)
-│       └── dto/
-│           ├── create-project.dto.ts # Validation schema (class-validator)
-│           └── update-project.dto.ts
-├── portfolio/
-│   └── controllers/
-│       └── projects.controller.ts    # Public GET endpoints, @CacheTTL, no auth
-├── admin/
-│   └── controllers/
-│       └── projects.controller.ts    # Auth-guarded CRUD, @Audit decorators
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ modules/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ projects/
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ projects.module.ts        # NestJS module, exports ProjectsService
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ projects.service.ts       # Business logic (CRUD, queries)
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ dto/
+Ã¢â€â€š           Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ create-project.dto.ts # Validation schema (class-validator)
+Ã¢â€â€š           Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ update-project.dto.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ portfolio/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ controllers/
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ projects.controller.ts    # Public GET endpoints, @CacheTTL, no auth
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ admin/
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ controllers/
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ projects.controller.ts    # Auth-guarded CRUD, @Audit decorators
 ```
 
 This pattern is repeated for all 27 domain modules. The `PortfolioModule` and `AdminModule` both import the same `ProjectsModule`, so the service is shared while the controllers are separated.
@@ -373,7 +373,7 @@ Every API response follows a standardized `{ data, meta }` envelope, enforced by
 
 ```mermaid
 C4Dynamic
-  title Dynamic diagram — API Response Envelope Contract
+  title Dynamic diagram Ã¢â‚¬â€ API Response Envelope Contract
 
   Container_Boundary(web, "Next.js Web") {
     Component(api_client, "ApiClient", "src/lib/api.ts", "Typed fetch wrapper\nUnwraps { data, meta }\nThrows ApiError on non-2xx")
@@ -438,7 +438,7 @@ The following diagram shows how the containers map to infrastructure at each env
 
 ```mermaid
 C4Container
-  title Deployment diagram — Production Topology
+  title Deployment diagram Ã¢â‚¬â€ Production Topology
 
   System_Boundary(vercel, "Vercel (AWS us-east-1)") {
     Container(web_deploy, "Next.js SSR/ISR", "Vercel Serverless + Edge", "Public pages via ISR, Admin SPA via client render; Edge-cached static assets")
@@ -465,7 +465,7 @@ C4Container
 
 ```mermaid
 C4Container
-  title Deployment diagram — Local Development
+  title Deployment diagram Ã¢â‚¬â€ Local Development
 
   Container(web_dev, "Next.js Dev Server", "npm run dev", "http://localhost:3000, Turbopack HMR")
   Container(api_dev, "NestJS Dev Server", "npm run start:dev", "http://localhost:3001, watch mode, Swagger at /api/docs")
@@ -544,21 +544,21 @@ npm run dev:ai     # FastAPI on :8000
 | Email | Resend | Free | $0 |
 | Analytics | PostHog | Free | $0 |
 | Error Tracking | Sentry | Free | $0 |
-| AI Inference | OpenAI | Pay-as-you-go | ~$2–5/mo |
+| AI Inference | OpenAI | Pay-as-you-go | ~$2Ã¢â‚¬â€œ5/mo |
 
 ---
 
 ## Key Architectural Principles
 
-1. **Three-layer separation** — Business logic (`src/modules/`) is independent of HTTP delivery. Portfolio controllers (public, cached) and Admin controllers (authenticated, audited) are separate surfaces over the same services.
+1. **Three-layer separation** Ã¢â‚¬â€ Business logic (`src/modules/`) is independent of HTTP delivery. Portfolio controllers (public, cached) and Admin controllers (authenticated, audited) are separate surfaces over the same services.
 
-2. **Shared types as contract** — `packages/shared` is the single source of truth for Zod schemas and TypeScript interfaces. Both web and api import from `@portfolio/shared`, ensuring compile-time contract enforcement.
+2. **Shared types as contract** Ã¢â‚¬â€ `packages/shared` is the single source of truth for Zod schemas and TypeScript interfaces. Both web and api import from `@portfolio/shared`, ensuring compile-time contract enforcement.
 
-3. **Edge-first delivery** — Public pages use ISR (60s–300s revalidation) for sub-100ms global load times. Admin pages are client-rendered SPA for interactive CRUD.
+3. **Edge-first delivery** Ã¢â‚¬â€ Public pages use ISR (60sÃ¢â‚¬â€œ300s revalidation) for sub-100ms global load times. Admin pages are client-rendered SPA for interactive CRUD.
 
-4. **Multi-LLM AI tier** — A dedicated FastAPI service (not serverless functions) handles long-lived LLM connections, RAG via pgvector, cost control, and PII filtering, keeping the NestJS API focused on business logic.
+4. **Multi-LLM AI tier** Ã¢â‚¬â€ A dedicated FastAPI service (not serverless functions) handles long-lived LLM connections, RAG via pgvector, cost control, and PII filtering, keeping the NestJS API focused on business logic.
 
-5. **Cost-optimized by design** — Every service runs on a free tier with documented upgrade paths. Monthly operating cost target is $0–$5 (primarily OpenAI token usage).
+5. **Cost-optimized by design** Ã¢â‚¬â€ Every service runs on a free tier with documented upgrade paths. Monthly operating cost target is $0Ã¢â‚¬â€œ$5 (primarily OpenAI token usage).
 
 ---
 
@@ -573,3 +573,7 @@ npm run dev:ai     # FastAPI on :8000
 | AI Components | `apps/ai/app/routes/*.py`, `apps/ai/app/services/*.py`, `apps/ai/app/middleware/*.py` |
 | Three-Layer Pattern | `docs/architecture/ServiceArchitecture.md`, `docs/architecture/DomainArchitecture.md` |
 | Deployment | `docs/operations/54-INFRASTRUCTURE.md`, `infrastructure/docker/docker-compose.yml` |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

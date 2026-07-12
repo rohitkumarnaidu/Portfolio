@@ -20,6 +20,17 @@
 
 ---
 
+## RFC Process
+
+```mermaid
+flowchart LR
+    Idea[Idea / Problem] --> Draft[Draft RFC]
+    Draft --> Review[Community<br/>Review]
+    Review --> Decision[Decision<br/>Accept / Reject]
+    Decision --> Implement[Implementation]
+    Implement --> Retro[Retrospective<br/>Learnings]
+```
+
 ## Summary
 
 [1-2 paragraph summary of the proposal. What is being proposed, and at a high level, how does it work? Include the key technologies, patterns, or architectural changes being introduced.]
@@ -97,3 +108,7 @@ interface ProposedInterface {
 > **Reviewed by:** [Reviewers]  
 
 [Rationale for the decision, any modifications made during review, and links to the review discussion.]
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

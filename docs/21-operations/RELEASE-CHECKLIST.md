@@ -38,3 +38,43 @@
 - [ ] Monitor Sentry for new error spikes.
 - [ ] Monitor Vercel Analytics for Core Web Vitals drops.
 - [ ] Announce release to stakeholders.
+
+---
+
+## Diagram
+
+### Release Checklist Workflow
+
+```mermaid
+flowchart TD
+    Pre[Pre-release Checks] --> Deploy
+    subgraph Pre[Pre-release Checks]
+        P1[Code freeze & merged]
+        P2[Tests passing]
+        P3[Security audit clean]
+        P4[Lighthouse > 90]
+    end
+
+    Pre --> Deploy[Deploy to Production]
+    Deploy --> Post[Post-deploy Checks]
+    
+    subgraph Post[Post-deploy Checks]
+        D1[Frontend loads]
+        D2[API responds]
+        D3[AI service up]
+        D4[E2E smoke test]
+    end
+
+    Post --> Monitor[Monitor Window<br/>30 min]
+    Monitor --> Gate{Anomalies?}
+
+    Gate -->|No| SignOff[âœ… Sign-off]
+    Gate -->|Yes| Rollback[ðŸ”„ Rollback]
+    Rollback --> Postmortem[Post-mortem]
+    SignOff --> Announce[ðŸ“¢ Announce to stakeholders]
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+

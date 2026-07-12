@@ -509,3 +509,7 @@ as a permanent record of our collective commitment to quality.
 | `docs/governance/32-SKILL.md` (v5.0) | The AI Engineering Constitution being ratified |
 | `docs/ceremony/MATERIALS.md` | Printable ceremony materials (signature sheets, oath cards, etc.) |
 | `docs/MASTER-INDEX.md` | Document inventory |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

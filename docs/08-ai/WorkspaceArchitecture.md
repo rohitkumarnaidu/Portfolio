@@ -1,9 +1,4 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
 # Workspace Architecture
 
 | Attribute | Value |
@@ -43,7 +38,7 @@ Defines the developer workspace architecture - monorepo structure, environment c
 
 ### 1.1 Definition
 
-A **workspace** is an isolated, ephemeral execution environment provisioned for an autonomous agent to process a single request or task. Each workspace encapsulates the runtime state, file system scratch space, contextual memory, and resource配额 required for the agent to operate without interference from other agents or processes.
+A **workspace** is an isolated, ephemeral execution environment provisioned for an autonomous agent to process a single request or task. Each workspace encapsulates the runtime state, file system scratch space, contextual memory, and resourceé…é¢ required for the agent to operate without interference from other agents or processes.
 
 ### 1.2 Purpose
 
@@ -1289,11 +1284,11 @@ An agent may have at most one `Active` workspace at any time. Additional request
 
 | ID | Decision | Rationale | Alternatives Considered | Date | Approver |
 |----|----------|-----------|------------------------|------|----------|
-| D-WS-001 | Design workspaces as isolated, ephemeral execution environments per request | Guarantees resource isolation, security boundaries, and deterministic lifecycle; no persistent state between requests | Long-lived agent containers (rejected — state leakage, resource contention); shared runtime per agent type (rejected — security boundary violations) | Jun 2026 | Chief AI Architect |
-| D-WS-002 | Use Linux cgroups + namespaces + seccomp + AppArmor for workspace isolation | Defense-in-depth: resource limits, process isolation, system call filtering, mandatory access control | Docker containers only (rejected — insufficient resource control); VMs per workspace (rejected — overhead); pure cgroups (rejected — no security policy enforcement) | Jun 2026 | Chief AI Architect |
-| D-WS-003 | Implement 3-tier priority system (Critical, Normal, Background) for workspace scheduling | Ensures lead qualification and admin operations get resources first; background tasks use spare capacity | FIFO queue (rejected — no priority differentiation); 5+ tiers (rejected — too complex to tune); preemptive only (rejected — starvation risk for low-priority tasks) | Jun 2026 | Chief AI Architect |
-| D-WS-004 | Store workspace artifacts in ephemeral in-memory storage with optional S3 persistence for audit | Minimizes I/O latency for agent operations; persistent only when explicitly required for compliance | Full S3 persistence (rejected — latency); no persistence (rejected — no audit trail); database storage (rejected — blob storage inefficiency) | Jun 2026 | Chief AI Architect |
-| D-WS-005 | Enforce 30-second default workspace timeout with configurable override per agent type | Prevents runaway agent executions; configurable for long-running tasks like knowledge base re-indexing | Fixed 60-second timeout (rejected — too long for simple queries, too short for complex ones); no timeout (rejected — resource leak risk) | Jun 2026 | Chief AI Architect |
+| D-WS-001 | Design workspaces as isolated, ephemeral execution environments per request | Guarantees resource isolation, security boundaries, and deterministic lifecycle; no persistent state between requests | Long-lived agent containers (rejected â€” state leakage, resource contention); shared runtime per agent type (rejected â€” security boundary violations) | Jun 2026 | Chief AI Architect |
+| D-WS-002 | Use Linux cgroups + namespaces + seccomp + AppArmor for workspace isolation | Defense-in-depth: resource limits, process isolation, system call filtering, mandatory access control | Docker containers only (rejected â€” insufficient resource control); VMs per workspace (rejected â€” overhead); pure cgroups (rejected â€” no security policy enforcement) | Jun 2026 | Chief AI Architect |
+| D-WS-003 | Implement 3-tier priority system (Critical, Normal, Background) for workspace scheduling | Ensures lead qualification and admin operations get resources first; background tasks use spare capacity | FIFO queue (rejected â€” no priority differentiation); 5+ tiers (rejected â€” too complex to tune); preemptive only (rejected â€” starvation risk for low-priority tasks) | Jun 2026 | Chief AI Architect |
+| D-WS-004 | Store workspace artifacts in ephemeral in-memory storage with optional S3 persistence for audit | Minimizes I/O latency for agent operations; persistent only when explicitly required for compliance | Full S3 persistence (rejected â€” latency); no persistence (rejected â€” no audit trail); database storage (rejected â€” blob storage inefficiency) | Jun 2026 | Chief AI Architect |
+| D-WS-005 | Enforce 30-second default workspace timeout with configurable override per agent type | Prevents runaway agent executions; configurable for long-running tasks like knowledge base re-indexing | Fixed 60-second timeout (rejected â€” too long for simple queries, too short for complex ones); no timeout (rejected â€” resource leak risk) | Jun 2026 | Chief AI Architect |
 
 ## Risk Register
 
@@ -1333,12 +1328,12 @@ An agent may have at most one `Active` workspace at any time. Additional request
 | Agent | Autonomous software entity that performs tasks on behalf of a user |
 | Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
 | Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| RAG | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
 | Tool | A function an agent can call (read DB, send email, etc.) |
 | Guardrail | Constraint that prevents agents from performing unauthorized actions |
 | Handoff | Transfer of a query from one agent to another with full context |
 | Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model â€” the AI model powering agent reasoning |
+| LLM | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning |
 | Embedding | Vector representation of text used for semantic search |
 | Chunk | A segment of a document stored in the vector database |
 | Confidence Threshold | Minimum confidence score for an agent to respond directly |
@@ -1380,4 +1375,4 @@ An agent may have at most one `Active` workspace at any time. Additional request
 
 ---
 
-> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

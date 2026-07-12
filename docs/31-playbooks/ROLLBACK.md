@@ -3,6 +3,22 @@
 ## Overview
 Standard procedures for rolling back deployments across all services. Every deployment should have a rollback plan before going to production.
 
+## Rollback Decision Flow
+
+```mermaid
+flowchart TD
+    A[Deploy] --> B[Watch Metrics]
+    B --> C{Error rate > 5%?}
+    C -- Yes --> D{Rollback}
+    C -- No --> E{Latency increase > 50%?}
+    E -- Yes --> D
+    E -- No --> F{Critical feature broken?}
+    F -- Yes --> D
+    F -- No --> G[Continue]
+    D --> H[Execute Rollback Procedure]
+    H --> I[Verify Health]
+```
+
 ## Rollback Decision Criteria
 Roll back immediately if:
 - Error rate increases by > 5%
@@ -119,3 +135,7 @@ docker compose -f infrastructure/docker/docker-compose.yml up -d
 - `docs/operations/incident-response-playbook.md` — Incident response
 - `docs/runbooks/service-restart.md` — Service restart procedures
 - `docs/operations/post-incident-review-template.md` — Postmortem template
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

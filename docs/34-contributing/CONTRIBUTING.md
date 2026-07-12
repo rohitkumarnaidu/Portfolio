@@ -174,3 +174,7 @@ docs(adr): add database migration ADR
 ---
 
 Thank you for contributing!
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

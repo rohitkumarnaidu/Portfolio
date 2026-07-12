@@ -16,12 +16,23 @@ This tracker ensures every post-incident action item is captured, assigned, trac
 
 ## 2. Action Item Lifecycle
 
+```mermaid
+stateDiagram-v2
+    [*] --> Identified
+    Identified --> Assigned
+    Assigned --> InProgress: Work started
+    InProgress --> Done: Implementation complete
+    Done --> Verified: Confirmed effective
+    Verified --> [*]
+
+    Assigned --> Overdue: Past due date
+    InProgress --> Overdue: Past due date
+    Overdue --> InProgress: Work resumed
+    Done --> Closed: No action needed
+    Overdue --> Done: Completed late
 ```
-Identified ──► Assigned ──► In Progress ──► Done ──► Verified
-                    │                           │
-                    ▼                           ▼
-              Overdue ◄────── Not started ── Closed (no action needed)
-```
+
+
 
 | Status | Definition | Max Time in Status |
 |--------|------------|-------------------|
@@ -273,3 +284,7 @@ An action item is **Verified** when:
 *Document Version: 1.0 — Postmortem Tracker*
 *Last Updated: July 2026*
 *Next Review Date: October 2026*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

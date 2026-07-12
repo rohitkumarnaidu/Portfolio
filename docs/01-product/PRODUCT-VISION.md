@@ -1,7 +1,7 @@
 # Product Vision
 
 > **Document:** `product-vision-expanded.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Product Owner
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Product Owner
 > **Repository:** [My Portfolio Monorepo](https://github.com/your-org/my-portfolio)
 
 ---
@@ -25,7 +25,7 @@
 
 ## 1. Vision Statement
 
-**A modern portfolio platform that showcases full-stack engineering excellence through immersive, interactive, and performant web experiences — proving that a personal portfolio can be both a technical demonstration and a genuinely useful tool for its visitors.**
+**A modern portfolio platform that showcases full-stack engineering excellence through immersive, interactive, and performant web experiences Ã¢â‚¬â€ proving that a personal portfolio can be both a technical demonstration and a genuinely useful tool for its visitors.**
 
 The portfolio is not just a list of projects and a resume. It is itself the best project. Every line of code, every architectural decision, every animation and interaction is intentionally designed to demonstrate the kind of engineer behind it. When a visitor lands on the site, they should immediately understand: *this person knows how to build real software.*
 
@@ -33,7 +33,7 @@ The portfolio is not just a list of projects and a resume. It is itself the best
 
 ## 2. Mission
 
-**Demonstrate full-stack engineering excellence while providing genuine value to every visitor — whether they are a recruiter evaluating skills, a potential client scoping a collaboration, a developer peeking at the architecture, or someone who just wants to chat with an AI about technology.**
+**Demonstrate full-stack engineering excellence while providing genuine value to every visitor Ã¢â‚¬â€ whether they are a recruiter evaluating skills, a potential client scoping a collaboration, a developer peeking at the architecture, or someone who just wants to chat with an AI about technology.**
 
 The platform has three simultaneous missions:
 
@@ -52,7 +52,7 @@ The platform has three simultaneous missions:
 Recruiters are the primary audience. They spend 30-60 seconds scanning a portfolio. The site must:
 - Convey seniority and technical depth within the first visual impression
 - Make key information (experience, skills, projects) instantly scannable
-- Load fast and perform flawlessly — a slow portfolio implies slow engineering
+- Load fast and perform flawlessly Ã¢â‚¬â€ a slow portfolio implies slow engineering
 - Be accessible to all users regardless of device or ability
 
 ### Secondary: Potential Clients & Collaborators
@@ -79,7 +79,7 @@ Fellow developers will inspect the site for:
 | **Performance** | Sub-second page loads via ISR, lazy-loaded 3D, optimized bundles, 90+ Lighthouse scores |
 | **Accessibility** | WCAG 2.2 AA compliance, keyboard navigation, screen reader support, reduced motion preferences |
 | **Craftsmanship** | Polished micro-interactions, deliberate typography scale, consistent spacing, intentional color system |
-| **Innovation** | AI-powered assistant, immersive 3D scenes, WebContainer sandbox IDE — features most portfolios don't have |
+| **Innovation** | AI-powered assistant, immersive 3D scenes, WebContainer sandbox IDE Ã¢â‚¬â€ features most portfolios don't have |
 | **Transparency** | Open-source codebase, documented architecture decisions (ADRs), public roadmap, privacy-first analytics |
 
 ---
@@ -88,15 +88,15 @@ Fellow developers will inspect the site for:
 
 ### 5.1 Immersive 3D Portfolio
 
-Most developer portfolios are static 2D pages. This portfolio uses Three.js via React Three Fiber to create an immersive, interactive 3D experience that serves as both visual identity and technical proof. The 3D scene is progressively enhanced — it degrades gracefully on low-power devices and respects `prefers-reduced-motion`.
+Most developer portfolios are static 2D pages. This portfolio uses Three.js via React Three Fiber to create an immersive, interactive 3D experience that serves as both visual identity and technical proof. The 3D scene is progressively enhanced Ã¢â‚¬â€ it degrades gracefully on low-power devices and respects `prefers-reduced-motion`.
 
 ### 5.2 AI-Powered Assistant
 
-A custom multi-LLM AI assistant (integrated via the FastAPI service) allows visitors to ask questions about the developer's experience, tech stack, or projects conversationally. This is not a generic chatbot — it is RAG-enhanced with the portfolio's content and demonstrates real AI engineering capability.
+A custom multi-LLM AI assistant (integrated via the FastAPI service) allows visitors to ask questions about the developer's experience, tech stack, or projects conversationally. This is not a generic chatbot Ã¢â‚¬â€ it is RAG-enhanced with the portfolio's content and demonstrates real AI engineering capability.
 
 ### 5.3 Admin Dashboard
 
-A full CRUD admin dashboard for managing portfolio content — projects, blog posts, experience entries, site settings, media assets, and leads. This transforms the portfolio from a static page into a living CMS. It includes:
+A full CRUD admin dashboard for managing portfolio content Ã¢â‚¬â€ projects, blog posts, experience entries, site settings, media assets, and leads. This transforms the portfolio from a static page into a living CMS. It includes:
 - Real-time visitor analytics and heatmaps
 - Lead management (contact form submissions)
 - Rich text editing (TipTap)
@@ -161,19 +161,19 @@ The majority of developer portfolios are static Next.js/Gatsby sites with hardco
 
 Popular for quick setup, Notion portfolios lack custom domains (on free tier), have limited design flexibility, and cannot demonstrate technical skill since the user didn't build the platform.
 
-**Our advantage:** Custom-built from the ground up — the platform itself is the proof of skill.
+**Our advantage:** Custom-built from the ground up Ã¢â‚¬â€ the platform itself is the proof of skill.
 
 ### 7.3 GitHub README / Profile README
 
 A GitHub profile README is the simplest portfolio. It demonstrates open-source activity but cannot convey design sense, UX thinking, or full-stack capability.
 
-**Our advantage:** Multi-dimensional demonstration of skill — design, frontend, backend, AI, DevOps.
+**Our advantage:** Multi-dimensional demonstration of skill Ã¢â‚¬â€ design, frontend, backend, AI, DevOps.
 
 ### 7.4 WebGL-Heavy Portfolios (e.g., Bruno Simon)
 
 These are visually stunning but often sacrifice accessibility, SEO, and content discoverability. They demonstrate 3D skill but not full-stack engineering.
 
-**Our advantage:** Balance of 3D visual appeal with rock-solid Next.js foundation — best of both worlds.
+**Our advantage:** Balance of 3D visual appeal with rock-solid Next.js foundation Ã¢â‚¬â€ best of both worlds.
 
 ### 7.5 SaaS Portfolio Builders (Squarespace, Wix, Readymag)
 
@@ -218,15 +218,15 @@ Great for reach and built-in audience, but limited customization and individuali
 
 ### 9.1 Mobile-First
 
-All content is designed for mobile screens first, then progressively enhanced for larger viewports. The 3D experience degrades gracefully on mobile — core content is never gated behind WebGL capability.
+All content is designed for mobile screens first, then progressively enhanced for larger viewports. The 3D experience degrades gracefully on mobile Ã¢â‚¬â€ core content is never gated behind WebGL capability.
 
 ### 9.2 Accessible by Default
 
-Every component is built with accessibility from the start — semantic HTML, ARIA attributes when needed, keyboard navigation, screen reader support, and `prefers-reduced-motion` handling. Accessibility is not a post-hoc audit fix; it is a design constraint.
+Every component is built with accessibility from the start Ã¢â‚¬â€ semantic HTML, ARIA attributes when needed, keyboard navigation, screen reader support, and `prefers-reduced-motion` handling. Accessibility is not a post-hoc audit fix; it is a design constraint.
 
 ### 9.3 Progressively Enhanced
 
-The 3D scene, AI assistant, and advanced animations are progressive enhancements. The portfolio is fully functional with JavaScript disabled — content is server-rendered, links work, navigation is semantic. Better experiences are layered on capable browsers.
+The 3D scene, AI assistant, and advanced animations are progressive enhancements. The portfolio is fully functional with JavaScript disabled Ã¢â‚¬â€ content is server-rendered, links work, navigation is semantic. Better experiences are layered on capable browsers.
 
 ### 9.4 Privacy-Respecting
 
@@ -234,7 +234,7 @@ Analytics (PostHog) is privacy-first: no cookies for tracking, anonymized IPs, o
 
 ### 9.5 Performance as a Feature
 
-Every architectural decision is evaluated against its performance impact. ISR for static content, lazy-loaded 3D, dynamic imports for heavy components, optimized images, minimal JS bundles. Performance is not an afterthought — it is a product requirement.
+Every architectural decision is evaluated against its performance impact. ISR for static content, lazy-loaded 3D, dynamic imports for heavy components, optimized images, minimal JS bundles. Performance is not an afterthought Ã¢â‚¬â€ it is a product requirement.
 
 ### 9.6 Eat Your Own Dog Food
 
@@ -242,13 +242,13 @@ The portfolio runs on the exact same stack it advertises. If the backend is slow
 
 ### 9.7 Documented Architecture
 
-Architecture Decision Records (ADRs), runbooks, and system diagrams are treated as product deliverables. The documentation is as important as the code — it demonstrates communication skill and engineering rigor.
+Architecture Decision Records (ADRs), runbooks, and system diagrams are treated as product deliverables. The documentation is as important as the code Ã¢â‚¬â€ it demonstrates communication skill and engineering rigor.
 
 ---
 
 ## 10. Story / Origin
 
-This portfolio began as a typical Next.js static site — a single page with a hero, some project cards, and a contact form. Over time it evolved through several phases:
+This portfolio began as a typical Next.js static site Ã¢â‚¬â€ a single page with a hero, some project cards, and a contact form. Over time it evolved through several phases:
 
 1. **Static phase:** Hardcoded JSON, no backend, no CMS
 2. **CMS phase:** Added a headless CMS (Strapi) for content management
@@ -257,7 +257,7 @@ This portfolio began as a typical Next.js static site — a single page with a h
 5. **AI phase:** Added FastAPI AI service with RAG pipeline and chatbot
 6. **Enterprise phase (current):** Full production-grade architecture with auth, queues, monitoring, caching, 3D, and sandbox IDE
 
-Each evolution was driven by the goal of learning and demonstrating a new layer of the stack. The portfolio is intentionally "over-engineered" for its scale — because the engineering is the point.
+Each evolution was driven by the goal of learning and demonstrating a new layer of the stack. The portfolio is intentionally "over-engineered" for its scale Ã¢â‚¬â€ because the engineering is the point.
 
 ---
 
@@ -265,7 +265,7 @@ Each evolution was driven by the goal of learning and demonstrating a new layer 
 
 When a visitor arrives at the portfolio, the ideal experience unfolds as follows:
 
-1. **First impression (0-3s):** A visually striking 3D scene loads instantly (or a beautiful static fallback). The page feels fast — no loading spinners, no layout shift. Typography and color convey professionalism and personality.
+1. **First impression (0-3s):** A visually striking 3D scene loads instantly (or a beautiful static fallback). The page feels fast Ã¢â‚¬â€ no loading spinners, no layout shift. Typography and color convey professionalism and personality.
 
 2. **Exploration (3-30s):** Scrolling reveals project highlights with smooth, meaningful animations. Navigation is intuitive. The visitor can quickly find: who this person is, what they've built, what technologies they use, and how to contact them.
 
@@ -289,7 +289,11 @@ Every step of this journey is designed, built, and monitored with the same rigor
 
 ## References
 
-- `ProductRequirements.md` — Detailed functional and non-functional requirements
-- `CompetitiveAnalysis.md` — Competitive landscape deep dive
-- `docs/architecture/SystemArchitecture.md` — System architecture and deployment topology
-- `docs/adr/` — Architecture Decision Records for all major technical choices
+- `ProductRequirements.md` Ã¢â‚¬â€ Detailed functional and non-functional requirements
+- `CompetitiveAnalysis.md` Ã¢â‚¬â€ Competitive landscape deep dive
+- `docs/architecture/SystemArchitecture.md` Ã¢â‚¬â€ System architecture and deployment topology
+- `docs/adr/` Ã¢â‚¬â€ Architecture Decision Records for all major technical choices
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

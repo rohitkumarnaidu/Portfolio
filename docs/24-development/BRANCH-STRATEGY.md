@@ -95,6 +95,33 @@ Every branch (except `main`) follows this lifecycle:
 Create from main → Work → Push → Open PR → Review → Squash merge → Delete branch
 ```
 
+#### Branch Lifecycle
+
+```mermaid
+flowchart LR
+  Main["main"] --> Feat["feat/*"]
+  Main --> Fix["fix/*"]
+  Main --> Chore["chore/*"]
+  Main --> Docs["docs/*"]
+  Main --> Release["release/*"]
+
+  Feat --> PR["Open PR"]
+  Fix --> PR
+  Chore --> PR
+  Docs --> PR
+  Release --> PR
+
+  PR --> CI["CI + Review"]
+  CI --> Merge["Squash Merge"]
+  Merge --> Main
+
+  Main --> Staging["Staging Deploy"]
+  Main --> Production["Production Deploy"]
+
+  Hotfix["hotfix (from main)"] --> Expedited["Expedited Review"]
+  Expedited --> Merge
+```
+
 ### Step-by-step
 
 ```bash
@@ -232,6 +259,30 @@ git commit -m "fix(auth): patch critical token vulnerability"
 git checkout release/v1.1.x
 git cherry-pick <commit-hash>
 git push
+```
+
+#### Hotfix Process Flow
+
+```mermaid
+sequenceDiagram
+  participant Dev as Developer
+  participant Hotfix as hotfix Branch
+  participant CI as CI Pipeline
+  participant Rev as Reviewer
+  participant Main as main
+  participant Staging as Staging
+
+  Dev->>Hotfix: Create from main
+  Dev->>Dev: Fix the issue
+  Dev->>CI: Push hotfix branch
+  CI-->>Dev: CI passes
+  Dev->>Rev: Open PR (label: hotfix)
+  Rev->>Rev: Expedited review
+  Rev-->>Dev: Approve
+  Dev->>Main: Squash merge
+  Main->>CI: Deploy to production
+  Dev->>Staging: Cherry-pick to staging
+  Staging->>CI: Deploy to staging
 ```
 
 ### Rules
@@ -378,3 +429,7 @@ git push -u origin feat/blog-pagination
 git checkout main
 git pull
 ```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

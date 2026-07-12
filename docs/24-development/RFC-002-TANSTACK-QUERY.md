@@ -58,6 +58,27 @@ The `QueryProvider` component wraps the application root and applies these defau
 | **Apollo Client** | GraphQL-only. The API is REST (NestJS with global `{ data, meta }` envelope). Would require a BFF layer or GraphQL gateway. |
 | **Plain fetch + useState** | No caching, no deduplication, no retry, no background refetching. Every component re-fetches on mount. Every mutation requires manual state management. |
 
+#### Decision Tree
+
+```mermaid
+flowchart TD
+  Q["Should I use TanStack Query?"] --> Q1["Do you need data from the API?"]
+  Q1 -->|"No"| Local["Local state only<br/>useState / useReducer"]
+  Q1 -->|"Yes"| Q2["Is the data shared across components?"]
+
+  Q2 -->|"No"| ServerFetch["Server Component fetch<br/>Direct API call in page/layout"]
+  Q2 -->|"Yes"| Q3["Do you need caching /<br/>background refetching / retry?"]
+
+  Q3 -->|"No"| Context["React Context + useState<br/>Simple shared state"]
+  Q3 -->|"Yes"| Q4["Is this server state or<br/>ephemeral UI state?"]
+
+  Q4 -->|"Server state"| TanStack["✅ TanStack React Query<br/>Caching, retry, invalidation"]
+  Q4 -->|"Ephemeral UI"| Q5["How complex is the state?"]
+
+  Q5 -->|"Simple"| Local
+  Q5 -->|"Complex"| Zustand["Zustand<br/>Client state management"]
+```
+
 ---
 
 ## 4. Consequences
@@ -95,6 +116,22 @@ apps/web/src/lib/
 │   ├── useAuth.ts             # Auth-specific hooks
 │   └── ... (24 more)
 └── query-provider.tsx         # Exports QueryProvider & PublicQueryProvider
+```
+
+#### State Management Flow
+
+```mermaid
+flowchart LR
+  Server["NestJS API<br/>Server State"] -->|"HTTP fetch<br/>api.ts typed wrapper"| QueryClient["QueryClient<br/>Cache + Dedup + Retry"]
+  QueryClient -->|"staleTime: 5min<br/>gcTime: 30min"| Cache["In-Memory Cache"]
+  QueryClient --> useQuery["useQuery Hook<br/>(useApiQuery wrapper)"]
+  useQuery --> Component["React Component<br/>(Server or Client)"]
+
+  Component -->|"useMutation"| Mutation["Mutation Hook"]
+  Mutation -->|"onSuccess"| Invalidate["invalidateQueries<br/>Refetch affected keys"]
+  Invalidate --> QueryClient
+
+  Component -->|"isLoading / isError / data"| Render["Render UI"]
 ```
 
 ### QueryProvider configuration
@@ -202,3 +239,7 @@ Separate `QueryProvider` instances are used for the public portfolio and admin d
 - `apps/web/src/lib/hooks/useBlogPosts.ts` — Example hook file following the standard pattern
 - `apps/web/src/lib/api.ts` — Typed fetch wrapper
 - `turbo.json` — Turborepo build dependency graph
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

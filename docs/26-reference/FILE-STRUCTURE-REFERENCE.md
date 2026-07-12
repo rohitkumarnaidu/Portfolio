@@ -119,3 +119,7 @@ import { ProjectsService } from "../../modules/projects/projects.service";
 - `layout.tsx` — layout wrapper for the route segment
 - `loading.tsx` — loading state (Suspense boundary)
 - `error.tsx` — error boundary
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

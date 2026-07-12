@@ -163,3 +163,59 @@ Deployments are frozen during:
 - **During active SEV-1 incident**: No deploys until resolved
 
 Exceptions require Engineering Lead approval + documented justification.
+
+---
+
+## Diagrams
+
+### Release Pipeline
+
+```mermaid
+flowchart LR
+    Dev[Development] -->|Feature branch| PR[Pull Request]
+    PR -->|Trigger CI| CI["CI Pipeline<br/>Lint + Typecheck + Test"]
+    CI --> Staging[Staging Deploy]
+    Staging --> Approval[Approval Gate]
+    Approval --> Prod[Production Deploy]
+    Prod --> Monitor["Monitor<br/>30 min watch window"]
+
+    PR -.->|Gate| G1["✓ Code Review<br/>1+ approval"]
+    CI -.->|Gate| G2["✓ All checks pass<br/>Build + Test"]
+    Staging -.->|Gate| G3["✓ QA sign-off<br/>Smoke tests"]
+    Approval -.->|Gate| G4["✓ Lead approves<br/>Changelog reviewed"]
+    Monitor -.->|Gate| G5["✓ Error rate < 1%<br/>Latency < 2s"]
+```
+
+### Rollback Decision Tree
+
+```mermaid
+flowchart TD
+    Deploy[Deploy Complete] --> Checks{Monitoring Window<br/>30 min}
+
+    Checks --> E1{Error Rate > 1%?}
+    Checks --> E2{P95 Latency > 2s?}
+    Checks --> E3{SEV-2+ Incident?}
+    Checks --> E4{CWV Regression?<br/>LCP > 4s / CLS > 0.25}
+
+    E1 -->|Yes| Rollback[🔄 ROLLBACK]
+    E2 -->|Yes| Rollback
+    E3 -->|Yes| Rollback
+    E4 -->|Yes| Rollback
+
+    E1 -->|No| Continue
+    E2 -->|No| Continue
+    E3 -->|No| Continue
+    E4 -->|No| Continue
+
+    Continue --> SignOff[✅ Sign-off]
+
+    Rollback --> Revert[git revert HEAD]
+    Revert --> AutoDeploy[Auto-deploy revert]
+    AutoDeploy --> Notify[Announce in #deploys]
+    Notify --> Postmortem[Post-mortem within 24h]
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system
+

@@ -36,6 +36,22 @@ We adopt **JWT (RS256) authentication** via Supabase Auth, with httpOnly cookie 
 - JWT payload adds ~1KB per request (acceptable for HTTP, not WebSocket-optimal)
 - Refresh token rotation must be carefully implemented to prevent race conditions
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Auth mechanism] --> B[Options: JWT / Sessions / OAuth]
+    B --> C[Decision: JWT]
+    C --> D[Positive: Stateless, works across 3 services, RLS integration]
+    C --> E[Negative: Token revocation complexity, 1KB overhead]
+    D --> F[Compliance: §6.2]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §6.2: "Stateless authentication compatible with microservices"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

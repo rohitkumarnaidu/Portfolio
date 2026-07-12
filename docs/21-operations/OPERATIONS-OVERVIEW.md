@@ -114,3 +114,39 @@ All maintenance must be logged in the `#maintenance` Slack/Discord channel with:
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | Jul 2026 | Initial operations reference — runbook index, on-call, escalation, maintenance, reviews | Principal DevOps Lead |
+
+---
+
+## Diagram
+
+### Operations Framework
+
+```mermaid
+graph LR
+    M[Monitoring<br/>Sentry + Better Uptime] -->|Alert fires| A[Alerting<br/>PagerDuty + Slack]
+    A -->|Page on-call| IR[Incident Response<br/>Triage + Mitigate]
+    IR -->|Resolve| PM[Postmortem<br/>Timeline + Root Cause]
+    PM -->|Action items| I[Improvement<br/>Runbook updates + Automation]
+    I -->|Updated monitors| M
+
+    M -.->|Metrics| D[DORA Dashboard]
+    IR -.->|Document| T[Timeline Log]
+    PM -.->|Track| AI[Action Items Board]
+```
+
+```mermaid
+flowchart LR
+    subgraph Closed_Loop["Closed-Loop Operations"]
+        direction LR
+        Monitor[🔍 Monitor] --> Alert[🔔 Alert]
+        Alert --> Respond[🚨 Respond]
+        Respond --> Postmortem[📝 Postmortem]
+        Postmortem --> Improve[⬆️ Improve]
+        Improve --> Monitor
+    end
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system
+

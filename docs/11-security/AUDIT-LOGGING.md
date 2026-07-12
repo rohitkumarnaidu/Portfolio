@@ -61,9 +61,26 @@ To ensure logs are parsable and searchable, all application logs (NestJS, FastAP
 - **Retention Policy:**
   - **Hot Storage (Immediate Search):** 30 days.
   - **Cold Storage (Archive/S3):** 1 year (or as dictated by compliance requirements).
+### 5.1 Audit Log Flow
+
+```mermaid
+flowchart LR
+    A[User Action] --> B[Audit Decorator]
+    B --> C[Log Entry Created]
+    C --> D[Queue: BullMQ]
+    D --> E[(Database: audit_logs)]
+    E --> F{Retention Policy}
+    F -->|30 days| G[Hot Storage<br/>Immediate Search]
+    F -->|1 year| H[Cold Archive<br/>S3/Glacier]
+    H --> I[Secure Deletion]
+```
 
 ## 6. Alerting
 Automated alerts must be configured for critical events:
 - Multiple failed login attempts from a single IP (Potential Brute Force).
 - Any `FATAL` level log or sudden spike in `ERROR` logs.
 - Privilege escalation events.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

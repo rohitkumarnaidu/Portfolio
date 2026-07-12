@@ -18,10 +18,10 @@ Tracking the four key DevOps Research and Assessment (DORA) metrics to measure e
 
 | Metric | Current Value | Target | Elite Benchmark | Status |
 |--------|:-------------:|:------:|:---------------:|:------:|
-| Deployment Frequency | Per-merge (on CI success) | Daily | On-demand | 🟢 |
-| Lead Time for Changes | < 1 hour (CI pipeline) | < 1 week | < 1 hour | 🟢 |
-| MTTR | TBD (no incidents yet) | < 2 hours | < 1 hour | 🟡 |
-| Change Failure Rate | TBD (no failures yet) | < 10% | 0-5% | 🟡 |
+| Deployment Frequency | Per-merge (on CI success) | Daily | On-demand | Ã°Å¸Å¸Â¢ |
+| Lead Time for Changes | < 1 hour (CI pipeline) | < 1 week | < 1 hour | Ã°Å¸Å¸Â¢ |
+| MTTR | TBD (no incidents yet) | < 2 hours | < 1 hour | Ã°Å¸Å¸Â¡ |
+| Change Failure Rate | TBD (no failures yet) | < 10% | 0-5% | Ã°Å¸Å¸Â¡ |
 
 ### How to Measure
 
@@ -30,11 +30,11 @@ Tracking the four key DevOps Research and Assessment (DORA) metrics to measure e
 - Tool: Vercel deployment log, GitHub deployments API
 
 **Lead Time for Changes:**
-- Time from commit → production deployment
+- Time from commit Ã¢â€ â€™ production deployment
 - Tool: GitHub + Vercel integrations
 
 **MTTR:**
-- Time from incident detection → full recovery
+- Time from incident detection Ã¢â€ â€™ full recovery
 - Tool: Incident management system, post-incident reviews
 
 **Change Failure Rate:**
@@ -69,6 +69,54 @@ gh run list --workflow ci.yml --branch main --limit 50 --json conclusion,created
 | Q1 2027 | On-demand | < 1 hour | < 1 hour | < 5% |
 
 ## Related Documents
-- `docs/operations/56-SLA-SLO.md` — Service level objectives
-- `docs/operations/25-CICD.md` — CI/CD pipeline
-- `docs/operations/DevOpsArchitecture.md` — DevOps architecture
+- `docs/operations/56-SLA-SLO.md` Ã¢â‚¬â€ Service level objectives
+- `docs/operations/25-CICD.md` Ã¢â‚¬â€ CI/CD pipeline
+- `docs/operations/DevOpsArchitecture.md` Ã¢â‚¬â€ DevOps architecture
+
+---
+
+## Diagrams
+
+### DORA Metrics Dashboard
+
+```mermaid
+graph
+    subgraph DORA["DORA Metrics Dashboard"]
+        DF["Deploy Frequency<br/>Current: Per-merge<br/>Target: On-demand"]
+        LT["Lead Time for Change<br/>Current: < 1 hour<br/>Target: < 1 hour"]
+        MTTR["MTTR<br/>Current: TBD<br/>Target: < 2 hours"]
+        CFR["Change Failure Rate<br/>Current: TBD<br/>Target: < 10%"]
+    end
+
+    DF --> Status1["Status: Ã°Å¸Å¸Â¢ Elite"]
+    LT --> Status2["Status: Ã°Å¸Å¸Â¢ Elite"]
+    MTTR --> Status3["Status: Ã°Å¸Å¸Â¡ Unknown"]
+    CFR --> Status4["Status: Ã°Å¸Å¸Â¡ Unknown"]
+
+    subgraph Targets["Quarterly Targets"]
+        Q3["Q3 2026<br/>Daily deploys<br/>MTTR < 4h"]
+        Q4["Q4 2026<br/>Multi-daily<br/>MTTR < 2h"]
+        Q1["Q1 2027<br/>On-demand<br/>MTTR < 1h"]
+    end
+```
+
+### DORA Four Quadrants
+
+```mermaid
+quadrantChart
+    title DORA Performance Classification
+    x-axis "Low Performance" --> "High Performance"
+    y-axis "High Failure Rate" --> "Low Failure Rate"
+    quadrant-1 "Elite"
+    quadrant-2 "High"
+    quadrant-3 "Medium"
+    quadrant-4 "Low"
+    Deploy Frequency: [0.85, 0.7]
+    Lead Time: [0.8, 0.65]
+    MTTR: [0.45, 0.5]
+    Change Failure Rate: [0.4, 0.45]
+```
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

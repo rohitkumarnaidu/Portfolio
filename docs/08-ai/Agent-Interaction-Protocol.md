@@ -1,20 +1,15 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# 🤝 Agent-Interaction Protocol — Inter-Agent Communication Standards
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# ÃƒÂ°Ã…Â¸Ã‚Â¤Ã‚Â Agent-Interaction Protocol ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Inter-Agent Communication Standards
 
 > **Document:** `Agent-Interaction-Protocol.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
+> **Status:** ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
 > **Related:** [PromptLibrary.md](./PromptLibrary.md) | [AGENT-NETWORKING.md](./AGENT-NETWORKING.md) | [Agent.md](./Agent.md) | [18-AGENTS.md](./18-AGENTS.md)
 
 ---
 
 ## Executive Summary
 
-The Agent-Interaction Protocol defines the standard message format, intent types, response schemas, error handling, and streaming semantics for all inter-agent communication in the enterprise ecosystem. Every message — whether command, query, event, or stream — conforms to a single JSON envelope with typed headers, a correlation chain, and an idempotency key. This ensures that all agents, regardless of implementation language or runtime, can interoperate reliably and be traced through the observability stack.
+The Agent-Interaction Protocol defines the standard message format, intent types, response schemas, error handling, and streaming semantics for all inter-agent communication in the enterprise ecosystem. Every message ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â whether command, query, event, or stream ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â conforms to a single JSON envelope with typed headers, a correlation chain, and an idempotency key. This ensures that all agents, regardless of implementation language or runtime, can interoperate reliably and be traced through the observability stack.
 
 ---
 
@@ -59,12 +54,12 @@ The Agent-Interaction Protocol defines the standard message format, intent types
 
 | Intent | Direction | Description | Response Expected |
 |--------|-----------|-------------|-------------------|
-| `command.execute` | Supervisor → Specialist | Execute a named command | Yes — result or error |
-| `query.request` | Any → Any | Request data or knowledge | Yes — data response |
-| `event.publish` | Any → All Subscribers | Broadcast an event | No — fire-and-forget |
-| `stream.subscribe` | Consumer → Producer | Begin streaming data | Yes — stream of chunks |
-| `heartbeat` | Any → Registry | Liveness check | Yes — ack |
-| `negotiate.capabilities` | Any → Any | Capability exchange | Yes — capability manifest |
+| `command.execute` | Supervisor ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Specialist | Execute a named command | Yes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â result or error |
+| `query.request` | Any ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Any | Request data or knowledge | Yes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â data response |
+| `event.publish` | Any ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ All Subscribers | Broadcast an event | No ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â fire-and-forget |
+| `stream.subscribe` | Consumer ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Producer | Begin streaming data | Yes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â stream of chunks |
+| `heartbeat` | Any ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Registry | Liveness check | Yes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ack |
+| `negotiate.capabilities` | Any ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Any | Capability exchange | Yes ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â capability manifest |
 
 ### 2.1 Command Execution
 
@@ -114,11 +109,11 @@ The Agent-Interaction Protocol defines the standard message format, intent types
 ### 4.1 Stream Lifecycle
 
 ```
-Client → SUBSCRIBE (intent: stream.subscribe, topic: "logs.realtime")
-Server → CHUNK (sequence: 1, data: {...})
-Server → CHUNK (sequence: 2, data: {...})
-Server → CHUNK (sequence: 3, data: {...})
-Server → COMPLETE (sequence: -1, summary: { totalChunks: 3 })
+Client ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ SUBSCRIBE (intent: stream.subscribe, topic: "logs.realtime")
+Server ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ CHUNK (sequence: 1, data: {...})
+Server ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ CHUNK (sequence: 2, data: {...})
+Server ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ CHUNK (sequence: 3, data: {...})
+Server ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ COMPLETE (sequence: -1, summary: { totalChunks: 3 })
 ```
 
 | Stream Event | Description |
@@ -163,3 +158,7 @@ Context is immutable once set by the supervisor; specialist agents may append ob
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | Jul 2026 | Initial inter-agent communication protocol | Principal AI Architect |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

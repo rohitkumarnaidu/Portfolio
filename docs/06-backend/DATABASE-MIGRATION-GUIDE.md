@@ -1,19 +1,19 @@
 # Database Migration Guide
 
 > **Document:** `docs/backend/database-migration-guide.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Database Architect | **Related:** [DatabaseArchitecture.md](../database/DatabaseArchitecture.md), [DatabaseSchema.md](../database/DatabaseSchema.md)
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Database Architect | **Related:** [DatabaseArchitecture.md](../database/DatabaseArchitecture.md), [DatabaseSchema.md](../database/DatabaseSchema.md)
 
 ---
 
 ## Overview
 
-This guide covers how to create, manage, and apply database migrations using Prisma ORM across the Portfolio platform. The database is Supabase PostgreSQL 15 with pgvector, and Prisma is configured with a **custom output path** (`generated/prisma`) — not the default `node_modules/@prisma/client`.
+This guide covers how to create, manage, and apply database migrations using Prisma ORM across the Portfolio platform. The database is Supabase PostgreSQL 15 with pgvector, and Prisma is configured with a **custom output path** (`generated/prisma`) Ã¢â‚¬â€ not the default `node_modules/@prisma/client`.
 
 ## Prerequisites
 
 - Running PostgreSQL instance (local Docker or Supabase)
 - `DATABASE_URL` configured in `config/.env`
-- Prisma CLI (available via `npx` — no global install needed)
+- Prisma CLI (available via `npx` Ã¢â‚¬â€ no global install needed)
 - After any schema edit: `npm run prisma:generate` is **required**
 
 ## Migration Flow
@@ -64,14 +64,14 @@ This is required after every schema change and is typically run automatically du
 
 | Operation | Migration Step | Generate | Data Migration Needed? |
 |-----------|---------------|----------|----------------------|
-| Add model | `prisma:migrate:dev` | ✅ Auto | No |
-| Add optional field | `prisma:migrate:dev` | ✅ Auto | No |
-| Add required field | `prisma:migrate:dev` (with default) | ✅ Auto | Set defaults for existing rows |
-| Rename field | Manual (see below) | ✅ After | Yes |
-| Remove field | `prisma:migrate:dev` | ✅ Auto | Export data first |
-| Remove model | `prisma:migrate:dev` | ✅ Auto | Archive first |
-| Add enum value | `prisma:migrate:dev` | ✅ Auto | No |
-| Add index | Edit schema + migrate | ✅ Auto | No |
+| Add model | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | No |
+| Add optional field | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | No |
+| Add required field | `prisma:migrate:dev` (with default) | Ã¢Å“â€¦ Auto | Set defaults for existing rows |
+| Rename field | Manual (see below) | Ã¢Å“â€¦ After | Yes |
+| Remove field | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | Export data first |
+| Remove model | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | Archive first |
+| Add enum value | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | No |
+| Add index | Edit schema + migrate | Ã¢Å“â€¦ Auto | No |
 
 ## Common Migration Scenarios
 
@@ -106,16 +106,16 @@ model Project {
   // Before migration
   id       String @id @default(uuid())
 
-  // After — safe for existing rows
+  // After Ã¢â‚¬â€ safe for existing rows
   id       String  @id @default(uuid())
-  repoUrl  String? @map("repo_url")    // nullable → existing rows get null
+  repoUrl  String? @map("repo_url")    // nullable Ã¢â€ â€™ existing rows get null
   priority Int     @default(0)         // existing rows get 0
 }
 ```
 
 ### Renaming a Field
 
-Prisma does not natively detect renames — it creates a drop + add, which destroys data. Follow this three-step process:
+Prisma does not natively detect renames Ã¢â‚¬â€ it creates a drop + add, which destroys data. Follow this three-step process:
 
 1. **Add the new field** alongside the old one:
    ```prisma
@@ -150,11 +150,11 @@ Prisma does not natively detect renames — it creates a drop + add, which destr
 
 Cannot be undone. Before removing:
 
-- ✅ Confirm no dependent code (search `grep -r "ModelName" apps/`)
-- ✅ Export data if needed (> `npm run prisma:seed` or SQL dump)
-- ✅ Ensure no active queries reference the model
-- ✅ Archive data to a backup table if retention is required
-- ❌ Never remove a field still referenced in production code
+- Ã¢Å“â€¦ Confirm no dependent code (search `grep -r "ModelName" apps/`)
+- Ã¢Å“â€¦ Export data if needed (> `npm run prisma:seed` or SQL dump)
+- Ã¢Å“â€¦ Ensure no active queries reference the model
+- Ã¢Å“â€¦ Archive data to a backup table if retention is required
+- Ã¢ÂÅ’ Never remove a field still referenced in production code
 
 ## Migration Safety Checklist
 
@@ -172,9 +172,9 @@ Before deploying a migration to production:
 
 For data transformations that don't fit Prisma's declarative model:
 
-- **Seed scripts** in `apps/api/prisma/seed.ts` — commit to repo, run with `npm run prisma:seed`
-- **One-off scripts** in `apps/api/scripts/` — document in the migration commit message
-- **Raw SQL** via `prisma.$queryRawUnsafe()` — use when Prisma cannot express the operation (e.g., pgvector index creation)
+- **Seed scripts** in `apps/api/prisma/seed.ts` Ã¢â‚¬â€ commit to repo, run with `npm run prisma:seed`
+- **One-off scripts** in `apps/api/scripts/` Ã¢â‚¬â€ document in the migration commit message
+- **Raw SQL** via `prisma.$queryRawUnsafe()` Ã¢â‚¬â€ use when Prisma cannot express the operation (e.g., pgvector index creation)
 
 ## Schema Validation
 
@@ -214,3 +214,7 @@ npx prisma migrate deploy
 | **Migration history** | `apps/api/prisma/migrations/` |
 | **ERD** | `docs/database/DatabaseSchema.md` |
 | **Architecture** | `docs/database/DatabaseArchitecture.md` |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -21,7 +21,7 @@ Performance budgets define the maximum allowable limits for key performance metr
 | Portfolio (public) | < 50ms | < 200ms | < 500ms | < 0.1% |
 | Admin (authenticated) | < 100ms | < 300ms | < 1000ms | < 0.5% |
 | AI Chat (streaming) | < 500ms TTFT | < 1000ms TTFT | < 2000ms TTFT | < 1.0% |
-| Cache hit ratio | > 90% | — | — | — |
+| Cache hit ratio | > 90% | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
 
 ## Asset Size Budgets
 
@@ -54,13 +54,13 @@ npx lhci autorun --config=./lighthouserc.js
 ```
 
 Failing budgets block PR merges:
-- LCP > 3.0s → ❌ Block
-- TBT > 300ms → ⚠️ Warning
-- CLS > 0.15 → ❌ Block
-- Any audit score < 90 → ⚠️ Review
+- LCP > 3.0s Ã¢â€ â€™ Ã¢ÂÅ’ Block
+- TBT > 300ms Ã¢â€ â€™ Ã¢Å¡Â Ã¯Â¸Â Warning
+- CLS > 0.15 Ã¢â€ â€™ Ã¢ÂÅ’ Block
+- Any audit score < 90 Ã¢â€ â€™ Ã¢Å¡Â Ã¯Â¸Â Review
 
 ### Runtime Enforcement (Sentry)
-- Performance degradation alerts at P95 > budget × 2
+- Performance degradation alerts at P95 > budget Ãƒâ€” 2
 - Error budget alerts at 80% consumption
 
 ### Override Process
@@ -74,6 +74,10 @@ If a PR intentionally exceeds a budget:
 Budgets are reviewed monthly during performance review. Historical trends tracked in Grafana dashboard.
 
 ## Related Documents
-- `PerformanceArchitecture.md` — Full performance architecture
-- `load-test-specification.md` — Load testing scenarios
-- `error-budget-policy.md` — Error budget management
+- `PerformanceArchitecture.md` Ã¢â‚¬â€ Full performance architecture
+- `load-test-specification.md` Ã¢â‚¬â€ Load testing scenarios
+- `error-budget-policy.md` Ã¢â‚¬â€ Error budget management
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

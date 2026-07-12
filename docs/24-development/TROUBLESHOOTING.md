@@ -645,3 +645,7 @@ If this guide doesn't solve your issue:
    - Steps to reproduce
    - Environment: OS, Node version, npm version, Docker version
    - Recent changes (git log --oneline -5)
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

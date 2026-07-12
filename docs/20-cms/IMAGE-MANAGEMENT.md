@@ -239,3 +239,17 @@ Periodic audits (quarterly) check:
 | `GET` | `/api/admin/media/:id` | admin/editor/viewer | Get single media asset details |
 | `POST` | `/api/admin/media/upload` | admin/editor | Upload a new image (multipart) |
 | `DELETE` | `/api/admin/media/:id` | admin | Delete a media asset |
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [CMS-ARCHITECTURE.md](CMS-ARCHITECTURE.md) | CMS architecture overview |
+| [CONTENT-MODEL.md](CONTENT-MODEL.md) | Content model reference |
+| [SANDBOX-IDE.md](SANDBOX-IDE.md) | Sandbox IDE architecture |
+| [PerformanceArchitecture.md](../15-performance/PERFORMANCE-ARCHITECTURE.md) | Performance optimization |
+| [SEO-ARCHITECTURE.md](../17-seo/SEO-ARCHITECTURE.md) | SEO architecture for images |

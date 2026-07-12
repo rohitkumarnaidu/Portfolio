@@ -1,5 +1,18 @@
 # Backup and Recovery Strategy
 
+## Backup Flow Diagram
+
+```mermaid
+flowchart LR
+    A[Schedule] --> B[Snapshot]
+    B --> C[Encrypt]
+    C --> D[Store]
+    D --> E[Verify]
+    E --> F[Rotate]
+```
+
+
+
 This document details the disaster recovery mechanisms in place for the Ultimate Portfolio PostgreSQL database hosted on Supabase.
 
 ## Recovery Objectives
@@ -46,3 +59,7 @@ In addition to PITR, logical dumps (`pg_dump`) are taken daily.
 ## Testing and Verification
 - **Quarterly Drills**: A dry-run of Scenario C is performed quarterly to ensure RTO is achievable.
 - **Backup Integrity Checks**: Automated scripts test the restorability of daily `.sql` dumps in a CI/CD container weekly.
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

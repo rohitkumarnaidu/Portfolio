@@ -172,5 +172,11 @@ Items removed from the active sprint must meet:
 
 ---
 
+## Cross-References
+- MASTER-INDEX.md — Documentation master index
+- CROSS-REFERENCE-INDEX.md — Cross-reference mapping
+- PRODUCT-ROADMAP.md — Product roadmap
+- INNOVATION-BACKLOG.md — Innovation backlog
+
 _Document Version: 2.0 — Product Backlog_
 _Next Refinement: July 16, 2026_

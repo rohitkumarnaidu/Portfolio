@@ -1,7 +1,7 @@
-# Storybook Architecture — Enterprise-Grade Component Development & Documentation
+# Storybook Architecture Ã¢â‚¬â€ Enterprise-Grade Component Development & Documentation
 
 > **Document:** `Storybook.md` | **Version:** 1.0 | **Last Updated:** June 2026  
-> **Status:** ✅ Active | **Owner:** Frontend Lead | **Review Cadence:** Monthly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Frontend Lead | **Review Cadence:** Monthly  
 > **Classification:** Enterprise Architecture | **Standards:** Component-Driven Development (CDD), Atomic Design  
 > **Related:** [TestingArchitecture.md](./TestingArchitecture.md) | [30-QA.md](./30-QA.md) | [05-DESIGN-SYSTEM.md](./05-DESIGN-SYSTEM.md) | [TestingImplementation.md](./TestingImplementation.md)
 
@@ -33,11 +33,11 @@ This document defines the **Storybook architecture** for the portfolio platform.
 
 | Level | Name | Current | Target | Key Metrics |
 |-------|------|---------|--------|-------------|
-| **L1** | Initial | — | — | Components exist in code only |
-| **L2** | Documented | — | — | Basic stories for all public components |
-| **L3** | Tested | — | — | Interaction + visual tests integrated |
-| **L4** | Comprehensive | ✅ Current | — | Full stories, docs, visual tests, a11y audits |
-| **L5** | CI-Governed | 🎯 Target | Q3 2026 | Visual diff gates, story composition automation |
+| **L1** | Initial | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Components exist in code only |
+| **L2** | Documented | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Basic stories for all public components |
+| **L3** | Tested | Ã¢â‚¬â€ | Ã¢â‚¬â€ | Interaction + visual tests integrated |
+| **L4** | Comprehensive | Ã¢Å“â€¦ Current | Ã¢â‚¬â€ | Full stories, docs, visual tests, a11y audits |
+| **L5** | CI-Governed | Ã°Å¸Å½Â¯ Target | Q3 2026 | Visual diff gates, story composition automation |
 
 ### 1.2 Storybook Configuration
 
@@ -65,36 +65,36 @@ This document defines the **Storybook architecture** for the portfolio platform.
 
 ```
 .storybook/
-├── main.ts                  # Storybook configuration (addons, webpack, stories)
-├── preview.ts               # Global decorators, parameters, themes
-├── preview-head.html        # Global head injection (fonts, scripts)
-└── manager.ts               # UI customization (branding, sidebar)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ main.ts                  # Storybook configuration (addons, webpack, stories)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ preview.ts               # Global decorators, parameters, themes
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ preview-head.html        # Global head injection (fonts, scripts)
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ manager.ts               # UI customization (branding, sidebar)
 
 src/
-├── components/
-│   ├── ui/                  # Atom-level components
-│   │   ├── Button/
-│   │   │   ├── Button.tsx
-│   │   │   ├── Button.stories.tsx
-│   │   │   ├── Button.test.tsx
-│   │   │   └── Button.docs.mdx
-│   │   └── ...
-│   ├── sections/            # Molecule/organism-level components
-│   │   ├── HeroSection/
-│   │   │   ├── HeroSection.tsx
-│   │   │   ├── HeroSection.stories.tsx
-│   │   │   ├── HeroSection.test.tsx
-│   │   │   └── HeroSection.docs.mdx
-│   │   └── ...
-│   └── templates/           # Page-level templates
-│       ├── HomePage/
-│       │   ├── HomePage.tsx
-│       │   ├── HomePage.stories.tsx
-│       │   └── HomePage.test.tsx
-│       └── ...
-└── styles/
-    ├── design-tokens.ts     # Design token definitions
-    └── theme.ts             # Theme provider configuration
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ components/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ui/                  # Atom-level components
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Button/
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Button.tsx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Button.stories.tsx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Button.test.tsx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ Button.docs.mdx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ ...
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ sections/            # Molecule/organism-level components
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HeroSection/
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HeroSection.tsx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HeroSection.stories.tsx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HeroSection.test.tsx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ HeroSection.docs.mdx
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ ...
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ templates/           # Page-level templates
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HomePage/
+Ã¢â€â€š       Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HomePage.tsx
+Ã¢â€â€š       Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ HomePage.stories.tsx
+Ã¢â€â€š       Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ HomePage.test.tsx
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ ...
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ styles/
+    Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ design-tokens.ts     # Design token definitions
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ theme.ts             # Theme provider configuration
 ```
 
 ### 2.2 Architecture Diagram
@@ -102,37 +102,37 @@ src/
 ```mermaid
 graph TB
     subgraph "Storybook Application"
-        SB["📕 Storybook 8.x<br/>React + Next.js"]
-        UI["🖥️ UI Manager<br/>Sidebar, Toolbar, Canvas"]
-        API["🔌 Story Index API<br/>CSF 3.0 Stories"]
+        SB["Ã°Å¸â€œâ€¢ Storybook 8.x<br/>React + Next.js"]
+        UI["Ã°Å¸â€“Â¥Ã¯Â¸Â UI Manager<br/>Sidebar, Toolbar, Canvas"]
+        API["Ã°Å¸â€Å’ Story Index API<br/>CSF 3.0 Stories"]
     end
 
     subgraph "Addon Ecosystem"
-        A11Y["♿ a11y Addon<br/>Axe Core Integration"]
-        CT["🧪 Test Runner<br/>Jest + Playwright"]
-        CH["📸 Chromatic<br/>Visual Regression"]
-        INT["🔄 Interaction<br/>Play Functions"]
-        DOCS["📝 Docs Addon<br/>Auto-generated MDX"]
-        THEME["🎨 Theme Addon<br/>Dark/Light Modes"]
-        VIEW["📐 Viewport Addon<br/>Responsive Testing"]
-        CONT["🧩 Controls Addon<br/>Prop Exploration"]
-        SOURCE["📄 Source Addon<br/>Code Preview"]
-        MEAS["📏 Measure Addon<br/>Layout Inspection"]
+        A11Y["Ã¢â„¢Â¿ a11y Addon<br/>Axe Core Integration"]
+        CT["Ã°Å¸Â§Âª Test Runner<br/>Jest + Playwright"]
+        CH["Ã°Å¸â€œÂ¸ Chromatic<br/>Visual Regression"]
+        INT["Ã°Å¸â€â€ž Interaction<br/>Play Functions"]
+        DOCS["Ã°Å¸â€œÂ Docs Addon<br/>Auto-generated MDX"]
+        THEME["Ã°Å¸Å½Â¨ Theme Addon<br/>Dark/Light Modes"]
+        VIEW["Ã°Å¸â€œÂ Viewport Addon<br/>Responsive Testing"]
+        CONT["Ã°Å¸Â§Â© Controls Addon<br/>Prop Exploration"]
+        SOURCE["Ã°Å¸â€œâ€ž Source Addon<br/>Code Preview"]
+        MEAS["Ã°Å¸â€œÂ Measure Addon<br/>Layout Inspection"]
     end
 
     subgraph "Component Hierarchy"
-        ATOMS["🧩 Atoms<br/>Button, Input, Badge<br/>Basic UI Primitives"]
-        MOL["🔬 Molecules<br/>SearchBar, NavItem<br/>Composite Patterns"]
-        ORG["🧬 Organisms<br/>HeroSection, Footer<br/>Complex UI Blocks"]
-        TEMP["📋 Templates<br/>PageLayout, BlogLayout<br/>Page Structures"]
+        ATOMS["Ã°Å¸Â§Â© Atoms<br/>Button, Input, Badge<br/>Basic UI Primitives"]
+        MOL["Ã°Å¸â€Â¬ Molecules<br/>SearchBar, NavItem<br/>Composite Patterns"]
+        ORG["Ã°Å¸Â§Â¬ Organisms<br/>HeroSection, Footer<br/>Complex UI Blocks"]
+        TEMP["Ã°Å¸â€œâ€¹ Templates<br/>PageLayout, BlogLayout<br/>Page Structures"]
     end
 
     subgraph "Testing Pipeline"
-        UNIT["✅ Unit Tests<br/>Jest + RTL"]
-        INTER["🔄 Interaction Tests<br/>Playwright"]
-        VISUAL["📸 Visual Diff<br/>Chromatic"]
-        A11Y_T["♿ A11y Tests<br/>Axe"]
-        BUILD["🏗️ Build Tests<br/>storybook build"]
+        UNIT["Ã¢Å“â€¦ Unit Tests<br/>Jest + RTL"]
+        INTER["Ã°Å¸â€â€ž Interaction Tests<br/>Playwright"]
+        VISUAL["Ã°Å¸â€œÂ¸ Visual Diff<br/>Chromatic"]
+        A11Y_T["Ã¢â„¢Â¿ A11y Tests<br/>Axe"]
+        BUILD["Ã°Å¸Ââ€”Ã¯Â¸Â Build Tests<br/>storybook build"]
     end
 
     SB --> UI
@@ -413,7 +413,7 @@ When `loading` is `true`, the button disables interaction and shows a spinner:
 - Disabled state uses `aria-disabled="true"`
 - Supports `aria-label` for icon-only buttons
 - Focus visible ring for keyboard navigation
-- Minimum touch target 44×44px on mobile
+- Minimum touch target 44Ãƒâ€”44px on mobile
 
 ## Design Guidelines
 
@@ -427,9 +427,9 @@ When `loading` is `true`, the button disables interaction and shows a spinner:
 
 ## Related Components
 
-- [`IconButton`](/docs/ui-iconbutton--documentation) — Icon-only variant
-- [`LinkButton`](/docs/ui-linkbutton--documentation) — Button-styled link
-- [`ButtonGroup`](/docs/ui-buttongroup--documentation) — Grouped buttons
+- [`IconButton`](/docs/ui-iconbutton--documentation) Ã¢â‚¬â€ Icon-only variant
+- [`LinkButton`](/docs/ui-linkbutton--documentation) Ã¢â‚¬â€ Button-styled link
+- [`ButtonGroup`](/docs/ui-buttongroup--documentation) Ã¢â‚¬â€ Grouped buttons
 ```
 
 ### 4.2 JSDoc Annotations
@@ -503,7 +503,7 @@ export default meta;
 
 | Testing Layer | Tool | Triggers | Threshold | Action on Failure |
 |---------------|------|----------|-----------|-------------------|
-| **UI Review** | Chromatic | Every PR | 0% unexpected changes | Block PR — manual review required |
+| **UI Review** | Chromatic | Every PR | 0% unexpected changes | Block PR Ã¢â‚¬â€ manual review required |
 | **Build Check** | Chromatic CLI | `storybook build` | Build success | Block CI pipeline |
 | **Catch-up Tour** | Chromatic TurboSnap | Every `main` push | Auto-accept known changes | Notify UI team of changes |
 | **Cross-browser** | Chromatic + Playwright | Weekly | 0 visual diffs | Log issue in tracking system |
@@ -546,16 +546,16 @@ jobs:
 
 ```mermaid
 flowchart LR
-    PR["📝 PR Created"] --> BUILD["🏗️ Storybook Build"]
-    BUILD --> CHROM["📸 Chromatic Publish"]
+    PR["Ã°Å¸â€œÂ PR Created"] --> BUILD["Ã°Å¸Ââ€”Ã¯Â¸Â Storybook Build"]
+    BUILD --> CHROM["Ã°Å¸â€œÂ¸ Chromatic Publish"]
     CHROM --> DIFF{"Visual Diffs?"}
-    DIFF -->|"No Diffs"| PASS["✅ Auto-pass"]
-    DIFF -->|"Diffs Found"| REVIEW["👀 UI Review Required"]
+    DIFF -->|"No Diffs"| PASS["Ã¢Å“â€¦ Auto-pass"]
+    DIFF -->|"Diffs Found"| REVIEW["Ã°Å¸â€˜â‚¬ UI Review Required"]
     REVIEW --> APPROVE{"Approved?"}
     APPROVE -->|"Accept Changes"| PASS
-    APPROVE -->|"Reject / Capture Bug"| FIX["🐛 Fix Component"]
+    APPROVE -->|"Reject / Capture Bug"| FIX["Ã°Å¸Ââ€º Fix Component"]
     FIX --> BUILD
-    PASS --> MERGE["🔀 Merge PR"]
+    PASS --> MERGE["Ã°Å¸â€â‚¬ Merge PR"]
 ```
 
 ---
@@ -565,7 +565,7 @@ flowchart LR
 ### 6.1 Play Function Testing
 
 ```typescript
-// Button.stories.tsx — Interaction tests
+// Button.stories.tsx Ã¢â‚¬â€ Interaction tests
 import { userEvent, within, expect } from '@storybook/test';
 
 export const ClickInteraction: Story = {
@@ -752,14 +752,14 @@ test.describe('Button accessibility', () => {
 
 ```mermaid
 flowchart TB
-    PR["📝 Pull Request"] --> SB_BUILD["🏗️ Build Storybook"]
-    SB_BUILD --> CHROM_PUB["📸 Publish to Chromatic"]
-    CHROM_PUB --> UI_REVIEW["👀 UI Review (Chromatic)"]
+    PR["Ã°Å¸â€œÂ Pull Request"] --> SB_BUILD["Ã°Å¸Ââ€”Ã¯Â¸Â Build Storybook"]
+    SB_BUILD --> CHROM_PUB["Ã°Å¸â€œÂ¸ Publish to Chromatic"]
+    CHROM_PUB --> UI_REVIEW["Ã°Å¸â€˜â‚¬ UI Review (Chromatic)"]
     
     subgraph "Review Gates"
-        AUTO["🤖 Automated Checks<br/>Interaction Tests<br/>A11y Tests<br/>Visual Diff"]
-        CODE_REVIEW["👨‍💻 Code Review<br/>Component API<br/>Best Practices"]
-        DESIGN_REVIEW["🎨 Design Review<br/>Visual Fidelity<br/>Responsive Behavior"]
+        AUTO["Ã°Å¸Â¤â€“ Automated Checks<br/>Interaction Tests<br/>A11y Tests<br/>Visual Diff"]
+        CODE_REVIEW["Ã°Å¸â€˜Â¨Ã¢â‚¬ÂÃ°Å¸â€™Â» Code Review<br/>Component API<br/>Best Practices"]
+        DESIGN_REVIEW["Ã°Å¸Å½Â¨ Design Review<br/>Visual Fidelity<br/>Responsive Behavior"]
     end
     
     UI_REVIEW --> AUTO
@@ -767,10 +767,10 @@ flowchart TB
     CODE_REVIEW --> DESIGN_REVIEW
     
     DESIGN_REVIEW --> VERDICT{"All Gates Passed?"}
-    VERDICT -->|"Yes"| APPROVED["✅ Changes Approved"]
-    VERDICT -->|"No"| FEEDBACK["📝 Feedback / Changes"]
+    VERDICT -->|"Yes"| APPROVED["Ã¢Å“â€¦ Changes Approved"]
+    VERDICT -->|"No"| FEEDBACK["Ã°Å¸â€œÂ Feedback / Changes"]
     FEEDBACK --> PR
-    APPROVED --> MERGE["🔀 Merge to Main"]
+    APPROVED --> MERGE["Ã°Å¸â€â‚¬ Merge to Main"]
 ```
 
 ### 8.2 Design Review Checklist
@@ -790,16 +790,16 @@ flowchart TB
 
 | Gate | Criteria | Blocking? | Approver |
 |------|----------|-----------|----------|
-| **G1: Lint** | No lint errors | ✅ Yes | CI |
-| **G2: TypeScript** | No type errors | ✅ Yes | CI |
-| **G3: Unit tests** | 100% pass | ✅ Yes | CI |
-| **G4: Interaction tests** | 100% pass | ✅ Yes | CI |
-| **G5: Visual diff** | 0 unexpected diffs | ✅ Yes | Developer + Designer |
-| **G6: A11y audit** | 0 critical/serious violations | ✅ Yes | CI + A11y Specialist |
-| **G7: Code review** | Approved by peer | ✅ Yes | Developer |
-| **G8: Design review** | Visual sign-off | ✅ Yes | Designer |
-| **G9: Accessibility review** | Manual a11y validation | ✅ Yes | A11y Specialist |
-| **G10: Storybook build** | Build succeeds | ✅ Yes | CI |
+| **G1: Lint** | No lint errors | Ã¢Å“â€¦ Yes | CI |
+| **G2: TypeScript** | No type errors | Ã¢Å“â€¦ Yes | CI |
+| **G3: Unit tests** | 100% pass | Ã¢Å“â€¦ Yes | CI |
+| **G4: Interaction tests** | 100% pass | Ã¢Å“â€¦ Yes | CI |
+| **G5: Visual diff** | 0 unexpected diffs | Ã¢Å“â€¦ Yes | Developer + Designer |
+| **G6: A11y audit** | 0 critical/serious violations | Ã¢Å“â€¦ Yes | CI + A11y Specialist |
+| **G7: Code review** | Approved by peer | Ã¢Å“â€¦ Yes | Developer |
+| **G8: Design review** | Visual sign-off | Ã¢Å“â€¦ Yes | Designer |
+| **G9: Accessibility review** | Manual a11y validation | Ã¢Å“â€¦ Yes | A11y Specialist |
+| **G10: Storybook build** | Build succeeds | Ã¢Å“â€¦ Yes | CI |
 
 ---
 
@@ -900,8 +900,8 @@ export const WithStore: Story = {
 
 ```mermaid
 flowchart LR
-    GLOBAL["🌐 Global Parameters<br/>preview.ts"] --> COMPONENT["📦 Component Meta<br/>meta.parameters"]
-    COMPONENT --> STORY["📝 Story Parameters<br/>story.parameters"]
+    GLOBAL["Ã°Å¸Å’Â Global Parameters<br/>preview.ts"] --> COMPONENT["Ã°Å¸â€œÂ¦ Component Meta<br/>meta.parameters"]
+    COMPONENT --> STORY["Ã°Å¸â€œÂ Story Parameters<br/>story.parameters"]
     GLOBAL --> STORY
 ```
 
@@ -1044,7 +1044,7 @@ jobs:
 | **Bundle size** | < 5 MB (gzip) | `storybook build` output |
 | **Story load time** | < 500ms | Lighthouse on SB |
 | **Addon count** | < 20 | `main.ts` addons list |
-| **Component coverage** | ≥ 90% | Story count / component count |
+| **Component coverage** | Ã¢â€°Â¥ 90% | Story count / component count |
 | **Docs coverage** | 100% of public APIs | JSDoc + MDX validation |
 
 ---
@@ -1055,24 +1055,24 @@ jobs:
 
 | Standard | Requirement | Implementation | Verification |
 |----------|-------------|----------------|--------------|
-| **ISO/IEC 25010** | Product quality — usability, reliability | Storybook tests verify component reliability | Interaction tests pass rate ≥ 99% |
+| **ISO/IEC 25010** | Product quality Ã¢â‚¬â€ usability, reliability | Storybook tests verify component reliability | Interaction tests pass rate Ã¢â€°Â¥ 99% |
 | **WCAG 2.2 AA** | Accessibility compliance | a11y addon + axe rules in every story | 0 violations in CI |
-| **Atomic Design** | Component hierarchy methodology | Atoms → Molecules → Organisms → Templates → Pages | Story structure audit |
+| **Atomic Design** | Component hierarchy methodology | Atoms Ã¢â€ â€™ Molecules Ã¢â€ â€™ Organisms Ã¢â€ â€™ Templates Ã¢â€ â€™ Pages | Story structure audit |
 | **CDD (Component-Driven Dev)** | Component-first development | All components have stories before integration | Coverage reports |
 | **IEEE 829** | Test documentation standards | MDX documentation per component | Docs validation |
-| **ISO 9241-11** | Usability — effectiveness, efficiency, satisfaction | Interaction tests validate user flows | Pass rate ≥ 99% |
+| **ISO 9241-11** | Usability Ã¢â‚¬â€ effectiveness, efficiency, satisfaction | Interaction tests validate user flows | Pass rate Ã¢â€°Â¥ 99% |
 
 ### 12.2 Storybook Quality Gates
 
 | Gate | Criteria | Blocking | Owner |
 |------|----------|----------|-------|
-| **Story completeness** | ≥ 5 stories per atom, ≥ 3 per organism | ✅ Yes | Frontend Lead |
-| **Documentation completeness** | Every story has MDX docs | ✅ Yes | Frontend Lead |
-| **A11y audit** | 0 critical, 0 serious violations | ✅ Yes | A11y Specialist |
-| **Visual regression** | 0 unexpected visual diffs | ✅ Yes | Designer |
-| **Interaction tests** | 100% pass rate | ✅ Yes | QA Lead |
+| **Story completeness** | Ã¢â€°Â¥ 5 stories per atom, Ã¢â€°Â¥ 3 per organism | Ã¢Å“â€¦ Yes | Frontend Lead |
+| **Documentation completeness** | Every story has MDX docs | Ã¢Å“â€¦ Yes | Frontend Lead |
+| **A11y audit** | 0 critical, 0 serious violations | Ã¢Å“â€¦ Yes | A11y Specialist |
+| **Visual regression** | 0 unexpected visual diffs | Ã¢Å“â€¦ Yes | Designer |
+| **Interaction tests** | 100% pass rate | Ã¢Å“â€¦ Yes | QA Lead |
 | **Build time** | < 60s | Warning | DevOps Lead |
-| **Coverage** | ≥ 90% of components in Storybook | ✅ Yes (target) | Frontend Lead |
+| **Coverage** | Ã¢â€°Â¥ 90% of components in Storybook | Ã¢Å“â€¦ Yes (target) | Frontend Lead |
 
 ---
 
@@ -1080,11 +1080,11 @@ jobs:
 
 | Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
 |-------------|------|----------|-----------|------------------------|---------|
-| D-SB-001 | Jun 2026 | Storybook 8.x with Next.js framework support as component development environment | Native Next.js integration, latest features, active community | Docz, Styleguidist rejected — less ecosystem support and fewer addons | Adopted |
-| D-SB-002 | Jun 2026 | Atomic Design methodology for component organization | Clear hierarchy from atoms to pages; shared vocabulary | Feature-based organization rejected — no clear component granularity | Adopted |
-| D-SB-003 | Jun 2026 | 15+ production addons including a11y, visual, interaction testing | Single tool covers documentation, testing, and review | Minimal addon setup rejected — misses a11y and visual testing capabilities | Adopted |
-| D-SB-004 | Jun 2026 | Chromatic for visual regression testing and review workflow | Built for Storybook, provides UI review interface, cloud-based baselines | Percy, Applitools rejected — less native Storybook integration | Adopted |
-| D-SB-005 | Jun 2026 | Storybook deployed to staging alongside app (storybook.portfolio.dev) | Accessible to whole team for review without local setup | Local-only Storybook rejected — reviewers can't easily access | Adopted |
+| D-SB-001 | Jun 2026 | Storybook 8.x with Next.js framework support as component development environment | Native Next.js integration, latest features, active community | Docz, Styleguidist rejected Ã¢â‚¬â€ less ecosystem support and fewer addons | Adopted |
+| D-SB-002 | Jun 2026 | Atomic Design methodology for component organization | Clear hierarchy from atoms to pages; shared vocabulary | Feature-based organization rejected Ã¢â‚¬â€ no clear component granularity | Adopted |
+| D-SB-003 | Jun 2026 | 15+ production addons including a11y, visual, interaction testing | Single tool covers documentation, testing, and review | Minimal addon setup rejected Ã¢â‚¬â€ misses a11y and visual testing capabilities | Adopted |
+| D-SB-004 | Jun 2026 | Chromatic for visual regression testing and review workflow | Built for Storybook, provides UI review interface, cloud-based baselines | Percy, Applitools rejected Ã¢â‚¬â€ less native Storybook integration | Adopted |
+| D-SB-005 | Jun 2026 | Storybook deployed to staging alongside app (storybook.portfolio.dev) | Accessible to whole team for review without local setup | Local-only Storybook rejected Ã¢â‚¬â€ reviewers can't easily access | Adopted |
 
 ## 15. Risk Register
 
@@ -1094,7 +1094,7 @@ jobs:
 | R-SB-002 | Chromatic visual diff noise increases as components become more dynamic | High | Medium | High | Dynamic content stabilization, data-testid attributes for stable selectors | Increase diff threshold, manual review of high-noise components | Frontend Lead |
 | R-SB-003 | Story coverage drops below 90% as new components added without stories | Medium | Medium | Medium | CI check for story coverage per component, PR template includes story requirement | Quarterly story addition sprint, automated coverage reporting | Frontend Lead |
 | R-SB-004 | Storybook version drift from app dependencies causes compatibility issues | Low | Medium | Low | Dependabot updates for Storybook, compatibility test in CI | Pin Storybook version, documentation of known compat issues | Frontend Lead |
-| R-SB-005 | Design team can't use Storybook effectively without development context | Low | Medium | Low | Design-focused documentation view, visual-only story mode | Training session for design team, Figma → Storybook sync workflow | Design Lead |
+| R-SB-005 | Design team can't use Storybook effectively without development context | Low | Medium | Low | Design-focused documentation view, visual-only story mode | Training session for design team, Figma Ã¢â€ â€™ Storybook sync workflow | Design Lead |
 
 ## 16. Change Log
 
@@ -1119,5 +1119,9 @@ jobs:
 | **Docs Addon** | A Storybook addon that generates documentation pages from stories, comments, and MDX files |
 | **A11y Addon** | A Storybook addon that runs automated accessibility audits against component stories using axe-core |
 
-*Document Version: 1.0 — Enterprise-Grade Component Development & Documentation*  
+*Document Version: 1.0 Ã¢â‚¬â€ Enterprise-Grade Component Development & Documentation*  
 *Next Review Date: September 2026*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

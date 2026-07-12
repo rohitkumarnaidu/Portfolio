@@ -1276,3 +1276,7 @@ WHERE orphan_count > 0;
 *Supersedes: N/A (initial document)*  
 *Next Review Date: September 2026*  
 *Classification: CONFIDENTIAL - Internal Use Only*
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

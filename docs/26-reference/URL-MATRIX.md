@@ -158,3 +158,7 @@ API responses are cached with `@CacheTTL` decorator on portfolio controllers (de
 | **viewer** | Admin analytics, activities, chat, notifications |
 | **editor** | All viewer + content CRUD (projects, blog, skills, etc.) |
 | **admin** | All editor + user management, settings, feature flags, api-keys, sandbox |
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -38,7 +38,23 @@ We adopt **pgvector** (PostgreSQL extension) for vector similarity search, embed
 - No built-in metadata filtering (use SQL WHERE clauses instead)
 - No vector-specific monitoring dashboards (use pg_stat_statements)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: Vector embeddings] --> B[Options: pgvector / Pinecone / Weaviate]
+    B --> C[Decision: pgvector]
+    C --> D[Positive: No extra infra, RLS-compatible, ACID]
+    C --> E[Negative: Performance ceiling at 100K vectors]
+    D --> F[Compliance: §1.1, §6.1]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §1.1: "Zero additional infrastructure cost"
 - Aligns with Constitution §6.1: "RLS applies to all data, including vectors"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

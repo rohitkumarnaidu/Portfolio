@@ -7,37 +7,37 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 ## Bounded Context Overview
 
 ```
-┌─────────────────────────────────────────────┐
-│              Portfolio Context               │
-│  Public read-only content delivery           │
-│  Controllers: portfolio/controllers/         │
-│  Caching: @CacheTTL(60-120s)                │
-└─────────────┬───────────────────────────────┘
-              │ depends on
-              ▼
-┌─────────────────────────────────────────────┐
-│              Admin Context                   │
-│  Authenticated CRUD operations               │
-│  Controllers: admin/controllers/            │
-│  Guards: JwtAuthGuard + RolesGuard           │
-│  Audit: @Audit() decorator                   │
-└─────────────┬───────────────────────────────┘
-              │ imports
-              ▼
-┌─────────────────────────────────────────────┐
-│         Shared Modules Context               │
-│  Business logic: modules/<entity>/           │
-│  Cross-cutting: common/                      │
-│  Shared types: @portfolio/shared             │
-└─────────────┬───────────────────────────────┘
-              │ orchestrates
-              ▼
-┌─────────────────────────────────────────────┐
-│              AI Context                      │
-│  LLM chat, RAG, embedding generation         │
-│  Service: apps/ai/ (FastAPI)                │
-│  Vector DB: pgvector in Supabase             │
-└─────────────────────────────────────────────┘
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š              Portfolio Context               Ã¢â€â€š
+Ã¢â€â€š  Public read-only content delivery           Ã¢â€â€š
+Ã¢â€â€š  Controllers: portfolio/controllers/         Ã¢â€â€š
+Ã¢â€â€š  Caching: @CacheTTL(60-120s)                Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+              Ã¢â€â€š depends on
+              Ã¢â€“Â¼
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š              Admin Context                   Ã¢â€â€š
+Ã¢â€â€š  Authenticated CRUD operations               Ã¢â€â€š
+Ã¢â€â€š  Controllers: admin/controllers/            Ã¢â€â€š
+Ã¢â€â€š  Guards: JwtAuthGuard + RolesGuard           Ã¢â€â€š
+Ã¢â€â€š  Audit: @Audit() decorator                   Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+              Ã¢â€â€š imports
+              Ã¢â€“Â¼
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š         Shared Modules Context               Ã¢â€â€š
+Ã¢â€â€š  Business logic: modules/<entity>/           Ã¢â€â€š
+Ã¢â€â€š  Cross-cutting: common/                      Ã¢â€â€š
+Ã¢â€â€š  Shared types: @portfolio/shared             Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
+              Ã¢â€â€š orchestrates
+              Ã¢â€“Â¼
+Ã¢â€Å’Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Â
+Ã¢â€â€š              AI Context                      Ã¢â€â€š
+Ã¢â€â€š  LLM chat, RAG, embedding generation         Ã¢â€â€š
+Ã¢â€â€š  Service: apps/ai/ (FastAPI)                Ã¢â€â€š
+Ã¢â€â€š  Vector DB: pgvector in Supabase             Ã¢â€â€š
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€Ëœ
 ```
 
 ---
@@ -47,12 +47,12 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Serve read-only portfolio content to visitors at high throughput with low latency. No authentication.
 
 **Entities:**
-- **Section** — Homepage sections (Hero, About, Skills, Experience, Featured Projects, Testimonials, Blog Preview, Services, FAQ, Contact). Has `type`, `is_live`, `sort_order`. Controlled by `SectionsService`.
-- **Project** — Portfolio piece with rich metadata, 3D asset references, Markdown content, tech stack tags, categories. Exposed at `/api/portfolio/projects`.
-- **Experience** — Work history timeline entries with `company`, `role`, `start_date`, `end_date`, `description`.
-- **Skill** — Technical/soft skills with `name`, `category`, `proficiency`. Linked to Projects and Experiences.
-- **BlogPost** — Technical articles with `title`, `slug`, `content`, `published_at`, `tags`.
-- **Lead** — Contact form submissions (write-only from this context).
+- **Section** Ã¢â‚¬â€ Homepage sections (Hero, About, Skills, Experience, Featured Projects, Testimonials, Blog Preview, Services, FAQ, Contact). Has `type`, `is_live`, `sort_order`. Controlled by `SectionsService`.
+- **Project** Ã¢â‚¬â€ Portfolio piece with rich metadata, 3D asset references, Markdown content, tech stack tags, categories. Exposed at `/api/portfolio/projects`.
+- **Experience** Ã¢â‚¬â€ Work history timeline entries with `company`, `role`, `start_date`, `end_date`, `description`.
+- **Skill** Ã¢â‚¬â€ Technical/soft skills with `name`, `category`, `proficiency`. Linked to Projects and Experiences.
+- **BlogPost** Ã¢â‚¬â€ Technical articles with `title`, `slug`, `content`, `published_at`, `tags`.
+- **Lead** Ã¢â‚¬â€ Contact form submissions (write-only from this context).
 
 **Ubiquitous Language:**
 | Term | Meaning |
@@ -73,13 +73,13 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Enable the portfolio owner and editors to manage all content through a dashboard UI. Full CRUD with audit trail and role-based access.
 
 **Entities (Portfolio entities + Admin-specific):**
-- **User** — Admin user with `email`, `display_name`, `role` (`admin`/`editor`/`viewer`).
-- **Activity** — Audit log entry recording who did what to which resource. Managed via `@Audit()` decorator at `apps/api/src/common/decorators/audit.decorator.ts`.
-- **Media** — Uploaded files (images, 3D models) stored in Supabase Storage.
-- **SystemSetting** — Key-value configuration store for site settings and AI system prompts.
-- **ApiKey** — Programmatic access keys for external integrations.
-- **Notification** — Admin-facing notifications (new leads, errors, system events).
-- **Sandbox** — WebContainer-based in-browser IDE session metadata.
+- **User** Ã¢â‚¬â€ Admin user with `email`, `display_name`, `role` (`admin`/`editor`/`viewer`).
+- **Activity** Ã¢â‚¬â€ Audit log entry recording who did what to which resource. Managed via `@Audit()` decorator at `apps/api/src/common/decorators/audit.decorator.ts`.
+- **Media** Ã¢â‚¬â€ Uploaded files (images, 3D models) stored in Supabase Storage.
+- **SystemSetting** Ã¢â‚¬â€ Key-value configuration store for site settings and AI system prompts.
+- **ApiKey** Ã¢â‚¬â€ Programmatic access keys for external integrations.
+- **Notification** Ã¢â‚¬â€ Admin-facing notifications (new leads, errors, system events).
+- **Sandbox** Ã¢â‚¬â€ WebContainer-based in-browser IDE session metadata.
 
 **Ubiquitous Language:**
 | Term | Meaning |
@@ -101,10 +101,10 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Provide LLM-powered chat, content analysis, and suggestion features. This context is physically separated from the NestJS API (FastAPI microservice at `apps/ai/`).
 
 **Entities:**
-- **Conversation** — A chat session between a user and the AI assistant.
-- **Message** — Individual message within a conversation (user or assistant).
-- **DocumentChunk** — Vectorized text chunk from Projects, Experiences, and BlogPosts for RAG retrieval.
-- **Interaction** — User interaction metadata for analytics and improvement.
+- **Conversation** Ã¢â‚¬â€ A chat session between a user and the AI assistant.
+- **Message** Ã¢â‚¬â€ Individual message within a conversation (user or assistant).
+- **DocumentChunk** Ã¢â‚¬â€ Vectorized text chunk from Projects, Experiences, and BlogPosts for RAG retrieval.
+- **Interaction** Ã¢â‚¬â€ User interaction metadata for analytics and improvement.
 
 **Ubiquitous Language:**
 | Term | Meaning |
@@ -112,7 +112,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 | RAG | Retrieval-Augmented Generation: fetching relevant context before LLM response |
 | Embedding | 1536-dimensional vector representation of text (OpenAI text-embedding-ada-002) |
 | Chunk | A fixed-size segment of content that gets embedded for vector search |
-| SSE | Server-Sent Events — used to stream AI responses to the browser |
+| SSE | Server-Sent Events Ã¢â‚¬â€ used to stream AI responses to the browser |
 
 **Key Files:**
 - FastAPI routes: `apps/ai/app/main.py`
@@ -125,8 +125,8 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Capture and report usage events from both public and admin surfaces.
 
 **Entities:**
-- **AnalyticsEvent** — A tracked event with `event_type`, `payload`, `timestamp`, `session_id`.
-- **Aggregate** — Pre-computed summary metrics for dashboard display.
+- **AnalyticsEvent** Ã¢â‚¬â€ A tracked event with `event_type`, `payload`, `timestamp`, `session_id`.
+- **Aggregate** Ã¢â‚¬â€ Pre-computed summary metrics for dashboard display.
 
 **Ubiquitous Language:**
 | Term | Meaning |
@@ -163,3 +163,7 @@ The system uses NestJS event emitters for key domain events:
 | `blog.published` | BlogService | Sitemap regeneration trigger |
 
 Events are emitted synchronously within the NestJS request lifecycle using `@nestjs/event-emitter`. Heavy side effects (email sending, AI re-indexing) are enqueued in BullMQ for async processing.
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -103,3 +103,17 @@ If we are to build this tomorrow, the engineering team must resolve:
 - [ ] Code changes reflect in the iframe Preview via HMR in < 1 second.
 - [ ] Deployment commits directly to GitHub without exposing the PAT to the client browser.
 - [ ] System automatically rejects commits that fail TypeScript compilation.
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [CMS-ARCHITECTURE.md](CMS-ARCHITECTURE.md) | CMS architecture overview |
+| [CONTENT-MODEL.md](CONTENT-MODEL.md) | Content model reference |
+| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md) | Image management and optimization |
+| [FRONTEND-ARCHITECTURE.md](../07-frontend/FRONTEND-ARCHITECTURE.md) | Frontend architecture |
+| [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md) | AI agent instructions |

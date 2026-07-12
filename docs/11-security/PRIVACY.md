@@ -1,7 +1,7 @@
-# 🛡️ Privacy & Data Protection — GDPR/CCPA Compliance Framework
+# Ã°Å¸â€ºÂ¡Ã¯Â¸Â Privacy & Data Protection Ã¢â‚¬â€ GDPR/CCPA Compliance Framework
 
 > **Document:** `PRIVACY.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Chief Security Architect | **Review Cadence:** Quarterly  
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Chief Security Architect | **Review Cadence:** Quarterly  
 > **Related:** [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) | [SecurityArchitecture.md](./SecurityArchitecture.md) | [16-COMPLIANCE.md](./16-COMPLIANCE.md)
 
 ---
@@ -42,11 +42,11 @@ The platform maintains compliance with GDPR (EU) and CCPA (California). Key meas
 
 ## 3. PII Classification & Handling
 
-PII is classified into three tiers per [data-classification.md](./data-classification.md): **Tier 1 (Public)** — unrestricted portfolio content; **Tier 2 (Internal)** — pseudonymised analytics events encrypted at rest; **Tier 3 (Restricted)** — contact form submissions, OAuth profiles, and AI chat logs, encrypted at rest (AES-256-GCM) and in transit (TLS 1.3), access logged via [AuditLogging.md](./AuditLogging.md), and retained per strict schedules below. Access is restricted to authorized personnel via the RBAC model in [15-AUTHORIZATION.md](./15-AUTHORIZATION.md).
+PII is classified into three tiers per [data-classification.md](./data-classification.md): **Tier 1 (Public)** Ã¢â‚¬â€ unrestricted portfolio content; **Tier 2 (Internal)** Ã¢â‚¬â€ pseudonymised analytics events encrypted at rest; **Tier 3 (Restricted)** Ã¢â‚¬â€ contact form submissions, OAuth profiles, and AI chat logs, encrypted at rest (AES-256-GCM) and in transit (TLS 1.3), access logged via [AuditLogging.md](./AuditLogging.md), and retained per strict schedules below. Access is restricted to authorized personnel via the RBAC model in [15-AUTHORIZATION.md](./15-AUTHORIZATION.md).
 
 ## 4. Cookie Consent & Tracking Governance
 
-The platform uses a three-tier cookie consent system: **Essential** (session cookies, CSRF, JWTs — no consent required), **Analytics** (PostHog, Umami — opt-in), and **Functional** (AI chat personalisation — opt-in). Consent records are stored in Supabase with timestamp, hashed IP, scope, and expiry. Users can withdraw consent at any time via the admin dashboard privacy settings.
+The platform uses a three-tier cookie consent system: **Essential** (session cookies, CSRF, JWTs Ã¢â‚¬â€ no consent required), **Analytics** (PostHog, Umami Ã¢â‚¬â€ opt-in), and **Functional** (AI chat personalisation Ã¢â‚¬â€ opt-in). Consent records are stored in Supabase with timestamp, hashed IP, scope, and expiry. Users can withdraw consent at any time via the admin dashboard privacy settings.
 
 ## 5. Data Retention & Deletion
 
@@ -58,13 +58,13 @@ Data subjects may exercise rights through the DSAR portal at `/api/privacy/dsar`
 
 ## 7. Analytics Privacy
 
-Privacy controls are embedded per analytics provider: **Umami** — IP masking, no cookies, EU-hosted; **PostHog** — IP geolocation disabled, cookie-less tracking, server-side PII stripping via plugin, US-hosted with DPA; **Vercel Analytics** — edge-computed, aggregate only, no persistent individual events; **Custom DB (Supabase)** — PII columns encrypted, analytics schema isolated via RLS, no PII in event payloads by design. All events are validated against the schema registry in [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) to prevent PII leakage.
+Privacy controls are embedded per analytics provider: **Umami** Ã¢â‚¬â€ IP masking, no cookies, EU-hosted; **PostHog** Ã¢â‚¬â€ IP geolocation disabled, cookie-less tracking, server-side PII stripping via plugin, US-hosted with DPA; **Vercel Analytics** Ã¢â‚¬â€ edge-computed, aggregate only, no persistent individual events; **Custom DB (Supabase)** Ã¢â‚¬â€ PII columns encrypted, analytics schema isolated via RLS, no PII in event payloads by design. All events are validated against the schema registry in [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) to prevent PII leakage.
 
 ## 8. Breach Notification
 
 In the event of a personal data breach, the following notification timeline is enforced:
 
-- **Internal Discovery → Containment:** Within 1 hour. Security team is paged via PagerDuty. System access is revoked for compromised credentials.
+- **Internal Discovery Ã¢â€ â€™ Containment:** Within 1 hour. Security team is paged via PagerDuty. System access is revoked for compromised credentials.
 - **Supervisory Authority Notification (GDPR Art. 33):** Within 72 hours of discovery. Notification includes nature of breach, categories of data affected, approximate number of records, contact details of DPO, and remediation steps.
 - **Data Subject Notification (GDPR Art. 34):** Without undue delay when high risk to rights and freedoms. Notification is sent via email and platform banner.
 
@@ -81,8 +81,29 @@ The incident response procedure is detailed in [SecurityArchitecture.md](./Secur
 | [15-AUTHORIZATION.md](./15-AUTHORIZATION.md)                       | RBAC model governing PII access                              |
 | [AuditLogging.md](./AuditLogging.md)                               | Audit trail for PII access events                            |
 
+---
+
+## Data Processing Flow
+
+```mermaid
+flowchart LR
+    A[Collection] --> B[Storage]
+    B --> C[Processing]
+    C --> D[Sharing]
+    D --> E[Deletion]
+    A -.- A1[Informed Consent<br/>Lawful Basis]
+    B -.- B1[Right to Access<br/>Data Portability]
+    C -.- C1[Rectification<br/>Restriction]
+    D -.- D1[Right to Object]
+    E -.- E1[Right to Erasure<br/>Retention Limits]
+```
+
 ## 10. Change Log
 
 | Version | Date      | Author                   | Changes                                               |
 | ------- | --------- | ------------------------ | ----------------------------------------------------- |
-| 1.0     | July 2026 | Chief Security Architect | Initial release — privacy & data protection framework |
+| 1.0     | July 2026 | Chief Security Architect | Initial release Ã¢â‚¬â€ privacy & data protection framework |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

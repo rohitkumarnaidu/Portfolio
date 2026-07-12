@@ -571,3 +571,29 @@ All API responses follow `{ data, meta? }`:
 | Hook | `use` prefix + `camelCase` | `useSkills()` |
 | Props type | `ComponentName` + `Props` | `CardProps` |
 | CSS class | `kebab-case` | `hero-section` |
+
+## 13. Naming Decision Tree
+
+```mermaid
+flowchart TD
+  Start["Start"] --> What["What are you naming?"]
+  What --> Files["Files / Directories"]
+  What --> Vars["Variables / Functions"]
+  What --> Components["React Components"]
+  What --> APIs["API Endpoints"]
+  What --> Tables["DB Tables & Columns"]
+  What --> Env["Environment Variables"]
+  What --> Branches["Git Branches"]
+
+  Files --> FilesRule["kebab-case<br/>e.g. skills.service.ts"]
+  Vars --> VarsRule["camelCase<br/>e.g. projectSlug"]
+  Components --> CompRule["PascalCase .tsx<br/>e.g. Button.tsx"]
+  APIs --> APIRule["kebab-case<br/>e.g. /api/admin/skills"]
+  Tables --> TablesRule["snake_case via @@map<br/>e.g. users, display_name"]
+  Env --> EnvRule["UPPER_SNAKE_CASE<br/>e.g. DATABASE_URL"]
+  Branches --> BranchRule["type/kebab-case<br/>e.g. feat/add-dark-mode"]
+```
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -10,27 +10,27 @@ API versions use the `Accept: application/vnd.portfolio.v{n}+json` header. Curre
 ### Added
 - Initial API release with 50+ endpoints
 - Portfolio endpoints (public, read-only):
-  - `GET /api/portfolio/sections` — Section configuration
-  - `GET /api/portfolio/projects` — Project listing + detail by slug
-  - `GET /api/portfolio/blog` — Blog listing + detail by slug
-  - `GET /api/portfolio/skills` — Skills listing
-  - `GET /api/portfolio/experiences` — Work experiences
-  - `GET /api/portfolio/testimonials` — Testimonials
-  - `GET /api/portfolio/services` — Services listing
-  - `GET /api/portfolio/faqs` — FAQ listing
-  - `POST /api/portfolio/leads` — Contact form submission
-  - `GET /api/portfolio/case-studies` — Case studies
-  - `GET /api/portfolio/achievements` — Achievements
-  - `GET /api/portfolio/press-features` — Press features
-  - `GET /api/portfolio/guest-appearances` — Guest appearances
-  - `GET /api/portfolio/reading-list` — Reading list
-  - `GET /api/portfolio/availability-status` — Availability status
-  - `GET /api/portfolio/analytics/*` — Public analytics
-  - `GET /api/portfolio/chat` — Chat session
-  - `POST /api/portfolio/feature-flags` — Feature flag evaluation
+  - `GET /api/portfolio/sections` Ã¢â‚¬â€ Section configuration
+  - `GET /api/portfolio/projects` Ã¢â‚¬â€ Project listing + detail by slug
+  - `GET /api/portfolio/blog` Ã¢â‚¬â€ Blog listing + detail by slug
+  - `GET /api/portfolio/skills` Ã¢â‚¬â€ Skills listing
+  - `GET /api/portfolio/experiences` Ã¢â‚¬â€ Work experiences
+  - `GET /api/portfolio/testimonials` Ã¢â‚¬â€ Testimonials
+  - `GET /api/portfolio/services` Ã¢â‚¬â€ Services listing
+  - `GET /api/portfolio/faqs` Ã¢â‚¬â€ FAQ listing
+  - `POST /api/portfolio/leads` Ã¢â‚¬â€ Contact form submission
+  - `GET /api/portfolio/case-studies` Ã¢â‚¬â€ Case studies
+  - `GET /api/portfolio/achievements` Ã¢â‚¬â€ Achievements
+  - `GET /api/portfolio/press-features` Ã¢â‚¬â€ Press features
+  - `GET /api/portfolio/guest-appearances` Ã¢â‚¬â€ Guest appearances
+  - `GET /api/portfolio/reading-list` Ã¢â‚¬â€ Reading list
+  - `GET /api/portfolio/availability-status` Ã¢â‚¬â€ Availability status
+  - `GET /api/portfolio/analytics/*` Ã¢â‚¬â€ Public analytics
+  - `GET /api/portfolio/chat` Ã¢â‚¬â€ Chat session
+  - `POST /api/portfolio/feature-flags` Ã¢â‚¬â€ Feature flag evaluation
 
 - Admin endpoints (authenticated CRUD):
-  - `POST /api/admin/auth/*` — Authentication (login, register, refresh, profile)
+  - `POST /api/admin/auth/*` Ã¢â‚¬â€ Authentication (login, register, refresh, profile)
   - `CRUD /api/admin/sections`
   - `CRUD /api/admin/projects`
   - `CRUD /api/admin/blog`
@@ -58,8 +58,8 @@ API versions use the `Accept: application/vnd.portfolio.v{n}+json` header. Curre
   - `POST /api/admin/export/*` (data export)
 
 - Health endpoints:
-  - `GET /api/health/liveness` — Liveness probe
-  - `GET /api/health/readiness` — Readiness probe
+  - `GET /api/health/liveness` Ã¢â‚¬â€ Liveness probe
+  - `GET /api/health/readiness` Ã¢â‚¬â€ Readiness probe
 
 ### Response Format
 - Standard envelope: `{ data, meta? }`
@@ -101,3 +101,7 @@ API versions use the `Accept: application/vnd.portfolio.v{n}+json` header. Curre
 ---
 
 *For the complete API specification, see `docs/api/openapi.json` (OpenAPI 3.1, 111 endpoints).*
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

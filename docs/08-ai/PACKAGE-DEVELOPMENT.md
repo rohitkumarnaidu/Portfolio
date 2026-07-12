@@ -1,13 +1,8 @@
-> **Status:** 🎯 DESIGN SPEC — Not Implemented
-> This document describes an aspirational future design. The features described here are NOT yet implemented in the codebase.
-> For current AI implementation documentation, see:
-> - [AI Strategy](../docs/ai/strategy.md)
-> - [Model Decision Matrix](../docs/ai/model-decision-matrix.md)
-
-# 📦 Package Development — Agent Package Authoring and Publishing
+﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+# ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¦ Package Development ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Agent Package Authoring and Publishing
 
 > **Document:** `PACKAGE-DEVELOPMENT.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
+> **Status:** ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
 > **Related:** [AgentMarketplace.md](./AgentMarketplace.md) | [Skills.md](./Skills.md) | [AGENT-NETWORKING.md](./AGENT-NETWORKING.md) | [AGENT-SECURITY.md](../security/AGENT-SECURITY.md)
 
 ---
@@ -24,28 +19,28 @@ This guide covers the end-to-end workflow for developing, testing, signing, and 
 
 ```
 agent-package/
-├── manifest.json          # Required: Agent metadata, dependencies, permissions
-├── agent/
-│   ├── main.py            # Entry point (or main.js, main.ts)
-│   ├── modules/           # Agent source code
-│   └── utils/             # Utility libraries
-├── dependencies/
-│   └── vendor/            # Bundled third-party dependencies
-├── tests/
-│   ├── test_main.py       # Unit tests
-│   ├── integration/       # Integration tests
-│   └── fixtures/          # Test fixtures
-├── assets/
-│   ├── icon.png           # 256x256 (required)
-│   └── screenshot-1.png   # Screenshots (max 5)
-├── docs/
-│   ├── README.md          # Agent documentation
-│   ├── CHANGELOG.md       # Version changelog
-│   └── API.md             # API documentation (if applicable)
-└── signatures/
-    ├── sha256sums.txt     # File checksums
-    ├── signature.p7s      # PKCS#7 detached signature
-    └── provenance.json    # SLSA provenance statement
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ manifest.json          # Required: Agent metadata, dependencies, permissions
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ agent/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ main.py            # Entry point (or main.js, main.ts)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ modules/           # Agent source code
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ utils/             # Utility libraries
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ dependencies/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ vendor/            # Bundled third-party dependencies
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ tests/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_main.py       # Unit tests
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ integration/       # Integration tests
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ fixtures/          # Test fixtures
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ assets/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ icon.png           # 256x256 (required)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ screenshot-1.png   # Screenshots (max 5)
+ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ docs/
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ README.md          # Agent documentation
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ CHANGELOG.md       # Version changelog
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ API.md             # API documentation (if applicable)
+ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ signatures/
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ sha256sums.txt     # File checksums
+    ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ signature.p7s      # PKCS#7 detached signature
+    ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ provenance.json    # SLSA provenance statement
 ```
 
 ### 1.2 Manifest Fields
@@ -91,18 +86,18 @@ marketplace-cli lint         # Validates manifest and structure
 
 | Bump | When | Example | Consumer Impact |
 |------|------|---------|-----------------|
-| MAJOR | Breaking API or behavior changes | `1.x.x` → `2.0.0` | Manual upgrade required |
-| MINOR | Backward-compatible features | `1.1.x` → `1.2.0` | Auto-upgrade safe |
-| PATCH | Backward-compatible fixes | `1.1.0` → `1.1.1` | Auto-upgrade safe |
+| MAJOR | Breaking API or behavior changes | `1.x.x` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `2.0.0` | Manual upgrade required |
+| MINOR | Backward-compatible features | `1.1.x` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `1.2.0` | Auto-upgrade safe |
+| PATCH | Backward-compatible fixes | `1.1.0` ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ `1.1.1` | Auto-upgrade safe |
 
 ### 3.2 Publishing Pipeline
 
 ```
-1. marketplace-cli build           → Creates .agent archive
-2. marketplace-cli sign            → Signs with enterprise certificate
-3. marketplace-cli publish         → Submits to Marketplace API
-4. Marketplace validates           → Schema, signature, security scan
-5. Approval workflow begins        → Review gates, code review, publication
+1. marketplace-cli build           ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Creates .agent archive
+2. marketplace-cli sign            ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Signs with enterprise certificate
+3. marketplace-cli publish         ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Submits to Marketplace API
+4. Marketplace validates           ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Schema, signature, security scan
+5. Approval workflow begins        ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Review gates, code review, publication
 ```
 
 ---
@@ -138,3 +133,7 @@ Use constraint operators (`^`, `~`, `>=`, `||`) to specify compatible ranges rat
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | Jul 2026 | Initial package development guide | Principal AI Architect |
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system

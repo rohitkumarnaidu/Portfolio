@@ -39,7 +39,23 @@ We adopt **FastAPI** (Python) for the AI microservice.
 - Docker required for consistent Python environment across dev/staging/prod
 - Cross-service type safety requires manual contract maintenance (see 50-DATA-CONTRACTS.md)
 
+## Decision Flow
+
+```mermaid
+flowchart LR
+    A[Context: AI microservice] --> B[Options: FastAPI / Flask / Django]
+    B --> C[Decision: FastAPI]
+    C --> D[Positive: Python AI ecosystem, async, SSE, Pydantic]
+    C --> E[Negative: Two languages, separate dep management]
+    D --> F[Compliance: §7.1, §1.3]
+    E --> F
+```
+
 ## Compliance
 
 - Aligns with Constitution §7.1: "AI/ML services in Python for ecosystem alignment"
 - Aligns with Constitution §1.3: "Microservice boundaries at domain boundaries"
+
+## Cross-References
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

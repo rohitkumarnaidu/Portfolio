@@ -26,9 +26,9 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 **Responsibility:** All business rules, data access, and validation logic for a single entity.
 
 **Contents:**
-- `<Entity>Service` — CRUD methods, business validations, event emission
-- `dto/` — Create and Update DTOs with class-validator decorators
-- `<Entity>Module` — NestJS module that imports PrismaService and exports the service
+- `<Entity>Service` Ã¢â‚¬â€ CRUD methods, business validations, event emission
+- `dto/` Ã¢â‚¬â€ Create and Update DTOs with class-validator decorators
+- `<Entity>Module` Ã¢â‚¬â€ NestJS module that imports PrismaService and exports the service
 
 **Rules:**
 - No HTTP concerns (no controllers, no guards, no cache decorators)
@@ -36,9 +36,9 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 - Every service is exported by its module so both PortfolioModule and AdminModule can import it
 
 **Example from the codebase:**
-- `apps/api/src/modules/projects/projects.service.ts` — handles create, update, delete, soft-delete, restore, bulk operations
-- `apps/api/src/modules/projects/dto/create-project.dto.ts` — validation schema for project creation
-- `apps/api/src/modules/projects/projects.module.ts` — imports PrismaService, exports ProjectsService
+- `apps/api/src/modules/projects/projects.service.ts` Ã¢â‚¬â€ handles create, update, delete, soft-delete, restore, bulk operations
+- `apps/api/src/modules/projects/dto/create-project.dto.ts` Ã¢â‚¬â€ validation schema for project creation
+- `apps/api/src/modules/projects/projects.module.ts` Ã¢â‚¬â€ imports PrismaService, exports ProjectsService
 
 ### 1.2 Portfolio Delivery Layer (apps/api/src/portfolio/controllers/)
 
@@ -86,16 +86,16 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 This logs to the Activity table with the authenticated user's ID, the action taken, and the target resource. Implementation in `apps/api/src/common/decorators/audit.decorator.ts` with the `AuditInterceptor` at `apps/api/src/common/interceptors/audit.interceptor.ts`.
 
 **Admin-specific controllers (not mirrored in portfolio):**
-- AdminAuthController — login, refresh, logout
-- AdminDashboardController — aggregated analytics dashboard
-- AdminUsersController — user management (admin only)
-- AdminMediaController — file upload management
-- AdminSystemSettingsController — site configuration
-- AdminApiKeysController — API key management
-- AdminNotificationsController — admin-facing notifications
-- AdminSandboxController — WebContainer IDE session management
-- AdminExportController — CSV export
-- AdminCleanupController — cache/data cleanup
+- AdminAuthController Ã¢â‚¬â€ login, refresh, logout
+- AdminDashboardController Ã¢â‚¬â€ aggregated analytics dashboard
+- AdminUsersController Ã¢â‚¬â€ user management (admin only)
+- AdminMediaController Ã¢â‚¬â€ file upload management
+- AdminSystemSettingsController Ã¢â‚¬â€ site configuration
+- AdminApiKeysController Ã¢â‚¬â€ API key management
+- AdminNotificationsController Ã¢â‚¬â€ admin-facing notifications
+- AdminSandboxController Ã¢â‚¬â€ WebContainer IDE session management
+- AdminExportController Ã¢â‚¬â€ CSV export
+- AdminCleanupController Ã¢â‚¬â€ cache/data cleanup
 
 ---
 
@@ -244,7 +244,7 @@ React Query hooks accept pagination params and pass them to the API. Example fro
 useProjects({ page: 1, per_page: 12, category: 'web-app' })
 ```
 
-TanStack Query caches each page separately under the query key `['projects', { page, per_page, category, ... }]`. Navigation between pages triggers a new query with a different cache key — no page data is lost on navigation.
+TanStack Query caches each page separately under the query key `['projects', { page, per_page, category, ... }]`. Navigation between pages triggers a new query with a different cache key Ã¢â‚¬â€ no page data is lost on navigation.
 
 ### 6.3 Admin Table Pagination
 
@@ -266,3 +266,7 @@ Admin controllers support bulk operations for efficiency:
 | Bulk update | POST /admin/<entity>/bulk-update | Update multiple records (e.g., publish/unpublish) |
 
 Both are wrapped in individual transactions so a failure in one record doesn't roll back the entire operation (partial success is reported).
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

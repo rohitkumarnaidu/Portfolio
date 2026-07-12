@@ -80,6 +80,18 @@ You can change your preferences at any time by clicking the cookie settings link
 
 Our website does not currently respond to "Do Not Track" (DNT) signals. We will update this policy if we implement DNT support in the future.
 
+---
+
+## Cookie Categories Overview
+
+```mermaid
+pie title Cookie Categories
+    "Essential" : 35
+    "Functional" : 20
+    "Analytics" : 30
+    "Marketing" : 15
+```
+
 ## Updates to This Policy
 
 We may update this Cookie Policy from time to time. Changes will be posted here with an updated "Last Updated" date.
@@ -90,3 +102,7 @@ For questions about our use of cookies:
 
 - **Email:** [privacy@portfolio.dev](mailto:privacy@portfolio.dev)
 - **Privacy Policy:** [privacy-policy.md](privacy-policy.md)
+
+## Cross-References
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

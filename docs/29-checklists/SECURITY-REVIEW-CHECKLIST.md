@@ -5,6 +5,19 @@
 
 ---
 
+## Security Review Gates
+
+```mermaid
+flowchart TD
+    Auth[Authentication &<br/>Authorization] --> Validation[Input Validation]
+    Validation --> Encryption[Encryption &<br/>Secrets Management]
+    Encryption --> Logging[Audit Logging]
+    Logging --> Rate[Rate Limiting]
+    Rate --> Session[Session Management]
+```
+
+---
+
 ## Pre-Merge Checklist
 
 Run on every PR targeting `main`. All items must pass before merging.
@@ -71,3 +84,17 @@ Run within 1 hour of production deployment.
 ---
 
 *Document Version: 1.0 | Last Updated: July 2026*
+
+---
+
+## Cross-References
+
+| Reference | Description |
+|-----------|-------------|
+| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
+| [SECURITY-ARCHITECTURE.md](../11-security/SECURITY-ARCHITECTURE.md) | Security architecture overview |
+| [SECURITY-HARDENING.md](../11-security/SECURITY-HARDENING.md) | Security hardening plan |
+| [SECURITY-TESTING.md](../11-security/SECURITY-TESTING.md) | Security testing strategy |
+| [PRODUCTION-GO-LIVE-CHECKLIST.md](PRODUCTION-GO-LIVE-CHECKLIST.md) | Production go-live checklist |
+| [OWASP-ASVS.md](../11-security/OWASP-ASVS.md) | OWASP ASVS mapping |

@@ -279,6 +279,12 @@ using the AI chat interface without instructions or onboarding?
 
 ---
 
+## Cross-References
+- MASTER-INDEX.md — Documentation master index
+- CROSS-REFERENCE-INDEX.md — Cross-reference mapping
+- UserPersonas.md — User personas
+- user-journey-maps.md — User journey maps
+
 *Document Version: 2.0 — User Research & Insights*
 *Last Updated: July 2026*
 *Next Scheduled Study: AI Chat Beta Usability (Aug 2026)*
