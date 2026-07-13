@@ -32,7 +32,7 @@
     "@theatre/core": "^0.7.2",
     "@theatre/r3f": "^0.7.2",
     "@tiptap/extension-image": "^3.27.1",
-    "@tiptap/extension-link": "^3.27.1",
+    "@tiptap/extension-link": "^3.27.3",
     "@tiptap/extension-placeholder": "^3.27.1",
     "@tiptap/pm": "^3.27.1",
     "@tiptap/react": "^3.27.1",
