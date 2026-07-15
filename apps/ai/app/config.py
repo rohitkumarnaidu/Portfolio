@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     APP_NAME: str = "Portfolio AI"
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
-    CORS_ORIGINS: list[str] = ["http://localhost:3000", "https://your-production-domain.com"]
+    CORS_ORIGINS: list[str] = ["http://localhost:3000"]
     # Supabase / PostgreSQL
     SUPABASE_URL: str = ""
     SUPABASE_SERVICE_KEY: str = ""
@@ -42,6 +42,13 @@ class Settings(BaseSettings):
     # Rate Limiting
     RATE_LIMIT_REQUESTS: int = 30
     RATE_LIMIT_WINDOW_SECONDS: int = 60
+
+    # PII Filter
+    PII_FILTER_ENABLED: bool = True
+
+    # JWT
+    JWT_SECRET: str = ""
+    JWT_ALGORITHM: str = "HS256"
 
     # Budget
     MONTHLY_BUDGET_USD: float = 10.0

@@ -10,6 +10,7 @@ from app.routes import chat, analyze, suggest, health, agent
 from app.middleware.rate_limit import RateLimitMiddleware
 from app.middleware.input_sanitizer import InputSanitizerMiddleware
 from app.middleware.pii_filter import PIIFilterMiddleware
+from app.middleware.auth_middleware import AuthMiddleware
 
 # Services
 from app.services.analytics_service import AnalyticsService
@@ -51,6 +52,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(AuthMiddleware)
 app.add_middleware(RateLimitMiddleware)
 app.add_middleware(InputSanitizerMiddleware)
 app.add_middleware(PIIFilterMiddleware)
