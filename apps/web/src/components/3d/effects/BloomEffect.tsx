@@ -12,12 +12,7 @@ export const BloomEffect = ({ tier }: BloomEffectProps) => {
 
   return (
     <EffectComposer>
-      <Bloom
-        intensity={0.3}
-        luminanceThreshold={0.6}
-        luminanceSmoothing={0.9}
-        mipmapBlur
-      />
+      <Bloom intensity={0.3} luminanceThreshold={0.6} luminanceSmoothing={0.9} mipmapBlur />
     </EffectComposer>
   );
 };

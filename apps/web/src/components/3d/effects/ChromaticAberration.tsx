@@ -9,9 +9,7 @@ interface ChromaticAberrationEffectProps {
   tier: Tier;
 }
 
-export const ChromaticAberrationEffect = ({
-  tier,
-}: ChromaticAberrationEffectProps) => {
+export const ChromaticAberrationEffect = ({ tier }: ChromaticAberrationEffectProps) => {
   if (tier !== 'high') return null;
 
   return (

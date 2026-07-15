@@ -29,9 +29,7 @@ export class SceneErrorBoundary extends React.Component<
     };
   }
 
-  static getDerivedStateFromError(
-    error: Error
-  ): Partial<SceneErrorBoundaryState> {
+  static getDerivedStateFromError(error: Error): Partial<SceneErrorBoundaryState> {
     const msg = error.message.toLowerCase();
     const errorType =
       msg.includes('webgl') || msg.includes('context')

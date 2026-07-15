@@ -10,19 +10,18 @@ interface SceneRegistryProps {
   reducedMotion: boolean;
 }
 
-const HeroScene = dynamic(
-  () => import('./scenes/HeroScene').then((mod) => mod.HeroScene),
-  { ssr: false }
-);
+const HeroScene = dynamic(() => import('./scenes/HeroScene').then((mod) => mod.HeroScene), {
+  ssr: false,
+});
 
 const NotFoundScene = dynamic(
   () => import('./scenes/NotFoundScene').then((mod) => mod.NotFoundScene),
-  { ssr: false }
+  { ssr: false },
 );
 
 const AdminAmbientParticlesScene = dynamic(
   () => import('./scenes/AdminAmbientParticles').then((mod) => mod.AdminAmbientParticles),
-  { ssr: false }
+  { ssr: false },
 );
 
 const SCENE_COMPONENTS: Record<
