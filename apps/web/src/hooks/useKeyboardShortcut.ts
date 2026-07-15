@@ -37,7 +37,7 @@ function isInputElement(target: EventTarget | null): boolean {
 export function useKeyboardShortcut(
   combo: KeyCombo,
   handler: (e: KeyboardEvent) => void,
-  options: UseKeyboardShortcutOptions = {}
+  options: UseKeyboardShortcutOptions = {},
 ): void {
   const { ignoreInputs = true, capture = false, enabled = true } = options;
   const handlerRef = useRef(handler);
@@ -52,7 +52,7 @@ export function useKeyboardShortcut(
       e.preventDefault();
       handlerRef.current(e);
     },
-    [combo, ignoreInputs, enabled]
+    [combo, ignoreInputs, enabled],
   );
 
   useEffect(() => {

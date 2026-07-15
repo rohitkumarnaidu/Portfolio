@@ -5,7 +5,8 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 export type CursorState = 'default' | 'pointer' | 'text' | 'hidden' | 'loading' | 'grabbing';
 
 const CLASSIFICATION_SELECTORS = {
-  pointer: 'a, button, [role="button"], [role="tab"], [role="menuitem"], input[type="submit"], input[type="button"]',
+  pointer:
+    'a, button, [role="button"], [role="tab"], [role="menuitem"], input[type="submit"], input[type="button"]',
   text: 'input[type="text"], input[type="email"], input[type="search"], textarea, [contenteditable]',
   disabled: '[disabled], [aria-disabled="true"]',
   loading: '[aria-busy="true"]',

@@ -10,7 +10,7 @@ interface UseLongPressOptions {
 
 export function useLongPress(
   onLongPress: (event: PointerEvent) => void,
-  options: UseLongPressOptions = {}
+  options: UseLongPressOptions = {},
 ) {
   const { threshold = 500, moveTolerance = 10, preventDefault = false } = options;
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -28,7 +28,7 @@ export function useLongPress(
         onLongPress(e.nativeEvent);
       }, threshold);
     },
-    [onLongPress, threshold, preventDefault]
+    [onLongPress, threshold, preventDefault],
   );
 
   const onPointerMove = useCallback(
@@ -42,7 +42,7 @@ export function useLongPress(
         startRef.current = null;
       }
     },
-    [moveTolerance]
+    [moveTolerance],
   );
 
   const onPointerUp = useCallback(() => {

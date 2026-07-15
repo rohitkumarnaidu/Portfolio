@@ -37,7 +37,7 @@ export function useFocusTrap({
       if (initialFocus === 'last') return focusable[focusable.length - 1] ?? null;
       return initialFocus.current;
     },
-    [initialFocus]
+    [initialFocus],
   );
 
   useEffect(() => {

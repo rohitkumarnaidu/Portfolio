@@ -19,9 +19,7 @@ export const useIdleDetector = (threshold = 30000): IdleState => {
     resetTimer();
 
     return () => {
-      events.forEach((event) =>
-        window.removeEventListener(event, resetTimer)
-      );
+      events.forEach((event) => window.removeEventListener(event, resetTimer));
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [resetTimer]);
