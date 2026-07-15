@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import type { ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
 
 const DEFAULT_TTL = 5 * 60;
@@ -69,7 +69,15 @@ export class CacheService {
     try {
       let cursor = '0';
       do {
-        const result: [string, string[]] = await (this.client! as any).scan(cursor, 'MATCH', pattern, 'COUNT', 100);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const client = this.client! as any;
+        const result: [string, string[]] = await client.scan(
+          cursor,
+          'MATCH',
+          pattern,
+          'COUNT',
+          100,
+        );
         cursor = result[0];
         const keys = result[1];
         if (keys.length > 0) {
