@@ -1,13 +1,28 @@
 import { Controller, Get, Param, Res, UseGuards, Logger } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { Response } from 'express';
+import type { Response } from 'express';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
-import { CsvService } from '../../common/export/csv.service';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { CsvService } from '../../common/export/csv.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 
-type EntityName = 'sections' | 'projects' | 'blog' | 'skills' | 'testimonials' | 'services' | 'faqs' | 'experiences' | 'leads' | 'achievements' | 'press-features' | 'guest-appearances' | 'reading-list' | 'users' | 'media';
+type EntityName =
+  | 'sections'
+  | 'projects'
+  | 'blog'
+  | 'skills'
+  | 'testimonials'
+  | 'services'
+  | 'faqs'
+  | 'experiences'
+  | 'leads'
+  | 'achievements'
+  | 'press-features'
+  | 'guest-appearances'
+  | 'reading-list'
+  | 'users'
+  | 'media';
 
 const ENTITY_MODELS: Record<EntityName, string> = {
   sections: 'section',
@@ -48,7 +63,10 @@ export class AdminExportController {
       res.status(404).json({ error: `Unknown entity: ${entity}` });
       return;
     }
-    const data: any[] = await (this.prisma as any)[modelName].findMany({ orderBy: { createdAt: 'desc' } });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data: Record<string, unknown>[] = await (this.prisma as any)[modelName].findMany({
+      orderBy: { createdAt: 'desc' },
+    });
     const csv = this.csv.toCsv(data);
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', `attachment; filename="${entity}-export.csv"`);
