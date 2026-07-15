@@ -32,7 +32,10 @@ test.describe('Homepage', () => {
     await page.goto('/');
 
     // Theme toggle button should exist
-    const toggleButton = page.locator('button').filter({ has: page.locator('[aria-label]') }).first();
+    const toggleButton = page
+      .locator('button')
+      .filter({ has: page.locator('[aria-label]') })
+      .first();
     await expect(toggleButton).toBeVisible();
   });
 
