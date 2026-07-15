@@ -50,9 +50,7 @@ export const ChatPanel = ({
       >
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
-            <p className="text-sm text-text-tertiary">
-              Send a message to start the conversation.
-            </p>
+            <p className="text-sm text-text-tertiary">Send a message to start the conversation.</p>
           </div>
         )}
 
@@ -63,9 +61,7 @@ export const ChatPanel = ({
             content={msg.content}
             status={msg.status}
             onRegenerate={
-              msg.role === 'assistant' &&
-              msg.status === 'complete' &&
-              onRegenerate
+              msg.role === 'assistant' && msg.status === 'complete' && onRegenerate
                 ? onRegenerate
                 : undefined
             }

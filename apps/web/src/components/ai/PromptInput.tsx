@@ -43,7 +43,7 @@ export const PromptInput = ({
         handleSubmit();
       }
     },
-    [handleSubmit]
+    [handleSubmit],
   );
 
   return (
@@ -52,7 +52,7 @@ export const PromptInput = ({
         'flex items-end gap-2 p-2 rounded-xl border transition-colors',
         'bg-surface-primary',
         focused ? 'border-accent-500' : 'border-border-accent',
-        disabled && 'opacity-50'
+        disabled && 'opacity-50',
       )}
     >
       <textarea
@@ -75,11 +75,17 @@ export const PromptInput = ({
         className={cn(
           'shrink-0 p-2 rounded-lg transition-colors',
           'bg-accent-500 text-white hover:bg-accent-600',
-          'disabled:opacity-30 disabled:cursor-not-allowed'
+          'disabled:opacity-30 disabled:cursor-not-allowed',
         )}
         aria-label="Send message"
       >
-        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg
+          className="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14M12 5l7 7-7 7" />
         </svg>
       </button>

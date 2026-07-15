@@ -15,18 +15,19 @@ export const AIBreathingRing = ({ isThinking, className }: AIBreathingRingProps)
         className={cn(
           'relative flex items-center justify-center transition-all duration-300',
           isThinking ? 'opacity-100 scale-100' : 'opacity-0 scale-80 pointer-events-none',
-          className
+          className,
         )}
       >
         <div
           className={cn(
             'w-5 h-5 rounded-full border-2 border-accent-500 transition-all duration-300',
-            isThinking ? 'animate-breath' : ''
+            isThinking ? 'animate-breath' : '',
           )}
         />
       </div>
-      <style dangerouslySetInnerHTML={{
-        __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
           @keyframes breath {
             0%, 100% { opacity: 0.6; transform: scale(1); }
             50% { opacity: 0.3; transform: scale(1.05); }
@@ -34,8 +35,9 @@ export const AIBreathingRing = ({ isThinking, className }: AIBreathingRingProps)
           .animate-breath {
             animation: breath 1.5s ease-in-out infinite;
           }
-        `
-      }} />
+        `,
+        }}
+      />
     </>
   );
 };
