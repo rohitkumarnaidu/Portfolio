@@ -1,14 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateTestimonialDto, UpdateTestimonialDto } from './dto';
+import type { CreateTestimonialDto, UpdateTestimonialDto } from './dto';
 
 @Injectable()
 export class TestimonialsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(visibleOnly?: boolean, opts?: { page?: number; perPage?: number; search?: string; sortBy?: string; sortOrder?: 'asc' | 'desc' }) {
+  async findAll(
+    visibleOnly?: boolean,
+    opts?: {
+      page?: number;
+      perPage?: number;
+      search?: string;
+      sortBy?: string;
+      sortOrder?: 'asc' | 'desc';
+    },
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (visibleOnly) where.isVisible = true;
     if (opts?.search) {
@@ -19,6 +29,7 @@ export class TestimonialsService {
         { content: { contains: q, mode: 'insensitive' } },
       ];
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const orderBy: any = {};
     if (opts?.sortBy) {
       orderBy[opts.sortBy] = opts.sortOrder === 'desc' ? 'desc' : 'asc';
@@ -38,6 +49,7 @@ export class TestimonialsService {
 
   async create(dto: CreateTestimonialDto) {
     return this.prisma.testimonial.create({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: sanitizeStrings(dto) as any,
     });
   }
@@ -47,6 +59,7 @@ export class TestimonialsService {
     if (!existing) throw new NotFoundException('Testimonial not found');
     return this.prisma.testimonial.update({
       where: { id },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: sanitizeStrings(dto) as any,
     });
   }
@@ -54,7 +67,10 @@ export class TestimonialsService {
   async toggleVisibility(id: string) {
     const existing = await this.prisma.testimonial.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Testimonial not found');
-    return this.prisma.testimonial.update({ where: { id }, data: { isVisible: !existing.isVisible } });
+    return this.prisma.testimonial.update({
+      where: { id },
+      data: { isVisible: !existing.isVisible },
+    });
   }
 
   async delete(id: string) {
@@ -63,8 +79,10 @@ export class TestimonialsService {
     await this.prisma.testimonial.delete({ where: { id } });
   }
 
-  async restore() {
-    throw new NotFoundException('Testimonial not found');
+  async restore(id: string) {
+    const existing = await this.prisma.testimonial.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Testimonial not found');
+    return existing;
   }
 
   async hardDelete(id: string) {
@@ -85,7 +103,8 @@ export class TestimonialsService {
       if (!existing) throw new NotFoundException(`Testimonial ${id} not found`);
       const updated = await this.prisma.testimonial.update({
         where: { id },
-        data: sanitizeStrings(data as any) as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: sanitizeStrings(data as Record<string, unknown>) as any,
       });
       results.push(updated);
     }

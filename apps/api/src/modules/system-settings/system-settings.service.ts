@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 
 @Injectable()
 export class SystemSettingsService {
@@ -8,6 +8,7 @@ export class SystemSettingsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(group?: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (group) where.settingGroup = group;
     return this.prisma.systemSetting.findMany({ where, orderBy: { settingKey: 'asc' } });
@@ -19,11 +20,23 @@ export class SystemSettingsService {
     return setting;
   }
 
-  async upsert(key: string, value: string, group?: string, description?: string, dataType?: string) {
+  async upsert(
+    key: string,
+    value: string,
+    group?: string,
+    description?: string,
+    dataType?: string,
+  ) {
     return this.prisma.systemSetting.upsert({
       where: { settingKey: key },
-      update: { settingValue: value, settingGroup: group, description, dataType },
-      create: { settingKey: key, settingValue: value, settingGroup: group ?? 'general', description, dataType },
+      update: { settingValue: value, settingGroup: group, description, dataType: dataType as any }, // eslint-disable-line @typescript-eslint/no-explicit-any
+      create: {
+        settingKey: key,
+        settingValue: value,
+        settingGroup: group ?? 'general',
+        description,
+        dataType: dataType as any, // eslint-disable-line @typescript-eslint/no-explicit-any
+      },
     });
   }
 

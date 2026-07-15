@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
-import { CacheService } from '../../common/cache/cache.service';
+import type { PrismaService } from '../../common/database/prisma.service';
+import type { CacheService } from '../../common/cache/cache.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateSkillDto, UpdateSkillDto } from './dto';
+import type { CreateSkillDto, UpdateSkillDto } from './dto';
 
 const CACHE_KEY = 'skills';
 
@@ -16,7 +16,17 @@ export class SkillsService {
     private readonly cache: CacheService,
   ) {}
 
-  async findAll(category?: string, opts?: { page?: number; perPage?: number; search?: string; sortBy?: string; sortOrder?: 'asc' | 'desc' }) {
+  async findAll(
+    category?: string,
+    opts?: {
+      page?: number;
+      perPage?: number;
+      search?: string;
+      sortBy?: string;
+      sortOrder?: 'asc' | 'desc';
+    },
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (category) where.category = category;
     if (opts?.search) {
@@ -26,7 +36,9 @@ export class SkillsService {
         { category: { contains: q, mode: 'insensitive' } },
       ];
     }
-    const orderBy: any = opts?.sortBy ? { [opts.sortBy]: opts.sortOrder || 'asc' } : { displayOrder: 'asc' };
+    const orderBy: Record<string, string> = opts?.sortBy
+      ? { [opts.sortBy]: opts.sortOrder || 'asc' }
+      : { displayOrder: 'asc' };
     return paginateQuery(
       (args) => this.prisma.skill.findMany({ where, orderBy, ...args }),
       () => this.prisma.skill.count({ where }),
@@ -44,6 +56,7 @@ export class SkillsService {
   }
 
   async create(dto: CreateSkillDto) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const skill = await this.prisma.skill.create({ data: sanitizeStrings(dto) as any });
     await this.cache.delPattern(`${CACHE_KEY}:*`);
     return skill;
@@ -52,7 +65,11 @@ export class SkillsService {
   async update(id: string, dto: UpdateSkillDto) {
     const existing = await this.prisma.skill.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Skill not found');
-    const skill = await this.prisma.skill.update({ where: { id }, data: sanitizeStrings(dto) as any });
+    const skill = await this.prisma.skill.update({
+      where: { id },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data: sanitizeStrings(dto) as any,
+    });
     await this.cache.delPattern(`${CACHE_KEY}:*`);
     return skill;
   }
@@ -60,7 +77,10 @@ export class SkillsService {
   async toggleFeatured(id: string) {
     const existing = await this.prisma.skill.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Skill not found');
-    const skill = await this.prisma.skill.update({ where: { id }, data: { isFeatured: !existing.isFeatured } });
+    const skill = await this.prisma.skill.update({
+      where: { id },
+      data: { isFeatured: !existing.isFeatured },
+    });
     await this.cache.delPattern(`${CACHE_KEY}:*`);
     return skill;
   }
@@ -78,11 +98,14 @@ export class SkillsService {
     return { deleted: result.count, failed: ids.length - result.count };
   }
 
-  async bulkUpdate(ids: string[], data: Record<string, any>) {
+  async bulkUpdate(ids: string[], data: Record<string, unknown>) {
     const sanitized = sanitizeStrings(data);
     const result = await Promise.all(
       ids.map(async (id) => {
-        const updated = await this.prisma.skill.update({ where: { id }, data: sanitized as any }).catch(() => null);
+        const updated = await this.prisma.skill
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .update({ where: { id }, data: sanitized as any })
+          .catch(() => null);
         if (!updated) throw new NotFoundException(`Skill ${id} not found`);
         return updated;
       }),

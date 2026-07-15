@@ -6,4 +6,3 @@ import { SkillsService } from './skills.service';
   exports: [SkillsService],
 })
 export class SkillsModule {}
-
