@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Maximize2, Minimize2 } from 'lucide-react';
 import { useChatStream } from '@/hooks/useChatStream';
@@ -32,10 +33,10 @@ export function ChatPanel() {
   }
 
   return (
-    <div 
+    <div
       className={`fixed z-50 flex flex-col bg-surface-primary border border-border-primary shadow-2xl transition-all duration-300 ${
-        isExpanded 
-          ? 'inset-4 md:inset-10 rounded-2xl' 
+        isExpanded
+          ? 'inset-4 md:inset-10 rounded-2xl'
           : 'bottom-6 right-6 w-[380px] h-[600px] max-h-[calc(100vh-48px)] max-w-[calc(100vw-48px)] rounded-2xl'
       }`}
     >
@@ -53,13 +54,13 @@ export function ChatPanel() {
           </div>
         </div>
         <div className="flex items-center gap-1">
-          <button 
+          <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="p-1.5 text-text-tertiary hover:text-text-primary hover:bg-surface-elevated rounded-lg transition-colors hidden md:block"
           >
             {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
-          <button 
+          <button
             onClick={() => setIsOpen(false)}
             className="p-1.5 text-text-tertiary hover:text-text-primary hover:bg-surface-elevated rounded-lg transition-colors"
           >
@@ -77,12 +78,14 @@ export function ChatPanel() {
             </div>
             <div>
               <p className="text-text-primary font-medium">How can I help you?</p>
-              <p className="text-text-tertiary text-sm max-w-[250px] mt-1">Ask me anything about my portfolio, experience, or projects.</p>
+              <p className="text-text-tertiary text-sm max-w-[250px] mt-1">
+                Ask me anything about my portfolio, experience, or projects.
+              </p>
             </div>
           </div>
         ) : (
           <div className="flex flex-col">
-            {messages.map(msg => (
+            {messages.map((msg) => (
               <ChatMessage key={msg.id} message={msg} />
             ))}
             {isTyping && (
@@ -102,13 +105,10 @@ export function ChatPanel() {
 
       {/* Input */}
       <div className="rounded-b-2xl overflow-hidden">
-        <ChatInput 
-          onSend={sendMessage} 
-          disabled={isTyping} 
-        />
+        <ChatInput onSend={sendMessage} disabled={isTyping} />
         {isTyping && (
           <div className="px-4 py-2 bg-surface-secondary border-t border-border-primary flex justify-center">
-            <button 
+            <button
               onClick={stopGeneration}
               className="text-[10px] uppercase tracking-wider font-medium text-text-tertiary hover:text-text-primary px-3 py-1 rounded-full bg-surface-elevated border border-border-primary transition-colors"
             >

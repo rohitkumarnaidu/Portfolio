@@ -24,7 +24,7 @@ export function ChatInput({ onSend, disabled, maxLength = 500 }: ChatInputProps)
       handleSend();
     }
   };
-  
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -56,9 +56,15 @@ export function ChatInput({ onSend, disabled, maxLength = 500 }: ChatInputProps)
       </div>
       <div className="flex justify-between items-center px-2">
         <span className="text-[10px] text-text-tertiary">
-          Press <kbd className="font-sans px-1 py-0.5 rounded bg-surface-elevated border border-border-primary">Enter</kbd> to send
+          Press{' '}
+          <kbd className="font-sans px-1 py-0.5 rounded bg-surface-elevated border border-border-primary">
+            Enter
+          </kbd>{' '}
+          to send
         </span>
-        <span className={`text-[10px] ${input.length >= maxLength ? 'text-semantic-error' : 'text-text-tertiary'}`}>
+        <span
+          className={`text-[10px] ${input.length >= maxLength ? 'text-semantic-error' : 'text-text-tertiary'}`}
+        >
           {input.length}/{maxLength}
         </span>
       </div>
