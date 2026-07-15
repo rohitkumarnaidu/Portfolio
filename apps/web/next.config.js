@@ -2,6 +2,8 @@
 
 const nextConfig = {
   output: 'standalone',
+  poweredByHeader: false,
+  reactStrictMode: true,
   experimental: {
     optimizePackageImports: ['@portfolio/ui', '@portfolio/shared', 'three', 'motion', 'gsap'],
   },
