@@ -66,12 +66,12 @@ function mapExperience(exp: Experience): ExperienceItem {
     id: exp.id,
     role: exp.role,
     company: exp.company,
-    companyUrl: exp.company_url,
-    location: exp.location,
-    startDate: exp.start_date,
-    endDate: exp.end_date,
-    description: exp.description,
-    achievements: exp.achievements,
+    companyUrl: exp.companyUrl,
+    location: exp.location ?? '',
+    startDate: exp.startDate,
+    endDate: exp.endDate ?? 'Present',
+    description: exp.description ?? '',
+    achievements: [],
     technologies: exp.technologies,
   };
 }
@@ -81,9 +81,7 @@ function mapExperience(exp: Experience): ExperienceItem {
 function TimelineNode({ isFirst }: { isFirst: boolean }) {
   return (
     <div className="relative flex flex-col items-center" aria-hidden="true">
-      {!isFirst && (
-        <div className="w-px h-8 bg-border-primary" />
-      )}
+      {!isFirst && <div className="w-px h-8 bg-border-primary" />}
       <div className="w-3 h-3 rounded-full bg-accent-500 ring-4 ring-accent-500/20 shrink-0" />
       <div className="w-px flex-1 bg-border-primary" />
     </div>
@@ -140,7 +138,9 @@ function ExperienceCard({
               ) : (
                 item.company
               )}
-              <span className="mx-2 text-text-tertiary" aria-hidden="true">·</span>
+              <span className="mx-2 text-text-tertiary" aria-hidden="true">
+                ·
+              </span>
               <span className="text-text-tertiary">{item.location}</span>
             </p>
           </div>
@@ -153,16 +153,11 @@ function ExperienceCard({
           </time>
         </div>
 
-        <p className="text-body text-text-secondary mb-4">
-          {item.description}
-        </p>
+        <p className="text-body text-text-secondary mb-4">{item.description}</p>
 
         <ul className="space-y-2 mb-6" aria-label={`Key achievements at ${item.company}`}>
           {item.achievements.map((achievement, i) => (
-            <li
-              key={i}
-              className="flex items-start gap-3 text-body-sm text-text-secondary"
-            >
+            <li key={i} className="flex items-start gap-3 text-body-sm text-text-secondary">
               <svg
                 className="w-4 h-4 text-semantic-success shrink-0 mt-0.5"
                 fill="none"
@@ -233,8 +228,11 @@ export function Experience({ data }: { data?: Section }) {
   return (
     <SectionWrapper
       id={SECTION_IDS.EXPERIENCE}
-      heading={content.title || "Building products that scale"}
-      subtitle={content.subtitle || "Over 8 years of professional experience building web applications for startups, agencies, and enterprise clients."}
+      heading={content.title || 'Building products that scale'}
+      subtitle={
+        content.subtitle ||
+        'Over 8 years of professional experience building web applications for startups, agencies, and enterprise clients.'
+      }
       animate={false}
     >
       <div ref={ref}>
@@ -252,9 +250,7 @@ export function Experience({ data }: { data?: Section }) {
             ))
           ) : items.length === 0 ? (
             <li>
-              <p className="text-center text-text-secondary py-12">
-                No experience entries yet.
-              </p>
+              <p className="text-center text-text-secondary py-12">No experience entries yet.</p>
             </li>
           ) : (
             items.map((item, index) => (

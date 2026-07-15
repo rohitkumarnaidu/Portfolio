@@ -66,9 +66,7 @@ function BlogCard({
         {/* Meta */}
         <div className="flex items-center gap-3 mb-3">
           <CategoryBadge category={post.category} />
-          <span className="text-caption text-text-tertiary">
-            {post.readTime} min read
-          </span>
+          <span className="text-caption text-text-tertiary">{post.readTime} min read</span>
         </div>
 
         {/* Title */}
@@ -79,15 +77,10 @@ function BlogCard({
         </h3>
 
         {/* Excerpt */}
-        <p className="text-body-sm text-text-secondary mb-4 line-clamp-2">
-          {post.excerpt}
-        </p>
+        <p className="text-body-sm text-text-secondary mb-4 line-clamp-2">{post.excerpt}</p>
 
         {/* Date */}
-        <time
-          dateTime={post.publishedAt}
-          className="text-caption text-text-tertiary"
-        >
+        <time dateTime={post.publishedAt} className="text-caption text-text-tertiary">
           {formatDate(post.publishedAt)}
         </time>
       </div>
@@ -114,25 +107,25 @@ export function BlogPreview({ data }: { data?: Section }) {
         id: post.id,
         slug: post.slug,
         title: post.title,
-        excerpt: post.excerpt,
-        category: post.category,
-        readTime: post.read_time,
-        publishedAt: post.published_at ?? post.created_at,
+        excerpt: post.excerpt ?? '',
+        category: post.category ?? '',
+        readTime: post.readTimeMinutes,
+        publishedAt: post.publishedAt ?? post.createdAt,
         tags: post.tags,
       }))
     : [];
 
   if (isLoading) {
     return (
-      <SectionWrapper
-        id={SECTION_IDS.BLOG}
-        animate={false}
-      >
+      <SectionWrapper id={SECTION_IDS.BLOG} animate={false}>
         <div className="animate-pulse">
           <div className="h-8 w-48 bg-surface-elevated rounded-lg mb-12" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-2xl bg-surface-secondary border border-border-primary overflow-hidden">
+              <div
+                key={i}
+                className="rounded-2xl bg-surface-secondary border border-border-primary overflow-hidden"
+              >
                 <div className="h-48 bg-surface-elevated" />
                 <div className="p-6 space-y-3">
                   <div className="flex gap-3">
@@ -152,10 +145,7 @@ export function BlogPreview({ data }: { data?: Section }) {
   }
 
   return (
-    <SectionWrapper
-      id={SECTION_IDS.BLOG}
-      animate={false}
-    >
+    <SectionWrapper id={SECTION_IDS.BLOG} animate={false}>
       <div ref={ref}>
         {/* Section Header */}
         <div
@@ -174,7 +164,8 @@ export function BlogPreview({ data }: { data?: Section }) {
               {content.title || 'Latest thoughts'}
             </h2>
             <p className="text-body-lg text-text-secondary text-pretty">
-              {content.subtitle || 'Writing about web development, performance, accessibility, and engineering culture.'}
+              {content.subtitle ||
+                'Writing about web development, performance, accessibility, and engineering culture.'}
             </p>
           </div>
 
@@ -206,8 +197,18 @@ export function BlogPreview({ data }: { data?: Section }) {
         ) : (
           <div className="text-center py-16">
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-surface-elevated flex items-center justify-center">
-              <svg className="w-8 h-8 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+              <svg
+                className="w-8 h-8 text-text-tertiary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                />
               </svg>
             </div>
             <p className="text-body text-text-secondary">No blog posts yet.</p>
