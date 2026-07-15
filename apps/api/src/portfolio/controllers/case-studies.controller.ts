@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { CaseStudiesService } from '../../modules/case-studies/case-studies.service';
+import type { CaseStudiesService } from '../../modules/case-studies/case-studies.service';
 
 @ApiTags('Portfolio - Case Studies')
 @Controller('portfolio/case-studies')

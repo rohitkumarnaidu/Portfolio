@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { AchievementsService } from '../../modules/achievements/achievements.service';
+import type { AchievementsService } from '../../modules/achievements/achievements.service';
 
 @ApiTags('Portfolio - Achievements')
 @Controller('portfolio/achievements')
