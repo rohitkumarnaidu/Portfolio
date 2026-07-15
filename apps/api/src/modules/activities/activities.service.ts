@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { paginateQuery } from '../../common/database/pagination.helper';
 
 @Injectable()
@@ -8,25 +8,40 @@ export class ActivitiesService {
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async log(action: string, resource: string, userId: string, resourceId?: string, metadata?: Record<string, unknown>) {
+  async log(
+    action: string,
+    resource: string,
+    userId: string,
+    resourceId?: string,
+    metadata?: Record<string, unknown>,
+  ) {
     return this.prisma.adminActivity.create({
       data: {
         action,
         resourceType: resource,
         resourceId,
         adminId: userId,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         details: (metadata || {}) as any,
       },
     });
   }
 
-  async findAll(opts?: { action?: string; resource?: string; userId?: string; page?: number; perPage?: number }) {
+  async findAll(opts?: {
+    action?: string;
+    resource?: string;
+    userId?: string;
+    page?: number;
+    perPage?: number;
+  }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (opts?.action) where.action = opts.action;
     if (opts?.resource) where.resourceType = opts.resource;
     if (opts?.userId) where.adminId = opts.userId;
     return paginateQuery(
-      (args) => this.prisma.adminActivity.findMany({ where, orderBy: { createdAt: 'desc' }, ...args }),
+      (args) =>
+        this.prisma.adminActivity.findMany({ where, orderBy: { createdAt: 'desc' }, ...args }),
       () => this.prisma.adminActivity.count({ where }),
       { page: opts?.page, perPage: opts?.perPage },
     );
@@ -44,8 +59,10 @@ export class ActivitiesService {
     await this.prisma.adminActivity.delete({ where: { id } });
   }
 
-  restore(_id: string) {
-    throw new NotFoundException('Activity not found');
+  async restore(id: string) {
+    const existing = await this.prisma.adminActivity.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Activity not found');
+    return existing;
   }
 
   async hardDelete(id: string) {
@@ -65,9 +82,10 @@ export class ActivitiesService {
     const byResource: Record<string, number> = {};
     for (const item of items) {
       byAction[item.action] = (byAction[item.action] || 0) + 1;
-      byResource[item.resourceType || 'unknown'] = (byResource[item.resourceType || 'unknown'] || 0) + 1;
+      byResource[item.resourceType || 'unknown'] =
+        (byResource[item.resourceType || 'unknown'] || 0) + 1;
     }
-    return { total: items.length, by_action: byAction, by_resource: byResource };
+    return { total: items.length, byAction, byResource };
   }
 
   async getCsvData() {

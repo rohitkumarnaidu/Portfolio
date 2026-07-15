@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { paginateQuery } from '../../common/database/pagination.helper';
 import * as crypto from 'crypto';
 
