@@ -284,5 +284,6 @@ async function AdminProjectsPage() {
 This pattern is available but not yet implemented Ã¢â‚¬â€ current admin pages use client-side fetching with loading states.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -15,6 +15,7 @@ Every layer has a single, well-defined responsibility.
 **AI Service (FastAPI):** Isolated Python microservice at `apps/ai/` for compute-heavy AI workloads (RAG, embeddings, LLM streaming). Never touches the database directly Ã¢â‚¬â€ communicates with NestJS via REST.
 
 **Example:** A Projects module has three homes:
+
 - `apps/api/src/modules/projects/projects.service.ts` Ã¢â‚¬â€ business logic
 - `apps/api/src/portfolio/controllers/projects.controller.ts` Ã¢â‚¬â€ public read-only delivery
 - `apps/api/src/admin/controllers/projects.controller.ts` Ã¢â‚¬â€ authenticated CRUD
@@ -34,6 +35,7 @@ High-level modules depend on abstractions, not concrete implementations.
 A class or module should have one reason to change.
 
 **Three-Layer API Pattern:**
+
 - `modules/<entity>/` Ã¢â‚¬â€ business logic. Changes when business rules change.
 - `portfolio/controllers/<entity>.controller.ts` Ã¢â‚¬â€ public delivery. Changes when API contract changes.
 - `admin/controllers/<entity>.controller.ts` Ã¢â‚¬â€ admin delivery. Changes when auth/audit requirements change.
@@ -99,12 +101,14 @@ Build only what's needed now, not what might be needed later.
 Sensible defaults reduce decision fatigue.
 
 **Naming Conventions:**
+
 - Portfolio controllers: `apps/api/src/portfolio/controllers/<entity>.controller.ts`
 - Admin controllers: `apps/api/src/admin/controllers/<entity>.controller.ts`
 - React Query hooks: `apps/web/src/lib/hooks/use<Entity>.ts`
 - API functions: `apps/web/src/lib/api.ts` Ã¢â‚¬â€ `get<Entity>`, `create<Entity>`, `update<Entity>`, `delete<Entity>`
 
 **Admin CRUD Pattern:** Every admin controller follows the same decorator pattern:
+
 ```typescript
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
@@ -117,5 +121,6 @@ Sensible defaults reduce decision fatigue.
 **Response Envelope:** Every endpoint returns `{ data, meta? }`. Consistency means the frontend's `request<T>()` function unwraps identically for every call at `apps/web/src/lib/api.ts:84`.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

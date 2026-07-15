@@ -99,15 +99,15 @@ apps/web/src/app/
 
 ### 1.2 Rendering Strategy by Route
 
-| Route Type | Strategy | Rationale |
-|-----------|----------|-----------|
-| Public listing pages (projects, blog) | ISR | Content changes infrequently; CDN serve. TTL: 60s projects, 300s blog |
-| Public detail pages ([slug]) | ISR + generateStaticParams | Pre-render all known slugs at build, revalidate per-TTL |
-| Homepage | ISR 60s | Section data revalidates every 60 seconds |
-| Contact form | Dynamic (CSR) | Client-side validation + form interaction |
-| AI Assistant | Dynamic (CSR) | Real-time SSE streaming responses |
-| Admin pages | SSR + Client data fetch | Session check on every request; dashboard data via React Query |
-| 404 / error pages | Static | Pre-built fallback pages |
+| Route Type                            | Strategy                   | Rationale                                                             |
+| ------------------------------------- | -------------------------- | --------------------------------------------------------------------- |
+| Public listing pages (projects, blog) | ISR                        | Content changes infrequently; CDN serve. TTL: 60s projects, 300s blog |
+| Public detail pages ([slug])          | ISR + generateStaticParams | Pre-render all known slugs at build, revalidate per-TTL               |
+| Homepage                              | ISR 60s                    | Section data revalidates every 60 seconds                             |
+| Contact form                          | Dynamic (CSR)              | Client-side validation + form interaction                             |
+| AI Assistant                          | Dynamic (CSR)              | Real-time SSE streaming responses                                     |
+| Admin pages                           | SSR + Client data fetch    | Session check on every request; dashboard data via React Query        |
+| 404 / error pages                     | Static                     | Pre-built fallback pages                                              |
 
 ### 1.3 Layout Hierarchy
 
@@ -158,6 +158,7 @@ All API routes are prefixed with `/api` (set at `apps/api/src/main.ts:67`).
 ### 2.2 Two Controller Layers
 
 **Portfolio Layer** (public, read-only):
+
 ```
 @Controller('portfolio/<entity>')
 /api/portfolio/sections         GET
@@ -175,6 +176,7 @@ All API routes are prefixed with `/api` (set at `apps/api/src/main.ts:67`).
 ```
 
 **Admin Layer** (authenticated CRUD):
+
 ```
 @Controller('admin/<entity>')
 /api/admin/auth/login           POST
@@ -224,12 +226,12 @@ export class AdminProjectsController {
 
 ### 2.4 Role-Based Access
 
-| Role | Admin GET | Admin POST/PATCH | Admin DELETE | Portfolio |
-|------|-----------|-------------------|--------------|-----------|
-| admin | All | All | All | N/A |
-| editor | All | All | None | N/A |
-| viewer | All | None | None | N/A |
-| public | N/A | N/A | N/A | All |
+| Role   | Admin GET | Admin POST/PATCH | Admin DELETE | Portfolio |
+| ------ | --------- | ---------------- | ------------ | --------- |
+| admin  | All       | All              | All          | N/A       |
+| editor | All       | All              | None         | N/A       |
+| viewer | All       | None             | None         | N/A       |
+| public | N/A       | N/A              | N/A          | All       |
 
 Roles enforced via `@Roles('admin', 'editor', 'viewer')` decorator on each route. Implemented in `RolesGuard` at `apps/api/src/modules/auth/`.
 
@@ -257,6 +259,7 @@ Request
 ### 3.1 [slug] Pattern
 
 Detail pages use `[slug]` dynamic segments:
+
 - `/projects/[slug]` Ã¢â‚¬â€ Project slug from database
 - `/blog/[slug]` Ã¢â‚¬â€ Blog post slug
 - `/case-studies/[slug]` Ã¢â‚¬â€ Case study slug
@@ -266,6 +269,7 @@ All use `generateStaticParams()` to pre-render known slugs at build time. ISR re
 ### 3.2 Query Parameters for Filtering
 
 List pages accept query parameters passed through to the API:
+
 ```
 /projects?category=web-app&tech=react&featured=true&page=1&per_page=12
 /blog?category=backend&search=nestjs&sort=published_at&order=desc
@@ -280,8 +284,8 @@ Parameters are forwarded to the NestJS API via the typed client in `apps/web/src
 
 Next.js API routes exist at `apps/web/src/app/api/`:
 
-| Route | Purpose | Method |
-|-------|---------|--------|
+| Route             | Purpose                   | Method                 |
+| ----------------- | ------------------------- | ---------------------- |
 | `/api/revalidate` | On-demand ISR cache purge | POST (secret key auth) |
 
 These route handlers call the NestJS API and revalidate ISR caches after content mutations.
@@ -293,6 +297,7 @@ These route handlers call the NestJS API and revalidate ISR caches after content
 ### 5.1 Server-Side (Next.js Middleware)
 
 A future `middleware.ts` at `apps/web/src/middleware.ts` will:
+
 - Check JWT token presence for `/admin/*` routes (except `/admin/login`)
 - Redirect unauthenticated users to `/admin/login`
 - Set security headers (CSP, COOP, COEP for Sandbox isolation)
@@ -306,5 +311,6 @@ On the client, `AuthContext` wraps admin pages. The `useAuth` hook (`apps/web/sr
 The NestJS API enforces its own auth via `JwtAuthGuard` and `RolesGuard`. Even if a client-side check is bypassed, the API will reject unauthorized requests with 401 or 403.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

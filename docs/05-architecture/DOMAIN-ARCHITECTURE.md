@@ -47,6 +47,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Serve read-only portfolio content to visitors at high throughput with low latency. No authentication.
 
 **Entities:**
+
 - **Section** Ã¢â‚¬â€ Homepage sections (Hero, About, Skills, Experience, Featured Projects, Testimonials, Blog Preview, Services, FAQ, Contact). Has `type`, `is_live`, `sort_order`. Controlled by `SectionsService`.
 - **Project** Ã¢â‚¬â€ Portfolio piece with rich metadata, 3D asset references, Markdown content, tech stack tags, categories. Exposed at `/api/portfolio/projects`.
 - **Experience** Ã¢â‚¬â€ Work history timeline entries with `company`, `role`, `start_date`, `end_date`, `description`.
@@ -63,6 +64,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 | Featured | A project flagged for priority display on the homepage |
 
 **Key Files:**
+
 - Controllers: `apps/api/src/portfolio/controllers/*.ts` (18 controllers)
 - Module: `apps/api/src/portfolio/portfolio.module.ts`
 
@@ -73,6 +75,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Enable the portfolio owner and editors to manage all content through a dashboard UI. Full CRUD with audit trail and role-based access.
 
 **Entities (Portfolio entities + Admin-specific):**
+
 - **User** Ã¢â‚¬â€ Admin user with `email`, `display_name`, `role` (`admin`/`editor`/`viewer`).
 - **Activity** Ã¢â‚¬â€ Audit log entry recording who did what to which resource. Managed via `@Audit()` decorator at `apps/api/src/common/decorators/audit.decorator.ts`.
 - **Media** Ã¢â‚¬â€ Uploaded files (images, 3D models) stored in Supabase Storage.
@@ -90,6 +93,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 | Hard-delete | Permanently removing a record from the database |
 
 **Key Files:**
+
 - Controllers: `apps/api/src/admin/controllers/*.ts` (28 controllers)
 - Module: `apps/api/src/admin/admin.module.ts`
 - Guards: `apps/api/src/modules/auth/`
@@ -101,6 +105,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Provide LLM-powered chat, content analysis, and suggestion features. This context is physically separated from the NestJS API (FastAPI microservice at `apps/ai/`).
 
 **Entities:**
+
 - **Conversation** Ã¢â‚¬â€ A chat session between a user and the AI assistant.
 - **Message** Ã¢â‚¬â€ Individual message within a conversation (user or assistant).
 - **DocumentChunk** Ã¢â‚¬â€ Vectorized text chunk from Projects, Experiences, and BlogPosts for RAG retrieval.
@@ -115,6 +120,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 | SSE | Server-Sent Events Ã¢â‚¬â€ used to stream AI responses to the browser |
 
 **Key Files:**
+
 - FastAPI routes: `apps/ai/app/main.py`
 - Chat module (NestJS side): `apps/api/src/modules/chat/`
 
@@ -125,6 +131,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 **Purpose:** Capture and report usage events from both public and admin surfaces.
 
 **Entities:**
+
 - **AnalyticsEvent** Ã¢â‚¬â€ A tracked event with `event_type`, `payload`, `timestamp`, `session_id`.
 - **Aggregate** Ã¢â‚¬â€ Pre-computed summary metrics for dashboard display.
 
@@ -136,6 +143,7 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 | Page view | An event recording that a page was loaded |
 
 **Key Files:**
+
 - Controllers: `apps/api/src/portfolio/controllers/analytics.controller.ts`, `apps/api/src/admin/controllers/analytics.controller.ts`
 - Service: `apps/api/src/modules/analytics/analytics.service.ts`
 
@@ -143,27 +151,28 @@ Defines the bounded contexts, ubiquitous language, and DDD patterns for the Ulti
 
 ## Context Map & Relationships
 
-| Source Context | Target Context | Relationship Type | Mechanism |
-|---------------|---------------|-------------------|-----------|
-| Portfolio | Shared Modules | Strong dependency | Imports service, calls methods |
-| Admin | Shared Modules | Strong dependency | Imports service, calls methods |
-| Shared Modules | Database (Supabase/PostgreSQL) | Infrastructure | PrismaService via PrismaClient |
-| AI (FastAPI) | Shared Modules | REST communication | NestJS calls FastAPI endpoints |
-| AI (FastAPI) | Database (pgvector) | Infrastructure | Direct pgvector queries |
-| Analytics | Database | Infrastructure | Writes events via PrismaService |
+| Source Context | Target Context                 | Relationship Type  | Mechanism                       |
+| -------------- | ------------------------------ | ------------------ | ------------------------------- |
+| Portfolio      | Shared Modules                 | Strong dependency  | Imports service, calls methods  |
+| Admin          | Shared Modules                 | Strong dependency  | Imports service, calls methods  |
+| Shared Modules | Database (Supabase/PostgreSQL) | Infrastructure     | PrismaService via PrismaClient  |
+| AI (FastAPI)   | Shared Modules                 | REST communication | NestJS calls FastAPI endpoints  |
+| AI (FastAPI)   | Database (pgvector)            | Infrastructure     | Direct pgvector queries         |
+| Analytics      | Database                       | Infrastructure     | Writes events via PrismaService |
 
 ## Domain Events
 
 The system uses NestJS event emitters for key domain events:
 
-| Event | Emitter | Subscribers |
-|-------|---------|-------------|
-| `lead.created` | LeadsService | NotificationsModule (creates admin notification), Queue (sends auto-reply email) |
-| `project.published` | ProjectsService | BlogModule (cross-link), AI service (re-index chunks) |
-| `blog.published` | BlogService | Sitemap regeneration trigger |
+| Event               | Emitter         | Subscribers                                                                      |
+| ------------------- | --------------- | -------------------------------------------------------------------------------- |
+| `lead.created`      | LeadsService    | NotificationsModule (creates admin notification), Queue (sends auto-reply email) |
+| `project.published` | ProjectsService | BlogModule (cross-link), AI service (re-index chunks)                            |
+| `blog.published`    | BlogService     | Sitemap regeneration trigger                                                     |
 
 Events are emitted synchronously within the NestJS request lifecycle using `@nestjs/event-emitter`. Heavy side effects (email sending, AI re-indexing) are enqueued in BullMQ for async processing.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

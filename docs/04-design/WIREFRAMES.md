@@ -16,17 +16,17 @@ Wireframes are maintained in **Pencil .pen files** (not Markdown). This document
 
 ## 2. Design File Index
 
-| File               | Path                         | Contents                                                                             | Last Updated |
-| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------ | ------------ |
-| Main Wireframes    | `docs/design/wireframes.pen` | All public screens, admin screens, flows, mobile variants                            | v2.0         |
-| Components Library | `docs/design/components.pen` | Reusable components with all states (default, hover, active, disabled, focus, error) | v2.0         |
-| Design Tokens      | `docs/design/tokens.pen`     | Color swatches, type scale reference, spacing grid, shadow samples                   | v2.0         |
-| User Flows         | `docs/design/flows.pen`      | Flow diagrams with branching annotations, decision points, edge cases                | v2.0         |
+| File               | Path                            | Contents                                                                             | Last Updated |
+| ------------------ | ------------------------------- | ------------------------------------------------------------------------------------ | ------------ |
+| Main Wireframes    | `docs/04-design/wireframes.pen` | All public screens, admin screens, flows, mobile variants                            | v2.0         |
+| Components Library | `docs/04-design/components.pen` | Reusable components with all states (default, hover, active, disabled, focus, error) | v2.0         |
+| Design Tokens      | `docs/04-design/tokens.pen`     | Color swatches, type scale reference, spacing grid, shadow samples                   | v2.0         |
+| User Flows         | `docs/04-design/flows.pen`      | Flow diagrams with branching annotations, decision points, edge cases                | v2.0         |
 
 **To open any file:** Use Pencil MCP:
 
 ```js
-open_document({ path: 'docs/design/wireframes.pen' });
+open_document({ path: 'docs/04-design/wireframes.pen' });
 ```
 
 ## 3. Wireframed Screens
@@ -87,28 +87,28 @@ graph TD
 
 ### User Flows (in `flows.pen`)
 
-| Flow              | Start Ã¢â€ â€™ Key Steps Ã¢â€ â€™ End                                       | Edge Cases                                          |
-| ----------------- | ------------------------------------------------------------- | --------------------------------------------------- |
+| Flow              | Start Ã¢â€ â€™ Key Steps Ã¢â€ â€™ End                                                     | Edge Cases                                          |
+| ----------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------- |
 | Project Browse    | Home Ã¢â€ â€™ Projects Grid Ã¢â€ â€™ Filter Ã¢â€ â€™ Detail Ã¢â€ â€™ Back                 | Empty filter results, slow image load               |
 | Blog Read         | Blog Listing Ã¢â€ â€™ Search Ã¢â€ â€™ Post Ã¢â€ â€™ Share Ã¢â€ â€™ Back                   | No results, long post with many code blocks         |
 | Contact Submit    | Any page Ã¢â€ â€™ Contact Form Ã¢â€ â€™ Validation Ã¢â€ â€™ Submit Ã¢â€ â€™ Success toast | Network error, invalid email, spam prevention       |
 | Admin Login       | Login page Ã¢â€ â€™ OAuth Ã¢â€ â€™ Dashboard Ã¢â€ â€™ Edit Project Ã¢â€ â€™ Save          | Expired session, permission denied, concurrent edit |
 | AI Chat           | Any page Ã¢â€ â€™ Chat FAB Ã¢â€ â€™ Type message Ã¢â€ â€™ AI response Ã¢â€ â€™ Dismiss    | Offline, slow response, message send failure        |
-| User Registration | Admin invite Ã¢â€ â€™ Sign up Ã¢â€ â€™ Create profile Ã¢â€ â€™ First login         | Expired invite, duplicate email, weak password      |
+| User Registration | Admin invite Ã¢â€ â€™ Sign up Ã¢â€ â€™ Create profile Ã¢â€ â€™ First login                | Expired invite, duplicate email, weak password      |
 
 ## 4. Wireframe Conventions
 
-| Convention              | Visual Spec                                                  | Meaning                                              |
-| ----------------------- | ------------------------------------------------------------ | ---------------------------------------------------- |
-| Screen boundary         | 1px solid blue `#3b82f6` rectangle                           | Viewport boundary for this screen                    |
-| Interaction zone        | 1px dashed violet `#8b5cf6` border                           | Tappable/clickable area with defined behavior        |
-| Image/video placeholder | Gray `#9ca3af` fill at full opacity, aspect ratio maintained | Space reserved for dynamic media content             |
-| Annotation              | Amber `#f59e0b` text, 10px font size                         | Behavior notes, design rationale, or developer notes |
-| Flow arrow              | Solid `#3b82f6` line, 1.5px stroke, arrowhead                | Navigation path between screens                      |
-| State label             | `[State: Empty]` Ã¢â‚¬â€ bracket notation in bold                  | Indicates an alternative visual state                |
-| Device indicator        | Device icon + label (e.g., "Ã°Å¸â€œÂ± Mobile") top-right corner     | Which viewport variant this screen represents        |
-| Component ref           | `ref: Button/Primary` in blue italic                         | Reference to a component in the components library   |
-| Decision point          | Diamond shape, dashed orange `#f59e0b`                       | Conditional branch in user flow diagram              |
+| Convention              | Visual Spec                                                     | Meaning                                              |
+| ----------------------- | --------------------------------------------------------------- | ---------------------------------------------------- |
+| Screen boundary         | 1px solid blue `#3b82f6` rectangle                              | Viewport boundary for this screen                    |
+| Interaction zone        | 1px dashed violet `#8b5cf6` border                              | Tappable/clickable area with defined behavior        |
+| Image/video placeholder | Gray `#9ca3af` fill at full opacity, aspect ratio maintained    | Space reserved for dynamic media content             |
+| Annotation              | Amber `#f59e0b` text, 10px font size                            | Behavior notes, design rationale, or developer notes |
+| Flow arrow              | Solid `#3b82f6` line, 1.5px stroke, arrowhead                   | Navigation path between screens                      |
+| State label             | `[State: Empty]` Ã¢â‚¬â€ bracket notation in bold               | Indicates an alternative visual state                |
+| Device indicator        | Device icon + label (e.g., "Ã°Å¸â€œÂ± Mobile") top-right corner | Which viewport variant this screen represents        |
+| Component ref           | `ref: Button/Primary` in blue italic                            | Reference to a component in the components library   |
+| Decision point          | Diamond shape, dashed orange `#f59e0b`                          | Conditional branch in user flow diagram              |
 
 **Annotation examples:**
 
@@ -117,13 +117,13 @@ graph TD
 - "Hides on mobile, replaced by bottom sheet filter"
 - "Entrance: fade + slide up, stagger 80ms per card"
 
-**Versioning:** Each screen labeled `v1.2` top-left corner. Major version bump = layout change, minor = spacing/content refinement. Full changelog maintained in `docs/design/wireframes-changelog.md`.
+**Versioning:** Each screen labeled `v1.2` top-left corner. Major version bump = layout change, minor = spacing/content refinement. Full changelog maintained in `docs/04-design/wireframes-changelog.md`.
 
 ## 5. How to Access Latest Wireframes
 
 1. **Open** `wireframes.pen` via Pencil MCP:
    ```js
-   open_document({ path: 'docs/design/wireframes.pen' });
+   open_document({ path: 'docs/04-design/wireframes.pen' });
    ```
 2. **Navigate** using the layer panel in the editor or search by section name (e.g., `admin/projects`)
 3. **Review** screen structure via `snapshot_layout` and visual fidelity via `get_screenshot`
@@ -142,5 +142,6 @@ graph TD
 - [ ] Check `wireframes-changelog.md` for latest revisions
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

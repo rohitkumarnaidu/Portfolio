@@ -4,14 +4,14 @@
 
 ## 1. Breakpoint System
 
-| Breakpoint | Width   | Device        | What Changes                                   |
-| ---------- | ------- | ------------- | ---------------------------------------------- |
+| Breakpoint | Width          | Device        | What Changes                                   |
+| ---------- | -------------- | ------------- | ---------------------------------------------- |
 | `xs`       | 0Ã¢â‚¬â€œ639px | Phone         | Single-column, bottom nav, no 3D               |
-| `sm`       | 640px+  | Large phone   | Larger type, increased padding                 |
-| `md`       | 768px+  | Tablet        | 2-column grids, hamburger menu, reduced 3D     |
-| `lg`       | 1024px+ | Laptop        | Sidebar docks, 3D hero activates, multi-column |
-| `xl`       | 1280px+ | Desktop       | Full expanded layout, sticky sidebars          |
-| `2xl`      | 1536px+ | Large monitor | Content capped at 1440px, centered             |
+| `sm`       | 640px+         | Large phone   | Larger type, increased padding                 |
+| `md`       | 768px+         | Tablet        | 2-column grids, hamburger menu, reduced 3D     |
+| `lg`       | 1024px+        | Laptop        | Sidebar docks, 3D hero activates, multi-column |
+| `xl`       | 1280px+        | Desktop       | Full expanded layout, sticky sidebars          |
+| `2xl`      | 1536px+        | Large monitor | Content capped at 1440px, centered             |
 
 **Principle:** Each breakpoint re-structures layout (column count, navigation, component arrangement) Ã¢â‚¬â€ not just spacing.
 
@@ -21,7 +21,7 @@
 
 | Property        | xs             | md             | xl             |
 | --------------- | -------------- | -------------- | -------------- |
-| Columns         | 1              | 2              | 3Ã¢â‚¬â€œ4            |
+| Columns         | 1              | 2              | 3Ã¢â‚¬â€œ4     |
 | Gap             | 16px (`gap-4`) | 24px (`gap-6`) | 24px (`gap-6`) |
 | H padding       | `px-4` (16px)  | `px-8` (32px)  | `px-16` (64px) |
 | Section spacing | `py-12`        | `py-16`        | `py-24`        |
@@ -67,17 +67,17 @@ sizes = '(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw';
 
 ## 5. Component-Level Responsive Patterns
 
-| Component    | Mobile (< 768px)           | Desktop (Ã¢â€°Â¥ 1024px)           |
-| ------------ | -------------------------- | ---------------------------- |
-| Project Card | Stacked (image above text) | Side-by-side                 |
-| Feature Grid | Single column, centered    | Multi-column (`grid-cols-3`) |
-| Navigation   | Bottom bar + hamburger     | Docked sidebar               |
-| Hero         | 60vh, no 3D, simple text   | Full height with 3D          |
-| CTA          | Full-width, stacked        | Inline with text             |
-| Blog Post    | Full-width                 | Max 768px reading area       |
-| Admin Table  | Horizontal scroll          | Full table, sticky header    |
-| AI Chat      | Full-screen bottom sheet   | Floating panel (300Ãƒâ€”500px)   |
-| Modals       | 95% width                  | Centered, max-width          |
+| Component    | Mobile (< 768px)           | Desktop (Ã¢â€°Â¥ 1024px)       |
+| ------------ | -------------------------- | ------------------------------ |
+| Project Card | Stacked (image above text) | Side-by-side                   |
+| Feature Grid | Single column, centered    | Multi-column (`grid-cols-3`)   |
+| Navigation   | Bottom bar + hamburger     | Docked sidebar                 |
+| Hero         | 60vh, no 3D, simple text   | Full height with 3D            |
+| CTA          | Full-width, stacked        | Inline with text               |
+| Blog Post    | Full-width                 | Max 768px reading area         |
+| Admin Table  | Horizontal scroll          | Full table, sticky header      |
+| AI Chat      | Full-screen bottom sheet   | Floating panel (300Ãƒâ€”500px) |
+| Modals       | 95% width                  | Centered, max-width            |
 
 **Stack Ã¢â€ â€™ side pattern:** `flex flex-col md:flex-row md:items-center gap-4 md:gap-8`.
 
@@ -124,5 +124,6 @@ Every PR tested at 3 viewports:
 **Checks:** No horizontal overflow, text doesn't overflow containers, images not pixelated, 3D degrades gracefully on mobile, forms single-column. Run from `apps/web` via `npm run test:e2e`.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

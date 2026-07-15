@@ -11,7 +11,7 @@ Single icon library: **Lucide React v1.24**. No second library permitted. Custom
 | Property   | Spec                 | Rationale                              |
 | ---------- | -------------------- | -------------------------------------- |
 | Style      | Outline (line-based) | Matches minimal technical brand        |
-| Grid       | 24Ãƒâ€”24px              | Industry standard                      |
+| Grid       | 24Ãƒâ€”24px          | Industry standard                      |
 | Stroke     | 1.5px (default)      | Refined, thinner than 2px default      |
 | Caps/Joins | Round                | Matches Inter's rounded terminals      |
 | Fill       | None                 | Solid fills only for active nav states |
@@ -20,11 +20,11 @@ Single icon library: **Lucide React v1.24**. No second library permitted. Custom
 
 ## 3. Sizing Scale
 
-| Token     | Size    | Usage                                        |
-| --------- | ------- | -------------------------------------------- |
+| Token     | Size        | Usage                                        |
+| --------- | ----------- | -------------------------------------------- |
 | `icon-xs` | 16Ãƒâ€”16px | Badges, tooltips, table cells                |
 | `icon-sm` | 20Ãƒâ€”20px | Dropdown items, chevrons, breadcrumbs        |
-| `icon-md` | 24Ãƒâ€”24px | **Default** Ã¢â‚¬â€ buttons, nav, forms            |
+| `icon-md` | 24Ãƒâ€”24px | **Default** Ã¢â‚¬â€ buttons, nav, forms      |
 | `icon-lg` | 32Ãƒâ€”32px | Section headers, feature cards, empty states |
 | `icon-xl` | 48Ãƒâ€”48px | Hero sections, large CTAs, 404/500 pages     |
 
@@ -32,16 +32,16 @@ Single icon library: **Lucide React v1.24**. No second library permitted. Custom
 
 ## 4. Color Usage
 
-| Context             | Token                       | Example                                |
-| ------------------- | --------------------------- | -------------------------------------- |
+| Context             | Token                       | Example                                      |
+| ------------------- | --------------------------- | -------------------------------------------- |
 | Default / Inactive  | `text-secondary`            | Muted gray Ã¢â‚¬â€ most icons                |
-| Hover (interactive) | `text-primary`              | White on dark                          |
+| Hover (interactive) | `text-primary`              | White on dark                                |
 | Active / Selected   | `accent-primary`            | Blue Ã¢â‚¬â€ nav tabs, filters               |
-| Danger              | `status-error`              | Delete, destructive actions            |
-| Success             | `status-success`            | Checks, confirmation toasts            |
-| Warning             | `status-warning`            | Caution alerts                         |
+| Danger              | `status-error`              | Delete, destructive actions                  |
+| Success             | `status-success`            | Checks, confirmation toasts                  |
+| Warning             | `status-warning`            | Caution alerts                               |
 | AI Actions          | `status-ai`                 | Violet Ã¢â‚¬â€ AI assistant, neural features |
-| Disabled            | `text-secondary opacity-50` | Non-interactive                        |
+| Disabled            | `text-secondary opacity-50` | Non-interactive                              |
 
 Interactive icons get a hover glow: `filter: drop-shadow(0 0 6px var(--color-accent-glow))`. Never on decorative icons.
 
@@ -67,7 +67,7 @@ Create custom icons only when: Lucide lacks the glyph, unique product feature (n
 
 | Property  | Requirement                                                           |
 | --------- | --------------------------------------------------------------------- |
-| Grid      | 24Ãƒâ€”24px, 1px padding (live 22Ãƒâ€”22px)                                   |
+| Grid      | 24Ãƒâ€”24px, 1px padding (live 22Ãƒâ€”22px)                           |
 | Stroke    | 1.5px, round caps and joins                                           |
 | Export    | SVGO-optimized SVG                                                    |
 | Component | React with `size`, `color`, `className` props, typed as `LucideProps` |
@@ -134,15 +134,16 @@ flowchart LR
 
 ## 9. Icon Usage Patterns
 
-| Pattern          | Approach                                        |
-| ---------------- | ----------------------------------------------- |
-| Button with icon | Icon left of text, 8px gap                      |
-| Icon-only button | Informative Ã¢â‚¬â€ `aria-label` required, Ã¢â€°Â¥ 44Ãƒâ€”44px  |
-| Navigation item  | Icon + text (decorative) or icon-only collapsed |
-| Alert / Toast    | Leading icon with semantic color                |
-| Empty state      | Large icon (lg/xl) centered above text          |
-| Input leading    | Prefix icon absolute-positioned inside input    |
+| Pattern          | Approach                                                       |
+| ---------------- | -------------------------------------------------------------- |
+| Button with icon | Icon left of text, 8px gap                                     |
+| Icon-only button | Informative Ã¢â‚¬â€ `aria-label` required, Ã¢â€°Â¥ 44Ãƒâ€”44px |
+| Navigation item  | Icon + text (decorative) or icon-only collapsed                |
+| Alert / Toast    | Leading icon with semantic color                               |
+| Empty state      | Large icon (lg/xl) centered above text                         |
+| Input leading    | Prefix icon absolute-positioned inside input                   |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

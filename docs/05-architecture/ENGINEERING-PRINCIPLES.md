@@ -66,8 +66,8 @@ The portfolio must be navigable by anyone, regardless of ability.
 Architectural decisions live next to the code, versioned together.
 
 **Practice:**
-- `docs/architecture/` holds 10 architecture documents, each describing a specific concern
-- `docs/architecture/SystemArchitecture.md` (1498 lines) is the authoritative system reference with Mermaid diagrams
+- `docs/05-architecture/` holds 10 architecture documents, each describing a specific concern
+- `docs/05-architecture/SystemArchitecture.md` (1498 lines) is the authoritative system reference with Mermaid diagrams
 - Documentation is reviewed alongside code in PRs Ã¢â‚¬â€ changes to the architecture must update the relevant docs
 - The `AGENTS.md` file at the repo root captures conventions, commands, and patterns for AI-assisted development
 

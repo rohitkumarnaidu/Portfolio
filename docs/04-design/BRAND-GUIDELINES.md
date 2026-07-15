@@ -35,7 +35,7 @@ Default: White (#fafafa) on dark, dark (#1a1a1a) on light. Monochrome version fo
 | Recolor to non-standard brand color | Use brand white or dark only |
 | Gradient/pattern/texture fill       | Single flat color            |
 | Distort aspect ratio                | Always proportional scale    |
-| Rotate beyond Ã‚Â±5Ã‚Â°                   | 0Ã‚Â° orientation only          |
+| Rotate beyond Ã‚Â±5Ã‚Â°             | 0Ã‚Â° orientation only       |
 | Drop shadows, glows, 3D effects     | Flat, unadorned presentation |
 | Rearrange symbol/wordmark positions | Stacked layout only          |
 | Low-contrast/busy backgrounds       | 4.5:1 contrast minimum       |
@@ -43,12 +43,12 @@ Default: White (#fafafa) on dark, dark (#1a1a1a) on light. Monochrome version fo
 
 ### File Formats
 
-| Format  | Use Case                                              |
-| ------- | ----------------------------------------------------- |
+| Format  | Use Case                                                    |
+| ------- | ----------------------------------------------------------- |
 | SVG     | Primary digital Ã¢â‚¬â€ all web usage, responsive, editable |
-| PNG @2x | Social media preview, email signatures, slide decks   |
-| ICO     | Favicon (16Ãƒâ€”16, 32Ãƒâ€”32, 48Ãƒâ€”48 multi-size)              |
-| WebP    | Performance-critical scenarios, small thumbnails      |
+| PNG @2x | Social media preview, email signatures, slide decks         |
+| ICO     | Favicon (16Ãƒâ€”16, 32Ãƒâ€”32, 48Ãƒâ€”48 multi-size)        |
+| WebP    | Performance-critical scenarios, small thumbnails            |
 
 All logo files in `public/brand/`.
 
@@ -133,20 +133,20 @@ All logo files in `public/brand/`.
 | Code as Art      | Syntax-highlighted snippets as blurred background graphics                    |
 | Dark & Cinematic | Deep shadows, neon accents, sharp contrasts, cinematic 3D lighting            |
 | 3D Renders       | React Three Fiber (interactive), Spline (static pre-rendered)                 |
-| Gradients        | Mesh gradients with CSS blur/noise overlay Ã¢â‚¬â€ never flat fields                |
+| Gradients        | Mesh gradients with CSS blur/noise overlay Ã¢â‚¬â€ never flat fields          |
 | Photography      | Project case studies only (real screenshots, device mockups). No stock photos |
-| Motion           | Purpose-driven Ã¢â‚¬â€ hover feedback, scroll reveals, ambient 3D rotation          |
+| Motion           | Purpose-driven Ã¢â‚¬â€ hover feedback, scroll reveals, ambient 3D rotation    |
 
 ## 7. Brand Assets Location
 
-| Asset            | Path                          |
-| ---------------- | ----------------------------- |
-| Logo files       | `public/brand/`               |
-| Social/OG images | `public/brand/social/`        |
-| Design tokens    | `docs/design/DesignTokens.md` |
-| UI components    | `packages/ui/`                |
-| 3D scenes        | `public/models/`              |
-| Brand fonts      | `public/fonts/`               |
+| Asset            | Path                             |
+| ---------------- | -------------------------------- |
+| Logo files       | `public/brand/`                  |
+| Social/OG images | `public/brand/social/`           |
+| Design tokens    | `docs/04-design/DesignTokens.md` |
+| UI components    | `packages/ui/`                   |
+| 3D scenes        | `public/models/`                 |
+| Brand fonts      | `public/fonts/`                  |
 
 ## 9. Brand System Diagram
 
@@ -171,5 +171,6 @@ graph LR
 | Color           | Token-based, accessible                       | Raw hex values, excessive accent, decorative red |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

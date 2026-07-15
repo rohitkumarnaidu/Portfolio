@@ -10,14 +10,14 @@ All UI designed mobile-first using Tailwind breakpoints. Functionality must be f
 
 ## 2. Breakpoint Strategy
 
-| Range          | Width   | Device         | Layout Characteristics                                    |
-| -------------- | ------- | -------------- | --------------------------------------------------------- |
+| Range          | Width          | Device         | Layout Characteristics                                          |
+| -------------- | -------------- | -------------- | --------------------------------------------------------------- |
 | `xs` (default) | 0Ã¢â‚¬â€œ639px | Phones         | All features must work Ã¢â‚¬â€ single column, bottom nav, no 3D |
-| `sm`           | 640px+  | Large phones   | Minor layout improvements Ã¢â‚¬â€ larger type, more padding     |
-| `md`           | 768px+  | Tablets        | 2-column grids appear, hamburger menu, reduced 3D         |
-| `lg`           | 1024px+ | Laptops        | Sidebar docks, 3D hero activates, multi-column grids      |
-| `xl`           | 1280px+ | Desktops       | Full layout, expanded whitespace, sticky sidebar          |
-| `2xl`          | 1536px+ | Large monitors | Content capped at 1440px, centered with generous margins  |
+| `sm`           | 640px+         | Large phones   | Minor layout improvements Ã¢â‚¬â€ larger type, more padding     |
+| `md`           | 768px+         | Tablets        | 2-column grids appear, hamburger menu, reduced 3D               |
+| `lg`           | 1024px+        | Laptops        | Sidebar docks, 3D hero activates, multi-column grids            |
+| `xl`           | 1280px+        | Desktops       | Full layout, expanded whitespace, sticky sidebar                |
+| `2xl`          | 1536px+        | Large monitors | Content capped at 1440px, centered with generous margins        |
 
 ## 3. Navigation
 
@@ -50,14 +50,14 @@ All UI designed mobile-first using Tailwind breakpoints. Functionality must be f
 
 ### Minimum Touch Targets
 
-| Element           | Min Size            | Notes                                        |
-| ----------------- | ------------------- | -------------------------------------------- |
-| Primary buttons   | 48Ãƒâ€”48px             | Any standalone button                        |
-| Icon-only buttons | 44Ãƒâ€”44px             | Must pass through padding if icon is smaller |
-| Navigation items  | 48Ãƒâ€”44px             | Bottom nav tabs, sidebar links               |
-| Form controls     | 48px height         | Inputs, selects, textareas                   |
-| Links in text     | 24Ãƒâ€”24px             | Inline links Ã¢â‚¬â€ minimum for finger precision  |
-| Toggle / Switch   | 32Ãƒâ€”20px active area | With min 44Ãƒâ€”44px tap target via padding      |
+| Element           | Min Size                | Notes                                             |
+| ----------------- | ----------------------- | ------------------------------------------------- |
+| Primary buttons   | 48Ãƒâ€”48px             | Any standalone button                             |
+| Icon-only buttons | 44Ãƒâ€”44px             | Must pass through padding if icon is smaller      |
+| Navigation items  | 48Ãƒâ€”44px             | Bottom nav tabs, sidebar links                    |
+| Form controls     | 48px height             | Inputs, selects, textareas                        |
+| Links in text     | 24Ãƒâ€”24px             | Inline links Ã¢â‚¬â€ minimum for finger precision |
+| Toggle / Switch   | 32Ãƒâ€”20px active area | With min 44Ãƒâ€”44px tap target via padding       |
 
 ### Supported Gestures
 
@@ -122,8 +122,8 @@ Mobile devices (Tier 2Ã¢â‚¬â€œ3) default to `dpr: [1, 1]` and disable 
 
 ## 7. Performance Budgets
 
-| Metric                         | Budget Target  | Enforcement                   |
-| ------------------------------ | -------------- | ----------------------------- |
+| Metric                         | Budget Target        | Enforcement                   |
+| ------------------------------ | -------------------- | ----------------------------- |
 | Initial JavaScript (mobile)    | Ã¢â€°Â¤ 200KB        | CI check on main bundle       |
 | Initial CSS                    | Ã¢â€°Â¤ 150KB        | CI check on global CSS        |
 | Largest Contentful Paint (LCP) | Ã¢â€°Â¤ 2.5s         | Lighthouse CI                 |
@@ -164,5 +164,6 @@ flowchart TD
 Service worker registered via `next-pwa` or custom Workbox config. Offline page with brand illustration at `/offline`.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

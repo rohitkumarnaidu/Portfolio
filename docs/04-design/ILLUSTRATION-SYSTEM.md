@@ -10,12 +10,12 @@ Avoid traditional flat vector "tech" characters. Use abstract, programmatic, geo
 
 ### Mediums
 
-| Medium              | When to Use                                    | Tools                      |
-| ------------------- | ---------------------------------------------- | -------------------------- |
-| Three.js / R3F      | Interactive hero scenes, data visualizations   | R3F + Drei + Framer Motion |
-| Spline exports      | Static complex scenes, performance-sensitive   | Spline Ã¢â€ â€™ glb export        |
-| CSS gradients + SVG | Decorative backgrounds, noise, simple patterns | Pure CSS/SVG               |
-| Lottie JSON         | 2D animated sequences, loading animations      | LottieFiles Ã¢â€ â€™ Lottie       |
+| Medium              | When to Use                                    | Tools                       |
+| ------------------- | ---------------------------------------------- | --------------------------- |
+| Three.js / R3F      | Interactive hero scenes, data visualizations   | R3F + Drei + Framer Motion  |
+| Spline exports      | Static complex scenes, performance-sensitive   | Spline Ã¢â€ â€™ glb export  |
+| CSS gradients + SVG | Decorative backgrounds, noise, simple patterns | Pure CSS/SVG                |
+| Lottie JSON         | 2D animated sequences, loading animations      | LottieFiles Ã¢â€ â€™ Lottie |
 
 ### Visual Grammar
 
@@ -37,12 +37,12 @@ Avoid traditional flat vector "tech" characters. Use abstract, programmatic, geo
 
 ## 3. Usage Tiers
 
-| Tier       | Context                 | Implementation               | Perf Priority                    |
-| ---------- | ----------------------- | ---------------------------- | -------------------------------- |
+| Tier       | Context                 | Implementation               | Perf Priority                          |
+| ---------- | ----------------------- | ---------------------------- | -------------------------------------- |
 | Primary    | Hero sections, homepage | R3F interactive 3D           | Critical Ã¢â‚¬â€ LOD, DPR scaling      |
 | Secondary  | Feature cards, headers  | Spline export / CSS gradient | High Ã¢â‚¬â€ lazy load, WebP fallback  |
 | Tertiary   | Empty states, admin     | SVG / Lottie                 | Medium Ã¢â‚¬â€ respects reduced motion |
-| Decorative | Backgrounds, noise      | CSS-only (zero JS)           | Low                              |
+| Decorative | Backgrounds, noise      | CSS-only (zero JS)           | Low                                    |
 
 **Placement:** Hero Ã¢â€ â€™ Primary, Project cards Ã¢â€ â€™ Secondary, Admin empty Ã¢â€ â€™ Tertiary, Blog headers Ã¢â€ â€™ Secondary, Loading Ã¢â€ â€™ Tertiary, 404 Ã¢â€ â€™ Primary (simplified).
 
@@ -56,14 +56,14 @@ Concept (Figma) Ã¢â€ â€™ Spline Prototype Ã¢â€ â€™ Export 
 
 ### Tooling
 
-| Step            | Tool                     | Output                |
-| --------------- | ------------------------ | --------------------- |
-| Concept         | Figma / sketch           | Layout canvas         |
-| 3D modeling     | Spline, Blender          | glb/gltf scene        |
-| Web integration | R3F + Drei               | React 3D component    |
-| Animation       | Framer Motion, useFrame  | Interactive + ambient |
-| Compression     | Draco (via drei/useGLTF) | Compressed glb        |
-| Static fallback | Spline render Ã¢â€ â€™ WebP     | `<Image />` component |
+| Step            | Tool                        | Output                |
+| --------------- | --------------------------- | --------------------- |
+| Concept         | Figma / sketch              | Layout canvas         |
+| 3D modeling     | Spline, Blender             | glb/gltf scene        |
+| Web integration | R3F + Drei                  | React 3D component    |
+| Animation       | Framer Motion, useFrame     | Interactive + ambient |
+| Compression     | Draco (via drei/useGLTF)    | Compressed glb        |
+| Static fallback | Spline render Ã¢â€ â€™ WebP | `<Image />` component |
 
 ### Export Budgets
 
@@ -76,11 +76,11 @@ Concept (Figma) Ã¢â€ â€™ Spline Prototype Ã¢â€ â€™ Export 
 
 ## 5. Responsiveness
 
-| Viewport          | Illustration Behavior                                        |
-| ----------------- | ------------------------------------------------------------ |
-| Desktop Ã¢â€°Â¥ 1024px  | All tiers Ã¢â‚¬â€ full 3D interactive                              |
-| Tablet 768Ã¢â‚¬â€œ1023px | Primary (reduced DPR) + Secondary. Tertiary Ã¢â€ â€™ static SVG     |
-| Mobile < 768px    | Primary only (WebGL or WebP fallback). All decorative hidden |
+| Viewport                 | Illustration Behavior                                           |
+| ------------------------ | --------------------------------------------------------------- |
+| Desktop Ã¢â€°Â¥ 1024px   | All tiers Ã¢â‚¬â€ full 3D interactive                           |
+| Tablet 768Ã¢â‚¬â€œ1023px | Primary (reduced DPR) + Secondary. Tertiary Ã¢â€ â€™ static SVG |
+| Mobile < 768px           | Primary only (WebGL or WebP fallback). All decorative hidden    |
 
 Implementation: `className="hidden md:block"` for decorative; `dynamic(() => import(...), { ssr: false })` for 3D.
 
@@ -143,5 +143,6 @@ flowchart LR
 - [ ] No layout shift from illustration loading
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

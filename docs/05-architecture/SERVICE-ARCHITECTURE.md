@@ -26,16 +26,19 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 **Responsibility:** All business rules, data access, and validation logic for a single entity.
 
 **Contents:**
+
 - `<Entity>Service` Ã¢â‚¬â€ CRUD methods, business validations, event emission
 - `dto/` Ã¢â‚¬â€ Create and Update DTOs with class-validator decorators
 - `<Entity>Module` Ã¢â‚¬â€ NestJS module that imports PrismaService and exports the service
 
 **Rules:**
+
 - No HTTP concerns (no controllers, no guards, no cache decorators)
 - Services are `@Injectable()` classes injected into controllers
 - Every service is exported by its module so both PortfolioModule and AdminModule can import it
 
 **Example from the codebase:**
+
 - `apps/api/src/modules/projects/projects.service.ts` Ã¢â‚¬â€ handles create, update, delete, soft-delete, restore, bulk operations
 - `apps/api/src/modules/projects/dto/create-project.dto.ts` Ã¢â‚¬â€ validation schema for project creation
 - `apps/api/src/modules/projects/projects.module.ts` Ã¢â‚¬â€ imports PrismaService, exports ProjectsService
@@ -45,6 +48,7 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 **Responsibility:** Expose read-only endpoints for the public-facing website. Optimized for high throughput.
 
 **Characteristics:**
+
 - Route prefix: `@Controller('portfolio/<entity>')`
 - Caching: `@CacheTTL()` with entity-appropriate TTLs (30s for blog list, 60s for projects, 120s for skills)
 - No authentication guards
@@ -70,6 +74,7 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 **Responsibility:** Expose full CRUD endpoints for the admin dashboard. Authenticated, audited, and role-gated.
 
 **Characteristics:**
+
 - Route prefix: `@Controller('admin/<entity>')`
 - Auth: `@UseGuards(JwtAuthGuard, RolesGuard)` on every controller
 - Docs: `@ApiBearerAuth()` for Swagger
@@ -80,12 +85,15 @@ Every entity in the system is serviced by exactly one NestJS module that is then
 **Currently registered:** 26 admin controllers in `apps/api/src/admin/admin.module.ts`
 
 **Audit decorator example:**
+
 ```typescript
 @Audit({ action: 'create', resource: 'project' })
 ```
+
 This logs to the Activity table with the authenticated user's ID, the action taken, and the target resource. Implementation in `apps/api/src/common/decorators/audit.decorator.ts` with the `AuditInterceptor` at `apps/api/src/common/interceptors/audit.interceptor.ts`.
 
 **Admin-specific controllers (not mirrored in portfolio):**
+
 - AdminAuthController Ã¢â‚¬â€ login, refresh, logout
 - AdminDashboardController Ã¢â‚¬â€ aggregated analytics dashboard
 - AdminUsersController Ã¢â‚¬â€ user management (admin only)
@@ -103,24 +111,25 @@ This logs to the Activity table with the authenticated user's ID, the action tak
 
 All shared infrastructure lives in `apps/api/src/common/`. It is organized by concern:
 
-| Directory | Contents | Used By |
-|-----------|----------|---------|
-| `cache/` | Cache module setup, Redis config | Portfolio controllers |
-| `cleanup/` | Data cleanup service | Admin CleanupController |
-| `database/` | PrismaService (PrismaClient wrapper) | All modules |
-| `decorators/` | @Audit, @Roles, @CurrentUser, @Public decorators | Admin controllers |
-| `export/` | CSV export service (CsvService) | Admin ExportController |
-| `filters/` | GlobalExceptionFilter | Global (main.ts) |
-| `interceptors/` | AuditInterceptor, LoggingInterceptor, CacheInterceptor | Admin/Portfolio |
-| `middleware/` | API versioning, request logging | Global |
-| `notifications/` | Notification creation service | Admin NotificationsModule |
-| `pipes/` | Custom validation pipes | Various controllers |
-| `queue/` | BullMQ queue definitions, workers | Background jobs |
-| `utils/` | Shared utility functions | Various |
+| Directory        | Contents                                               | Used By                   |
+| ---------------- | ------------------------------------------------------ | ------------------------- |
+| `cache/`         | Cache module setup, Redis config                       | Portfolio controllers     |
+| `cleanup/`       | Data cleanup service                                   | Admin CleanupController   |
+| `database/`      | PrismaService (PrismaClient wrapper)                   | All modules               |
+| `decorators/`    | @Audit, @Roles, @CurrentUser, @Public decorators       | Admin controllers         |
+| `export/`        | CSV export service (CsvService)                        | Admin ExportController    |
+| `filters/`       | GlobalExceptionFilter                                  | Global (main.ts)          |
+| `interceptors/`  | AuditInterceptor, LoggingInterceptor, CacheInterceptor | Admin/Portfolio           |
+| `middleware/`    | API versioning, request logging                        | Global                    |
+| `notifications/` | Notification creation service                          | Admin NotificationsModule |
+| `pipes/`         | Custom validation pipes                                | Various controllers       |
+| `queue/`         | BullMQ queue definitions, workers                      | Background jobs           |
+| `utils/`         | Shared utility functions                               | Various                   |
 
 ### 2.1 Database Access (PrismaService)
 
 `apps/api/src/common/database/prisma.service.ts` wraps PrismaClient with:
+
 - Lazy connection via `@prisma/adapter-pg` over `pg.Pool`
 - OnModuleInit / OnModuleDestroy lifecycle hooks for connection management
 - Typed access to all models via `prisma.client.<model>`
@@ -136,6 +145,7 @@ All shared infrastructure lives in `apps/api/src/common/`. It is organized by co
 ### 2.3 Error Handling
 
 `apps/api/src/common/filters/global-exception.filter.ts`:
+
 - Catches all exceptions (not just HttpException)
 - Extracts structured error info: status_code, code, message, details
 - Generates UUID correlation_id for every error
@@ -191,6 +201,7 @@ async create(dto: CreateProjectDto) {
 ```
 
 Transactions are used when:
+
 - Creating a project with related skills/tags
 - Creating a lead and triggering notification creation
 - Updating blog publish status and clearing related caches
@@ -200,14 +211,14 @@ Transactions are used when:
 
 ## 5. Idempotency Patterns
 
-| Operation | Idempotency Strategy |
-|-----------|---------------------|
-| GET by ID | Naturally idempotent (same result for same ID) |
-| GET with filters | Same query params = same results |
-| POST create | Not idempotent (each POST creates a new record). Client-side deduplication via React Query mutation keys |
-| PATCH update | Idempotent (same PATCH body applied twice = same final state) |
-| DELETE (soft) | Idempotent (deleting already-deleted record throws 404 or no-op) |
-| Bulk operations | Idempotent by design (applying same bulk-update twice = same state) |
+| Operation        | Idempotency Strategy                                                                                     |
+| ---------------- | -------------------------------------------------------------------------------------------------------- |
+| GET by ID        | Naturally idempotent (same result for same ID)                                                           |
+| GET with filters | Same query params = same results                                                                         |
+| POST create      | Not idempotent (each POST creates a new record). Client-side deduplication via React Query mutation keys |
+| PATCH update     | Idempotent (same PATCH body applied twice = same final state)                                            |
+| DELETE (soft)    | Idempotent (deleting already-deleted record throws 404 or no-op)                                         |
+| Bulk operations  | Idempotent by design (applying same bulk-update twice = same state)                                      |
 
 ---
 
@@ -217,14 +228,15 @@ Transactions are used when:
 
 All list endpoints accept the same pagination parameters via `PaginationQueryDto`:
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| page | number | 1 | Page number (1-indexed) |
-| per_page | number | 10 | Items per page (max 100) |
-| sort | string | 'created_at' | Sort field |
-| order | 'asc' | 'desc' | 'desc' | Sort direction |
+| Parameter | Type   | Default      | Description              |
+| --------- | ------ | ------------ | ------------------------ | -------------- |
+| page      | number | 1            | Page number (1-indexed)  |
+| per_page  | number | 10           | Items per page (max 100) |
+| sort      | string | 'created_at' | Sort field               |
+| order     | 'asc'  | 'desc'       | 'desc'                   | Sort direction |
 
 Response includes `meta`:
+
 ```json
 {
   "data": [...],
@@ -240,8 +252,9 @@ Response includes `meta`:
 ### 6.2 Frontend Pagination
 
 React Query hooks accept pagination params and pass them to the API. Example from `apps/web/src/lib/hooks/useProjects.ts:13-26`:
+
 ```typescript
-useProjects({ page: 1, per_page: 12, category: 'web-app' })
+useProjects({ page: 1, per_page: 12, category: 'web-app' });
 ```
 
 TanStack Query caches each page separately under the query key `['projects', { page, per_page, category, ... }]`. Navigation between pages triggers a new query with a different cache key Ã¢â‚¬â€ no page data is lost on navigation.
@@ -249,6 +262,7 @@ TanStack Query caches each page separately under the query key `['projects', { p
 ### 6.3 Admin Table Pagination
 
 Admin data tables use:
+
 - Server-side pagination (Prisma skip/take)
 - Client-side UI controls (page buttons, per-page selector)
 - URL query parameter sync (`?page=1&per_page=25`) for shareable/admin bookmarkable states
@@ -260,13 +274,14 @@ Admin data tables use:
 
 Admin controllers support bulk operations for efficiency:
 
-| Operation | Endpoint | Description |
-|-----------|----------|-------------|
-| Bulk delete | POST /admin/<entity>/bulk-delete | Soft-delete multiple records by IDs |
+| Operation   | Endpoint                         | Description                                       |
+| ----------- | -------------------------------- | ------------------------------------------------- |
+| Bulk delete | POST /admin/<entity>/bulk-delete | Soft-delete multiple records by IDs               |
 | Bulk update | POST /admin/<entity>/bulk-update | Update multiple records (e.g., publish/unpublish) |
 
 Both are wrapped in individual transactions so a failure in one record doesn't roll back the entire operation (partial success is reported).
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

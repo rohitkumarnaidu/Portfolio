@@ -2,7 +2,7 @@
 
 > **Document:** `c4-architecture.md` | **Version:** 1.0 | **Last Updated:** July 2026
 > **Modeling Standard:** C4 (Context, Container, Component, Code) via Mermaid.js
-> **Related:** [SystemArchitecture.md](./SystemArchitecture.md) | [ServiceArchitecture.md](./ServiceArchitecture.md) | [DomainArchitecture.md](./DomainArchitecture.md) | [IntegrationArchitecture.md](./IntegrationArchitecture.md) | [54-INFRASTRUCTURE.md](../operations/54-INFRASTRUCTURE.md)
+> **Related:** [SystemArchitecture.md](./SystemArchitecture.md) | [ServiceArchitecture.md](./ServiceArchitecture.md) | [DomainArchitecture.md](./DomainArchitecture.md) | [IntegrationArchitecture.md](./IntegrationArchitecture.md) | [54-INFRASTRUCTURE.md](../21-operations/54-INFRASTRUCTURE.md)
 
 ---
 
@@ -566,13 +566,13 @@ npm run dev:ai     # FastAPI on :8000
 
 | Diagram | Relevant Source Files |
 |---------|----------------------|
-| System Context | `docs/architecture/IntegrationArchitecture.md`, `docs/operations/54-INFRASTRUCTURE.md`, `apps/api/src/main.ts` |
+| System Context | `docs/05-architecture/IntegrationArchitecture.md`, `docs/21-operations/54-INFRASTRUCTURE.md`, `apps/api/src/main.ts` |
 | Container | `infrastructure/docker/docker-compose.yml`, `turbo.json`, `apps/web/next.config.js` |
 | Web Components | `apps/web/src/app/**/page.tsx`, `apps/web/src/components/**/*.tsx`, `apps/web/src/lib/api.ts` |
 | API Components | `apps/api/src/modules/*/*.service.ts`, `apps/api/src/portfolio/controllers/*.ts`, `apps/api/src/admin/controllers/*.ts`, `apps/api/src/common/**/*.ts` |
 | AI Components | `apps/ai/app/routes/*.py`, `apps/ai/app/services/*.py`, `apps/ai/app/middleware/*.py` |
-| Three-Layer Pattern | `docs/architecture/ServiceArchitecture.md`, `docs/architecture/DomainArchitecture.md` |
-| Deployment | `docs/operations/54-INFRASTRUCTURE.md`, `infrastructure/docker/docker-compose.yml` |
+| Three-Layer Pattern | `docs/05-architecture/ServiceArchitecture.md`, `docs/05-architecture/DomainArchitecture.md` |
+| Deployment | `docs/21-operations/54-INFRASTRUCTURE.md`, `infrastructure/docker/docker-compose.yml` |
 
 ## Cross-References
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
