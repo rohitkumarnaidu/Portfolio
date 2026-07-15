@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import { GithubService } from '../../modules/sandbox/github.service';
+import type { GithubService } from '../../modules/sandbox/github.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
