@@ -8,18 +8,14 @@ interface MeshGradientProps {
   className?: string;
 }
 
-export const MeshGradient = ({
-  variant = 1,
-  animated = false,
-  className,
-}: MeshGradientProps) => {
+export const MeshGradient = ({ variant = 1, animated = false, className }: MeshGradientProps) => {
   return (
     <div
       className={cn(
         'absolute inset-0 pointer-events-none',
         variant === 1 ? 'bg-mesh-1' : 'bg-mesh-2',
         animated && 'animate-mesh-shift',
-        className
+        className,
       )}
       aria-hidden="true"
     />

@@ -1,12 +1,8 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { cn } from '@/lib/cn';
 import type { ReactNode } from 'react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxSectionProps {
   backgroundSpeed?: number;
@@ -37,66 +33,69 @@ export const ParallaxSection = ({
 
     if (prefersReduced || prefersContrast || isMobile || isNarrow) return;
 
-    const ctx = gsap.context(() => {
-      if (bgRef.current && backgroundSpeed > 0) {
-        gsap.fromTo(
-          bgRef.current,
-          { y: 0 },
-          {
-            y: () => -(bgRef.current?.offsetHeight ?? 0) * backgroundSpeed * 0.5,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          }
-        );
-      }
+    let ctx: { revert: () => void } | null = null;
 
-      if (fgRef.current && foregroundSpeed > 0) {
-        gsap.fromTo(
-          fgRef.current,
-          { y: 0 },
-          {
-            y: () => (fgRef.current?.offsetHeight ?? 0) * foregroundSpeed * 0.4,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          }
-        );
-      }
-    });
+    const initGsap = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ]);
 
-    return () => ctx.revert();
+      gsap.registerPlugin(ScrollTrigger);
+
+      ctx = gsap.context(() => {
+        if (bgRef.current && backgroundSpeed > 0) {
+          gsap.fromTo(
+            bgRef.current,
+            { y: 0 },
+            {
+              y: () => -(bgRef.current?.offsetHeight ?? 0) * backgroundSpeed * 0.5,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        }
+
+        if (fgRef.current && foregroundSpeed > 0) {
+          gsap.fromTo(
+            fgRef.current,
+            { y: 0 },
+            {
+              y: () => (fgRef.current?.offsetHeight ?? 0) * foregroundSpeed * 0.4,
+              ease: 'none',
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            },
+          );
+        }
+      });
+    };
+
+    initGsap();
+
+    return () => ctx?.revert();
   }, [backgroundSpeed, foregroundSpeed]);
 
   return (
-    <section
-      ref={sectionRef}
-      className={cn('relative overflow-hidden', className)}
-    >
+    <section ref={sectionRef} className={cn('relative overflow-hidden', className)}>
       {background && (
-        <div
-          ref={bgRef}
-          className="absolute inset-0 will-change-transform"
-          aria-hidden="true"
-        >
+        <div ref={bgRef} className="absolute inset-0 will-change-transform" aria-hidden="true">
           {background}
         </div>
       )}
 
-      <div
-        ref={fgRef}
-        className={cn('relative will-change-transform', containerClassName)}
-      >
+      <div ref={fgRef} className={cn('relative will-change-transform', containerClassName)}>
         {children}
       </div>
     </section>

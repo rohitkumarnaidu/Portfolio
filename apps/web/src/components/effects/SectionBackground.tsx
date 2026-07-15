@@ -3,7 +3,18 @@
 import { cn } from '@/lib/cn';
 import type { ReactNode } from 'react';
 
-export type BgVariant = 'none' | 'solid' | 'gradient-hero' | 'gradient-cta' | 'glass' | 'noise' | 'dots' | 'mesh-1' | 'mesh-2' | 'scrim-light' | 'scrim-dark';
+export type BgVariant =
+  | 'none'
+  | 'solid'
+  | 'gradient-hero'
+  | 'gradient-cta'
+  | 'glass'
+  | 'noise'
+  | 'dots'
+  | 'mesh-1'
+  | 'mesh-2'
+  | 'scrim-light'
+  | 'scrim-dark';
 
 interface SectionBackgroundProps {
   variant?: BgVariant;
@@ -12,13 +23,13 @@ interface SectionBackgroundProps {
 }
 
 const bgClasses: Record<BgVariant, string> = {
-  'none': '',
-  'solid': 'bg-surface-secondary',
+  none: '',
+  solid: 'bg-surface-secondary',
   'gradient-hero': 'bg-gradient-hero',
   'gradient-cta': 'bg-gradient-cta',
-  'glass': 'glass-subtle',
-  'noise': '',
-  'dots': 'bg-dots',
+  glass: 'glass-subtle',
+  noise: '',
+  dots: 'bg-dots',
   'mesh-1': 'bg-mesh-1',
   'mesh-2': 'bg-mesh-2',
   'scrim-light': '',
@@ -45,13 +56,11 @@ export const SectionBackground = ({
         isNoiseOnly && 'noise-overlay',
         isScrim && variant === 'scrim-light' && 'scrim-light',
         isScrim && variant === 'scrim-dark' && 'scrim-dark',
-        className
+        className,
       )}
       aria-hidden="true"
     >
-      {showNoise && (
-        <div className="absolute inset-0 noise-overlay" aria-hidden="true" />
-      )}
+      {showNoise && <div className="absolute inset-0 noise-overlay" aria-hidden="true" />}
       {children}
     </div>
   );

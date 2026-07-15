@@ -20,10 +20,7 @@ export const ParallaxLayer = ({
   const ref = useParallax({ speed, direction });
 
   return (
-    <div
-      ref={ref}
-      className={cn('will-change-transform', className)}
-    >
+    <div ref={ref} className={cn('will-change-transform', className)}>
       {children}
     </div>
   );
