@@ -54,10 +54,9 @@ export function usePullToRefresh({
         return;
       }
       const progress = Math.min(dy / threshold, 1);
-      const easedProgress = progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-      setPullProgress(Math.min(easedProgress * maxPull / threshold, 1));
+      const easedProgress =
+        progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      setPullProgress(Math.min((easedProgress * maxPull) / threshold, 1));
     };
 
     const onTouchEnd = () => {

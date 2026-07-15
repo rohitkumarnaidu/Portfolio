@@ -16,7 +16,7 @@ interface UsePinchOptions {
 
 export function usePinch(
   onPinch: (event: PinchEvent) => void,
-  options: UsePinchOptions = {}
+  options: UsePinchOptions = {},
 ): void {
   const { threshold = 0.1 } = options;
   const pinchRef = useRef<{

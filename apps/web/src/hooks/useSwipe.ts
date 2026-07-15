@@ -20,7 +20,7 @@ interface UseSwipeOptions {
 
 export function useSwipe(
   onSwipe: (event: SwipeEvent) => void,
-  options: UseSwipeOptions = {}
+  options: UseSwipeOptions = {},
 ): void {
   const { threshold = 50, directions, preventScroll } = options;
   const startRef = useRef<{ x: number; y: number; time: number } | null>(null);
@@ -40,7 +40,7 @@ export function useSwipe(
       if (directions && !directions.includes(dir)) return null;
       return dir;
     },
-    [directions]
+    [directions],
   );
 
   useEffect(() => {

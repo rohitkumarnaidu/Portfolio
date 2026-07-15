@@ -18,7 +18,7 @@ interface UseSortableListOptions<T> {
 }
 
 export function useSortableList<T extends { id: string | number }>(
-  options: UseSortableListOptions<T>
+  options: UseSortableListOptions<T>,
 ) {
   const { items, onReorder } = options;
   const [isDragging, setIsDragging] = useState(false);
@@ -57,7 +57,7 @@ export function useSortableList<T extends { id: string | number }>(
         dragOverIndex.current = null;
       },
     }),
-    [items, draggedIndex, onReorder]
+    [items, draggedIndex, onReorder],
   );
 
   return {

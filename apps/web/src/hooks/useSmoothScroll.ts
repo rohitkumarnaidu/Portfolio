@@ -6,31 +6,28 @@ export function useSmoothScroll() {
   const rafRef = useRef<number>(0);
   const targetRef = useRef(0);
 
-  const scrollTo = useCallback(
-    (target: number, duration = 600) => {
-      const start = window.scrollY;
-      const distance = target - start;
-      const startTime = performance.now();
+  const scrollTo = useCallback((target: number, duration = 600) => {
+    const start = window.scrollY;
+    const distance = target - start;
+    const startTime = performance.now();
 
-      targetRef.current = target;
+    targetRef.current = target;
 
-      const animate = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
+    const animate = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
 
-        window.scrollTo(0, start + distance * eased);
+      window.scrollTo(0, start + distance * eased);
 
-        if (progress < 1) {
-          rafRef.current = requestAnimationFrame(animate);
-        }
-      };
+      if (progress < 1) {
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    };
 
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(animate);
-    },
-    []
-  );
+    cancelAnimationFrame(rafRef.current);
+    rafRef.current = requestAnimationFrame(animate);
+  }, []);
 
   const scrollIntoView = useCallback(
     (element: HTMLElement, offset = 0, duration = 600) => {
@@ -38,7 +35,7 @@ export function useSmoothScroll() {
       const target = window.scrollY + rect.top - offset;
       scrollTo(target, duration);
     },
-    [scrollTo]
+    [scrollTo],
   );
 
   return { scrollTo, scrollIntoView };
