@@ -6,10 +6,7 @@ export const NOTIFICATION_ADAPTER = 'NOTIFICATION_ADAPTER';
 
 @Module({
   imports: [ConfigModule],
-  providers: [
-    EmailAdapter,
-    { provide: NOTIFICATION_ADAPTER, useExisting: EmailAdapter },
-  ],
+  providers: [EmailAdapter, { provide: NOTIFICATION_ADAPTER, useExisting: EmailAdapter }],
   exports: [NOTIFICATION_ADAPTER],
 })
 export class NotificationModule {}

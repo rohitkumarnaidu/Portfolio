@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
-import { Job } from 'bullmq';
+import type { Job } from 'bullmq';
 import { Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import type { ConfigService } from '@nestjs/config';
 
 @Processor('email')
 export class EmailProcessor extends WorkerHost {
@@ -11,7 +11,7 @@ export class EmailProcessor extends WorkerHost {
     super();
   }
 
-  async process(job: Job<any>): Promise<void> {
+  async process(job: Job<Record<string, unknown>>): Promise<void> {
     this.logger.log(`Processing email job ${job.id} of type ${job.name}`);
 
     const apiKey = this.configService.get<string>('app.RESEND_API_KEY');
@@ -24,12 +24,13 @@ export class EmailProcessor extends WorkerHost {
       const { Resend } = await import('resend');
       const resend = new Resend(apiKey);
       const { type, to, subject, html } = job.data;
+      const recipients = Array.isArray(to) ? to : [to];
 
       await resend.emails.send({
         from: this.configService.get<string>('app.EMAIL_FROM') || 'noreply@portfolio.com',
-        to: Array.isArray(to) ? to : [to],
-        subject,
-        html,
+        to: recipients as string[],
+        subject: subject as string,
+        html: html as string,
       });
 
       this.logger.log(`Email job ${job.id} completed: ${type} → ${to}`);

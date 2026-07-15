@@ -12,5 +12,10 @@ export interface LeadNotificationPayload {
 
 export interface NotificationAdapter {
   sendNewLeadNotification(payload: LeadNotificationPayload): Promise<void>;
-  sendLeadStatusChanged(leadId: string, email: string, name: string, newStatus: string): Promise<void>;
+  sendLeadStatusChanged(
+    leadId: string,
+    email: string,
+    name: string,
+    newStatus: string,
+  ): Promise<void>;
 }

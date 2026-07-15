@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { NotificationAdapter, LeadNotificationPayload } from './notification.interface';
+import type { ConfigService } from '@nestjs/config';
+import type { NotificationAdapter, LeadNotificationPayload } from './notification.interface';
 import { getTemplate } from './templates/index';
 
 @Injectable()
@@ -12,7 +12,9 @@ export class EmailAdapter implements NotificationAdapter {
   async sendNewLeadNotification(payload: LeadNotificationPayload): Promise<void> {
     const apiKey = this.configService.get<string>('app.RESEND_API_KEY');
     if (!apiKey) {
-      this.logger.log(`[EMAIL STUB] Resend not configured. New lead from ${payload.name} (${payload.email})`);
+      this.logger.log(
+        `[EMAIL STUB] Resend not configured. New lead from ${payload.name} (${payload.email})`,
+      );
       return;
     }
 
@@ -20,7 +22,8 @@ export class EmailAdapter implements NotificationAdapter {
       const { Resend } = await import('resend');
       const resend = new Resend(apiKey);
       const from = this.configService.get<string>('app.EMAIL_FROM') || 'noreply@portfolio.com';
-      const adminEmail = this.configService.get<string>('app.ADMIN_NOTIFICATION_EMAIL') || 'admin@portfolio.com';
+      const adminEmail =
+        this.configService.get<string>('app.ADMIN_NOTIFICATION_EMAIL') || 'admin@portfolio.com';
 
       const html = getTemplate('new-lead-notification', {
         name: payload.name,
@@ -45,7 +48,12 @@ export class EmailAdapter implements NotificationAdapter {
     }
   }
 
-  async sendLeadStatusChanged(leadId: string, email: string, name: string, newStatus: string): Promise<void> {
+  async sendLeadStatusChanged(
+    leadId: string,
+    email: string,
+    name: string,
+    newStatus: string,
+  ): Promise<void> {
     const apiKey = this.configService.get<string>('app.RESEND_API_KEY');
     if (!apiKey) {
       this.logger.log(`[EMAIL STUB] Resend not configured. Lead ${leadId} status → ${newStatus}`);

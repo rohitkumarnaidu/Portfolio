@@ -20,7 +20,9 @@ function render(template: string, data: Record<string, unknown>): string {
     result = result.replace(regex, String(value ?? ''));
   }
   result = result.replace(/\{\{#if (\w+)\}\}[\s\S]*?\{{\/if\}\}/g, (match, key) => {
-    return data[key] ? match.replace(new RegExp(`\\{\\{#if ${key}\\}\\}`), '').replace(/\{\{\/if\}\}/, '') : '';
+    return data[key]
+      ? match.replace(new RegExp(`\\{\\{#if ${key}\\}\\}`), '').replace(/\{\{\/if\}\}/, '')
+      : '';
   });
   result = result.replace(/{{#if \w+}}[\s\S]*?{{\/if}}/g, '');
   return result;
