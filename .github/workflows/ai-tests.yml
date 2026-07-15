@@ -1,0 +1,22 @@
+name: AI Service Tests
+on:
+  push:
+    branches: [main, develop]
+    paths: ['apps/ai/**']
+  pull_request:
+    paths: ['apps/ai/**']
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - run: pip install ruff pytest pytest-asyncio pytest-cov
+      - run: ruff check .
+      - run: pytest --cov=. --cov-fail-under=40
