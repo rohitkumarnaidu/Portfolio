@@ -27,7 +27,7 @@ export default function SandboxPage() {
           setPreviewUrl(url);
           setIsBooting(false);
         });
-        
+
         // Simulate boot time if not already booted
         setTimeout(() => setIsBooting(false), 2500);
       } catch (e) {
@@ -42,7 +42,7 @@ export default function SandboxPage() {
     setCurrentFilePath(path);
     try {
       const res = await fetch(`/api/admin/sandbox/file?path=${path}`, {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_access_token')}` }
+        headers: { Authorization: `Bearer ${localStorage.getItem('admin_access_token')}` },
       });
       const { data } = await res.json();
       setFileContent(data.content);
@@ -59,14 +59,14 @@ export default function SandboxPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('admin_access_token')}`
+          Authorization: `Bearer ${localStorage.getItem('admin_access_token')}`,
         },
         body: JSON.stringify({
           path: currentFilePath,
           content: fileContent,
           message: `Admin Sandbox: Update ${currentFilePath.split('/').pop()}`,
-          branch: 'main'
-        })
+          branch: 'main',
+        }),
       });
       alert('Committed successfully!');
     } catch (e) {
@@ -84,16 +84,15 @@ export default function SandboxPage() {
 
   return (
     <div className="flex h-[calc(100vh-4rem)] bg-[#0e0e11] text-white overflow-hidden relative font-sans">
-      
       {/* Dynamic Workspace Container */}
-      <motion.div 
-        layout 
-        className="flex-1 flex flex-col min-w-0 h-full relative"
-      >
+      <motion.div layout className="flex-1 flex flex-col min-w-0 h-full relative">
         {/* Workspace Header / Tabs */}
-        <motion.div layout className="flex items-center justify-between p-3 px-4 border-b border-white/5 bg-[#18181b]/80 backdrop-blur-md z-20">
+        <motion.div
+          layout
+          className="flex items-center justify-between p-3 px-4 border-b border-white/5 bg-[#18181b]/80 backdrop-blur-md z-20"
+        >
           <div className="flex items-center gap-3">
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -101,15 +100,15 @@ export default function SandboxPage() {
             >
               <Sidebar size={18} />
             </motion.button>
-            
+
             <div className="flex items-center gap-1 bg-black/40 p-1 rounded-lg border border-white/5">
-              <button 
+              <button
                 onClick={() => setActiveTab('preview')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'preview' ? 'bg-indigo-500/20 text-indigo-400 shadow-sm' : 'text-gray-400 hover:text-white'}`}
               >
                 <Play size={14} /> Preview
               </button>
-              <button 
+              <button
                 onClick={() => setActiveTab('code')}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 ${activeTab === 'code' ? 'bg-indigo-500/20 text-indigo-400 shadow-sm' : 'text-gray-400 hover:text-white'}`}
               >
@@ -117,7 +116,7 @@ export default function SandboxPage() {
               </button>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4">
             {isBooting ? (
               <div className="flex items-center gap-2 text-xs font-medium text-amber-400/80">
@@ -130,9 +129,14 @@ export default function SandboxPage() {
                 Environment Ready
               </div>
             )}
-            
+
             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button size="sm" onClick={handleCommit} isLoading={isCommitting} className="bg-indigo-600 hover:bg-indigo-500 text-white border-0 gap-2">
+              <Button
+                size="sm"
+                onClick={handleCommit}
+                isLoading={isCommitting}
+                className="bg-indigo-600 hover:bg-indigo-500 text-white border-0 gap-2"
+              >
                 <UploadCloud size={16} /> Deploy to GitHub
               </Button>
             </motion.div>
@@ -156,10 +160,15 @@ export default function SandboxPage() {
                   <div className="w-full h-full flex flex-col items-center justify-center bg-[#18181b]">
                     <div className="w-64 h-64 relative flex items-center justify-center">
                       <div className="absolute inset-0 border-t-2 border-indigo-500 rounded-full animate-spin"></div>
-                      <div className="absolute inset-4 border-r-2 border-fuchsia-500 rounded-full animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}></div>
+                      <div
+                        className="absolute inset-4 border-r-2 border-fuchsia-500 rounded-full animate-spin"
+                        style={{ animationDirection: 'reverse', animationDuration: '1.5s' }}
+                      ></div>
                       <Activity size={32} className="text-white/50" />
                     </div>
-                    <p className="mt-8 text-white/60 font-medium tracking-wide animate-pulse">Initializing WebContainer...</p>
+                    <p className="mt-8 text-white/60 font-medium tracking-wide animate-pulse">
+                      Initializing WebContainer...
+                    </p>
                   </div>
                 ) : (
                   <PreviewPane url={previewUrl} />
@@ -181,9 +190,9 @@ export default function SandboxPage() {
                   <FileExplorer onSelectFile={handleSelectFile} currentPath={currentFilePath} />
                 </div>
                 <div className="flex-1">
-                  <SandboxEditor 
-                    content={fileContent} 
-                    onChange={(val) => setFileContent(val || '')} 
+                  <SandboxEditor
+                    content={fileContent}
+                    onChange={(val) => setFileContent(val || '')}
                   />
                 </div>
               </motion.div>
@@ -199,17 +208,16 @@ export default function SandboxPage() {
             initial={{ width: 0, opacity: 0, x: 50 }}
             animate={{ width: 320, opacity: 1, x: 0 }}
             exit={{ width: 0, opacity: 0, x: 50 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="h-full border-l border-white/10 shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-30"
           >
-            <SandboxAISidebar 
-              currentFileContent={fileContent} 
-              onCodeSuggested={handleCodeSuggested} 
+            <SandboxAISidebar
+              currentFileContent={fileContent}
+              onCodeSuggested={handleCodeSuggested}
             />
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
