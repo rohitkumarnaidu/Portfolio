@@ -47,9 +47,10 @@ module.exports = {
     ],
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'react-hooks/exhaustive-deps': 'warn',
+    '@typescript-eslint/no-explicit-any': 'warn',
     'prefer-const': 'error',
     'no-var': 'error',
-    'eqeqeq': ['error', 'smart'],
+    eqeqeq: ['error', 'smart'],
   },
   overrides: [
     {
