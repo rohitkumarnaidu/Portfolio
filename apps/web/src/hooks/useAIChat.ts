@@ -102,8 +102,8 @@ export function useAIChat(options: UseAIChatOptions = {}): UseAIChatReturn {
                     prev.map((msg) =>
                       msg.id === assistantMessage.id
                         ? { ...msg, content: msg.content + parsed.token }
-                        : msg
-                    )
+                        : msg,
+                    ),
                   );
                 }
               } catch {
@@ -115,10 +115,8 @@ export function useAIChat(options: UseAIChatOptions = {}): UseAIChatReturn {
 
         setMessages((prev) =>
           prev.map((msg) =>
-            msg.id === assistantMessage.id
-              ? { ...msg, status: 'complete' }
-              : msg
-          )
+            msg.id === assistantMessage.id ? { ...msg, status: 'complete' } : msg,
+          ),
         );
       } catch (err) {
         if (err instanceof DOMException && err.name === 'AbortError') return;
@@ -131,15 +129,15 @@ export function useAIChat(options: UseAIChatOptions = {}): UseAIChatReturn {
           prev.map((msg) =>
             msg.id === assistantMessage.id
               ? { ...msg, status: 'error', content: msg.content || errorMessage }
-              : msg
-          )
+              : msg,
+          ),
         );
       } finally {
         setIsStreaming(false);
         abortRef.current = null;
       }
     },
-    [isStreaming, options]
+    [isStreaming, options],
   );
 
   const regenerate = useCallback(async () => {

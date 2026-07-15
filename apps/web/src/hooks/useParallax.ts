@@ -1,10 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface UseParallaxOptions {
   speed?: number;
@@ -29,30 +25,42 @@ export function useParallax(options: UseParallaxOptions = {}) {
       return;
     }
 
-    const intensity = clamp ? Math.min(Math.abs(speed), 0.5) : Math.abs(speed);
+    let ctx: { revert: () => void } | null = null;
 
-    const movement = direction === 'up' ? -1 : 1;
+    const initGsap = async () => {
+      const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+        import('gsap'),
+        import('gsap/ScrollTrigger'),
+      ]);
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        element,
-        { y: 0 },
-        {
-          y: () => movement * element.offsetHeight * intensity * 0.5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: element.parentElement || element,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-            invalidateOnRefresh: true,
+      gsap.registerPlugin(ScrollTrigger);
+
+      const intensity = clamp ? Math.min(Math.abs(speed), 0.5) : Math.abs(speed);
+      const movement = direction === 'up' ? -1 : 1;
+
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          element,
+          { y: 0 },
+          {
+            y: () => movement * element.offsetHeight * intensity * 0.5,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: element.parentElement || element,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
           },
-        }
-      );
-    });
+        );
+      });
+    };
+
+    initGsap();
 
     return () => {
-      ctx.revert();
+      ctx?.revert();
     };
   }, [speed, direction, clamp]);
 

@@ -20,8 +20,7 @@ export const useScrollReactive3D = () => {
 
   const getScrollProgress = useCallback(() => {
     const spring = 0.05;
-    scrollProgress.current +=
-      (targetScroll.current - scrollProgress.current) * spring;
+    scrollProgress.current += (targetScroll.current - scrollProgress.current) * spring;
     return scrollProgress.current;
   }, []);
 

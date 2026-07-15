@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { login as apiLogin, refreshToken as apiRefresh } from '@/lib/api';
+import { login as apiLogin, refreshToken as apiRefresh, logout as apiLogout } from '@/lib/api';
 
 interface AuthUser {
   id: string;
@@ -69,30 +69,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!state.refreshToken || !state.accessToken) return;
 
-    const interval = setInterval(async () => {
-      try {
-        const res = await apiRefresh(state.refreshToken!);
-        setStoredValue(STORAGE_KEYS.ACCESS_TOKEN, res.access_token);
-        setState(prev => ({ ...prev, accessToken: res.access_token }));
-      } catch {
-        removeStoredValue(STORAGE_KEYS.ACCESS_TOKEN);
-        removeStoredValue(STORAGE_KEYS.REFRESH_TOKEN);
-        removeStoredValue(STORAGE_KEYS.USER);
-        setState({
-          user: null,
-          accessToken: null,
-          refreshToken: null,
-          loading: false,
-          error: null,
-        });
-      }
-    }, 10 * 60 * 1000);
+    const interval = setInterval(
+      async () => {
+        try {
+          const res = await apiRefresh(state.refreshToken!);
+          setStoredValue(STORAGE_KEYS.ACCESS_TOKEN, res.access_token);
+          setState((prev) => ({ ...prev, accessToken: res.access_token }));
+        } catch {
+          removeStoredValue(STORAGE_KEYS.ACCESS_TOKEN);
+          removeStoredValue(STORAGE_KEYS.REFRESH_TOKEN);
+          removeStoredValue(STORAGE_KEYS.USER);
+          setState({
+            user: null,
+            accessToken: null,
+            refreshToken: null,
+            loading: false,
+            error: null,
+          });
+        }
+      },
+      10 * 60 * 1000,
+    );
 
     return () => clearInterval(interval);
   }, [state.refreshToken, state.accessToken]);
 
   const login = useCallback(async (email: string, password: string) => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
       const res = await apiLogin(email, password);
@@ -116,7 +119,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Login failed';
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         loading: false,
         error: message,
@@ -126,6 +129,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(() => {
+    apiLogout().catch(() => {});
     removeStoredValue(STORAGE_KEYS.ACCESS_TOKEN);
     removeStoredValue(STORAGE_KEYS.REFRESH_TOKEN);
     removeStoredValue(STORAGE_KEYS.USER);

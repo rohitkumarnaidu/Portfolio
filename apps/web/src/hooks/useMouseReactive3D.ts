@@ -13,13 +13,12 @@ export const useMouseReactive3D = (tier: Tier) => {
       mouse.current.targetX = (e.clientX / size.width) * 2 - 1;
       mouse.current.targetY = -(e.clientY / size.height) * 2 + 1;
     },
-    [size]
+    [size],
   );
 
   useEffect(() => {
     window.addEventListener('pointermove', onPointerMove, { passive: true });
-    return () =>
-      window.removeEventListener('pointermove', onPointerMove);
+    return () => window.removeEventListener('pointermove', onPointerMove);
   }, [onPointerMove]);
 
   useFrame(() => {
