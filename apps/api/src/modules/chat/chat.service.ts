@@ -1,12 +1,19 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { ConfigService } from '@nestjs/config';
+import type { Response } from 'express';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { paginateQuery } from '../../common/database/pagination.helper';
+import { MessageRole } from '../../../generated/prisma/client';
+import type { SendMessageDto } from './dto';
 
 @Injectable()
 export class ChatService {
   private readonly logger = new Logger(ChatService.name);
 
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async getOrCreateConversation(sessionId: string, visitorId?: string, pageContext?: string) {
     let conversation = await this.prisma.chatConversation.findUnique({ where: { sessionId } });
@@ -18,7 +25,14 @@ export class ChatService {
     return conversation;
   }
 
-  async addMessage(conversationId: string, role: string, content: string, tokensUsed?: number, responseTimeMs?: number, metadata?: Record<string, any>) {
+  async addMessage(
+    conversationId: string,
+    role: MessageRole,
+    content: string,
+    tokensUsed?: number,
+    responseTimeMs?: number,
+    metadata?: Record<string, unknown>,
+  ) {
     const message = await this.prisma.chatMessage.create({
       data: {
         conversationId,
@@ -26,6 +40,7 @@ export class ChatService {
         content,
         tokensUsed: tokensUsed ?? 0,
         responseTimeMs: responseTimeMs ?? 0,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         metadata: (metadata ?? {}) as any,
       },
     });
@@ -44,7 +59,12 @@ export class ChatService {
 
   async getMessages(conversationId: string, opts?: { page?: number; perPage?: number }) {
     return paginateQuery(
-      (args) => this.prisma.chatMessage.findMany({ where: { conversationId }, orderBy: { createdAt: 'asc' }, ...args }),
+      (args) =>
+        this.prisma.chatMessage.findMany({
+          where: { conversationId },
+          orderBy: { createdAt: 'asc' },
+          ...args,
+        }),
       () => this.prisma.chatMessage.count({ where: { conversationId } }),
       opts,
     );
@@ -52,7 +72,12 @@ export class ChatService {
 
   async listConversations(opts?: { page?: number; perPage?: number }) {
     return paginateQuery(
-      (args) => this.prisma.chatConversation.findMany({ where: { deletedAt: null }, orderBy: { lastActivityAt: 'desc' }, ...args }),
+      (args) =>
+        this.prisma.chatConversation.findMany({
+          where: { deletedAt: null },
+          orderBy: { lastActivityAt: 'desc' },
+          ...args,
+        }),
       () => this.prisma.chatConversation.count({ where: { deletedAt: null } }),
       opts,
     );
@@ -66,41 +91,105 @@ export class ChatService {
       data: { deletedAt: new Date() },
     });
   }
-  async streamChat(dto: any, res: any) {
-    const conversation = await this.getOrCreateConversation(dto.sessionId, undefined, dto.pageContext);
-    await this.addMessage(conversation.id, 'user', dto.content);
+
+  async streamChat(dto: SendMessageDto, res: Response) {
+    const conversation = await this.getOrCreateConversation(
+      dto.sessionId,
+      undefined,
+      dto.pageContext,
+    );
+    await this.addMessage(conversation.id, MessageRole.user, dto.content);
+
+    // Fetch previous messages for AI context
+    const previousMessages = await this.prisma.chatMessage.findMany({
+      where: { conversationId: conversation.id },
+      orderBy: { createdAt: 'asc' },
+    });
+    const history = previousMessages.map((m) => ({ role: m.role, content: m.content }));
+
+    const aiUrl = this.configService.get<string>('app.AI_API_URL') || 'http://localhost:8000';
 
     try {
-      const response = await fetch('http://localhost:8000/api/chat', {
+      const aiResponse = await fetch(`${aiUrl}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          conversationId: conversation.id,
+          session_id: conversation.id,
           message: dto.content,
+          page_context: dto.pageContext || '',
+          history,
         }),
       });
 
-      if (!response.ok) {
-        throw new Error(`AI service error: ${response.statusText}`);
+      if (!aiResponse.ok) {
+        throw new Error(`AI service error: ${aiResponse.statusText}`);
       }
 
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
 
-      if (!response.body) {
+      if (!aiResponse.body) {
         res.end();
         return;
       }
 
-      // stream response from fastAPI AI
-      for await (const chunk of response.body as any) {
-        res.write(chunk);
+      const reader = aiResponse.body.getReader();
+      const decoder = new TextDecoder();
+      let fullResponse = '';
+      let buffer = '';
+
+      /* eslint-disable no-constant-condition */
+      while (true) {
+        /* eslint-enable no-constant-condition */
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        let idx: number;
+        while ((idx = buffer.indexOf('\n\n')) !== -1) {
+          const message = buffer.slice(0, idx);
+          buffer = buffer.slice(idx + 2);
+
+          for (const line of message.split('\n')) {
+            if (line.startsWith('data: ')) {
+              const data = line.slice(6);
+              if (data === '[DONE]') {
+                await this.addMessage(conversation.id, MessageRole.assistant, fullResponse);
+                res.write('data: [DONE]\n\n');
+                res.end();
+                return;
+              }
+              fullResponse += data;
+              res.write(`data: ${data}\n\n`);
+            }
+          }
+        }
       }
+
+      // Process any remaining data after stream ends
+      if (buffer.startsWith('data: ')) {
+        const data = buffer.slice(6);
+        if (data && data !== '[DONE]') {
+          fullResponse += data;
+          res.write(`data: ${data}\n\n`);
+        }
+      }
+
+      if (fullResponse) {
+        await this.addMessage(conversation.id, MessageRole.assistant, fullResponse);
+      }
+
+      res.write('data: [DONE]\n\n');
       res.end();
     } catch (err) {
       this.logger.error('Error proxying chat stream:', err);
-      res.status(500).end();
+      if (!res.headersSent) {
+        res.status(500).end();
+      } else {
+        res.write('data: {"type":"error","content":"Internal error"}\n\n');
+        res.end();
+      }
     }
   }
 }

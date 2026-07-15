@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
-import { UpdateAvailabilityStatusDto } from './dto';
+import type { UpdateAvailabilityStatusDto } from './dto';
 
 @Injectable()
 export class AvailabilityStatusService {
@@ -16,11 +16,13 @@ export class AvailabilityStatusService {
   async update(dto: UpdateAvailabilityStatusDto) {
     const existing = await this.prisma.availabilityStatus.findFirst();
     if (!existing) {
-      return this.prisma.availabilityStatus.create({ data: sanitizeStrings(dto) as any });
+      return this.prisma.availabilityStatus.create({
+        data: sanitizeStrings(dto) as Record<string, unknown>,
+      });
     }
     return this.prisma.availabilityStatus.update({
       where: { id: existing.id },
-      data: sanitizeStrings(dto) as any,
+      data: sanitizeStrings(dto) as Record<string, unknown>,
     });
   }
 }

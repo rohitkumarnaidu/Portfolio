@@ -1,14 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateCaseStudyDto, UpdateCaseStudyDto } from './dto';
+import type { CreateCaseStudyDto, UpdateCaseStudyDto } from './dto';
 
 @Injectable()
 export class CaseStudiesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(projectId?: string, opts?: { page?: number; perPage?: number }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (projectId) where.projectId = projectId;
     return paginateQuery(
@@ -29,12 +30,14 @@ export class CaseStudiesService {
   }
 
   async create(dto: CreateCaseStudyDto) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.prisma.caseStudy.create({ data: sanitizeStrings(dto) as any });
   }
 
   async update(id: string, dto: UpdateCaseStudyDto) {
     const existing = await this.prisma.caseStudy.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Case study not found');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.prisma.caseStudy.update({ where: { id }, data: sanitizeStrings(dto) as any });
   }
 

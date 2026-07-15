@@ -9,5 +9,5 @@ export class ChatRequestDto {
 
   @IsArray()
   @IsOptional()
-  history?: any[];
+  history?: unknown[];
 }
