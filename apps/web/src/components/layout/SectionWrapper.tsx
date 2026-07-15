@@ -9,7 +9,15 @@ export interface SectionWrapperProps {
   headingLevel?: 'h2' | 'h3';
   subtitle?: string;
   variant?: 'default' | 'alt' | 'accent' | 'glass';
-  background?: 'none' | 'gradient' | 'noise' | 'dots' | 'mesh-1' | 'mesh-2' | 'gradient-hero' | 'gradient-cta';
+  background?:
+    | 'none'
+    | 'gradient'
+    | 'noise'
+    | 'dots'
+    | 'mesh-1'
+    | 'mesh-2'
+    | 'gradient-hero'
+    | 'gradient-cta';
   paddingTop?: 'none' | 'compact' | 'default' | 'generous';
   paddingBottom?: 'none' | 'compact' | 'default' | 'generous';
   animate?: boolean;
@@ -65,19 +73,19 @@ export function SectionWrapper({
         !isInView && animateDirection === 'left' && 'opacity-0 translate-x-12',
         !isInView && animateDirection === 'right' && 'opacity-0 -translate-x-12',
         !isInView && animateDirection === 'fade' && 'opacity-0',
-        isInView && 'opacity-100 translate-y-0 translate-x-0'
+        isInView && 'opacity-100 translate-y-0 translate-x-0',
       )
     : '';
 
   const bgVariantMap: Record<string, string> = {
-    'gradient': 'gradient-cta',
+    gradient: 'gradient-cta',
     'mesh-1': 'mesh-1',
     'mesh-2': 'mesh-2',
     'gradient-hero': 'gradient-hero',
     'gradient-cta': 'gradient-cta',
-    'noise': 'noise',
-    'dots': 'dots',
-    'none': 'none',
+    noise: 'noise',
+    dots: 'dots',
+    none: 'none',
   };
 
   return (
@@ -90,12 +98,10 @@ export function SectionWrapper({
         bgStyles[variant],
         ptStyles[paddingTop],
         pbStyles[paddingBottom],
-        className
+        className,
       )}
     >
-      <SectionBackground
-        variant={bgVariantMap[background] as BgVariant}
-      />
+      <SectionBackground variant={bgVariantMap[background] as BgVariant} />
 
       <div className={cn('section-container relative z-10', animationClasses)}>
         {heading && (

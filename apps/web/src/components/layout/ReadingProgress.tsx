@@ -10,11 +10,7 @@ interface ReadingProgressProps {
   selective?: boolean;
 }
 
-export const ReadingProgress = ({
-  color,
-  height = 3,
-  selective = true,
-}: ReadingProgressProps) => {
+export const ReadingProgress = ({ color, height = 3, selective = true }: ReadingProgressProps) => {
   const [progress, setProgress] = useState(0);
   const [visible, setVisible] = useState(false);
   const rafRef = useRef<number>(0);
