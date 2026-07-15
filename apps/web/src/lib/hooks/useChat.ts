@@ -46,133 +46,140 @@ export function useChat(opts: UseChatOptions = {}) {
       }
     }
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [sessionId]);
 
   // Cleanup SSE on unmount
   useEffect(() => {
+    const es = eventSourceRef.current;
     return () => {
-      eventSourceRef.current?.close();
+      es?.close();
     };
   }, []);
 
-  const sendMessage = useCallback(async (content: string, pageContext?: string) => {
-    if (!content.trim() || isSending) return;
-    setIsSending(true);
-    setError(null);
+  const sendMessage = useCallback(
+    async (content: string, pageContext?: string) => {
+      if (!content.trim() || isSending) return;
+      setIsSending(true);
+      setError(null);
 
-    // Optimistically add user message
-    const tempUserMsg: ChatMessage = {
-      id: `temp-${Date.now()}`,
-      conversationId: sessionId,
-      role: 'user',
-      content,
-      createdAt: new Date().toISOString(),
-    };
-    setMessages(prev => [...prev, tempUserMsg]);
-
-    try {
-      // Send to API
-      const result = await sendChatMessage(sessionId, content, pageContext);
-
-      // Replace temp message with real one
-      setMessages(prev =>
-        prev.map(m => m.id === tempUserMsg.id
-          ? { ...result.message, id: result.message.id || m.id }
-          : m
-        )
-      );
-
-      // Try SSE for AI response
-      const aiUrl = `${API_CONFIG.aiBaseUrl}/chat/stream`;
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
+      // Optimistically add user message
+      const tempUserMsg: ChatMessage = {
+        id: `temp-${Date.now()}`,
+        conversationId: sessionId,
+        role: 'user',
+        content,
+        createdAt: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, tempUserMsg]);
 
       try {
-        const response = await fetch(aiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            session_id: sessionId,
-            conversation_id: result.conversationId,
-            message: content,
-          }),
-          signal: controller.signal,
-        });
+        // Send to API
+        const result = await sendChatMessage(sessionId, content, pageContext);
 
-        clearTimeout(timeout);
+        // Replace temp message with real one
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === tempUserMsg.id ? { ...result.message, id: result.message.id || m.id } : m,
+          ),
+        );
 
-        if (response.ok && response.body) {
-          const reader = response.body.getReader();
-          const decoder = new TextDecoder();
-          let buffer = '';
+        // Try SSE for AI response
+        const aiUrl = `${API_CONFIG.aiBaseUrl}/chat/stream`;
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 30000);
 
-          const aiMsgId = `ai-${Date.now()}`;
+        try {
+          const response = await fetch(aiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              session_id: sessionId,
+              conversation_id: result.conversationId,
+              message: content,
+            }),
+            signal: controller.signal,
+          });
 
-          for (;;) {
-            const { done, value } = await reader.read();
-            if (done) break;
+          clearTimeout(timeout);
 
-            buffer += decoder.decode(value, { stream: true });
-            const lines = buffer.split('\n');
-            buffer = lines.pop() || '';
+          if (response.ok && response.body) {
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
 
-            for (const line of lines) {
-              if (line.startsWith('data: ')) {
-                const data = line.slice(6);
-                if (data === '[DONE]') continue;
-                try {
-                  const parsed = JSON.parse(data);
-                  const token = parsed.token || parsed.content || parsed.text || '';
-                  setStreamingContent(prev => (prev || '') + token);
-                } catch {
-                  setStreamingContent(prev => (prev || '') + data);
+            const aiMsgId = `ai-${Date.now()}`;
+
+            for (;;) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split('\n');
+              buffer = lines.pop() || '';
+
+              for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                  const data = line.slice(6);
+                  if (data === '[DONE]') continue;
+                  try {
+                    const parsed = JSON.parse(data);
+                    const token = parsed.token || parsed.content || parsed.text || '';
+                    setStreamingContent((prev) => (prev || '') + token);
+                  } catch {
+                    setStreamingContent((prev) => (prev || '') + data);
+                  }
                 }
               }
             }
-          }
 
-          if (streamingContent) {
+            if (streamingContent) {
+              const aiMessage: ChatMessage = {
+                id: aiMsgId,
+                conversationId: sessionId,
+                role: 'assistant',
+                content: streamingContent,
+                createdAt: new Date().toISOString(),
+              };
+              setMessages((prev) => [...prev, aiMessage]);
+              setStreamingContent(null);
+            }
+          } else {
+            // Fallback: add a placeholder AI response
             const aiMessage: ChatMessage = {
-              id: aiMsgId,
+              id: `ai-${Date.now()}`,
               conversationId: sessionId,
               role: 'assistant',
-              content: streamingContent,
+              content:
+                "Thanks for your message! I'll get back to you shortly. In the meantime, feel free to explore my projects and case studies.",
               createdAt: new Date().toISOString(),
             };
-            setMessages(prev => [...prev, aiMessage]);
-            setStreamingContent(null);
+            setMessages((prev) => [...prev, aiMessage]);
           }
-        } else {
-          // Fallback: add a placeholder AI response
+        } catch {
+          // SSE failed - add fallback response
           const aiMessage: ChatMessage = {
             id: `ai-${Date.now()}`,
             conversationId: sessionId,
             role: 'assistant',
-            content: "Thanks for your message! I'll get back to you shortly. In the meantime, feel free to explore my projects and case studies.",
+            content:
+              "Thanks for reaching out! I've received your message. For immediate assistance, please contact me directly via the contact form.",
             createdAt: new Date().toISOString(),
           };
-          setMessages(prev => [...prev, aiMessage]);
+          setMessages((prev) => [...prev, aiMessage]);
         }
-      } catch {
-        // SSE failed - add fallback response
-        const aiMessage: ChatMessage = {
-          id: `ai-${Date.now()}`,
-          conversationId: sessionId,
-          role: 'assistant',
-          content: "Thanks for reaching out! I've received your message. For immediate assistance, please contact me directly via the contact form.",
-          createdAt: new Date().toISOString(),
-        };
-        setMessages(prev => [...prev, aiMessage]);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to send message');
+        // Remove temp message on failure
+        setMessages((prev) => prev.filter((m) => m.id !== tempUserMsg.id));
+      } finally {
+        setIsSending(false);
       }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send message');
-      // Remove temp message on failure
-      setMessages(prev => prev.filter(m => m.id !== tempUserMsg.id));
-    } finally {
-      setIsSending(false);
-    }
-  }, [sessionId, isSending, streamingContent]);
+    },
+    [sessionId, isSending, streamingContent],
+  );
 
   const clearChat = useCallback(() => {
     setMessages([]);

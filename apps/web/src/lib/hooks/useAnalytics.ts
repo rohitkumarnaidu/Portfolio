@@ -10,11 +10,7 @@ export function useAnalyticsSummary(period?: string) {
   });
 }
 
-export function useAnalyticsSessions(params?: {
-  page?: number;
-  per_page?: number;
-  from?: string;
-}) {
+export function useAnalyticsSessions(params?: { page?: number; per_page?: number; from?: string }) {
   return useQuery({
     queryKey: ['analyticsSessions', params],
     queryFn: () => getAnalyticsSessions(params),

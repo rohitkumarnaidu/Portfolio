@@ -14,7 +14,10 @@ export function useChatConversations(params?: { page?: number; perPage?: number 
   });
 }
 
-export function useChatConversationMessages(id: string, params?: { page?: number; perPage?: number }) {
+export function useChatConversationMessages(
+  id: string,
+  params?: { page?: number; perPage?: number },
+) {
   return useQuery({
     queryKey: ['chatConversationMessages', id, params],
     queryFn: () => getChatConversationMessages(id, params),

@@ -1,15 +1,7 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  getApiKeys,
-  getApiKey,
-  createApiKey,
-  revokeApiKey,
-  deleteApiKey,
-} from '@/lib/api';
-import type { ApiKey } from '@/lib/api';
-
+import { getApiKeys, getApiKey, createApiKey, revokeApiKey, deleteApiKey } from '@/lib/api';
 export function useApiKeys(params?: { page?: number; perPage?: number }) {
   return useQuery({
     queryKey: ['apiKeys', params],
