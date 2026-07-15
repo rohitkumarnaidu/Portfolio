@@ -10,7 +10,10 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     const project = await getProject(cs.projectId);
     return {
       title: `${project.title} — Case Study`,
-      description: cs.challenge || project.description || `${project.title} case study — architecture, approach, and impact`,
+      description:
+        cs.challenge ||
+        project.description ||
+        `${project.title} case study — architecture, approach, and impact`,
       openGraph: {
         title: `${project.title} — Case Study`,
         description: cs.challenge || project.description || undefined,
