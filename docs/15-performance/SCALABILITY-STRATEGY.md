@@ -10,14 +10,14 @@
 
 The portfolio platform is designed for its current organic growth trajectory. The architecture assumes gradual, predictable scaling rather than hockey-stick growth.
 
-| Metric | Current Estimate | Growth Ceiling (Current Tier) | Next Tier Trigger |
-|--------|-----------------|-------------------------------|-------------------|
-| Monthly Visitors | ~10K | 50K | 50K+ monthly visitors |
-| Monthly Page Views | ~100K | 500K | 500K+ page views |
-| AI Chat Sessions | ~1K | 10K | 10K+ sessions/month |
-| API Requests | ~50K | 300K | 300K+ requests/month |
-| Database Size | ~100MB | 500MB (Supabase Free) | 500MB storage |
-| Concurrent Connections | ~5 | 15 (Supabase Free) | 15 concurrent |
+| Metric                 | Current Estimate | Growth Ceiling (Current Tier) | Next Tier Trigger     |
+| ---------------------- | ---------------- | ----------------------------- | --------------------- |
+| Monthly Visitors       | ~10K             | 50K                           | 50K+ monthly visitors |
+| Monthly Page Views     | ~100K            | 500K                          | 500K+ page views      |
+| AI Chat Sessions       | ~1K              | 10K                           | 10K+ sessions/month   |
+| API Requests           | ~50K             | 300K                          | 300K+ requests/month  |
+| Database Size          | ~100MB           | 500MB (Supabase Free)         | 500MB storage         |
+| Concurrent Connections | ~5               | 15 (Supabase Free)            | 15 concurrent         |
 
 ---
 
@@ -47,12 +47,12 @@ Each service layer is independently scalable, allowing targeted resource allocat
 
 ### 2.4 Database (Supabase Postgres)
 
-| Plan | Monthly Cost | Storage | Max Connections | Suitable For |
-|------|-------------|---------|-----------------|--------------|
-| Free | $0 | 500MB | 15 | Development / < 10K visitors |
-| Pro | $25 | 8GB | 120 | Production / < 100K visitors |
-| Team | $69 | 16GB | 150 | Growth / < 500K visitors |
-| Enterprise | Custom | Custom | Custom | > 500K visitors |
+| Plan       | Monthly Cost | Storage | Max Connections | Suitable For                 |
+| ---------- | ------------ | ------- | --------------- | ---------------------------- |
+| Free       | $0           | 500MB   | 15              | Development / < 10K visitors |
+| Pro        | $25          | 8GB     | 120             | Production / < 100K visitors |
+| Team       | $69          | 16GB    | 150             | Growth / < 500K visitors     |
+| Enterprise | Custom       | Custom  | Custom          | > 500K visitors              |
 
 ### 2.5 Redis (Cache + Queue)
 
@@ -69,11 +69,11 @@ Each service layer is independently scalable, allowing targeted resource allocat
 
 PostgreSQL has a connection-per-worker limit. Connection pooling is the first scaling intervention.
 
-| Strategy | Benefit | Implementation |
-|----------|---------|----------------|
-| PgBouncer (Transaction mode) | Multiplex many connections into few | Supabase Pro includes built-in PgBouncer |
-| Prisma connection pool | Limits concurrent Prisma queries | Configure `connectionLimit` in Prisma datasource |
-| Connection timeout | Prevents connection exhaustion | 5s connection timeout, 30s idle timeout |
+| Strategy                     | Benefit                             | Implementation                                   |
+| ---------------------------- | ----------------------------------- | ------------------------------------------------ |
+| PgBouncer (Transaction mode) | Multiplex many connections into few | Supabase Pro includes built-in PgBouncer         |
+| Prisma connection pool       | Limits concurrent Prisma queries    | Configure `connectionLimit` in Prisma datasource |
+| Connection timeout           | Prevents connection exhaustion      | 5s connection timeout, 30s idle timeout          |
 
 ### 3.2 Query Optimization for Scale
 
@@ -100,13 +100,13 @@ NestJS controllers and services hold no in-memory session state. Authentication 
 
 ### 4.2 Rate Limiting (Multi-Tier)
 
-| Tier | Rate Limit | Purpose |
-|------|-----------|---------|
-| Global | 100 req/s per IP | Prevent DDoS |
-| Portfolio API | 30 req/s per IP | Public content |
-| Admin API | 10 req/s per user | Admin mutations |
-| AI Chat | 5 req/s per session | Cost control |
-| Auth | 3 req/min per IP | Brute force prevention |
+| Tier          | Rate Limit          | Purpose                |
+| ------------- | ------------------- | ---------------------- |
+| Global        | 100 req/s per IP    | Prevent DDoS           |
+| Portfolio API | 30 req/s per IP     | Public content         |
+| Admin API     | 10 req/s per user   | Admin mutations        |
+| AI Chat       | 5 req/s per session | Cost control           |
+| Auth          | 3 req/min per IP    | Brute force prevention |
 
 ### 4.3 Caching Layers
 
@@ -130,11 +130,11 @@ FastAPI workers are stateless — all state lives in Redis (conversation history
 
 ### 5.3 Queue-Based Processing
 
-| Queue | Purpose | Concurrency | Retries |
-|-------|---------|-------------|---------|
-| `ai-chat` | Real-time chat messages | 5 workers | 2 |
-| `ai-embedding` | Background embedding generation | 2 workers | 3 |
-| `ai-non-critical` | Analysis, suggestions | 1 worker | 1 |
+| Queue             | Purpose                         | Concurrency | Retries |
+| ----------------- | ------------------------------- | ----------- | ------- |
+| `ai-chat`         | Real-time chat messages         | 5 workers   | 2       |
+| `ai-embedding`    | Background embedding generation | 2 workers   | 3       |
+| `ai-non-critical` | Analysis, suggestions           | 1 worker    | 1       |
 
 ### 5.4 Cost Control
 
@@ -147,40 +147,40 @@ FastAPI workers are stateless — all state lives in Redis (conversation history
 
 ## 6. Caching Strategy for Scale
 
-| Layer | Cache Type | Target Hit Rate | TTL | Invalidation |
-|-------|-----------|-----------------|-----|--------------|
-| Vercel Edge (CDN) | ISR + static assets | > 95% | 60s (ISR), 1y (assets) | On-demand revalidation |
-| Redis (Application) | API responses, session | > 80% | 30-300s | TTL expiry + webhook |
-| Browser | Immutable assets | > 95% | 365d | Content hash change |
-| OpenAI Response Cache | AI chat responses | > 60% | 1h | Semantic key expiry |
+| Layer                 | Cache Type             | Target Hit Rate | TTL                    | Invalidation           |
+| --------------------- | ---------------------- | --------------- | ---------------------- | ---------------------- |
+| Vercel Edge (CDN)     | ISR + static assets    | > 95%           | 60s (ISR), 1y (assets) | On-demand revalidation |
+| Redis (Application)   | API responses, session | > 80%           | 30-300s                | TTL expiry + webhook   |
+| Browser               | Immutable assets       | > 95%           | 365d                   | Content hash change    |
+| OpenAI Response Cache | AI chat responses      | > 60%           | 1h                     | Semantic key expiry    |
 
 ---
 
 ## 7. Monitoring Thresholds & Scale Triggers
 
-| Component | Metric | Warning | Critical | Action |
-|-----------|--------|---------|----------|--------|
-| CDN | Cache hit ratio | < 90% | < 80% | Review cache rules |
-| API | P95 response time | > 300ms | > 500ms | Scale API instances |
-| API | Error rate | > 0.5% | > 1% | Rollback recent deploy |
-| Database | Connection usage | > 70% | > 90% | Add PgBouncer / upgrade plan |
-| Database | Query P95 | > 100ms | > 200ms | Optimize queries / add index |
-| Redis | Memory usage | > 70% | > 85% | Increase maxmemory / cluster |
-| AI Service | Queue depth | > 100 | > 500 | Scale workers |
-| AI Service | P95 TTFT | > 1000ms | > 2000ms | Scale AI workers |
-| Monthly Visitors | Traffic volume | > 30K | > 50K | Review plan upgrade |
+| Component        | Metric            | Warning  | Critical | Action                       |
+| ---------------- | ----------------- | -------- | -------- | ---------------------------- |
+| CDN              | Cache hit ratio   | < 90%    | < 80%    | Review cache rules           |
+| API              | P95 response time | > 300ms  | > 500ms  | Scale API instances          |
+| API              | Error rate        | > 0.5%   | > 1%     | Rollback recent deploy       |
+| Database         | Connection usage  | > 70%    | > 90%    | Add PgBouncer / upgrade plan |
+| Database         | Query P95         | > 100ms  | > 200ms  | Optimize queries / add index |
+| Redis            | Memory usage      | > 70%    | > 85%    | Increase maxmemory / cluster |
+| AI Service       | Queue depth       | > 100    | > 500    | Scale workers                |
+| AI Service       | P95 TTFT          | > 1000ms | > 2000ms | Scale AI workers             |
+| Monthly Visitors | Traffic volume    | > 30K    | > 50K    | Review plan upgrade          |
 
 ---
 
 ## 8. Cost Implications
 
-| Tier | Monthly Cost | Visitors | Infrastructure |
-|------|-------------|----------|---------------|
-| **Development** | ~$0 | < 1K | Vercel Hobby, Supabase Free, Railway $0 |
-| **Launch** | ~$25/mo | < 10K | Vercel Pro, Supabase Pro |
-| **Growth** | ~$100/mo | < 100K | Vercel Pro, Supabase Pro + Redis, Railway $20 |
-| **Scale** | ~$300/mo | < 500K | Vercel Enterprise, Supabase Team + read replicas |
-| **Enterprise** | ~$1000+/mo | > 500K | Custom Vercel + Supabase, dedicated Redis cluster |
+| Tier            | Monthly Cost | Visitors | Infrastructure                                    |
+| --------------- | ------------ | -------- | ------------------------------------------------- |
+| **Development** | ~$0          | < 1K     | Vercel Hobby, Supabase Free, Railway $0           |
+| **Launch**      | ~$25/mo      | < 10K    | Vercel Pro, Supabase Pro                          |
+| **Growth**      | ~$100/mo     | < 100K   | Vercel Pro, Supabase Pro + Redis, Railway $20     |
+| **Scale**       | ~$300/mo     | < 500K   | Vercel Enterprise, Supabase Team + read replicas  |
+| **Enterprise**  | ~$1000+/mo   | > 500K   | Custom Vercel + Supabase, dedicated Redis cluster |
 
 ### 8.1 Cost Optimization Levers
 

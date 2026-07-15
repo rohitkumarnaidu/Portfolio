@@ -57,14 +57,15 @@
 
 ---
 
-## Related
+## Cross-References
 
-| Resource | Location |
-|----------|----------|
-| Full testing guide | `docs/16-accessibility/ACCESSIBILITY-TESTING-GUIDE.md` |
-| Architecture & component specs | `docs/16-accessibility/ACCESSIBILITY-ARCHITECTURE.md` |
-| WCAG compliance statement | `docs/16-accessibility/WCAG-STATEMENT.md` |
+| Resource                       | Location                                               |
+| ------------------------------ | ------------------------------------------------------ |
+| Full testing guide             | `docs/16-accessibility/ACCESSIBILITY-TESTING-GUIDE.md` |
+| Architecture & component specs | `docs/16-accessibility/ACCESSIBILITY-ARCHITECTURE.md`  |
+| WCAG compliance statement      | `docs/16-accessibility/WCAG-STATEMENT.md`              |
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

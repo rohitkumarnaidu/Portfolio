@@ -43,13 +43,13 @@ The analytics system provides **complete, privacy-compliant visibility** into ev
 
 ### 1.2 Analytics Stack
 
-| Tool                     | Purpose                                                              | Cost                   | Data Retention          | Events/Month |
-| ------------------------ | -------------------------------------------------------------------- | ---------------------- | ----------------------- | ------------ |
+| Tool                     | Purpose                                                              | Cost                           | Data Retention          | Events/Month |
+| ------------------------ | -------------------------------------------------------------------- | ------------------------------ | ----------------------- | ------------ |
 | **Umami**                | Traffic analytics, real-time visitors, page views, referrers         | Ã°Å¸â€ â€œ Free (self-hosted)  | Indefinite (aggregated) | Unlimited    |
 | **PostHog**              | Product analytics, session replays, heatmaps, feature flags, funnels | Ã°Å¸â€ â€œ Free (1M events/mo) | 1 year (events)         | < 1M         |
 | **Vercel Analytics**     | Core Web Vitals (LCP, CLS, INP), real-time                           | Ã°Å¸â€ â€œ Free                | 30 days (detailed)      | Unlimited    |
 | **Sentry**               | Error tracking, performance traces                                   | Ã°Å¸â€ â€œ Free (5K events/mo) | 90 days                 | < 5K         |
-| **Custom DB (Supabase)** | Portfolio-specific events, lead tracking, AI cost tracking           | Included               | Tiered (see Ã‚Â§17)        | < 10K        |
+| **Custom DB (Supabase)** | Portfolio-specific events, lead tracking, AI cost tracking           | Included                       | Tiered (see Ã‚Â§17)     | < 10K        |
 
 ### 1.3 Event Volume Estimates
 
@@ -67,30 +67,30 @@ The analytics system provides **complete, privacy-compliant visibility** into ev
 
 ### 1.4 Key Metrics Dashboard
 
-| Metric                       | Current | Target             | Tool                  | Update Frequency |
-| ---------------------------- | ------- | ------------------ | --------------------- | ---------------- |
-| Monthly visitors             | Ã¢â‚¬â€       | 1,000+             | Umami                 | Real-time        |
-| Visitor Ã¢â€ â€™ Lead conversion    | Ã¢â‚¬â€       | > 3%               | Custom DB             | Daily            |
-| Avg. session duration        | Ã¢â‚¬â€       | > 3 min            | Umami                 | Real-time        |
-| Portfolio section engagement | Ã¢â‚¬â€       | > 60% scroll depth | PostHog               | Real-time        |
-| AI chat engagement rate      | Ã¢â‚¬â€       | > 50% of visitors  | PostHog               | Daily            |
-| Lead capture from AI chat    | Ã¢â‚¬â€       | > 10% of chats     | Custom DB             | Daily            |
-| Bounce rate                  | Ã¢â‚¬â€       | < 50%              | Umami                 | Real-time        |
-| Lighthouse performance score | Ã¢â‚¬â€       | > 90               | Vercel                | Per deploy       |
-| SEO keyword ranking (top 10) | Ã¢â‚¬â€       | > 20 keywords      | Google Search Console | Weekly           |
+| Metric                           | Current | Target             | Tool                  | Update Frequency |
+| -------------------------------- | ------- | ------------------ | --------------------- | ---------------- |
+| Monthly visitors                 | Ã¢â‚¬â€ | 1,000+             | Umami                 | Real-time        |
+| Visitor Ã¢â€ â€™ Lead conversion | Ã¢â‚¬â€ | > 3%               | Custom DB             | Daily            |
+| Avg. session duration            | Ã¢â‚¬â€ | > 3 min            | Umami                 | Real-time        |
+| Portfolio section engagement     | Ã¢â‚¬â€ | > 60% scroll depth | PostHog               | Real-time        |
+| AI chat engagement rate          | Ã¢â‚¬â€ | > 50% of visitors  | PostHog               | Daily            |
+| Lead capture from AI chat        | Ã¢â‚¬â€ | > 10% of chats     | Custom DB             | Daily            |
+| Bounce rate                      | Ã¢â‚¬â€ | < 50%              | Umami                 | Real-time        |
+| Lighthouse performance score     | Ã¢â‚¬â€ | > 90               | Vercel                | Per deploy       |
+| SEO keyword ranking (top 10)     | Ã¢â‚¬â€ | > 20 keywords      | Google Search Console | Weekly           |
 
 ### 1.5 Alignment with Other Documents
 
-| Document                                       | Section                             | Relationship                                                             |
-| ---------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------ |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)         | Ã‚Â§18 AI Analytics                    | AI-specific events, cost tracking, model usage metrics                   |
-| `docs/ai/18-AGENTS.md` (v5.0)                  | Ã‚Â§13 Analytics Agent, Ã‚Â§20 Evaluation | Agent performance metrics, per-agent scorecards                          |
-| `docs/ai/19-RAG.md` (v5.0)                     | Ã‚Â§15 Monitoring, Ã‚Â§16 Evaluation      | RAG retrieval metrics, embedding costs, evaluation                       |
-| `docs/product/02-FEATURES.md` (v3.0)           | All sections                        | Per-feature analytics events (52 features)                               |
-| `docs/operations/21-MONITORING.md` (v3.0)      | Ã‚Â§7 Alert Escalation                 | Alert rules for metric thresholds                                        |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0)   | Full Architecture                   | Structured logs, distributed traces, metrics collection, correlation IDs |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Ã‚Â§12 Analytics Tables                | Database schema for analytics events                                     |
-| `docs/api/12-API.md` (v5.0)                    | Analytics endpoints                 | API for fetching analytics data                                          |
+| Document                                          | Section                                   | Relationship                                                             |
+| ------------------------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------ |
+| `docs/08-ai/17-AI_INSTRUCTIONS.md` (v5.0)         | Ã‚Â§18 AI Analytics                       | AI-specific events, cost tracking, model usage metrics                   |
+| `docs/08-ai/18-AGENTS.md` (v5.0)                  | Ã‚Â§13 Analytics Agent, Ã‚Â§20 Evaluation | Agent performance metrics, per-agent scorecards                          |
+| `docs/08-ai/19-RAG.md` (v5.0)                     | Ã‚Â§15 Monitoring, Ã‚Â§16 Evaluation      | RAG retrieval metrics, embedding costs, evaluation                       |
+| `docs/01-product/02-FEATURES.md` (v3.0)           | All sections                              | Per-feature analytics events (52 features)                               |
+| `docs/21-operations/21-MONITORING.md` (v3.0)      | Ã‚Â§7 Alert Escalation                    | Alert rules for metric thresholds                                        |
+| `docs/21-operations/22-OBSERVABILITY.md` (v5.0)   | Full Architecture                         | Structured logs, distributed traces, metrics collection, correlation IDs |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0) | Ã‚Â§12 Analytics Tables                   | Database schema for analytics events                                     |
+| `docs/10-api/12-API.md` (v5.0)                    | Analytics endpoints                       | API for fetching analytics data                                          |
 
 ---
 
@@ -110,16 +110,16 @@ The analytics system provides **complete, privacy-compliant visibility** into ev
 
 ### 2.2 Design Principles
 
-| #   | Principle                    | Description                                              | Violation Penalty                   |
-| --- | ---------------------------- | -------------------------------------------------------- | ----------------------------------- |
-| P1  | **Single source of truth**   | One event definition per action Ã¢â‚¬â€ no duplicate tracking  | Metric inconsistency, trust loss    |
-| P2  | **Event-first architecture** | Every user action is an event before it's a metric       | Missing data, holes in funnels      |
-| P3  | **Semantic naming**          | Events named `domain_action_detail` Ã¢â‚¬â€ unambiguous        | Confusion, misattribution           |
-| P4  | **Properties carry context** | Every event includes session_id, timestamp, source       | Orphaned events, unusable data      |
-| P5  | **Funnel-ready**             | Events designed to chain into conversion funnels         | Cannot measure conversion           |
-| P6  | **Privacy-bounded**          | PII never in event properties; aggregated reporting only | GDPR violation risk                 |
-| P7  | **Cost-budgeted**            | Track event volume against 1M/month ceiling              | Budget overruns, throttled tracking |
-| P8  | **Self-healing tracking**    | Missing events trigger alerts, not silent gaps           | Blind spots in monitoring           |
+| #   | Principle                    | Description                                                   | Violation Penalty                   |
+| --- | ---------------------------- | ------------------------------------------------------------- | ----------------------------------- |
+| P1  | **Single source of truth**   | One event definition per action Ã¢â‚¬â€ no duplicate tracking | Metric inconsistency, trust loss    |
+| P2  | **Event-first architecture** | Every user action is an event before it's a metric            | Missing data, holes in funnels      |
+| P3  | **Semantic naming**          | Events named `domain_action_detail` Ã¢â‚¬â€ unambiguous       | Confusion, misattribution           |
+| P4  | **Properties carry context** | Every event includes session_id, timestamp, source            | Orphaned events, unusable data      |
+| P5  | **Funnel-ready**             | Events designed to chain into conversion funnels              | Cannot measure conversion           |
+| P6  | **Privacy-bounded**          | PII never in event properties; aggregated reporting only      | GDPR violation risk                 |
+| P7  | **Cost-budgeted**            | Track event volume against 1M/month ceiling                   | Budget overruns, throttled tracking |
+| P8  | **Self-healing tracking**    | Missing events trigger alerts, not silent gaps                | Blind spots in monitoring           |
 
 ### 2.3 Data Flow Philosophy
 
@@ -287,15 +287,15 @@ sequenceDiagram
 
 ### 3.4 Service Modules
 
-| Module                         | File                                                     | Responsibility                                | Emits Events                |
-| ------------------------------ | -------------------------------------------------------- | --------------------------------------------- | --------------------------- |
-| **Analytics Service (API)**    | `apps/api/src/modules/analytics/analytics.service.ts`    | Lead events, system events, batch aggregation | lead*\*, auth*_, content\__ |
-| **Analytics Controller (API)** | `apps/api/src/modules/analytics/analytics.controller.ts` | REST endpoints for analytics data             | HTTP responses              |
-| **Analytics Module (API)**     | `apps/api/src/modules/analytics/analytics.module.ts`     | Module configuration, PostHog client          | Ã¢â‚¬â€                           |
-| **Umami Client (Web)**         | `apps/web/src/lib/umami.ts`                              | Umami analytics API client                    | Custom events               |
-| **Analytics Hook (Web)**       | `apps/web/src/hooks/useAnalytics.ts`                     | Track custom events to analytics providers    | All frontend events         |
-| **PostHog Provider (Web)**     | `apps/web/src/components/AnalyticsProvider.tsx`          | PostHog initialization + feature flags        | $pageview, $identify        |
-| **AI Analytics (AI)**          | `apps/ai/app/services/analytics_service.py`              | AI-specific events, cost tracking             | chat*\*, rag*_, agent\__    |
+| Module                         | File                                                     | Responsibility                                | Emits Events                  |
+| ------------------------------ | -------------------------------------------------------- | --------------------------------------------- | ----------------------------- |
+| **Analytics Service (API)**    | `apps/api/src/modules/analytics/analytics.service.ts`    | Lead events, system events, batch aggregation | lead*\*, auth*\_, content\_\_ |
+| **Analytics Controller (API)** | `apps/api/src/modules/analytics/analytics.controller.ts` | REST endpoints for analytics data             | HTTP responses                |
+| **Analytics Module (API)**     | `apps/api/src/modules/analytics/analytics.module.ts`     | Module configuration, PostHog client          | Ã¢â‚¬â€                       |
+| **Umami Client (Web)**         | `apps/web/src/lib/umami.ts`                              | Umami analytics API client                    | Custom events                 |
+| **Analytics Hook (Web)**       | `apps/web/src/hooks/useAnalytics.ts`                     | Track custom events to analytics providers    | All frontend events           |
+| **PostHog Provider (Web)**     | `apps/web/src/components/AnalyticsProvider.tsx`          | PostHog initialization + feature flags        | $pageview, $identify          |
+| **AI Analytics (AI)**          | `apps/ai/app/services/analytics_service.py`              | AI-specific events, cost tracking             | chat*\*, rag*\_, agent\_\_    |
 
 ---
 
@@ -357,15 +357,15 @@ Every event MUST include these properties:
 
 ### 4.4 Event Categories
 
-| Category         | Priority      | Description                                   | Retention | Destinations          |
-| ---------------- | ------------- | --------------------------------------------- | --------- | --------------------- |
-| `engagement`     | Ã¢Â­Â Critical   | User interactions with portfolio content      | 1 year    | Umami, PostHog, DB    |
-| `conversion`     | Ã¢Â­Â Critical   | Lead capture, contact, hiring intent          | 2 years   | PostHog, DB           |
+| Category         | Priority             | Description                                   | Retention | Destinations          |
+| ---------------- | -------------------- | --------------------------------------------- | --------- | --------------------- |
+| `engagement`     | Ã¢Â­Â Critical       | User interactions with portfolio content      | 1 year    | Umami, PostHog, DB    |
+| `conversion`     | Ã¢Â­Â Critical       | Lead capture, contact, hiring intent          | 2 years   | PostHog, DB           |
 | `navigation`     | Ã°Å¸â€œÅ  Important  | Page transitions, nav clicks                  | 1 year    | Umami, PostHog        |
-| `ai_interaction` | Ã¢Â­Â Critical   | Chat messages, agent routing, RAG queries     | 1 year    | PostHog, DB           |
+| `ai_interaction` | Ã¢Â­Â Critical       | Chat messages, agent routing, RAG queries     | 1 year    | PostHog, DB           |
 | `system`         | Ã°Å¸â€œÅ  Important  | Performance, errors, health checks            | 90 days   | Sentry, DB            |
 | `admin`          | Ã°Å¸â€â€™ Restricted | Admin actions, content updates                | 2 years   | DB                    |
-| `cost`           | Ã¢Â­Â Critical   | AI costs, token usage, budget tracking        | 1 year    | DB                    |
+| `cost`           | Ã¢Â­Â Critical       | AI costs, token usage, budget tracking        | 1 year    | DB                    |
 | `seo`            | Ã°Å¸â€œÅ  Important  | Search rankings, crawl stats, organic traffic | 1 year    | Google Search Console |
 
 ### 4.5 Event Ownership
@@ -406,15 +406,15 @@ Every event MUST include these properties:
 
 ### 5.1 Metric Overview
 
-| Metric                            | Definition                               | Formula                                                | Target      | Tool      | Frequency |
-| --------------------------------- | ---------------------------------------- | ------------------------------------------------------ | ----------- | --------- | --------- |
-| **Monthly Active Visitors (MAV)** | Unique visitors per month                | COUNT(DISTINCT visitor_id)                             | 1,000+      | Umami     | Monthly   |
+| Metric                            | Definition                               | Formula                                                    | Target      | Tool      | Frequency |
+| --------------------------------- | ---------------------------------------- | ---------------------------------------------------------- | ----------- | --------- | --------- |
+| **Monthly Active Visitors (MAV)** | Unique visitors per month                | COUNT(DISTINCT visitor_id)                                 | 1,000+      | Umami     | Monthly   |
 | **Visitor Growth Rate**           | Month-over-month visitor growth          | ((MAV_t - MAV_t-1) / MAV_t-1) Ãƒâ€” 100                    | > 20%       | Umami     | Monthly   |
 | **Lead Conversion Rate**          | % of visitors who become leads           | (Leads / Unique Visitors) Ãƒâ€” 100                        | > 3%        | Custom DB | Weekly    |
-| **Lead Quality Score**            | Avg. lead score across all lead sources  | AVG(lead_score)                                        | > 0.5       | Custom DB | Weekly    |
-| **Response Time**                 | Time from lead submission to first reply | AVG(first_reply_at - created_at)                       | < 24h       | Custom DB | Weekly    |
+| **Lead Quality Score**            | Avg. lead score across all lead sources  | AVG(lead_score)                                            | > 0.5       | Custom DB | Weekly    |
+| **Response Time**                 | Time from lead submission to first reply | AVG(first_reply_at - created_at)                           | < 24h       | Custom DB | Weekly    |
 | **Hire Rate**                     | % of leads that convert to hired         | (Hired / Total Leads) Ãƒâ€” 100                            | > 5%        | Custom DB | Monthly   |
-| **Referral Source Mix**           | Traffic distribution by source           | COUNT(\*) GROUP BY source                              | Diversified | Umami     | Weekly    |
+| **Referral Source Mix**           | Traffic distribution by source           | COUNT(\*) GROUP BY source                                  | Diversified | Umami     | Weekly    |
 | **Engagement Rate**               | % of visitors who interact with content  | (Visitors with > 1 interaction / Total visitors) Ãƒâ€” 100 | > 60%       | PostHog   | Weekly    |
 
 ### 5.2 Events
@@ -460,12 +460,12 @@ Every event MUST include these properties:
 
 ### 6.1 Metric Overview
 
-| Metric                      | Definition                                        | Formula                                                               | Target                | Tool    | Frequency |
-| --------------------------- | ------------------------------------------------- | --------------------------------------------------------------------- | --------------------- | ------- | --------- |
+| Metric                      | Definition                                        | Formula                                                                   | Target                | Tool    | Frequency |
+| --------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------- | --------------------- | ------- | --------- |
 | **Feature Adoption Rate**   | % of visitors using each feature                  | (Users who triggered feature event / Total visitors) Ãƒâ€” 100            | > 30% for P0 features | PostHog | Weekly    |
 | **Feature Stickiness**      | % of returning users who use feature              | (Returning users who triggered feature / Total returning users) Ãƒâ€” 100 | > 40%                 | PostHog | Weekly    |
-| **Time-to-Value**           | Time from landing to first meaningful interaction | AVG(time from session_start to section_view or project_click)         | < 30s                 | PostHog | Weekly    |
-| **Navigation Efficiency**   | Avg. clicks to reach key content                  | AVG(path length to project, blog, or contact)                         | < 3 clicks            | PostHog | Weekly    |
+| **Time-to-Value**           | Time from landing to first meaningful interaction | AVG(time from session_start to section_view or project_click)             | < 30s                 | PostHog | Weekly    |
+| **Navigation Efficiency**   | Avg. clicks to reach key content                  | AVG(path length to project, blog, or contact)                             | < 3 clicks            | PostHog | Weekly    |
 | **Mobile vs Desktop Ratio** | Device type distribution                          | (Mobile users / Total users) Ãƒâ€” 100                                    | > 30% mobile          | Umami   | Weekly    |
 | **Dark Mode Adoption**      | % of sessions using dark mode                     | (Dark mode sessions / Total sessions) Ãƒâ€” 100                           | > 40%                 | PostHog | Weekly    |
 | **Chat Widget Open Rate**   | % of visitors who open chat                       | (Chat opens / Unique visitors) Ãƒâ€” 100                                  | > 50%                 | PostHog | Weekly    |
@@ -527,12 +527,12 @@ Every event MUST include these properties:
 | Metric                          | Definition                               | Formula                                              | Target | Tool    | Frequency |
 | ------------------------------- | ---------------------------------------- | ---------------------------------------------------- | ------ | ------- | --------- |
 | **Projects Viewed per Session** | Avg. projects clicked per session        | SUM(project_clicks) / COUNT(sessions)                | > 2    | PostHog | Weekly    |
-| **Project Detail Completion**   | % who visit detail page from card        | (Project_detail_page / Project_card_click) Ãƒâ€” 100     | > 40%  | PostHog | Weekly    |
-| **GitHub Link CTR**             | % of project viewers who click GitHub    | (github_click / project_view) Ãƒâ€” 100                  | > 15%  | PostHog | Weekly    |
-| **Live Demo CTR**               | % of project viewers who click live demo | (live_demo_click / project_view) Ãƒâ€” 100               | > 25%  | PostHog | Weekly    |
-| **Skills Interest**             | % of visitors who hover/click skills     | (skill_interaction / section_view_skills) Ãƒâ€” 100      | > 50%  | PostHog | Weekly    |
+| **Project Detail Completion**   | % who visit detail page from card        | (Project_detail_page / Project_card_click) Ãƒâ€” 100 | > 40%  | PostHog | Weekly    |
+| **GitHub Link CTR**             | % of project viewers who click GitHub    | (github_click / project_view) Ãƒâ€” 100              | > 15%  | PostHog | Weekly    |
+| **Live Demo CTR**               | % of project viewers who click live demo | (live_demo_click / project_view) Ãƒâ€” 100           | > 25%  | PostHog | Weekly    |
+| **Skills Interest**             | % of visitors who hover/click skills     | (skill_interaction / section_view_skills) Ãƒâ€” 100  | > 50%  | PostHog | Weekly    |
 | **Testimonial Engagement**      | % who scroll through testimonials        | (testimonial_next + testimonial_prev) / section_view | > 30%  | PostHog | Weekly    |
-| **Case Study Read Rate**        | % who reach 75%+ of case study           | (scroll_depth_75 / case_study_view) Ãƒâ€” 100            | > 50%  | PostHog | Weekly    |
+| **Case Study Read Rate**        | % who reach 75%+ of case study           | (scroll_depth_75 / case_study_view) Ãƒâ€” 100        | > 50%  | PostHog | Weekly    |
 | **Portfolio Stats Clicks**      | Impact stat interactions                 | stat_hover / stat_view                               | > 20%  | PostHog | Monthly   |
 
 ### 7.2 Events
@@ -590,24 +590,24 @@ Every event MUST include these properties:
 
 | Metric                         | Definition                                          | Formula                                                        | Target            | Tool      | Frequency |
 | ------------------------------ | --------------------------------------------------- | -------------------------------------------------------------- | ----------------- | --------- | --------- |
-| **Recruiter Session Ratio**    | % of sessions from recruiter-like sources           | (Recruiter sessions / Total sessions) Ãƒâ€” 100                    | > 15%             | Custom DB | Weekly    |
+| **Recruiter Session Ratio**    | % of sessions from recruiter-like sources           | (Recruiter sessions / Total sessions) Ãƒâ€” 100                | > 15%             | Custom DB | Weekly    |
 | **Recruiter Resume Downloads** | Resume downloads from recruiter-identified visitors | COUNT(resume_download) WHERE visitor_type = 'recruiter'        | > 10/mo           | Custom DB | Weekly    |
 | **Recruiter Engagement Score** | Avg. pages viewed by recruiters                     | AVG(pages_per_session) WHERE visitor_type = 'recruiter'        | > 5 pages         | Custom DB | Weekly    |
-| **RecruiterÃ¢â€ â€™Lead Rate**        | % of recruiters who contact                         | (Recruiter leads / Recruiter sessions) Ãƒâ€” 100                   | > 5%              | Custom DB | Monthly   |
+| **RecruiterÃ¢â€ â€™Lead Rate** | % of recruiters who contact                         | (Recruiter leads / Recruiter sessions) Ãƒâ€” 100               | > 5%              | Custom DB | Monthly   |
 | **Recruiter Source Breakdown** | Which channels send recruiters                      | COUNT(\*) GROUP BY utm_source WHERE visitor_type = 'recruiter' | LinkedIn > GitHub | Custom DB | Weekly    |
-| **Experience Section CTR**     | % of recruiters who view experience                 | (section_view_experience / recruiter_session) Ãƒâ€” 100            | > 80%             | PostHog   | Weekly    |
-| **Resume Download by Source**  | Resume downloads per referral source                | COUNT(\*) GROUP BY source, visitor_type                        | Ã¢â‚¬â€                 | Custom DB | Monthly   |
+| **Experience Section CTR**     | % of recruiters who view experience                 | (section_view_experience / recruiter_session) Ãƒâ€” 100        | > 80%             | PostHog   | Weekly    |
+| **Resume Download by Source**  | Resume downloads per referral source                | COUNT(\*) GROUP BY source, visitor_type                        | Ã¢â‚¬â€           | Custom DB | Monthly   |
 
 ### 8.2 Events
 
-| Event                    | Trigger                                     | Properties                                                                                   | Source            | Destination  | Dashboard Usage               | Business Value                   |
-| ------------------------ | ------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------- | ------------ | ----------------------------- | -------------------------------- |
-| `visitor_identified`     | Visitor classified by intent                | `visitor_type` (recruiter/client/developer/returning/unknown), `confidence`, `source_signal` | Browser (PostHog) | PostHog + DB | Visitor type breakdown        | Personalize portfolio experience |
-| `resume_download`        | Resume PDF downloaded                       | `source` (nav/hero/contact/chat), `visitor_type`, `visitor_source`, `file_size_bytes`        | Browser (PostHog) | PostHog + DB | Resume download conversion    | Measure recruiter interest       |
-| `experience_view`        | Experience section viewed                   | `visitor_type`, `time_on_page_ms`                                                            | Browser (PostHog) | PostHog      | Experience section engagement | Recruiter behavior analysis      |
-| `achievement_view`       | Achievement section viewed                  | `visitor_type`, `achievement_count_visible`                                                  | Browser (PostHog) | PostHog      | Credibility metrics           | Achievement impact               |
-| `recruiter_lead_created` | Lead created where visitor_type = recruiter | `source`, `utm_source`, `company_domain` (if provided), `message_length`                     | API (NestJS)      | PostHog + DB | RecruiterÃ¢â€ â€™lead conversion     | Recruiter pipeline               |
-| `portfolio_inquiry`      | Visitor asks about hiring/availability      | `inquiry_type` (full-time/contract/consulting), `source`, `visitor_type`                     | Browser (PostHog) | PostHog + DB | Hiring intent volume          | Opportunity pipeline             |
+| Event                    | Trigger                                     | Properties                                                                                   | Source            | Destination  | Dashboard Usage                  | Business Value                   |
+| ------------------------ | ------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------- | ------------ | -------------------------------- | -------------------------------- |
+| `visitor_identified`     | Visitor classified by intent                | `visitor_type` (recruiter/client/developer/returning/unknown), `confidence`, `source_signal` | Browser (PostHog) | PostHog + DB | Visitor type breakdown           | Personalize portfolio experience |
+| `resume_download`        | Resume PDF downloaded                       | `source` (nav/hero/contact/chat), `visitor_type`, `visitor_source`, `file_size_bytes`        | Browser (PostHog) | PostHog + DB | Resume download conversion       | Measure recruiter interest       |
+| `experience_view`        | Experience section viewed                   | `visitor_type`, `time_on_page_ms`                                                            | Browser (PostHog) | PostHog      | Experience section engagement    | Recruiter behavior analysis      |
+| `achievement_view`       | Achievement section viewed                  | `visitor_type`, `achievement_count_visible`                                                  | Browser (PostHog) | PostHog      | Credibility metrics              | Achievement impact               |
+| `recruiter_lead_created` | Lead created where visitor_type = recruiter | `source`, `utm_source`, `company_domain` (if provided), `message_length`                     | API (NestJS)      | PostHog + DB | RecruiterÃ¢â€ â€™lead conversion | Recruiter pipeline               |
+| `portfolio_inquiry`      | Visitor asks about hiring/availability      | `inquiry_type` (full-time/contract/consulting), `source`, `visitor_type`                     | Browser (PostHog) | PostHog + DB | Hiring intent volume             | Opportunity pipeline             |
 
 ### 8.3 Recruiter Metric Dashboard
 
@@ -643,16 +643,16 @@ Every event MUST include these properties:
 
 ### 9.1 Metric Overview
 
-| Metric                        | Definition                   | Formula                                    | Target          | Tool      | Frequency |
-| ----------------------------- | ---------------------------- | ------------------------------------------ | --------------- | --------- | --------- |
-| **Lead Volume**               | New leads per month          | COUNT(leads WHERE created_at = this month) | > 10/mo         | Custom DB | Daily     |
-| **Lead Source Mix**           | Distribution of lead sources | COUNT(\*) GROUP BY source                  | Diversified     | Custom DB | Weekly    |
-| **Lead Response Time**        | Avg. time to first reply     | AVG(first_response_at - created_at)        | < 24h           | Custom DB | Daily     |
-| **Lead Status Distribution**  | Current pipeline status      | COUNT(\*) GROUP BY status                  | Balanced funnel | Custom DB | Weekly    |
-| **Lead Quality (Avg. Score)** | ML-calculated lead score     | AVG(lead_score)                            | > 0.5           | Custom DB | Weekly    |
-| **ChatÃ¢â€ â€™Lead Conversion**      | % of chats that create leads | (Chat leads / Total chat sessions) Ãƒâ€” 100   | > 10%           | Custom DB | Weekly    |
-| **FormÃ¢â€ â€™Lead Completion**      | % of form starts that submit | (Form submits / Form starts) Ãƒâ€” 100         | > 60%           | PostHog   | Weekly    |
-| **LeadÃ¢â€ â€™Hired Rate**           | % of leads that become hired | (Hired / Total leads) Ãƒâ€” 100                | > 5%            | Custom DB | Monthly   |
+| Metric                          | Definition                   | Formula                                      | Target          | Tool      | Frequency |
+| ------------------------------- | ---------------------------- | -------------------------------------------- | --------------- | --------- | --------- |
+| **Lead Volume**                 | New leads per month          | COUNT(leads WHERE created_at = this month)   | > 10/mo         | Custom DB | Daily     |
+| **Lead Source Mix**             | Distribution of lead sources | COUNT(\*) GROUP BY source                    | Diversified     | Custom DB | Weekly    |
+| **Lead Response Time**          | Avg. time to first reply     | AVG(first_response_at - created_at)          | < 24h           | Custom DB | Daily     |
+| **Lead Status Distribution**    | Current pipeline status      | COUNT(\*) GROUP BY status                    | Balanced funnel | Custom DB | Weekly    |
+| **Lead Quality (Avg. Score)**   | ML-calculated lead score     | AVG(lead_score)                              | > 0.5           | Custom DB | Weekly    |
+| **ChatÃ¢â€ â€™Lead Conversion** | % of chats that create leads | (Chat leads / Total chat sessions) Ãƒâ€” 100 | > 10%           | Custom DB | Weekly    |
+| **FormÃ¢â€ â€™Lead Completion** | % of form starts that submit | (Form submits / Form starts) Ãƒâ€” 100       | > 60%           | PostHog   | Weekly    |
+| **LeadÃ¢â€ â€™Hired Rate**      | % of leads that become hired | (Hired / Total leads) Ãƒâ€” 100              | > 5%            | Custom DB | Monthly   |
 
 ### 9.2 Events
 
@@ -704,14 +704,14 @@ Every event MUST include these properties:
 
 ### 10.1 Metric Overview
 
-| Metric                       | Definition                       | Formula                                                | Target   | Tool          | Frequency |
-| ---------------------------- | -------------------------------- | ------------------------------------------------------ | -------- | ------------- | --------- |
-| **Chat Sessions**            | Total chat sessions initiated    | COUNT(chat_sessions)                                   | > 200/mo | PostHog       | Daily     |
-| **Messages per Session**     | Avg. messages per chat           | AVG(messages_per_session)                              | > 3      | Custom DB     | Weekly    |
-| **Chat Response Time (p95)** | 95th percentile response latency | PERCENTILE(0.95, response_time_ms)                     | < 3s     | Custom DB     | Daily     |
+| Metric                       | Definition                       | Formula                                                    | Target   | Tool          | Frequency |
+| ---------------------------- | -------------------------------- | ---------------------------------------------------------- | -------- | ------------- | --------- |
+| **Chat Sessions**            | Total chat sessions initiated    | COUNT(chat_sessions)                                       | > 200/mo | PostHog       | Daily     |
+| **Messages per Session**     | Avg. messages per chat           | AVG(messages_per_session)                                  | > 3      | Custom DB     | Weekly    |
+| **Chat Response Time (p95)** | 95th percentile response latency | PERCENTILE(0.95, response_time_ms)                         | < 3s     | Custom DB     | Daily     |
 | **AI Uptime**                | AI service availability          | (Successful health checks / Total health checks) Ãƒâ€” 100 | > 99.5%  | Better Uptime | Real-time |
-| **Monthly AI Cost**          | Total LLM + embedding costs      | SUM(cost_cents)                                        | < $10    | Custom DB     | Daily     |
-| **Cost per Chat Session**    | Avg. cost per session            | SUM(cost) / COUNT(sessions)                            | < $0.02  | Custom DB     | Weekly    |
+| **Monthly AI Cost**          | Total LLM + embedding costs      | SUM(cost_cents)                                            | < $10    | Custom DB     | Daily     |
+| **Cost per Chat Session**    | Avg. cost per session            | SUM(cost) / COUNT(sessions)                                | < $0.02  | Custom DB     | Weekly    |
 | **Agent Routing Accuracy**   | % correctly routed queries       | (Correct routes / Total routes) Ãƒâ€” 100                  | > 98%    | Custom DB     | Weekly    |
 | **Model Fallback Rate**      | % of requests using fallback     | (Fallback requests / Total requests) Ãƒâ€” 100             | < 5%     | Custom DB     | Daily     |
 | **Cache Hit Rate**           | Response + embedding cache hits  | (Cache hits / Cache lookups) Ãƒâ€” 100                     | > 40%    | Custom DB     | Daily     |
@@ -778,16 +778,16 @@ Every event MUST include these properties:
 
 ### 11.1 Metric Overview
 
-| Metric                      | Definition                       | Formula                                                         | Target   | Tool      | Frequency |
-| --------------------------- | -------------------------------- | --------------------------------------------------------------- | -------- | --------- | --------- |
-| **Blog Post Views**         | Total blog page views per month  | COUNT(page_view WHERE page = /blog/\*)                          | > 500/mo | Umami     | Weekly    |
-| **Avg. Read Time**          | Avg. time on blog article        | AVG(time_on_page) WHERE page = /blog/[slug]                     | > 3 min  | Umami     | Weekly    |
-| **Scroll Depth (Articles)** | Avg. scroll depth on articles    | AVG(scroll_depth) WHERE page_type = blog                        | > 70%    | PostHog   | Weekly    |
-| **BlogÃ¢â€ â€™Lead Conversion**    | % of blog readers who contact    | (Blog readers who submitted contact / Total blog readers) Ãƒâ€” 100 | > 2%     | Custom DB | Monthly   |
-| **Top Performing Posts**    | Posts ranked by views/time       | COUNT(\*) GROUP BY post_slug, ORDER BY views                    | Ã¢â‚¬â€        | PostHog   | Weekly    |
-| **RSS Subscribers**         | RSS feed subscribers             | COUNT(rss_feed_requests)                                        | > 50     | Custom DB | Monthly   |
-| **Social Shares per Post**  | Avg. shares per article          | AVG(share_count) per post                                       | > 5      | PostHog   | Monthly   |
-| **Blog Return Readers**     | % returning to read another post | (Returning blog visitors / Total blog visitors) Ãƒâ€” 100           | > 20%    | PostHog   | Monthly   |
+| Metric                          | Definition                       | Formula                                                             | Target   | Tool      | Frequency |
+| ------------------------------- | -------------------------------- | ------------------------------------------------------------------- | -------- | --------- | --------- |
+| **Blog Post Views**             | Total blog page views per month  | COUNT(page_view WHERE page = /blog/\*)                              | > 500/mo | Umami     | Weekly    |
+| **Avg. Read Time**              | Avg. time on blog article        | AVG(time_on_page) WHERE page = /blog/[slug]                         | > 3 min  | Umami     | Weekly    |
+| **Scroll Depth (Articles)**     | Avg. scroll depth on articles    | AVG(scroll_depth) WHERE page_type = blog                            | > 70%    | PostHog   | Weekly    |
+| **BlogÃ¢â€ â€™Lead Conversion** | % of blog readers who contact    | (Blog readers who submitted contact / Total blog readers) Ãƒâ€” 100 | > 2%     | Custom DB | Monthly   |
+| **Top Performing Posts**        | Posts ranked by views/time       | COUNT(\*) GROUP BY post_slug, ORDER BY views                        | Ã¢â‚¬â€  | PostHog   | Weekly    |
+| **RSS Subscribers**             | RSS feed subscribers             | COUNT(rss_feed_requests)                                            | > 50     | Custom DB | Monthly   |
+| **Social Shares per Post**      | Avg. shares per article          | AVG(share_count) per post                                           | > 5      | PostHog   | Monthly   |
+| **Blog Return Readers**         | % returning to read another post | (Returning blog visitors / Total blog visitors) Ãƒâ€” 100           | > 20%    | PostHog   | Monthly   |
 
 ### 11.2 Events
 
@@ -837,21 +837,21 @@ Every event MUST include these properties:
 
 ### 12.1 Metric Overview
 
-| Metric                              | Definition                             | Formula                                         | Target   | Tool             | Frequency       |
-| ----------------------------------- | -------------------------------------- | ----------------------------------------------- | -------- | ---------------- | --------------- |
-| **LCP (Largest Contentful Paint)**  | Time to render largest content element | PERCENTILE(75, lcp_value)                       | < 2.5s   | Vercel Analytics | Per page load   |
-| **CLS (Cumulative Layout Shift)**   | Visual stability score                 | PERCENTILE(75, cls_value)                       | < 0.1    | Vercel Analytics | Per page load   |
-| **INP (Interaction to Next Paint)** | Interaction responsiveness             | PERCENTILE(75, inp_value)                       | < 200ms  | Vercel Analytics | Per interaction |
-| **TTFB (Time to First Byte)**       | Server response time                   | PERCENTILE(75, ttfb_value)                      | < 800ms  | Vercel Analytics | Per page load   |
-| **FCP (First Contentful Paint)**    | Time to first content render           | PERCENTILE(75, fcp_value)                       | < 1.8s   | Vercel Analytics | Per page load   |
-| **API Response Time (p95)**         | API endpoint latency                   | PERCENTILE(95, api_response_ms)                 | < 500ms  | Sentry           | Per request     |
-| **AI Service Response (p95)**       | AI chat response latency               | PERCENTILE(95, ai_response_ms)                  | < 3s     | Custom DB        | Per message     |
+| Metric                              | Definition                             | Formula                                             | Target   | Tool             | Frequency       |
+| ----------------------------------- | -------------------------------------- | --------------------------------------------------- | -------- | ---------------- | --------------- |
+| **LCP (Largest Contentful Paint)**  | Time to render largest content element | PERCENTILE(75, lcp_value)                           | < 2.5s   | Vercel Analytics | Per page load   |
+| **CLS (Cumulative Layout Shift)**   | Visual stability score                 | PERCENTILE(75, cls_value)                           | < 0.1    | Vercel Analytics | Per page load   |
+| **INP (Interaction to Next Paint)** | Interaction responsiveness             | PERCENTILE(75, inp_value)                           | < 200ms  | Vercel Analytics | Per interaction |
+| **TTFB (Time to First Byte)**       | Server response time                   | PERCENTILE(75, ttfb_value)                          | < 800ms  | Vercel Analytics | Per page load   |
+| **FCP (First Contentful Paint)**    | Time to first content render           | PERCENTILE(75, fcp_value)                           | < 1.8s   | Vercel Analytics | Per page load   |
+| **API Response Time (p95)**         | API endpoint latency                   | PERCENTILE(95, api_response_ms)                     | < 500ms  | Sentry           | Per request     |
+| **AI Service Response (p95)**       | AI chat response latency               | PERCENTILE(95, ai_response_ms)                      | < 3s     | Custom DB        | Per message     |
 | **Error Rate**                      | % of requests with errors              | (Error count / Total requests) Ãƒâ€” 100            | < 1%     | Sentry           | Rolling 24h     |
 | **Uptime (Frontend)**               | Site availability                      | (Successful checks / Total checks) Ãƒâ€” 100        | > 99.9%  | Better Uptime    | Every 1 min     |
 | **Uptime (API)**                    | API availability                       | (Successful health checks / Total checks) Ãƒâ€” 100 | > 99.9%  | Better Uptime    | Every 1 min     |
 | **Uptime (AI)**                     | AI service availability                | (Successful health checks / Total checks) Ãƒâ€” 100 | > 99.5%  | Better Uptime    | Every 1 min     |
-| **Build Time**                      | CI/CD pipeline duration                | Pipeline duration                               | < 10 min | GitHub Actions   | Per deploy      |
-| **Bundle Size**                     | JS bundle size                         | Total JS per page                               | < 200KB  | Bundle Analyzer  | Per deploy      |
+| **Build Time**                      | CI/CD pipeline duration                | Pipeline duration                                   | < 10 min | GitHub Actions   | Per deploy      |
+| **Bundle Size**                     | JS bundle size                         | Total JS per page                                   | < 200KB  | Bundle Analyzer  | Per deploy      |
 
 ### 12.2 Events
 
@@ -905,18 +905,18 @@ Every event MUST include these properties:
 
 ### 13.1 Metric Overview
 
-| Metric                       | Definition                       | Formula                                   | Target               | Tool         | Frequency |
-| ---------------------------- | -------------------------------- | ----------------------------------------- | -------------------- | ------------ | --------- |
+| Metric                       | Definition                       | Formula                                       | Target               | Tool         | Frequency |
+| ---------------------------- | -------------------------------- | --------------------------------------------- | -------------------- | ------------ | --------- |
 | **Organic Traffic Share**    | % of traffic from search engines | (Organic sessions / Total sessions) Ãƒâ€” 100 | > 30%                | Umami        | Weekly    |
-| **Top Keywords**             | Keywords driving traffic         | COUNT(\*) GROUP BY search_keyword         | > 20 in top 10       | GSC          | Weekly    |
-| **Keyword Position**         | Avg. ranking for target keywords | AVG(position) for keyword set             | Top 10               | GSC          | Weekly    |
+| **Top Keywords**             | Keywords driving traffic         | COUNT(\*) GROUP BY search_keyword             | > 20 in top 10       | GSC          | Weekly    |
+| **Keyword Position**         | Avg. ranking for target keywords | AVG(position) for keyword set                 | Top 10               | GSC          | Weekly    |
 | **Click-Through Rate (CTR)** | % searchers who click            | (Clicks / Impressions) Ãƒâ€” 100              | > 5%                 | GSC          | Weekly    |
-| **Indexed Pages**            | Pages in Google index            | COUNT(indexed URLs)                       | 100% of public pages | GSC          | Weekly    |
-| **Crawl Errors**             | Pages Google can't crawl         | COUNT(crawl_errors)                       | 0                    | GSC          | Weekly    |
-| **Core Web Vitals (SEO)**    | CWVs as SEO ranking factor       | % good LCP/CLS/INP                        | > 90% good           | GSC + Vercel | Weekly    |
-| **Sitemap Health**           | Sitemap submit/parse status      | Sitemap status (success/error)            | Success              | GSC          | Monthly   |
-| **Structured Data Errors**   | Schema.org markup errors         | COUNT(structured_data_errors)             | 0                    | GSC          | Monthly   |
-| **Backlinks**                | External sites linking           | COUNT(external_domains)                   | > 10                 | Free tools   | Monthly   |
+| **Indexed Pages**            | Pages in Google index            | COUNT(indexed URLs)                           | 100% of public pages | GSC          | Weekly    |
+| **Crawl Errors**             | Pages Google can't crawl         | COUNT(crawl_errors)                           | 0                    | GSC          | Weekly    |
+| **Core Web Vitals (SEO)**    | CWVs as SEO ranking factor       | % good LCP/CLS/INP                            | > 90% good           | GSC + Vercel | Weekly    |
+| **Sitemap Health**           | Sitemap submit/parse status      | Sitemap status (success/error)                | Success              | GSC          | Monthly   |
+| **Structured Data Errors**   | Schema.org markup errors         | COUNT(structured_data_errors)                 | 0                    | GSC          | Monthly   |
+| **Backlinks**                | External sites linking           | COUNT(external_domains)                       | > 10                 | Free tools   | Monthly   |
 
 ### 13.2 Events
 
@@ -1040,28 +1040,28 @@ Every event MUST include these properties:
 
 ### 14.3 Funnel Events
 
-| Stage              | Event                              | Conversion Target  | Action on Drop-off                       |
-| ------------------ | ---------------------------------- | ------------------ | ---------------------------------------- |
-| **Visitor**        | `page_view`                        | 100%               | Ã¢â‚¬â€                                        |
-| **Engaged**        | `scroll_depth_50` + `section_view` | > 60%              | Improve hero CTA, reduce bounce rate     |
-| **Section Viewer** | `section_view` (3+)                | > 40%              | Improve navigation, section quality      |
-| **Project Viewer** | `project_click`                    | > 25%              | Improve project card visibility          |
-| **Chat User**      | `chat_session_started`             | > 15%              | Improve chat widget visibility           |
-| **Lead Intent**    | `lead_created`                     | > 3%               | Improve contact form + chat lead capture |
-| **Lead Contacted** | `lead_status_changed` (Ã¢â€ â€™ replied)  | > 60%              | Improve response time, notification      |
-| **Lead Qualified** | `lead_qualified`                   | > 30%              | Improve qualification criteria, scoring  |
-| **Hired**          | `lead_status_changed` (Ã¢â€ â€™ hired)    | > 15% of qualified | Improve closing process                  |
+| Stage              | Event                                    | Conversion Target  | Action on Drop-off                       |
+| ------------------ | ---------------------------------------- | ------------------ | ---------------------------------------- |
+| **Visitor**        | `page_view`                              | 100%               | Ã¢â‚¬â€                                  |
+| **Engaged**        | `scroll_depth_50` + `section_view`       | > 60%              | Improve hero CTA, reduce bounce rate     |
+| **Section Viewer** | `section_view` (3+)                      | > 40%              | Improve navigation, section quality      |
+| **Project Viewer** | `project_click`                          | > 25%              | Improve project card visibility          |
+| **Chat User**      | `chat_session_started`                   | > 15%              | Improve chat widget visibility           |
+| **Lead Intent**    | `lead_created`                           | > 3%               | Improve contact form + chat lead capture |
+| **Lead Contacted** | `lead_status_changed` (Ã¢â€ â€™ replied) | > 60%              | Improve response time, notification      |
+| **Lead Qualified** | `lead_qualified`                         | > 30%              | Improve qualification criteria, scoring  |
+| **Hired**          | `lead_status_changed` (Ã¢â€ â€™ hired)   | > 15% of qualified | Improve closing process                  |
 
 ### 14.4 Funnel Monitoring Rules
 
-| Rule                    | ID         | Description                                                      |
-| ----------------------- | ---------- | ---------------------------------------------------------------- |
-| **Funnel Health Check** | FUNNEL-001 | Weekly review of all funnel stages; flag > 10% drop-off increase |
-| **Stage Alert**         | FUNNEL-002 | If any stage drops > 20% week-over-week, investigate root cause  |
-| **Conversion Target**   | FUNNEL-003 | Visitor Ã¢â€ â€™ Lead conversion must be > 3% or trigger optimization   |
-| **Chat Funnel**         | FUNNEL-004 | Chat Ã¢â€ â€™ Lead conversion must be > 10% or improve lead agent       |
-| **Lead Response SLA**   | FUNNEL-005 | Lead contacted within 24h or auto-escalate                       |
-| **Funnel Reporting**    | FUNNEL-006 | Funnel report generated weekly and sent to admin                 |
+| Rule                    | ID         | Description                                                           |
+| ----------------------- | ---------- | --------------------------------------------------------------------- |
+| **Funnel Health Check** | FUNNEL-001 | Weekly review of all funnel stages; flag > 10% drop-off increase      |
+| **Stage Alert**         | FUNNEL-002 | If any stage drops > 20% week-over-week, investigate root cause       |
+| **Conversion Target**   | FUNNEL-003 | Visitor Ã¢â€ â€™ Lead conversion must be > 3% or trigger optimization |
+| **Chat Funnel**         | FUNNEL-004 | Chat Ã¢â€ â€™ Lead conversion must be > 10% or improve lead agent     |
+| **Lead Response SLA**   | FUNNEL-005 | Lead contacted within 24h or auto-escalate                            |
+| **Funnel Reporting**    | FUNNEL-006 | Funnel report generated weekly and sent to admin                      |
 
 ---
 
@@ -1128,7 +1128,7 @@ _Not publicly accessible Ã¢â‚¬â€ admin-only. Visitors have no access 
 
 | Rule                    | ID       | Description                                                         |
 | ----------------------- | -------- | ------------------------------------------------------------------- |
-| **Auth Required**       | DASH-001 | All admin dashboards require authentication (NestJS Passport)           |
+| **Auth Required**       | DASH-001 | All admin dashboards require authentication (NestJS Passport)       |
 | **Independent Widgets** | DASH-002 | Each widget loads independently; one failure doesn't break the page |
 | **Cached Data**         | DASH-003 | API responses cached for widget refresh interval (min 30s)          |
 | **Loading States**      | DASH-004 | Every widget has a loading skeleton                                 |
@@ -1184,28 +1184,28 @@ _Not publicly accessible Ã¢â‚¬â€ admin-only. Visitors have no access 
 
 ### 16.2 Event Priority Classification
 
-| Priority            | Label             | Definition                                 | Count | Examples                                         |
-| ------------------- | ----------------- | ------------------------------------------ | ----- | ------------------------------------------------ |
-| Ã¢Â­Â **Critical**     | Must-track        | Directly tied to business goals or revenue | ~25   | lead_created, chat_message, page_view, rag_query |
-| Ã°Å¸â€œÅ  **Important**    | Should-track      | Tied to engagement or product quality      | ~35   | section_view, project_click, agent_routing       |
+| Priority                  | Label             | Definition                                 | Count | Examples                                         |
+| ------------------------- | ----------------- | ------------------------------------------ | ----- | ------------------------------------------------ |
+| Ã¢Â­Â **Critical**        | Must-track        | Directly tied to business goals or revenue | ~25   | lead_created, chat_message, page_view, rag_query |
+| Ã°Å¸â€œÅ  **Important**   | Should-track      | Tied to engagement or product quality      | ~35   | section_view, project_click, agent_routing       |
 | Ã°Å¸â€Â® **Nice to have** | Track if possible | Used for optimization or deep analysis     | ~30   | stat_animation, testimonial_next, code_copy      |
 
 ### 16.3 Implementation Priority Matrix
 
-| Event                    | Priority        | Implementation Complexity   | Expected Volume | First Implement |
-| ------------------------ | --------------- | --------------------------- | --------------- | --------------- |
-| `page_view`              | Ã¢Â­Â Critical     | Low (Umami auto-capture)    | ~5,000/mo       | Ã¢Å“â€¦ Phase 1      |
-| `section_view`           | Ã¢Â­Â Critical     | Low (Intersection Observer) | ~15,000/mo      | Ã¢Å“â€¦ Phase 1      |
-| `project_click`          | Ã¢Â­Â Critical     | Low (onClick handler)       | ~500/mo         | Ã¢Å“â€¦ Phase 1      |
-| `contact_form_submit`    | Ã¢Â­Â Critical     | Low (form submit handler)   | ~50/mo          | Ã¢Å“â€¦ Phase 1      |
-| `lead_created`           | Ã¢Â­Â Critical     | Medium (API event)          | ~50/mo          | Ã¢Å“â€¦ Phase 2      |
-| `chat_message_sent`      | Ã¢Â­Â Critical     | Medium (chat widget)        | ~1,500/mo       | Ã¢Å“â€¦ Phase 2      |
-| `chat_response_received` | Ã¢Â­Â Critical     | Medium (AI service)         | ~1,500/mo       | Ã¢Å“â€¦ Phase 2      |
-| `agent_routing`          | Ã¢Â­Â Critical     | Medium (Supervisor agent)   | ~500/mo         | Ã¢Å“â€¦ Phase 3      |
-| `rag_query`              | Ã¢Â­Â Critical     | Medium (RAG service)        | ~1,500/mo       | Ã¢Å“â€¦ Phase 3      |
-| `cost_tracking`          | Ã¢Â­Â Critical     | Medium (Cost controller)    | ~1,500/mo       | Ã¢Å“â€¦ Phase 3      |
-| `web_vital_lcp`          | Ã°Å¸â€œÅ  Important    | Low (Vercel auto-capture)   | ~5,000/mo       | Ã¢Å“â€¦ Phase 1      |
-| `blog_post_click`        | Ã°Å¸â€œÅ  Important    | Low                         | ~200/mo         | Ã¢Å“â€¦ Phase 2      |
+| Event                    | Priority              | Implementation Complexity   | Expected Volume | First Implement |
+| ------------------------ | --------------------- | --------------------------- | --------------- | --------------- |
+| `page_view`              | Ã¢Â­Â Critical        | Low (Umami auto-capture)    | ~5,000/mo       | Ã¢Å“â€¦ Phase 1 |
+| `section_view`           | Ã¢Â­Â Critical        | Low (Intersection Observer) | ~15,000/mo      | Ã¢Å“â€¦ Phase 1 |
+| `project_click`          | Ã¢Â­Â Critical        | Low (onClick handler)       | ~500/mo         | Ã¢Å“â€¦ Phase 1 |
+| `contact_form_submit`    | Ã¢Â­Â Critical        | Low (form submit handler)   | ~50/mo          | Ã¢Å“â€¦ Phase 1 |
+| `lead_created`           | Ã¢Â­Â Critical        | Medium (API event)          | ~50/mo          | Ã¢Å“â€¦ Phase 2 |
+| `chat_message_sent`      | Ã¢Â­Â Critical        | Medium (chat widget)        | ~1,500/mo       | Ã¢Å“â€¦ Phase 2 |
+| `chat_response_received` | Ã¢Â­Â Critical        | Medium (AI service)         | ~1,500/mo       | Ã¢Å“â€¦ Phase 2 |
+| `agent_routing`          | Ã¢Â­Â Critical        | Medium (Supervisor agent)   | ~500/mo         | Ã¢Å“â€¦ Phase 3 |
+| `rag_query`              | Ã¢Â­Â Critical        | Medium (RAG service)        | ~1,500/mo       | Ã¢Å“â€¦ Phase 3 |
+| `cost_tracking`          | Ã¢Â­Â Critical        | Medium (Cost controller)    | ~1,500/mo       | Ã¢Å“â€¦ Phase 3 |
+| `web_vital_lcp`          | Ã°Å¸â€œÅ  Important   | Low (Vercel auto-capture)   | ~5,000/mo       | Ã¢Å“â€¦ Phase 1 |
+| `blog_post_click`        | Ã°Å¸â€œÅ  Important   | Low                         | ~200/mo         | Ã¢Å“â€¦ Phase 2 |
 | `skill_hover`            | Ã°Å¸â€Â® Nice to have | Low                         | ~500/mo         | Phase 4         |
 | `code_copy`              | Ã°Å¸â€Â® Nice to have | Medium (clipboard API)      | ~50/mo          | Future          |
 
@@ -1255,12 +1255,12 @@ _Not publicly accessible Ã¢â‚¬â€ admin-only. Visitors have no access 
 
 ### 17.4 Compliance Checklist
 
-| Requirement                 | Status        | Implementation                             |
-| --------------------------- | ------------- | ------------------------------------------ |
+| Requirement                 | Status             | Implementation                             |
+| --------------------------- | ------------------ | ------------------------------------------ |
 | Cookie consent banner       | Ã¢Å“â€¦ Planned    | PostHog banner with preference persistence |
 | IP anonymization            | Ã¢Å“â€¦ Configured | Umami: last octet masked                   |
 | DNT header respect          | Ã¢Å“â€¦ Configured | `navigator.doNotTrack` check               |
-| GDPR data processing record | Ã¢Å“â€¦ Documented | `docs/security/16-COMPLIANCE.md`           |
+| GDPR data processing record | Ã¢Å“â€¦ Documented | `docs/11-security/16-COMPLIANCE.md`        |
 | CCPA opt-out                | Ã¢Å“â€¦ Planned    | "Do not sell my info" link                 |
 | Privacy policy              | Ã¢Å“â€¦ Planned    | `/privacy` page                            |
 | Data retention enforcement  | Ã¢Å“â€¦ Configured | Automated cleanup scripts                  |
@@ -1285,14 +1285,14 @@ _Not publicly accessible Ã¢â‚¬â€ admin-only. Visitors have no access 
 
 ### 18.1 Phase Breakdown
 
-| Phase                          | Duration | Events                                                                   | Dependencies                      | Deliverable                         |
-| ------------------------------ | -------- | ------------------------------------------------------------------------ | --------------------------------- | ----------------------------------- |
-| **Phase 1: Foundation**        | 1 week   | page*\*, section*_, project\__, nav*\*, web_vital*\*, scroll_depth       | Umami + PostHog SDK installed     | Core traffic + engagement tracking  |
-| **Phase 2: Conversion**        | 1 week   | contact*form*_, lead\__, resume*\*, cta*_, social\__                     | Phase 1 + API AnalyticsModule     | Lead capture + conversion tracking  |
-| **Phase 3: AI & Agent**        | 2 weeks  | chat*\*, agent*_, rag\__, cost\_\*, model_fallback                       | Phase 2 + AI service              | AI performance + cost tracking      |
-| **Phase 4: Deep Analytics**    | 1 week   | skill*\*, testimonial*_, experience\__, blog*\*, case_study*_, filter\__ | Phase 2 + all frontend components | Full portfolio interaction tracking |
-| **Phase 5: SEO & Performance** | 1 week   | seo*\*, organic*_, lighthouse\__, build*\*, uptime*\*                    | Phase 1 + GSC + Sentry            | SEO + perf monitoring               |
-| **Phase 6: Dashboards**        | 1 week   | All events aggregated                                                    | Phase 1-5                         | Admin dashboards + reports          |
+| Phase                          | Duration | Events                                                                     | Dependencies                      | Deliverable                         |
+| ------------------------------ | -------- | -------------------------------------------------------------------------- | --------------------------------- | ----------------------------------- |
+| **Phase 1: Foundation**        | 1 week   | page*\*, section*\_, project\_\_, nav*\*, web_vital*\*, scroll_depth       | Umami + PostHog SDK installed     | Core traffic + engagement tracking  |
+| **Phase 2: Conversion**        | 1 week   | contact*form*\_, lead\__, resume*\*, cta*_, social\_\_                     | Phase 1 + API AnalyticsModule     | Lead capture + conversion tracking  |
+| **Phase 3: AI & Agent**        | 2 weeks  | chat*\*, agent*\_, rag\_\_, cost\_\*, model_fallback                       | Phase 2 + AI service              | AI performance + cost tracking      |
+| **Phase 4: Deep Analytics**    | 1 week   | skill*\*, testimonial*\_, experience\__, blog*\*, case_study*_, filter\_\_ | Phase 2 + all frontend components | Full portfolio interaction tracking |
+| **Phase 5: SEO & Performance** | 1 week   | seo*\*, organic*\_, lighthouse\_\_, build*\*, uptime*\*                    | Phase 1 + GSC + Sentry            | SEO + perf monitoring               |
+| **Phase 6: Dashboards**        | 1 week   | All events aggregated                                                      | Phase 1-5                         | Admin dashboards + reports          |
 
 ### 18.2 Implementation Order
 
@@ -1418,7 +1418,7 @@ PHASE 6: DASHBOARDS
 | D-ANA-001   | Jun 2026 | Adopt Umami + PostHog dual-stack for analytics                     | Combination covers real-time traffic (Umami) and product analytics (PostHog) at zero cost | Single-tool approach (all-in-one) rejected due to feature gaps  | Adopted |
 | D-ANA-002   | Jun 2026 | Unified event bus architecture for all analytics events            | Ensures consistent event processing pipeline, enables future tool swaps                   | Direct API integration per tool rejected as unscalable          | Adopted |
 | D-ANA-003   | Jun 2026 | 3-tier event ownership model (First-party / Product / Third-party) | Clarifies responsibility boundaries and retention policies                                | Flat ownership model rejected due to compliance complexity      | Adopted |
-| D-ANA-004   | Jun 2026 | Tiered data retention (7dÃ¢â‚¬â€œ2yr) based on event category             | Balances analytical value against privacy compliance and storage cost                     | Uniform retention rejected for over-retaining PII-adjacent data | Adopted |
+| D-ANA-004   | Jun 2026 | Tiered data retention (7dÃ¢â‚¬â€œ2yr) based on event category      | Balances analytical value against privacy compliance and storage cost                     | Uniform retention rejected for over-retaining PII-adjacent data | Adopted |
 | D-ANA-005   | Jun 2026 | Custom DB (Supabase) for portfolio-specific events                 | Needed for lead tracking and AI cost data not supported by off-the-shelf tools            | Pure PostHog solution rejected due to event volume limits       | Adopted |
 
 ## 20. Risk Register
@@ -1433,31 +1433,31 @@ PHASE 6: DASHBOARDS
 
 ## 21. Change Log
 
-| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Author        |
-| ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Author        |
+| ------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | 4.0     | Jun 2026 | **Enterprise-Grade Analytics Rewrite**: Complete overhaul from v3.0 (minimal placeholder) to full enterprise analytics strategy with 19 sections. Added: Executive Summary with stack, volume estimates, key metrics dashboard, and cross-document alignment table. Analytics Vision & Principles (8 core beliefs, 8 design principles). Analytics Architecture (3-tier event ownership model with Mermaid diagrams: event pipeline, ownership, event flow sequence). Tracking Taxonomy (naming convention `domain_action_detail`, property type system with 8 types, common properties template, 8 event categories, ownership table, 8 taxonomy rules). 9 Metric Categories (Business, Product, Portfolio, Recruiter, Lead, AI, Blog, Performance, SEO) each with: metric overview table, full event definitions (trigger, properties, source, destination, dashboard usage, business value), and ASCII dashboard mockup. Conversion Funnel (Ã‚Â§14) with 8-stage VisitorÃ¢â€ â€™Hired funnel and AI Chat sub-funnel with percentages. Dashboard Specifications (Ã‚Â§15) for 4 dashboards (Overview, Analytics, AI, Performance) with widget tables. Full Event Catalog (Ã‚Â§16) with 90 events across 35 domains, priority classification matrix, implementation priority matrix. Privacy & Compliance (Ã‚Â§17) with 8 privacy principles, retention schedule, cookie consent configuration, compliance checklist, 8 privacy rules. Implementation Guide (Ã‚Â§18) with 6-phase roadmap, Gantt chart, 60-item checklist, cost budget. | Product Owner |
-| 3.0     | Jun 2026 | Added executive summary, analytics budget, change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Product Owner |
-| 2.0     | Jun 2026 | Updated for enterprise structure; added feature flags, privacy compliance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Product Owner |
-| 1.0     | Mar 2026 | Initial analytics documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Product Owner |
+| 3.0     | Jun 2026 | Added executive summary, analytics budget, change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Product Owner |
+| 2.0     | Jun 2026 | Updated for enterprise structure; added feature flags, privacy compliance                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Product Owner |
+| 1.0     | Mar 2026 | Initial analytics documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | Product Owner |
 
 ---
 
 ## Document References
 
-| Reference                                        | Description                                                                                   |
-| ------------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI Operating Model Ã¢â‚¬â€ Ã‚Â§18 AI Analytics (12 AI events, dashboard, cost tracking)                |
-| `docs/ai/18-AGENTS.md` (v5.0)                    | Multi-Agent Architecture Ã¢â‚¬â€ Ã‚Â§13 Analytics Agent, Ã‚Â§20 Agent Evaluation (per-agent metrics)      |
-| `docs/ai/19-RAG.md` (v5.0)                       | RAG Pipeline Ã¢â‚¬â€ Ã‚Â§15 Monitoring (9 RAG metrics), Ã‚Â§16 Evaluation (test suite), Ã‚Â§18 Cost Analysis |
-| `docs/product/02-FEATURES.md` (v3.0)             | Feature catalog Ã¢â‚¬â€ all 52 features with per-feature analytics events                           |
-| `docs/operations/21-MONITORING.md` (v3.0)        | Monitoring Ã¢â‚¬â€ Ã‚Â§7 Alert Escalation Matrix for metric-based alerts                               |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0)     | Enterprise Observability Architecture Ã¢â‚¬â€ logs, metrics, traces, correlation IDs                |
-| `docs/database/DatabaseArchitecture.md` (v5.0)   | Database schema Ã¢â‚¬â€ Ã‚Â§12 Analytics Tables (analytics_events, lead tracking)                      |
-| `docs/api/12-API.md` (v5.0)                      | API documentation Ã¢â‚¬â€ Analytics endpoints for dashboard data                                    |
-| `docs/security/SecurityArchitecture.md` (v5.0)   | Security Ã¢â‚¬â€ Ã‚Â§12 AI Security, data protection for analytics                                     |
-| `docs/security/16-COMPLIANCE.md` (v3.0)          | Compliance Ã¢â‚¬â€ GDPR, CCPA, data retention policies                                              |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ data flow, service integration                                          |
-| `Ultimate_Portfolio_Plan_2026_v3.docx`           | Complete portfolio blueprint Ã¢â‚¬â€ Umami + PostHog setup, visitor intelligence                    |
+| Reference                                           | Description                                                                                                  |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `docs/08-ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI Operating Model Ã¢â‚¬â€ Ã‚Â§18 AI Analytics (12 AI events, dashboard, cost tracking)                      |
+| `docs/08-ai/18-AGENTS.md` (v5.0)                    | Multi-Agent Architecture Ã¢â‚¬â€ Ã‚Â§13 Analytics Agent, Ã‚Â§20 Agent Evaluation (per-agent metrics)         |
+| `docs/08-ai/19-RAG.md` (v5.0)                       | RAG Pipeline Ã¢â‚¬â€ Ã‚Â§15 Monitoring (9 RAG metrics), Ã‚Â§16 Evaluation (test suite), Ã‚Â§18 Cost Analysis |
+| `docs/01-product/02-FEATURES.md` (v3.0)             | Feature catalog Ã¢â‚¬â€ all 52 features with per-feature analytics events                                    |
+| `docs/21-operations/21-MONITORING.md` (v3.0)        | Monitoring Ã¢â‚¬â€ Ã‚Â§7 Alert Escalation Matrix for metric-based alerts                                     |
+| `docs/21-operations/22-OBSERVABILITY.md` (v5.0)     | Enterprise Observability Architecture Ã¢â‚¬â€ logs, metrics, traces, correlation IDs                         |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0)   | Database schema Ã¢â‚¬â€ Ã‚Â§12 Analytics Tables (analytics_events, lead tracking)                            |
+| `docs/10-api/12-API.md` (v5.0)                      | API documentation Ã¢â‚¬â€ Analytics endpoints for dashboard data                                             |
+| `docs/11-security/SecurityArchitecture.md` (v5.0)   | Security Ã¢â‚¬â€ Ã‚Â§12 AI Security, data protection for analytics                                           |
+| `docs/11-security/16-COMPLIANCE.md` (v3.0)          | Compliance Ã¢â‚¬â€ GDPR, CCPA, data retention policies                                                       |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ data flow, service integration                                                   |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`              | Complete portfolio blueprint Ã¢â‚¬â€ Umami + PostHog setup, visitor intelligence                             |
 
 ---
 
@@ -1482,7 +1482,7 @@ PHASE 6: DASHBOARDS
 | **Conversion Funnel**                         | A sequence of steps from visitor arrival to hired client, with tracked drop-off at each stage                                               |
 | **Data Retention Tier**                       | A storage policy defining how long different event categories are kept (7 days to 2 years)                                                  |
 | **Dashboard Widget**                          | A single visualization component (chart, stat, table) within an analytics dashboard                                                         |
-| **PII (Personally Identifiable Information)** | Data that can identify an individual (email, IP, name) Ã¢â‚¬â€ subject to strict privacy controls                                                 |
+| **PII (Personally Identifiable Information)** | Data that can identify an individual (email, IP, name) Ã¢â‚¬â€ subject to strict privacy controls                                           |
 | **Session Replay**                            | A recorded sequence of a visitor's interactions captured by PostHog for UX analysis                                                         |
 | **UTM Parameter**                             | Tracking tags appended to URLs (utm_source, utm_medium, utm_campaign) for campaign attribution                                              |
 | **Event Volume Estimate**                     | The projected monthly count of events in a category, used for cost and capacity planning                                                    |
@@ -1492,5 +1492,6 @@ _Supersedes v3.0 (June 2026) and all previous versions_
 _Next Review Date: July 2026_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

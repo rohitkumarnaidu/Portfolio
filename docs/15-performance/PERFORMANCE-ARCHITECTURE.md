@@ -156,7 +156,7 @@ The platform achieves this through a multi-layered strategy: **edge caching** (I
 | **Database Query p95**              | < 5ms                 | < 10ms              | pg_stat_statements |
 | **Time to Interactive**             | < 2.5s                | < 3.5s              | Lighthouse         |
 
-> **Note on "Aspirational" vs. "Monitoring" targets:** The aspirational targets represent the in-code performance budgets that development teams optimize toward. The monitoring targets (from `docs/operations/21-MONITORING.md`) represent the outer acceptable bounds that trigger alerts when breached.
+> **Note on "Aspirational" vs. "Monitoring" targets:** The aspirational targets represent the in-code performance budgets that development teams optimize toward. The monitoring targets (from `docs/21-operations/21-MONITORING.md`) represent the outer acceptable bounds that trigger alerts when breached.
 
 ### 3.3 Performance Stack Overview
 
@@ -170,19 +170,19 @@ The platform achieves this through a multi-layered strategy: **edge caching** (I
 
 ### 3.4 Alignment with Other Documents
 
-| Document                                           | Relationship                                                                             |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| `docs/operations/21-MONITORING.md` (v5.0)          | §5 Performance Monitoring — monitoring targets, alert thresholds                         |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0)       | §4 Metrics Collection — 20-core metric catalog; §5.4 Trace Payloads & Sampling           |
-| `docs/operations/AnalyticsArchitecture.md` (v5.0)  | §12 Performance Metrics — Web Vitals tracking, performance events                        |
-| `docs/architecture/SystemArchitecture.md` (v5.0)   | §2 Frontend Architecture — rendering strategy, component tree, ISR configuration         |
-| `docs/architecture/10-TECHSTACK.md` (v5.0)         | §1 Animation & 3D Libraries — bundle contributions, load strategies, performance budgets |
-| `docs/database/DatabaseArchitecture.md` (v5.0)     | Indexing strategy, query optimization, connection pooling                                |
-| `docs/api/12-API.md` (v5.0)                        | API endpoint performance targets, response time SLAs                                     |
-| `docs/operations/DeploymentGuide.md` (v5.0)        | CDN strategy, cache invalidation, environment-specific caching                           |
-| `docs/operations/25-CICD.md` (v5.0)                | CI/CD performance gates — Lighthouse CI, bundle analysis in CI                           |
-| `docs/operations/DevOpsArchitecture.md` (v5.1)     | Build performance — cache hit rate, build time budgets                                   |
-| `docs/quality/AccessibilityArchitecture.md` (v3.0) | Performance meets accessibility — reduced motion, data saver                             |
+| Document                                              | Relationship                                                                             |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `docs/21-operations/21-MONITORING.md` (v5.0)          | §5 Performance Monitoring — monitoring targets, alert thresholds                         |
+| `docs/21-operations/22-OBSERVABILITY.md` (v5.0)       | §4 Metrics Collection — 20-core metric catalog; §5.4 Trace Payloads & Sampling           |
+| `docs/21-operations/AnalyticsArchitecture.md` (v5.0)  | §12 Performance Metrics — Web Vitals tracking, performance events                        |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0)   | §2 Frontend Architecture — rendering strategy, component tree, ISR configuration         |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)         | §1 Animation & 3D Libraries — bundle contributions, load strategies, performance budgets |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0)     | Indexing strategy, query optimization, connection pooling                                |
+| `docs/10-api/12-API.md` (v5.0)                        | API endpoint performance targets, response time SLAs                                     |
+| `docs/21-operations/DeploymentGuide.md` (v5.0)        | CDN strategy, cache invalidation, environment-specific caching                           |
+| `docs/21-operations/25-CICD.md` (v5.0)                | CI/CD performance gates — Lighthouse CI, bundle analysis in CI                           |
+| `docs/21-operations/DevOpsArchitecture.md` (v5.1)     | Build performance — cache hit rate, build time budgets                                   |
+| `docs/35-quality/AccessibilityArchitecture.md` (v3.0) | Performance meets accessibility — reduced motion, data saver                             |
 
 ---
 
@@ -774,7 +774,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 ### 10.2 Database Indexing Strategy
 
 ```sql
--- PERFORMANCE INDEXES — See docs/database/DatabaseArchitecture.md for full schema
+-- PERFORMANCE INDEXES — See docs/09-database/DatabaseArchitecture.md for full schema
 
 -- Sections: fast listing of visible sections in defined order
 CREATE INDEX idx_sections_visible_order
@@ -2247,27 +2247,27 @@ PD-001  2026-06-15 Initial JS     105KB    85KB     New filtering UI       Front
 
 ## Document References
 
-| Reference                                          | Description                                                                                                                         |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `docs/operations/21-MONITORING.md` (v5.0)          | Enterprise Monitoring Architecture — §5 Performance Monitoring (monitoring targets, alert thresholds, performance budget dashboard) |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0)       | Enterprise Observability Architecture — §4 Metrics Collection (app.api.latency, app.fe.vitals.\* metrics)                           |
-| `docs/operations/AnalyticsArchitecture.md` (v5.0)  | Enterprise Analytics Strategy — §12 Performance Metrics (13 Web Vitals + service performance events)                                |
-| `docs/architecture/SystemArchitecture.md` (v5.0)   | System Architecture — §2 Frontend Architecture (rendering strategy, component tree, ISR configuration)                              |
-| `docs/architecture/10-TECHSTACK.md` (v5.0)         | Tech Stack — §1 Animation & 3D Libraries (bundle contributions, load strategies, performance budgets)                               |
-| `docs/database/DatabaseArchitecture.md` (v5.0)     | Database Schema — indexing strategy, query optimization, performance budgets                                                        |
-| `docs/api/12-API.md` (v5.0)                        | API Documentation — endpoint performance targets, response time SLAs                                                                |
-| `docs/operations/25-CICD.md` (v5.0)                | CI/CD — Lighthouse CI integration, bundle analysis in pipeline, performance gates                                                   |
-| `docs/operations/DeploymentGuide.md` (v5.0)        | Deployment — CDN strategy (Cloudflare + Vercel), cache configuration, environment-specific caching                                  |
-| `docs/operations/DevOpsArchitecture.md` (v5.1)     | DevOps — build performance metrics, Turborepo cache optimization, DORA metrics                                                      |
-| `docs/quality/AccessibilityArchitecture.md` (v3.0) | Accessibility — `prefers-reduced-motion` handling, font sizing performance impact                                                   |
-| `docs/design/DesignSystem.md` (v5.0)               | Design System — component-level performance considerations, animation tokens                                                        |
-| `docs/MASTER-INDEX.md` (v3.0)                      | Master Index — document dependency graph, version history, cross-reference map                                                      |
-| `docx_content.json`                                | Ultimate Portfolio Plan — Ch.10 Performance & Edge Computing, Ch.14 Next-Gen Features                                               |
-| Vercel Analytics Docs                              | https://vercel.com/docs/analytics — Web Vitals measurement, Speed Insights                                                          |
-| Lighthouse CI Docs                                 | https://github.com/GoogleChrome/lighthouse-ci — Budget configuration, CI integration                                                |
-| Web Vitals Docs                                    | https://web.dev/vitals — LCP, CLS, INP definitions and optimization guides                                                          |
-| Next.js Performance Docs                           | https://nextjs.org/docs/app/building-your-application/optimizing — ISR, images, fonts, bundle analysis                              |
-| WebPageTest Docs                                   | https://docs.webpagetest.org/ — Waterfall analysis, filmstrip, custom metrics                                                       |
+| Reference                                             | Description                                                                                                                         |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/21-operations/21-MONITORING.md` (v5.0)          | Enterprise Monitoring Architecture — §5 Performance Monitoring (monitoring targets, alert thresholds, performance budget dashboard) |
+| `docs/21-operations/22-OBSERVABILITY.md` (v5.0)       | Enterprise Observability Architecture — §4 Metrics Collection (app.api.latency, app.fe.vitals.\* metrics)                           |
+| `docs/21-operations/AnalyticsArchitecture.md` (v5.0)  | Enterprise Analytics Strategy — §12 Performance Metrics (13 Web Vitals + service performance events)                                |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0)   | System Architecture — §2 Frontend Architecture (rendering strategy, component tree, ISR configuration)                              |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)         | Tech Stack — §1 Animation & 3D Libraries (bundle contributions, load strategies, performance budgets)                               |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0)     | Database Schema — indexing strategy, query optimization, performance budgets                                                        |
+| `docs/10-api/12-API.md` (v5.0)                        | API Documentation — endpoint performance targets, response time SLAs                                                                |
+| `docs/21-operations/25-CICD.md` (v5.0)                | CI/CD — Lighthouse CI integration, bundle analysis in pipeline, performance gates                                                   |
+| `docs/21-operations/DeploymentGuide.md` (v5.0)        | Deployment — CDN strategy (Cloudflare + Vercel), cache configuration, environment-specific caching                                  |
+| `docs/21-operations/DevOpsArchitecture.md` (v5.1)     | DevOps — build performance metrics, Turborepo cache optimization, DORA metrics                                                      |
+| `docs/35-quality/AccessibilityArchitecture.md` (v3.0) | Accessibility — `prefers-reduced-motion` handling, font sizing performance impact                                                   |
+| `docs/04-design/DesignSystem.md` (v5.0)               | Design System — component-level performance considerations, animation tokens                                                        |
+| `docs/MASTER-INDEX.md` (v3.0)                         | Master Index — document dependency graph, version history, cross-reference map                                                      |
+| `docx_content.json`                                   | Ultimate Portfolio Plan — Ch.10 Performance & Edge Computing, Ch.14 Next-Gen Features                                               |
+| Vercel Analytics Docs                                 | https://vercel.com/docs/analytics — Web Vitals measurement, Speed Insights                                                          |
+| Lighthouse CI Docs                                    | https://github.com/GoogleChrome/lighthouse-ci — Budget configuration, CI integration                                                |
+| Web Vitals Docs                                       | https://web.dev/vitals — LCP, CLS, INP definitions and optimization guides                                                          |
+| Next.js Performance Docs                              | https://nextjs.org/docs/app/building-your-application/optimizing — ISR, images, fonts, bundle analysis                              |
+| WebPageTest Docs                                      | https://docs.webpagetest.org/ — Waterfall analysis, filmstrip, custom metrics                                                       |
 
 ---
 

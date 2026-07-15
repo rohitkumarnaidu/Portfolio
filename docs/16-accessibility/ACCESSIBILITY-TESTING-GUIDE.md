@@ -10,12 +10,12 @@
 
 ### Tools
 
-| Tool | Purpose | Integration |
-|------|---------|-------------|
-| **axe-core** (`@axe-core/react`) | WCAG violation detection | Playwright tests run `axe` on every page template per PR |
-| **Lighthouse Accessibility** | Scoring (0-100) | CI pipeline evaluates every deploy; threshold ≥ 90 |
-| **eslint-plugin-jsx-a11y** | Static analysis in editor | Pre-commit hook, IDE warnings during development |
-| **W3C HTML Validator** | HTML parsing validity | CI check on build output |
+| Tool                             | Purpose                   | Integration                                              |
+| -------------------------------- | ------------------------- | -------------------------------------------------------- |
+| **axe-core** (`@axe-core/react`) | WCAG violation detection  | Playwright tests run `axe` on every page template per PR |
+| **Lighthouse Accessibility**     | Scoring (0-100)           | CI pipeline evaluates every deploy; threshold ≥ 90       |
+| **eslint-plugin-jsx-a11y**       | Static analysis in editor | Pre-commit hook, IDE warnings during development         |
+| **W3C HTML Validator**           | HTML parsing validity     | CI check on build output                                 |
 
 ### What Automated Tests Catch
 
@@ -55,27 +55,28 @@ Every PR:
 
 Test every critical user flow using keyboard only:
 
-| Test | Method | Pass Criteria |
-|------|--------|--------------|
-| Tab through all interactive elements | Press Tab repeatedly | Every link, button, input, and control is reachable |
-| Reverse navigation | Shift+Tab | Same elements reachable in reverse order |
-| Skip link | Press Tab on page load | First tab press reveals "Skip to main content" link; activates on Enter |
-| Modal focus trap | Open modal, Tab repeatedly | Focus cycles within modal; Esc closes and focus returns to trigger |
-| Dropdown menus | Enter/Space to open, Arrow keys to navigate, Esc to close | Follows WAI-ARIA keyboard pattern |
-| Form submission | Tab through fields, Enter to submit | Focus moves to first invalid field on error |
-| Custom controls | Arrow keys, Home/End for carousels/tabs | WAI-ARIA expected behavior |
+| Test                                 | Method                                                    | Pass Criteria                                                           |
+| ------------------------------------ | --------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Tab through all interactive elements | Press Tab repeatedly                                      | Every link, button, input, and control is reachable                     |
+| Reverse navigation                   | Shift+Tab                                                 | Same elements reachable in reverse order                                |
+| Skip link                            | Press Tab on page load                                    | First tab press reveals "Skip to main content" link; activates on Enter |
+| Modal focus trap                     | Open modal, Tab repeatedly                                | Focus cycles within modal; Esc closes and focus returns to trigger      |
+| Dropdown menus                       | Enter/Space to open, Arrow keys to navigate, Esc to close | Follows WAI-ARIA keyboard pattern                                       |
+| Form submission                      | Tab through fields, Enter to submit                       | Focus moves to first invalid field on error                             |
+| Custom controls                      | Arrow keys, Home/End for carousels/tabs                   | WAI-ARIA expected behavior                                              |
 
 **Focus indicator verification:** Every interactive element must show a visible 2px ring (accent color, 2px offset) via `:focus-visible`. No focus rings on mouse click.
 
 ### 2.2 Screen Reader Testing
 
-| Screen Reader | OS | Browser | Test Frequency | Flows to Test |
-|--------------|----|---------|---------------|--------------|
-| NVDA | Windows | Firefox | Every PR | Navigation, modal, form submission, dynamic content updates |
-| VoiceOver | macOS | Safari | Every PR | Same flows + gesture navigation on trackpad |
-| JAWS | Windows | Chrome | Quarterly | Regression on critical flows |
+| Screen Reader | OS      | Browser | Test Frequency | Flows to Test                                               |
+| ------------- | ------- | ------- | -------------- | ----------------------------------------------------------- |
+| NVDA          | Windows | Firefox | Every PR       | Navigation, modal, form submission, dynamic content updates |
+| VoiceOver     | macOS   | Safari  | Every PR       | Same flows + gesture navigation on trackpad                 |
+| JAWS          | Windows | Chrome  | Quarterly      | Regression on critical flows                                |
 
 **Screen reader test checklist per flow:**
+
 1. Page title is announced on load
 2. Skip link is announced and functional
 3. Landmarks are announced (`banner`, `navigation`, `main`, `contentinfo`)
@@ -89,12 +90,12 @@ Test every critical user flow using keyboard only:
 
 ### 2.3 Color Contrast
 
-| Text Type | Required Ratio | Verification Method |
-|-----------|---------------|-------------------|
-| Normal text (< 18px bold / < 24px regular) | ≥ 4.5:1 | Design token CI check + axe DevTools |
-| Large text (≥ 18px bold / ≥ 24px regular) | ≥ 3:1 | Design token CI check |
-| UI components and graphical objects | ≥ 3:1 | Component-level manual check |
-| Focus indicators | ≥ 3:1 against adjacent colors | Manual check per component |
+| Text Type                                  | Required Ratio                | Verification Method                  |
+| ------------------------------------------ | ----------------------------- | ------------------------------------ |
+| Normal text (< 18px bold / < 24px regular) | ≥ 4.5:1                       | Design token CI check + axe DevTools |
+| Large text (≥ 18px bold / ≥ 24px regular)  | ≥ 3:1                         | Design token CI check                |
+| UI components and graphical objects        | ≥ 3:1                         | Component-level manual check         |
+| Focus indicators                           | ≥ 3:1 against adjacent colors | Manual check per component           |
 
 Contrast is verified at the design token level (see `ACCESSIBILITY-ARCHITECTURE.md §8`). Any new color pair must be added to the token matrix.
 
@@ -168,25 +169,25 @@ Contrast is verified at the design token level (see `ACCESSIBILITY-ARCHITECTURE.
 
 ## 4. Accessibility Regression Testing
 
-| Trigger | Action | Tool | Pass/Fail |
-|---------|--------|------|-----------|
-| Every PR | axe-core scan on all page templates | Playwright + axe | 0 violations |
-| Every PR | Keyboard nav test on changed components | Manual | All flows navigable |
-| Every PR | Lighthouse a11y score check | Lighthouse CI | ≥ 90 |
-| Every deploy | Full screen reader test on critical flows | NVDA + VoiceOver | All flows announced correctly |
-| Weekly | Color contrast token scan | CI script | All tokens ≥ ratio |
-| Monthly | Full WCAG 2.2 AA audit (all criteria) | Manual | 100% pass |
-| Quarterly | Expert audit with JAWS + TalkBack | External or dedicated | All gaps documented |
-| Continuous | Track a11y issues in bug tracker | Project management | P0/P1 fixed within sprint |
+| Trigger      | Action                                    | Tool                  | Pass/Fail                     |
+| ------------ | ----------------------------------------- | --------------------- | ----------------------------- |
+| Every PR     | axe-core scan on all page templates       | Playwright + axe      | 0 violations                  |
+| Every PR     | Keyboard nav test on changed components   | Manual                | All flows navigable           |
+| Every PR     | Lighthouse a11y score check               | Lighthouse CI         | ≥ 90                          |
+| Every deploy | Full screen reader test on critical flows | NVDA + VoiceOver      | All flows announced correctly |
+| Weekly       | Color contrast token scan                 | CI script             | All tokens ≥ ratio            |
+| Monthly      | Full WCAG 2.2 AA audit (all criteria)     | Manual                | 100% pass                     |
+| Quarterly    | Expert audit with JAWS + TalkBack         | External or dedicated | All gaps documented           |
+| Continuous   | Track a11y issues in bug tracker          | Project management    | P0/P1 fixed within sprint     |
 
 ### Issue Severity Classification
 
-| Severity | Definition | Response Time | Fix Target |
-|----------|-----------|---------------|------------|
-| P0 (Critical) | WCAG A failure, keyboard trap, content inaccessible | 24 hours | Current sprint |
-| P1 (High) | WCAG AA failure, screen reader flow broken | 48 hours | Next sprint |
-| P2 (Medium) | AAA failure, minor labeling issue | 1 week | Within 2 sprints |
-| P3 (Low) | Enhancement, preference not bug | 1 month | Backlog |
+| Severity      | Definition                                          | Response Time | Fix Target       |
+| ------------- | --------------------------------------------------- | ------------- | ---------------- |
+| P0 (Critical) | WCAG A failure, keyboard trap, content inaccessible | 24 hours      | Current sprint   |
+| P1 (High)     | WCAG AA failure, screen reader flow broken          | 48 hours      | Next sprint      |
+| P2 (Medium)   | AAA failure, minor labeling issue                   | 1 week        | Within 2 sprints |
+| P3 (Low)      | Enhancement, preference not bug                     | 1 month       | Backlog          |
 
 ---
 
@@ -198,5 +199,6 @@ Contrast is verified at the design token level (see `ACCESSIBILITY-ARCHITECTURE.
 - `docs/13-testing/CODE-REVIEW-CHECKLIST.md` — Code review a11y checks
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

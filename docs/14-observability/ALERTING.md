@@ -136,7 +136,7 @@ The Alerting Strategy ensures that the engineering team is notified of critical 
 
 ## 9. Runbook Integration
 
-Every alert MUST have a corresponding runbook in `docs/runbooks/`. Each runbook includes:
+Every alert MUST have a corresponding runbook in `docs/30-runbooks/`. Each runbook includes:
 
 - **Summary:** What the alert means and why it fires.
 - **Initial Diagnosis:** Commands and dashboards to check first.
@@ -159,5 +159,6 @@ Every alert MUST have a corresponding runbook in `docs/runbooks/`. Each runbook 
 - **Quarterly Review:** Full review of all alert definitions, thresholds, and routing rules.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
