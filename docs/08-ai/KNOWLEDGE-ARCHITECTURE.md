@@ -1,4 +1,5 @@
-﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+> **Status:** ?? Design Spec � forward-looking design, not yet implemented
+
 # Knowledge Architecture
 
 **Version:** 1.0  
@@ -15,15 +16,15 @@ The Knowledge Architecture defines the complete knowledge management infrastruct
 
 ## Cross-References
 
-| Reference                                 | Description                                                    |
-| ----------------------------------------- | -------------------------------------------------------------- |
-| `docs/ai/19-RAG.md`                       | RAG pipeline â€” retrieval, context assembly, source attribution |
-| `docs/ai/18-AGENTS.md`                    | Multi-agent architecture â€” each agent's knowledge sources      |
-| `docs/ai/17-AI_INSTRUCTIONS.md`           | AI Operating Model â€” knowledge governance rules                |
-| `docs/database/DatabaseArchitecture.md`   | pgvector schema for vector storage                             |
-| `docs/architecture/SystemArchitecture.md` | System architecture â€” AI service layer                         |
-| `docs/architecture/13-INTEGRATIONS.md`    | OpenAI embedding service configuration                         |
-| `docs/security/43-DATA-GOVERNANCE.md`     | Data quality and lifecycle management                          |
+| Reference                                    | Description                                                    |
+| -------------------------------------------- | -------------------------------------------------------------- |
+| `docs/08-ai/19-RAG.md`                       | RAG pipeline — retrieval, context assembly, source attribution |
+| `docs/08-ai/18-AGENTS.md`                    | Multi-agent architecture — each agent's knowledge sources      |
+| `docs/08-ai/17-AI_INSTRUCTIONS.md`           | AI Operating Model — knowledge governance rules                |
+| `docs/09-database/DatabaseArchitecture.md`   | pgvector schema for vector storage                             |
+| `docs/05-architecture/SystemArchitecture.md` | System architecture — AI service layer                         |
+| `docs/05-architecture/13-INTEGRATIONS.md`    | OpenAI embedding service configuration                         |
+| `docs/11-security/43-DATA-GOVERNANCE.md`     | Data quality and lifecycle management                          |
 
 ## Knowledge Pipeline Flow
 
@@ -111,7 +112,7 @@ flowchart LR
 | Effective Date   | 2026-06-18                                  |
 | Review Cycle     | Quarterly                                   |
 | Classification   | Enterprise Internal                         |
-| Storage Location | `docs/ai/KnowledgeArchitecture.md`          |
+| Storage Location | `docs/08-ai/KNOWLEDGE-ARCHITECTURE.md`      |
 
 **Revision History**
 
@@ -161,7 +162,7 @@ The architecture is built on four pillars:
 3. **Vector Knowledge Base** -- A pgvector-backed store of dense embeddings (text-embedding-3-small, 1536 dimensions) with IVFFlat indexing for approximate nearest-neighbor search, augmented by pg_trgm for keyword fallback.
 4. **Hybrid Search Engine** -- A fusion layer that combines vector similarity, keyword matching, and graph traversal results, then reranks through a learned model before assembling context via a four-tier priority system.
 
-Agents access this fabric exclusively through the Knowledge Agent, which abstracts retrieval complexity behind a unified interface defined in `docs/ai/18-AGENTS.md`. The pipeline is event-driven for incremental changes and scheduled for full reindex, ensuring freshness while controlling cost.
+Agents access this fabric exclusively through the Knowledge Agent, which abstracts retrieval complexity behind a unified interface defined in `docs/08-ai/18-AGENTS.md`. The pipeline is event-driven for incremental changes and scheduled for full reindex, ensuring freshness while controlling cost.
 
 ---
 
@@ -1610,12 +1611,12 @@ stages:
 
 ## 40. Integration with Agent System
 
-Agents access knowledge exclusively through the **Knowledge Agent**, a specialized sub-agent defined in `docs/ai/18-AGENTS.md`.
+Agents access knowledge exclusively through the **Knowledge Agent**, a specialized sub-agent defined in `docs/08-ai/18-AGENTS.md`.
 
 ### 40.1 Knowledge Agent Interface
 
 ```
-Knowledge Agent (docs/ai/18-AGENTS.md)
+Knowledge Agent (docs/08-ai/18-AGENTS.md)
   |
   +-- /knowledge/query      -- Execute hybrid search query
   +-- /knowledge/graph      -- Traverse knowledge graph
@@ -1781,7 +1782,7 @@ async def classify_query(query: str) -> str:
 | **Cross-Encoder**          | A joint encoder model that processes query-passage pairs together for high-accuracy relevance scoring (slower but more accurate than bi-encoder) |
 | **Entity**                 | A distinct, identifiable object in the knowledge graph (Person, Project, Skill, Company, Technology)                                             |
 | **Entity Disambiguation**  | The process of resolving which specific entity a query refers to when names are ambiguous                                                        |
-| **Entity Relationship**    | A typed connection between two entities (e.g., Person â†’ WORKS_AT â†’ Company, Project â†’ USES â†’ Technology)                                         |
+| **Entity Relationship**    | A typed connection between two entities (e.g., Person → WORKS_AT → Company, Project → USES → Technology)                                         |
 | **Fusion Strategy**        | The algorithm for combining ranked results from multiple retrieval modalities into a single coherent list                                        |
 | **Graph Traversal**        | The process of navigating entity relationships to answer multi-hop queries (e.g., "What projects did person X build using technology Y?")        |
 | **Knowledge Gap Analysis** | The process of identifying topics visitors ask about that have no or insufficient coverage in the knowledge base                                 |
@@ -1792,18 +1793,18 @@ async def classify_query(query: str) -> str:
 
 ## 44. Related Documents
 
-| Document                | Path                                      | Description                                                             |
-| ----------------------- | ----------------------------------------- | ----------------------------------------------------------------------- |
-| AGENTS.md               | `docs/ai/18-AGENTS.md`                    | Agent system architecture, including Knowledge Agent definition         |
-| RAG.md                  | `docs/ai/19-RAG.md`                       | Retrieval-Augmented Generation pipeline details and prompt strategies   |
-| MEMORY-ARCHITECTURE.md  | `docs/ai/MemoryArchitecture.md`           | Agent memory system including episodic, semantic, and procedural memory |
-| CONTEXT-ARCHITECTURE.md | `docs/ai/ContextArchitecture.md`          | Context window management, token budgeting, and priority scheduling     |
-| SYSTEM-ARCHITECTURE.md  | `docs/architecture/SystemArchitecture.md` | Overall platform architecture and service topology                      |
-| DATA-MODEL.md           | `docs/api/DATA-MODEL.md`                  | Canonical data models for all entities across the platform              |
-| SECURITY.md             | `docs/security/SecurityArchitecture.md`   | Authentication, authorization, and encryption standards                 |
-| DEPLOYMENT.md           | `docs/operations/DeploymentGuide.md`      | Infrastructure provisioning and deployment runbooks                     |
-| OPERATIONS.md           | `docs/operations/OPERATIONS.md`           | Monitoring, alerting, and incident response procedures                  |
-| CONTRIBUTING.md         | `../CONTRIBUTING.md`                      | Development workflow and contribution guidelines                        |
+| Document                | Path                                         | Description                                                             |
+| ----------------------- | -------------------------------------------- | ----------------------------------------------------------------------- |
+| AGENTS.md               | `docs/08-ai/18-AGENTS.md`                    | Agent system architecture, including Knowledge Agent definition         |
+| RAG.md                  | `docs/08-ai/19-RAG.md`                       | Retrieval-Augmented Generation pipeline details and prompt strategies   |
+| MEMORY-ARCHITECTURE.md  | `docs/08-ai/MEMORY-ARCHITECTURE.md`          | Agent memory system including episodic, semantic, and procedural memory |
+| CONTEXT-ARCHITECTURE.md | `docs/08-ai/CONTEXT-ARCHITECTURE.md`         | Context window management, token budgeting, and priority scheduling     |
+| SYSTEM-ARCHITECTURE.md  | `docs/05-architecture/SystemArchitecture.md` | Overall platform architecture and service topology                      |
+| DATA-MODEL.md           | `docs/10-api/DATA-MODEL.md`                  | Canonical data models for all entities across the platform              |
+| SECURITY.md             | `docs/11-security/SecurityArchitecture.md`   | Authentication, authorization, and encryption standards                 |
+| DEPLOYMENT.md           | `docs/21-operations/DeploymentGuide.md`      | Infrastructure provisioning and deployment runbooks                     |
+| OPERATIONS.md           | `docs/21-operations/OPERATIONS.md`           | Monitoring, alerting, and incident response procedures                  |
+| CONTRIBUTING.md         | `../CONTRIBUTING.md`                         | Development workflow and contribution guidelines                        |
 
 ---
 
@@ -1890,4 +1891,4 @@ _End of Document -- Knowledge Architecture v1.0_
 
 ---
 
-> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.

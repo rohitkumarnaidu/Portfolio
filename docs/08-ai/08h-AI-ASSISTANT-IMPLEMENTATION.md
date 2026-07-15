@@ -1,11 +1,12 @@
-﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
-# AI Assistant ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Implementation Guide
+> **Status:** ?? Design Spec � forward-looking design, not yet implemented
+
+# AI Assistant Ã¢â‚¬â€ Implementation Guide
 
 > **Version:** 1.1.0
 > **Status:** Implementation Blueprint
 > **Last Updated:** 2026-06-18
 > **Target Service:** `apps/ai/` (FastAPI), `apps/web/src/components/chat/` (React), `apps/api/src/modules/chat/` (NestJS)
-> **Design References:** AIAssistantArchitecture.md, docs/ai/17-AI_INSTRUCTIONS.md, docs/ai/19-RAG.md
+> **Design References:** 08g-AI-ASSISTANT-ARCHITECTURE.md, docs/08-ai/17-AI_INSTRUCTIONS.md, docs/08-ai/19-RAG.md
 
 ---
 
@@ -28,7 +29,7 @@ sequenceDiagram
     CW-->>U: Display response
 ```
 
-AI-ASSISTANT-IMPLEMENTATION.md is the execution-ready blueprint for building the portfolio's AI assistant ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â a FastAPI-based RAG-powered chat service that spans three application layers (Python AI backend, React UI, NestJS proxy). The implementation covers 13 phases: infrastructure setup (FastAPI scaffold, async SQLAlchemy, pgvector), embedding pipeline (OpenAI text-embedding-3-small with local sentence-transformers fallback), knowledge ingestion (chunking at 500-char windows with per-source profiles), retrieval pipeline (hybrid vector + keyword search with cross-encoder reranking), prompt layer (templated system prompts with injection protection), agent layer (model router with circuit-breaker fallback across GPT-4, Claude, and GPT-4o-mini), UI layer (React chat panel with SSE streaming), analytics (event tracking with 50-event buffer flush), monitoring (health check, structured JSON logging, Prometheus metrics), security (per-IP rate limiting at 30 req/min, PII scrubber, RLS policies), testing (90% coverage targets), deployment (Docker/Railway/GitHub Actions), and a 6-phase implementation roadmap totaling ~126 hours over 17 days.
+AI-ASSISTANT-IMPLEMENTATION.md is the execution-ready blueprint for building the portfolio's AI assistant Ã¢â‚¬â€ a FastAPI-based RAG-powered chat service that spans three application layers (Python AI backend, React UI, NestJS proxy). The implementation covers 13 phases: infrastructure setup (FastAPI scaffold, async SQLAlchemy, pgvector), embedding pipeline (OpenAI text-embedding-3-small with local sentence-transformers fallback), knowledge ingestion (chunking at 500-char windows with per-source profiles), retrieval pipeline (hybrid vector + keyword search with cross-encoder reranking), prompt layer (templated system prompts with injection protection), agent layer (model router with circuit-breaker fallback across GPT-4, Claude, and GPT-4o-mini), UI layer (React chat panel with SSE streaming), analytics (event tracking with 50-event buffer flush), monitoring (health check, structured JSON logging, Prometheus metrics), security (per-IP rate limiting at 30 req/min, PII scrubber, RLS policies), testing (90% coverage targets), deployment (Docker/Railway/GitHub Actions), and a 6-phase implementation roadmap totaling ~126 hours over 17 days.
 
 ---
 
@@ -52,23 +53,23 @@ AI-ASSISTANT-IMPLEMENTATION.md is the execution-ready blueprint for building the
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| AI-001 | Hybrid vector + keyword search with cross-encoder reranking | Vector search captures semantic similarity, keyword search catches exact matches, reranker boosts precision to >85% recall@5 | Pure vector search (misses exact-match queries), pure keyword search (misses semantic intent), no reranker (lower precision) | 2026-06-01 | AI Architect |
-| AI-002 | OpenAI text-embedding-3-small primary with sentence-transformers CPU fallback | OpenAI gives highest quality embeddings at low cost (~$0.16/10K embeddings); sentence-transformers provides offline fallback without GPU cost | Only OpenAI (no fallback if API down), only local model (lower quality), Cohere embeddings (higher cost per token) | 2026-06-01 | AI Architect |
-| AI-003 | Three-tier model routing with circuit breaker fallback (PremiumÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢StandardÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢Budget) | Routes simple queries to cheap models (GPT-4o-mini at $0.00015/1K input), complex to premium (Claude at $0.003/1K), with automatic degradation on failure | Single model (no cost optimization, single point of failure), two-tier (less granular cost control), manual model selection (user friction) | 2026-06-01 | AI Architect |
-| AI-004 | SSE streaming over WebSocket for chat transport | SSE is simpler to implement (HTTP-only, no upgrade handshake), works through all proxies, has built-in browser AbortController support | WebSocket (bidirectional overhead, complex reconnection, proxy issues), polling (latency, bandwidth waste), gRPC-stream (infrastructure overhead) | 2026-06-01 | AI Architect |
-| AI-005 | LangChain RecursiveCharacterTextSplitter with per-source chunk profiles | Recursive splitting preserves document structure (splits on headings ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ paragraphs ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ sentences); per-source profiles optimize chunk size for different content types (200 for skills, 600 for blog posts) | Fixed chunk size (suboptimal for mixed content), NLP-based splitting (too slow, heavy dependency), manual splitting (not scalable) | 2026-06-01 | AI Architect |
+| ID     | Decision                                                                                       | Rationale                                                                                                                                                                                                              | Alternatives Considered                                                                                                                           | Date       | Approver     |
+| ------ | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------ |
+| AI-001 | Hybrid vector + keyword search with cross-encoder reranking                                    | Vector search captures semantic similarity, keyword search catches exact matches, reranker boosts precision to >85% recall@5                                                                                           | Pure vector search (misses exact-match queries), pure keyword search (misses semantic intent), no reranker (lower precision)                      | 2026-06-01 | AI Architect |
+| AI-002 | OpenAI text-embedding-3-small primary with sentence-transformers CPU fallback                  | OpenAI gives highest quality embeddings at low cost (~$0.16/10K embeddings); sentence-transformers provides offline fallback without GPU cost                                                                          | Only OpenAI (no fallback if API down), only local model (lower quality), Cohere embeddings (higher cost per token)                                | 2026-06-01 | AI Architect |
+| AI-003 | Three-tier model routing with circuit breaker fallback (PremiumÃ¢â€ â€™StandardÃ¢â€ â€™Budget) | Routes simple queries to cheap models (GPT-4o-mini at $0.00015/1K input), complex to premium (Claude at $0.003/1K), with automatic degradation on failure                                                              | Single model (no cost optimization, single point of failure), two-tier (less granular cost control), manual model selection (user friction)       | 2026-06-01 | AI Architect |
+| AI-004 | SSE streaming over WebSocket for chat transport                                                | SSE is simpler to implement (HTTP-only, no upgrade handshake), works through all proxies, has built-in browser AbortController support                                                                                 | WebSocket (bidirectional overhead, complex reconnection, proxy issues), polling (latency, bandwidth waste), gRPC-stream (infrastructure overhead) | 2026-06-01 | AI Architect |
+| AI-005 | LangChain RecursiveCharacterTextSplitter with per-source chunk profiles                        | Recursive splitting preserves document structure (splits on headings Ã¢â€ â€™ paragraphs Ã¢â€ â€™ sentences); per-source profiles optimize chunk size for different content types (200 for skills, 600 for blog posts) | Fixed chunk size (suboptimal for mixed content), NLP-based splitting (too slow, heavy dependency), manual splitting (not scalable)                | 2026-06-01 | AI Architect |
 
 ## Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| AI-R01 | OpenAI API outage blocks all chat requests | Low | Critical | Circuit breaker auto-falls back to Claude (Anthropic); if both fail, graceful "Service unavailable" with retry prompt |
-| AI-R02 | Embedding cost overrun from high query volume | Medium | Medium | Monthly hard cap at $10; CostController blocks requests when exceeded; budget tier used for repetitive queries |
-| AI-R03 | Prompt injection bypasses input sanitizer | Low | Critical | Multi-layer defense: regex pattern matching, max input length (4000 chars), output PII filter, RAG-grounded response constraint in system prompt |
-| AI-R04 | pgvector index performance degrades with >10K chunks | Medium | Medium | IVFFlat index with 100 lists; scheduled REINDEX weekly; monitor query latency; upgrade to HNSW index if P99 exceeds 200ms |
-| AI-R05 | SSE connection drops mid-stream on unstable networks | Medium | High | Browser AbortController handles disconnect; partial response preserved in UI; user can retry with exponential backoff |
+| ID     | Risk                                                 | Likelihood | Impact   | Mitigation                                                                                                                                       |
+| ------ | ---------------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| AI-R01 | OpenAI API outage blocks all chat requests           | Low        | Critical | Circuit breaker auto-falls back to Claude (Anthropic); if both fail, graceful "Service unavailable" with retry prompt                            |
+| AI-R02 | Embedding cost overrun from high query volume        | Medium     | Medium   | Monthly hard cap at $10; CostController blocks requests when exceeded; budget tier used for repetitive queries                                   |
+| AI-R03 | Prompt injection bypasses input sanitizer            | Low        | Critical | Multi-layer defense: regex pattern matching, max input length (4000 chars), output PII filter, RAG-grounded response constraint in system prompt |
+| AI-R04 | pgvector index performance degrades with >10K chunks | Medium     | Medium   | IVFFlat index with 100 lists; scheduled REINDEX weekly; monitor query latency; upgrade to HNSW index if P99 exceeds 200ms                        |
+| AI-R05 | SSE connection drops mid-stream on unstable networks | Medium     | High     | Browser AbortController handles disconnect; partial response preserved in UI; user can retry with exponential backoff                            |
 
 # 1. Infrastructure Setup
 
@@ -78,69 +79,69 @@ The AI assistant spans three application layers. Every file listed below maps to
 
 ```
 apps/ai/                          # Python AI backend (FastAPI)
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ app/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ main.py                   # FastAPI entry point + lifespan
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ config.py                 # Pydantic-settings configuration
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ dependencies.py           # FastAPI dependency injection
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ middleware/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ rate_limit.py         # Token bucket rate limiter
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ input_sanitizer.py    # Input injection guard
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ pii_filter.py         # Output PII scrubber
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ routes/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.py              # POST /api/chat (SSE stream)
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ analyze.py           # POST /api/analyze
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ suggest.py           # POST /api/suggest
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ health.py            # GET /api/health
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ services/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ai_service.py         # Orchestrator implementation
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ embedding_service.py  # Embedding generation
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ rag_service.py        # RAG retrieval + reranking
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ingestion_service.py  # Document ingestion pipeline
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ cache_service.py      # Response + embedding cache
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ model_router.py       # LLM routing + circuit breaker
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ analytics_service.py  # Event tracking
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ cost_controller.py    # Budget enforcement
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡       ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conversation_manager.py  # Session + context window
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ tests/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ __init__.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ conftest.py               # Fixtures + mocks
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_embedding.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_rag.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_safety.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ test_performance.py
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ Dockerfile
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ railway.toml
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ requirements.txt              # Exists (needs additions)
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ package.json                  # Exists
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ .env.example
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ app/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ __init__.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ main.py                   # FastAPI entry point + lifespan
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ config.py                 # Pydantic-settings configuration
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ dependencies.py           # FastAPI dependency injection
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ middleware/
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ __init__.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ rate_limit.py         # Token bucket rate limiter
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ input_sanitizer.py    # Input injection guard
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ pii_filter.py         # Output PII scrubber
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ routes/
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ __init__.py
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ chat.py              # POST /api/chat (SSE stream)
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ analyze.py           # POST /api/analyze
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ suggest.py           # POST /api/suggest
+Ã¢â€â€š   Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ health.py            # GET /api/health
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ services/
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ __init__.py
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ai_service.py         # Orchestrator implementation
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ embedding_service.py  # Embedding generation
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ rag_service.py        # RAG retrieval + reranking
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ingestion_service.py  # Document ingestion pipeline
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ cache_service.py      # Response + embedding cache
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ model_router.py       # LLM routing + circuit breaker
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ analytics_service.py  # Event tracking
+Ã¢â€â€š       Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ cost_controller.py    # Budget enforcement
+Ã¢â€â€š       Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ conversation_manager.py  # Session + context window
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ tests/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ __init__.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ conftest.py               # Fixtures + mocks
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_embedding.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_rag.py
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ test_safety.py
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ test_performance.py
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ Dockerfile
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ railway.toml
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ requirements.txt              # Exists (needs additions)
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ package.json                  # Exists
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ .env.example
 
 apps/web/src/
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ components/chat/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ChatPanel.tsx
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ChatMessage.tsx
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ ChatInput.tsx
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ WelcomeScreen.tsx
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ TypingIndicator.tsx
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ StopButton.tsx
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ hooks/
-    ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ useChatStream.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ components/chat/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ChatPanel.tsx
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ChatMessage.tsx
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ ChatInput.tsx
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ WelcomeScreen.tsx
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ TypingIndicator.tsx
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ StopButton.tsx
+Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ hooks/
+    Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ useChatStream.ts
 
 apps/api/src/modules/chat/
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.module.ts
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.controller.ts
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat.service.ts
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ dto/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-request.dto.ts
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-response.dto.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ chat.module.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ chat.controller.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ chat.service.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ dto/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ chat-request.dto.ts
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ chat-response.dto.ts
 
 packages/shared/src/
-ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ schemas/
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ…â€œÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-conversation.schema.ts
-ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬Å¡   ÃƒÂ¢Ã¢â‚¬ÂÃ¢â‚¬ÂÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ÃƒÂ¢Ã¢â‚¬ÂÃ¢â€šÂ¬ chat-message.schema.ts
+Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ schemas/
+Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ chat-conversation.schema.ts
+Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ chat-message.schema.ts
 ```
 
 ## 1.2 Environment Configuration
@@ -395,18 +396,18 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
 ## 1.8 Infrastructure ADRs
 
-| ID | Decision | Rationale |
-|---|---|---|
-| ADR-INFRA-01 | AsyncSQLAlchemy + asyncpg | Native async I/O; pgvector supports async; avoids thread pool overhead |
-| ADR-INFRA-02 | Pydantic-settings v2 | Type-safe env vars with .env file support; used by FastAPI ecosystem |
-| ADR-INFRA-03 | sentence-transformers CPU fallback | Avoids GPU cost on Railway; all-MiniLM-L6-v2 is 80MB, loads in <2s on CPU |
-| ADR-INFRA-04 | Redis optional via env var | Local dev uses in-memory cache; production uses Upstash Redis ($0/month free tier) |
+| ID           | Decision                           | Rationale                                                                          |
+| ------------ | ---------------------------------- | ---------------------------------------------------------------------------------- |
+| ADR-INFRA-01 | AsyncSQLAlchemy + asyncpg          | Native async I/O; pgvector supports async; avoids thread pool overhead             |
+| ADR-INFRA-02 | Pydantic-settings v2               | Type-safe env vars with .env file support; used by FastAPI ecosystem               |
+| ADR-INFRA-03 | sentence-transformers CPU fallback | Avoids GPU cost on Railway; all-MiniLM-L6-v2 is 80MB, loads in <2s on CPU          |
+| ADR-INFRA-04 | Redis optional via env var         | Local dev uses in-memory cache; production uses Upstash Redis ($0/month free tier) |
 
 ---
 
 # 2. Embedding Pipeline
 
-## 2.1 EmbeddingService ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
+## 2.1 EmbeddingService Ã¢â‚¬â€ Full Implementation
 
 ```python
 # app/services/embedding_service.py
@@ -607,12 +608,12 @@ Cost per operation (text-embedding-3-small, $0.13/1M tokens):
 
 ## 2.5 Performance Targets
 
-| Metric | Target | Measurement |
-|---|---|---|
-| Single embedding latency (OpenAI API) | <500ms | time.perf_counter() around API call |
-| Batch embedding latency (10 items) | <2s | time.perf_counter() around batch call |
-| Local embedding latency (single) | <100ms | time.perf_counter() around encode() |
-| Cache hit ratio | >40% | CacheService.hit_rate() |
+| Metric                                | Target | Measurement                           |
+| ------------------------------------- | ------ | ------------------------------------- |
+| Single embedding latency (OpenAI API) | <500ms | time.perf_counter() around API call   |
+| Batch embedding latency (10 items)    | <2s    | time.perf_counter() around batch call |
+| Local embedding latency (single)      | <100ms | time.perf_counter() around encode()   |
+| Cache hit ratio                       | >40%   | CacheService.hit_rate()               |
 
 ---
 
@@ -682,7 +683,7 @@ CHUNK_PROFILES = {
 }
 ```
 
-## 3.3 IngestionService ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
+## 3.3 IngestionService Ã¢â‚¬â€ Full Implementation
 
 ```python
 class IngestionService:
@@ -848,10 +849,9 @@ async def refresh_ingestion(
 # );
 ```
 
-
 # 4. Retrieval Pipeline
 
-## 4.1 Search Functions ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â pgvector SQL
+## 4.1 Search Functions Ã¢â‚¬â€ pgvector SQL
 
 ```sql
 CREATE OR REPLACE FUNCTION match_documents(
@@ -891,7 +891,7 @@ END;
 $$;
 ```
 
-## 4.2 RAGService ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
+## 4.2 RAGService Ã¢â‚¬â€ Full Implementation
 
 ```python
 # app/services/rag_service.py
@@ -1057,25 +1057,25 @@ class RAGService:
         )
 ```
 
-## 4.3 Context Assembly ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Tier Priority
+## 4.3 Context Assembly Ã¢â‚¬â€ Tier Priority
 
-| Tier | Source | Max Chunks | Priority |
-|---|---|---|---|
-| 1 | Projects | 3 | Highest - core portfolio content |
-| 2 | Skills, Experience | 3 | High - qualifications |
-| 3 | Blog, Documentation | 3 | Medium - supplementary |
-| 4 | Testimonials, FAQ, Sections | 2 | Normal - supporting evidence |
+| Tier | Source                      | Max Chunks | Priority                         |
+| ---- | --------------------------- | ---------- | -------------------------------- |
+| 1    | Projects                    | 3          | Highest - core portfolio content |
+| 2    | Skills, Experience          | 3          | High - qualifications            |
+| 3    | Blog, Documentation         | 3          | Medium - supplementary           |
+| 4    | Testimonials, FAQ, Sections | 2          | Normal - supporting evidence     |
 
 ## 4.4 Retrieval Performance Targets
 
-| Metric | Target |
-|---|---|
-| P99 vector search latency | <200ms |
-| P99 keyword search latency | <100ms |
+| Metric                             | Target |
+| ---------------------------------- | ------ |
+| P99 vector search latency          | <200ms |
+| P99 keyword search latency         | <100ms |
 | P99 rerank latency (20 candidates) | <500ms |
-| P99 total retrieval latency | <1s |
-| Recall@5 | >85% |
-| Cache hit ratio | >40% |
+| P99 total retrieval latency        | <1s    |
+| Recall@5                           | >85%   |
+| Cache hit ratio                    | >40%   |
 
 ---
 
@@ -1268,7 +1268,7 @@ class InputSanitizerMiddleware(BaseHTTPMiddleware):
 
 # 6. Agent Layer
 
-## 6.1 ModelRouter ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Full Implementation
+## 6.1 ModelRouter Ã¢â‚¬â€ Full Implementation
 
 ```python
 # app/services/model_router.py
@@ -1621,7 +1621,6 @@ class AIService:
             return [{"error": "Failed to parse suggestions"}]
 ```
 
-
 # 7. UI Layer
 
 ## 7.1 Component Tree
@@ -1640,17 +1639,21 @@ ChatPanel                  # Root: manages state machine, layout
 
 ```typescript
 // packages/shared/src/schemas/chat-conversation.schema.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 export const ChatMessageSchema = z.object({
   id: z.string().uuid(),
-  role: z.enum(["user", "assistant", "system"]),
+  role: z.enum(['user', 'assistant', 'system']),
   content: z.string().min(1).max(16000),
-  sources: z.array(z.object({
-    source: z.string(),
-    sourceId: z.string(),
-    title: z.string().optional(),
-  })).optional(),
+  sources: z
+    .array(
+      z.object({
+        source: z.string(),
+        sourceId: z.string(),
+        title: z.string().optional(),
+      }),
+    )
+    .optional(),
   timestamp: z.string().datetime(),
   tokens: z.number().int().positive().optional(),
   cost: z.number().nonnegative().optional(),
@@ -1672,13 +1675,17 @@ export const ChatRequestSchema = z.object({
 });
 
 export const ChatResponseSchema = z.object({
-  type: z.enum(["chunk", "metadata", "complete", "error"]),
+  type: z.enum(['chunk', 'metadata', 'complete', 'error']),
   content: z.string(),
   tier: z.string().optional(),
-  sources: z.array(z.object({
-    source: z.string(),
-    sourceId: z.string(),
-  })).optional(),
+  sources: z
+    .array(
+      z.object({
+        source: z.string(),
+        sourceId: z.string(),
+      }),
+    )
+    .optional(),
 });
 
 export type ChatMessage = z.infer<typeof ChatMessageSchema>;
@@ -1691,12 +1698,12 @@ export type ChatResponse = z.infer<typeof ChatResponseSchema>;
 
 ```typescript
 // apps/web/src/hooks/useChatStream.ts
-"use client";
-import { useState, useRef, useCallback } from "react";
+'use client';
+import { useState, useRef, useCallback } from 'react';
 
 interface ChatMessageData {
   id: string;
-  role: "user" | "assistant";
+  role: 'user' | 'assistant';
   content: string;
   sources?: { source: string; sourceId: string; title?: string }[];
   timestamp: string;
@@ -1704,7 +1711,7 @@ interface ChatMessageData {
 
 interface ChatStateData {
   messages: ChatMessageData[];
-  status: "idle" | "connecting" | "streaming" | "complete" | "error";
+  status: 'idle' | 'connecting' | 'streaming' | 'complete' | 'error';
   error: string | null;
   tier: string | null;
   sources: { source: string; sourceId: string }[];
@@ -1713,98 +1720,102 @@ interface ChatStateData {
 export function useChatStream(sessionId: string) {
   const [state, setState] = useState<ChatStateData>({
     messages: [],
-    status: "idle",
+    status: 'idle',
     error: null,
     tier: null,
     sources: [],
   });
   const abortRef = useRef<AbortController | null>(null);
 
-  const send = useCallback(async (message: string) => {
-    const userMsg: ChatMessageData = {
-      id: crypto.randomUUID(),
-      role: "user",
-      content: message,
-      timestamp: new Date().toISOString(),
-    };
+  const send = useCallback(
+    async (message: string) => {
+      const userMsg: ChatMessageData = {
+        id: crypto.randomUUID(),
+        role: 'user',
+        content: message,
+        timestamp: new Date().toISOString(),
+      };
 
-    setState((prev) => ({
-      ...prev,
-      messages: [...prev.messages, userMsg],
-      status: "connecting",
-      error: null,
-    }));
+      setState((prev) => ({
+        ...prev,
+        messages: [...prev.messages, userMsg],
+        status: 'connecting',
+        error: null,
+      }));
 
-    abortRef.current = new AbortController();
+      abortRef.current = new AbortController();
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_AI_API_URL}/api/chat`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_AI_API_URL}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ message, sessionId, stream: true }),
           signal: abortRef.current.signal,
-        }
-      );
+        });
 
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-      const reader = response.body!.getReader();
-      const decoder = new TextDecoder();
-      let assistantContent = "";
+        const reader = response.body!.getReader();
+        const decoder = new TextDecoder();
+        let assistantContent = '';
 
-      setState((prev) => ({ ...prev, status: "streaming" }));
+        setState((prev) => ({ ...prev, status: 'streaming' }));
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
 
-        const chunk = decoder.decode(value, { stream: true });
-        const lines = chunk.split("\n").filter(Boolean);
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split('\n').filter(Boolean);
 
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const data = JSON.parse(line.slice(6));
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const data = JSON.parse(line.slice(6));
 
-          if (data.type === "metadata") {
-            setState((prev) => ({ ...prev, tier: data.tier, sources: data.sources || [] }));
-          } else if (data.type === "chunk") {
-            assistantContent += data.content;
-            setState((prev) => {
-              const msgs = [...prev.messages];
-              const last = msgs[msgs.length - 1];
-              if (last?.role === "assistant") {
-                msgs[msgs.length - 1] = { ...last, content: assistantContent };
-              } else {
-                msgs.push({
-                  id: crypto.randomUUID(),
-                  role: "assistant",
-                  content: assistantContent,
-                  timestamp: new Date().toISOString(),
-                });
-              }
-              return { ...prev, messages: msgs };
-            });
-          } else if (data.type === "complete") {
-            setState((prev) => ({ ...prev, status: "complete" }));
-          } else if (data.type === "error") {
-            throw new Error(data.content);
+            if (data.type === 'metadata') {
+              setState((prev) => ({ ...prev, tier: data.tier, sources: data.sources || [] }));
+            } else if (data.type === 'chunk') {
+              assistantContent += data.content;
+              setState((prev) => {
+                const msgs = [...prev.messages];
+                const last = msgs[msgs.length - 1];
+                if (last?.role === 'assistant') {
+                  msgs[msgs.length - 1] = { ...last, content: assistantContent };
+                } else {
+                  msgs.push({
+                    id: crypto.randomUUID(),
+                    role: 'assistant',
+                    content: assistantContent,
+                    timestamp: new Date().toISOString(),
+                  });
+                }
+                return { ...prev, messages: msgs };
+              });
+            } else if (data.type === 'complete') {
+              setState((prev) => ({ ...prev, status: 'complete' }));
+            } else if (data.type === 'error') {
+              throw new Error(data.content);
+            }
           }
         }
+      } catch (err: any) {
+        if (err.name === 'AbortError') {
+          setState((prev) => ({ ...prev, status: 'complete' }));
+        } else {
+          setState((prev) => ({
+            ...prev,
+            status: 'error',
+            error: err.message || 'Connection failed',
+          }));
+        }
       }
-    } catch (err: any) {
-      if (err.name === "AbortError") {
-        setState((prev) => ({ ...prev, status: "complete" }));
-      } else {
-        setState((prev) => ({ ...prev, status: "error", error: err.message || "Connection failed" }));
-      }
-    }
-  }, [sessionId]);
+    },
+    [sessionId],
+  );
 
   const abort = useCallback(() => abortRef.current?.abort(), []);
   const reset = useCallback(() => {
-    setState({ messages: [], status: "idle", error: null, tier: null, sources: [] });
+    setState({ messages: [], status: 'idle', error: null, tier: null, sources: [] });
   }, []);
 
   return { ...state, send, abort, reset };
@@ -1815,31 +1826,40 @@ export function useChatStream(sessionId: string) {
 
 ```tsx
 // apps/web/src/components/chat/ChatPanel.tsx
-"use client";
-import { useState } from "react";
-import { useChatStream } from "@/hooks/useChatStream";
-import { ChatMessage as ChatMessageComp } from "./ChatMessage";
-import { ChatInput } from "./ChatInput";
-import { WelcomeScreen } from "./WelcomeScreen";
-import { TypingIndicator } from "./TypingIndicator";
-import { StopButton } from "./StopButton";
+'use client';
+import { useState } from 'react';
+import { useChatStream } from '@/hooks/useChatStream';
+import { ChatMessage as ChatMessageComp } from './ChatMessage';
+import { ChatInput } from './ChatInput';
+import { WelcomeScreen } from './WelcomeScreen';
+import { TypingIndicator } from './TypingIndicator';
+import { StopButton } from './StopButton';
 
 interface ChatPanelProps {
   sessionId?: string;
-  displayMode?: "floating" | "inline" | "fullscreen";
+  displayMode?: 'floating' | 'inline' | 'fullscreen';
 }
 
-export function ChatPanel({ sessionId = "default", displayMode = "floating" }: ChatPanelProps) {
+export function ChatPanel({ sessionId = 'default', displayMode = 'floating' }: ChatPanelProps) {
   const { messages, status, error, sources, send, abort, reset } = useChatStream(sessionId);
-  const [isOpen, setIsOpen] = useState(displayMode !== "floating");
+  const [isOpen, setIsOpen] = useState(displayMode !== 'floating');
 
-  if (displayMode === "floating" && !isOpen) {
+  if (displayMode === 'floating' && !isOpen) {
     return (
-      <button onClick={() => setIsOpen(true)}
+      <button
+        onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-primary text-white shadow-lg
                    hover:shadow-xl transition-all z-50 flex items-center justify-center"
-        aria-label="Open chat">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        aria-label="Open chat"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
           <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
         </svg>
       </button>
@@ -1847,18 +1867,32 @@ export function ChatPanel({ sessionId = "default", displayMode = "floating" }: C
   }
 
   return (
-    <div className={`flex flex-col bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700
-      ${displayMode === "fullscreen" ? "fixed inset-0 z-50"
-        : displayMode === "floating" ? "fixed bottom-6 right-6 w-96 h-[600px] rounded-2xl shadow-2xl z-50"
-        : "w-full max-w-3xl mx-auto rounded-xl shadow-lg"}`}
+    <div
+      className={`flex flex-col bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700
+      ${
+        displayMode === 'fullscreen'
+          ? 'fixed inset-0 z-50'
+          : displayMode === 'floating'
+            ? 'fixed bottom-6 right-6 w-96 h-[600px] rounded-2xl shadow-2xl z-50'
+            : 'w-full max-w-3xl mx-auto rounded-xl shadow-lg'
+      }`}
     >
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-700">
         <h3 className="font-semibold text-sm">AI Assistant</h3>
         <div className="flex gap-2">
-          <button onClick={reset} className="text-xs text-gray-500 hover:text-gray-700">New chat</button>
-          {displayMode !== "inline" && (
+          <button onClick={reset} className="text-xs text-gray-500 hover:text-gray-700">
+            New chat
+          </button>
+          {displayMode !== 'inline' && (
             <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-600">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
                 <path d="M18 6L6 18M6 6l12 12" />
               </svg>
             </button>
@@ -1873,25 +1907,27 @@ export function ChatPanel({ sessionId = "default", displayMode = "floating" }: C
           messages.map((msg) => <ChatMessageComp key={msg.id} message={msg} />)
         )}
 
-        {status === "streaming" && (
+        {status === 'streaming' && (
           <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">AI</div>
+            <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+              AI
+            </div>
             <TypingIndicator />
           </div>
         )}
 
-        {status === "error" && (
+        {status === 'error' && (
           <div className="p-3 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm">
-            {error || "Something went wrong. Please try again."}
+            {error || 'Something went wrong. Please try again.'}
           </div>
         )}
       </div>
 
       <div className="border-t border-gray-200 dark:border-gray-700 p-4">
-        {status === "streaming" ? (
+        {status === 'streaming' ? (
           <StopButton onStop={abort} />
         ) : (
-          <ChatInput onSend={send} disabled={status === "connecting"} />
+          <ChatInput onSend={send} disabled={status === 'connecting'} />
         )}
       </div>
     </div>
@@ -1904,21 +1940,27 @@ export function ChatPanel({ sessionId = "default", displayMode = "floating" }: C
 ```tsx
 // ChatMessage.tsx
 export function ChatMessage({ message }: { message: ChatMessageData }) {
-  const isUser = message.role === "user";
+  const isUser = message.role === 'user';
   return (
-    <div className={`flex items-start gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
-      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold
-        ${isUser ? "bg-blue-100 text-blue-600" : "bg-primary/10 text-primary"}`}>
-        {isUser ? "You" : "AI"}
+    <div className={`flex items-start gap-3 ${isUser ? 'flex-row-reverse' : ''}`}>
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold
+        ${isUser ? 'bg-blue-100 text-blue-600' : 'bg-primary/10 text-primary'}`}
+      >
+        {isUser ? 'You' : 'AI'}
       </div>
-      <div className={`max-w-[80%] ${isUser ? "bg-blue-50 dark:bg-blue-900/30" : "bg-gray-50 dark:bg-gray-800"}
-        rounded-2xl px-4 py-3 text-sm leading-relaxed`}>
+      <div
+        className={`max-w-[80%] ${isUser ? 'bg-blue-50 dark:bg-blue-900/30' : 'bg-gray-50 dark:bg-gray-800'}
+        rounded-2xl px-4 py-3 text-sm leading-relaxed`}
+      >
         <div className="prose prose-sm dark:prose-invert max-w-none">{message.content}</div>
         {message.sources && message.sources.length > 0 && (
           <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
             <span className="text-xs text-gray-400">Sources: </span>
             {message.sources.map((s, i) => (
-              <span key={i} className="text-xs text-gray-500 mr-2">{s.title || s.source}</span>
+              <span key={i} className="text-xs text-gray-500 mr-2">
+                {s.title || s.source}
+              </span>
             ))}
           </div>
         )}
@@ -1928,20 +1970,43 @@ export function ChatMessage({ message }: { message: ChatMessageData }) {
 }
 
 // ChatInput.tsx
-import { useState } from "react";
-export function ChatInput({ onSend, disabled }: { onSend: (msg: string) => void; disabled: boolean }) {
-  const [text, setText] = useState("");
-  const handleSubmit = () => { if (text.trim()) { onSend(text.trim()); setText(""); } };
+import { useState } from 'react';
+export function ChatInput({
+  onSend,
+  disabled,
+}: {
+  onSend: (msg: string) => void;
+  disabled: boolean;
+}) {
+  const [text, setText] = useState('');
+  const handleSubmit = () => {
+    if (text.trim()) {
+      onSend(text.trim());
+      setText('');
+    }
+  };
   return (
     <div className="flex gap-2">
-      <textarea value={text} onChange={(e) => setText(e.target.value)}
-        onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSubmit(); } }}
-        placeholder="Ask about my work, skills, or experience..." rows={1} disabled={disabled}
+      <textarea
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit();
+          }
+        }}
+        placeholder="Ask about my work, skills, or experience..."
+        rows={1}
+        disabled={disabled}
         className="flex-1 resize-none rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50
                    dark:bg-gray-800 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50"
       />
-      <button onClick={handleSubmit} disabled={disabled || !text.trim()}
-        className="px-4 py-2.5 bg-primary text-white rounded-xl hover:opacity-90 disabled:opacity-50 text-sm font-medium transition-opacity">
+      <button
+        onClick={handleSubmit}
+        disabled={disabled || !text.trim()}
+        className="px-4 py-2.5 bg-primary text-white rounded-xl hover:opacity-90 disabled:opacity-50 text-sm font-medium transition-opacity"
+      >
         Send
       </button>
     </div>
@@ -1951,25 +2016,38 @@ export function ChatInput({ onSend, disabled }: { onSend: (msg: string) => void;
 // WelcomeScreen.tsx
 export function WelcomeScreen({ onSuggestionClick }: { onSuggestionClick: (q: string) => void }) {
   const suggestions = [
-    "What projects have you worked on?",
-    "Tell me about your skills",
+    'What projects have you worked on?',
+    'Tell me about your skills',
     "What's your professional experience?",
-    "Can I see a sample of your work?",
+    'Can I see a sample of your work?',
   ];
   return (
     <div className="text-center py-8">
       <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-primary">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className="text-primary"
+        >
           <path d="M12 2a10 10 0 0110 10c0 5-4 8-10 8-2 0-4-.5-6-1.5L2 22l1.5-4.5A8 8 0 012 12 10 10 0 0112 2z" />
         </svg>
       </div>
       <h3 className="text-lg font-semibold mb-2">Hi, I'm PortfolioAI!</h3>
-      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">Ask me anything about my projects, skills, experience, or background.</p>
+      <p className="text-sm text-gray-500 mb-6 max-w-sm mx-auto">
+        Ask me anything about my projects, skills, experience, or background.
+      </p>
       <div className="space-y-2">
         {suggestions.map((q) => (
-          <button key={q} onClick={() => onSuggestionClick(q)}
+          <button
+            key={q}
+            onClick={() => onSuggestionClick(q)}
             className="block w-full text-left px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800
-                       hover:bg-gray-100 dark:hover:bg-gray-700 text-sm transition-colors">
+                       hover:bg-gray-100 dark:hover:bg-gray-700 text-sm transition-colors"
+          >
             {q}
           </button>
         ))}
@@ -1983,8 +2061,11 @@ export function TypingIndicator() {
   return (
     <div className="flex gap-1.5 py-3 px-4">
       {[0, 1, 2].map((i) => (
-        <div key={i} className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
-          style={{ animationDelay: `${i * 0.15}s` }} />
+        <div
+          key={i}
+          className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"
+          style={{ animationDelay: `${i * 0.15}s` }}
+        />
       ))}
     </div>
   );
@@ -1993,9 +2074,11 @@ export function TypingIndicator() {
 // StopButton.tsx
 export function StopButton({ onStop }: { onStop: () => void }) {
   return (
-    <button onClick={onStop}
+    <button
+      onClick={onStop}
       className="w-full py-2.5 rounded-xl border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400
-                 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                 text-sm font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+    >
       Stop generating
     </button>
   );
@@ -2006,19 +2089,19 @@ export function StopButton({ onStop }: { onStop: () => void }) {
 
 ```typescript
 // apps/api/src/modules/chat/chat.module.ts
-import { Module } from "@nestjs/common";
-import { ChatController } from "./chat.controller";
-import { ChatService } from "./chat.service";
-import { HttpModule } from "@nestjs/axios";
+import { Module } from '@nestjs/common';
+import { ChatController } from './chat.controller';
+import { ChatService } from './chat.service';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({ imports: [HttpModule], controllers: [ChatController], providers: [ChatService] })
 export class ChatModule {}
 
 // chat.service.ts
-import { Injectable } from "@nestjs/common";
-import { HttpService } from "@nestjs/axios";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '@nestjs/axios';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ChatService {
@@ -2031,13 +2114,13 @@ export class ChatService {
 }
 
 // chat.controller.ts
-import { Controller, Post, Body } from "@nestjs/common";
-import { ChatService } from "./chat.service";
+import { Controller, Post, Body } from '@nestjs/common';
+import { ChatService } from './chat.service';
 
-@Controller("ai")
+@Controller('ai')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
-  @Post("chat")
+  @Post('chat')
   chat(@Body() body: { message: string; sessionId: string }) {
     return this.chatService.chat(body.message, body.sessionId);
   }
@@ -2360,16 +2443,16 @@ class MetricsMiddleware(BaseHTTPMiddleware):
 
 ## 9.4 Alert Thresholds
 
-| Alert Rule | Threshold | Severity | Action |
-|---|---|---|---|
-| High error rate | >5% error rate in 5min | Critical | PagerDuty notification |
-| High latency | P99 > 5s in 5min | Warning | Scale workers |
-| Budget threshold | >80% monthly budget | Warning | Downgrade model tier |
-| Circuit breaker open | Any tier open >30s | Critical | Restart service |
-| Health check failed | 3 consecutive failures | Critical | Restart + Railway auto-heal |
-| Low cache hit rate | <10% in 1h | Info | Review cache TTL |
-| Zero retrievals | No RAG results in 5 queries | Warning | Check ingestion pipeline |
-| Rate limit saturation | >90% rate limit usage | Warning | Increase capacity |
+| Alert Rule            | Threshold                   | Severity | Action                      |
+| --------------------- | --------------------------- | -------- | --------------------------- |
+| High error rate       | >5% error rate in 5min      | Critical | PagerDuty notification      |
+| High latency          | P99 > 5s in 5min            | Warning  | Scale workers               |
+| Budget threshold      | >80% monthly budget         | Warning  | Downgrade model tier        |
+| Circuit breaker open  | Any tier open >30s          | Critical | Restart service             |
+| Health check failed   | 3 consecutive failures      | Critical | Restart + Railway auto-heal |
+| Low cache hit rate    | <10% in 1h                  | Info     | Review cache TTL            |
+| Zero retrievals       | No RAG results in 5 queries | Warning  | Check ingestion pipeline    |
+| Rate limit saturation | >90% rate limit usage       | Warning  | Increase capacity           |
 
 ## 9.5 Supabase Monitoring Views
 
@@ -2387,7 +2470,6 @@ FROM cost_log
 WHERE created_at >= date_trunc('day', now())
 GROUP BY model ORDER BY total_cost DESC;
 ```
-
 
 # 10. Security Layer
 
@@ -2659,15 +2741,15 @@ async def test_retrieval_latency():
 
 ## 11.5 Test Coverage Targets
 
-| Module | Target | Critical Paths |
-|---|---|---|
-| RAGService | 90% | retrieve(), assemble_context(), _fuse_results() |
-| EmbeddingService | 85% | generate_embedding(), cache_key(), get_usage() |
-| ModelRouter | 85% | generate(), select_tier(), fallback chain |
-| CacheService | 90% | get(), set(), hit_rate() |
-| Security middleware | 95% | Input sanitization, PII filter, rate limit |
-| PromptLayer | 80% | build_system_prompt(), build_messages() |
-| UI hooks | 80% | useChatStream() send/abort/reset states |
+| Module              | Target | Critical Paths                                   |
+| ------------------- | ------ | ------------------------------------------------ |
+| RAGService          | 90%    | retrieve(), assemble_context(), \_fuse_results() |
+| EmbeddingService    | 85%    | generate_embedding(), cache_key(), get_usage()   |
+| ModelRouter         | 85%    | generate(), select_tier(), fallback chain        |
+| CacheService        | 90%    | get(), set(), hit_rate()                         |
+| Security middleware | 95%    | Input sanitization, PII filter, rate limit       |
+| PromptLayer         | 80%    | build_system_prompt(), build_messages()          |
+| UI hooks            | 80%    | useChatStream() send/abort/reset states          |
 
 ---
 
@@ -2726,9 +2808,9 @@ name: AI Service Deploy
 on:
   push:
     branches: [main]
-    paths: ["apps/ai/**", ".github/workflows/ai-deploy.yml"]
+    paths: ['apps/ai/**', '.github/workflows/ai-deploy.yml']
   pull_request:
-    paths: ["apps/ai/**"]
+    paths: ['apps/ai/**']
 
 jobs:
   lint-and-test:
@@ -2741,8 +2823,8 @@ jobs:
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
+          python-version: '3.12'
+          cache: 'pip'
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
@@ -2768,14 +2850,14 @@ jobs:
 
 ## 12.4 Environment Configuration by Environment
 
-| Variable | Staging | Production |
-|---|---|---|
-| LOG_LEVEL | DEBUG | INFO |
-| CORS_ORIGINS | ["http://localhost:3000","https://staging.example.com"] | ["https://example.com"] |
-| RATE_LIMIT_REQUESTS | 60 | 30 |
-| DATABASE_POOL_SIZE | 5 | 10 |
-| MONTHLY_BUDGET_USD | 5.0 | 10.0 |
-| Workers | 1 | 2 |
+| Variable            | Staging                                                 | Production              |
+| ------------------- | ------------------------------------------------------- | ----------------------- |
+| LOG_LEVEL           | DEBUG                                                   | INFO                    |
+| CORS_ORIGINS        | ["http://localhost:3000","https://staging.example.com"] | ["https://example.com"] |
+| RATE_LIMIT_REQUESTS | 60                                                      | 30                      |
+| DATABASE_POOL_SIZE  | 5                                                       | 10                      |
+| MONTHLY_BUDGET_USD  | 5.0                                                     | 10.0                    |
+| Workers             | 1                                                       | 2                       |
 
 ## 12.5 Complete Migration Script
 
@@ -2894,99 +2976,99 @@ psql $STAGING_DATABASE_URL -c "SELECT match_documents('{0.1}'::vector(1536), 5)"
 
 ### Phase 1: Foundation (Days 1-3)
 
-| Task | Files | Hours |
-|---|---|---|
-| Scaffold FastAPI project | __init__.py, config.py, database.py, dependencies.py | 3 |
-| Settings model | config.py, .env.example | 1 |
-| Database connection | database.py | 2 |
-| Health check endpoint | routes/health.py | 1 |
-| Structured logging | logging_config.py | 1 |
-| Migration SQL | migrations/001_initial.sql | 3 |
-| Apply migration | bash | 1 |
-| Dockerfile | Dockerfile | 2 |
-| Railway config | railway.toml | 1 |
-| **Total** | **9 files** | **15h** |
+| Task                     | Files                                                | Hours   |
+| ------------------------ | ---------------------------------------------------- | ------- |
+| Scaffold FastAPI project | **init**.py, config.py, database.py, dependencies.py | 3       |
+| Settings model           | config.py, .env.example                              | 1       |
+| Database connection      | database.py                                          | 2       |
+| Health check endpoint    | routes/health.py                                     | 1       |
+| Structured logging       | logging_config.py                                    | 1       |
+| Migration SQL            | migrations/001_initial.sql                           | 3       |
+| Apply migration          | bash                                                 | 1       |
+| Dockerfile               | Dockerfile                                           | 2       |
+| Railway config           | railway.toml                                         | 1       |
+| **Total**                | **9 files**                                          | **15h** |
 
 **Milestone:** FastAPI boots, health check returns 200, DB tables exist.
 
 ### Phase 2: Embedding + Ingestion (Days 3-6)
 
-| Task | Files | Hours |
-|---|---|---|
-| EmbeddingService | services/embedding_service.py | 4 |
-| CacheService | services/cache_service.py | 3 |
-| IngestionService | services/ingestion_service.py | 5 |
-| Source adapters | services/sources/*.py | 4 |
-| Ingestion webhook | routes/suggest.py | 2 |
-| Cache DDL | (in migration) | 1 |
-| Embedding unit tests | tests/test_embedding.py | 2 |
-| **Total** | **8+ files** | **21h** |
+| Task                 | Files                         | Hours   |
+| -------------------- | ----------------------------- | ------- |
+| EmbeddingService     | services/embedding_service.py | 4       |
+| CacheService         | services/cache_service.py     | 3       |
+| IngestionService     | services/ingestion_service.py | 5       |
+| Source adapters      | services/sources/\*.py        | 4       |
+| Ingestion webhook    | routes/suggest.py             | 2       |
+| Cache DDL            | (in migration)                | 1       |
+| Embedding unit tests | tests/test_embedding.py       | 2       |
+| **Total**            | **8+ files**                  | **21h** |
 
 **Milestone:** Can ingest documents and generate embeddings.
 
 ### Phase 3: RAG + Prompt (Days 6-10)
 
-| Task | Files | Hours |
-|---|---|---|
-| RAGService | services/rag_service.py | 6 |
-| Search SQL functions | (in migration) | 2 |
-| Prompt templates | services/prompt_templates.py | 3 |
-| Input sanitizer middleware | middleware/input_sanitizer.py | 2 |
-| RAG unit tests | tests/test_rag.py | 3 |
-| Safety tests | tests/test_safety.py | 2 |
-| Integration test | (manual) | 2 |
-| **Total** | **6+ files** | **20h** |
+| Task                       | Files                         | Hours   |
+| -------------------------- | ----------------------------- | ------- |
+| RAGService                 | services/rag_service.py       | 6       |
+| Search SQL functions       | (in migration)                | 2       |
+| Prompt templates           | services/prompt_templates.py  | 3       |
+| Input sanitizer middleware | middleware/input_sanitizer.py | 2       |
+| RAG unit tests             | tests/test_rag.py             | 3       |
+| Safety tests               | tests/test_safety.py          | 2       |
+| Integration test           | (manual)                      | 2       |
+| **Total**                  | **6+ files**                  | **20h** |
 
 **Milestone:** RAG pipeline returns relevant documents, prompts build valid messages.
 
 ### Phase 4: Agent + Chat API (Days 10-14)
 
-| Task | Files | Hours |
-|---|---|---|
-| ModelRouter | services/model_router.py | 5 |
-| ConversationManager | services/conversation_manager.py | 3 |
-| AIService orchestrator | services/ai_service.py | 6 |
-| Chat route with SSE | routes/chat.py | 4 |
-| Analyze route | routes/analyze.py | 2 |
-| Suggest route | routes/suggest.py | 2 |
-| Rate limit middleware | middleware/rate_limit.py | 2 |
-| PII filter middleware | middleware/pii_filter.py | 2 |
-| Auth middleware | middleware/auth.py | 1 |
-| Integration test | (manual) | 3 |
-| **Total** | **10+ files** | **30h** |
+| Task                   | Files                            | Hours   |
+| ---------------------- | -------------------------------- | ------- |
+| ModelRouter            | services/model_router.py         | 5       |
+| ConversationManager    | services/conversation_manager.py | 3       |
+| AIService orchestrator | services/ai_service.py           | 6       |
+| Chat route with SSE    | routes/chat.py                   | 4       |
+| Analyze route          | routes/analyze.py                | 2       |
+| Suggest route          | routes/suggest.py                | 2       |
+| Rate limit middleware  | middleware/rate_limit.py         | 2       |
+| PII filter middleware  | middleware/pii_filter.py         | 2       |
+| Auth middleware        | middleware/auth.py               | 1       |
+| Integration test       | (manual)                         | 3       |
+| **Total**              | **10+ files**                    | **30h** |
 
 **Milestone:** Full chat API works end-to-end with RAG, model fallback, SSE streaming.
 
 ### Phase 5: Frontend + Shared Schemas (Days 14-18)
 
-| Task | Files | Hours |
-|---|---|---|
-| Shared Zod schemas | packages/shared/src/schemas/chat-*.ts | 2 |
-| useChatStream hook | apps/web/src/hooks/useChatStream.ts | 4 |
-| ChatPanel component | components/chat/ChatPanel.tsx | 4 |
-| ChatMessage component | components/chat/ChatMessage.tsx | 2 |
-| ChatInput component | components/chat/ChatInput.tsx | 1 |
-| WelcomeScreen component | components/chat/WelcomeScreen.tsx | 2 |
-| TypingIndicator | components/chat/TypingIndicator.tsx | 1 |
-| StopButton | components/chat/StopButton.tsx | 1 |
-| NestJS proxy module | apps/api/src/modules/chat/* | 3 |
-| UI integration test | (manual) | 2 |
-| **Total** | **11+ files** | **22h** |
+| Task                    | Files                                  | Hours   |
+| ----------------------- | -------------------------------------- | ------- |
+| Shared Zod schemas      | packages/shared/src/schemas/chat-\*.ts | 2       |
+| useChatStream hook      | apps/web/src/hooks/useChatStream.ts    | 4       |
+| ChatPanel component     | components/chat/ChatPanel.tsx          | 4       |
+| ChatMessage component   | components/chat/ChatMessage.tsx        | 2       |
+| ChatInput component     | components/chat/ChatInput.tsx          | 1       |
+| WelcomeScreen component | components/chat/WelcomeScreen.tsx      | 2       |
+| TypingIndicator         | components/chat/TypingIndicator.tsx    | 1       |
+| StopButton              | components/chat/StopButton.tsx         | 1       |
+| NestJS proxy module     | apps/api/src/modules/chat/\*           | 3       |
+| UI integration test     | (manual)                               | 2       |
+| **Total**               | **11+ files**                          | **22h** |
 
 **Milestone:** Chat UI renders on portfolio site, streams responses, shows sources.
 
 ### Phase 6: Analytics + Polish (Days 18-21)
 
-| Task | Files | Hours |
-|---|---|---|
-| AnalyticsService | services/analytics_service.py | 4 |
-| CostController | services/cost_controller.py | 3 |
-| Metrics middleware | middleware/metrics.py | 2 |
-| Monitoring views | (in migration) | 2 |
-| GitHub Actions workflow | .github/workflows/ai-deploy.yml | 2 |
-| Load testing | (locust/k6 script) | 3 |
-| Documentation | inline | 2 |
-| **Total** | **5+ files** | **18h** |
+| Task                    | Files                           | Hours   |
+| ----------------------- | ------------------------------- | ------- |
+| AnalyticsService        | services/analytics_service.py   | 4       |
+| CostController          | services/cost_controller.py     | 3       |
+| Metrics middleware      | middleware/metrics.py           | 2       |
+| Monitoring views        | (in migration)                  | 2       |
+| GitHub Actions workflow | .github/workflows/ai-deploy.yml | 2       |
+| Load testing            | (locust/k6 script)              | 3       |
+| Documentation           | inline                          | 2       |
+| **Total**               | **5+ files**                    | **18h** |
 
 **Milestone:** Production-ready deployment with monitoring, cost control, and CI/CD.
 
@@ -3011,43 +3093,44 @@ Phase 1 ---------------------------------
 ## 13.3 Critical Path for MVP
 
 Minimum viable chat requires Phase 1 + Phase 2 + Phase 3 + Phase 4:
+
 - Files: ~22 files
 - Effort: ~86 hours (~11 days)
 - Result: Working chat API without frontend (testable via curl)
 
 ## 13.4 Milestone Acceptance Criteria
 
-| Milestone | Criteria |
-|---|---|
-| M1: Foundation | GET /api/health returns 200 with all checks green |
-| M2: Ingestion | POST /api/ingestion/refresh indexes 50+ chunks from 3+ source types |
-| M3: Retrieval | RAG pipeline returns relevant chunks for 5 test queries with recall@5 > 80% |
-| M4: Chat API | POST /api/chat returns SSE stream with valid responses, sources, and model info |
-| M5: Frontend | Chat UI renders, sends messages, streams responses, displays sources |
+| Milestone      | Criteria                                                                         |
+| -------------- | -------------------------------------------------------------------------------- |
+| M1: Foundation | GET /api/health returns 200 with all checks green                                |
+| M2: Ingestion  | POST /api/ingestion/refresh indexes 50+ chunks from 3+ source types              |
+| M3: Retrieval  | RAG pipeline returns relevant chunks for 5 test queries with recall@5 > 80%      |
+| M4: Chat API   | POST /api/chat returns SSE stream with valid responses, sources, and model info  |
+| M5: Frontend   | Chat UI renders, sends messages, streams responses, displays sources             |
 | M6: Production | GitHub Actions passes, Docker image builds, Railway deploys, health check passes |
 
 ## 13.5 Rollback Strategy
 
-| Scenario | Rollback Action |
-|---|---|
-| Migration fails | ROLLBACK in migration script; fix and re-apply |
-| Model API outage | Circuit breaker auto-falls back to next tier |
-| High error rate (>5%) | Redeploy previous Docker image tag |
-| Budget exceeded | ModelRouter downgrades all requests to BUDGET tier |
-| Frontend broken | Revert frontend commit; test against staging API |
-| Database corrupted | Restore from Supabase point-in-time backup (7-day retention) |
+| Scenario              | Rollback Action                                              |
+| --------------------- | ------------------------------------------------------------ |
+| Migration fails       | ROLLBACK in migration script; fix and re-apply               |
+| Model API outage      | Circuit breaker auto-falls back to next tier                 |
+| High error rate (>5%) | Redeploy previous Docker image tag                           |
+| Budget exceeded       | ModelRouter downgrades all requests to BUDGET tier           |
+| Frontend broken       | Revert frontend commit; test against staging API             |
+| Database corrupted    | Restore from Supabase point-in-time backup (7-day retention) |
 
 ## 13.6 Effort Summary
 
-| Phase | Files | Hours | Days | Dependencies |
-|---|---|---|---|---|
-| 1: Foundation | 9 | 15 | 2 | None |
-| 2: Embedding + Ingestion | 8+ | 21 | 3 | Phase 1 |
-| 3: RAG + Prompt | 6+ | 20 | 3 | Phase 2 |
-| 4: Agent + Chat API | 10+ | 30 | 4 | Phase 3 |
-| 5: Frontend + Shared | 11+ | 22 | 3 | Phase 4 |
-| 6: Analytics + Polish | 5+ | 18 | 2 | Phase 4 |
-| **Total** | **48+ files** | **126h** | **17 days** | |
+| Phase                    | Files         | Hours    | Days        | Dependencies |
+| ------------------------ | ------------- | -------- | ----------- | ------------ |
+| 1: Foundation            | 9             | 15       | 2           | None         |
+| 2: Embedding + Ingestion | 8+            | 21       | 3           | Phase 1      |
+| 3: RAG + Prompt          | 6+            | 20       | 3           | Phase 2      |
+| 4: Agent + Chat API      | 10+           | 30       | 4           | Phase 3      |
+| 5: Frontend + Shared     | 11+           | 22       | 3           | Phase 4      |
+| 6: Analytics + Polish    | 5+            | 18       | 2           | Phase 4      |
+| **Total**                | **48+ files** | **126h** | **17 days** |              |
 
 _All estimates assume a single developer. Parallelizing Phase 5 with Phase 4 reduces calendar time to ~14 days._
 
@@ -3055,35 +3138,36 @@ _All estimates assume a single developer. Parallelizing Phase 5 with Phase 4 red
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **RAG** | Retrieval-Augmented Generation ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â technique that retrieves relevant document chunks from a knowledge base and injects them into the LLM prompt to ground responses in factual data |
-| **SSE** | Server-Sent Events ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â HTTP-based protocol where the server pushes text events to the client over a single long-lived connection; used for streaming LLM token responses |
-| **Hybrid Search** | Combination of vector similarity search (semantic) and keyword full-text search (exact match) fused and reranked for optimal retrieval precision |
-| **Cross-Encoder** | BERT-based reranker model that jointly encodes query + candidate pair to produce a relevance score; slower but more accurate than bi-encoder similarity |
-| **pgvector** | PostgreSQL extension that adds vector similarity search operations (cosine, L2, inner product) with IVFFlat and HNSW indexing |
-| **IVFFlat** | Inverted File with Flat Compression ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â approximate nearest neighbor index that partitions vectors into lists for faster search at the cost of some recall |
-| **Circuit Breaker** | Resilience pattern that tracks consecutive failures to a downstream service and temporarily stops requests to allow recovery; implemented per model tier |
-| **Token Bucket** | Rate-limiting algorithm where tokens are added at a fixed rate and each request consumes one token; allows short bursts while enforcing average rate |
-| **RLS** | Row-Level Security ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â PostgreSQL feature that restricts which rows a user/role can access based on a policy expression; used to isolate AI data per role |
-| **CrossEncoder** | A type of neural model that processes query-document pairs jointly to output a relevance score; more accurate than bi-encoders for reranking |
-| **Lifespan** | FastAPI async context manager that runs startup and shutdown logic (database pool init, service initialization, cleanup) |
-| **Pydantic-settings** | Python library for type-safe environment variable loading with .env file support and validation |
-| **Fused Results** | Combination of vector search results and keyword search results with deduplication before reranking to maximize recall |
-| **IVFFlat Lists** | Number of cluster centroids in the IVFFlat index; 100 lists is a good default for ~10K vectors; more lists = faster search but lower recall |
-| **Source Adapter** | Abstraction class that fetches content from a specific database table (projects, skills, experiences) and formats it into the standard ingestion schema |
+| Term                  | Definition                                                                                                                                                                              |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **RAG**               | Retrieval-Augmented Generation Ã¢â‚¬â€ technique that retrieves relevant document chunks from a knowledge base and injects them into the LLM prompt to ground responses in factual data |
+| **SSE**               | Server-Sent Events Ã¢â‚¬â€ HTTP-based protocol where the server pushes text events to the client over a single long-lived connection; used for streaming LLM token responses            |
+| **Hybrid Search**     | Combination of vector similarity search (semantic) and keyword full-text search (exact match) fused and reranked for optimal retrieval precision                                        |
+| **Cross-Encoder**     | BERT-based reranker model that jointly encodes query + candidate pair to produce a relevance score; slower but more accurate than bi-encoder similarity                                 |
+| **pgvector**          | PostgreSQL extension that adds vector similarity search operations (cosine, L2, inner product) with IVFFlat and HNSW indexing                                                           |
+| **IVFFlat**           | Inverted File with Flat Compression Ã¢â‚¬â€ approximate nearest neighbor index that partitions vectors into lists for faster search at the cost of some recall                          |
+| **Circuit Breaker**   | Resilience pattern that tracks consecutive failures to a downstream service and temporarily stops requests to allow recovery; implemented per model tier                                |
+| **Token Bucket**      | Rate-limiting algorithm where tokens are added at a fixed rate and each request consumes one token; allows short bursts while enforcing average rate                                    |
+| **RLS**               | Row-Level Security Ã¢â‚¬â€ PostgreSQL feature that restricts which rows a user/role can access based on a policy expression; used to isolate AI data per role                           |
+| **CrossEncoder**      | A type of neural model that processes query-document pairs jointly to output a relevance score; more accurate than bi-encoders for reranking                                            |
+| **Lifespan**          | FastAPI async context manager that runs startup and shutdown logic (database pool init, service initialization, cleanup)                                                                |
+| **Pydantic-settings** | Python library for type-safe environment variable loading with .env file support and validation                                                                                         |
+| **Fused Results**     | Combination of vector search results and keyword search results with deduplication before reranking to maximize recall                                                                  |
+| **IVFFlat Lists**     | Number of cluster centroids in the IVFFlat index; 100 lists is a good default for ~10K vectors; more lists = faster search but lower recall                                             |
+| **Source Adapter**    | Abstraction class that fetches content from a specific database table (projects, skills, experiences) and formats it into the standard ingestion schema                                 |
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.1.0 | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), Change Log | Tech Lead |
-| 1.0.0 | Jun 2026 | Initial implementation blueprint ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 13 phases covering infrastructure, embedding, ingestion, RAG, prompts, agents, UI, analytics, monitoring, security, testing, deployment, and roadmap | AI Architect |
+| Version | Date     | Changes                                                                                                                                                                                       | Author       |
+| ------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| 1.1.0   | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), Change Log                                                                                 | Tech Lead    |
+| 1.0.0   | Jun 2026 | Initial implementation blueprint Ã¢â‚¬â€ 13 phases covering infrastructure, embedding, ingestion, RAG, prompts, agents, UI, analytics, monitoring, security, testing, deployment, and roadmap | AI Architect |
 
 ---
 
-> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> Ã¢Å¡Â Ã¯Â¸Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
 
 ## Cross-References
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system
+
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

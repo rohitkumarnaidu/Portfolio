@@ -1,9 +1,10 @@
-﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
-# ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã‚Â¡ Marketplace API Specification ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Agent Marketplace REST Interface
+> **Status:** ?? Design Spec � forward-looking design, not yet implemented
+
+# Ã°Å¸â€œÂ¡ Marketplace API Specification Ã¢â‚¬â€ Agent Marketplace REST Interface
 
 > **Document:** `MARKETPLACE-API-SPEC.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Active | **Owner:** Staff Backend Architect | **Review Cadence:** Quarterly  
-> **Related:** [AgentMarketplace.md](./AgentMarketplace.md) | [44-API-STANDARDS.md](../api/44-API-STANDARDS.md) | [12-API.md](../api/12-API.md)
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Staff Backend Architect | **Review Cadence:** Quarterly  
+> **Related:** [AGENT-MARKETPLACE.md](./AGENT-MARKETPLACE.md) | [44-API-STANDARDS.md](../10-api/44-API-STANDARDS.md) | [12-API.md](../10-api/12-API.md)
 
 ---
 
@@ -17,21 +18,21 @@ The Marketplace API is a RESTful HTTP interface for discovering, installing, upd
 
 ### 1.1 Authentication
 
-| Header | Value | Required |
-|--------|-------|----------|
-| `Authorization` | `Bearer <jwt-token>` | Yes |
-| `X-API-Version` | `1` | Optional |
+| Header          | Value                | Required |
+| --------------- | -------------------- | -------- |
+| `Authorization` | `Bearer <jwt-token>` | Yes      |
+| `X-API-Version` | `1`                  | Optional |
 
 Scopes: `marketplace:read`, `marketplace:install`, `marketplace:admin`
 
 ### 1.2 Rate Limits
 
-| Tier | Requests/min | Burst | Applied To |
-|------|-------------|-------|------------|
-| Anonymous | 10 | 5 | Search, list |
-| Authenticated | 100 | 20 | All read endpoints |
-| Admin | 500 | 100 | All endpoints |
-| Install | 10 | 5 | Install, update, remove |
+| Tier          | Requests/min | Burst | Applied To              |
+| ------------- | ------------ | ----- | ----------------------- |
+| Anonymous     | 10           | 5     | Search, list            |
+| Authenticated | 100          | 20    | All read endpoints      |
+| Admin         | 500          | 100   | All endpoints           |
+| Install       | 10           | 5     | Install, update, remove |
 
 Rate limit headers: `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
 
@@ -44,21 +45,22 @@ GET /api/v1/marketplace/agents
 GET /api/v1/marketplace/agents/search
 ```
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `q` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Full-text search query |
-| `category` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Filter by category ID |
-| `tags` | string (CSV) | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Tag filter (AND logic) |
-| `runtime` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Compatible runtime |
-| `publisher` | string | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Publisher organization ID |
-| `minRating` | float | ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â | Minimum rating threshold |
-| `status` | enum | `published` | Listing status |
-| `sort` | enum | `relevance` | Field: relevance, downloads, rating, updated, name |
-| `order` | enum | `desc` | Direction: asc, desc |
-| `page` | integer | 1 | Page number |
-| `perPage` | integer | 20 | Results per page (max 100) |
+| Parameter   | Type         | Default     | Description                                        |
+| ----------- | ------------ | ----------- | -------------------------------------------------- |
+| `q`         | string       | Ã¢â‚¬â€     | Full-text search query                             |
+| `category`  | string       | Ã¢â‚¬â€     | Filter by category ID                              |
+| `tags`      | string (CSV) | Ã¢â‚¬â€     | Tag filter (AND logic)                             |
+| `runtime`   | string       | Ã¢â‚¬â€     | Compatible runtime                                 |
+| `publisher` | string       | Ã¢â‚¬â€     | Publisher organization ID                          |
+| `minRating` | float        | Ã¢â‚¬â€     | Minimum rating threshold                           |
+| `status`    | enum         | `published` | Listing status                                     |
+| `sort`      | enum         | `relevance` | Field: relevance, downloads, rating, updated, name |
+| `order`     | enum         | `desc`      | Direction: asc, desc                               |
+| `page`      | integer      | 1           | Page number                                        |
+| `perPage`   | integer      | 20          | Results per page (max 100)                         |
 
 **Response:**
+
 ```json
 {
   "data": [
@@ -101,13 +103,13 @@ GET /api/v1/marketplace/agents/:id/versions/:version
 POST /api/v1/marketplace/agents/:id/install
 ```
 
-| Body Parameter | Type | Default | Description |
-|---------------|------|---------|-------------|
-| `version` | string | `latest` | Version or constraint |
-| `channel` | string | `stable` | Update channel |
-| `targetRuntime` | string | auto | Target runtime environment |
-| `sandboxLevel` | integer | 2 | Sandbox isolation level |
-| `configuration` | object | `{}` | Agent configuration overrides |
+| Body Parameter  | Type    | Default  | Description                   |
+| --------------- | ------- | -------- | ----------------------------- |
+| `version`       | string  | `latest` | Version or constraint         |
+| `channel`       | string  | `stable` | Update channel                |
+| `targetRuntime` | string  | auto     | Target runtime environment    |
+| `sandboxLevel`  | integer | 2        | Sandbox isolation level       |
+| `configuration` | object  | `{}`     | Agent configuration overrides |
 
 Returns an installation ID and pipeline status with per-step progress tracking.
 
@@ -117,11 +119,11 @@ Returns an installation ID and pipeline status with per-step progress tracking.
 PUT /api/v1/marketplace/agents/:id/update
 ```
 
-| Body Parameter | Type | Default | Description |
-|---------------|------|---------|-------------|
-| `targetVersion` | string | `latest` | Target version |
-| `channel` | string | `stable` | Update channel |
-| `allowMajorUpgrade` | boolean | false | Permit breaking version bumps |
+| Body Parameter      | Type    | Default  | Description                   |
+| ------------------- | ------- | -------- | ----------------------------- |
+| `targetVersion`     | string  | `latest` | Target version                |
+| `channel`           | string  | `stable` | Update channel                |
+| `allowMajorUpgrade` | boolean | false    | Permit breaking version bumps |
 
 ### 4.3 Remove
 
@@ -129,10 +131,10 @@ PUT /api/v1/marketplace/agents/:id/update
 DELETE /api/v1/marketplace/agents/:id/install
 ```
 
-| Body Parameter | Type | Default | Description |
-|---------------|------|---------|-------------|
-| `force` | boolean | false | Force removal while active |
-| `preserveData` | boolean | true | Keep agent data directory |
+| Body Parameter | Type    | Default | Description                |
+| -------------- | ------- | ------- | -------------------------- |
+| `force`        | boolean | false   | Force removal while active |
+| `preserveData` | boolean | true    | Keep agent data directory  |
 
 ---
 
@@ -142,35 +144,36 @@ DELETE /api/v1/marketplace/agents/:id/install
 POST /api/v1/marketplace/agents
 ```
 
-| Body Field | Type | Format | Description |
-|-----------|------|--------|-------------|
-| `package` | binary | `.agent` archive | Signed agent package |
-| `signature` | binary | PKCS#7 detached | Digital signature |
-| `provenance` | binary | SLSA JSON | Build provenance statement |
-| `changelog` | string | Markdown | Release notes |
+| Body Field   | Type   | Format           | Description                |
+| ------------ | ------ | ---------------- | -------------------------- |
+| `package`    | binary | `.agent` archive | Signed agent package       |
+| `signature`  | binary | PKCS#7 detached  | Digital signature          |
+| `provenance` | binary | SLSA JSON        | Build provenance statement |
+| `changelog`  | string | Markdown         | Release notes              |
 
-Returns a submission ID and review status URL. The submission enters the approval workflow (Submitted ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ UnderReview ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Approved ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Published).
+Returns a submission ID and review status URL. The submission enters the approval workflow (Submitted Ã¢â€ â€™ UnderReview Ã¢â€ â€™ Approved Ã¢â€ â€™ Published).
 
 ---
 
 ## 6. Related Documentation
 
-| Document | Description |
-|----------|-------------|
-| [AgentMarketplace.md](./AgentMarketplace.md) | Marketplace architecture and pipeline |
-| [44-API-STANDARDS.md](../api/44-API-STANDARDS.md) | API conventions, versioning, envelope format |
-| [12-API.md](../api/12-API.md) | Overall API architecture |
-| [AGENT-SECURITY.md](../security/AGENT-SECURITY.md) | Authentication, signing, sandboxing |
-| [PACKAGE-DEVELOPMENT.md](./PACKAGE-DEVELOPMENT.md) | Package manifest and submission requirements |
+| Document                                              | Description                                  |
+| ----------------------------------------------------- | -------------------------------------------- |
+| [AGENT-MARKETPLACE.md](./AGENT-MARKETPLACE.md)        | Marketplace architecture and pipeline        |
+| [44-API-STANDARDS.md](../10-api/44-API-STANDARDS.md)  | API conventions, versioning, envelope format |
+| [12-API.md](../10-api/12-API.md)                      | Overall API architecture                     |
+| [AGENT-SECURITY.md](../11-security/AGENT-SECURITY.md) | Authentication, signing, sandboxing          |
+| [PACKAGE-DEVELOPMENT.md](./PACKAGE-DEVELOPMENT.md)    | Package manifest and submission requirements |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jul 2026 | Initial marketplace API specification | Staff Backend Architect |
+| Version | Date     | Changes                               | Author                  |
+| ------- | -------- | ------------------------------------- | ----------------------- |
+| 1.0     | Jul 2026 | Initial marketplace API specification | Staff Backend Architect |
 
 ## Cross-References
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system
+
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

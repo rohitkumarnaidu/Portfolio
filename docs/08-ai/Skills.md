@@ -1,11 +1,12 @@
-﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+> **Status:** ?? Design Spec � forward-looking design, not yet implemented
+
 # Skills System Architecture -- Enterprise-Grade Agent Capability Framework
 
-> **Document:** `docs/ai/Skills.md` | **Version:** 1.0.0 | **Last Updated:** June 2026
+> **Document:** `docs/08-ai/SKILLS.md` | **Version:** 1.0.0 | **Last Updated:** June 2026
 > **Status:** Active | **Owner:** Chief AI Architect | **Review Cadence:** Monthly
 > **Classification:** Enterprise Architecture
 > **Runtime:** FastAPI + LangChain | **Execution Model:** Synchronous + Async + Streaming
-> **Agent Orchestration:** [docs/ai/18-AGENTS.md](AGENTS.md) v4.0 | **AI Operating Model:** [docs/ai/17-AI_INSTRUCTIONS.md](AI_INSTRUCTIONS.md)
+> **Agent Orchestration:** [docs/08-ai/18-AGENTS.md](AGENTS.md) v4.0 | **AI Operating Model:** [docs/08-ai/17-AI_INSTRUCTIONS.md](AI_INSTRUCTIONS.md)
 
 ---
 
@@ -17,57 +18,57 @@ Catalogs all technical skills across frontend (React, Next.js, TypeScript, Tailw
 
 ## Table of Contents
 
-| Section | Title | Purpose |
-|---------|-------|---------|
-| SS-01 | Executive Summary | Definition of skills, distinction from tools |
-| SS-02 | Skills vs Tools | Comparative analysis across 10 dimensions |
-| SS-03 | Design Principles | Foundational rules governing skill architecture |
-| SS-04 | Skill Anatomy | Structure of a skill definition |
-| SS-05 | Skill Manifest Schema | Complete JSON/YAML specification |
-| SS-06 | Skill Parameters | Input contract specification |
-| SS-07 | Skill Return Types | Output contract specification |
-| SS-08 | Skill Dependencies | Intra-skill dependency graph |
-| SS-09 | Skill Error Contract | Structured error specification |
-| SS-10 | Skill Registry | Registration and storage |
-| SS-11 | Skill Discovery Protocol | How agents find available skills |
-| SS-12 | Skill Resolution | Dependency resolution algorithm |
-| SS-13 | Skill Execution Pipeline | End-to-end execution flow |
-| SS-14 | Pipeline Step: Request Intake | Normalization and validation of invocation |
-| SS-15 | Pipeline Step: Parameter Validation | Schema-level and business-level validation |
-| SS-16 | Pipeline Step: Authorization | Permission check before execution |
-| SS-17 | Pipeline Step: Execution | Skill function invocation |
-| SS-18 | Pipeline Step: Monitoring & Observability | Telemetry, tracing, logging |
-| SS-19 | Pipeline Step: Response Formatting | Output normalization and envelope |
-| SS-20 | Sequential Composition | Chaining skills in order |
-| SS-21 | Parallel Composition | Concurrent skill execution |
-| SS-22 | Conditional Composition | Branching based on output |
-| SS-23 | Fallback Composition | Graceful degradation chains |
-| SS-24 | Composition Graph | Visual representation of composition patterns |
-| SS-25 | Composition Configuration | JSON schema for composition definitions |
-| SS-26 | Semantic Versioning | MAJOR.MINOR.PATCH convention |
-| SS-27 | Version Constraints | Supported operators and resolution |
-| SS-28 | Deprecation Policy | Sunset timelines and migration windows |
-| SS-29 | Version Compatibility Matrix | Cross-skill version alignment |
-| SS-30 | Skill Lifecycle: Development | Authoring and local testing |
-| SS-31 | Skill Lifecycle: Testing | Unit, integration, and E2E testing |
-| SS-32 | Skill Lifecycle: Staging | Pre-production validation |
-| SS-33 | Skill Lifecycle: Production | Live deployment |
-| SS-34 | Skill Lifecycle: Deprecated | End-of-life notification |
-| SS-35 | Skill Lifecycle: Retired | Removal from registry |
-| SS-36 | Built-in Skills Catalog | System-provided skills overview |
-| SS-37 | Core System Skills | Runtime, telemetry, security |
-| SS-38 | Agent Skills | Agent-facing capabilities |
-| SS-39 | Utility Skills | Common helpers and transforms |
-| SS-40 | Security: Permission Model | Role-based access for skills |
-| SS-41 | Security: Audit Trail | Invocation logging and forensics |
-| SS-42 | Security: Rate Limiting | Quota enforcement per skill |
-| SS-43 | Security: Isolation | Sandboxing and resource limits |
-| SS-44 | Error Handling & Recovery | Retry policies and circuit breakers |
-| SS-45 | Performance Budgets | Latency and throughput targets |
-| SS-46 | Integration with Agent Architecture | Agent-to-skill binding |
-| SS-47 | Integration with Command System | CLI and API invocation paths |
-| SS-48 | Skill Marketplace Concepts | Publishing and discovery across agents |
-| SS-49 | Appendices: Glossary, References, Change Log |
+| Section | Title                                        | Purpose                                         |
+| ------- | -------------------------------------------- | ----------------------------------------------- |
+| SS-01   | Executive Summary                            | Definition of skills, distinction from tools    |
+| SS-02   | Skills vs Tools                              | Comparative analysis across 10 dimensions       |
+| SS-03   | Design Principles                            | Foundational rules governing skill architecture |
+| SS-04   | Skill Anatomy                                | Structure of a skill definition                 |
+| SS-05   | Skill Manifest Schema                        | Complete JSON/YAML specification                |
+| SS-06   | Skill Parameters                             | Input contract specification                    |
+| SS-07   | Skill Return Types                           | Output contract specification                   |
+| SS-08   | Skill Dependencies                           | Intra-skill dependency graph                    |
+| SS-09   | Skill Error Contract                         | Structured error specification                  |
+| SS-10   | Skill Registry                               | Registration and storage                        |
+| SS-11   | Skill Discovery Protocol                     | How agents find available skills                |
+| SS-12   | Skill Resolution                             | Dependency resolution algorithm                 |
+| SS-13   | Skill Execution Pipeline                     | End-to-end execution flow                       |
+| SS-14   | Pipeline Step: Request Intake                | Normalization and validation of invocation      |
+| SS-15   | Pipeline Step: Parameter Validation          | Schema-level and business-level validation      |
+| SS-16   | Pipeline Step: Authorization                 | Permission check before execution               |
+| SS-17   | Pipeline Step: Execution                     | Skill function invocation                       |
+| SS-18   | Pipeline Step: Monitoring & Observability    | Telemetry, tracing, logging                     |
+| SS-19   | Pipeline Step: Response Formatting           | Output normalization and envelope               |
+| SS-20   | Sequential Composition                       | Chaining skills in order                        |
+| SS-21   | Parallel Composition                         | Concurrent skill execution                      |
+| SS-22   | Conditional Composition                      | Branching based on output                       |
+| SS-23   | Fallback Composition                         | Graceful degradation chains                     |
+| SS-24   | Composition Graph                            | Visual representation of composition patterns   |
+| SS-25   | Composition Configuration                    | JSON schema for composition definitions         |
+| SS-26   | Semantic Versioning                          | MAJOR.MINOR.PATCH convention                    |
+| SS-27   | Version Constraints                          | Supported operators and resolution              |
+| SS-28   | Deprecation Policy                           | Sunset timelines and migration windows          |
+| SS-29   | Version Compatibility Matrix                 | Cross-skill version alignment                   |
+| SS-30   | Skill Lifecycle: Development                 | Authoring and local testing                     |
+| SS-31   | Skill Lifecycle: Testing                     | Unit, integration, and E2E testing              |
+| SS-32   | Skill Lifecycle: Staging                     | Pre-production validation                       |
+| SS-33   | Skill Lifecycle: Production                  | Live deployment                                 |
+| SS-34   | Skill Lifecycle: Deprecated                  | End-of-life notification                        |
+| SS-35   | Skill Lifecycle: Retired                     | Removal from registry                           |
+| SS-36   | Built-in Skills Catalog                      | System-provided skills overview                 |
+| SS-37   | Core System Skills                           | Runtime, telemetry, security                    |
+| SS-38   | Agent Skills                                 | Agent-facing capabilities                       |
+| SS-39   | Utility Skills                               | Common helpers and transforms                   |
+| SS-40   | Security: Permission Model                   | Role-based access for skills                    |
+| SS-41   | Security: Audit Trail                        | Invocation logging and forensics                |
+| SS-42   | Security: Rate Limiting                      | Quota enforcement per skill                     |
+| SS-43   | Security: Isolation                          | Sandboxing and resource limits                  |
+| SS-44   | Error Handling & Recovery                    | Retry policies and circuit breakers             |
+| SS-45   | Performance Budgets                          | Latency and throughput targets                  |
+| SS-46   | Integration with Agent Architecture          | Agent-to-skill binding                          |
+| SS-47   | Integration with Command System              | CLI and API invocation paths                    |
+| SS-48   | Skill Marketplace Concepts                   | Publishing and discovery across agents          |
+| SS-49   | Appendices: Glossary, References, Change Log |
 
 ---
 
@@ -82,6 +83,7 @@ Agent --> Invokes Skill --> Performs Action --> Returns Result
 ```
 
 Skills are distinct from **tools** in that skills are:
+
 - **Versioned** with semantic versioning and full lifecycle management
 - **Registered** in a centralized skill registry with dependency resolution
 - **Composable** into chains of sequential, parallel, conditional, and fallback execution
@@ -90,19 +92,19 @@ Skills are distinct from **tools** in that skills are:
 
 ### 1.2 Why Skills
 
-| Concern | Without Skills | With Skills |
-|---------|---------------|-------------|
-| Capability reuse | Duplicate code across agents | Single skill, multiple agents |
-| Versioning | Breaking changes break agents | Semantic versioning with constraints |
-| Discoverability | Hard-coded in agent prompts | Registry-based discovery |
-| Security | Ad-hoc permission checks | Declarative permission model |
-| Observability | Inconsistent logging | Standardized telemetry |
-| Testing | Manual, per-agent | Isolated skill tests |
-| Composition | Sequential only | Parallel, conditional, fallback |
+| Concern          | Without Skills                | With Skills                          |
+| ---------------- | ----------------------------- | ------------------------------------ |
+| Capability reuse | Duplicate code across agents  | Single skill, multiple agents        |
+| Versioning       | Breaking changes break agents | Semantic versioning with constraints |
+| Discoverability  | Hard-coded in agent prompts   | Registry-based discovery             |
+| Security         | Ad-hoc permission checks      | Declarative permission model         |
+| Observability    | Inconsistent logging          | Standardized telemetry               |
+| Testing          | Manual, per-agent             | Isolated skill tests                 |
+| Composition      | Sequential only               | Parallel, conditional, fallback      |
 
 ### 1.3 Scope
 
-This document defines the skills system for agents described in `docs/ai/18-AGENTS.md` v4.0. The supervisor agent orchestrates skill execution across specialist agents. The command system (`docs/ai/CommandSystem.md`) provides CLI and API entry points for skill invocation. The agent marketplace (`docs/ai/AgentMarketplace.md`) extends skill publishing for third-party contributions.
+This document defines the skills system for agents described in `docs/08-ai/18-AGENTS.md` v4.0. The supervisor agent orchestrates skill execution across specialist agents. The command system (`docs/08-ai/COMMAND-SYSTEM.md`) provides CLI and API entry points for skill invocation. The agent marketplace (`docs/08-ai/AGENT-MARKETPLACE.md`) extends skill publishing for third-party contributions.
 
 ---
 
@@ -110,18 +112,18 @@ This document defines the skills system for agents described in `docs/ai/18-AGEN
 
 A **skill** and a **tool** are often conflated. They are distinct concepts in this architecture.
 
-| Dimension | Skill (This Document) | Tool (Agent-Specific) |
-|-----------|----------------------|-----------------------|
-| **Scope** | System-wide, reusable | Agent-local utility |
-| **Versioning** | Semantic (semver) | None or ad-hoc |
-| **Registry** | Centralized skill registry | In-memory agent context |
-| **Lifecycle** | Dev -> Test -> Stage -> Prod -> Deprecated -> Retired | Exists only while agent runs |
-| **Composition** | Sequential, parallel, conditional, fallback | Not composable |
-| **Dependencies** | Declared with version constraints | None |
-| **Permissions** | Granular RBAC per skill | Implicit (agent-scoped) |
-| **Observability** | Standardized telemetry, tracing, audit | Inconsistent |
-| **Discovery** | Registry query by capability, tag, version | Hard-coded in agent code |
-| **Testing** | Isolated unit, integration, E2E | Manual, coupled to agent |
+| Dimension         | Skill (This Document)                                 | Tool (Agent-Specific)        |
+| ----------------- | ----------------------------------------------------- | ---------------------------- |
+| **Scope**         | System-wide, reusable                                 | Agent-local utility          |
+| **Versioning**    | Semantic (semver)                                     | None or ad-hoc               |
+| **Registry**      | Centralized skill registry                            | In-memory agent context      |
+| **Lifecycle**     | Dev -> Test -> Stage -> Prod -> Deprecated -> Retired | Exists only while agent runs |
+| **Composition**   | Sequential, parallel, conditional, fallback           | Not composable               |
+| **Dependencies**  | Declared with version constraints                     | None                         |
+| **Permissions**   | Granular RBAC per skill                               | Implicit (agent-scoped)      |
+| **Observability** | Standardized telemetry, tracing, audit                | Inconsistent                 |
+| **Discovery**     | Registry query by capability, tag, version            | Hard-coded in agent code     |
+| **Testing**       | Isolated unit, integration, E2E                       | Manual, coupled to agent     |
 
 **Rule:** Every skill is a tool, but not every tool is a skill. Agent-local convenience functions should remain tools. Any capability that crosses agent boundaries, requires versioning, or needs production monitoring must be a skill.
 
@@ -129,18 +131,18 @@ A **skill** and a **tool** are often conflated. They are distinct concepts in th
 
 ## SS-03 Design Principles
 
-| # | Principle | Description | Violation Consequence |
-|---|-----------|-------------|----------------------|
-| SKP-001 | **Single Responsibility** | One skill does exactly one thing | Composition becomes fragile |
-| SKP-002 | **Self-Describing** | Every skill carries its own manifest | Registry cannot resolve |
-| SKP-003 | **Permission by Default** | No skill executes without authorization | Security incidents |
-| SKP-004 | **Fail Closed** | On error, skill returns structured error | Error swallowing |
-| SKP-005 | **Idempotent Writes** | Side-effect skills tolerate retry | Data corruption |
-| SKP-006 | **Observable by Default** | Every invocation emits telemetry | Debugging impossible |
-| SKP-007 | **Semver Strict** | Breaking changes increment MAJOR | Agent breakage |
-| SKP-008 | **Testable in Isolation** | Skill can be unit-tested without agent | Fragile, coupled tests |
-| SKP-009 | **Timeout Bounded** | Every skill declares max execution time | Resource exhaustion |
-| SKP-010 | **No Implicit State** | Skills receive all inputs explicitly | Hidden side effects |
+| #       | Principle                 | Description                              | Violation Consequence       |
+| ------- | ------------------------- | ---------------------------------------- | --------------------------- |
+| SKP-001 | **Single Responsibility** | One skill does exactly one thing         | Composition becomes fragile |
+| SKP-002 | **Self-Describing**       | Every skill carries its own manifest     | Registry cannot resolve     |
+| SKP-003 | **Permission by Default** | No skill executes without authorization  | Security incidents          |
+| SKP-004 | **Fail Closed**           | On error, skill returns structured error | Error swallowing            |
+| SKP-005 | **Idempotent Writes**     | Side-effect skills tolerate retry        | Data corruption             |
+| SKP-006 | **Observable by Default** | Every invocation emits telemetry         | Debugging impossible        |
+| SKP-007 | **Semver Strict**         | Breaking changes increment MAJOR         | Agent breakage              |
+| SKP-008 | **Testable in Isolation** | Skill can be unit-tested without agent   | Fragile, coupled tests      |
+| SKP-009 | **Timeout Bounded**       | Every skill declares max execution time  | Resource exhaustion         |
+| SKP-010 | **No Implicit State**     | Skills receive all inputs explicitly     | Hidden side effects         |
 
 ---
 
@@ -156,29 +158,29 @@ class SkillDefinition:
     name: str                              # Unique skill identifier (e.g., "rag_search")
     display_name: str                      # Human-readable name
     version: str                           # Semver string (e.g., "1.2.0")
-    
+
     # Description
     description: str                       # What the skill does
     category: SkillCategory                # core | agent | utility | custom
     tags: list[str]                        # Discovery tags
-    
+
     # Contract
     parameters: SkillParameterSet          # Input specification
     return_type: SkillReturnType           # Output specification
     errors: list[SkillError]               # Declared error codes
-    
+
     # Lifecycle
     status: SkillStatus                    # development | testing | staging | production | deprecated | retired
     deprecation_date: datetime | None      # When this version is deprecated
-    
+
     # Dependencies
     dependencies: list[SkillDependency]    # Other skills this skill depends on
-    
+
     # Execution Configuration
     timeout_ms: int                        # Max execution time
     retry_policy: RetryPolicy              # Retry configuration
     execution_mode: ExecutionMode           # sync | async | stream
-    
+
     # Security
     required_permissions: list[str]        # Permissions needed to invoke
     isolation_level: IsolationLevel        # shared | sandboxed | privileged
@@ -288,10 +290,10 @@ errors:
 
 dependencies:
   - skill: core.embedding_generate
-    version_constraint: ">=1.0.0 <2.0.0"
+    version_constraint: '>=1.0.0 <2.0.0'
     optional: false
   - skill: core.vector_search
-    version_constraint: ">=2.1.0"
+    version_constraint: '>=2.1.0'
     optional: false
 
 timeout_ms: 5000
@@ -341,22 +343,22 @@ interface SkillManifest {
 
 ### 6.1 Parameter Categories
 
-| Category | Description | Validation |
-|----------|-------------|------------|
-| **Required** | Must be provided by caller | Schema `required` array |
-| **Optional** | Has a default value | Schema `default` keyword |
+| Category       | Description                                | Validation                    |
+| -------------- | ------------------------------------------ | ----------------------------- |
+| **Required**   | Must be provided by caller                 | Schema `required` array       |
+| **Optional**   | Has a default value                        | Schema `default` keyword      |
 | **Contextual** | Injected by runtime (session_id, agent_id) | Auto-populated prefix `$ctx.` |
 
 ### 6.2 Contextual Parameters
 
 Parameters prefixed with `$ctx.` are injected automatically by the skill runtime:
 
-| Parameter | Source | Description |
-|-----------|--------|-------------|
-| `$ctx.session_id` | Session manager | Current conversation session |
-| `$ctx.agent_id` | Agent registry | Invoking agent identifier |
-| `$ctx.visitor_id` | Chat widget | Current visitor identifier |
-| `$ctx.correlation_id` | Runtime | Trace correlation identifier |
+| Parameter             | Source          | Description                  |
+| --------------------- | --------------- | ---------------------------- |
+| `$ctx.session_id`     | Session manager | Current conversation session |
+| `$ctx.agent_id`       | Agent registry  | Invoking agent identifier    |
+| `$ctx.visitor_id`     | Chat widget     | Current visitor identifier   |
+| `$ctx.correlation_id` | Runtime         | Trace correlation identifier |
 
 ### 6.3 Validation Rules
 
@@ -488,7 +490,7 @@ flowchart TD
     A --> C["vector_search v2.1.0"]
     C --> D["index_manager v1.0.0"]
     B --> E["tokenizer v0.9.0"]
-    
+
     style A fill:#4F46E5,color:#fff
     style B fill:#0891B2,color:#fff
     style C fill:#0891B2,color:#fff
@@ -545,15 +547,15 @@ class DependencyResolver:
 
 Each skill manifest declares the errors it can produce:
 
-| Code | HTTP Status | Meaning |
-|------|-------------|---------|
-| `RAG_EMPTY_QUERY` | 400 | Query is empty |
-| `RAG_INDEX_UNAVAILABLE` | 503 | Search index not ready |
-| `RAG_EMBEDDING_FAILED` | 500 | Embedding generation failure |
-| `AUTH_INSUFFICIENT_PERMISSIONS` | 403 | Caller lacks required permission |
-| `DEPENDENCY_FAILED` | 502 | Dependent skill failed |
-| `TIMEOUT_EXCEEDED` | 504 | Skill exceeded time budget |
-| `RATE_LIMIT_EXCEEDED` | 429 | Too many invocations |
+| Code                            | HTTP Status | Meaning                          |
+| ------------------------------- | ----------- | -------------------------------- |
+| `RAG_EMPTY_QUERY`               | 400         | Query is empty                   |
+| `RAG_INDEX_UNAVAILABLE`         | 503         | Search index not ready           |
+| `RAG_EMBEDDING_FAILED`          | 500         | Embedding generation failure     |
+| `AUTH_INSUFFICIENT_PERMISSIONS` | 403         | Caller lacks required permission |
+| `DEPENDENCY_FAILED`             | 502         | Dependent skill failed           |
+| `TIMEOUT_EXCEEDED`              | 504         | Skill exceeded time budget       |
+| `RATE_LIMIT_EXCEEDED`           | 429         | Too many invocations             |
 
 ### 9.2 Error Response Format
 
@@ -616,7 +618,7 @@ graph TB
     CLI -->|query| DISCOVER
     ADMIN -->|manage| REGISTER
     ADMIN -->|audit| LIST_VERSIONS
-    
+
     REGISTER --> REG_DB
     DISCOVER --> CACHE
     DISCOVER --> INDEX
@@ -624,7 +626,7 @@ graph TB
     GET_MANIFEST --> CACHE
     GET_MANIFEST --> REG_DB
     LIST_VERSIONS --> REG_DB
-    
+
     REG_DB -->|populate| CACHE
     REG_DB -->|populate| INDEX
 ```
@@ -840,17 +842,17 @@ class VersionResolver:
 
 ### 12.2 Constraint Operators
 
-| Operator | Example | Meaning |
-|----------|---------|---------|
-| `==` | `==1.2.3` | Exact version |
-| `>=` | `>=1.0.0` | Greater than or equal |
-| `<=` | `<=2.0.0` | Less than or equal |
-| `>` | `>1.5.0` | Strictly greater |
-| `<` | `<2.0.0` | Strictly less |
-| `^` | `^1.2.0` | Compatible with (>=1.2.0 <2.0.0) |
-| `~` | `~1.2.0` | Approximately (>=1.2.0 <1.3.0) |
-| Space | `>=1.0.0 <2.0.0` | AND conjunction |
-| `\|\|` | `^1.0.0 \|\| ^2.0.0` | OR conjunction |
+| Operator | Example              | Meaning                          |
+| -------- | -------------------- | -------------------------------- |
+| `==`     | `==1.2.3`            | Exact version                    |
+| `>=`     | `>=1.0.0`            | Greater than or equal            |
+| `<=`     | `<=2.0.0`            | Less than or equal               |
+| `>`      | `>1.5.0`             | Strictly greater                 |
+| `<`      | `<2.0.0`             | Strictly less                    |
+| `^`      | `^1.2.0`             | Compatible with (>=1.2.0 <2.0.0) |
+| `~`      | `~1.2.0`             | Approximately (>=1.2.0 <1.3.0)   |
+| Space    | `>=1.0.0 <2.0.0`     | AND conjunction                  |
+| `\|\|`   | `^1.0.0 \|\| ^2.0.0` | OR conjunction                   |
 
 ---
 
@@ -869,40 +871,40 @@ sequenceDiagram
     participant R as Response Formatter
 
     C->>P: Invoke(skill_name, params, context)
-    
+
     Note over P: Step 1: Request Intake
     P->>P: Normalize invocation
     P->>P: Check rate limit
     P->>P: Create correlation ID
-    
+
     Note over P: Step 2: Validate
     P->>V: Validate(params, manifest)
     V-->>P: ValidationResult
     alt Invalid
         P-->>C: Error Result
     end
-    
+
     Note over P: Step 3: Authorize
     P->>A: Check permissions(context, manifest.required_permissions)
     A-->>P: AuthResult
     alt Forbidden
         P-->>C: Permission Denied
     end
-    
+
     Note over P: Step 4: Execute
     P->>E: Execute(manifest, params, context)
     E->>E: Resolve dependencies
     E->>E: Execute skill function
     E-->>P: Raw Result
-    
+
     Note over P: Step 5: Monitor
     P->>M: Log telemetry
     M->>M: Record latency, tokens, result
-    
+
     Note over P: Step 6: Format Response
     P->>R: Format(metadata, result)
     R-->>P: Enveloped Response
-    
+
     P-->>C: SkillResult
 ```
 
@@ -1262,14 +1264,14 @@ class SkillExecutor:
 
 Every skill invocation emits the following telemetry:
 
-| Metric | Type | Labels | Description |
-|--------|------|--------|-------------|
-| `skill.invocations.total` | Counter | skill, version, agent, status | Total invocations |
-| `skill.invocations.duration` | Histogram | skill, version, agent | Execution latency (ms) |
-| `skill.invocations.errors` | Counter | skill, version, error_code | Error count by code |
-| `skill.invocations.tokens` | Histogram | skill, version | Token usage (LLM skills) |
-| `skill.cache.hits` | Counter | skill | Cache hit count |
-| `skill.dependencies.resolved` | Gauge | skill | Dependency graph depth |
+| Metric                        | Type      | Labels                        | Description              |
+| ----------------------------- | --------- | ----------------------------- | ------------------------ |
+| `skill.invocations.total`     | Counter   | skill, version, agent, status | Total invocations        |
+| `skill.invocations.duration`  | Histogram | skill, version, agent         | Execution latency (ms)   |
+| `skill.invocations.errors`    | Counter   | skill, version, error_code    | Error count by code      |
+| `skill.invocations.tokens`    | Histogram | skill, version                | Token usage (LLM skills) |
+| `skill.cache.hits`            | Counter   | skill                         | Cache hit count          |
+| `skill.dependencies.resolved` | Gauge     | skill                         | Dependency graph depth   |
 
 ### 18.2 Structured Logging
 
@@ -1765,13 +1767,13 @@ steps:
     id: classify_and_search
     steps:
       - skill: classify_intent
-        version: ">=1.0.0"
+        version: '>=1.0.0'
         params:
-          query: "$ctx.query"
+          query: '$ctx.query'
       - skill: rag_search
-        version: ">=1.2.0"
+        version: '>=1.2.0'
         params:
-          query: "$prev_result.normalized_query"
+          query: '$prev_result.normalized_query'
           top_k: 5
 
   - type: parallel
@@ -1779,35 +1781,35 @@ steps:
     aggregate: merge
     branches:
       - skill: get_visitor_context
-        version: ">=1.0.0"
+        version: '>=1.0.0'
         params:
-          session_id: "$ctx.session_id"
+          session_id: '$ctx.session_id'
       - skill: get_visitor_history
-        version: ">=1.0.0"
+        version: '>=1.0.0'
         params:
-          visitor_id: "$ctx.visitor_id"
+          visitor_id: '$ctx.visitor_id'
 
   - type: conditional
     id: route_by_intent
     condition_skill: classify_intent
     condition_params:
-      query: "$ctx.query"
+      query: '$ctx.query'
     branches:
       - condition:
-          field: "intent"
-          operator: "eq"
-          value: "lead"
+          field: 'intent'
+          operator: 'eq'
+          value: 'lead'
         skill: create_lead
         params:
-          name: "$enrich_lead_data.name"
-          email: "$enrich_lead_data.email"
+          name: '$enrich_lead_data.name'
+          email: '$enrich_lead_data.email'
       - condition:
-          field: "intent"
-          operator: "eq"
-          value: "question"
+          field: 'intent'
+          operator: 'eq'
+          value: 'question'
         skill: format_response
         params:
-          chunks: "$classify_and_search.chunks"
+          chunks: '$classify_and_search.chunks'
     default:
       skill: format_response
       params:
@@ -1817,18 +1819,18 @@ steps:
     id: notify_admin
     primary:
       skill: send_telegram_notification
-      version: ">=1.0.0"
+      version: '>=1.0.0'
       params:
-        lead_id: "$route_by_intent.lead_id"
+        lead_id: '$route_by_intent.lead_id'
     fallbacks:
       - skill: send_email_notification
-        version: ">=1.0.0"
+        version: '>=1.0.0'
         params:
-          lead_id: "$route_by_intent.lead_id"
+          lead_id: '$route_by_intent.lead_id'
       - skill: log_lead_alert
-        version: ">=1.0.0"
+        version: '>=1.0.0'
         params:
-          lead_id: "$route_by_intent.lead_id"
+          lead_id: '$route_by_intent.lead_id'
 ```
 
 ---
@@ -1845,30 +1847,30 @@ Examples: 1.0.0, 2.3.1, 1.0.0-alpha.1, 2.0.0+build.20260618
 
 ### 26.2 Version Increment Rules
 
-| Increment | When | Example |
-|-----------|------|---------|
-| **MAJOR** | Breaking change to input contract, output contract, or behavior | Change required parameter to optional |
-| **MINOR** | Additive change to input or output (backward-compatible) | Add new optional parameter |
-| **PATCH** | Bug fix or performance improvement (no contract change) | Fix edge case |
-| **PRERELEASE** | Pre-release version for testing | `1.0.0-beta.1` |
+| Increment      | When                                                            | Example                               |
+| -------------- | --------------------------------------------------------------- | ------------------------------------- |
+| **MAJOR**      | Breaking change to input contract, output contract, or behavior | Change required parameter to optional |
+| **MINOR**      | Additive change to input or output (backward-compatible)        | Add new optional parameter            |
+| **PATCH**      | Bug fix or performance improvement (no contract change)         | Fix edge case                         |
+| **PRERELEASE** | Pre-release version for testing                                 | `1.0.0-beta.1`                        |
 
 ### 26.3 Breaking vs Non-Breaking
 
-| Change | Category | Version Bump |
-|--------|----------|--------------|
-| Add required parameter | Breaking | MAJOR |
-| Remove parameter | Breaking | MAJOR |
-| Rename parameter | Breaking | MAJOR |
-| Change parameter type | Breaking | MAJOR |
-| Narrow parameter constraint (e.g., maxLength decreasing) | Breaking | MAJOR |
-| Remove return field | Breaking | MAJOR |
-| Change return type | Breaking | MAJOR |
-| Add optional parameter | Non-breaking | MINOR |
-| Widen parameter constraint (e.g., maxLength increasing) | Non-breaking | MINOR |
-| Add return field | Non-breaking | MINOR |
-| Internal refactor with same contract | Non-breaking | PATCH |
-| Bug fix | Non-breaking | PATCH |
-| Performance improvement | Non-breaking | PATCH |
+| Change                                                   | Category     | Version Bump |
+| -------------------------------------------------------- | ------------ | ------------ |
+| Add required parameter                                   | Breaking     | MAJOR        |
+| Remove parameter                                         | Breaking     | MAJOR        |
+| Rename parameter                                         | Breaking     | MAJOR        |
+| Change parameter type                                    | Breaking     | MAJOR        |
+| Narrow parameter constraint (e.g., maxLength decreasing) | Breaking     | MAJOR        |
+| Remove return field                                      | Breaking     | MAJOR        |
+| Change return type                                       | Breaking     | MAJOR        |
+| Add optional parameter                                   | Non-breaking | MINOR        |
+| Widen parameter constraint (e.g., maxLength increasing)  | Non-breaking | MINOR        |
+| Add return field                                         | Non-breaking | MINOR        |
+| Internal refactor with same contract                     | Non-breaking | PATCH        |
+| Bug fix                                                  | Non-breaking | PATCH        |
+| Performance improvement                                  | Non-breaking | PATCH        |
 
 ### 26.4 Pre-release Naming Convention
 
@@ -1890,12 +1892,12 @@ See SS-12.2 for the full constraint operator reference. The resolution algorithm
 
 ### 28.1 Deprecation Timeline
 
-| Phase | Duration | Actions |
-|-------|----------|---------|
+| Phase                  | Duration  | Actions                                                |
+| ---------------------- | --------- | ------------------------------------------------------ |
 | **Deprecation Notice** | T-90 days | Mark skill as `deprecated`, emit warning on invocation |
-| **Grace Period** | 90 days | Skill continues to work, warnings in logs |
-| **Hard Sunset** | T+0 days | Skill returns `SKILL_DEPRECATED` error |
-| **Removal** | T+30 days | Manifest removed from registry |
+| **Grace Period**       | 90 days   | Skill continues to work, warnings in logs              |
+| **Hard Sunset**        | T+0 days  | Skill returns `SKILL_DEPRECATED` error                 |
+| **Removal**            | T+30 days | Manifest removed from registry                         |
 
 ### 28.2 Migration Path
 
@@ -1984,12 +1986,12 @@ async def invoke_with_deprecation_check(
 
 Cross-skill version alignment is maintained through compatibility testing:
 
-| Skill | v1.0.x | v1.1.x | v1.2.x | v2.0.x | v2.1.x |
-|-------|--------|--------|--------|--------|--------|
-| `embedding_generate` | -- | -- | -- | Compatible | Compatible |
-| `vector_search` | -- | -- | Compatible | Compatible | Compatible |
-| `rag_search` | -- | -- | Self | Compatible | Compatible |
-| `keyword_search` | Incompatible | Compatible | Compatible | -- | -- |
+| Skill                | v1.0.x       | v1.1.x     | v1.2.x     | v2.0.x     | v2.1.x     |
+| -------------------- | ------------ | ---------- | ---------- | ---------- | ---------- |
+| `embedding_generate` | --           | --         | --         | Compatible | Compatible |
+| `vector_search`      | --           | --         | Compatible | Compatible | Compatible |
+| `rag_search`         | --           | --         | Self       | Compatible | Compatible |
+| `keyword_search`     | Incompatible | Compatible | Compatible | --         | --         |
 
 Compatibility is verified by a CI matrix job that runs the full integration test suite against every combination of compatible versions.
 
@@ -2117,14 +2119,14 @@ async def test_my_custom_skill_validation_error():
 
 ## SS-31 Skill Lifecycle: Testing
 
-| Test Type | Scope | Tooling | Minimum Coverage |
-|-----------|-------|---------|-----------------|
-| **Unit** | Skill function in isolation | pytest + SkillTestHarness | 90% line coverage |
-| **Integration** | Skill + dependencies | Integration test fixture | All dependency combinations |
-| **Contract** | Input/output schema compliance | jsonschema / OpenAPI | 100% of error codes |
-| **Performance** | Latency budgets | pytest-benchmark | p95 < declared timeout |
-| **Security** | Permission boundary | Auth test matrix | All permission levels |
-| **Compatibility** | Cross-version matrix | CI matrix job | All supported pairs |
+| Test Type         | Scope                          | Tooling                   | Minimum Coverage            |
+| ----------------- | ------------------------------ | ------------------------- | --------------------------- |
+| **Unit**          | Skill function in isolation    | pytest + SkillTestHarness | 90% line coverage           |
+| **Integration**   | Skill + dependencies           | Integration test fixture  | All dependency combinations |
+| **Contract**      | Input/output schema compliance | jsonschema / OpenAPI      | 100% of error codes         |
+| **Performance**   | Latency budgets                | pytest-benchmark          | p95 < declared timeout      |
+| **Security**      | Permission boundary            | Auth test matrix          | All permission levels       |
+| **Compatibility** | Cross-version matrix           | CI matrix job             | All supported pairs         |
 
 ### 31.1 Integration Test Example
 
@@ -2150,29 +2152,29 @@ async def test_rag_search_integration(skill_registry):
 
 ## SS-32 Skill Lifecycle: Staging
 
-| Gate | Check | Blocking |
-|------|-------|----------|
-| Unit tests pass | pytest --coverage | Yes |
-| Integration tests pass | All dependency combinations | Yes |
-| Contract tests pass | Schema validation | Yes |
-| Performance within budget | p95 latency < timeout | Yes |
-| Security scan | Permission boundary audit | Yes |
-| Manual review | Code review by peer | Yes |
-| Staging deployment | Smoke test on staging | Yes |
+| Gate                      | Check                       | Blocking |
+| ------------------------- | --------------------------- | -------- |
+| Unit tests pass           | pytest --coverage           | Yes      |
+| Integration tests pass    | All dependency combinations | Yes      |
+| Contract tests pass       | Schema validation           | Yes      |
+| Performance within budget | p95 latency < timeout       | Yes      |
+| Security scan             | Permission boundary audit   | Yes      |
+| Manual review             | Code review by peer         | Yes      |
+| Staging deployment        | Smoke test on staging       | Yes      |
 
 ---
 
 ## SS-33 Skill Lifecycle: Production
 
-| Criteria | Standard |
-|----------|----------|
-| Version format | `MAJOR.MINOR.PATCH` (no pre-release suffix) |
-| Test coverage | >= 90% unit, >= 80% integration |
-| Performance | p95 latency < 80% of declared timeout |
-| Dependencies | All dependencies in production status |
-| Documentation | Manifest complete, README updated |
-| Monitoring | Metrics, logs, and traces emitting correctly |
-| Security | Permission model reviewed and approved |
+| Criteria       | Standard                                     |
+| -------------- | -------------------------------------------- |
+| Version format | `MAJOR.MINOR.PATCH` (no pre-release suffix)  |
+| Test coverage  | >= 90% unit, >= 80% integration              |
+| Performance    | p95 latency < 80% of declared timeout        |
+| Dependencies   | All dependencies in production status        |
+| Documentation  | Manifest complete, README updated            |
+| Monitoring     | Metrics, logs, and traces emitting correctly |
+| Security       | Permission model reviewed and approved       |
 
 ---
 
@@ -2242,107 +2244,107 @@ The following tables catalog all system-provided skills organized by category.
 
 ## SS-37 Core System Skills
 
-| Skill Name | Version | Description | Required Permission |
-|------------|---------|-------------|---------------------|
-| `core.embedding_generate` | 1.3.0 | Generate text embeddings using OpenAI text-embedding-3-small | `embeddings:write` |
-| `core.vector_search` | 2.1.0 | Vector similarity search over pgvector index | `knowledge_base:read` |
-| `core.keyword_search` | 1.0.0 | Full-text keyword search as fallback | `knowledge_base:read` |
-| `core.hybrid_search` | 1.0.0 | Combined vector + keyword search with RRF fusion | `knowledge_base:read` |
-| `core.rate_limit_check` | 1.0.0 | Check rate limit status for an agent-skill pair | `system:read` |
-| `core.auth_verify` | 1.1.0 | Verify JWT/session token validity | `system:read` |
-| `core.correlation_generate` | 1.0.0 | Generate unique correlation ID | `system:write` |
-| `core.cache_get` | 1.0.0 | Retrieve cached skill result | `cache:read` |
-| `core.cache_set` | 1.0.0 | Store skill result in cache with TTL | `cache:write` |
-| `core.cache_invalidate` | 1.0.0 | Invalidate cache entries by pattern | `cache:write` |
-| `core.telemetry_record` | 1.0.0 | Record structured telemetry event | `telemetry:write` |
+| Skill Name                  | Version | Description                                                  | Required Permission   |
+| --------------------------- | ------- | ------------------------------------------------------------ | --------------------- |
+| `core.embedding_generate`   | 1.3.0   | Generate text embeddings using OpenAI text-embedding-3-small | `embeddings:write`    |
+| `core.vector_search`        | 2.1.0   | Vector similarity search over pgvector index                 | `knowledge_base:read` |
+| `core.keyword_search`       | 1.0.0   | Full-text keyword search as fallback                         | `knowledge_base:read` |
+| `core.hybrid_search`        | 1.0.0   | Combined vector + keyword search with RRF fusion             | `knowledge_base:read` |
+| `core.rate_limit_check`     | 1.0.0   | Check rate limit status for an agent-skill pair              | `system:read`         |
+| `core.auth_verify`          | 1.1.0   | Verify JWT/session token validity                            | `system:read`         |
+| `core.correlation_generate` | 1.0.0   | Generate unique correlation ID                               | `system:write`        |
+| `core.cache_get`            | 1.0.0   | Retrieve cached skill result                                 | `cache:read`          |
+| `core.cache_set`            | 1.0.0   | Store skill result in cache with TTL                         | `cache:write`         |
+| `core.cache_invalidate`     | 1.0.0   | Invalidate cache entries by pattern                          | `cache:write`         |
+| `core.telemetry_record`     | 1.0.0   | Record structured telemetry event                            | `telemetry:write`     |
 
 ---
 
 ## SS-38 Agent Skills
 
-These skills are consumed by agents as defined in `docs/ai/18-AGENTS.md` v4.0:
+These skills are consumed by agents as defined in `docs/08-ai/18-AGENTS.md` v4.0:
 
-| Skill Name | Version | Consumed By | Description |
-|------------|---------|-------------|-------------|
-| `agent.classify_intent` | 1.0.0 | Supervisor | Classify query intent and extract entities |
-| `agent.route_to_agent` | 1.1.0 | Supervisor | Route query to best-matching specialist agent |
-| `agent.get_capabilities` | 1.0.0 | Supervisor | List all agent capability manifests |
-| `agent.merge_responses` | 1.0.0 | Supervisor | Merge multiple agent responses into coherent answer |
-| `agent.escalate_to_lead` | 1.0.0 | Supervisor | Trigger lead qualification flow |
-| `agent.escalate_to_admin` | 1.0.0 | Supervisor | Notify human admin for intervention |
-| `agent.get_context` | 1.0.0 | Supervisor | Retrieve full conversation context |
-| `agent.create_lead` | 1.0.0 | Lead Qualification | Create lead record in database |
-| `agent.send_notification` | 1.0.0 | Lead Qualification | Send Telegram/email notification |
-| `agent.capture_visitor_context` | 1.0.0 | Lead Qualification | Capture UTM and visitor data |
-| `agent.get_portfolio_summary` | 1.0.0 | Portfolio Agent | Get pre-computed portfolio summary |
-| `agent.get_skills_by_category` | 1.0.0 | Portfolio Agent | Get skills grouped by category |
-| `agent.get_availability_status` | 1.0.0 | Portfolio Agent | Get current availability status |
-| `agent.get_services` | 1.0.0 | Portfolio Agent | Get list of offered services |
-| `agent.search_knowledge_base` | 1.0.0 | All Knowledge Agents | Search RAG knowledge base |
-| `agent.get_experiences` | 1.0.0 | Resume / Career Agent | Get work history entries |
-| `agent.get_achievements` | 1.0.0 | Resume Agent | Get certifications and awards |
-| `agent.get_resume_download_url` | 1.0.0 | Resume Agent | Get signed resume download URL |
-| `agent.get_projects` | 1.0.0 | Projects Agent | List all projects with filters |
-| `agent.get_project_by_slug` | 1.0.0 | Projects Agent | Get detailed project by slug |
-| `agent.get_featured_projects` | 1.0.0 | Projects Agent | Get featured projects only |
-| `agent.filter_projects_by_tech` | 1.0.0 | Projects Agent | Filter projects by technology |
-| `agent.compare_projects` | 1.0.0 | Projects Agent | Compare projects across dimensions |
-| `agent.verify_nda_password` | 1.0.0 | Projects Agent | Verify NDA password hash |
-| `agent.get_project_images` | 1.0.0 | Projects Agent | Get project gallery images |
-| `agent.get_blog_posts` | 1.0.0 | Blog Agent | List published blog posts |
-| `agent.get_blog_post_by_slug` | 1.0.0 | Blog Agent | Get single blog post |
-| `agent.search_blog_posts` | 1.0.0 | Blog Agent | Full-text search on blog content |
-| `agent.get_blog_tags` | 1.0.0 | Blog Agent | Get all tags with post counts |
-| `agent.filter_posts_by_tag` | 1.0.0 | Blog Agent | Filter posts by tag |
-| `agent.get_case_studies` | 1.0.0 | Case Study Agent | List all case studies |
-| `agent.get_case_study_by_project` | 1.0.0 | Case Study Agent | Get case study for a project |
-| `agent.get_case_study_metrics` | 1.0.0 | Case Study Agent | Get quantified impact metrics |
-| `agent.get_architecture_diagrams` | 1.0.0 | Case Study Agent | Get architecture diagram URLs |
-| `agent.get_experiences_timeline` | 1.0.0 | Career Agent | Get chronologically ordered experiences |
-| `agent.get_current_role` | 1.0.0 | Career Agent | Get current position details |
-| `agent.get_education` | 1.0.0 | Career Agent | Get educational background |
-| `agent.get_career_duration` | 1.0.0 | Career Agent | Calculate total career duration |
-| `agent.get_industry_experience` | 1.0.0 | Career Agent | Get unique industries worked in |
-| `agent.get_visitor_stats` | 1.0.0 | Analytics Agent | Get visitor counts over time period |
-| `agent.get_page_performance` | 1.0.0 | Analytics Agent | Get page view stats per section |
-| `agent.get_lead_stats` | 1.0.0 | Analytics Agent | Get lead conversion metrics |
-| `agent.get_trend_data` | 1.0.0 | Analytics Agent | Get trend comparisons |
-| `agent.get_top_referrers` | 1.0.0 | Analytics Agent | Get top traffic sources |
-| `agent.get_device_breakdown` | 1.0.0 | Analytics Agent | Get visitor device distribution |
-| `agent.get_engagement_metrics` | 1.0.0 | Analytics Agent | Get time-on-page, bounce rate |
-| `agent.get_section_status` | 1.0.0 | Admin Agent | List all sections with live/hidden status |
-| `agent.toggle_section_visibility` | 1.0.0 | Admin Agent | Change section is_live status |
-| `agent.get_system_settings` | 1.0.0 | Admin Agent | Read system configuration |
-| `agent.update_system_setting` | 1.0.0 | Admin Agent | Update a system setting |
-| `agent.get_content_counts` | 1.0.0 | Admin Agent | Get item counts per content type |
-| `agent.invalidate_cache` | 1.0.0 | Admin Agent | Clear response or embedding cache |
-| `agent.get_system_health` | 1.0.0 | Admin Agent | Get system health summary |
-| `agent.reindex_knowledge_base` | 1.0.0 | Admin / Knowledge Agent | Trigger RAG reindexing |
-| `agent.get_knowledge_stats` | 1.0.0 | Knowledge Agent | Get chunk counts per source |
-| `agent.get_unanswered_queries` | 1.0.0 | Knowledge Agent | Get queries with no RAG results |
-| `agent.refresh_knowledge_source` | 1.0.0 | Knowledge Agent | Re-index a specific content source |
-| `agent.full_reindex` | 1.0.0 | Knowledge Agent | Complete knowledge base rebuild |
-| `agent.get_chunk_quality_scores` | 1.0.0 | Knowledge Agent | Get quality metrics for chunks |
-| `agent.identify_gaps` | 1.0.0 | Knowledge Agent | Analyze gaps between queries and content |
-| `agent.flag_stale_content` | 1.0.0 | Knowledge Agent | Flag content older than threshold |
+| Skill Name                        | Version | Consumed By             | Description                                         |
+| --------------------------------- | ------- | ----------------------- | --------------------------------------------------- |
+| `agent.classify_intent`           | 1.0.0   | Supervisor              | Classify query intent and extract entities          |
+| `agent.route_to_agent`            | 1.1.0   | Supervisor              | Route query to best-matching specialist agent       |
+| `agent.get_capabilities`          | 1.0.0   | Supervisor              | List all agent capability manifests                 |
+| `agent.merge_responses`           | 1.0.0   | Supervisor              | Merge multiple agent responses into coherent answer |
+| `agent.escalate_to_lead`          | 1.0.0   | Supervisor              | Trigger lead qualification flow                     |
+| `agent.escalate_to_admin`         | 1.0.0   | Supervisor              | Notify human admin for intervention                 |
+| `agent.get_context`               | 1.0.0   | Supervisor              | Retrieve full conversation context                  |
+| `agent.create_lead`               | 1.0.0   | Lead Qualification      | Create lead record in database                      |
+| `agent.send_notification`         | 1.0.0   | Lead Qualification      | Send Telegram/email notification                    |
+| `agent.capture_visitor_context`   | 1.0.0   | Lead Qualification      | Capture UTM and visitor data                        |
+| `agent.get_portfolio_summary`     | 1.0.0   | Portfolio Agent         | Get pre-computed portfolio summary                  |
+| `agent.get_skills_by_category`    | 1.0.0   | Portfolio Agent         | Get skills grouped by category                      |
+| `agent.get_availability_status`   | 1.0.0   | Portfolio Agent         | Get current availability status                     |
+| `agent.get_services`              | 1.0.0   | Portfolio Agent         | Get list of offered services                        |
+| `agent.search_knowledge_base`     | 1.0.0   | All Knowledge Agents    | Search RAG knowledge base                           |
+| `agent.get_experiences`           | 1.0.0   | Resume / Career Agent   | Get work history entries                            |
+| `agent.get_achievements`          | 1.0.0   | Resume Agent            | Get certifications and awards                       |
+| `agent.get_resume_download_url`   | 1.0.0   | Resume Agent            | Get signed resume download URL                      |
+| `agent.get_projects`              | 1.0.0   | Projects Agent          | List all projects with filters                      |
+| `agent.get_project_by_slug`       | 1.0.0   | Projects Agent          | Get detailed project by slug                        |
+| `agent.get_featured_projects`     | 1.0.0   | Projects Agent          | Get featured projects only                          |
+| `agent.filter_projects_by_tech`   | 1.0.0   | Projects Agent          | Filter projects by technology                       |
+| `agent.compare_projects`          | 1.0.0   | Projects Agent          | Compare projects across dimensions                  |
+| `agent.verify_nda_password`       | 1.0.0   | Projects Agent          | Verify NDA password hash                            |
+| `agent.get_project_images`        | 1.0.0   | Projects Agent          | Get project gallery images                          |
+| `agent.get_blog_posts`            | 1.0.0   | Blog Agent              | List published blog posts                           |
+| `agent.get_blog_post_by_slug`     | 1.0.0   | Blog Agent              | Get single blog post                                |
+| `agent.search_blog_posts`         | 1.0.0   | Blog Agent              | Full-text search on blog content                    |
+| `agent.get_blog_tags`             | 1.0.0   | Blog Agent              | Get all tags with post counts                       |
+| `agent.filter_posts_by_tag`       | 1.0.0   | Blog Agent              | Filter posts by tag                                 |
+| `agent.get_case_studies`          | 1.0.0   | Case Study Agent        | List all case studies                               |
+| `agent.get_case_study_by_project` | 1.0.0   | Case Study Agent        | Get case study for a project                        |
+| `agent.get_case_study_metrics`    | 1.0.0   | Case Study Agent        | Get quantified impact metrics                       |
+| `agent.get_architecture_diagrams` | 1.0.0   | Case Study Agent        | Get architecture diagram URLs                       |
+| `agent.get_experiences_timeline`  | 1.0.0   | Career Agent            | Get chronologically ordered experiences             |
+| `agent.get_current_role`          | 1.0.0   | Career Agent            | Get current position details                        |
+| `agent.get_education`             | 1.0.0   | Career Agent            | Get educational background                          |
+| `agent.get_career_duration`       | 1.0.0   | Career Agent            | Calculate total career duration                     |
+| `agent.get_industry_experience`   | 1.0.0   | Career Agent            | Get unique industries worked in                     |
+| `agent.get_visitor_stats`         | 1.0.0   | Analytics Agent         | Get visitor counts over time period                 |
+| `agent.get_page_performance`      | 1.0.0   | Analytics Agent         | Get page view stats per section                     |
+| `agent.get_lead_stats`            | 1.0.0   | Analytics Agent         | Get lead conversion metrics                         |
+| `agent.get_trend_data`            | 1.0.0   | Analytics Agent         | Get trend comparisons                               |
+| `agent.get_top_referrers`         | 1.0.0   | Analytics Agent         | Get top traffic sources                             |
+| `agent.get_device_breakdown`      | 1.0.0   | Analytics Agent         | Get visitor device distribution                     |
+| `agent.get_engagement_metrics`    | 1.0.0   | Analytics Agent         | Get time-on-page, bounce rate                       |
+| `agent.get_section_status`        | 1.0.0   | Admin Agent             | List all sections with live/hidden status           |
+| `agent.toggle_section_visibility` | 1.0.0   | Admin Agent             | Change section is_live status                       |
+| `agent.get_system_settings`       | 1.0.0   | Admin Agent             | Read system configuration                           |
+| `agent.update_system_setting`     | 1.0.0   | Admin Agent             | Update a system setting                             |
+| `agent.get_content_counts`        | 1.0.0   | Admin Agent             | Get item counts per content type                    |
+| `agent.invalidate_cache`          | 1.0.0   | Admin Agent             | Clear response or embedding cache                   |
+| `agent.get_system_health`         | 1.0.0   | Admin Agent             | Get system health summary                           |
+| `agent.reindex_knowledge_base`    | 1.0.0   | Admin / Knowledge Agent | Trigger RAG reindexing                              |
+| `agent.get_knowledge_stats`       | 1.0.0   | Knowledge Agent         | Get chunk counts per source                         |
+| `agent.get_unanswered_queries`    | 1.0.0   | Knowledge Agent         | Get queries with no RAG results                     |
+| `agent.refresh_knowledge_source`  | 1.0.0   | Knowledge Agent         | Re-index a specific content source                  |
+| `agent.full_reindex`              | 1.0.0   | Knowledge Agent         | Complete knowledge base rebuild                     |
+| `agent.get_chunk_quality_scores`  | 1.0.0   | Knowledge Agent         | Get quality metrics for chunks                      |
+| `agent.identify_gaps`             | 1.0.0   | Knowledge Agent         | Analyze gaps between queries and content            |
+| `agent.flag_stale_content`        | 1.0.0   | Knowledge Agent         | Flag content older than threshold                   |
 
 ---
 
 ## SS-39 Utility Skills
 
-| Skill Name | Version | Description |
-|------------|---------|-------------|
-| `util.format_timeline` | 1.0.0 | Format work experiences as structured timeline |
-| `util.format_response` | 1.1.0 | Format skill output for chat widget rendering |
-| `util.validate_email` | 1.0.0 | Validate email address format and deliverability |
-| `util.sanitize_input` | 1.0.0 | Sanitize user input (XSS, injection protection) |
-| `util.truncate_text` | 1.0.0 | Truncate text to specified length with ellipsis |
-| `util.slugify` | 1.0.0 | Convert string to URL-safe slug |
-| `util.parse_date_range` | 1.0.0 | Parse date range from natural language |
-| `util.calculate_duration` | 1.0.0 | Calculate duration between two dates in human-readable format |
-| `util.score_lead` | 1.0.0 | Calculate lead quality score based on criteria |
-| `util.deduplicate_results` | 1.0.0 | Remove duplicate items from result set |
-| `util.rank_results` | 1.0.0 | Rank results by specified criteria |
+| Skill Name                 | Version | Description                                                   |
+| -------------------------- | ------- | ------------------------------------------------------------- |
+| `util.format_timeline`     | 1.0.0   | Format work experiences as structured timeline                |
+| `util.format_response`     | 1.1.0   | Format skill output for chat widget rendering                 |
+| `util.validate_email`      | 1.0.0   | Validate email address format and deliverability              |
+| `util.sanitize_input`      | 1.0.0   | Sanitize user input (XSS, injection protection)               |
+| `util.truncate_text`       | 1.0.0   | Truncate text to specified length with ellipsis               |
+| `util.slugify`             | 1.0.0   | Convert string to URL-safe slug                               |
+| `util.parse_date_range`    | 1.0.0   | Parse date range from natural language                        |
+| `util.calculate_duration`  | 1.0.0   | Calculate duration between two dates in human-readable format |
+| `util.score_lead`          | 1.0.0   | Calculate lead quality score based on criteria                |
+| `util.deduplicate_results` | 1.0.0   | Remove duplicate items from result set                        |
+| `util.rank_results`        | 1.0.0   | Rank results by specified criteria                            |
 
 ---
 
@@ -2350,28 +2352,28 @@ These skills are consumed by agents as defined in `docs/ai/18-AGENTS.md` v4.0:
 
 ### 40.1 Permission Categories
 
-| Category | Pattern | Example | Grants |
-|----------|---------|---------|--------|
-| **Read** | `{resource}:read` | `knowledge_base:read` | Read access to resource |
-| **Write** | `{resource}:write` | `knowledge_base:write` | Create or modify resource |
-| **Admin** | `{resource}:admin` | `system:admin` | Full administrative access |
-| **Wildcard** | `*` | `*` | Super-admin access (agents only) |
+| Category     | Pattern            | Example                | Grants                           |
+| ------------ | ------------------ | ---------------------- | -------------------------------- |
+| **Read**     | `{resource}:read`  | `knowledge_base:read`  | Read access to resource          |
+| **Write**    | `{resource}:write` | `knowledge_base:write` | Create or modify resource        |
+| **Admin**    | `{resource}:admin` | `system:admin`         | Full administrative access       |
+| **Wildcard** | `*`                | `*`                    | Super-admin access (agents only) |
 
 ### 40.2 Agent Permission Matrix
 
-| Agent | Assigned Permissions |
-|-------|---------------------|
-| **Supervisor** | `system:read`, `agent:*`, `cache:read` |
-| **Portfolio Agent** | `knowledge_base:read`, `agent:search_knowledge_base`, `agent:get_portfolio_summary`, `agent:get_skills_by_category`, `agent:get_availability_status`, `agent:get_services` |
-| **Resume Agent** | `knowledge_base:read`, `agent:get_experiences`, `agent:get_achievements`, `agent:get_resume_download_url` |
-| **Projects Agent** | `knowledge_base:read`, `agent:get_projects`, `agent:get_project_by_slug`, `agent:get_featured_projects`, `agent:verify_nda_password`, `agent:get_project_images` |
-| **Blog Agent** | `knowledge_base:read`, `agent:get_blog_posts`, `agent:get_blog_post_by_slug`, `agent:search_blog_posts`, `agent:get_blog_tags` |
-| **Case Study Agent** | `knowledge_base:read`, `agent:get_case_studies`, `agent:get_case_study_by_project`, `agent:get_case_study_metrics`, `agent:get_architecture_diagrams` |
-| **Career Agent** | `knowledge_base:read`, `agent:get_experiences_timeline`, `agent:get_current_role`, `agent:get_education`, `agent:get_career_duration`, `agent:get_industry_experience` |
-| **Lead Qualification Agent** | `knowledge_base:read`, `agent:create_lead`, `agent:send_notification`, `agent:capture_visitor_context`, `cache:write` |
-| **Analytics Agent** | `analytics:read`, `agent:get_visitor_stats`, `agent:get_page_performance`, `agent:get_lead_stats`, `agent:get_trend_data`, `agent:get_top_referrers` |
-| **Admin Agent** | `system:*`, `cache:*`, `agent:*`, `knowledge_base:*`, `analytics:*` |
-| **Knowledge Agent** | `knowledge_base:*`, `cache:read`, `cache:invalidate` |
+| Agent                        | Assigned Permissions                                                                                                                                                       |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Supervisor**               | `system:read`, `agent:*`, `cache:read`                                                                                                                                     |
+| **Portfolio Agent**          | `knowledge_base:read`, `agent:search_knowledge_base`, `agent:get_portfolio_summary`, `agent:get_skills_by_category`, `agent:get_availability_status`, `agent:get_services` |
+| **Resume Agent**             | `knowledge_base:read`, `agent:get_experiences`, `agent:get_achievements`, `agent:get_resume_download_url`                                                                  |
+| **Projects Agent**           | `knowledge_base:read`, `agent:get_projects`, `agent:get_project_by_slug`, `agent:get_featured_projects`, `agent:verify_nda_password`, `agent:get_project_images`           |
+| **Blog Agent**               | `knowledge_base:read`, `agent:get_blog_posts`, `agent:get_blog_post_by_slug`, `agent:search_blog_posts`, `agent:get_blog_tags`                                             |
+| **Case Study Agent**         | `knowledge_base:read`, `agent:get_case_studies`, `agent:get_case_study_by_project`, `agent:get_case_study_metrics`, `agent:get_architecture_diagrams`                      |
+| **Career Agent**             | `knowledge_base:read`, `agent:get_experiences_timeline`, `agent:get_current_role`, `agent:get_education`, `agent:get_career_duration`, `agent:get_industry_experience`     |
+| **Lead Qualification Agent** | `knowledge_base:read`, `agent:create_lead`, `agent:send_notification`, `agent:capture_visitor_context`, `cache:write`                                                      |
+| **Analytics Agent**          | `analytics:read`, `agent:get_visitor_stats`, `agent:get_page_performance`, `agent:get_lead_stats`, `agent:get_trend_data`, `agent:get_top_referrers`                       |
+| **Admin Agent**              | `system:*`, `cache:*`, `agent:*`, `knowledge_base:*`, `analytics:*`                                                                                                        |
+| **Knowledge Agent**          | `knowledge_base:*`, `cache:read`, `cache:invalidate`                                                                                                                       |
 
 ---
 
@@ -2402,11 +2404,11 @@ CREATE INDEX idx_skill_audit_correlation ON skill_audit_log(correlation_id);
 
 ### 41.2 Retention
 
-| Environment | Retention Period | Archival |
-|-------------|-----------------|----------|
-| Production | 90 days | Cold storage after 90 days |
-| Staging | 30 days | Deleted after 30 days |
-| Development | 7 days | Deleted after 7 days |
+| Environment | Retention Period | Archival                   |
+| ----------- | ---------------- | -------------------------- |
+| Production  | 90 days          | Cold storage after 90 days |
+| Staging     | 30 days          | Deleted after 30 days      |
+| Development | 7 days           | Deleted after 7 days       |
 
 ---
 
@@ -2414,13 +2416,13 @@ CREATE INDEX idx_skill_audit_correlation ON skill_audit_log(correlation_id);
 
 ### 42.1 Rate Limit Tiers
 
-| Tier | Requests/Minute | Requests/Hour | Burst | Applied To |
-|------|----------------|---------------|-------|------------|
-| **Critical** | 5 | 50 | 2 | Cache invalidation, reindex |
-| **High** | 30 | 500 | 5 | Lead creation, notification |
-| **Medium** | 60 | 2000 | 10 | Knowledge search, agent routing |
-| **Low** | 120 | 5000 | 20 | Utility transforms, formatting |
-| **Unlimited** | -- | -- | -- | Core read operations (cache, auth) |
+| Tier          | Requests/Minute | Requests/Hour | Burst | Applied To                         |
+| ------------- | --------------- | ------------- | ----- | ---------------------------------- |
+| **Critical**  | 5               | 50            | 2     | Cache invalidation, reindex        |
+| **High**      | 30              | 500           | 5     | Lead creation, notification        |
+| **Medium**    | 60              | 2000          | 10    | Knowledge search, agent routing    |
+| **Low**       | 120             | 5000          | 20    | Utility transforms, formatting     |
+| **Unlimited** | --              | --            | --    | Core read operations (cache, auth) |
 
 ### 42.2 Rate Limiter Implementation
 
@@ -2454,19 +2456,19 @@ class SkillRateLimiter:
 
 ### 43.1 Isolation Levels
 
-| Level | Shared State | Filesystem | Network | Memory Limit | Timeout |
-|-------|-------------|------------|---------|--------------|---------|
-| **shared** | Full access | Read-only | Restricted | 256MB | 30s |
-| **sandboxed** | Isolated | None | None | 128MB | 10s |
-| **privileged** | Full access | Full | Full | 1GB | 120s |
+| Level          | Shared State | Filesystem | Network    | Memory Limit | Timeout |
+| -------------- | ------------ | ---------- | ---------- | ------------ | ------- |
+| **shared**     | Full access  | Read-only  | Restricted | 256MB        | 30s     |
+| **sandboxed**  | Isolated     | None       | None       | 128MB        | 10s     |
+| **privileged** | Full access  | Full       | Full       | 1GB          | 120s    |
 
 ### 43.2 Level Assignment
 
-| Level | Assigned To | Rationale |
-|-------|-------------|-----------|
-| **shared** | Core system skills, Utility skills | Need DB and cache access |
-| **sandboxed** | Untrusted or third-party skills | No side effects |
-| **privileged** | Admin skills, System reindex operations | Need full access |
+| Level          | Assigned To                             | Rationale                |
+| -------------- | --------------------------------------- | ------------------------ |
+| **shared**     | Core system skills, Utility skills      | Need DB and cache access |
+| **sandboxed**  | Untrusted or third-party skills         | No side effects          |
+| **privileged** | Admin skills, System reindex operations | Need full access         |
 
 ---
 
@@ -2487,12 +2489,12 @@ class RetryPolicy:
 
 ### 44.2 Error Classification
 
-| Error Category | Retryable | Examples |
-|----------------|-----------|----------|
-| **Transient Infrastructure** | Yes | RAG_INDEX_UNAVAILABLE, DEPENDENCY_FAILED, network timeout |
-| **Rate Limit** | Yes (with backoff) | RATE_LIMIT_EXCEEDED |
-| **Permanent** | No | VALIDATION_ERROR, AUTH_INSUFFICIENT_PERMISSIONS |
-| **Timeout** | Depends | TIMEOUT_EXCEEDED (retry if dependent skill timed out) |
+| Error Category               | Retryable          | Examples                                                  |
+| ---------------------------- | ------------------ | --------------------------------------------------------- |
+| **Transient Infrastructure** | Yes                | RAG_INDEX_UNAVAILABLE, DEPENDENCY_FAILED, network timeout |
+| **Rate Limit**               | Yes (with backoff) | RATE_LIMIT_EXCEEDED                                       |
+| **Permanent**                | No                 | VALIDATION_ERROR, AUTH_INSUFFICIENT_PERMISSIONS           |
+| **Timeout**                  | Depends            | TIMEOUT_EXCEEDED (retry if dependent skill timed out)     |
 
 ### 44.3 Circuit Breaker
 
@@ -2533,18 +2535,18 @@ class SkillCircuitBreaker:
 
 ## SS-45 Performance Budgets
 
-| Metric | Budget | Measurement |
-|--------|--------|-------------|
-| **Skill invocation latency (p50)** | < 200ms for sync, < 50ms for cache hit | Custom tracing |
-| **Skill invocation latency (p95)** | < 1s for sync, < 80% of declared timeout | Custom tracing |
-| **Dependency resolution** | < 50ms | Registry API latency |
-| **Parameter validation** | < 10ms | In-process measurement |
-| **Authorization check** | < 20ms | Auth gate latency |
-| **Registry query (discovery)** | < 100ms | API response time |
-| **Concurrent invocations per agent** | < 10 | Runtime enforcement |
-| **Registry cache hit ratio** | > 90% | Cache monitoring |
-| **Audit log write latency** | < 50ms | Database insert latency |
-| **Skill deployment (registry update)** | < 5s | Registry API |
+| Metric                                 | Budget                                   | Measurement             |
+| -------------------------------------- | ---------------------------------------- | ----------------------- |
+| **Skill invocation latency (p50)**     | < 200ms for sync, < 50ms for cache hit   | Custom tracing          |
+| **Skill invocation latency (p95)**     | < 1s for sync, < 80% of declared timeout | Custom tracing          |
+| **Dependency resolution**              | < 50ms                                   | Registry API latency    |
+| **Parameter validation**               | < 10ms                                   | In-process measurement  |
+| **Authorization check**                | < 20ms                                   | Auth gate latency       |
+| **Registry query (discovery)**         | < 100ms                                  | API response time       |
+| **Concurrent invocations per agent**   | < 10                                     | Runtime enforcement     |
+| **Registry cache hit ratio**           | > 90%                                    | Cache monitoring        |
+| **Audit log write latency**            | < 50ms                                   | Database insert latency |
+| **Skill deployment (registry update)** | < 5s                                     | Registry API            |
 
 ---
 
@@ -2552,7 +2554,7 @@ class SkillCircuitBreaker:
 
 ### 46.1 Agent-to-Skill Binding
 
-As defined in `docs/ai/18-AGENTS.md` v4.0, each agent declares its required skills in its capability manifest:
+As defined in `docs/08-ai/18-AGENTS.md` v4.0, each agent declares its required skills in its capability manifest:
 
 ```json
 {
@@ -2612,7 +2614,7 @@ sequenceDiagram
 
 ## SS-47 Integration with Command System
 
-When the command system (`docs/ai/CommandSystem.md`) is implemented, skills will be invocable via CLI and API:
+When the command system (`docs/08-ai/COMMAND-SYSTEM.md`) is implemented, skills will be invocable via CLI and API:
 
 ```bash
 # CLI invocation (future)
@@ -2639,15 +2641,15 @@ POST /api/v1/skills/invoke
 
 ## SS-48 Skill Marketplace Concepts
 
-When the agent marketplace (`docs/ai/AgentMarketplace.md`) is implemented, third-party agents will be able to publish and consume skills through a marketplace:
+When the agent marketplace (`docs/08-ai/AGENT-MARKETPLACE.md`) is implemented, third-party agents will be able to publish and consume skills through a marketplace:
 
-| Concept | Description |
-|---------|-------------|
-| **Published Skill** | A skill packaged with manifest, README, and test suite |
-| **Marketplace Listing** | Skill entry in marketplace with ratings, downloads, reviews |
-| **Trust Score** | Composite score based on code quality, test coverage, security audit |
-| **Sandboxed Execution** | Third-party skills run at `sandboxed` isolation level by default |
-| **Version Review** | New versions require security review before marketplace approval |
+| Concept                 | Description                                                          |
+| ----------------------- | -------------------------------------------------------------------- |
+| **Published Skill**     | A skill packaged with manifest, README, and test suite               |
+| **Marketplace Listing** | Skill entry in marketplace with ratings, downloads, reviews          |
+| **Trust Score**         | Composite score based on code quality, test coverage, security audit |
+| **Sandboxed Execution** | Third-party skills run at `sandboxed` isolation level by default     |
+| **Version Review**      | New versions require security review before marketplace approval     |
 
 ---
 
@@ -2655,93 +2657,94 @@ When the agent marketplace (`docs/ai/AgentMarketplace.md`) is implemented, third
 
 ### 49.1 Glossary
 
-| Term | Definition |
-|------|------------|
-| **Skill** | A self-contained, versioned, permission-bounded capability that an agent can invoke |
-| **Tool** | An agent-local utility function without versioning, registry, or lifecycle |
-| **Skill Manifest** | Declarative definition of a skill including contract, dependencies, and security |
-| **Skill Registry** | Centralized database of all registered skills with version history |
-| **Composition** | Combining multiple skills into sequential, parallel, conditional, or fallback chains |
-| **Skill Lifecycle** | The stages a skill passes through: development, testing, staging, production, deprecated, retired |
-| **Dependency Resolution** | The process of finding compatible skill versions that satisfy all constraints |
-| **Isolation Level** | The degree of sandboxing applied to a skill: shared, sandboxed, or privileged |
+| Term                      | Definition                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------- |
+| **Skill**                 | A self-contained, versioned, permission-bounded capability that an agent can invoke               |
+| **Tool**                  | An agent-local utility function without versioning, registry, or lifecycle                        |
+| **Skill Manifest**        | Declarative definition of a skill including contract, dependencies, and security                  |
+| **Skill Registry**        | Centralized database of all registered skills with version history                                |
+| **Composition**           | Combining multiple skills into sequential, parallel, conditional, or fallback chains              |
+| **Skill Lifecycle**       | The stages a skill passes through: development, testing, staging, production, deprecated, retired |
+| **Dependency Resolution** | The process of finding compatible skill versions that satisfy all constraints                     |
+| **Isolation Level**       | The degree of sandboxing applied to a skill: shared, sandboxed, or privileged                     |
 
 ### 49.2 Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| D-SKL-001 | Define skills as self-contained, versioned, permission-bounded capabilities distinct from tools | Clear separation of concerns: skills are reusable cross-agent capabilities; tools are agent-local utilities | Unify skills and tools (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no versioning, no registry); tools-only approach (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no reuse); skills-only approach (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no agent-specific utilities) | Jun 2026 | Chief AI Architect |
-| D-SKL-002 | Implement 6-stage skill lifecycle (Development ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Testing ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Staging ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Production ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Deprecated ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Retired) | Provides governance, testing gates, and deprecation window for all skills | 3-stage (Dev/Prod/Retired) (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â insufficient testing); 4-stage (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no deprecation); no lifecycle (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â chaos) | Jun 2026 | Chief AI Architect |
-| D-SKL-003 | Support 4 composition patterns (Sequential, Parallel, Conditional, Fallback) | Covers all common orchestration needs; enables complex workflows without custom code | DAG-based only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â overkill for simple chains); sequential only (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no parallel/conditional); no composition (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â single-skill only) | Jun 2026 | Chief AI Architect |
-| D-SKL-004 | Implement 3-tier isolation model (shared, sandboxed, privileged) with default sandboxed for third-party skills | Security-first: third-party skills execute in restricted environment; trusted skills run with full access | Single isolation level (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no flexibility); VM-per-skill (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â overhead); no isolation (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â security risk) | Jun 2026 | Chief AI Architect |
-| D-SKL-005 | Adopt semantic versioning (semver) with explicit dependency constraints for all skills | Enables version compatibility management, dependency resolution, and safe upgrades | Sequential numbering (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no compatibility signal); date-based (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no sematic meaning); floating versions (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â unpredictable) | Jun 2026 | Chief AI Architect |
-| D-SKL-006 | Store skill registry in PostgreSQL with JSONB metadata and audit log | Leverages existing database infrastructure; JSONB enables flexible metadata without schema changes | Dedicated skill DB (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â infrastructure overhead); Redis (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no persistence guarantees); file-based (rejected ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â no concurrency safety) | Jun 2026 | Chief AI Architect |
+| ID        | Decision                                                                                                                                   | Rationale                                                                                                   | Alternatives Considered                                                                                                                                                                    | Date     | Approver           |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------------------ |
+| D-SKL-001 | Define skills as self-contained, versioned, permission-bounded capabilities distinct from tools                                            | Clear separation of concerns: skills are reusable cross-agent capabilities; tools are agent-local utilities | Unify skills and tools (rejected Ã¢â‚¬â€ no versioning, no registry); tools-only approach (rejected Ã¢â‚¬â€ no reuse); skills-only approach (rejected Ã¢â‚¬â€ no agent-specific utilities) | Jun 2026 | Chief AI Architect |
+| D-SKL-002 | Implement 6-stage skill lifecycle (Development Ã¢â€ â€™ Testing Ã¢â€ â€™ Staging Ã¢â€ â€™ Production Ã¢â€ â€™ Deprecated Ã¢â€ â€™ Retired) | Provides governance, testing gates, and deprecation window for all skills                                   | 3-stage (Dev/Prod/Retired) (rejected Ã¢â‚¬â€ insufficient testing); 4-stage (rejected Ã¢â‚¬â€ no deprecation); no lifecycle (rejected Ã¢â‚¬â€ chaos)                                       | Jun 2026 | Chief AI Architect |
+| D-SKL-003 | Support 4 composition patterns (Sequential, Parallel, Conditional, Fallback)                                                               | Covers all common orchestration needs; enables complex workflows without custom code                        | DAG-based only (rejected Ã¢â‚¬â€ overkill for simple chains); sequential only (rejected Ã¢â‚¬â€ no parallel/conditional); no composition (rejected Ã¢â‚¬â€ single-skill only)              | Jun 2026 | Chief AI Architect |
+| D-SKL-004 | Implement 3-tier isolation model (shared, sandboxed, privileged) with default sandboxed for third-party skills                             | Security-first: third-party skills execute in restricted environment; trusted skills run with full access   | Single isolation level (rejected Ã¢â‚¬â€ no flexibility); VM-per-skill (rejected Ã¢â‚¬â€ overhead); no isolation (rejected Ã¢â‚¬â€ security risk)                                          | Jun 2026 | Chief AI Architect |
+| D-SKL-005 | Adopt semantic versioning (semver) with explicit dependency constraints for all skills                                                     | Enables version compatibility management, dependency resolution, and safe upgrades                          | Sequential numbering (rejected Ã¢â‚¬â€ no compatibility signal); date-based (rejected Ã¢â‚¬â€ no sematic meaning); floating versions (rejected Ã¢â‚¬â€ unpredictable)                      | Jun 2026 | Chief AI Architect |
+| D-SKL-006 | Store skill registry in PostgreSQL with JSONB metadata and audit log                                                                       | Leverages existing database infrastructure; JSONB enables flexible metadata without schema changes          | Dedicated skill DB (rejected Ã¢â‚¬â€ infrastructure overhead); Redis (rejected Ã¢â‚¬â€ no persistence guarantees); file-based (rejected Ã¢â‚¬â€ no concurrency safety)                     | Jun 2026 | Chief AI Architect |
 
 ### 49.3 Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| R-SKL-001 | Skill dependency conflicts cause unresolvable version chains | Medium | Medium | Implement dependency resolution algorithm with conflict detection; document max dependency depth; regular dependency audit |
-| R-SKL-002 | Sandboxed third-party skill executes malicious code or exfiltrates data | Low | Critical | Restrict network access for sandboxed skills; limit file system access to scratch directory; runtime security monitoring; manual security review before marketplace approval |
-| R-SKL-003 | Skill execution pipeline performance degrades under high concurrency | Medium | Medium | Parallel execution for independent skills; skill timeout enforcement; concurrency limits per isolation level; performance budgets |
-| R-SKL-004 | Skill manifest drifts from actual implementation (missing parameters, changed behavior) | Medium | Medium | Automated manifest generation from code annotations; CI validation of manifest against implementation; integration tests for all registered skills |
-| R-SKL-005 | Poorly written skill leaks resources (memory, connections, file handles) | Medium | High | Resource quotas per skill execution; automatic cleanup on timeout; memory/CPU monitoring per skill; isolation levels prevent cross-skill interference |
+| ID        | Risk                                                                                    | Likelihood | Impact   | Mitigation                                                                                                                                                                   |
+| --------- | --------------------------------------------------------------------------------------- | ---------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| R-SKL-001 | Skill dependency conflicts cause unresolvable version chains                            | Medium     | Medium   | Implement dependency resolution algorithm with conflict detection; document max dependency depth; regular dependency audit                                                   |
+| R-SKL-002 | Sandboxed third-party skill executes malicious code or exfiltrates data                 | Low        | Critical | Restrict network access for sandboxed skills; limit file system access to scratch directory; runtime security monitoring; manual security review before marketplace approval |
+| R-SKL-003 | Skill execution pipeline performance degrades under high concurrency                    | Medium     | Medium   | Parallel execution for independent skills; skill timeout enforcement; concurrency limits per isolation level; performance budgets                                            |
+| R-SKL-004 | Skill manifest drifts from actual implementation (missing parameters, changed behavior) | Medium     | Medium   | Automated manifest generation from code annotations; CI validation of manifest against implementation; integration tests for all registered skills                           |
+| R-SKL-005 | Poorly written skill leaks resources (memory, connections, file handles)                | Medium     | High     | Resource quotas per skill execution; automatic cleanup on timeout; memory/CPU monitoring per skill; isolation levels prevent cross-skill interference                        |
 
 ### 49.4 Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/ai/18-AGENTS.md` (v5.0) | Multi-agent architecture -- agents consume skills; supervisor routes skill execution |
-| `docs/ai/17-AI_INSTRUCTIONS.md` (v5.0) | AI operating model -- safety rules, context management, evaluation |
-| `docs/ai/CommandSystem.md` | CLI and API for skill invocation (future) |
-| `docs/ai/AgentMarketplace.md` | Third-party agent and skill marketplace (future) |
-| `docs/ai/19-RAG.md` (v5.0) | RAG pipeline -- many skills serve as RAG retrieval primitives |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture -- AI service layer hosts skill execution |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema -- skill registry tables, audit logs |
-| `docs/security/SecurityArchitecture.md` | Security model -- permission system, authentication |
-| `docs/api/12-API.md` (v5.0) | API documentation -- skill invocation endpoints |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology decisions -- FastAPI, LangChain, pgvector |
+| Reference                                           | Description                                                                          |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `docs/08-ai/18-AGENTS.md` (v5.0)                    | Multi-agent architecture -- agents consume skills; supervisor routes skill execution |
+| `docs/08-ai/17-AI_INSTRUCTIONS.md` (v5.0)           | AI operating model -- safety rules, context management, evaluation                   |
+| `docs/08-ai/COMMAND-SYSTEM.md`                      | CLI and API for skill invocation (future)                                            |
+| `docs/08-ai/AGENT-MARKETPLACE.md`                   | Third-party agent and skill marketplace (future)                                     |
+| `docs/08-ai/19-RAG.md` (v5.0)                       | RAG pipeline -- many skills serve as RAG retrieval primitives                        |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0) | System architecture -- AI service layer hosts skill execution                        |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0)   | Database schema -- skill registry tables, audit logs                                 |
+| `docs/11-security/SecurityArchitecture.md`          | Security model -- permission system, authentication                                  |
+| `docs/10-api/12-API.md` (v5.0)                      | API documentation -- skill invocation endpoints                                      |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)       | Technology decisions -- FastAPI, LangChain, pgvector                                 |
 
 ### 49.5 Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0.0 | June 2026 | Initial skills system architecture: skill anatomy, registry, execution pipeline (6 steps), 4 composition patterns (sequential, parallel, conditional, fallback), semantic versioning, full lifecycle (6 stages), built-in catalog (60+ skills), permission model, audit trail, rate limiting, isolation levels, error handling, performance budgets, integration with AGENTS.md v4.0. Includes 8 mermaid diagrams, SQL schema, Python/TypeScript code examples, YAML manifests, 49 sections. | Chief AI Architect |
+| Version | Date      | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Author             |
+| ------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| 1.0.0   | June 2026 | Initial skills system architecture: skill anatomy, registry, execution pipeline (6 steps), 4 composition patterns (sequential, parallel, conditional, fallback), semantic versioning, full lifecycle (6 stages), built-in catalog (60+ skills), permission model, audit trail, rate limiting, isolation levels, error handling, performance budgets, integration with AGENTS.md v4.0. Includes 8 mermaid diagrams, SQL schema, Python/TypeScript code examples, YAML manifests, 49 sections. | Chief AI Architect |
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| Skill | A discrete capability that an agent can execute |
+| Term           | Definition                                                             |
+| -------------- | ---------------------------------------------------------------------- |
+| Skill          | A discrete capability that an agent can execute                        |
 | Skill Manifest | Declarative document defining a skill's interface, inputs, and outputs |
-| Skill Chain | Sequence of skills executed in order to complete a task |
-| Skill Registry | Central directory of all registered skills and their versions |
-| Hook | Integration point where skills can extend core agent functionality |
-| Policy | Rule set governing skill execution, permissions, and constraints |
-| Execution Plan | Graph of skill nodes and their dependencies for a task |
-| Skill Context | Data passed to a skill including session state and parameters |
-| Timeout | Maximum execution time before a skill is terminated |
-| Retry Policy | Rules for re-executing a failed skill |
-| Rollback | Reverting the effects of a partially executed skill chain |
-| Capability | A higher-level function composed of one or more skills |
-| Dependency | A skill that must complete before another can start |
-| Version Pin | Locking a skill to a specific version to prevent breaking changes |
-| Sandbox | Isolated execution environment for running skills safely |
+| Skill Chain    | Sequence of skills executed in order to complete a task                |
+| Skill Registry | Central directory of all registered skills and their versions          |
+| Hook           | Integration point where skills can extend core agent functionality     |
+| Policy         | Rule set governing skill execution, permissions, and constraints       |
+| Execution Plan | Graph of skill nodes and their dependencies for a task                 |
+| Skill Context  | Data passed to a skill including session state and parameters          |
+| Timeout        | Maximum execution time before a skill is terminated                    |
+| Retry Policy   | Rules for re-executing a failed skill                                  |
+| Rollback       | Reverting the effects of a partially executed skill chain              |
+| Capability     | A higher-level function composed of one or more skills                 |
+| Dependency     | A skill that must complete before another can start                    |
+| Version Pin    | Locking a skill to a specific version to prevent breaking changes      |
+| Sandbox        | Isolated execution environment for running skills safely               |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial skills system architecture | Chief AI Architect |
+| Version | Date     | Changes                            | Author             |
+| ------- | -------- | ---------------------------------- | ------------------ |
+| 1.0     | Jun 2026 | Initial skills system architecture | Chief AI Architect |
 
 ---
 
-> ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> Ã¢Å¡Â Ã¯Â¸Â **Implementation Status:** Design Spec Only. Not implemented in current codebase.
 
 ## Cross-References
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system
+
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

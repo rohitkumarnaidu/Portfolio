@@ -1,10 +1,10 @@
 > **Status:** ?? Design Spec � forward-looking design, not yet implemented
 
-# AI Assistant Architecture - Enterprise-Grade AI System
+# AI Architecture Ã¢â‚¬â€ FAANG Enterprise Multi-LLM System
 
-> **File:** 08g-AI-ASSISTANT-ARCHITECTURE.md | **Version:** 1.0 | **Last Updated:** June 2026
+> **Document:** `AI-ARCHITECTURE.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026
 > **Status:** Active | **AI Runtime:** FastAPI + LangChain | **Vector Store:** Supabase pgvector
-> **Primary Model:** Claude Sonnet 4 | **Fallback Model:** GPT-4o | **Embedding:** text-embedding-3-small (1536-dim)
+> **Models:** Dynamic Routing (Claude 3.5 Sonnet / GPT-4o / Llama 3) | **Embedding:** text-embedding-3-small (1536-dim)
 > **AI Operating Model:** docs/08-ai/17-AI_INSTRUCTIONS.md | **RAG Pipeline:** docs/08-ai/19-RAG.md | **Multi-Agent:** docs/08-ai/18-AGENTS.md
 
 ---

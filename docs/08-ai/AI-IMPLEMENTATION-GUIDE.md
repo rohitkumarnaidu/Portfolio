@@ -29,21 +29,21 @@
 
 The AI service (`apps/ai`) is a **FastAPI** application that provides:
 
-| Capability | Status | Details |
-|---|---|---|
-| Health check | ✅ Working | `GET /api/health` — returns status, database state, LLM provider |
-| Chat (streaming SSE) | ✅ Working | `POST /api/chat` — LangChain OpenAI streaming with RAG context |
-| Analyze (stub) | ⚠️ Stub | `POST /api/analyze` — returns placeholder data |
-| Suggest (stub) | ⚠️ Stub | `POST /api/suggest` — returns placeholder data |
-| Agent Code Assistant | ✅ Working | `POST /api/agent/code` — streaming code assistant for admin sandbox |
-| RAG Pipeline | ✅ Coded | Embedding generation, pgvector retrieval, chunk ingestion all implemented |
-| Rate Limiting | ✅ Working | In-memory per-IP rate limiter (30 req/min) |
-| Input Sanitizer | ⚠️ Basic | Length check only |
-| PII Filter | ❌ Passthrough | Registered but does nothing |
-| Analytics | ❌ Stub | `AnalyticsService` is a no-op |
-| Cache | ❌ Stub | `CacheService` returns `None` for all keys |
-| Cost Controller | ❌ Stub | `CostController` allows everything |
-| Conversation Manager | ❌ Stub | `ConversationManager` returns empty history |
+| Capability           | Status         | Details                                                                   |
+| -------------------- | -------------- | ------------------------------------------------------------------------- |
+| Health check         | ✅ Working     | `GET /api/health` — returns status, database state, LLM provider          |
+| Chat (streaming SSE) | ✅ Working     | `POST /api/chat` — LangChain OpenAI streaming with RAG context            |
+| Analyze (stub)       | ⚠️ Stub        | `POST /api/analyze` — returns placeholder data                            |
+| Suggest (stub)       | ⚠️ Stub        | `POST /api/suggest` — returns placeholder data                            |
+| Agent Code Assistant | ✅ Working     | `POST /api/agent/code` — streaming code assistant for admin sandbox       |
+| RAG Pipeline         | ✅ Coded       | Embedding generation, pgvector retrieval, chunk ingestion all implemented |
+| Rate Limiting        | ✅ Working     | In-memory per-IP rate limiter (30 req/min)                                |
+| Input Sanitizer      | ⚠️ Basic       | Length check only                                                         |
+| PII Filter           | ❌ Passthrough | Registered but does nothing                                               |
+| Analytics            | ❌ Stub        | `AnalyticsService` is a no-op                                             |
+| Cache                | ❌ Stub        | `CacheService` returns `None` for all keys                                |
+| Cost Controller      | ❌ Stub        | `CostController` allows everything                                        |
+| Conversation Manager | ❌ Stub        | `ConversationManager` returns empty history                               |
 
 > **Important:** The service is functional but several supporting services are stubs awaiting real implementations (Redis for cache, database-backed analytics, proper PII detection).
 
@@ -122,24 +122,24 @@ Configuration is loaded via `pydantic-settings` from `.env`. See `app/config.py`
 
 Defined in `app/config.py` as a `Settings` class loaded from environment variables:
 
-| Category | Key | Default | Description |
-|---|---|---|---|
-| App | `APP_NAME` | "Portfolio AI" | Service name |
-| App | `DEBUG` | `False` | Enable debug mode + /docs |
-| App | `CORS_ORIGINS` | localhost:3000 | Allowed origins |
-| Database | `DATABASE_URL` | — | PostgreSQL connection string |
-| Database | `DATABASE_POOL_SIZE` | 10 | Connection pool size |
-| OpenAI | `OPENAI_API_KEY` | — | Required for chat + embeddings |
-| OpenAI | `OPENAI_CHAT_MODEL` | gpt-4o | Chat model ID |
-| OpenAI | `OPENAI_EMBEDDING_MODEL` | text-embedding-3-small | Embedding model ID |
-| Anthropic | `ANTHROPIC_API_KEY` | — | Optional fallback provider |
-| Anthropic | `ANTHROPIC_CHAT_MODEL` | claude-sonnet-4-20250514 | Premium tier model |
-| Redis | `REDIS_URL` | — | Optional cache backend |
-| RAG | `CHUNK_SIZE` | 500 | Text chunk size |
-| RAG | `TOP_K_VECTOR` | 20 | Vector search results |
-| RAG | `RERANK_TOP_K` | 5 | Final reranked count |
-| Rate Limit | `RATE_LIMIT_REQUESTS` | 30 | Requests per window |
-| Budget | `MONTHLY_BUDGET_USD` | 10.0 | Monthly spending cap |
+| Category   | Key                      | Default                  | Description                    |
+| ---------- | ------------------------ | ------------------------ | ------------------------------ |
+| App        | `APP_NAME`               | "Portfolio AI"           | Service name                   |
+| App        | `DEBUG`                  | `False`                  | Enable debug mode + /docs      |
+| App        | `CORS_ORIGINS`           | localhost:3000           | Allowed origins                |
+| Database   | `DATABASE_URL`           | —                        | PostgreSQL connection string   |
+| Database   | `DATABASE_POOL_SIZE`     | 10                       | Connection pool size           |
+| OpenAI     | `OPENAI_API_KEY`         | —                        | Required for chat + embeddings |
+| OpenAI     | `OPENAI_CHAT_MODEL`      | gpt-4o                   | Chat model ID                  |
+| OpenAI     | `OPENAI_EMBEDDING_MODEL` | text-embedding-3-small   | Embedding model ID             |
+| Anthropic  | `ANTHROPIC_API_KEY`      | —                        | Optional fallback provider     |
+| Anthropic  | `ANTHROPIC_CHAT_MODEL`   | claude-sonnet-4-20250514 | Premium tier model             |
+| Redis      | `REDIS_URL`              | —                        | Optional cache backend         |
+| RAG        | `CHUNK_SIZE`             | 500                      | Text chunk size                |
+| RAG        | `TOP_K_VECTOR`           | 20                       | Vector search results          |
+| RAG        | `RERANK_TOP_K`           | 5                        | Final reranked count           |
+| Rate Limit | `RATE_LIMIT_REQUESTS`    | 30                       | Requests per window            |
+| Budget     | `MONTHLY_BUDGET_USD`     | 10.0                     | Monthly spending cap           |
 
 ---
 
@@ -163,6 +163,7 @@ Streaming chat endpoint. Accepts a message, optional session_id, page_context, a
 ### `POST /api/analyze`
 
 Stub. Accepts `content` and `analysis_type`. Returns:
+
 ```json
 { "score": 0, "suggestions": [], "metrics": {} }
 ```
@@ -170,6 +171,7 @@ Stub. Accepts `content` and `analysis_type`. Returns:
 ### `POST /api/suggest`
 
 Stub. Accepts `content` and `suggestion_type`. Returns:
+
 ```json
 { "suggestions": [], "original_content": "..." }
 ```
@@ -270,6 +272,7 @@ CREATE INDEX IF NOT EXISTS idx_content_embeddings_vector ON content_embeddings U
 ## Adding a New Endpoint
 
 1. Create the route file in `app/routes/` (or add to existing):
+
 ```python
 from fastapi import APIRouter
 from pydantic import BaseModel
@@ -285,6 +288,7 @@ async def my_endpoint(request: MyRequest):
 ```
 
 2. Register in `app/main.py`:
+
 ```python
 from app.routes import my_module
 app.include_router(my_module.router, prefix="/api")
@@ -297,6 +301,7 @@ app.include_router(my_module.router, prefix="/api")
 ## Adding a New Service
 
 1. Create the service class in `app/services/`:
+
 ```python
 class MyService:
     def __init__(self, db_session=None):
@@ -307,6 +312,7 @@ class MyService:
 ```
 
 2. Initialize in the `lifespan` handler in `main.py` if it needs app-wide state:
+
 ```python
 app.state.my_service = MyService()
 ```
@@ -330,6 +336,7 @@ mkdir -p tests
 ```
 
 Recommended test structure:
+
 ```
 tests/
 ├── conftest.py        # FastAPI TestClient fixtures
@@ -364,6 +371,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 The `npm run dev:ai` command starts uvicorn with hot-reload. For production, add a proper Docker build step to the Turborepo pipeline configuration.
 
 ### Required runtime dependencies:
+
 - PostgreSQL 15+ with pgvector extension
 - OpenAI API key (or Anthropic key for premium tier)
 - (Optional) Redis for caching
@@ -390,23 +398,23 @@ The `npm run dev:ai` command starts uvicorn with hot-reload. For production, add
 
 ## Roadmap
 
-| Priority | Feature | Depends on |
-|---|---|---|
-| P0 | Real health checks (DB ping, LLM connectivity) | — |
-| P0 | Authentication middleware | Shared auth contract |
-| P1 | Redis-backed cache for embeddings | Redis URL config |
-| P1 | Conversation persistence in PostgreSQL | ConversationManager implementation |
-| P1 | Cost tracking + budget enforcement | CostController implementation |
-| P1 | Pytest test suite | Test framework setup |
-| P2 | PII detection (regex + NLP) | PIIFilterMiddleware rewrite |
-| P2 | Analytics pipeline | AnalyticsService + DB schema |
-| P2 | Distributed rate limiting (Redis) | Redis URL config |
-| P3 | Multi-agent orchestration | Full agent system design |
-| P3 | Agent marketplace | Marketplace API spec |
-| P3 | Prompt versioning system | Prompt library design |
+| Priority | Feature                                        | Depends on                         |
+| -------- | ---------------------------------------------- | ---------------------------------- |
+| P0       | Real health checks (DB ping, LLM connectivity) | —                                  |
+| P0       | Authentication middleware                      | Shared auth contract               |
+| P1       | Redis-backed cache for embeddings              | Redis URL config                   |
+| P1       | Conversation persistence in PostgreSQL         | ConversationManager implementation |
+| P1       | Cost tracking + budget enforcement             | CostController implementation      |
+| P1       | Pytest test suite                              | Test framework setup               |
+| P2       | PII detection (regex + NLP)                    | PIIFilterMiddleware rewrite        |
+| P2       | Analytics pipeline                             | AnalyticsService + DB schema       |
+| P2       | Distributed rate limiting (Redis)              | Redis URL config                   |
+| P3       | Multi-agent orchestration                      | Full agent system design           |
+| P3       | Agent marketplace                              | Marketplace API spec               |
+| P3       | Prompt versioning system                       | Prompt library design              |
 
 ---
 
 > **Last updated:** July 2026  
 > **Maintainer:** AI/ML team  
-> **Related:** [ADR-006](../27-decisions/ADR-006-fastapi-ai.md), [AI Strategy](./strategy.md), [Model Decision Matrix](./model-decision-matrix.md)
+> **Related:** [ADR-006](../27-decisions/ADR-006-fastapi-ai.md), [AI Strategy](./STRATEGY.md), [Model Decision Matrix](./MODEL-DECISION-MATRIX.md)

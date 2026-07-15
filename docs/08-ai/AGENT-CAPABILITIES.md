@@ -1,4 +1,5 @@
 ﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+
 # Agent Capabilities
 
 **Document Version:** v1.0  
@@ -46,14 +47,14 @@ The entire multi-agent architecture is built on capability-driven routing:
 
 ### 1.3 Design Principles
 
-| Principle | Description |
-|---|---|
-| **Declarative** | Capabilities are declared in machine-readable manifests, not hard-coded |
-| **Discoverable** | The Supervisor discovers capabilities at startup and on a refresh cycle |
-| **Versioned** | Every capability carries a semver version; breaking changes are signaled |
-| **Composable** | Multiple capabilities can be chained or merged for complex intents |
-| **Measurable** | Every capability has confidence threshold, cost tier, and rate limits |
-| **Graceful** | Low-confidence matches trigger clarification or fallback, never silent failure |
+| Principle        | Description                                                                    |
+| ---------------- | ------------------------------------------------------------------------------ |
+| **Declarative**  | Capabilities are declared in machine-readable manifests, not hard-coded        |
+| **Discoverable** | The Supervisor discovers capabilities at startup and on a refresh cycle        |
+| **Versioned**    | Every capability carries a semver version; breaking changes are signaled       |
+| **Composable**   | Multiple capabilities can be chained or merged for complex intents             |
+| **Measurable**   | Every capability has confidence threshold, cost tier, and rate limits          |
+| **Graceful**     | Low-confidence matches trigger clarification or fallback, never silent failure |
 
 ---
 
@@ -180,7 +181,14 @@ Each agent publishes a capability manifest â€” a JSON document that describ
   "definitions": {
     "Capability": {
       "type": "object",
-      "required": ["name", "version", "description", "input_schema", "output_schema", "confidence_threshold"],
+      "required": [
+        "name",
+        "version",
+        "description",
+        "input_schema",
+        "output_schema",
+        "confidence_threshold"
+      ],
       "properties": {
         "name": {
           "type": "string",
@@ -276,7 +284,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "fallback_chain": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["route_to_agent"]
     },
     {
@@ -317,7 +325,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "status": { "type": "string", "enum": ["escalated", "already_exists", "invalid"] }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["escalate_to_lead"]
     },
     {
@@ -338,7 +346,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "status": { "type": "string", "enum": ["escalated", "logged"] }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["escalate_to_admin"]
     },
     {
@@ -363,8 +371,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     }
   ],
   "knowledge_sources": [
-    { "name": "AgentRegistry", "type": "graph_store", "description": "Full graph of all agent capability manifests." },
-    { "name": "SessionStore", "type": "cache", "description": "Short-term session context and conversation history." }
+    {
+      "name": "AgentRegistry",
+      "type": "graph_store",
+      "description": "Full graph of all agent capability manifests."
+    },
+    {
+      "name": "SessionStore",
+      "type": "cache",
+      "description": "Short-term session context and conversation history."
+    }
   ],
   "input_constraints": {
     "max_query_length": 4000,
@@ -372,7 +388,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     "max_tokens": 2048
   },
   "output_formats": ["text", "markdown", "json"],
-  "confidence_threshold": 0.80,
+  "confidence_threshold": 0.8,
   "fallback_agent": null,
   "rate_limits": {
     "requests_per_minute": 200,
@@ -432,7 +448,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "projects": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["How well do you know Python?", "What is your experience with AWS?"]
     },
     {
@@ -444,7 +460,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "required": ["query"],
         "properties": {
           "query": { "type": "string", "maxLength": 2000 },
-          "category": { "type": "string", "enum": ["frontend", "backend", "devops", "database", "all"] }
+          "category": {
+            "type": "string",
+            "enum": ["frontend", "backend", "devops", "database", "all"]
+          }
         }
       },
       "output_schema": {
@@ -454,7 +473,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "primary_stack": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["What tech stack do you use?", "What frontend frameworks do you know?"]
     },
     {
@@ -477,7 +496,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         }
       },
       "confidence_threshold": 0.85,
-      "examples": ["How many years of experience do you have?", "What industries have you worked in?"]
+      "examples": [
+        "How many years of experience do you have?",
+        "What industries have you worked in?"
+      ]
     },
     {
       "name": "provide_availability_info",
@@ -499,13 +521,21 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "preferred_roles": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Are you available for hire?", "What is your availability for freelance work?"]
     }
   ],
   "knowledge_sources": [
-    { "name": "PortfolioProfile", "type": "file_system", "description": "Structured YAML profile of the portfolio owner." },
-    { "name": "SkillMatrix", "type": "vector_store", "description": "Embedding index of skill descriptions and proficiency data." }
+    {
+      "name": "PortfolioProfile",
+      "type": "file_system",
+      "description": "Structured YAML profile of the portfolio owner."
+    },
+    {
+      "name": "SkillMatrix",
+      "type": "vector_store",
+      "description": "Embedding index of skill descriptions and proficiency data."
+    }
   ],
   "input_constraints": {
     "max_query_length": 2000,
@@ -513,7 +543,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     "max_tokens": 1024
   },
   "output_formats": ["text", "markdown", "json"],
-  "confidence_threshold": 0.80,
+  "confidence_threshold": 0.8,
   "fallback_agent": "ResumeAgent",
   "rate_limits": {
     "requests_per_minute": 100,
@@ -548,7 +578,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "qualifications": { "type": "array", "items": { "type": "object" } }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["What are your qualifications?", "List your technical certifications"]
     },
     {
@@ -569,7 +599,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "total_positions": { "type": "integer" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["What is your work history?", "Where did you work before?"]
     },
     {
@@ -625,7 +655,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "type": "object",
         "properties": {
           "skill": { "type": "string" },
-          "proficiency": { "type": "string", "enum": ["beginner", "intermediate", "advanced", "expert"] },
+          "proficiency": {
+            "type": "string",
+            "enum": ["beginner", "intermediate", "advanced", "expert"]
+          },
           "years": { "type": "number" }
         }
       },
@@ -656,7 +689,11 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     }
   ],
   "knowledge_sources": [
-    { "name": "ResumeStore", "type": "file_system", "description": "Structured resume data and formatted document templates." }
+    {
+      "name": "ResumeStore",
+      "type": "file_system",
+      "description": "Structured resume data and formatted document templates."
+    }
   ],
   "input_constraints": {
     "max_query_length": 1000,
@@ -704,7 +741,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "page": { "type": "integer" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Show me your projects", "What projects have you built?"]
     },
     {
@@ -730,7 +767,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "link": { "type": "string" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Tell me about project X", "Show details of the e-commerce platform"]
     },
     {
@@ -763,7 +800,12 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "type": "object",
         "required": ["project_ids"],
         "properties": {
-          "project_ids": { "type": "array", "minItems": 2, "maxItems": 5, "items": { "type": "string" } }
+          "project_ids": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 5,
+            "items": { "type": "string" }
+          }
         }
       },
       "output_schema": {
@@ -773,7 +815,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "dimensions": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["Compare project A and B", "Which project had more impact?"]
     },
     {
@@ -800,8 +842,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     }
   ],
   "knowledge_sources": [
-    { "name": "ProjectDatabase", "type": "sql_database", "description": "Relational database of all portfolio projects." },
-    { "name": "NDARegistry", "type": "graph_store", "description": "Access control graph for NDA-restricted projects." }
+    {
+      "name": "ProjectDatabase",
+      "type": "sql_database",
+      "description": "Relational database of all portfolio projects."
+    },
+    {
+      "name": "NDARegistry",
+      "type": "graph_store",
+      "description": "Access control graph for NDA-restricted projects."
+    }
   ],
   "input_constraints": {
     "max_query_length": 2000,
@@ -871,7 +921,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "read_time_minutes": { "type": "integer" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Summarize your latest post", "Give me a summary of the article on AI"]
     },
     {
@@ -892,7 +942,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "based_on": { "type": "string" }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["Recommend some articles", "What should I read next about cloud computing?"]
     },
     {
@@ -914,13 +964,21 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "count": { "type": "integer" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Show all articles about Docker", "Browse posts tagged with JavaScript"]
     }
   ],
   "knowledge_sources": [
-    { "name": "BlogIndex", "type": "vector_store", "description": "Embedding index of all blog articles." },
-    { "name": "BlogMetadata", "type": "sql_database", "description": "Relational metadata for tags, dates, and read times." }
+    {
+      "name": "BlogIndex",
+      "type": "vector_store",
+      "description": "Embedding index of all blog articles."
+    },
+    {
+      "name": "BlogMetadata",
+      "type": "sql_database",
+      "description": "Relational metadata for tags, dates, and read times."
+    }
   ],
   "input_constraints": {
     "max_query_length": 500,
@@ -928,7 +986,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     "max_tokens": 1024
   },
   "output_formats": ["text", "markdown", "json"],
-  "confidence_threshold": 0.80,
+  "confidence_threshold": 0.8,
   "fallback_agent": "KnowledgeAgent",
   "rate_limits": {
     "requests_per_minute": 80,
@@ -970,7 +1028,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "results": { "type": "string" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Walk me through the fintech case study", "Tell me about the healthcare project"]
     },
     {
@@ -1015,7 +1073,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         }
       },
       "confidence_threshold": 0.85,
-      "examples": ["What was the impact of the migration project?", "Show me the metrics for the DevOps case study"]
+      "examples": [
+        "What was the impact of the migration project?",
+        "Show me the metrics for the DevOps case study"
+      ]
     },
     {
       "name": "compare_case_studies",
@@ -1025,7 +1086,12 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "type": "object",
         "required": ["case_study_ids"],
         "properties": {
-          "case_study_ids": { "type": "array", "minItems": 2, "maxItems": 5, "items": { "type": "string" } }
+          "case_study_ids": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 5,
+            "items": { "type": "string" }
+          }
         }
       },
       "output_schema": {
@@ -1035,12 +1101,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "dimensions": { "type": "array", "items": { "type": "string" } }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["Compare the fintech and healthcare case studies"]
     }
   ],
   "knowledge_sources": [
-    { "name": "CaseStudyStore", "type": "file_system", "description": "Markdown and structured data files for each case study." }
+    {
+      "name": "CaseStudyStore",
+      "type": "file_system",
+      "description": "Markdown and structured data files for each case study."
+    }
   ],
   "input_constraints": {
     "max_query_length": 2000,
@@ -1085,7 +1155,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "span_years": { "type": "integer" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Show me your career timeline", "What is your career progression?"]
     },
     {
@@ -1129,7 +1199,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         }
       },
       "confidence_threshold": 0.85,
-      "examples": ["Why did you move from engineering to architecture?", "Describe your transition to management"]
+      "examples": [
+        "Why did you move from engineering to architecture?",
+        "Describe your transition to management"
+      ]
     },
     {
       "name": "get_industry_experience",
@@ -1148,12 +1221,19 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "primary_industry": { "type": "string" }
         }
       },
-      "confidence_threshold": 0.90,
-      "examples": ["What industries have you worked in?", "Tell me about your experience in fintech"]
+      "confidence_threshold": 0.9,
+      "examples": [
+        "What industries have you worked in?",
+        "Tell me about your experience in fintech"
+      ]
     }
   ],
   "knowledge_sources": [
-    { "name": "CareerStore", "type": "sql_database", "description": "Relational database of career events, transitions, and industry data." }
+    {
+      "name": "CareerStore",
+      "type": "sql_database",
+      "description": "Relational database of career events, transitions, and industry data."
+    }
   ],
   "input_constraints": {
     "max_query_length": 2000,
@@ -1195,11 +1275,14 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "type": "object",
         "properties": {
           "is_lead": { "type": "boolean" },
-          "intent_type": { "type": "string", "enum": ["hiring", "freelance", "collaboration", "consulting", "other"] },
+          "intent_type": {
+            "type": "string",
+            "enum": ["hiring", "freelance", "collaboration", "consulting", "other"]
+          },
           "confidence": { "type": "number" }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["I want to hire you", "Are you available for a project?"]
     },
     {
@@ -1287,8 +1370,14 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "required": ["lead_id", "notification_type"],
         "properties": {
           "lead_id": { "type": "string" },
-          "notification_type": { "type": "string", "enum": ["new_lead", "high_score", "follow_up"] },
-          "channels": { "type": "array", "items": { "type": "string", "enum": ["email", "slack", "sms"] } }
+          "notification_type": {
+            "type": "string",
+            "enum": ["new_lead", "high_score", "follow_up"]
+          },
+          "channels": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["email", "slack", "sms"] }
+          }
         }
       },
       "output_schema": {
@@ -1303,8 +1392,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     }
   ],
   "knowledge_sources": [
-    { "name": "CRM", "type": "sql_database", "description": "Lead records and qualification history." },
-    { "name": "NotificationService", "type": "api", "description": "External notification dispatch API." }
+    {
+      "name": "CRM",
+      "type": "sql_database",
+      "description": "Lead records and qualification history."
+    },
+    {
+      "name": "NotificationService",
+      "type": "api",
+      "description": "External notification dispatch API."
+    }
   ],
   "input_constraints": {
     "max_query_length": 2000,
@@ -1360,7 +1457,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "series": { "type": "array", "items": { "type": "object" } }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["How many visitors this month?", "Show me traffic stats"]
     },
     {
@@ -1382,7 +1479,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         }
       },
       "confidence_threshold": 0.85,
-      "examples": ["Which project page gets the most views?", "What is the best performing content?"]
+      "examples": [
+        "Which project page gets the most views?",
+        "What is the best performing content?"
+      ]
     },
     {
       "name": "get_conversion_data",
@@ -1428,12 +1528,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "summary": { "type": "string" }
         }
       },
-      "confidence_threshold": 0.90,
+      "confidence_threshold": 0.9,
       "examples": ["Generate a monthly report", "Create an analytics report for Q1"]
     }
   ],
   "knowledge_sources": [
-    { "name": "AnalyticsStore", "type": "sql_database", "description": "Aggregated analytics data and event logs." }
+    {
+      "name": "AnalyticsStore",
+      "type": "sql_database",
+      "description": "Aggregated analytics data and event logs."
+    }
   ],
   "input_constraints": {
     "max_query_length": 1000,
@@ -1469,7 +1573,10 @@ Each agent publishes a capability manifest â€” a JSON document that describ
         "required": ["action", "content_type"],
         "properties": {
           "action": { "type": "string", "enum": ["create", "update", "delete", "list"] },
-          "content_type": { "type": "string", "enum": ["project", "blog", "case_study", "profile"] },
+          "content_type": {
+            "type": "string",
+            "enum": ["project", "blog", "case_study", "profile"]
+          },
           "data": { "type": "object" }
         }
       },
@@ -1581,8 +1688,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     }
   ],
   "knowledge_sources": [
-    { "name": "SystemConfig", "type": "file_system", "description": "Configuration files and environment settings." },
-    { "name": "LogStore", "type": "file_system", "description": "Rotating log files for system observability." }
+    {
+      "name": "SystemConfig",
+      "type": "file_system",
+      "description": "Configuration files and environment settings."
+    },
+    {
+      "name": "LogStore",
+      "type": "file_system",
+      "description": "Rotating log files for system observability."
+    }
   ],
   "input_constraints": {
     "max_query_length": 2000,
@@ -1630,7 +1745,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
           "total_results": { "type": "integer" }
         }
       },
-      "confidence_threshold": 0.80,
+      "confidence_threshold": 0.8,
       "examples": ["Search knowledge base for microservices patterns"]
     },
     {
@@ -1702,8 +1817,16 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     }
   ],
   "knowledge_sources": [
-    { "name": "VectorIndex", "type": "vector_store", "description": "Primary vector search index over all knowledge base content." },
-    { "name": "DocumentStore", "type": "file_system", "description": "Raw document storage with metadata." }
+    {
+      "name": "VectorIndex",
+      "type": "vector_store",
+      "description": "Primary vector search index over all knowledge base content."
+    },
+    {
+      "name": "DocumentStore",
+      "type": "file_system",
+      "description": "Raw document storage with metadata."
+    }
   ],
   "input_constraints": {
     "max_query_length": 1000,
@@ -1711,7 +1834,7 @@ Each agent publishes a capability manifest â€” a JSON document that describ
     "max_tokens": 4096
   },
   "output_formats": ["text", "markdown", "json"],
-  "confidence_threshold": 0.80,
+  "confidence_threshold": 0.8,
   "fallback_agent": "BlogAgent",
   "rate_limits": {
     "requests_per_minute": 60,
@@ -1753,13 +1876,13 @@ The Supervisor discovers agent capabilities through the following protocol:
 
 ### 3.3 Cache Strategy
 
-| Parameter | Value |
-|---|---|
-| Default TTL | 300 seconds (5 minutes) |
-| Cache backend | In-memory (Supervisor local) |
-| Eviction policy | Time-based (TTL) |
-| Stale-on-error | Return cached entry if registry is unreachable |
-| Maximum entries | 1000 |
+| Parameter       | Value                                          |
+| --------------- | ---------------------------------------------- |
+| Default TTL     | 300 seconds (5 minutes)                        |
+| Cache backend   | In-memory (Supervisor local)                   |
+| Eviction policy | Time-based (TTL)                               |
+| Stale-on-error  | Return cached entry if registry is unreachable |
+| Maximum entries | 1000                                           |
 
 ### 3.4 Discovery Sequence
 
@@ -1807,15 +1930,15 @@ sequenceDiagram
 
 ### 3.5 Registry API Endpoints
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/register` | Register or update an agent manifest |
-| `DELETE` | `/register/{agent_name}` | Unregister an agent |
-| `GET` | `/manifests` | Retrieve all manifests |
-| `GET` | `/manifests/{agent_name}` | Retrieve a specific agent manifest |
-| `GET` | `/search?capability={name}` | Find agents by capability name |
-| `GET` | `/health/{agent_name}` | Get agent health status |
-| `PATCH` | `/agent/{agent_name}/status` | Update agent online/offline status |
+| Method   | Endpoint                     | Description                          |
+| -------- | ---------------------------- | ------------------------------------ |
+| `POST`   | `/register`                  | Register or update an agent manifest |
+| `DELETE` | `/register/{agent_name}`     | Unregister an agent                  |
+| `GET`    | `/manifests`                 | Retrieve all manifests               |
+| `GET`    | `/manifests/{agent_name}`    | Retrieve a specific agent manifest   |
+| `GET`    | `/search?capability={name}`  | Find agents by capability name       |
+| `GET`    | `/health/{agent_name}`       | Get agent health status              |
+| `PATCH`  | `/agent/{agent_name}/status` | Update agent online/offline status   |
 
 ---
 
@@ -1998,20 +2121,20 @@ class IntentCapabilityMatcher:
 
 ### 4.3 Threshold Gating Rules
 
-| Confidence Range | Routing Decision | Behavior |
-|---|---|---|
-| 0.00 - 0.59 | **Clarify** | Return clarification prompt with candidate hint |
-| 0.60 - 0.79 | **Route with Warning** | Route to agent, include confidence warning in response metadata |
-| 0.80 - 0.89 | **Route (Standard)** | Route directly with no warning |
-| 0.90 - 1.00 | **Route (High Confidence)** | Route directly, potential auto-execution for non-interactive flows |
+| Confidence Range | Routing Decision            | Behavior                                                           |
+| ---------------- | --------------------------- | ------------------------------------------------------------------ |
+| 0.00 - 0.59      | **Clarify**                 | Return clarification prompt with candidate hint                    |
+| 0.60 - 0.79      | **Route with Warning**      | Route to agent, include confidence warning in response metadata    |
+| 0.80 - 0.89      | **Route (Standard)**        | Route directly with no warning                                     |
+| 0.90 - 1.00      | **Route (High Confidence)** | Route directly, potential auto-execution for non-interactive flows |
 
 ### 4.4 Confidence Score Components
 
-| Component | Weight | Description |
-|---|---|---|
-| Semantic Similarity | 0.60 | Cosine similarity between query embedding and capability description embedding |
-| Intent Category Match | 0.25 | Bonus if the intent category aligns with the capability's domain tags |
-| Entity Coverage | 0.15 | Fraction of required input fields that were extracted from the query |
+| Component             | Weight | Description                                                                    |
+| --------------------- | ------ | ------------------------------------------------------------------------------ |
+| Semantic Similarity   | 0.60   | Cosine similarity between query embedding and capability description embedding |
+| Intent Category Match | 0.25   | Bonus if the intent category aligns with the capability's domain tags          |
+| Entity Coverage       | 0.15   | Fraction of required input fields that were extracted from the query           |
 
 ---
 
@@ -2105,14 +2228,14 @@ sequenceDiagram
 
 The `merge_responses` capability on the Supervisor Agent uses the following strategy:
 
-| Condition | Merge Strategy |
-|---|---|
-| Single response | Return as-is |
-| Same agent, same intent | Concatenate with deduplication |
-| Different agents, related topics | Sectioned merge with headers per agent |
-| Different agents, unrelated topics | Bullet list with source attribution |
-| Conflicting responses | Use highest confidence result, note the conflict |
-| Empty or error responses | Omit from merge, note in metadata |
+| Condition                          | Merge Strategy                                   |
+| ---------------------------------- | ------------------------------------------------ |
+| Single response                    | Return as-is                                     |
+| Same agent, same intent            | Concatenate with deduplication                   |
+| Different agents, related topics   | Sectioned merge with headers per agent           |
+| Different agents, unrelated topics | Bullet list with source attribution              |
+| Conflicting responses              | Use highest confidence result, note the conflict |
+| Empty or error responses           | Omit from merge, note in metadata                |
 
 ### 5.6 Composition Rules
 
@@ -2178,16 +2301,16 @@ MAJOR.MINOR.PATCH
 
 ### 6.2 Breaking vs Non-Breaking Changes
 
-| Change Type | Category | Bump | Example |
-|---|---|---|---|
-| Add new optional input field | Non-breaking | MINOR | Adding `sort_by` to project list query |
-| Add new output field | Non-breaking | MINOR | Returning `read_time_minutes` from blog summary |
-| Deprecate a field | Non-breaking | MINOR | Marking `old_field` as deprecated in schema |
-| Remove a required input field | Breaking | MAJOR | Making `project_id` no longer required |
-| Change output format | Breaking | MAJOR | Switching from CSV to JSON |
-| Change capability semantics | Breaking | MAJOR | `filter_by_technology` now requires exact match |
-| Fix a bug in behavior | Non-breaking | PATCH | Correcting off-by-one in pagination |
-| Performance improvement | Non-breaking | PATCH | Reducing response time without API change |
+| Change Type                   | Category     | Bump  | Example                                         |
+| ----------------------------- | ------------ | ----- | ----------------------------------------------- |
+| Add new optional input field  | Non-breaking | MINOR | Adding `sort_by` to project list query          |
+| Add new output field          | Non-breaking | MINOR | Returning `read_time_minutes` from blog summary |
+| Deprecate a field             | Non-breaking | MINOR | Marking `old_field` as deprecated in schema     |
+| Remove a required input field | Breaking     | MAJOR | Making `project_id` no longer required          |
+| Change output format          | Breaking     | MAJOR | Switching from CSV to JSON                      |
+| Change capability semantics   | Breaking     | MAJOR | `filter_by_technology` now requires exact match |
+| Fix a bug in behavior         | Non-breaking | PATCH | Correcting off-by-one in pagination             |
+| Performance improvement       | Non-breaking | PATCH | Reducing response time without API change       |
 
 ### 6.3 Capability Deprecation Policy
 
@@ -2216,12 +2339,12 @@ class CapabilityDeprecation:
 
 **Deprecation Timeline:**
 
-| Phase | Description | Duration (typical) | Routing Behavior |
-|---|---|---|---|
-| **Active** | Fully supported | Indefinite | Normal routing |
-| **Deprecated** | Still functional, replacement available | 90 days | Route with deprecation warning header |
-| **Sunset** | Will be removed soon | 30 days | Route only if no alternative exists; log warning |
-| **Removed** | No longer available | N/A | Return error with migration path |
+| Phase          | Description                             | Duration (typical) | Routing Behavior                                 |
+| -------------- | --------------------------------------- | ------------------ | ------------------------------------------------ |
+| **Active**     | Fully supported                         | Indefinite         | Normal routing                                   |
+| **Deprecated** | Still functional, replacement available | 90 days            | Route with deprecation warning header            |
+| **Sunset**     | Will be removed soon                    | 30 days            | Route only if no alternative exists; log warning |
+| **Removed**    | No longer available                     | N/A                | Return error with migration path                 |
 
 ### 6.4 Version Compatibility Matrix
 
@@ -2277,14 +2400,14 @@ The capability test harness validates that each capability:
 
 ### 7.2 Metrics Definition
 
-| Metric | Formula | Description | Target |
-|---|---|---|---|
-| **Accuracy** | `(TP + TN) / (TP + TN + FP + FN)` | Overall correctness | >= 0.90 |
-| **Precision** | `TP / (TP + FP)` | Relevance of returned results | >= 0.85 |
-| **Recall** | `TP / (TP + FN)` | Completeness of returned results | >= 0.80 |
-| **F1 Score** | `2 * (P * R) / (P + R)` | Harmonic mean of precision and recall | >= 0.82 |
-| **Latency (P95)** | 95th percentile response time | Speed | <= 2000ms |
-| **Fallback Rate** | `fallbacks / total_requests` | How often the capability delegates | <= 0.10 |
+| Metric            | Formula                           | Description                           | Target    |
+| ----------------- | --------------------------------- | ------------------------------------- | --------- |
+| **Accuracy**      | `(TP + TN) / (TP + TN + FP + FN)` | Overall correctness                   | >= 0.90   |
+| **Precision**     | `TP / (TP + FP)`                  | Relevance of returned results         | >= 0.85   |
+| **Recall**        | `TP / (TP + FN)`                  | Completeness of returned results      | >= 0.80   |
+| **F1 Score**      | `2 * (P * R) / (P + R)`           | Harmonic mean of precision and recall | >= 0.82   |
+| **Latency (P95)** | 95th percentile response time     | Speed                                 | <= 2000ms |
+| **Fallback Rate** | `fallbacks / total_requests`      | How often the capability delegates    | <= 0.10   |
 
 ### 7.3 Test Validation Harness
 
@@ -2435,14 +2558,14 @@ class CapabilityTestHarness:
 
 The test library is organized by category:
 
-| Category | Purpose | Count (target) |
-|---|---|---|
-| **smoke** | Basic happy-path for every capability | 1 per capability |
-| **regression** | All previously fixed bugs | 5+ per capability |
-| **edge_case** | Empty input, special chars, very long queries | 3 per capability |
-| **composition** | Multi-capability queries | 10 total |
-| **threshold** | Low/medium/high confidence boundary tests | 5 per threshold zone |
-| **versioning** | Deprecated version routing tests | 3 per deprecated version |
+| Category        | Purpose                                       | Count (target)           |
+| --------------- | --------------------------------------------- | ------------------------ |
+| **smoke**       | Basic happy-path for every capability         | 1 per capability         |
+| **regression**  | All previously fixed bugs                     | 5+ per capability        |
+| **edge_case**   | Empty input, special chars, very long queries | 3 per capability         |
+| **composition** | Multi-capability queries                      | 10 total                 |
+| **threshold**   | Low/medium/high confidence boundary tests     | 5 per threshold zone     |
+| **versioning**  | Deprecated version routing tests              | 3 per deprecated version |
 
 ---
 
@@ -2450,126 +2573,126 @@ The test library is organized by category:
 
 ### 8.1 Supervisor Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `classify_intent` | 1.0.0 | Classifies query into predefined intents | 0.85 | query, context | intents, confidence_scores, entities |
-| `route_to_agent` | 1.0.0 | Routes intent to best-matching agent capability | 0.80 | intent, confidence, context | target_agent, target_capability, confidence, fallback_chain |
-| `merge_responses` | 1.0.0 | Merges multi-agent responses into coherent reply | 0.75 | responses | merged, sources |
-| `escalate_to_lead` | 1.0.0 | Escalates lead intent to Lead Qualification Agent | 0.90 | lead_data | status |
-| `escalate_to_admin` | 1.0.0 | Escalates system errors to Admin Agent | 0.90 | issue, severity | status |
-| `get_context` | 1.0.0 | Retrieves session or system context | 0.95 | session_id, keys | context |
+| Capability          | Version | Description                                       | Confidence Threshold | Input Fields                | Output Fields                                               |
+| ------------------- | ------- | ------------------------------------------------- | -------------------- | --------------------------- | ----------------------------------------------------------- |
+| `classify_intent`   | 1.0.0   | Classifies query into predefined intents          | 0.85                 | query, context              | intents, confidence_scores, entities                        |
+| `route_to_agent`    | 1.0.0   | Routes intent to best-matching agent capability   | 0.80                 | intent, confidence, context | target_agent, target_capability, confidence, fallback_chain |
+| `merge_responses`   | 1.0.0   | Merges multi-agent responses into coherent reply  | 0.75                 | responses                   | merged, sources                                             |
+| `escalate_to_lead`  | 1.0.0   | Escalates lead intent to Lead Qualification Agent | 0.90                 | lead_data                   | status                                                      |
+| `escalate_to_admin` | 1.0.0   | Escalates system errors to Admin Agent            | 0.90                 | issue, severity             | status                                                      |
+| `get_context`       | 1.0.0   | Retrieves session or system context               | 0.95                 | session_id, keys            | context                                                     |
 
 ### 8.2 Portfolio Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `answer_portfolio_overview` | 1.0.0 | High-level professional summary | 0.85 | query | summary, highlights |
-| `explain_skill_proficiency` | 1.0.0 | Explains proficiency for a specific skill | 0.80 | skill | skill, level, years_experience, projects |
-| `describe_tech_stack` | 1.0.0 | Describes primary technology stack | 0.80 | query, category | categories, primary_stack |
-| `summarize_experience` | 1.0.0 | Summarizes total experience | 0.85 | query | total_years, roles, industries |
-| `provide_availability_info` | 1.0.0 | Provides current availability status | 0.90 | query | available, availability_type, notice_period, preferred_roles |
+| Capability                  | Version | Description                               | Confidence Threshold | Input Fields    | Output Fields                                                |
+| --------------------------- | ------- | ----------------------------------------- | -------------------- | --------------- | ------------------------------------------------------------ |
+| `answer_portfolio_overview` | 1.0.0   | High-level professional summary           | 0.85                 | query           | summary, highlights                                          |
+| `explain_skill_proficiency` | 1.0.0   | Explains proficiency for a specific skill | 0.80                 | skill           | skill, level, years_experience, projects                     |
+| `describe_tech_stack`       | 1.0.0   | Describes primary technology stack        | 0.80                 | query, category | categories, primary_stack                                    |
+| `summarize_experience`      | 1.0.0   | Summarizes total experience               | 0.85                 | query           | total_years, roles, industries                               |
+| `provide_availability_info` | 1.0.0   | Provides current availability status      | 0.90                 | query           | available, availability_type, notice_period, preferred_roles |
 
 ### 8.3 Resume Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `get_qualifications` | 1.0.0 | Returns professional qualifications | 0.90 | category | qualifications |
-| `get_work_history` | 1.0.0 | Returns chronological work history | 0.90 | limit, company | positions, total_positions |
-| `get_education` | 1.0.0 | Returns educational background | 0.95 | level | education |
-| `get_certifications` | 1.0.0 | Returns professional certifications | 0.95 | authority | certifications |
-| `get_skill_proficiency` | 1.0.0 | Returns proficiency level for a skill | 0.85 | skill | skill, proficiency, years |
-| `download_resume` | 1.0.0 | Generates downloadable resume file | 0.95 | format, template | url, format, size_bytes |
+| Capability              | Version | Description                           | Confidence Threshold | Input Fields     | Output Fields              |
+| ----------------------- | ------- | ------------------------------------- | -------------------- | ---------------- | -------------------------- |
+| `get_qualifications`    | 1.0.0   | Returns professional qualifications   | 0.90                 | category         | qualifications             |
+| `get_work_history`      | 1.0.0   | Returns chronological work history    | 0.90                 | limit, company   | positions, total_positions |
+| `get_education`         | 1.0.0   | Returns educational background        | 0.95                 | level            | education                  |
+| `get_certifications`    | 1.0.0   | Returns professional certifications   | 0.95                 | authority        | certifications             |
+| `get_skill_proficiency` | 1.0.0   | Returns proficiency level for a skill | 0.85                 | skill            | skill, proficiency, years  |
+| `download_resume`       | 1.0.0   | Generates downloadable resume file    | 0.95                 | format, template | url, format, size_bytes    |
 
 ### 8.4 Projects Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `get_project_list` | 1.0.0 | Returns paginated project list | 0.90 | page, per_page, sort_by, sort_order | projects, total, page |
-| `get_project_detail` | 1.0.0 | Returns detailed project info | 0.90 | project_id | id, name, description, technologies, role, impact, link |
-| `filter_by_technology` | 1.0.0 | Filters projects by technology | 0.85 | technology | technology, projects, count |
-| `compare_projects` | 1.0.0 | Compares projects across dimensions | 0.80 | project_ids | comparison, dimensions |
-| `verify_nda_access` | 1.0.0 | Verifies NDA clearance for restricted project | 0.95 | project_id, requester_id | access_granted, restricted_fields |
+| Capability             | Version | Description                                   | Confidence Threshold | Input Fields                        | Output Fields                                           |
+| ---------------------- | ------- | --------------------------------------------- | -------------------- | ----------------------------------- | ------------------------------------------------------- |
+| `get_project_list`     | 1.0.0   | Returns paginated project list                | 0.90                 | page, per_page, sort_by, sort_order | projects, total, page                                   |
+| `get_project_detail`   | 1.0.0   | Returns detailed project info                 | 0.90                 | project_id                          | id, name, description, technologies, role, impact, link |
+| `filter_by_technology` | 1.0.0   | Filters projects by technology                | 0.85                 | technology                          | technology, projects, count                             |
+| `compare_projects`     | 1.0.0   | Compares projects across dimensions           | 0.80                 | project_ids                         | comparison, dimensions                                  |
+| `verify_nda_access`    | 1.0.0   | Verifies NDA clearance for restricted project | 0.95                 | project_id, requester_id            | access_granted, restricted_fields                       |
 
 ### 8.5 Blog Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `search_articles` | 1.0.0 | Searches articles by keyword | 0.85 | query, limit | results, total_matches |
-| `summarize_post` | 1.0.0 | Returns article summary | 0.90 | post_id, max_length | title, summary, tags, read_time_minutes |
-| `get_recommendations` | 1.0.0 | Recommends articles by topic | 0.80 | topic, count | recommendations, based_on |
-| `browse_by_tag` | 1.0.0 | Lists articles by tag | 0.90 | tag | tag, articles, count |
+| Capability            | Version | Description                  | Confidence Threshold | Input Fields        | Output Fields                           |
+| --------------------- | ------- | ---------------------------- | -------------------- | ------------------- | --------------------------------------- |
+| `search_articles`     | 1.0.0   | Searches articles by keyword | 0.85                 | query, limit        | results, total_matches                  |
+| `summarize_post`      | 1.0.0   | Returns article summary      | 0.90                 | post_id, max_length | title, summary, tags, read_time_minutes |
+| `get_recommendations` | 1.0.0   | Recommends articles by topic | 0.80                 | topic, count        | recommendations, based_on               |
+| `browse_by_tag`       | 1.0.0   | Lists articles by tag        | 0.90                 | tag                 | tag, articles, count                    |
 
 ### 8.6 Case Study Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `walkthrough_case_study` | 1.0.0 | Step-by-step case study walkthrough | 0.90 | case_study_id, detail_level | title, client, problem, approach, solution, results |
-| `explain_methodology` | 1.0.0 | Explains methodology used in case study | 0.85 | case_study_id | methodology_name, phases, tools_used |
-| `quantify_impact` | 1.0.0 | Quantifies business/technical impact | 0.85 | case_study_id, metrics | metrics, summary |
-| `compare_case_studies` | 1.0.0 | Compares multiple case studies | 0.80 | case_study_ids | comparison, dimensions |
+| Capability               | Version | Description                             | Confidence Threshold | Input Fields                | Output Fields                                       |
+| ------------------------ | ------- | --------------------------------------- | -------------------- | --------------------------- | --------------------------------------------------- |
+| `walkthrough_case_study` | 1.0.0   | Step-by-step case study walkthrough     | 0.90                 | case_study_id, detail_level | title, client, problem, approach, solution, results |
+| `explain_methodology`    | 1.0.0   | Explains methodology used in case study | 0.85                 | case_study_id               | methodology_name, phases, tools_used                |
+| `quantify_impact`        | 1.0.0   | Quantifies business/technical impact    | 0.85                 | case_study_id, metrics      | metrics, summary                                    |
+| `compare_case_studies`   | 1.0.0   | Compares multiple case studies          | 0.80                 | case_study_ids              | comparison, dimensions                              |
 
 ### 8.7 Career Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `get_timeline` | 1.0.0 | Returns chronological career timeline | 0.90 | format, start_year | events, span_years |
-| `explain_growth` | 1.0.0 | Explains skill and role growth over time | 0.85 | aspect | growth_areas, narrative |
-| `describe_transition` | 1.0.0 | Describes a specific career transition | 0.85 | transition_id | from_role, to_role, reason, skills_gained |
-| `get_industry_experience` | 1.0.0 | Returns industry experience breakdown | 0.90 | industry | industries, primary_industry |
+| Capability                | Version | Description                              | Confidence Threshold | Input Fields       | Output Fields                             |
+| ------------------------- | ------- | ---------------------------------------- | -------------------- | ------------------ | ----------------------------------------- |
+| `get_timeline`            | 1.0.0   | Returns chronological career timeline    | 0.90                 | format, start_year | events, span_years                        |
+| `explain_growth`          | 1.0.0   | Explains skill and role growth over time | 0.85                 | aspect             | growth_areas, narrative                   |
+| `describe_transition`     | 1.0.0   | Describes a specific career transition   | 0.85                 | transition_id      | from_role, to_role, reason, skills_gained |
+| `get_industry_experience` | 1.0.0   | Returns industry experience breakdown    | 0.90                 | industry           | industries, primary_industry              |
 
 ### 8.8 Lead Qualification Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `detect_lead_intent` | 1.0.0 | Analyzes query for hiring/collaboration intent | 0.80 | query | is_lead, intent_type, confidence |
-| `capture_contact_info` | 1.0.0 | Extracts and validates contact information | 0.85 | source, fields | captured, missing_fields, valid |
-| `qualify_lead_score` | 1.0.0 | Scores and qualifies a lead | 0.85 | lead_id | lead_id, score, tier, next_action |
-| `create_lead_record` | 1.0.0 | Creates persistent lead record in CRM | 0.95 | lead_data | lead_id, status |
-| `send_notification` | 1.0.0 | Sends lead notification | 0.95 | lead_id, notification_type, channels | sent, channels_delivered |
+| Capability             | Version | Description                                    | Confidence Threshold | Input Fields                         | Output Fields                     |
+| ---------------------- | ------- | ---------------------------------------------- | -------------------- | ------------------------------------ | --------------------------------- |
+| `detect_lead_intent`   | 1.0.0   | Analyzes query for hiring/collaboration intent | 0.80                 | query                                | is_lead, intent_type, confidence  |
+| `capture_contact_info` | 1.0.0   | Extracts and validates contact information     | 0.85                 | source, fields                       | captured, missing_fields, valid   |
+| `qualify_lead_score`   | 1.0.0   | Scores and qualifies a lead                    | 0.85                 | lead_id                              | lead_id, score, tier, next_action |
+| `create_lead_record`   | 1.0.0   | Creates persistent lead record in CRM          | 0.95                 | lead_data                            | lead_id, status                   |
+| `send_notification`    | 1.0.0   | Sends lead notification                        | 0.95                 | lead_id, notification_type, channels | sent, channels_delivered          |
 
 ### 8.9 Analytics Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `get_visitor_metrics` | 1.0.0 | Returns visitor traffic metrics | 0.90 | time_range, granularity | total_visitors, unique_visitors, page_views, bounce_rate, avg_session_duration_seconds, series |
-| `get_content_performance` | 1.0.0 | Returns content performance metrics | 0.85 | content_type, sort_by | content, top_performer |
-| `get_conversion_data` | 1.0.0 | Returns conversion funnel data | 0.85 | time_range | funnel, conversion_rate, total_leads |
-| `generate_report` | 1.0.0 | Generates comprehensive analytics report | 0.90 | report_type, format, sections | report_url, format, generated_at, summary |
+| Capability                | Version | Description                              | Confidence Threshold | Input Fields                  | Output Fields                                                                                  |
+| ------------------------- | ------- | ---------------------------------------- | -------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------- |
+| `get_visitor_metrics`     | 1.0.0   | Returns visitor traffic metrics          | 0.90                 | time_range, granularity       | total_visitors, unique_visitors, page_views, bounce_rate, avg_session_duration_seconds, series |
+| `get_content_performance` | 1.0.0   | Returns content performance metrics      | 0.85                 | content_type, sort_by         | content, top_performer                                                                         |
+| `get_conversion_data`     | 1.0.0   | Returns conversion funnel data           | 0.85                 | time_range                    | funnel, conversion_rate, total_leads                                                           |
+| `generate_report`         | 1.0.0   | Generates comprehensive analytics report | 0.90                 | report_type, format, sections | report_url, format, generated_at, summary                                                      |
 
 ### 8.10 Admin Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `manage_content` | 1.0.0 | Creates, updates, deletes, lists content | 0.95 | action, content_type, data | success, message, item_id |
-| `manage_settings` | 1.0.0 | Gets or updates system configuration | 0.95 | action, settings | success, settings |
-| `manage_users` | 1.0.0 | Manages user accounts and permissions | 0.95 | action, user_data | success, users |
-| `view_logs` | 1.0.0 | Retrieves and filters system logs | 0.95 | level, source, time_range, limit | logs, total_count, truncated |
-| `run_maintenance` | 1.0.0 | Executes system maintenance tasks | 0.95 | task, options | success, task, duration_ms, details |
+| Capability        | Version | Description                              | Confidence Threshold | Input Fields                     | Output Fields                       |
+| ----------------- | ------- | ---------------------------------------- | -------------------- | -------------------------------- | ----------------------------------- |
+| `manage_content`  | 1.0.0   | Creates, updates, deletes, lists content | 0.95                 | action, content_type, data       | success, message, item_id           |
+| `manage_settings` | 1.0.0   | Gets or updates system configuration     | 0.95                 | action, settings                 | success, settings                   |
+| `manage_users`    | 1.0.0   | Manages user accounts and permissions    | 0.95                 | action, user_data                | success, users                      |
+| `view_logs`       | 1.0.0   | Retrieves and filters system logs        | 0.95                 | level, source, time_range, limit | logs, total_count, truncated        |
+| `run_maintenance` | 1.0.0   | Executes system maintenance tasks        | 0.95                 | task, options                    | success, task, duration_ms, details |
 
 ### 8.11 Knowledge Agent
 
-| Capability | Version | Description | Confidence Threshold | Input Fields | Output Fields |
-|---|---|---|---|---|---|
-| `search_knowledge_base` | 1.0.0 | Semantic search across knowledge base | 0.80 | query, max_results, source_filter | results, total_results |
-| `get_source_stats` | 1.0.0 | Knowledge base source statistics | 0.95 | source_type | total_documents, total_chunks, sources |
-| `refresh_index` | 1.0.0 | Triggers vector index refresh | 0.95 | mode, source | success, documents_processed, duration_ms |
-| `get_document` | 1.0.0 | Retrieves a specific document | 0.95 | document_id, include_content | id, title, content, metadata |
+| Capability              | Version | Description                           | Confidence Threshold | Input Fields                      | Output Fields                             |
+| ----------------------- | ------- | ------------------------------------- | -------------------- | --------------------------------- | ----------------------------------------- |
+| `search_knowledge_base` | 1.0.0   | Semantic search across knowledge base | 0.80                 | query, max_results, source_filter | results, total_results                    |
+| `get_source_stats`      | 1.0.0   | Knowledge base source statistics      | 0.95                 | source_type                       | total_documents, total_chunks, sources    |
+| `refresh_index`         | 1.0.0   | Triggers vector index refresh         | 0.95                 | mode, source                      | success, documents_processed, duration_ms |
+| `get_document`          | 1.0.0   | Retrieves a specific document         | 0.95                 | document_id, include_content      | id, title, content, metadata              |
 
 ### 8.12 Capability Summary Matrix
 
-| Agent | Capabilities | Knowledge Sources | Output Formats | Cost Tier | Fallback |
-|---|---|---|---|---|---|
-| SupervisorAgent | 6 | 2 | text, markdown, json | medium | null |
-| PortfolioAgent | 5 | 2 | text, markdown, json | low | ResumeAgent |
-| ResumeAgent | 6 | 1 | text, markdown, json, pdf | low | PortfolioAgent |
-| ProjectsAgent | 5 | 2 | text, markdown, json | low | PortfolioAgent |
-| BlogAgent | 4 | 2 | text, markdown, json | low | KnowledgeAgent |
-| CaseStudyAgent | 4 | 1 | text, markdown, json | low | ProjectsAgent |
-| CareerAgent | 4 | 1 | text, markdown, json | low | ResumeAgent |
-| LeadQualificationAgent | 5 | 2 | text, markdown, json | medium | SupervisorAgent |
-| AnalyticsAgent | 4 | 1 | text, markdown, json, csv, pdf | medium | AdminAgent |
-| AdminAgent | 5 | 2 | text, markdown, json | medium | null |
-| KnowledgeAgent | 4 | 2 | text, markdown, json | medium | BlogAgent |
+| Agent                  | Capabilities | Knowledge Sources | Output Formats                 | Cost Tier | Fallback        |
+| ---------------------- | ------------ | ----------------- | ------------------------------ | --------- | --------------- |
+| SupervisorAgent        | 6            | 2                 | text, markdown, json           | medium    | null            |
+| PortfolioAgent         | 5            | 2                 | text, markdown, json           | low       | ResumeAgent     |
+| ResumeAgent            | 6            | 1                 | text, markdown, json, pdf      | low       | PortfolioAgent  |
+| ProjectsAgent          | 5            | 2                 | text, markdown, json           | low       | PortfolioAgent  |
+| BlogAgent              | 4            | 2                 | text, markdown, json           | low       | KnowledgeAgent  |
+| CaseStudyAgent         | 4            | 1                 | text, markdown, json           | low       | ProjectsAgent   |
+| CareerAgent            | 4            | 1                 | text, markdown, json           | low       | ResumeAgent     |
+| LeadQualificationAgent | 5            | 2                 | text, markdown, json           | medium    | SupervisorAgent |
+| AnalyticsAgent         | 4            | 1                 | text, markdown, json, csv, pdf | medium    | AdminAgent      |
+| AdminAgent             | 5            | 2                 | text, markdown, json           | medium    | null            |
+| KnowledgeAgent         | 4            | 2                 | text, markdown, json           | medium    | BlogAgent       |
 
 ---
 
@@ -2577,115 +2700,115 @@ The test library is organized by category:
 
 The following documents form the complete agent architecture reference set:
 
-| Document | Purpose | Relationship |
-|---|---|---|
-| **AGENT.md** | Per-agent implementation guide and internal architecture | Each agent's internal capability implementation details |
-| **AGENTS.md** | Multi-agent system architecture overview | Higher-level agent system design, communication patterns |
-| **AGENT-REGISTRY.md** | Registry API specification and operational procedures | Registry endpoints used by the discovery protocol (Section 3) |
-| **COMMAND-SYSTEM.md** | Command interface for the portfolio system | User-facing command definitions that map to capabilities |
+| Document              | Purpose                                                  | Relationship                                                  |
+| --------------------- | -------------------------------------------------------- | ------------------------------------------------------------- |
+| **AGENT.md**          | Per-agent implementation guide and internal architecture | Each agent's internal capability implementation details       |
+| **AGENTS.md**         | Multi-agent system architecture overview                 | Higher-level agent system design, communication patterns      |
+| **AGENT-REGISTRY.md** | Registry API specification and operational procedures    | Registry endpoints used by the discovery protocol (Section 3) |
+| **COMMAND-SYSTEM.md** | Command interface for the portfolio system               | User-facing command definitions that map to capabilities      |
 
 ### 9.1 Cross-Reference Map
 
-| Capability Document Section | Related Document(s) |
-|---|---|
-| Section 2: Capability Manifest Schema | AGENT-REGISTRY.md (registration API), AGENTS.md (system architecture) |
-| Section 3: Discovery Protocol | AGENT-REGISTRY.md (registry endpoints), AGENTS.md (Supervisor role) |
-| Section 4: Intent-Capability Matching | AGENT.md (each agent's matching logic), AGENTS.md (routing flow) |
-| Section 5: Capability Composition | AGENTS.md (supervisor orchestration), COMMAND-SYSTEM.md (multi-command queries) |
-| Section 6: Capability Versioning | AGENT-REGISTRY.md (version admin), AGENTS.md (deployment strategy) |
-| Section 7: Testing & Validation | AGENT.md (testing section per agent), COMMAND-SYSTEM.md (test commands) |
-| Section 8: Capability Catalog | AGENT.md (per-agent capability details), COMMAND-SYSTEM.md (command mappings) |
+| Capability Document Section           | Related Document(s)                                                             |
+| ------------------------------------- | ------------------------------------------------------------------------------- |
+| Section 2: Capability Manifest Schema | AGENT-REGISTRY.md (registration API), AGENTS.md (system architecture)           |
+| Section 3: Discovery Protocol         | AGENT-REGISTRY.md (registry endpoints), AGENTS.md (Supervisor role)             |
+| Section 4: Intent-Capability Matching | AGENT.md (each agent's matching logic), AGENTS.md (routing flow)                |
+| Section 5: Capability Composition     | AGENTS.md (supervisor orchestration), COMMAND-SYSTEM.md (multi-command queries) |
+| Section 6: Capability Versioning      | AGENT-REGISTRY.md (version admin), AGENTS.md (deployment strategy)              |
+| Section 7: Testing & Validation       | AGENT.md (testing section per agent), COMMAND-SYSTEM.md (test commands)         |
+| Section 8: Capability Catalog         | AGENT.md (per-agent capability details), COMMAND-SYSTEM.md (command mappings)   |
 
 ### 9.2 Document Revision History
 
-| Version | Date | Author | Changes |
-|---|---|---|---|
-| v1.0 | 2026-06-18 | Chief AI Architect | Initial comprehensive capability documentation |
+| Version | Date       | Author             | Changes                                        |
+| ------- | ---------- | ------------------ | ---------------------------------------------- |
+| v1.0    | 2026-06-18 | Chief AI Architect | Initial comprehensive capability documentation |
 
 ---
 
 ## 9.3 Decision Log
 
-| ID | Decision | Context | Rationale | Alternatives Considered | Decision Date | Revisit Date |
-|----|----------|---------|-----------|------------------------|---------------|--------------|
-| CAP-DEC-001 | Capability catalog organized by domain (Agent, Knowledge, Communication, Observation, Action) | Capability taxonomy | Domain-based categorization maps naturally to agent responsibilities; enables extension without restructuring; aligns with agent role definitions | Flat capability list (unmanageable at scale), Hierarchical by agent type (duplication across similar agents), Functional (less intuitive for agent authors) | Jun 2026 | Dec 2026 |
-| CAP-DEC-002 | Capability IDs use domain prefix + numeric identifier (e.g., KNO-003) | Identifier schema | Prefix enables at-a-glance domain identification; numeric sequence allows insertion without renumbering; grepable and sortable | UUIDs (not human-readable), Single sequential namespace (no domain grouping), Hierarchical IDs (overspecified, rigid) | Jun 2026 | Dec 2026 |
-| CAP-DEC-003 | Discovery response includes capability metadata (parameters, constraints, cost) alongside ID | Discovery protocol | Rich metadata enables intelligent routing decisions at query time without separate capability lookup; reduces round-trips during agent handoff | ID-only response (requires follow-up lookup for details), Full manifest in discovery (verbose, slower responses) | Jun 2026 | Sep 2026 |
-| CAP-DEC-004 | Capability registration is agent-declared (publish on startup) over registry-managed | Registration pattern | Agent self-registration eliminates registry synchronization delay; supports dynamic capability changes without registry updates; simpler initial implementation | Registry-managed (authoritative source but higher latency on changes), Hybrid (registry + agent heartbeat â€” operational complexity) | Jun 2026 | Dec 2026 |
-| CAP-DEC-005 | Capability execution uses structured JSON parameters over flat key-value pairs | Parameter format | Structured parameters support nested objects, arrays, and typed values; JSON Schema enables automatic validation; standard across all agents | Flat key-value pairs (simpler but no nesting, prone to parsing errors), Protocol Buffers (higher performance but schema management overhead for dynamic capabilities) | Jun 2026 | Sep 2026 |
+| ID          | Decision                                                                                      | Context              | Rationale                                                                                                                                                       | Alternatives Considered                                                                                                                                               | Decision Date | Revisit Date |
+| ----------- | --------------------------------------------------------------------------------------------- | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- | ------------ |
+| CAP-DEC-001 | Capability catalog organized by domain (Agent, Knowledge, Communication, Observation, Action) | Capability taxonomy  | Domain-based categorization maps naturally to agent responsibilities; enables extension without restructuring; aligns with agent role definitions               | Flat capability list (unmanageable at scale), Hierarchical by agent type (duplication across similar agents), Functional (less intuitive for agent authors)           | Jun 2026      | Dec 2026     |
+| CAP-DEC-002 | Capability IDs use domain prefix + numeric identifier (e.g., KNO-003)                         | Identifier schema    | Prefix enables at-a-glance domain identification; numeric sequence allows insertion without renumbering; grepable and sortable                                  | UUIDs (not human-readable), Single sequential namespace (no domain grouping), Hierarchical IDs (overspecified, rigid)                                                 | Jun 2026      | Dec 2026     |
+| CAP-DEC-003 | Discovery response includes capability metadata (parameters, constraints, cost) alongside ID  | Discovery protocol   | Rich metadata enables intelligent routing decisions at query time without separate capability lookup; reduces round-trips during agent handoff                  | ID-only response (requires follow-up lookup for details), Full manifest in discovery (verbose, slower responses)                                                      | Jun 2026      | Sep 2026     |
+| CAP-DEC-004 | Capability registration is agent-declared (publish on startup) over registry-managed          | Registration pattern | Agent self-registration eliminates registry synchronization delay; supports dynamic capability changes without registry updates; simpler initial implementation | Registry-managed (authoritative source but higher latency on changes), Hybrid (registry + agent heartbeat â€” operational complexity)                                 | Jun 2026      | Dec 2026     |
+| CAP-DEC-005 | Capability execution uses structured JSON parameters over flat key-value pairs                | Parameter format     | Structured parameters support nested objects, arrays, and typed values; JSON Schema enables automatic validation; standard across all agents                    | Flat key-value pairs (simpler but no nesting, prone to parsing errors), Protocol Buffers (higher performance but schema management overhead for dynamic capabilities) | Jun 2026      | Sep 2026     |
 
 ## 9.4 Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation | Owner | Status |
-|----|------|------------|--------|------------|-------|--------|
-| CAP-RSK-001 | Agent declares capabilities it cannot reliably execute | Medium | High (routing to incapable agent wastes query, degrades UX) | Capability verification on registration (smoke test); execution success rate monitoring; automatic capability suspension after N failures | AI Engineer | Active |
-| CAP-RSK-002 | Capability drift: agent's actual behavior diverges from declared capability | Low | High (routing mismatch, incorrect responses) | Periodic capability audit (weekly); automated capability coverage testing; stale capability re-registration requirement | AI Engineer | Active |
-| CAP-RSK-003 | Two agents declare overlapping capabilities causing routing ambiguity | Low | Medium (inconsistent routing, potential conflict) | Supervisor picks highest-confidence agent; capability scope documentation in manifest; conflict detection on registration | AI Engineer | Active |
-| CAP-RSK-004 | Capability discovery becomes network bottleneck under high agent count | Medium | Low (registration delays, startup time increase) | Discovery response caching (1-min TTL); batched registration on startup; capability manifest distributed via message bus | Platform Engineer | Active |
-| CAP-RSK-005 | Agent registers capability with insufficient parameter validation leading to execution errors | Low | Medium (runtime errors, confused visitor responses) | JSON Schema validation on capability parameters; registration-time parameter verification; error details in capability metadata | AI Engineer | Active |
+| ID          | Risk                                                                                          | Likelihood | Impact                                                      | Mitigation                                                                                                                                | Owner             | Status |
+| ----------- | --------------------------------------------------------------------------------------------- | ---------- | ----------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------- | ------ |
+| CAP-RSK-001 | Agent declares capabilities it cannot reliably execute                                        | Medium     | High (routing to incapable agent wastes query, degrades UX) | Capability verification on registration (smoke test); execution success rate monitoring; automatic capability suspension after N failures | AI Engineer       | Active |
+| CAP-RSK-002 | Capability drift: agent's actual behavior diverges from declared capability                   | Low        | High (routing mismatch, incorrect responses)                | Periodic capability audit (weekly); automated capability coverage testing; stale capability re-registration requirement                   | AI Engineer       | Active |
+| CAP-RSK-003 | Two agents declare overlapping capabilities causing routing ambiguity                         | Low        | Medium (inconsistent routing, potential conflict)           | Supervisor picks highest-confidence agent; capability scope documentation in manifest; conflict detection on registration                 | AI Engineer       | Active |
+| CAP-RSK-004 | Capability discovery becomes network bottleneck under high agent count                        | Medium     | Low (registration delays, startup time increase)            | Discovery response caching (1-min TTL); batched registration on startup; capability manifest distributed via message bus                  | Platform Engineer | Active |
+| CAP-RSK-005 | Agent registers capability with insufficient parameter validation leading to execution errors | Low        | Medium (runtime errors, confused visitor responses)         | JSON Schema validation on capability parameters; registration-time parameter verification; error details in capability metadata           | AI Engineer       | Active |
 
 ## 9.5 Glossary
 
-| Term | Definition |
-|------|------------|
-| **Action Capability** | A capability that allows an agent to execute an operation outside the agent ecosystem (e.g., database write, API call) |
-| **Agent Declared** | A registration pattern where agents publish their own capabilities on startup without registry intervention |
-| **Capability Audit** | A periodic verification process ensuring declared capabilities match actual agent behavior |
-| **Capability Manifest** | A structured document describing an agent's capabilities, parameters, constraints, and execution costs |
-| **Capability Overlap** | When two or more agents declare the same or semantically similar capabilities, requiring routing disambiguation |
-| **Discovery Response** | The payload returned to a Supervisor querying an agent for its available capabilities |
-| **Domain Prefix** | A three-letter prefix in capability IDs indicating the capability domain (KNO, COM, ACT, OBS, AGT) |
-| **Execution Cost** | The estimated computational and API cost of executing a capability, in cents |
-| **Knowledge Capability** | A capability that retrieves and presents information from a knowledge source |
-| **Observation Capability** | A capability that monitors system state, metrics, or external conditions without modifying state |
-| **Parameter Validation** | The process of verifying that capability execution parameters conform to the declared JSON Schema |
+| Term                       | Definition                                                                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **Action Capability**      | A capability that allows an agent to execute an operation outside the agent ecosystem (e.g., database write, API call) |
+| **Agent Declared**         | A registration pattern where agents publish their own capabilities on startup without registry intervention            |
+| **Capability Audit**       | A periodic verification process ensuring declared capabilities match actual agent behavior                             |
+| **Capability Manifest**    | A structured document describing an agent's capabilities, parameters, constraints, and execution costs                 |
+| **Capability Overlap**     | When two or more agents declare the same or semantically similar capabilities, requiring routing disambiguation        |
+| **Discovery Response**     | The payload returned to a Supervisor querying an agent for its available capabilities                                  |
+| **Domain Prefix**          | A three-letter prefix in capability IDs indicating the capability domain (KNO, COM, ACT, OBS, AGT)                     |
+| **Execution Cost**         | The estimated computational and API cost of executing a capability, in cents                                           |
+| **Knowledge Capability**   | A capability that retrieves and presents information from a knowledge source                                           |
+| **Observation Capability** | A capability that monitors system state, metrics, or external conditions without modifying state                       |
+| **Parameter Validation**   | The process of verifying that capability execution parameters conform to the declared JSON Schema                      |
 
 ---
 
-*End of Agent Capabilities Document v1.0*
+_End of Agent Capabilities Document v1.0_
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| Agent | Autonomous software entity that performs tasks on behalf of a user |
-| Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
-| Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
-| Tool | A function an agent can call (read DB, send email, etc.) |
-| Guardrail | Constraint that prevents agents from performing unauthorized actions |
-| Handoff | Transfer of a query from one agent to another with full context |
-| Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning |
-| Embedding | Vector representation of text used for semantic search |
-| Chunk | A segment of a document stored in the vector database |
-| Confidence Threshold | Minimum confidence score for an agent to respond directly |
-| Circuit Breaker | Pattern that stops calls to a failing service to prevent cascading failures |
-| Agent Memory | Storage mechanism for agent conversation history and state |
-| Permission Model | Security framework controlling which resources each agent can access |
+| Term                 | Definition                                                                             |
+| -------------------- | -------------------------------------------------------------------------------------- |
+| Agent                | Autonomous software entity that performs tasks on behalf of a user                     |
+| Supervisor Agent     | Orchestrator agent that routes requests to specialist agents                           |
+| Specialist Agent     | Domain-specific agent with focused knowledge and tools                                 |
+| RAG                  | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
+| Tool                 | A function an agent can call (read DB, send email, etc.)                               |
+| Guardrail            | Constraint that prevents agents from performing unauthorized actions                   |
+| Handoff              | Transfer of a query from one agent to another with full context                        |
+| Capability Manifest  | Declarative document listing what an agent can do                                      |
+| LLM                  | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning                     |
+| Embedding            | Vector representation of text used for semantic search                                 |
+| Chunk                | A segment of a document stored in the vector database                                  |
+| Confidence Threshold | Minimum confidence score for an agent to respond directly                              |
+| Circuit Breaker      | Pattern that stops calls to a failing service to prevent cascading failures            |
+| Agent Memory         | Storage mechanism for agent conversation history and state                             |
+| Permission Model     | Security framework controlling which resources each agent can access                   |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial agent capabilities architecture | Chief AI Architect |
+| Version | Date     | Changes                                 | Author             |
+| ------- | -------- | --------------------------------------- | ------------------ |
+| 1.0     | Jun 2026 | Initial agent capabilities architecture | Chief AI Architect |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference            | Description                                            |
+| -------------------- | ------------------------------------------------------ |
 | docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---

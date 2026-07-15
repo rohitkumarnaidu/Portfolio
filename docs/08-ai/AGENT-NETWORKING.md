@@ -1,9 +1,10 @@
-﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
-# ÃƒÂ°Ã…Â¸Ã…â€™Ã‚Â Agent Networking ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Inter-Agent Communication Mesh
+> **Status:** ?? Design Spec � forward-looking design, not yet implemented
+
+# Ã°Å¸Å’Â Agent Networking Ã¢â‚¬â€ Inter-Agent Communication Mesh
 
 > **Document:** `AGENT-NETWORKING.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¦ Active | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
-> **Related:** [AgentMarketplace.md](./AgentMarketplace.md) | [Agent.md](./Agent.md) | [18-AGENTS.md](./18-AGENTS.md) | [Agent-Interaction-Protocol.md](./Agent-Interaction-Protocol.md)
+> **Status:** ?? Design Spec | **Owner:** Principal AI Architect | **Review Cadence:** Quarterly  
+> **Related:** [AGENT-MARKETPLACE.md](./AGENT-MARKETPLACE.md) | [AGENT.md](./AGENT.md) | [18-AGENTS.md](./18-AGENTS.md) | [AGENT-INTERACTION-PROTOCOL.md](./AGENT-INTERACTION-PROTOCOL.md)
 
 ---
 
@@ -41,13 +42,13 @@ graph TB
 
 ### 1.2 Transport Protocols
 
-| Protocol | Use Case | Latency | Reliability | Persistence |
-|----------|----------|---------|-------------|-------------|
-| **WebSocket** | Bidirectional agent-to-agent commands | < 5ms | Automatic reconnect | Session-scoped |
-| **SSE** | Server-to-agent event streams | < 10ms | Last-event-id replay | None |
-| **gRPC** | Agent-to-service high-throughput calls | < 2ms | Deadline propagation | None |
-| **HTTP/2** | Agent-to-service REST interactions | < 20ms | Idempotency retry | Stateless |
-| **Message Queue** | Durable async event dispatch | < 50ms | At-least-once delivery | Durable |
+| Protocol          | Use Case                               | Latency | Reliability            | Persistence    |
+| ----------------- | -------------------------------------- | ------- | ---------------------- | -------------- |
+| **WebSocket**     | Bidirectional agent-to-agent commands  | < 5ms   | Automatic reconnect    | Session-scoped |
+| **SSE**           | Server-to-agent event streams          | < 10ms  | Last-event-id replay   | None           |
+| **gRPC**          | Agent-to-service high-throughput calls | < 2ms   | Deadline propagation   | None           |
+| **HTTP/2**        | Agent-to-service REST interactions     | < 20ms  | Idempotency retry      | Stateless      |
+| **Message Queue** | Durable async event dispatch           | < 50ms  | At-least-once delivery | Durable        |
 
 ---
 
@@ -57,21 +58,21 @@ graph TB
 
 Agents register with the mesh at startup and are discoverable via the Agent Registry:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `agent_id` | string | Unique agent identifier |
-| `capabilities` | string[] | Declared agent capabilities |
-| `endpoint` | string | WS/gRPC endpoint URI |
-| `health` | string | Health check URL |
-| `ttl_seconds` | int | Registration TTL (must refresh) |
+| Field          | Type     | Description                     |
+| -------------- | -------- | ------------------------------- |
+| `agent_id`     | string   | Unique agent identifier         |
+| `capabilities` | string[] | Declared agent capabilities     |
+| `endpoint`     | string   | WS/gRPC endpoint URI            |
+| `health`       | string   | Health check URL                |
+| `ttl_seconds`  | int      | Registration TTL (must refresh) |
 
 ### 2.2 Discovery Flow
 
 ```
-Agent A Starts ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Register with Registry ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ Heartbeat (every 30s)
-Agent B Queries ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ "find agents with capability:X"
-Registry Returns ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ [Agent A endpoint, Agent C endpoint]
-Agent B Connects ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ WebSocket handshake to Agent A
+Agent A Starts Ã¢â€ â€™ Register with Registry Ã¢â€ â€™ Heartbeat (every 30s)
+Agent B Queries Ã¢â€ â€™ "find agents with capability:X"
+Registry Returns Ã¢â€ â€™ [Agent A endpoint, Agent C endpoint]
+Agent B Connects Ã¢â€ â€™ WebSocket handshake to Agent A
 ```
 
 ---
@@ -80,12 +81,12 @@ Agent B Connects ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ WebSocket handshake t
 
 ### 3.1 Routing Table
 
-| Message Type | Source | Destination | Transport | Priority |
-|-------------|--------|-------------|-----------|----------|
-| `command.execute` | Supervisor | Specialist | WebSocket | High |
-| `query.knowledge` | Any Agent | Knowledge Service | gRPC | Medium |
-| `event.published` | Any Agent | All Subscribers | SSE | Low |
-| `heartbeat` | Any Agent | Registry | HTTP | Low |
+| Message Type      | Source     | Destination       | Transport | Priority |
+| ----------------- | ---------- | ----------------- | --------- | -------- |
+| `command.execute` | Supervisor | Specialist        | WebSocket | High     |
+| `query.knowledge` | Any Agent  | Knowledge Service | gRPC      | Medium   |
+| `event.published` | Any Agent  | All Subscribers   | SSE       | Low      |
+| `heartbeat`       | Any Agent  | Registry          | HTTP      | Low      |
 
 ### 3.2 Routing Rules
 
@@ -100,12 +101,12 @@ Agent B Connects ÃƒÂ¢Ã¢â‚¬Â Ã¢â‚¬â„¢ WebSocket handshake t
 
 ### 4.1 Default Configuration
 
-| Operation Type | Timeout | Retries | Backoff | Jitter |
-|---------------|---------|---------|---------|--------|
-| Command execution | 30s | 3 | Exponential (1s, 2s, 4s) | Ãƒâ€šÃ‚Â±100ms |
-| Knowledge query | 5s | 2 | Linear (500ms) | Ãƒâ€šÃ‚Â±50ms |
-| Event publish | 2s | 0 | None | None |
-| Health check | 3s | 1 | Fixed (1s) | None |
+| Operation Type    | Timeout | Retries | Backoff                  | Jitter    |
+| ----------------- | ------- | ------- | ------------------------ | --------- |
+| Command execution | 30s     | 3       | Exponential (1s, 2s, 4s) | Ã‚Â±100ms |
+| Knowledge query   | 5s      | 2       | Linear (500ms)           | Ã‚Â±50ms  |
+| Event publish     | 2s      | 0       | None                     | None      |
+| Health check      | 3s      | 1       | Fixed (1s)               | None      |
 
 ### 4.2 Circuit Breaker States
 
@@ -118,11 +119,11 @@ stateDiagram-v2
     HalfOpen --> Open: Probe fails
 ```
 
-| State | Behavior |
-|-------|----------|
-| **Closed** | Normal operation; all requests pass |
-| **Open** | Requests fail fast without attempting connection |
-| **Half-Open** | Limited probe requests to test recovery |
+| State         | Behavior                                         |
+| ------------- | ------------------------------------------------ |
+| **Closed**    | Normal operation; all requests pass              |
+| **Open**      | Requests fail fast without attempting connection |
+| **Half-Open** | Limited probe requests to test recovery          |
 
 ---
 
@@ -130,16 +131,17 @@ stateDiagram-v2
 
 ### 5.1 Transport Security
 
-| Layer | Mechanism |
-|-------|-----------|
-| Authentication | JWT per-agent tokens with mTLS |
-| Encryption | TLS 1.3 for all transports |
-| Authorization | Capability-based access control per message type |
-| Audit | Every message logged to audit trail with correlation ID |
+| Layer          | Mechanism                                               |
+| -------------- | ------------------------------------------------------- |
+| Authentication | JWT per-agent tokens with mTLS                          |
+| Encryption     | TLS 1.3 for all transports                              |
+| Authorization  | Capability-based access control per message type        |
+| Audit          | Every message logged to audit trail with correlation ID |
 
 ### 5.2 Observability
 
 Every network hop emits:
+
 - **Trace span** (via Sentry distributed tracing)
 - **Metric** (message latency, throughput, error rate)
 - **Structured log** (source, destination, message type, duration, status)
@@ -148,22 +150,23 @@ Every network hop emits:
 
 ## 6. Related Documentation
 
-| Document | Description |
-|----------|-------------|
-| [Agent.md](./Agent.md) | Agent base architecture and lifecycle |
-| [18-AGENTS.md](./18-AGENTS.md) | Multi-agent orchestration patterns |
-| [AgentMarketplace.md](./AgentMarketplace.md) | Marketplace distribution and packaging |
-| [Agent-Interaction-Protocol.md](./Agent-Interaction-Protocol.md) | Message format specification |
-| [AGENT-SECURITY.md](../security/AGENT-SECURITY.md) | Agent security model |
+| Document                                                         | Description                            |
+| ---------------------------------------------------------------- | -------------------------------------- |
+| [AGENT.md](./AGENT.md)                                           | Agent base architecture and lifecycle  |
+| [18-AGENTS.md](./18-AGENTS.md)                                   | Multi-agent orchestration patterns     |
+| [AGENT-MARKETPLACE.md](./AGENT-MARKETPLACE.md)                   | Marketplace distribution and packaging |
+| [AGENT-INTERACTION-PROTOCOL.md](./AGENT-INTERACTION-PROTOCOL.md) | Message format specification           |
+| [AGENT-SECURITY.md](../11-security/AGENT-SECURITY.md)            | Agent security model                   |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jul 2026 | Initial agent networking specification | Principal AI Architect |
+| Version | Date     | Changes                                | Author                 |
+| ------- | -------- | -------------------------------------- | ---------------------- |
+| 1.0     | Jul 2026 | Initial agent networking specification | Principal AI Architect |
 
 ## Cross-References
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) Ã¢â‚¬â€ Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) Ã¢â‚¬â€ Cross-reference system
+
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

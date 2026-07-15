@@ -1,6 +1,8 @@
 ﻿# AI Documentation
 
-> **Status:** ✅ Active — reflects actual implementation
+> **Category:** 08 | **Documents:** 8 | **Status:** Active
+> **Purpose:** Document the AI service architecture, RAG pipeline, chat system, and forward-looking design specs for multi-agent capabilities.
+> **Audience:** developers, architects, AI engineers
 
 ## Implementation Status
 
@@ -20,13 +22,14 @@ The AI system is under active development. The current implementation status:
 
 ## Document Categories
 
-| Category        | Description                                      |
-| --------------- | ------------------------------------------------ |
+| Category        | Description                                               |
+| --------------- | --------------------------------------------------------- |
 | `design-spec/`  | Aspirational future designs (Ã¢Å¡Â Ã¯Â¸Â not implemented) |
-| (root ai/ docs) | Mixed - some implemented, some aspirational      |
+| (root ai/ docs) | Mixed - some implemented, some aspirational               |
 
 > **Navigation:** See the `docs/MASTER-INDEX.md` for the complete document inventory.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

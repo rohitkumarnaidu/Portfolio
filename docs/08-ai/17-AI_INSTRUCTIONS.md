@@ -798,7 +798,7 @@ flowchart TD
 | **No PII in logs**         | Logging interceptor masks message content in application logs   |
 | **No PII in analytics**    | Analytics events exclude message content; only metadata tracked |
 | **GDPR compliance**        | Chat data exportable on request; deletable on request           |
-| **Data Processing Record** | Maintained in `docs/security/16-COMPLIANCE.md`                  |
+| **Data Processing Record** | Maintained in `docs/11-security/16-COMPLIANCE.md`               |
 
 ---
 
@@ -1790,25 +1790,25 @@ jobs:
 
 ## Document References
 
-| Reference                                         | Description                                                                                                                                    |
-| ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `docs/architecture/SystemArchitecture.md` (v5.0)  | System architecture — §7 AI Architecture, §1.3 Key Metrics                                                                                     |
-| `docs/architecture/10-TECHSTACK.md` (v5.0)        | Technology stack — §4 AI Microservice (FastAPI), §1 Animation Libraries                                                                        |
-| `docs/database/DatabaseArchitecture.md` (v5.0)    | Database schema — §11 AI & RAG Tables, §15.1 IVFFlat Index                                                                                     |
-| `docs/api/12-API.md` (v5.0)                       | API documentation — §20 AI API Endpoints (Chat SSE, Analyze, Suggest)                                                                          |
-| `docs/architecture/13-INTEGRATIONS.md` (v5.0)     | Integrations — §8 OpenAI, §9 Anthropic, §8.8 Rate Limits, §8.9 Monitoring                                                                      |
-| `docs/security/SecurityArchitecture.md` (v5.0)    | Security — §12 AI Security, §12.2 AI Security Controls, §12.3 Cost Abuse Protection                                                            |
-| `docs/ai/19-RAG.md` (v5.0)                        | RAG pipeline — enterprise-grade RAG architecture, chunking/embedding/retrieval strategies, cache layer, evaluation framework, failure recovery |
-| `docs/operations/AnalyticsArchitecture.md` (v5.0) | Analytics — Enterprise-grade analytics strategy, 9 metric categories, 90+ event catalog, tracking taxonomy, conversion funnel, dashboard specs |
-| `docs/operations/21-MONITORING.md` (v3.0)         | Monitoring — §7 Alert Escalation Matrix                                                                                                        |
-| `docs/product/ProductRequirements.md` (v3.0)      | Product requirements — §18 AI Requirements, RAG pipeline specs                                                                                 |
-| `docs/product/02-FEATURES.md` (v3.0)              | Feature catalog — F-300 series (AI features)                                                                                                   |
-| `docs/product/37-IMPLEMENTATION_PLAN.md` (v5.0)   | Implementation plan — §8 Phase 5: FastAPI AI Service, §7 Phase 4: API Features                                                                 |
-| `docs/MASTER-INDEX.md`                            | Folder structure — `apps/ai/` service layout                                                                                                   |
-| `Ultimate_Portfolio_Plan_2026_v3.docx`            | Complete portfolio blueprint — AI chat specs, agent prompts                                                                                    |
-| OpenAI API Docs                                   | https://platform.openai.com/docs                                                                                                               |
-| Anthropic API Docs                                | https://docs.anthropic.com/en/docs                                                                                                             |
-| LangChain Docs                                    | https://python.langchain.com/docs                                                                                                              |
+| Reference                                            | Description                                                                                                                                    |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0)  | System architecture — §7 AI Architecture, §1.3 Key Metrics                                                                                     |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)        | Technology stack — §4 AI Microservice (FastAPI), §1 Animation Libraries                                                                        |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0)    | Database schema — §11 AI & RAG Tables, §15.1 IVFFlat Index                                                                                     |
+| `docs/10-api/12-API.md` (v5.0)                       | API documentation — §20 AI API Endpoints (Chat SSE, Analyze, Suggest)                                                                          |
+| `docs/05-architecture/13-INTEGRATIONS.md` (v5.0)     | Integrations — §8 OpenAI, §9 Anthropic, §8.8 Rate Limits, §8.9 Monitoring                                                                      |
+| `docs/11-security/SecurityArchitecture.md` (v5.0)    | Security — §12 AI Security, §12.2 AI Security Controls, §12.3 Cost Abuse Protection                                                            |
+| `docs/08-ai/19-RAG.md` (v5.0)                        | RAG pipeline — enterprise-grade RAG architecture, chunking/embedding/retrieval strategies, cache layer, evaluation framework, failure recovery |
+| `docs/21-operations/AnalyticsArchitecture.md` (v5.0) | Analytics — Enterprise-grade analytics strategy, 9 metric categories, 90+ event catalog, tracking taxonomy, conversion funnel, dashboard specs |
+| `docs/21-operations/21-MONITORING.md` (v3.0)         | Monitoring — §7 Alert Escalation Matrix                                                                                                        |
+| `docs/01-product/ProductRequirements.md` (v3.0)      | Product requirements — §18 AI Requirements, RAG pipeline specs                                                                                 |
+| `docs/01-product/02-FEATURES.md` (v3.0)              | Feature catalog — F-300 series (AI features)                                                                                                   |
+| `docs/01-product/37-IMPLEMENTATION_PLAN.md` (v5.0)   | Implementation plan — §8 Phase 5: FastAPI AI Service, §7 Phase 4: API Features                                                                 |
+| `docs/MASTER-INDEX.md`                               | Folder structure — `apps/ai/` service layout                                                                                                   |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`               | Complete portfolio blueprint — AI chat specs, agent prompts                                                                                    |
+| OpenAI API Docs                                      | https://platform.openai.com/docs                                                                                                               |
+| Anthropic API Docs                                   | https://docs.anthropic.com/en/docs                                                                                                             |
+| LangChain Docs                                       | https://python.langchain.com/docs                                                                                                              |
 
 ---
 

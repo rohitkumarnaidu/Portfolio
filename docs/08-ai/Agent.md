@@ -1,7 +1,8 @@
-﻿> **Status:** 📐 Design Spec — forward-looking design, not yet implemented
+> **Status:** ?? Design Spec � forward-looking design, not yet implemented
+
 # Agent Base Architecture -- Enterprise-Grade Foundation for Multi-Agent System
 
-> **Document:** `docs/ai/Agent.md` | **Version:** 1.0 | **Last Updated:** June 2026
+> **Document:** `docs/08-ai/AGENT.md` | **Version:** 1.0 | **Last Updated:** June 2026
 > **Status:** Active | **Owner:** Chief AI Architect | **Review Cadence:** Monthly
 > **Classification:** Enterprise Architecture | **Runtime:** FastAPI + LangChain
 > **Design Pattern:** Abstract Base Class + Strategy Pattern | **Serialization:** Pydantic v2
@@ -42,37 +43,37 @@ Every agent in the multi-agent ecosystem is an instance of the `BaseAgent` abstr
 
 This document covers:
 
-| Scope | Description | Out of Scope |
-|-------|-------------|--------------|
-| **Base class definition** | Abstract interface, properties, lifecycle | Concrete agent implementations (see `docs/ai/18-AGENTS.md`) |
-| **Agent configuration** | YAML/JSON schema for agent definitions | Deployment configuration (see `docs/operations/DeploymentGuide.md`) |
-| **Tool system** | Tool registration, invocation, permissions | Tool implementations specific to each agent |
-| **Safety framework** | Base guardrails every agent inherits | Content-specific safety rules (see `docs/ai/18-AGENTS.md`) |
-| **Communication protocol** | Message format, handoff, routing | Network-level messaging (see `docs/api/46-EVENT-ARCHITECTURE.md`) |
-| **Evaluation framework** | Base metrics, scoring, reporting | Per-agent evaluation thresholds (see `docs/ai/18-AGENTS.md`) |
+| Scope                      | Description                                | Out of Scope                                                           |
+| -------------------------- | ------------------------------------------ | ---------------------------------------------------------------------- |
+| **Base class definition**  | Abstract interface, properties, lifecycle  | Concrete agent implementations (see `docs/08-ai/18-AGENTS.md`)         |
+| **Agent configuration**    | YAML/JSON schema for agent definitions     | Deployment configuration (see `docs/21-operations/DeploymentGuide.md`) |
+| **Tool system**            | Tool registration, invocation, permissions | Tool implementations specific to each agent                            |
+| **Safety framework**       | Base guardrails every agent inherits       | Content-specific safety rules (see `docs/08-ai/18-AGENTS.md`)          |
+| **Communication protocol** | Message format, handoff, routing           | Network-level messaging (see `docs/10-api/46-EVENT-ARCHITECTURE.md`)   |
+| **Evaluation framework**   | Base metrics, scoring, reporting           | Per-agent evaluation thresholds (see `docs/08-ai/18-AGENTS.md`)        |
 
 ### 1.3 Core Principles
 
-| Principle | Description | Implication |
-|-----------|-------------|-------------|
-| Single Responsibility | Each agent owns exactly one domain | Agent boundaries are never crossed |
-| Explicit Contracts | All agent interfaces are typed and validated | Runtime errors are caught at boundaries |
-| Fail Closed | On uncertainty, agents defer rather than guess | Safety is non-negotiable |
-| Observable by Default | Every action is logged and measurable | Debugging is always possible |
-| Composition over Inheritance | Agents compose tools and use strategies | Base class is lean, functionality is pluggable |
+| Principle                    | Description                                    | Implication                                    |
+| ---------------------------- | ---------------------------------------------- | ---------------------------------------------- |
+| Single Responsibility        | Each agent owns exactly one domain             | Agent boundaries are never crossed             |
+| Explicit Contracts           | All agent interfaces are typed and validated   | Runtime errors are caught at boundaries        |
+| Fail Closed                  | On uncertainty, agents defer rather than guess | Safety is non-negotiable                       |
+| Observable by Default        | Every action is logged and measurable          | Debugging is always possible                   |
+| Composition over Inheritance | Agents compose tools and use strategies        | Base class is lean, functionality is pluggable |
 
 ### 1.4 Relationship to Other Documents
 
-| Document | Relationship |
-|----------|-------------|
-| `docs/ai/18-AGENTS.md` | Concrete agent implementations built on this base |
-| `docs/ai/AgentMarketplace.md` | Agent discoverability, versioning, and distribution |
-| `docs/ai/MemoryArchitecture.md` | Agent memory persistence layer (session, working, episodic) |
-| `docs/ai/CommandSystem.md` | Command pattern used by agent tool invocations |
-| `docs/design/08g-AI-ASSISTANT-ARCHITECTURE.md` | Higher-level AI assistant orchestration consuming agents |
-| `docs/ai/17-AI_INSTRUCTIONS.md` | AI operating model and governance |
-| `docs/ai/19-RAG.md` | RAG pipeline used by knowledge agents |
-| `docs/api/46-EVENT-ARCHITECTURE.md` | Event-driven communication backbone |
+| Document                                      | Relationship                                                |
+| --------------------------------------------- | ----------------------------------------------------------- |
+| `docs/08-ai/18-AGENTS.md`                     | Concrete agent implementations built on this base           |
+| `docs/08-ai/AGENT-MARKETPLACE.md`             | Agent discoverability, versioning, and distribution         |
+| `docs/08-ai/MEMORY-ARCHITECTURE.md`           | Agent memory persistence layer (session, working, episodic) |
+| `docs/08-ai/COMMAND-SYSTEM.md`                | Command pattern used by agent tool invocations              |
+| `docs/08-ai/08g-AI-ASSISTANT-ARCHITECTURE.md` | Higher-level AI assistant orchestration consuming agents    |
+| `docs/08-ai/17-AI_INSTRUCTIONS.md`            | AI operating model and governance                           |
+| `docs/08-ai/19-RAG.md`                        | RAG pipeline used by knowledge agents                       |
+| `docs/10-api/46-EVENT-ARCHITECTURE.md`        | Event-driven communication backbone                         |
 
 ---
 
@@ -80,14 +81,14 @@ This document covers:
 
 ### 2.1 Architectural Decisions
 
-| Decision | Choice | Rationale | Alternatives Considered |
-|----------|--------|-----------|------------------------|
-| Base class pattern | Abstract base class with ABC | Clear contract enforcement, IDE support, type safety | Protocol classes (less enforcement), Duck typing (no contract) |
-| Serialization | Pydantic v2 | Native JSON Schema, validation, FastAPI integration | dataclasses (no validation), attrs (less ecosystem) |
-| Async execution | asyncio | Native Python async, LangChain compatibility | threading (GIL issues), multiprocessing (overhead) |
-| Tool definition | Decorator-based registration | Declarative, self-documenting, runtime discoverable | Manual registration (error-prone), config file (brittle) |
-| Configuration | YAML for definitions, JSON for instances | YAML is human-readable for definitions; JSON for runtime | TOML (less ecosystem), XML (verbose) |
-| Communication | JSON over in-process message bus | Simple, debuggable, universal | Protobuf (overhead for in-process), Avro (schema registry needed) |
+| Decision           | Choice                                   | Rationale                                                | Alternatives Considered                                           |
+| ------------------ | ---------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
+| Base class pattern | Abstract base class with ABC             | Clear contract enforcement, IDE support, type safety     | Protocol classes (less enforcement), Duck typing (no contract)    |
+| Serialization      | Pydantic v2                              | Native JSON Schema, validation, FastAPI integration      | dataclasses (no validation), attrs (less ecosystem)               |
+| Async execution    | asyncio                                  | Native Python async, LangChain compatibility             | threading (GIL issues), multiprocessing (overhead)                |
+| Tool definition    | Decorator-based registration             | Declarative, self-documenting, runtime discoverable      | Manual registration (error-prone), config file (brittle)          |
+| Configuration      | YAML for definitions, JSON for instances | YAML is human-readable for definitions; JSON for runtime | TOML (less ecosystem), XML (verbose)                              |
+| Communication      | JSON over in-process message bus         | Simple, debuggable, universal                            | Protobuf (overhead for in-process), Avro (schema registry needed) |
 
 ### 2.2 Agent Contract
 
@@ -106,12 +107,12 @@ Every agent that extends `BaseAgent` agrees to the following contract:
 
 Agents in this system fall into four categories:
 
-| Category | Description | Examples |
-|----------|-------------|----------|
-| **Knowledge Agents** | Answer questions using RAG-retrieved context | Portfolio Agent, Resume Agent, Career Agent |
-| **Content Agents** | Specialize in specific content types and narratives | Projects Agent, Blog Agent, Case Study Agent |
-| **Operational Agents** | Perform system operations with write permissions | Lead Qualification Agent, Admin Agent, Analytics Agent |
-| **Orchestration Agents** | Route, coordinate, and manage other agents | Supervisor Agent, Knowledge Agent |
+| Category                 | Description                                         | Examples                                               |
+| ------------------------ | --------------------------------------------------- | ------------------------------------------------------ |
+| **Knowledge Agents**     | Answer questions using RAG-retrieved context        | Portfolio Agent, Resume Agent, Career Agent            |
+| **Content Agents**       | Specialize in specific content types and narratives | Projects Agent, Blog Agent, Case Study Agent           |
+| **Operational Agents**   | Perform system operations with write permissions    | Lead Qualification Agent, Admin Agent, Analytics Agent |
+| **Orchestration Agents** | Route, coordinate, and manage other agents          | Supervisor Agent, Knowledge Agent                      |
 
 ---
 
@@ -174,7 +175,7 @@ T = TypeVar("T")
 
 class BaseAgent(ABC, Generic[T]):
     """Abstract base class for all agents in the portfolio multi-agent system.
-    
+
     Every agent must:
     1. Implement all abstract methods
     2. Declare a capability manifest
@@ -209,17 +210,17 @@ class BaseAgent(ABC, Generic[T]):
 
 ### 3.2 Core Properties
 
-| Property | Type | Description | Default | Required |
-|----------|------|-------------|---------|----------|
-| `metadata` | `AgentMetadata` | Identity, version, category, tags | Set by subclass | Yes |
-| `status` | `AgentStatus` | Current lifecycle state | `IDLE` | System-managed |
-| `capability_manifest` | `CapabilityManifest` | Declared capabilities for routing | Set by subclass | Yes |
-| `tools` | `dict[str, ToolDefinition]` | Registered tools keyed by name | `{}` | Registered via decorator |
-| `guardrails` | `list[Guardrail]` | Behavioral constraints | Base guardrails | Inherited + extended |
-| `permissions` | `set[str]` | Permission strings for access control | `set()` | Declared by subclass |
-| `_state` | `dict[str, Any]` | Private agent state during processing | `{}` | Internal |
-| `_error_count` | `int` | Consecutive error counter | `0` | Internal |
-| `_config` | `dict[str, Any]` | Runtime configuration overrides | `{}` | Optional |
+| Property              | Type                        | Description                           | Default         | Required                 |
+| --------------------- | --------------------------- | ------------------------------------- | --------------- | ------------------------ |
+| `metadata`            | `AgentMetadata`             | Identity, version, category, tags     | Set by subclass | Yes                      |
+| `status`              | `AgentStatus`               | Current lifecycle state               | `IDLE`          | System-managed           |
+| `capability_manifest` | `CapabilityManifest`        | Declared capabilities for routing     | Set by subclass | Yes                      |
+| `tools`               | `dict[str, ToolDefinition]` | Registered tools keyed by name        | `{}`            | Registered via decorator |
+| `guardrails`          | `list[Guardrail]`           | Behavioral constraints                | Base guardrails | Inherited + extended     |
+| `permissions`         | `set[str]`                  | Permission strings for access control | `set()`         | Declared by subclass     |
+| `_state`              | `dict[str, Any]`            | Private agent state during processing | `{}`            | Internal                 |
+| `_error_count`        | `int`                       | Consecutive error counter             | `0`             | Internal                 |
+| `_config`             | `dict[str, Any]`            | Runtime configuration overrides       | `{}`            | Optional                 |
 
 ### 3.3 Agent Capability Manifest
 
@@ -251,22 +252,22 @@ portfolio_manifest = CapabilityManifest(
 
 ### 3.4 Agent Properties Table
 
-| Property | Type | Description | Set By |
-|----------|------|-------------|--------|
-| `name` | `str` | Unique identifier (e.g., `portfolio_agent`) | Subclass |
-| `version` | `str` | Semantic version (e.g., `1.2.3`) | Subclass |
-| `description` | `str` | Human-readable purpose statement | Subclass |
-| `category` | `str` | Agent category for routing heuristics | Subclass |
-| `capabilities` | `list[str]` | What the agent can do (used by Supervisor) | Subclass |
-| `tools` | `dict[str, ToolDefinition]` | Registered tools | Registration |
-| `guardrails` | `list[Guardrail]` | Safety constraints | Base + subclass |
-| `permissions` | `set[str]` | Authorized operations | Subclass |
-| `memory_config` | `MemoryConfig` | How agent stores and retrieves context | Subclass |
-| `evaluation_metrics` | `dict[str, MetricDefinition]` | Success criteria | Subclass |
-| `status` | `AgentStatus` | Current lifecycle state | System |
-| `knowledge_sources` | `list[str]` | RAG sources the agent queries | Subclass |
-| `confidence_threshold` | `float` | Minimum confidence to serve response | Subclass |
-| `fallback_agent` | `str` | Agent to route to on failure | Subclass |
+| Property               | Type                          | Description                                 | Set By          |
+| ---------------------- | ----------------------------- | ------------------------------------------- | --------------- |
+| `name`                 | `str`                         | Unique identifier (e.g., `portfolio_agent`) | Subclass        |
+| `version`              | `str`                         | Semantic version (e.g., `1.2.3`)            | Subclass        |
+| `description`          | `str`                         | Human-readable purpose statement            | Subclass        |
+| `category`             | `str`                         | Agent category for routing heuristics       | Subclass        |
+| `capabilities`         | `list[str]`                   | What the agent can do (used by Supervisor)  | Subclass        |
+| `tools`                | `dict[str, ToolDefinition]`   | Registered tools                            | Registration    |
+| `guardrails`           | `list[Guardrail]`             | Safety constraints                          | Base + subclass |
+| `permissions`          | `set[str]`                    | Authorized operations                       | Subclass        |
+| `memory_config`        | `MemoryConfig`                | How agent stores and retrieves context      | Subclass        |
+| `evaluation_metrics`   | `dict[str, MetricDefinition]` | Success criteria                            | Subclass        |
+| `status`               | `AgentStatus`                 | Current lifecycle state                     | System          |
+| `knowledge_sources`    | `list[str]`                   | RAG sources the agent queries               | Subclass        |
+| `confidence_threshold` | `float`                       | Minimum confidence to serve response        | Subclass        |
+| `fallback_agent`       | `str`                         | Agent to route to on failure                | Subclass        |
 
 ### 3.5 Agent Registry Entry
 
@@ -323,15 +324,15 @@ stateDiagram-v2
 
 ### 4.2 State Definitions
 
-| State | Description | Allowed Entry | Duration Limit | Exit Actions |
-|-------|-------------|---------------|----------------|--------------|
-| `IDLE` | Agent instantiated, no work pending | Construction, recovery | Unlimited | None |
-| `INITIALIZING` | Agent loading config, registering tools, warming caches | `initialize()` call | 30 seconds | Timeout triggers `ERROR` |
-| `READY` | Agent fully initialized, awaiting work | Successful init, reset | Unlimited | None |
-| `PROCESSING` | Actively processing a query or task | `process()` call | 60 seconds (configurable) | Timeout triggers fallback |
-| `RESPONDING` | Response generated, being validated and delivered | Processing complete | 10 seconds | Delivery failure triggers `ERROR` |
-| `COMPLETED` | Response successfully delivered | Successful response | Unlimited | Reset or destroy |
-| `ERROR` | Unrecoverable error occurred | Any state on failure | 5 minutes auto-recovery | Circuit breaker opens |
+| State          | Description                                             | Allowed Entry          | Duration Limit            | Exit Actions                      |
+| -------------- | ------------------------------------------------------- | ---------------------- | ------------------------- | --------------------------------- |
+| `IDLE`         | Agent instantiated, no work pending                     | Construction, recovery | Unlimited                 | None                              |
+| `INITIALIZING` | Agent loading config, registering tools, warming caches | `initialize()` call    | 30 seconds                | Timeout triggers `ERROR`          |
+| `READY`        | Agent fully initialized, awaiting work                  | Successful init, reset | Unlimited                 | None                              |
+| `PROCESSING`   | Actively processing a query or task                     | `process()` call       | 60 seconds (configurable) | Timeout triggers fallback         |
+| `RESPONDING`   | Response generated, being validated and delivered       | Processing complete    | 10 seconds                | Delivery failure triggers `ERROR` |
+| `COMPLETED`    | Response successfully delivered                         | Successful response    | Unlimited                 | Reset or destroy                  |
+| `ERROR`        | Unrecoverable error occurred                            | Any state on failure   | 5 minutes auto-recovery   | Circuit breaker opens             |
 
 ### 4.3 State Transition Logic
 
@@ -362,10 +363,10 @@ class BaseAgent(ABC, Generic[T]):
         """Process a query. Main entry point for agent execution."""
         if self.status != AgentStatus.READY:
             raise AgentStateError(f"Cannot process in state {self.status.value}")
-        
+
         self._transition(AgentStatus.PROCESSING)
         self._start_time = datetime.utcnow()
-        
+
         try:
             async with asyncio.timeout(self._get_timeout()):
                 response = await self._execute(query, context)
@@ -441,14 +442,14 @@ class BaseAgent(ABC, Generic[T]):
 ### 4.4 Valid Transition Matrix
 
 | Current \ Target | IDLE | INIT | READY | PROC | RESP | COMP | ERROR |
-|------------------|------|------|-------|------|------|------|-------|
-| **IDLE** | - | Yes | - | - | - | - | Yes |
-| **INITIALIZING** | - | - | Yes | - | - | - | Yes |
-| **READY** | - | - | - | Yes | - | - | Yes |
-| **PROCESSING** | - | - | - | - | Yes | - | Yes |
-| **RESPONDING** | - | - | - | - | - | Yes | Yes |
-| **COMPLETED** | - | - | Yes | - | - | - | - |
-| **ERROR** | Yes | - | Yes | - | - | - | - |
+| ---------------- | ---- | ---- | ----- | ---- | ---- | ---- | ----- |
+| **IDLE**         | -    | Yes  | -     | -    | -    | -    | Yes   |
+| **INITIALIZING** | -    | -    | Yes   | -    | -    | -    | Yes   |
+| **READY**        | -    | -    | -     | Yes  | -    | -    | Yes   |
+| **PROCESSING**   | -    | -    | -     | -    | Yes  | -    | Yes   |
+| **RESPONDING**   | -    | -    | -     | -    | -    | Yes  | Yes   |
+| **COMPLETED**    | -    | -    | Yes   | -    | -    | -    | -     |
+| **ERROR**        | Yes  | -    | Yes   | -    | -    | -    | -     |
 
 ### 4.5 Lifecycle Hooks
 
@@ -496,10 +497,10 @@ class BaseAgent(ABC, Generic[T]):
     @abstractmethod
     async def can_handle(self, query: str) -> tuple[bool, float]:
         """Determine if this agent can handle a query.
-        
+
         Args:
             query: The visitor's question or request text.
-        
+
         Returns:
             Tuple of (can_handle: bool, confidence: float).
             Confidence is 0.0 to 1.0 indicating how well the agent matches.
@@ -509,16 +510,16 @@ class BaseAgent(ABC, Generic[T]):
     @abstractmethod
     async def _execute(self, query: str, context: AgentContext) -> AgentResponse:
         """Process a query and return a response.
-        
+
         This is the core processing method. Subclasses implement their
         domain-specific logic here, including RAG retrieval, tool calls,
         and response generation.
-        
+
         Args:
             query: The visitor's question or request text.
             context: Full agent context including conversation history,
                     page context, visitor information.
-        
+
         Returns:
             AgentResponse containing the response text, confidence, sources.
         """
@@ -529,12 +530,12 @@ class BaseAgent(ABC, Generic[T]):
         self, target_agent: str, context: AgentContext, reason: str
     ) -> AgentResponse:
         """Hand off processing to another agent with full context.
-        
+
         Args:
             target_agent: Name of the agent to hand off to.
             context: Full context including conversation state.
             reason: Human-readable reason for the handoff.
-        
+
         Returns:
             Response from the target agent.
         """
@@ -543,17 +544,17 @@ class BaseAgent(ABC, Generic[T]):
     @abstractmethod
     async def validate_response(self, response: AgentResponse) -> AgentResponse:
         """Validate an agent response before delivery.
-        
+
         Checks include:
         - Safety guardrail compliance
         - Confidence threshold
         - Source citation validity
         - Response format correctness
         - PII/content filter pass
-        
+
         Args:
             response: The agent response to validate.
-        
+
         Returns:
             Validated response (possibly modified) or raises ValidationError.
         """
@@ -562,12 +563,12 @@ class BaseAgent(ABC, Generic[T]):
 
 ### 5.2 Abstract Method Contract
 
-| Method | Returns | When Called | Error Behavior |
-|--------|---------|-------------|----------------|
-| `can_handle(query)` | `tuple[bool, float]` | During Supervisor routing | Return `(False, 0.0)`, do not raise |
-| `_execute(query, context)` | `AgentResponse` | During `process()` | Catch internally, return error response |
-| `handoff(target, context, reason)` | `AgentResponse` | When agent cannot answer | Route through Supervisor, never direct |
-| `validate_response(response)` | `AgentResponse` | After generation, before delivery | Raise `ValidationError` on failure |
+| Method                             | Returns              | When Called                       | Error Behavior                          |
+| ---------------------------------- | -------------------- | --------------------------------- | --------------------------------------- |
+| `can_handle(query)`                | `tuple[bool, float]` | During Supervisor routing         | Return `(False, 0.0)`, do not raise     |
+| `_execute(query, context)`         | `AgentResponse`      | During `process()`                | Catch internally, return error response |
+| `handoff(target, context, reason)` | `AgentResponse`      | When agent cannot answer          | Route through Supervisor, never direct  |
+| `validate_response(response)`      | `AgentResponse`      | After generation, before delivery | Raise `ValidationError` on failure      |
 
 ### 5.3 Input/Output Models
 
@@ -642,91 +643,91 @@ Agents are configured via a standardized YAML schema. The schema defines what an
 # Example: config/agents/portfolio_agent.yaml
 agent:
   name: portfolio_agent
-  version: "1.0.0"
-  description: "Answers general questions about the portfolio owner"
+  version: '1.0.0'
+  description: 'Answers general questions about the portfolio owner'
   category: knowledge
-  
+
   metadata:
-    owner: "ai-platform-team"
-    tags: ["portfolio", "general", "primary"]
-    created_at: "2026-06-01T00:00:00Z"
-  
+    owner: 'ai-platform-team'
+    tags: ['portfolio', 'general', 'primary']
+    created_at: '2026-06-01T00:00:00Z'
+
   capabilities:
     - answer_portfolio_overview
     - explain_skill_proficiency
     - describe_tech_stack
     - summarise_experience
     - provide_availability_info
-  
+
   knowledge_sources:
     - projects
     - skills
     - about
     - experience
     - services
-  
+
   tools:
     - name: get_portfolio_summary
-      description: "Get pre-computed portfolio summary"
+      description: 'Get pre-computed portfolio summary'
       permission_level: read
       rate_limit: 100
       timeout_ms: 2000
     - name: get_skills_by_category
-      description: "Get skills grouped by category"
+      description: 'Get skills grouped by category'
       permission_level: read
       rate_limit: 100
       timeout_ms: 2000
     - name: get_availability_status
-      description: "Get current availability"
+      description: 'Get current availability'
       permission_level: read
       rate_limit: 60
       timeout_ms: 1000
     - name: search_knowledge_base
-      description: "Search RAG knowledge base"
+      description: 'Search RAG knowledge base'
       permission_level: read
       rate_limit: 100
       timeout_ms: 5000
-  
+
   input_constraints:
     max_query_length: 2000
     required_context:
       - visitor_type
-  
+
   output_formats:
     - text
     - structured_data
-  
+
   confidence_threshold: 0.7
   fallback_agent: supervisor
-  
+
   model:
     primary: gpt-4
     fallback: claude-sonnet-4
     temperature: 0.7
     max_tokens: 500
-  
+
   guardrails:
     - id: PORT-001
-      description: "Only answer from indexed knowledge sources"
+      description: 'Only answer from indexed knowledge sources'
       severity: critical
     - id: PORT-002
-      description: "Never share email, phone, or address"
+      description: 'Never share email, phone, or address'
       severity: critical
     - id: PORT-003
-      description: "Never quote prices"
+      description: 'Never quote prices'
       severity: high
-  
+
   permissions:
-    - "read:projects"
-    - "read:skills"
-    - "read:about"
-    - "read:experience"
-    - "read:services"
-  
+    - 'read:projects'
+    - 'read:skills'
+    - 'read:about'
+    - 'read:experience'
+    - 'read:services'
+
   memory:
     session_turns: 5
     persist_messages: false
-  
+
   evaluation:
     metrics:
       - name: answer_accuracy
@@ -777,20 +778,20 @@ agent:
         },
         "capabilities": {
           "type": "array",
-          "items": {"type": "string"},
+          "items": { "type": "string" },
           "minItems": 1
         },
         "tools": {
           "type": "array",
-          "items": {"$ref": "#/$defs/ToolConfig"}
+          "items": { "$ref": "#/$defs/ToolConfig" }
         },
         "guardrails": {
           "type": "array",
-          "items": {"$ref": "#/$defs/GuardrailConfig"}
+          "items": { "$ref": "#/$defs/GuardrailConfig" }
         },
         "permissions": {
           "type": "array",
-          "items": {"type": "string"}
+          "items": { "type": "string" }
         },
         "confidence_threshold": {
           "type": "number",
@@ -810,22 +811,22 @@ agent:
       "type": "object",
       "required": ["name", "description", "permission_level"],
       "properties": {
-        "name": {"type": "string"},
-        "description": {"type": "string"},
+        "name": { "type": "string" },
+        "description": { "type": "string" },
         "permission_level": {
           "type": "string",
           "enum": ["read", "write", "admin"]
         },
-        "rate_limit": {"type": "integer", "minimum": 1},
-        "timeout_ms": {"type": "integer", "minimum": 100}
+        "rate_limit": { "type": "integer", "minimum": 1 },
+        "timeout_ms": { "type": "integer", "minimum": 100 }
       }
     },
     "GuardrailConfig": {
       "type": "object",
       "required": ["id", "description", "severity"],
       "properties": {
-        "id": {"type": "string"},
-        "description": {"type": "string"},
+        "id": { "type": "string" },
+        "description": { "type": "string" },
         "severity": {
           "type": "string",
           "enum": ["critical", "high", "medium", "low"]
@@ -892,38 +893,38 @@ class AgentConfigLoader:
 
 ### 6.4 Configuration Parameters
 
-| Parameter | Type | Default | Description | Required |
-|-----------|------|---------|-------------|----------|
-| `agent.name` | `string` | - | Unique snake_case identifier | Yes |
-| `agent.version` | `string` | - | Semantic version | Yes |
-| `agent.description` | `string` | - | Human-readable purpose | Yes |
-| `agent.category` | `enum` | - | `knowledge`, `content`, `operational`, `orchestration` | Yes |
-| `agent.capabilities` | `array` | `[]` | List of capability identifiers | Yes |
-| `agent.knowledge_sources` | `array` | `[]` | RAG source names | No |
-| `agent.tools` | `array` | `[]` | Tool definitions | No |
-| `agent.guardrails` | `array` | `[]` | Domain-specific guardrails | No |
-| `agent.permissions` | `array` | `[]` | Permission strings | No |
-| `agent.confidence_threshold` | `number` | `0.7` | Minimum confidence (0-1) | No |
-| `agent.fallback_agent` | `string` | `supervisor` | Fallback routing target | No |
-| `agent.model.primary` | `string` | - | Primary LLM model ID | No |
-| `agent.model.fallback` | `string` | - | Fallback LLM model ID | No |
-| `agent.model.temperature` | `number` | `0.7` | LLM temperature | No |
-| `agent.model.max_tokens` | `integer` | `500` | Max output tokens | No |
-| `agent.memory.session_turns` | `integer` | `5` | Turns kept in context | No |
-| `agent.memory.persist_messages` | `boolean` | `false` | Persist to database | No |
-| `agent.evaluation.metrics` | `array` | `[]` | Evaluation metric definitions | No |
+| Parameter                       | Type      | Default      | Description                                            | Required |
+| ------------------------------- | --------- | ------------ | ------------------------------------------------------ | -------- |
+| `agent.name`                    | `string`  | -            | Unique snake_case identifier                           | Yes      |
+| `agent.version`                 | `string`  | -            | Semantic version                                       | Yes      |
+| `agent.description`             | `string`  | -            | Human-readable purpose                                 | Yes      |
+| `agent.category`                | `enum`    | -            | `knowledge`, `content`, `operational`, `orchestration` | Yes      |
+| `agent.capabilities`            | `array`   | `[]`         | List of capability identifiers                         | Yes      |
+| `agent.knowledge_sources`       | `array`   | `[]`         | RAG source names                                       | No       |
+| `agent.tools`                   | `array`   | `[]`         | Tool definitions                                       | No       |
+| `agent.guardrails`              | `array`   | `[]`         | Domain-specific guardrails                             | No       |
+| `agent.permissions`             | `array`   | `[]`         | Permission strings                                     | No       |
+| `agent.confidence_threshold`    | `number`  | `0.7`        | Minimum confidence (0-1)                               | No       |
+| `agent.fallback_agent`          | `string`  | `supervisor` | Fallback routing target                                | No       |
+| `agent.model.primary`           | `string`  | -            | Primary LLM model ID                                   | No       |
+| `agent.model.fallback`          | `string`  | -            | Fallback LLM model ID                                  | No       |
+| `agent.model.temperature`       | `number`  | `0.7`        | LLM temperature                                        | No       |
+| `agent.model.max_tokens`        | `integer` | `500`        | Max output tokens                                      | No       |
+| `agent.memory.session_turns`    | `integer` | `5`          | Turns kept in context                                  | No       |
+| `agent.memory.persist_messages` | `boolean` | `false`      | Persist to database                                    | No       |
+| `agent.evaluation.metrics`      | `array`   | `[]`         | Evaluation metric definitions                          | No       |
 
 ### 6.5 Environment Variable Overrides
 
 Configuration values can be overridden at runtime via environment variables:
 
-| Environment Variable | Overrides | Example |
-|---------------------|-----------|---------|
+| Environment Variable                | Overrides              | Example                                    |
+| ----------------------------------- | ---------------------- | ------------------------------------------ |
 | `AGENT_{NAME}_CONFIDENCE_THRESHOLD` | `confidence_threshold` | `AGENT_PORTFOLIO_CONFIDENCE_THRESHOLD=0.8` |
-| `AGENT_{NAME}_PRIMARY_MODEL` | `model.primary` | `AGENT_PORTFOLIO_PRIMARY_MODEL=gpt-4o` |
-| `AGENT_{NAME}_TIMEOUT_MS` | Processing timeout | `AGENT_PORTFOLIO_TIMEOUT_MS=10000` |
-| `AGENT_{NAME}_ENABLED` | Enable/disable agent | `AGENT_PORTFOLIO_ENABLED=true` |
-| `AGENT_CONFIG_DIR` | Config directory | `AGENT_CONFIG_DIR=/etc/agents` |
+| `AGENT_{NAME}_PRIMARY_MODEL`        | `model.primary`        | `AGENT_PORTFOLIO_PRIMARY_MODEL=gpt-4o`     |
+| `AGENT_{NAME}_TIMEOUT_MS`           | Processing timeout     | `AGENT_PORTFOLIO_TIMEOUT_MS=10000`         |
+| `AGENT_{NAME}_ENABLED`              | Enable/disable agent   | `AGENT_PORTFOLIO_ENABLED=true`             |
+| `AGENT_CONFIG_DIR`                  | Config directory       | `AGENT_CONFIG_DIR=/etc/agents`             |
 
 ---
 
@@ -1123,11 +1124,11 @@ class PortfolioAgent(BaseAgent):
 
 ### 7.4 Tool Permission Model
 
-| Permission Level | Description | Examples | Guardrail |
-|-----------------|-------------|----------|-----------|
-| `read` | Read-only data access | Query database, read cache, search knowledge base | Cannot modify any state |
-| `write` | Create or modify data | Create leads, update settings, send notifications | Requires audit logging |
-| `admin` | System-level operations | Invalidate caches, trigger reindex, modify config | Requires auth + audit |
+| Permission Level | Description             | Examples                                          | Guardrail               |
+| ---------------- | ----------------------- | ------------------------------------------------- | ----------------------- |
+| `read`           | Read-only data access   | Query database, read cache, search knowledge base | Cannot modify any state |
+| `write`          | Create or modify data   | Create leads, update settings, send notifications | Requires audit logging  |
+| `admin`          | System-level operations | Invalidate caches, trigger reindex, modify config | Requires auth + audit   |
 
 ### 7.5 Tool Execution Flow
 
@@ -1143,14 +1144,14 @@ sequenceDiagram
     A->>TR: invoke_tool("search_knowledge_base", params)
     TR->>P: check_permission("read", agent)
     P-->>TR: permitted
-    
+
     TR->>R: check_rate_limit("search_knowledge_base", agent)
     R-->>TR: within limit
-    
+
     TR->>TI: execute(params)
     TI->>TI: run with timeout
     TI-->>TR: ToolResult
-    
+
     alt Success
         TR->>L: log_success(call)
         TR-->>A: ToolResult(success=True, data=...)
@@ -1168,23 +1169,23 @@ sequenceDiagram
 
 All agents inherit these base tools automatically:
 
-| Tool | Description | Permission | Rate Limit | Timeout |
-|------|-------------|------------|------------|---------|
-| `get_agent_info` | Return agent metadata and capabilities | `read` | 1000/min | 500ms |
-| `check_health` | Return agent health status | `read` | 1000/min | 500ms |
-| `get_state` | Return current agent state (non-private) | `read` | 100/min | 500ms |
-| `list_tools` | List all registered tools | `read` | 100/min | 500ms |
+| Tool             | Description                              | Permission | Rate Limit | Timeout |
+| ---------------- | ---------------------------------------- | ---------- | ---------- | ------- |
+| `get_agent_info` | Return agent metadata and capabilities   | `read`     | 1000/min   | 500ms   |
+| `check_health`   | Return agent health status               | `read`     | 1000/min   | 500ms   |
+| `get_state`      | Return current agent state (non-private) | `read`     | 100/min    | 500ms   |
+| `list_tools`     | List all registered tools                | `read`     | 100/min    | 500ms   |
 
 ### 7.7 Tool Error Handling
 
-| Error | Code | Description | Recovery |
-|-------|------|-------------|----------|
-| Tool not found | `TOOL_NOT_FOUND` | Requested tool is not registered | Log error, return failure |
-| Tool disabled | `TOOL_DISABLED` | Tool exists but is disabled | Return failure, alert admin |
-| Permission denied | `PERMISSION_DENIED` | Agent lacks required permission | Return failure, log incident |
-| Rate limited | `RATE_LIMITED` | Exceeded rate limit for tool | Retry with backoff |
-| Timeout | `TIMEOUT` | Tool execution exceeded timeout | Return failure, circuit breaker |
-| Execution error | `EXECUTION_ERROR` | Tool implementation raised exception | Log error, return failure |
+| Error             | Code                | Description                          | Recovery                        |
+| ----------------- | ------------------- | ------------------------------------ | ------------------------------- |
+| Tool not found    | `TOOL_NOT_FOUND`    | Requested tool is not registered     | Log error, return failure       |
+| Tool disabled     | `TOOL_DISABLED`     | Tool exists but is disabled          | Return failure, alert admin     |
+| Permission denied | `PERMISSION_DENIED` | Agent lacks required permission      | Return failure, log incident    |
+| Rate limited      | `RATE_LIMITED`      | Exceeded rate limit for tool         | Retry with backoff              |
+| Timeout           | `TIMEOUT`           | Tool execution exceeded timeout      | Return failure, circuit breaker |
+| Execution error   | `EXECUTION_ERROR`   | Tool implementation raised exception | Log error, return failure       |
 
 ---
 
@@ -1257,7 +1258,7 @@ sequenceDiagram
 
     S->>A: REQUEST (msg_001, corr_001)
     Note over A: Process query
-    
+
     alt Direct Response
         A-->>S: RESPONSE (msg_002, corr_001)
         Note over S: Response complete
@@ -1326,18 +1327,18 @@ HANDOFF_PAYLOAD_EXAMPLE = {
 
 ### 8.4 Communication Rules
 
-| Rule | ID | Description | Enforcement |
-|------|----|-------------|-------------|
-| Supervisor Hub | COMM-001 | All inter-agent communication goes through Supervisor | Message bus routing rules |
-| Full Context Transfer | COMM-002 | Handoffs include complete conversation context | Schema validation on handoff |
-| Correlation ID | COMM-003 | Every message chain has a unique correlation ID | Auto-generated on first message |
-| Timeout Enforcement | COMM-004 | Agent processing must complete within configured timeout | asyncio timeout wrapper |
-| Retry with Backoff | COMM-005 | Transient failures retry with exponential backoff | Circuit breaker pattern |
-| Idempotent Messages | COMM-006 | Repeated messages with same ID produce same result | Dedup by message_id |
-| Priority Queuing | COMM-007 | Lead-related messages get priority over informational | Priority field in message |
-| Message Validation | COMM-008 | All messages validated against schema on send/receive | Pydantic validation |
-| TTL Enforcement | COMM-009 | Messages expire after TTL and are dropped | Timestamp check on receive |
-| Audit Trail | COMM-010 | All inter-agent messages logged for traceability | Structured logging |
+| Rule                  | ID       | Description                                              | Enforcement                     |
+| --------------------- | -------- | -------------------------------------------------------- | ------------------------------- |
+| Supervisor Hub        | COMM-001 | All inter-agent communication goes through Supervisor    | Message bus routing rules       |
+| Full Context Transfer | COMM-002 | Handoffs include complete conversation context           | Schema validation on handoff    |
+| Correlation ID        | COMM-003 | Every message chain has a unique correlation ID          | Auto-generated on first message |
+| Timeout Enforcement   | COMM-004 | Agent processing must complete within configured timeout | asyncio timeout wrapper         |
+| Retry with Backoff    | COMM-005 | Transient failures retry with exponential backoff        | Circuit breaker pattern         |
+| Idempotent Messages   | COMM-006 | Repeated messages with same ID produce same result       | Dedup by message_id             |
+| Priority Queuing      | COMM-007 | Lead-related messages get priority over informational    | Priority field in message       |
+| Message Validation    | COMM-008 | All messages validated against schema on send/receive    | Pydantic validation             |
+| TTL Enforcement       | COMM-009 | Messages expire after TTL and are dropped                | Timestamp check on receive      |
+| Audit Trail           | COMM-010 | All inter-agent messages logged for traceability         | Structured logging              |
 
 ### 8.5 Message Bus
 
@@ -1484,20 +1485,20 @@ class GuardrailResult:
 
 ### 9.2 Inherited Guardrails
 
-| ID | Rule | Severity | Action | Description |
-|----|------|----------|--------|-------------|
-| BASE-001 | Knowledge Boundary | CRITICAL | Block | Only answer based on provided context or retrieved knowledge |
-| BASE-002 | No PII Exposure | CRITICAL | Block | Never expose email, phone, address, or other PII |
-| BASE-003 | No Harmful Content | CRITICAL | Block | Never generate harmful, illegal, or unethical content |
-| BASE-004 | No Impersonation | HIGH | Block | Never claim to be human or impersonate the portfolio owner |
-| BASE-005 | Confidence Threshold | HIGH | Block | Do not serve responses below configured confidence threshold |
-| BASE-006 | Scope Enforcement | HIGH | Block | Stay within declared capabilities; refuse out-of-scope queries |
-| BASE-007 | Honesty | HIGH | Block | Admit "I don't know" rather than fabricating information |
-| BASE-008 | Input Validation | CRITICAL | Block | Reject inputs exceeding max length or containing injection patterns |
-| BASE-009 | Output Validation | CRITICAL | Block | Filter output for PII, harmful content, and format compliance |
-| BASE-010 | Professional Tone | MEDIUM | Flag | Maintain professional, respectful tone in all responses |
-| BASE-011 | No External Knowledge | HIGH | Block | Do not use knowledge outside the configured knowledge sources |
-| BASE-012 | Session Limits | MEDIUM | Block | Enforce per-session message limits and rate limits |
+| ID       | Rule                  | Severity | Action | Description                                                         |
+| -------- | --------------------- | -------- | ------ | ------------------------------------------------------------------- |
+| BASE-001 | Knowledge Boundary    | CRITICAL | Block  | Only answer based on provided context or retrieved knowledge        |
+| BASE-002 | No PII Exposure       | CRITICAL | Block  | Never expose email, phone, address, or other PII                    |
+| BASE-003 | No Harmful Content    | CRITICAL | Block  | Never generate harmful, illegal, or unethical content               |
+| BASE-004 | No Impersonation      | HIGH     | Block  | Never claim to be human or impersonate the portfolio owner          |
+| BASE-005 | Confidence Threshold  | HIGH     | Block  | Do not serve responses below configured confidence threshold        |
+| BASE-006 | Scope Enforcement     | HIGH     | Block  | Stay within declared capabilities; refuse out-of-scope queries      |
+| BASE-007 | Honesty               | HIGH     | Block  | Admit "I don't know" rather than fabricating information            |
+| BASE-008 | Input Validation      | CRITICAL | Block  | Reject inputs exceeding max length or containing injection patterns |
+| BASE-009 | Output Validation     | CRITICAL | Block  | Filter output for PII, harmful content, and format compliance       |
+| BASE-010 | Professional Tone     | MEDIUM   | Flag   | Maintain professional, respectful tone in all responses             |
+| BASE-011 | No External Knowledge | HIGH     | Block  | Do not use knowledge outside the configured knowledge sources       |
+| BASE-012 | Session Limits        | MEDIUM   | Block  | Enforce per-session message limits and rate limits                  |
 
 ### 9.3 Guardrail Enforcement
 
@@ -1517,39 +1518,39 @@ class GuardrailEnforcer:
     async def check_input(self, query: str, context: AgentContext) -> list[GuardrailResult]:
         """Check input against all registered guardrails."""
         results = []
-        
+
         for guardrail in self.guardrails:
             if not guardrail.enabled:
                 continue
             result = await self._check_single(guardrail, query, context)
             results.append(result)
             self.check_history.append(result)
-            
+
             if not result.passed and guardrail.action == "block":
                 logger.warning(
                     f"Guardrail {guardrail.id} blocked input: {result.details}"
                 )
                 break
-        
+
         return results
 
     async def check_output(self, response: AgentResponse) -> list[GuardrailResult]:
         """Check output against all registered guardrails."""
         results = []
-        
+
         for guardrail in self.guardrails:
             if not guardrail.enabled:
                 continue
             result = await self._check_output_single(guardrail, response)
             results.append(result)
             self.check_history.append(result)
-            
+
             if not result.passed and guardrail.action == "block":
                 logger.warning(
                     f"Guardrail {guardrail.id} blocked output: {result.details}"
                 )
                 break
-        
+
         return results
 
     async def _check_single(
@@ -1624,18 +1625,18 @@ flowchart LR
         I3[Injection Check\nBASE-008]
         I4[Scope Check\nBASE-006]
     end
-    
+
     subgraph "Processing"
         P1[Agent Processing\nContext + Tools + LLM]
     end
-    
+
     subgraph "Output Guardrails"
         O1[Confidence Check\nBASE-005]
         O2[PII Scan\nBASE-002]
         O3[Source Citation\nBASE-001]
         O4[Tone Check\nBASE-010]
     end
-    
+
     Q[Query] --> I1
     I1 -->|Pass| I2
     I1 -->|Fail| R1[Reject: Too Long]
@@ -1645,7 +1646,7 @@ flowchart LR
     I3 -->|Fail| R3[Reject: Invalid Input]
     I4 -->|Pass| P1
     I4 -->|Fail| R4[Reject: Out of Scope]
-    
+
     P1 --> O1
     O1 -->|Pass| O2
     O1 -->|Fail| R5[Regenerate]
@@ -1687,18 +1688,18 @@ class ResumeAgent(BaseAgent):
 
 Every agent tracks the following base metrics automatically:
 
-| Metric | ID | Description | Type | Collection Method |
-|--------|----|-------------|------|-------------------|
-| Response Accuracy | `BASE_METRIC_ACCURACY` | Percentage of responses that are factually correct | Ratio | Manual sampling + DB cross-reference |
-| Safety Compliance | `BASE_METRIC_SAFETY` | Percentage of responses passing all guardrails | Ratio | Automated guardrail check |
-| Average Latency | `BASE_METRIC_LATENCY` | Average end-to-end processing time | Duration (ms) | Auto-timed from process() call |
-| p95 Latency | `BASE_METRIC_LATENCY_P95` | 95th percentile processing time | Duration (ms) | Auto-timed from process() call |
-| Error Rate | `BASE_METRIC_ERROR_RATE` | Percentage of calls ending in ERROR state | Ratio | State transition tracking |
-| Confidence Score | `BASE_METRIC_CONFIDENCE` | Average confidence score of responses | Float (0-1) | From AgentResponse |
-| Handoff Rate | `BASE_METRIC_HANDOFF_RATE` | Percentage of calls requiring handoff | Ratio | From AgentResponse |
-| Token Usage | `BASE_METRIC_TOKENS` | Average tokens used per response | Integer | From LLM response |
-| Cost Per Call | `BASE_METRIC_COST` | Average cost per agent invocation | Cents | From model + token count |
-| Utilization | `BASE_METRIC_UTILIZATION` | Percentage of time agent spends in PROCESSING state | Ratio | State duration tracking |
+| Metric            | ID                         | Description                                         | Type          | Collection Method                    |
+| ----------------- | -------------------------- | --------------------------------------------------- | ------------- | ------------------------------------ |
+| Response Accuracy | `BASE_METRIC_ACCURACY`     | Percentage of responses that are factually correct  | Ratio         | Manual sampling + DB cross-reference |
+| Safety Compliance | `BASE_METRIC_SAFETY`       | Percentage of responses passing all guardrails      | Ratio         | Automated guardrail check            |
+| Average Latency   | `BASE_METRIC_LATENCY`      | Average end-to-end processing time                  | Duration (ms) | Auto-timed from process() call       |
+| p95 Latency       | `BASE_METRIC_LATENCY_P95`  | 95th percentile processing time                     | Duration (ms) | Auto-timed from process() call       |
+| Error Rate        | `BASE_METRIC_ERROR_RATE`   | Percentage of calls ending in ERROR state           | Ratio         | State transition tracking            |
+| Confidence Score  | `BASE_METRIC_CONFIDENCE`   | Average confidence score of responses               | Float (0-1)   | From AgentResponse                   |
+| Handoff Rate      | `BASE_METRIC_HANDOFF_RATE` | Percentage of calls requiring handoff               | Ratio         | From AgentResponse                   |
+| Token Usage       | `BASE_METRIC_TOKENS`       | Average tokens used per response                    | Integer       | From LLM response                    |
+| Cost Per Call     | `BASE_METRIC_COST`         | Average cost per agent invocation                   | Cents         | From model + token count             |
+| Utilization       | `BASE_METRIC_UTILIZATION`  | Percentage of time agent spends in PROCESSING state | Ratio         | State duration tracking              |
 
 ### 10.2 Metric Definition
 
@@ -1859,18 +1860,18 @@ class MetricsCollector:
     def get_health_status(self) -> str:
         """Return agent health status based on recent metrics."""
         report = self.get_report(window_minutes=5)
-        
+
         if report["total_calls"] == 0:
             return "inactive"
-        
+
         error_rate_metric = report["metrics"].get("error_rate", {})
         error_rate = error_rate_metric.get("value", 0)
-        
+
         if error_rate > 0.1:
             return "degraded"
         if error_rate > 0.25:
             return "unhealthy"
-        
+
         return "healthy"
 ```
 
@@ -1898,14 +1899,14 @@ flowchart LR
     B --> C[Safety Guardrails\nPass/Fail]
     B --> D[Quality Check\nConfidence, Sources]
     B --> E[Performance\nLatency, Tokens]
-    
+
     C --> F{All Pass?}
     D --> F
     E --> F
-    
+
     F -->|Yes| G[Record Metrics]
     F -->|No| H[Log Violation]
-    
+
     G --> I[Weekly Scorecard\nManual Sample]
     I --> J[Per-Agent Evaluation\nReport]
     J --> K[Improvement Loop\nThreshold Tuning]
@@ -1913,12 +1914,12 @@ flowchart LR
 
 ### 10.6 A/B Evaluation Framework
 
-| Variant | Change | Sample Size | Duration | Success Criteria |
-|---------|--------|-------------|----------|-----------------|
-| Control (A) | Current configuration | 500 conversations | 2 weeks | Baseline metrics |
-| Test (B1) | Lower confidence threshold by 0.1 | 500 conversations | 2 weeks | 5% reduction in unhandled queries |
-| Test (B2) | Add pre-retrieval RAG context | 500 conversations | 2 weeks | 10% latency improvement |
-| Test (B3) | Different system prompt template | 500 conversations | 2 weeks | 5% accuracy improvement |
+| Variant     | Change                            | Sample Size       | Duration | Success Criteria                  |
+| ----------- | --------------------------------- | ----------------- | -------- | --------------------------------- |
+| Control (A) | Current configuration             | 500 conversations | 2 weeks  | Baseline metrics                  |
+| Test (B1)   | Lower confidence threshold by 0.1 | 500 conversations | 2 weeks  | 5% reduction in unhandled queries |
+| Test (B2)   | Add pre-retrieval RAG context     | 500 conversations | 2 weeks  | 10% latency improvement           |
+| Test (B3)   | Different system prompt template  | 500 conversations | 2 weeks  | 5% accuracy improvement           |
 
 ---
 
@@ -1941,7 +1942,7 @@ class AgentRegistry:
         name = agent.metadata.name
         if name in self._agents:
             logger.warning(f"Overwriting existing agent registration: {name}")
-        
+
         self._agents[name] = agent
         self._manifests[name] = agent.capability_manifest
         logger.info(f"Agent registered: {name} v{agent.metadata.version}")
@@ -2034,14 +2035,14 @@ class BaseAgent(ABC, Generic[T]):
 
 ### 13.1 Logging Standards
 
-| Event | Level | Payload | Example |
-|-------|-------|---------|---------|
-| State transition | DEBUG | `{agent, from_state, to_state}` | `portfolio: READY -> PROCESSING` |
-| Tool invocation | INFO | `{agent, tool, params, duration}` | `portfolio called search_knowledge_base in 234ms` |
-| Guardrail violation | WARNING | `{agent, guardrail_id, details}` | `portfolio: BASE-002 blocked PII in output` |
-| Handoff | INFO | `{from_agent, to_agent, reason}` | `portfolio -> projects: needs project details` |
-| Error | ERROR | `{agent, error, stacktrace}` | `portfolio: ProcessingError - LLM timeout` |
-| Metric record | DEBUG | `{agent, metric, value}` | `portfolio: accuracy=0.96` |
+| Event               | Level   | Payload                           | Example                                           |
+| ------------------- | ------- | --------------------------------- | ------------------------------------------------- |
+| State transition    | DEBUG   | `{agent, from_state, to_state}`   | `portfolio: READY -> PROCESSING`                  |
+| Tool invocation     | INFO    | `{agent, tool, params, duration}` | `portfolio called search_knowledge_base in 234ms` |
+| Guardrail violation | WARNING | `{agent, guardrail_id, details}`  | `portfolio: BASE-002 blocked PII in output`       |
+| Handoff             | INFO    | `{from_agent, to_agent, reason}`  | `portfolio -> projects: needs project details`    |
+| Error               | ERROR   | `{agent, error, stacktrace}`      | `portfolio: ProcessingError - LLM timeout`        |
+| Metric record       | DEBUG   | `{agent, metric, value}`          | `portfolio: accuracy=0.96`                        |
 
 ### 13.2 Structured Logging
 
@@ -2125,16 +2126,16 @@ class PermissionDeniedError(AgentError):
 
 ### 14.2 Error Recovery Strategy
 
-| Error | Recovery Action | Circuit Breaker | Notify Admin |
-|-------|----------------|-----------------|--------------|
-| `AgentInitializationError` | Retry init with backoff (3 attempts) | Open for 60s after 3 failures | Yes |
-| `AgentStateError` | Reset to IDLE, reinitialize | None | No |
-| `AgentProcessingError` | Return error response, increment error count | Open for 30s after 5 failures | If > 10 in 1 hour |
-| `AgentTimeoutError` | Return timeout response, increment error count | Open for 30s after 3 failures | If > 5 in 1 hour |
-| `ToolNotFoundError` | Log error, return failure | None | Yes |
-| `ToolExecutionError` | Retry once, log failure | Per-tool circuit breaker | If persistent |
-| `GuardrailViolationError` | Block response, log incident | None | If critical severity |
-| `PermissionDeniedError` | Return failure, log incident | None | Yes |
+| Error                      | Recovery Action                                | Circuit Breaker               | Notify Admin         |
+| -------------------------- | ---------------------------------------------- | ----------------------------- | -------------------- |
+| `AgentInitializationError` | Retry init with backoff (3 attempts)           | Open for 60s after 3 failures | Yes                  |
+| `AgentStateError`          | Reset to IDLE, reinitialize                    | None                          | No                   |
+| `AgentProcessingError`     | Return error response, increment error count   | Open for 30s after 5 failures | If > 10 in 1 hour    |
+| `AgentTimeoutError`        | Return timeout response, increment error count | Open for 30s after 3 failures | If > 5 in 1 hour     |
+| `ToolNotFoundError`        | Log error, return failure                      | None                          | Yes                  |
+| `ToolExecutionError`       | Retry once, log failure                        | Per-tool circuit breaker      | If persistent        |
+| `GuardrailViolationError`  | Block response, log incident                   | None                          | If critical severity |
+| `PermissionDeniedError`    | Return failure, log incident                   | None                          | Yes                  |
 
 ### 14.3 Graceful Degradation
 
@@ -2145,19 +2146,19 @@ class BaseAgent(ABC, Generic[T]):
         self, query: str, context: AgentContext
     ) -> AgentResponse:
         """Process with automatic degradation on failure."""
-        
+
         # Level 1: Full processing (primary model + RAG + tools)
         try:
             return await self.process(query, context)
         except Exception as e:
             logger.warning(f"Level 1 failed for {self.metadata.name}: {e}")
-        
+
         # Level 2: Reduced processing (fallback model, no tools)
         try:
             return await self._process_reduced(query, context)
         except Exception as e:
             logger.warning(f"Level 2 failed for {self.metadata.name}: {e}")
-        
+
         # Level 3: Minimal response (no LLM, static fallback)
         return AgentResponse(
             message="I'm currently unable to process complex requests. "
@@ -2174,14 +2175,14 @@ class BaseAgent(ABC, Generic[T]):
 
 ### 15.1 Test Categories
 
-| Test Type | What It Tests | Framework | Frequency |
-|-----------|--------------|-----------|-----------|
-| Unit tests | Individual methods, state transitions, guardrails | pytest | Every commit |
-| Integration tests | Tool system, message bus, registry | pytest-asyncio | Every commit |
-| Behavior tests | can_handle, process, handoff flows | pytest + mocks | Every commit |
-| Safety tests | All guardrails enforced correctly | pytest + adversarial inputs | Daily |
-| Load tests | Performance under concurrent calls | locust | Weekly |
-| Evaluation tests | Metrics collection and reporting | pytest | Every commit |
+| Test Type         | What It Tests                                     | Framework                   | Frequency    |
+| ----------------- | ------------------------------------------------- | --------------------------- | ------------ |
+| Unit tests        | Individual methods, state transitions, guardrails | pytest                      | Every commit |
+| Integration tests | Tool system, message bus, registry                | pytest-asyncio              | Every commit |
+| Behavior tests    | can_handle, process, handoff flows                | pytest + mocks              | Every commit |
+| Safety tests      | All guardrails enforced correctly                 | pytest + adversarial inputs | Daily        |
+| Load tests        | Performance under concurrent calls                | locust                      | Weekly       |
+| Evaluation tests  | Metrics collection and reporting                  | pytest                      | Every commit |
 
 ### 15.2 Unit Test Template
 
@@ -2195,7 +2196,7 @@ async def test_agent_state_transitions():
     """Test valid state transitions."""
     agent = PortfolioAgent()
     assert agent.status == AgentStatus.IDLE
-    
+
     await agent.initialize()
     assert agent.status == AgentStatus.READY
 
@@ -2205,7 +2206,7 @@ async def test_agent_invalid_transition():
     """Test that invalid transitions raise an error."""
     agent = PortfolioAgent()
     agent.status = AgentStatus.PROCESSING
-    
+
     with pytest.raises(AgentStateError):
         await agent.initialize()  # Can't init from PROCESSING
 
@@ -2215,7 +2216,7 @@ async def test_agent_can_handle():
     """Test capability matching."""
     agent = PortfolioAgent()
     await agent.initialize()
-    
+
     can_handle, confidence = await agent.can_handle("What do you do?")
     assert can_handle is True
     assert confidence > 0.7
@@ -2226,7 +2227,7 @@ async def test_guardrail_pii_block():
     """Test that PII is blocked in output."""
     agent = PortfolioAgent()
     await agent.initialize()
-    
+
     response = agent.validate_response(AgentResponse(
         message="Contact me at test@email.com",
         agent_name="portfolio_agent",
@@ -2240,99 +2241,99 @@ async def test_guardrail_pii_block():
 
 ### 16.1 Internal References
 
-| Document | Description | Key Sections |
-|----------|-------------|--------------|
-| `docs/ai/18-AGENTS.md` | Concrete agent implementations and orchestration | All specialist agents built on this base |
-| `docs/ai/AgentMarketplace.md` | Agent discoverability, versioning, distribution | Agent publishing, dependency resolution |
-| `docs/ai/MemoryArchitecture.md` | Agent memory persistence layer | Session memory, working memory, episodic memory |
-| `docs/ai/CommandSystem.md` | Command pattern for tool invocations | Command definitions, execution, rollback |
-| `docs/design/08g-AI-ASSISTANT-ARCHITECTURE.md` | Higher-level AI assistant orchestration | System architecture, request flow, model strategy |
-| `docs/ai/17-AI_INSTRUCTIONS.md` | AI operating model and governance | Safety rules, memory rules, evaluation framework |
-| `docs/ai/19-RAG.md` | RAG pipeline for knowledge retrieval | Embedding, vector search, context assembly |
-| `docs/api/46-EVENT-ARCHITECTURE.md` | Event-driven communication backbone | Event types, publishing, subscribing |
+| Document                                      | Description                                      | Key Sections                                      |
+| --------------------------------------------- | ------------------------------------------------ | ------------------------------------------------- |
+| `docs/08-ai/18-AGENTS.md`                     | Concrete agent implementations and orchestration | All specialist agents built on this base          |
+| `docs/08-ai/AGENT-MARKETPLACE.md`             | Agent discoverability, versioning, distribution  | Agent publishing, dependency resolution           |
+| `docs/08-ai/MEMORY-ARCHITECTURE.md`           | Agent memory persistence layer                   | Session memory, working memory, episodic memory   |
+| `docs/08-ai/COMMAND-SYSTEM.md`                | Command pattern for tool invocations             | Command definitions, execution, rollback          |
+| `docs/08-ai/08g-AI-ASSISTANT-ARCHITECTURE.md` | Higher-level AI assistant orchestration          | System architecture, request flow, model strategy |
+| `docs/08-ai/17-AI_INSTRUCTIONS.md`            | AI operating model and governance                | Safety rules, memory rules, evaluation framework  |
+| `docs/08-ai/19-RAG.md`                        | RAG pipeline for knowledge retrieval             | Embedding, vector search, context assembly        |
+| `docs/10-api/46-EVENT-ARCHITECTURE.md`        | Event-driven communication backbone              | Event types, publishing, subscribing              |
 
 ### 16.2 External Standards
 
-| Standard | Relevance | Implementation |
-|----------|-----------|----------------|
-| Semantic Versioning 2.0 | Agent versioning | `metadata.version` field |
+| Standard                    | Relevance                | Implementation           |
+| --------------------------- | ------------------------ | ------------------------ |
+| Semantic Versioning 2.0     | Agent versioning         | `metadata.version` field |
 | JSON Schema (draft 2020-12) | Configuration validation | Agent config JSON Schema |
-| OpenTelemetry | Distributed tracing | Agent logging (planned) |
-| Pydantic v2 | Data validation | All agent models |
-| asyncio | Async execution | All agent methods |
+| OpenTelemetry               | Distributed tracing      | Agent logging (planned)  |
+| Pydantic v2                 | Data validation          | All agent models         |
+| asyncio                     | Async execution          | All agent methods        |
 
 ### 16.3 Glossary
 
-| Term | Definition |
-|------|------------|
-| Agent | A self-contained, specialized AI program inheriting from `BaseAgent` |
-| Base Agent | The abstract base class (`BaseAgent`) defining the agent contract |
-| Capability Manifest | Public declaration of what an agent can do |
-| Tool | A discrete, reusable capability an agent can invoke |
-| Guardrail | A safety constraint enforced on agent inputs and outputs |
-| Handoff | Transfer of processing from one agent to another |
-| Lifecycle | The state machine governing agent states and transitions |
-| Message Bus | In-process communication channel for inter-agent messages |
-| Agent Registry | Central catalog of all registered agents and their capabilities |
-| Permission Model | Access control system for agent tool and resource access |
-| Evaluation Metric | A measurable criterion for assessing agent performance |
-| Scorecard | Periodic evaluation report of agent performance |
+| Term                | Definition                                                           |
+| ------------------- | -------------------------------------------------------------------- |
+| Agent               | A self-contained, specialized AI program inheriting from `BaseAgent` |
+| Base Agent          | The abstract base class (`BaseAgent`) defining the agent contract    |
+| Capability Manifest | Public declaration of what an agent can do                           |
+| Tool                | A discrete, reusable capability an agent can invoke                  |
+| Guardrail           | A safety constraint enforced on agent inputs and outputs             |
+| Handoff             | Transfer of processing from one agent to another                     |
+| Lifecycle           | The state machine governing agent states and transitions             |
+| Message Bus         | In-process communication channel for inter-agent messages            |
+| Agent Registry      | Central catalog of all registered agents and their capabilities      |
+| Permission Model    | Access control system for agent tool and resource access             |
+| Evaluation Metric   | A measurable criterion for assessing agent performance               |
+| Scorecard           | Periodic evaluation report of agent performance                      |
 
 ---
 
 ## 17. Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| D-AGT-001 | Implement `BaseAgent` as abstract base class using Python ABC + Pydantic v2 | Provides compile-time contract enforcement, type safety, and runtime validation | Interface-only (Protocol) (rejected â€” no shared implementation); duck typing (rejected â€” no safety guarantees); JavaScript base agent (rejected â€” ecosystem mismatch with FastAPI) | Jun 2026 | Chief AI Architect |
-| D-AGT-002 | Design agent lifecycle as a 9-state state machine (Draft â†’ Registered â†’ Ready â†’ Active â†’ Busy â†’ Waiting â†’ Completed â†’ Failed â†’ Retired) | Granular state tracking for observability, debugging, and orchestration | 3-state (Idle/Active/Failed) (rejected â€” insufficient granularity); 5-state (rejected â€” no Waiting/Retired states); no lifecycle (rejected â€” chaos) | Jun 2026 | Chief AI Architect |
-| D-AGT-003 | Implement tool system with explicit permission levels (read/write/admin) and rate limits | Enforces least-privilege access per agent; prevents resource exhaustion | No tool permissions (rejected â€” security risk); binary read/write only (rejected â€” insufficient granularity); role-based only (rejected â€” no per-tool limits) | Jun 2026 | Chief AI Architect |
-| D-AGT-004 | Use in-process message bus for inter-agent communication with Supervisor as hub | Zero-latency messaging; no network overhead; natural fit for single-process FastAPI | Redis pub/sub (rejected â€” added latency, infrastructure); RabbitMQ (rejected â€” over-engineering for single-process); HTTP calls (rejected â€” serialization overhead) | Jun 2026 | Chief AI Architect |
-| D-AGT-005 | Enforce 6 guardrail categories (Truthfulness, Safety, Privacy, Scope, Quality, Operational) with unique IDs per rule | Systematic safety coverage; each guardrail is traceable to code; enables targeted violation handling | Single safety check (rejected â€” no granularity); per-agent ad-hoc rules (rejected â€” inconsistent enforcement); no guardrails (rejected â€” unacceptable risk) | Jun 2026 | Chief AI Architect |
+| ID        | Decision                                                                                                                                | Rationale                                                                                            | Alternatives Considered                                                                                                                                                            | Date     | Approver           |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------ |
+| D-AGT-001 | Implement `BaseAgent` as abstract base class using Python ABC + Pydantic v2                                                             | Provides compile-time contract enforcement, type safety, and runtime validation                      | Interface-only (Protocol) (rejected — no shared implementation); duck typing (rejected — no safety guarantees); JavaScript base agent (rejected — ecosystem mismatch with FastAPI) | Jun 2026 | Chief AI Architect |
+| D-AGT-002 | Design agent lifecycle as a 9-state state machine (Draft → Registered → Ready → Active → Busy → Waiting → Completed → Failed → Retired) | Granular state tracking for observability, debugging, and orchestration                              | 3-state (Idle/Active/Failed) (rejected — insufficient granularity); 5-state (rejected — no Waiting/Retired states); no lifecycle (rejected — chaos)                                | Jun 2026 | Chief AI Architect |
+| D-AGT-003 | Implement tool system with explicit permission levels (read/write/admin) and rate limits                                                | Enforces least-privilege access per agent; prevents resource exhaustion                              | No tool permissions (rejected — security risk); binary read/write only (rejected — insufficient granularity); role-based only (rejected — no per-tool limits)                      | Jun 2026 | Chief AI Architect |
+| D-AGT-004 | Use in-process message bus for inter-agent communication with Supervisor as hub                                                         | Zero-latency messaging; no network overhead; natural fit for single-process FastAPI                  | Redis pub/sub (rejected — added latency, infrastructure); RabbitMQ (rejected — over-engineering for single-process); HTTP calls (rejected — serialization overhead)                | Jun 2026 | Chief AI Architect |
+| D-AGT-005 | Enforce 6 guardrail categories (Truthfulness, Safety, Privacy, Scope, Quality, Operational) with unique IDs per rule                    | Systematic safety coverage; each guardrail is traceable to code; enables targeted violation handling | Single safety check (rejected — no granularity); per-agent ad-hoc rules (rejected — inconsistent enforcement); no guardrails (rejected — unacceptable risk)                        | Jun 2026 | Chief AI Architect |
 
 ## 18. Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| R-AGT-001 | BaseAgent interface changes break all agent implementations | High | High | Maintain backward-compatible interface additions; deprecate methods before removal; comprehensive test suite for all agents |
-| R-AGT-002 | In-process message bus becomes bottleneck under high concurrency | Medium | Medium | Monitor bus latency; design for future migration to Redis pub/sub; keep message payloads small (< 10KB) |
-| R-AGT-003 | Agent state machine gets stuck in Waiting or Busy state | Medium | Medium | Implement state timeout with automatic recovery; heartbeat mechanism for stuck agents; admin manual override |
-| R-AGT-004 | Tool permission escalation â€” agent executes tool beyond its permission level | Low | Critical | Permission check on every tool invocation (not just registration); periodic permission audit; RLS as database-level second layer |
-| R-AGT-005 | Agent serialization/deserialization failures cause data loss during handoff | Low | High | Comprehensive Pydantic validation; fallback to raw data on deserialization failure; audit log for handoff events |
+| ID        | Risk                                                                         | Likelihood | Impact   | Mitigation                                                                                                                       |
+| --------- | ---------------------------------------------------------------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| R-AGT-001 | BaseAgent interface changes break all agent implementations                  | High       | High     | Maintain backward-compatible interface additions; deprecate methods before removal; comprehensive test suite for all agents      |
+| R-AGT-002 | In-process message bus becomes bottleneck under high concurrency             | Medium     | Medium   | Monitor bus latency; design for future migration to Redis pub/sub; keep message payloads small (< 10KB)                          |
+| R-AGT-003 | Agent state machine gets stuck in Waiting or Busy state                      | Medium     | Medium   | Implement state timeout with automatic recovery; heartbeat mechanism for stuck agents; admin manual override                     |
+| R-AGT-004 | Tool permission escalation — agent executes tool beyond its permission level | Low        | Critical | Permission check on every tool invocation (not just registration); periodic permission audit; RLS as database-level second layer |
+| R-AGT-005 | Agent serialization/deserialization failures cause data loss during handoff  | Low        | High     | Comprehensive Pydantic validation; fallback to raw data on deserialization failure; audit log for handoff events                 |
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| Agent | Autonomous software entity that performs tasks on behalf of a user |
-| Supervisor Agent | Orchestrator agent that routes requests to specialist agents |
-| Specialist Agent | Domain-specific agent with focused knowledge and tools |
-| RAG | Retrieval-Augmented Generation Ã¢â‚¬â€ enhances LLM responses with retrieved documents |
-| Tool | A function an agent can call (read DB, send email, etc.) |
-| Guardrail | Constraint that prevents agents from performing unauthorized actions |
-| Handoff | Transfer of a query from one agent to another with full context |
-| Capability Manifest | Declarative document listing what an agent can do |
-| LLM | Large Language Model Ã¢â‚¬â€ the AI model powering agent reasoning |
-| Embedding | Vector representation of text used for semantic search |
-| Chunk | A segment of a document stored in the vector database |
-| Confidence Threshold | Minimum confidence score for an agent to respond directly |
-| Circuit Breaker | Pattern that stops calls to a failing service to prevent cascading failures |
-| Agent Memory | Storage mechanism for agent conversation history and state |
-| Permission Model | Security framework controlling which resources each agent can access |
+| Term                 | Definition                                                                         |
+| -------------------- | ---------------------------------------------------------------------------------- |
+| Agent                | Autonomous software entity that performs tasks on behalf of a user                 |
+| Supervisor Agent     | Orchestrator agent that routes requests to specialist agents                       |
+| Specialist Agent     | Domain-specific agent with focused knowledge and tools                             |
+| RAG                  | Retrieval-Augmented Generation â€” enhances LLM responses with retrieved documents |
+| Tool                 | A function an agent can call (read DB, send email, etc.)                           |
+| Guardrail            | Constraint that prevents agents from performing unauthorized actions               |
+| Handoff              | Transfer of a query from one agent to another with full context                    |
+| Capability Manifest  | Declarative document listing what an agent can do                                  |
+| LLM                  | Large Language Model â€” the AI model powering agent reasoning                     |
+| Embedding            | Vector representation of text used for semantic search                             |
+| Chunk                | A segment of a document stored in the vector database                              |
+| Confidence Threshold | Minimum confidence score for an agent to respond directly                          |
+| Circuit Breaker      | Pattern that stops calls to a failing service to prevent cascading failures        |
+| Agent Memory         | Storage mechanism for agent conversation history and state                         |
+| Permission Model     | Security framework controlling which resources each agent can access               |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial release -- Agent base architecture foundation: base class, lifecycle state machine, tool system, communication protocol, safety framework, evaluation framework, registry, serialization, logging, error handling, testing strategy | Chief AI Architect |
+| Version | Date     | Changes                                                                                                                                                                                                                                     | Author             |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| 1.0     | Jun 2026 | Initial release -- Agent base architecture foundation: base class, lifecycle state machine, tool system, communication protocol, safety framework, evaluation framework, registry, serialization, logging, error handling, testing strategy | Chief AI Architect |
 
 ---
 
-*Document Version: 1.0 -- Enterprise-Grade Agent Base Architecture*  
-*Next Review Date: July 2026*
+_Document Version: 1.0 -- Enterprise-Grade Agent Base Architecture_  
+_Next Review Date: July 2026_
 
 ---
 
-> âš ï¸ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
+> ⚠️ **Implementation Status:** Design Spec Only. Not implemented in current codebase.
