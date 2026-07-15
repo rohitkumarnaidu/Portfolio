@@ -37,7 +37,9 @@ export function getDeviceCapabilities(): DeviceCapabilities {
         : 'no-preference',
     touchSupported: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
     hoverSupported: window.matchMedia('(hover: hover)').matches,
-    deviceMemory: (navigator as unknown as Record<string, unknown>).deviceMemory as number | undefined,
+    deviceMemory: (navigator as unknown as Record<string, unknown>).deviceMemory as
+      | number
+      | undefined,
     hardwareConcurrency: navigator.hardwareConcurrency,
   };
 }

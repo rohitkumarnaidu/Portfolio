@@ -74,9 +74,7 @@ export const ADMIN_SHORTCUTS = {
   SUBMIT: { key: 'Enter', meta: true },
 } as const;
 
-export function useAdminShortcuts(
-  handlers: Partial<Record<string, ShortcutHandler>>
-) {
+export function useAdminShortcuts(handlers: Partial<Record<string, ShortcutHandler>>) {
   useEffect(() => {
     const unregisters: (() => void)[] = [];
 
@@ -88,7 +86,7 @@ export function useAdminShortcuts(
             combo,
             handler,
             description: `Admin: ${action}`,
-          })
+          }),
         );
       }
     }

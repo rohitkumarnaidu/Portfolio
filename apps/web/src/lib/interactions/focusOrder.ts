@@ -2,7 +2,20 @@ export const FOCUS_ORDER = {
   HOME: {
     first: '#main-content',
     skipLink: '#main-content',
-    sections: ['navbar', 'hero', 'about', 'skills', 'experience', 'projects', 'testimonials', 'blog', 'services', 'faq', 'contact', 'footer'],
+    sections: [
+      'navbar',
+      'hero',
+      'about',
+      'skills',
+      'experience',
+      'projects',
+      'testimonials',
+      'blog',
+      'services',
+      'faq',
+      'contact',
+      'footer',
+    ],
   },
   ADMIN: {
     first: 'nav[aria-label="Admin navigation"] a:first-child',
@@ -17,7 +30,13 @@ export const FOCUS_ORDER = {
   CONTACT: {
     first: '#contact-name',
     skipLink: '#main-content',
-    sections: ['contact-name', 'contact-email', 'contact-subject', 'contact-message', 'contact-submit'],
+    sections: [
+      'contact-name',
+      'contact-email',
+      'contact-subject',
+      'contact-message',
+      'contact-submit',
+    ],
   },
   LOGIN: {
     first: '#login-email',

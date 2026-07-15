@@ -49,9 +49,7 @@ class CommandRegistryClass {
   }
 
   getAll(): Command[] {
-    return Array.from(this.commands.values()).filter(
-      (cmd) => !cmd.predicate || cmd.predicate()
-    );
+    return Array.from(this.commands.values()).filter((cmd) => !cmd.predicate || cmd.predicate());
   }
 
   getByCategory(category: string): Command[] {
@@ -79,12 +77,60 @@ export function useCommandPalette() {
 }
 
 export const DEFAULT_COMMANDS: Omit<Command, 'action'>[] = [
-  { id: 'nav-home', label: 'Go to Home', category: 'navigation', keywords: ['home', 'start', 'main'], shortcut: '' },
-  { id: 'nav-projects', label: 'Go to Projects', category: 'navigation', keywords: ['projects', 'work', 'portfolio'], shortcut: '' },
-  { id: 'nav-blog', label: 'Go to Blog', category: 'navigation', keywords: ['blog', 'articles', 'posts'], shortcut: '' },
-  { id: 'nav-contact', label: 'Go to Contact', category: 'navigation', keywords: ['contact', 'email', 'message'], shortcut: '' },
-  { id: 'action-theme', label: 'Toggle Theme', category: 'actions', keywords: ['theme', 'dark', 'light', 'mode'], shortcut: '' },
-  { id: 'action-chat', label: 'Open AI Chat', category: 'actions', keywords: ['chat', 'ai', 'assistant'], shortcut: '' },
-  { id: 'admin-dashboard', label: 'Admin Dashboard', category: 'admin', keywords: ['admin', 'dashboard', 'settings'], shortcut: '' },
-  { id: 'admin-sections', label: 'Admin Sections', category: 'admin', keywords: ['sections', 'cms', 'content'], shortcut: '' },
+  {
+    id: 'nav-home',
+    label: 'Go to Home',
+    category: 'navigation',
+    keywords: ['home', 'start', 'main'],
+    shortcut: '',
+  },
+  {
+    id: 'nav-projects',
+    label: 'Go to Projects',
+    category: 'navigation',
+    keywords: ['projects', 'work', 'portfolio'],
+    shortcut: '',
+  },
+  {
+    id: 'nav-blog',
+    label: 'Go to Blog',
+    category: 'navigation',
+    keywords: ['blog', 'articles', 'posts'],
+    shortcut: '',
+  },
+  {
+    id: 'nav-contact',
+    label: 'Go to Contact',
+    category: 'navigation',
+    keywords: ['contact', 'email', 'message'],
+    shortcut: '',
+  },
+  {
+    id: 'action-theme',
+    label: 'Toggle Theme',
+    category: 'actions',
+    keywords: ['theme', 'dark', 'light', 'mode'],
+    shortcut: '',
+  },
+  {
+    id: 'action-chat',
+    label: 'Open AI Chat',
+    category: 'actions',
+    keywords: ['chat', 'ai', 'assistant'],
+    shortcut: '',
+  },
+  {
+    id: 'admin-dashboard',
+    label: 'Admin Dashboard',
+    category: 'admin',
+    keywords: ['admin', 'dashboard', 'settings'],
+    shortcut: '',
+  },
+  {
+    id: 'admin-sections',
+    label: 'Admin Sections',
+    category: 'admin',
+    keywords: ['sections', 'cms', 'content'],
+    shortcut: '',
+  },
 ];
