@@ -11,5 +11,5 @@ export const THEME_BACKGROUND_COLORS = {
 
 export const getLightColor = (
   theme: 'light' | 'dark',
-  colorKey: keyof typeof THEME_LIGHT_COLORS
+  colorKey: keyof typeof THEME_LIGHT_COLORS,
 ): string => THEME_LIGHT_COLORS[colorKey][theme];

@@ -9,10 +9,7 @@ const FRAME_BUDGETS: Record<Tier, number> = {
 
 export const getFrameBudget = (tier: Tier): number => FRAME_BUDGETS[tier];
 
-export const capFramerate = (
-  tier: Tier,
-  callback: (timestamp: number) => void
-): (() => void) => {
+export const capFramerate = (tier: Tier, callback: (timestamp: number) => void): (() => void) => {
   if (tier === 'off') return () => {};
 
   const budget = FRAME_BUDGETS[tier];

@@ -13,8 +13,7 @@ export const useTierDemotion = (initialTier: Tier) => {
     frameTimes.current.push(performance.current);
 
     if (frameTimes.current.length >= 60) {
-      const avgFPS =
-        frameTimes.current.reduce((a, b) => a + b, 0) / 60;
+      const avgFPS = frameTimes.current.reduce((a, b) => a + b, 0) / 60;
       frameTimes.current = [];
 
       if (avgFPS < 20 && currentTier === 'high') {

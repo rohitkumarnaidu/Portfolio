@@ -9,7 +9,9 @@ export const get3DTier = async (): Promise<Tier> => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return 'off';
 
-    const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+    const conn = (
+      navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }
+    ).connection;
     if (conn?.saveData || conn?.effectiveType === 'slow-2g') return 'off';
 
     const gpu = await getGPUTier();
@@ -17,11 +19,11 @@ export const get3DTier = async (): Promise<Tier> => {
 
     if (cores >= 8 && gpu.tier >= 2) return 'high';
     if (cores >= 4 && gpu.tier >= 1) return 'mid';
-    
+
     // Safely assume mid if we have good cores but GPU detection failed or was low
     // Wait, let's stick to the specs in 08j
     if (cores >= 4 && gpu.tier === 0) return 'low';
-    
+
     return 'low';
   } catch (error) {
     console.error('Failed to detect device capabilities', error);

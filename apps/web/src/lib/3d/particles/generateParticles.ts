@@ -7,10 +7,7 @@ export interface ParticleField {
   sizes: Float32Array;
 }
 
-export const generateParticleField = (
-  count: number,
-  tier: Tier
-): ParticleField => {
+export const generateParticleField = (count: number, tier: Tier): ParticleField => {
   const positions = new Float32Array(count * 3);
   const phases = new Float32Array(count);
   const speeds = new Float32Array(count);

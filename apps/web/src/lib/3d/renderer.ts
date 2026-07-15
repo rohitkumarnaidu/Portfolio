@@ -24,10 +24,7 @@ const getRendererConfig = (tier: Tier): RendererConfig => ({
   outputColorSpace: SRGBColorSpace,
 });
 
-export const createRenderer = (
-  canvas: HTMLCanvasElement,
-  tier: Tier
-): WebGLRenderer => {
+export const createRenderer = (canvas: HTMLCanvasElement, tier: Tier): WebGLRenderer => {
   const config = getRendererConfig(tier);
   const renderer = new WebGLRenderer({
     canvas,
@@ -47,7 +44,7 @@ export const createRenderer = (
 };
 
 export const getWebGLContextInfo = (
-  canvas: HTMLCanvasElement
+  canvas: HTMLCanvasElement,
 ): { webgl2: boolean; maxTextureSize: number } => {
   const gl2 = canvas.getContext('webgl2');
   const gl = gl2 || canvas.getContext('webgl');

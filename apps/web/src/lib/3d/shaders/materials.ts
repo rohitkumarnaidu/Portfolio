@@ -14,9 +14,7 @@ interface ParticleMaterialOptions {
   glowIntensity?: number;
 }
 
-export const createParticleMaterial = (
-  options: ParticleMaterialOptions
-): ShaderMaterial => {
+export const createParticleMaterial = (options: ParticleMaterialOptions): ShaderMaterial => {
   const glowIntensity = options.glowIntensity ?? (options.tier === 'high' ? 0.5 : 0);
 
   return new ShaderMaterial({
