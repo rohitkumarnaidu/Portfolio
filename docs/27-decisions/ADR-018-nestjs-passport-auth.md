@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-07-11 | **Author:** Architecture Board
 > **Deciders:** Enterprise Security Architect, Staff Backend Architect, Principal Platform Engineer
-> **Reference:** [auth.module.ts](../../apps/api/src/modules/auth/auth.module.ts) | [SecurityArchitecture.md](../architecture/SecurityArchitecture.md)
+> **Reference:** [auth.module.ts](../../apps/api/src/modules/auth/auth.module.ts) | [SecurityArchitecture.md](../05-architecture/SecurityArchitecture.md)
 
 ## Context
 
@@ -124,5 +124,6 @@ flowchart LR
 - GDPR: OAuth flows respect scope consent; no PII logged in auth tokens; refresh tokens hashed at rest
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

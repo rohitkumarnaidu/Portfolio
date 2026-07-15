@@ -65,13 +65,14 @@ Architecture Decision Records (ADRs) document significant architectural decision
 
 ## References
 
-- `docs/architecture/SystemArchitecture.md §14` — Architecture Decision Records (14 ADRs documented)
-- `docs/governance/32-SKILL.md §17` — Documentation standards
+- `docs/05-architecture/SystemArchitecture.md §14` — Architecture Decision Records (14 ADRs documented)
+- `docs/23-governance/32-SKILL.md §17` — Documentation standards
 
 ---
 
 _Document Version: 1.0 — Enterprise Edition_
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

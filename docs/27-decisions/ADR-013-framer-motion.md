@@ -55,5 +55,6 @@ flowchart LR
 - Aligns with Constitution §4.3: "Declarative animation system with scroll-triggered reveals"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

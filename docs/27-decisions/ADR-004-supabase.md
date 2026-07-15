@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal Data Architect, Enterprise Cloud Architect, Staff Backend Architect  
-> **Reference:** [SystemArchitecture.md §1.3](../architecture/SystemArchitecture.md) | [DatabaseArchitecture.md](../database/DatabaseArchitecture.md)
+> **Reference:** [SystemArchitecture.md §1.3](../05-architecture/SystemArchitecture.md) | [DatabaseArchitecture.md](../09-database/DatabaseArchitecture.md)
 
 ## Context
 
@@ -57,5 +57,6 @@ flowchart LR
 - Aligns with Constitution §6.1: "RLS as primary access control mechanism"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

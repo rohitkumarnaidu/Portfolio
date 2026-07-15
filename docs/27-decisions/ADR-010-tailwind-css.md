@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Staff Frontend Architect, Principal UX Architect  
-> **Reference:** [10-TECHSTACK.md](../architecture/10-TECHSTACK.md) | [DesignSystem.md](../design/DesignSystem.md)
+> **Reference:** [10-TECHSTACK.md](../05-architecture/10-TECHSTACK.md) | [DesignSystem.md](../04-design/DesignSystem.md)
 
 ## Context
 
@@ -55,5 +55,6 @@ flowchart LR
 - Aligns with Constitution §4.2: "Zero-runtime CSS solution compatible with RSC"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

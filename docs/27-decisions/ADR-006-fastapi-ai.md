@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal AI Architect, Staff Backend Architect  
-> **Reference:** [SystemArchitecture.md §1.3](../architecture/SystemArchitecture.md) | [19-RAG.md](../ai/19-RAG.md)
+> **Reference:** [SystemArchitecture.md §1.3](../05-architecture/SystemArchitecture.md) | [19-RAG.md](../08-ai/19-RAG.md)
 
 ## Context
 
@@ -57,5 +57,6 @@ flowchart LR
 - Aligns with Constitution §1.3: "Microservice boundaries at domain boundaries"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Staff Backend Architect, Principal Platform Engineer  
-> **Reference:** [10-TECHSTACK.md](../architecture/10-TECHSTACK.md) | [SystemArchitecture.md §3](../architecture/SystemArchitecture.md)
+> **Reference:** [10-TECHSTACK.md](../05-architecture/10-TECHSTACK.md) | [SystemArchitecture.md §3](../05-architecture/SystemArchitecture.md)
 
 ## Context
 
@@ -56,5 +56,6 @@ flowchart LR
 - Aligns with Constitution §5.2: "API documentation auto-generated from code"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

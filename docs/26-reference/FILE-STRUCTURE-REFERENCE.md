@@ -60,29 +60,29 @@ portfolio/
 
 ## Key File Locations
 
-| Purpose | Path |
-|---------|------|
-| Prisma schema | `apps/api/prisma/schema.prisma` |
-| API bootstrap | `apps/api/src/main.ts` |
-| Web entry (home) | `apps/web/src/app/page.tsx` |
-| AI entry | `apps/ai/app/main.py` |
-| Shared types | `packages/shared/src/index.ts` |
-| UI components | `packages/ui/src/` |
-| Tailwind config | `apps/web/tailwind.config.ts` |
-| Next config | `apps/web/next.config.js` |
-| Turborepo config | `turbo.json` |
-| Docker Compose | `infrastructure/docker/docker-compose.yml` |
-| CI workflows | `.github/workflows/` |
-| Env template | `config/.env.example` |
+| Purpose          | Path                                       |
+| ---------------- | ------------------------------------------ |
+| Prisma schema    | `apps/api/prisma/schema.prisma`            |
+| API bootstrap    | `apps/api/src/main.ts`                     |
+| Web entry (home) | `apps/web/src/app/page.tsx`                |
+| AI entry         | `apps/ai/app/main.py`                      |
+| Shared types     | `packages/shared/src/index.ts`             |
+| UI components    | `packages/ui/src/`                         |
+| Tailwind config  | `apps/web/tailwind.config.ts`              |
+| Next config      | `apps/web/next.config.js`                  |
+| Turborepo config | `turbo.json`                               |
+| Docker Compose   | `infrastructure/docker/docker-compose.yml` |
+| CI workflows     | `.github/workflows/`                       |
+| Env template     | `config/.env.example`                      |
 
 ## Path Aliases
 
-| Alias | Resolves To |
-|-------|-------------|
-| `@/` | `apps/web/src/` |
+| Alias               | Resolves To            |
+| ------------------- | ---------------------- |
+| `@/`                | `apps/web/src/`        |
 | `@portfolio/shared` | `packages/shared/src/` |
-| `@portfolio/ui` | `packages/ui/src/` |
-| `@portfolio/config` | `packages/config/` |
+| `@portfolio/ui`     | `packages/ui/src/`     |
+| `@portfolio/config` | `packages/config/`     |
 
 These are configured in `apps/web/tsconfig.json` and `apps/web/next.config.js`.
 
@@ -90,26 +90,26 @@ These are configured in `apps/web/tsconfig.json` and `apps/web/next.config.js`.
 
 ```typescript
 // Web app — use @/ alias for project-internal imports
-import { Button } from "@/components/ui/button";
-import { api } from "@/lib/api";
-import { useApiQuery } from "@/lib/use-api-query";
+import { Button } from '@/components/ui/button';
+import { api } from '@/lib/api';
+import { useApiQuery } from '@/lib/use-api-query';
 
 // Shared types — always import from @portfolio/shared, never duplicate
-import { type Project, type ApiResponse } from "@portfolio/shared";
+import { type Project, type ApiResponse } from '@portfolio/shared';
 
 // UI components — from @portfolio/ui
-import { Card } from "@portfolio/ui";
+import { Card } from '@portfolio/ui';
 
 // API (NestJS) — use relative imports within apps/api
-import { PrismaService } from "../../common/database/prisma.service";
-import { JwtAuthGuard } from "../../modules/auth/jwt-auth.guard";
+import { PrismaService } from '../../common/database/prisma.service';
+import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 ```
 
 ### NestJS Module Import Pattern
 
 ```typescript
 // Services are imported from modules, controllers from separate delivery layers
-import { ProjectsService } from "../../modules/projects/projects.service";
+import { ProjectsService } from '../../modules/projects/projects.service';
 ```
 
 ### Web Page Segment Conventions
@@ -121,5 +121,6 @@ import { ProjectsService } from "../../modules/projects/projects.service";
 - `error.tsx` — error boundary
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

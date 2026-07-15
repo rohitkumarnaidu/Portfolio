@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal Data Architect, Staff Frontend Architect  
-> **Reference:** [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md)
+> **Reference:** [AnalyticsArchitecture.md](../21-operations/AnalyticsArchitecture.md)
 
 ## Context
 
@@ -55,5 +55,6 @@ flowchart LR
 - Aligns with Constitution §8.1: "Privacy-respecting analytics with opt-out capability"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

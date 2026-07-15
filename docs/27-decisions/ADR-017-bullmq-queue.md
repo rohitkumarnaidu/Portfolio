@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-07-11 | **Author:** Architecture Board
 > **Deciders:** Staff Backend Architect, Principal DevOps Engineer, Enterprise Cloud Architect
-> **Reference:** [queue.module.ts](../../apps/api/src/common/queue/queue.module.ts) | [email.processor.ts](../../apps/api/src/common/queue/email.processor.ts) | [DeploymentGuide.md](../operations/DeploymentGuide.md)
+> **Reference:** [queue.module.ts](../../apps/api/src/common/queue/queue.module.ts) | [email.processor.ts](../../apps/api/src/common/queue/email.processor.ts) | [DeploymentGuide.md](../21-operations/DeploymentGuide.md)
 
 ## Context
 
@@ -102,5 +102,6 @@ flowchart LR
 - GDPR: Email queue payloads may contain PII (email addresses, names) — ensure data is not logged in plaintext; retention period must be configured on queues
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

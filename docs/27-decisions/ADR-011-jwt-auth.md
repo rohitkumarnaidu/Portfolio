@@ -53,5 +53,6 @@ flowchart LR
 - Aligns with Constitution §6.2: "Stateless authentication compatible with microservices"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal AI Architect, Principal Data Architect  
-> **Reference:** [19-RAG.md](../ai/19-RAG.md) | [DatabaseArchitecture.md §11](../database/DatabaseArchitecture.md)
+> **Reference:** [19-RAG.md](../08-ai/19-RAG.md) | [DatabaseArchitecture.md §11](../09-database/DatabaseArchitecture.md)
 
 ## Context
 
@@ -56,5 +56,6 @@ flowchart LR
 - Aligns with Constitution §6.1: "RLS applies to all data, including vectors"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

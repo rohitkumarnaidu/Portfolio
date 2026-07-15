@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal DevOps Engineer, Principal Platform Engineer, Enterprise Cloud Architect  
-> **Reference:** [DeploymentGuide.md](../operations/DeploymentGuide.md) | [SystemArchitecture.md §9](../architecture/SystemArchitecture.md)
+> **Reference:** [DeploymentGuide.md](../21-operations/DeploymentGuide.md) | [SystemArchitecture.md §9](../05-architecture/SystemArchitecture.md)
 
 ## Context
 
@@ -57,5 +57,6 @@ flowchart LR
 - Aligns with Constitution §2.2: "Global edge delivery network"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

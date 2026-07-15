@@ -33,7 +33,7 @@ A recognisable accomplishment, certification, or award displayed on the portfoli
 
 ### ADR (Architecture Decision Record)
 
-A document capturing an important architectural decision, including context, options considered, decision rationale, and consequences. Located in `docs/adr/`. See also: RFC.
+A document capturing an important architectural decision, including context, options considered, decision rationale, and consequences. Located in `docs/27-decisions/`. See also: RFC.
 
 ### Admin Activity
 
@@ -49,7 +49,7 @@ Iterative software development methodology emphasising short cycles (sprints), c
 
 ### AI Engineering Constitution
 
-Governance document defining AI usage principles, guardrails, and ethical boundaries. Located at `docs/governance/32-SKILL.md`. _Context: docs/governance._
+Governance document defining AI usage principles, guardrails, and ethical boundaries. Located at `docs/23-governance/32-SKILL.md`. _Context: docs/governance._
 
 ### AI Service
 
@@ -127,7 +127,7 @@ CSS layout style combining asymmetric grid cells of varying sizes, creating a vi
 
 ### Blue/Green Deployment
 
-Zero-downtime deployment strategy running two identical environments (blue = current, green = new). Traffic is switched after green passes health checks. _Context: docs/operations/deployment-strategy-blue-green.md._ See also: CI/CD.
+Zero-downtime deployment strategy running two identical environments (blue = current, green = new). Traffic is switched after green passes health checks. _Context: docs/21-operations/deployment-strategy-blue-green.md._ See also: CI/CD.
 
 ### Bounded Context
 
@@ -135,7 +135,7 @@ A logical boundary within the domain where a particular model is defined and app
 
 ### Branch Strategy
 
-Git branching convention using trunk-based development with 7 branch types: feature, bugfix, hotfix, release, chore, docs, experimental. _Context: docs/engineering/branch-strategy.md._ See also: Conventional Commits, PR.
+Git branching convention using trunk-based development with 7 branch types: feature, bugfix, hotfix, release, chore, docs, experimental. _Context: docs/24-development/branch-strategy.md._ See also: Conventional Commits, PR.
 
 ### BullMQ
 
@@ -145,7 +145,7 @@ Redis-based job queue library used for background processing in the NestJS API, 
 
 ### C4 Model
 
-Architecture documentation approach with 4 levels: Context, Container, Component, Code. _Context: docs/architecture/SystemArchitecture.md._ See also: ADR.
+Architecture documentation approach with 4 levels: Context, Container, Component, Code. _Context: docs/05-architecture/SystemArchitecture.md._ See also: ADR.
 
 ### Cache-Aside
 
@@ -217,7 +217,7 @@ A metric measuring what percentage of code is exercised by tests. Tracked via Je
 
 ### Code Review
 
-Systematic examination of code changes by one or more peers before merging, with defined SLA tiers for different change types. _Context: docs/engineering/code-review-standards.md._ See also: PR.
+Systematic examination of code changes by one or more peers before merging, with defined SLA tiers for different change types. _Context: docs/24-development/code-review-standards.md._ See also: PR.
 
 ### CodeQL
 
@@ -299,7 +299,7 @@ DORA metric: how often the team successfully deploys to production. Target: mult
 
 ### Design System
 
-A comprehensive set of design standards, components, and guidelines ensuring visual and behavioural consistency across the application. _Context: packages/ui, docs/design/._ See also: Design Token, Component Library.
+A comprehensive set of design standards, components, and guidelines ensuring visual and behavioural consistency across the application. _Context: packages/ui, docs/04-design/._ See also: Design Token, Component Library.
 
 ### Design Token
 
@@ -697,11 +697,11 @@ Goal-setting framework pairing an ambitious objective with 3-5 measurable key re
 
 ### On-Call Schedule
 
-Rotated responsibility assignment for responding to production incidents, with defined roles, handoff process, and escalation paths. _Context: docs/operations/on-call-schedule.md._ See also: Incident Response.
+Rotated responsibility assignment for responding to production incidents, with defined roles, handoff process, and escalation paths. _Context: docs/21-operations/on-call-schedule.md._ See also: Incident Response.
 
 ### OpenAPI 3.1
 
-API specification format. The project's spec is at `docs/api/openapi.json` with 111 endpoints and 35 schemas. Generated automatically by NestJS Swagger module. _Context: docs/api._ See also: Swagger.
+API specification format. The project's spec is at `docs/10-api/openapi.json` with 111 endpoints and 35 schemas. Generated automatically by NestJS Swagger module. _Context: docs/api._ See also: Swagger.
 
 ### OpenAI
 
@@ -763,7 +763,7 @@ Advanced open-source relational database. Hosted via Supabase, using pgvector ex
 
 ### Postmortem
 
-A written analysis of an incident documenting timeline, root cause, impact, action items, and lessons learned. _Context: docs/operations/postmortem-tracker.md._ See also: Incident Response, Runbook.
+A written analysis of an incident documenting timeline, root cause, impact, action items, and lessons learned. _Context: docs/21-operations/postmortem-tracker.md._ See also: Incident Response, Runbook.
 
 ### PR (Pull Request)
 
@@ -883,7 +883,7 @@ A recurring team meeting to reflect on what went well, what went wrong, and what
 
 ### RFC (Request for Comments)
 
-A formal proposal document for significant technical decisions, inviting discussion before implementation. _Context: docs/engineering/RFC-_.md.\* See also: ADR.
+A formal proposal document for significant technical decisions, inviting discussion before implementation. _Context: docs/24-development/RFC-_.md.\* See also: ADR.
 
 ### RLS (Row-Level Security)
 
@@ -907,7 +907,7 @@ React component that runs on the server, reducing client-side JavaScript. Defaul
 
 ### Runbook
 
-A documented procedure for handling specific operational tasks or incidents. The project maintains 20+ runbooks in `docs/runbooks/`. _Context: docs/runbooks._ See also: Incident Response, On-Call Schedule.
+A documented procedure for handling specific operational tasks or incidents. The project maintains 20+ runbooks in `docs/30-runbooks/`. _Context: docs/runbooks._ See also: Incident Response, On-Call Schedule.
 
 ### Runner
 
@@ -1077,7 +1077,7 @@ Backend-as-a-service providing PostgreSQL, authentication, object storage, and r
 
 ### Supply Chain Security
 
-Practices ensuring the integrity of dependencies and build artifacts: automated updates (Dependabot), vulnerability scanning (CodeQL), SBOM generation. _Context: docs/security/_.md.\* See also: Dependabot, CodeQL, SBOM.
+Practices ensuring the integrity of dependencies and build artifacts: automated updates (Dependabot), vulnerability scanning (CodeQL), SBOM generation. _Context: docs/11-security/_.md.\* See also: Dependabot, CodeQL, SBOM.
 
 ### Suspense
 
@@ -1262,5 +1262,6 @@ Principle discouraging the addition of functionality until it is actually needed
 TypeScript-first schema validation library. Used for shared type definitions in `@portfolio/shared`, providing runtime validation + type inference. _Context: packages/shared._ See also: DTO.
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

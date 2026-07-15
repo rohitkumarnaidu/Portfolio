@@ -6,12 +6,12 @@
 
 ## Environment URLs
 
-| Environment | Web | API | AI |
-|-------------|-----|-----|----|
-| **Local Development** | `http://localhost:3000` | `http://localhost:3001` | `http://localhost:8000` |
-| **Preview (Vercel)** | `https://portfolio-git-*-username.vercel.app` | — (API served by web) | — |
-| **Staging** | `https://staging.portfolio.dev` | — (API served by web) | `https://staging-ai.portfolio.dev` |
-| **Production** | `https://portfolio.dev` | — (API served by web) | `https://ai.portfolio.dev` |
+| Environment           | Web                                           | API                     | AI                                 |
+| --------------------- | --------------------------------------------- | ----------------------- | ---------------------------------- |
+| **Local Development** | `http://localhost:3000`                       | `http://localhost:3001` | `http://localhost:8000`            |
+| **Preview (Vercel)**  | `https://portfolio-git-*-username.vercel.app` | — (API served by web)   | —                                  |
+| **Staging**           | `https://staging.portfolio.dev`               | — (API served by web)   | `https://staging-ai.portfolio.dev` |
+| **Production**        | `https://portfolio.dev`                       | — (API served by web)   | `https://ai.portfolio.dev`         |
 
 > **Note:** The API is served through the Next.js application via API routes or proxied through the same domain. The AI service runs independently on Railway or similar.
 
@@ -21,54 +21,54 @@
 
 ### Public Routes (Portfolio)
 
-| Route | Rendering | Cache TTL | Auth |
-|-------|-----------|-----------|------|
-| `/` | SSG + ISR (revalidate: 60s) | 60s | None |
-| `/about` | SSG + ISR | 60s | None |
-| `/projects` | SSG + ISR | 60s | None |
-| `/projects/[slug]` | ISR (generateStaticParams) | 60s | None |
-| `/blog` | SSG + ISR | 60s | None |
-| `/blog/[slug]` | ISR (generateStaticParams) | 60s | None |
-| `/case-studies` | SSG + ISR | 60s | None |
-| `/case-studies/[slug]` | ISR (generateStaticParams) | 60s | None |
-| `/contact` | Static | — | None |
-| `/ai-assistant` | SSR | None | None |
-| `/press` | SSG + ISR | 60s | None |
-| `/guest-appearances` | SSG + ISR | 60s | None |
-| `/reading-list` | SSG + ISR | 60s | None |
-| `/achievements` | SSG + ISR | 60s | None |
+| Route                  | Rendering                   | Cache TTL | Auth |
+| ---------------------- | --------------------------- | --------- | ---- |
+| `/`                    | SSG + ISR (revalidate: 60s) | 60s       | None |
+| `/about`               | SSG + ISR                   | 60s       | None |
+| `/projects`            | SSG + ISR                   | 60s       | None |
+| `/projects/[slug]`     | ISR (generateStaticParams)  | 60s       | None |
+| `/blog`                | SSG + ISR                   | 60s       | None |
+| `/blog/[slug]`         | ISR (generateStaticParams)  | 60s       | None |
+| `/case-studies`        | SSG + ISR                   | 60s       | None |
+| `/case-studies/[slug]` | ISR (generateStaticParams)  | 60s       | None |
+| `/contact`             | Static                      | —         | None |
+| `/ai-assistant`        | SSR                         | None      | None |
+| `/press`               | SSG + ISR                   | 60s       | None |
+| `/guest-appearances`   | SSG + ISR                   | 60s       | None |
+| `/reading-list`        | SSG + ISR                   | 60s       | None |
+| `/achievements`        | SSG + ISR                   | 60s       | None |
 
 ### Admin Routes (Dashboard)
 
-| Route | Rendering | Cache TTL | Auth |
-|-------|-----------|-----------|------|
-| `/admin` | SSR | None | JWT (admin/editor/viewer) |
-| `/admin/login` | Static | — | None |
-| `/admin/sections` | SSR | None | JWT (admin/editor) |
-| `/admin/projects` | SSR | None | JWT (admin/editor) |
-| `/admin/blog` | SSR | None | JWT (admin/editor) |
-| `/admin/skills` | SSR | None | JWT (admin/editor) |
-| `/admin/experiences` | SSR | None | JWT (admin/editor) |
-| `/admin/testimonials` | SSR | None | JWT (admin/editor) |
-| `/admin/services` | SSR | None | JWT (admin/editor) |
-| `/admin/faqs` | SSR | None | JWT (admin/editor) |
-| `/admin/leads` | SSR | None | JWT (admin/editor) |
-| `/admin/media` | SSR | None | JWT (admin/editor) |
-| `/admin/settings` | SSR | None | JWT (admin) |
-| `/admin/users` | SSR | None | JWT (admin) |
-| `/admin/analytics` | SSR | None | JWT (admin/editor/viewer) |
-| `/admin/activities` | SSR | None | JWT (admin/editor/viewer) |
-| `/admin/chat` | SSR | None | JWT (admin/editor/viewer) |
-| `/admin/feature-flags` | SSR | None | JWT (admin) |
-| `/admin/api-keys` | SSR | None | JWT (admin) |
-| `/admin/availability` | SSR | None | JWT (admin/editor) |
-| `/admin/case-studies` | SSR | None | JWT (admin/editor) |
-| `/admin/press-features` | SSR | None | JWT (admin/editor) |
-| `/admin/guest-appearances` | SSR | None | JWT (admin/editor) |
-| `/admin/reading-list` | SSR | None | JWT (admin/editor) |
-| `/admin/achievements` | SSR | None | JWT (admin/editor) |
-| `/admin/sandbox` | SSR | None | JWT (admin) |
-| `/admin/notifications` | SSR | None | JWT (admin/editor/viewer) |
+| Route                      | Rendering | Cache TTL | Auth                      |
+| -------------------------- | --------- | --------- | ------------------------- |
+| `/admin`                   | SSR       | None      | JWT (admin/editor/viewer) |
+| `/admin/login`             | Static    | —         | None                      |
+| `/admin/sections`          | SSR       | None      | JWT (admin/editor)        |
+| `/admin/projects`          | SSR       | None      | JWT (admin/editor)        |
+| `/admin/blog`              | SSR       | None      | JWT (admin/editor)        |
+| `/admin/skills`            | SSR       | None      | JWT (admin/editor)        |
+| `/admin/experiences`       | SSR       | None      | JWT (admin/editor)        |
+| `/admin/testimonials`      | SSR       | None      | JWT (admin/editor)        |
+| `/admin/services`          | SSR       | None      | JWT (admin/editor)        |
+| `/admin/faqs`              | SSR       | None      | JWT (admin/editor)        |
+| `/admin/leads`             | SSR       | None      | JWT (admin/editor)        |
+| `/admin/media`             | SSR       | None      | JWT (admin/editor)        |
+| `/admin/settings`          | SSR       | None      | JWT (admin)               |
+| `/admin/users`             | SSR       | None      | JWT (admin)               |
+| `/admin/analytics`         | SSR       | None      | JWT (admin/editor/viewer) |
+| `/admin/activities`        | SSR       | None      | JWT (admin/editor/viewer) |
+| `/admin/chat`              | SSR       | None      | JWT (admin/editor/viewer) |
+| `/admin/feature-flags`     | SSR       | None      | JWT (admin)               |
+| `/admin/api-keys`          | SSR       | None      | JWT (admin)               |
+| `/admin/availability`      | SSR       | None      | JWT (admin/editor)        |
+| `/admin/case-studies`      | SSR       | None      | JWT (admin/editor)        |
+| `/admin/press-features`    | SSR       | None      | JWT (admin/editor)        |
+| `/admin/guest-appearances` | SSR       | None      | JWT (admin/editor)        |
+| `/admin/reading-list`      | SSR       | None      | JWT (admin/editor)        |
+| `/admin/achievements`      | SSR       | None      | JWT (admin/editor)        |
+| `/admin/sandbox`           | SSR       | None      | JWT (admin)               |
+| `/admin/notifications`     | SSR       | None      | JWT (admin/editor/viewer) |
 
 ### API Routes
 
@@ -141,24 +141,25 @@
 
 ## Caching & Rendering Strategy
 
-| Strategy | Description | Used On |
-|----------|-------------|---------|
-| **SSG** | Static generation at build time | Landing page, static content |
-| **ISR** | Incremental Static Regeneration (60s revalidate) | Portfolio content pages |
-| **SSR** | Server-side render on every request | Admin dashboard, AI assistant |
-| **Static** | Fully static HTML | Login, contact |
+| Strategy   | Description                                      | Used On                       |
+| ---------- | ------------------------------------------------ | ----------------------------- |
+| **SSG**    | Static generation at build time                  | Landing page, static content  |
+| **ISR**    | Incremental Static Regeneration (60s revalidate) | Portfolio content pages       |
+| **SSR**    | Server-side render on every request              | Admin dashboard, AI assistant |
+| **Static** | Fully static HTML                                | Login, contact                |
 
 API responses are cached with `@CacheTTL` decorator on portfolio controllers (default: 60s). Admin controllers bypass cache.
 
 ## Auth Requirements
 
-| Role | Access |
-|------|--------|
-| **None (public)** | Portfolio routes, health routes, AI assistant, admin login |
-| **viewer** | Admin analytics, activities, chat, notifications |
-| **editor** | All viewer + content CRUD (projects, blog, skills, etc.) |
-| **admin** | All editor + user management, settings, feature flags, api-keys, sandbox |
+| Role              | Access                                                                   |
+| ----------------- | ------------------------------------------------------------------------ |
+| **None (public)** | Portfolio routes, health routes, AI assistant, admin login               |
+| **viewer**        | Admin analytics, activities, chat, notifications                         |
+| **editor**        | All viewer + content CRUD (projects, blog, skills, etc.)                 |
+| **admin**         | All editor + user management, settings, feature flags, api-keys, sandbox |
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -117,5 +117,6 @@ flowchart LR
 - Dockerfile best practices: minimal layers, ordered COPY for caching, specific tag pinning, .dockerignore recommended
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

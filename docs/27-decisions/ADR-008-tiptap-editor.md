@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Staff Frontend Architect, Principal UX Architect  
-> **Reference:** [SystemArchitecture.md §5.2](../architecture/SystemArchitecture.md)
+> **Reference:** [SystemArchitecture.md §5.2](../05-architecture/SystemArchitecture.md)
 
 ## Context
 
@@ -54,5 +54,6 @@ flowchart LR
 - Aligns with Constitution §5.2: "Headless editor with structured output"
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
