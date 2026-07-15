@@ -55,14 +55,15 @@
 
 ---
 
-## Related
+## Cross-References
 
-| Resource | Location |
-|----------|----------|
+| Resource               | Location                                  |
+| ---------------------- | ----------------------------------------- |
 | Implementation details | `docs/17-seo/SEO-IMPLEMENTATION-GUIDE.md` |
-| Full architecture | `docs/17-seo/SEO-ARCHITECTURE.md` |
-| Rendering patterns | `docs/07-frontend/RENDERING-STRATEGY.md` |
+| Full architecture      | `docs/17-seo/SEO-ARCHITECTURE.md`         |
+| Rendering patterns     | `docs/07-frontend/RENDERING-STRATEGY.md`  |
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

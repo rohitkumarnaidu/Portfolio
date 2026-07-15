@@ -7,11 +7,11 @@
 
 ## 1. Who Can Update Content
 
-| Role | Permissions | Authentication |
-|------|-------------|---------------|
-| **admin** | Full CRUD on all content types, user management, settings | JWT + OAuth (Google/GitHub) |
+| Role       | Permissions                                                    | Authentication              |
+| ---------- | -------------------------------------------------------------- | --------------------------- |
+| **admin**  | Full CRUD on all content types, user management, settings      | JWT + OAuth (Google/GitHub) |
 | **editor** | CRUD on projects, blog posts, testimonials; no user management | JWT + OAuth (Google/GitHub) |
-| **viewer** | Read-only access to admin dashboard | JWT + OAuth (Google/GitHub) |
+| **viewer** | Read-only access to admin dashboard                            | JWT + OAuth (Google/GitHub) |
 
 ## 2. Content Types & Update Methods
 
@@ -52,13 +52,13 @@ Admin saves content → API updates database → Admin controller triggers ISR r
 
 ## 4. Content Review Process
 
-| Content Type | Reviewer | Required? | Notes |
-|-------------|----------|-----------|-------|
-| Sections | Self-review | No | Preview before save |
-| Projects | Self-review | No | Preview on desktop + mobile |
-| Blog posts | Peer review | Recommended | Fact-check, tone check |
-| Testimonials | Source person | Yes | Must have permission to publish |
-| Case studies | Peer review | Recommended | Accuracy check |
+| Content Type | Reviewer      | Required?   | Notes                           |
+| ------------ | ------------- | ----------- | ------------------------------- |
+| Sections     | Self-review   | No          | Preview before save             |
+| Projects     | Self-review   | No          | Preview on desktop + mobile     |
+| Blog posts   | Peer review   | Recommended | Fact-check, tone check          |
+| Testimonials | Source person | Yes         | Must have permission to publish |
+| Case studies | Peer review   | Recommended | Accuracy check                  |
 
 ## 5. Content Backup
 
@@ -81,18 +81,19 @@ Before publishing any content change, verify:
 
 ## 7. Common Issues & Solutions
 
-| Issue | Cause | Solution |
-|-------|-------|----------|
-| Content not updating on portfolio | ISR cache not revalidated | Wait 60s or trigger manual revalidation via admin panel |
-| Image upload fails | File too large or wrong format | Max 5MB, supported: PNG, JPG, GIF, WebP, SVG |
-| Slug conflict | Duplicate slug | Auto-generate from title with suffix or manual override |
-| Dark mode content not visible | Color contrast issue | Check against design token palette, verify contrast ≥ 4.5:1 |
-| Rich text formatting lost | HTML stripped by sanitizer | Use allowed tags only (h2-h4, p, ul, ol, li, a, code, pre, blockquote) |
+| Issue                             | Cause                          | Solution                                                               |
+| --------------------------------- | ------------------------------ | ---------------------------------------------------------------------- |
+| Content not updating on portfolio | ISR cache not revalidated      | Wait 60s or trigger manual revalidation via admin panel                |
+| Image upload fails                | File too large or wrong format | Max 5MB, supported: PNG, JPG, GIF, WebP, SVG                           |
+| Slug conflict                     | Duplicate slug                 | Auto-generate from title with suffix or manual override                |
+| Dark mode content not visible     | Color contrast issue           | Check against design token palette, verify contrast ≥ 4.5:1            |
+| Rich text formatting lost         | HTML stripped by sanitizer     | Use allowed tags only (h2-h4, p, ul, ol, li, a, code, pre, blockquote) |
 
 ---
 
-*Document Version: 1.0 | Last Updated: July 2026*
+_Document Version: 1.0 | Last Updated: July 2026_
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

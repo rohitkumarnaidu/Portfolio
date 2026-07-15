@@ -12,15 +12,15 @@ The Portfolio CMS is a **headless content management system** built directly int
 
 Key architectural decisions:
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| CMS type | Headless (API-first) | Content is authored in the admin dashboard and served via API to any frontend |
-| Content storage | PostgreSQL via Prisma | Single database, no external CMS database, consistent with the rest of the platform |
-| Rich text storage | JSONB (Tiptap/ProseMirror JSON) | Structured editor output stored in JSONB columns, rendered as HTML on the frontend |
-| Image storage | Supabase Storage + CDN | Images uploaded to Supabase Storage, served via Vercel Edge Network with CDN caching |
-| Cache invalidation | On-demand ISR revalidation | Admin saves content -> API calls `revalidateTag()` -> Vercel CDN purges affected pages |
-| Auth model | Same JWT as admin dashboard | No separate CMS auth — uses the existing `JwtAuthGuard` + `RolesGuard` |
-| Validation | Zod + React Hook Form + NestJS ValidationPipe | Triple validation: shared Zod schemas in `packages/shared`, form validation on frontend, API validation on backend |
+| Decision           | Choice                                        | Rationale                                                                                                          |
+| ------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| CMS type           | Headless (API-first)                          | Content is authored in the admin dashboard and served via API to any frontend                                      |
+| Content storage    | PostgreSQL via Prisma                         | Single database, no external CMS database, consistent with the rest of the platform                                |
+| Rich text storage  | JSONB (Tiptap/ProseMirror JSON)               | Structured editor output stored in JSONB columns, rendered as HTML on the frontend                                 |
+| Image storage      | Supabase Storage + CDN                        | Images uploaded to Supabase Storage, served via Vercel Edge Network with CDN caching                               |
+| Cache invalidation | On-demand ISR revalidation                    | Admin saves content -> API calls `revalidateTag()` -> Vercel CDN purges affected pages                             |
+| Auth model         | Same JWT as admin dashboard                   | No separate CMS auth — uses the existing `JwtAuthGuard` + `RolesGuard`                                             |
+| Validation         | Zod + React Hook Form + NestJS ValidationPipe | Triple validation: shared Zod schemas in `packages/shared`, form validation on frontend, API validation on backend |
 
 ### 1.1 Data Flow
 
@@ -51,22 +51,22 @@ flowchart LR
 
 ### 2.1 Content Types
 
-| Content Type | Prisma Model | API Endpoint (Portfolio) | API Endpoint (Admin) | Rendering Page | Cache Strategy |
-|---|---|---|---|---|---|
-| Section | `Section` | `GET /api/portfolio/sections` | `GET/POST/PATCH/DELETE /api/admin/sections` | Homepage (section builder) | ISR 60s |
-| Project | `Project` | `GET /api/portfolio/projects` | `GET/POST/PATCH/DELETE /api/admin/projects` | Projects page + detail | ISR 60s (list), 300s (detail) |
-| BlogPost | `BlogPost` | `GET /api/portfolio/blog` | `GET/POST/PATCH/DELETE /api/admin/blog` | Blog list + article | ISR 600s |
-| CaseStudy | `CaseStudy` | `GET /api/portfolio/case-studies` | `GET/POST/PATCH/DELETE /api/admin/case-studies` | Project detail page | ISR 300s |
-| Skill | `Skill` | `GET /api/portfolio/skills` | `GET/POST/PATCH/DELETE /api/admin/skills` | Homepage, About | ISR 60s |
-| Experience | `Experience` | `GET /api/portfolio/experiences` | `GET/POST/PATCH/DELETE /api/admin/experiences` | About, Timeline | ISR 60s |
-| Testimonial | `Testimonial` | `GET /api/portfolio/testimonials` | `GET/POST/PATCH/DELETE /api/admin/testimonials` | Homepage, About | ISR 60s |
-| Service | `Service` | `GET /api/portfolio/services` | `GET/POST/PATCH/DELETE /api/admin/services` | Services page | ISR 60s |
-| FAQ | `FAQ` | `GET /api/portfolio/faqs` | `GET/POST/PATCH/DELETE /api/admin/faqs` | Contact, About | ISR 60s |
-| Lead | `Lead` | `POST /api/portfolio/leads` (public submit) | `GET/PATCH/DELETE /api/admin/leads` | Admin only | No cache (dynamic) |
-| PressFeature | `PressFeature` | `GET /api/portfolio/press-features` | `GET/POST/PATCH/DELETE /api/admin/press-features` | About, Press | ISR 60s |
-| GuestAppearance | `GuestAppearance` | `GET /api/portfolio/guest-appearances` | `GET/POST/PATCH/DELETE /api/admin/guest-appearances` | About, Press | ISR 60s |
-| ReadingListItem | `ReadingListItem` | `GET /api/portfolio/reading-list` | `GET/POST/PATCH/DELETE /api/admin/reading-list` | About, Reading | ISR 60s |
-| AvailabilityStatus | `AvailabilityStatus` | `GET /api/portfolio/availability` | `GET/PATCH /api/admin/availability` | Global (navbar/badge) | ISR 60s |
+| Content Type       | Prisma Model         | API Endpoint (Portfolio)                    | API Endpoint (Admin)                                 | Rendering Page             | Cache Strategy                |
+| ------------------ | -------------------- | ------------------------------------------- | ---------------------------------------------------- | -------------------------- | ----------------------------- |
+| Section            | `Section`            | `GET /api/portfolio/sections`               | `GET/POST/PATCH/DELETE /api/admin/sections`          | Homepage (section builder) | ISR 60s                       |
+| Project            | `Project`            | `GET /api/portfolio/projects`               | `GET/POST/PATCH/DELETE /api/admin/projects`          | Projects page + detail     | ISR 60s (list), 300s (detail) |
+| BlogPost           | `BlogPost`           | `GET /api/portfolio/blog`                   | `GET/POST/PATCH/DELETE /api/admin/blog`              | Blog list + article        | ISR 600s                      |
+| CaseStudy          | `CaseStudy`          | `GET /api/portfolio/case-studies`           | `GET/POST/PATCH/DELETE /api/admin/case-studies`      | Project detail page        | ISR 300s                      |
+| Skill              | `Skill`              | `GET /api/portfolio/skills`                 | `GET/POST/PATCH/DELETE /api/admin/skills`            | Homepage, About            | ISR 60s                       |
+| Experience         | `Experience`         | `GET /api/portfolio/experiences`            | `GET/POST/PATCH/DELETE /api/admin/experiences`       | About, Timeline            | ISR 60s                       |
+| Testimonial        | `Testimonial`        | `GET /api/portfolio/testimonials`           | `GET/POST/PATCH/DELETE /api/admin/testimonials`      | Homepage, About            | ISR 60s                       |
+| Service            | `Service`            | `GET /api/portfolio/services`               | `GET/POST/PATCH/DELETE /api/admin/services`          | Services page              | ISR 60s                       |
+| FAQ                | `FAQ`                | `GET /api/portfolio/faqs`                   | `GET/POST/PATCH/DELETE /api/admin/faqs`              | Contact, About             | ISR 60s                       |
+| Lead               | `Lead`               | `POST /api/portfolio/leads` (public submit) | `GET/PATCH/DELETE /api/admin/leads`                  | Admin only                 | No cache (dynamic)            |
+| PressFeature       | `PressFeature`       | `GET /api/portfolio/press-features`         | `GET/POST/PATCH/DELETE /api/admin/press-features`    | About, Press               | ISR 60s                       |
+| GuestAppearance    | `GuestAppearance`    | `GET /api/portfolio/guest-appearances`      | `GET/POST/PATCH/DELETE /api/admin/guest-appearances` | About, Press               | ISR 60s                       |
+| ReadingListItem    | `ReadingListItem`    | `GET /api/portfolio/reading-list`           | `GET/POST/PATCH/DELETE /api/admin/reading-list`      | About, Reading             | ISR 60s                       |
+| AvailabilityStatus | `AvailabilityStatus` | `GET /api/portfolio/availability`           | `GET/PATCH /api/admin/availability`                  | Global (navbar/badge)      | ISR 60s                       |
 
 ### 2.2 Content Relationships
 
@@ -89,16 +89,16 @@ graph TD
 
 Several content types use `Json` columns (`@db.JsonB` in PostgreSQL) for flexible, schema-less content:
 
-| Model | JSONB Column | Purpose |
-|-------|-------------|---------|
-| `Section` | `style_config` | Visual styling overrides (background, padding, maxWidth, animation preset) |
-| `Section` | `content` | Section-specific structured content (hero heading/CTA, about text, carousel items) |
-| `Project` | `content` | Rich text project body (Tiptap JSON), feature highlights, extended description |
-| `Project` | `metrics` | Key-value performance metrics (e.g., `{ "users": "10k+", "uptime": "99.9%" }`) |
-| `BlogPost` | (N/A — content is plain text/String) | Blog content stored as HTML string from Tiptap |
-| `MediaAsset` | `variants` | Responsive image variant URLs (e.g., `{ "thumb": "...", "medium": "...", "large": "..." }`) |
-| `Lead` | `metadata` | Additional lead data (UTM params, referrer, page context) |
-| `CaseStudy` | `metrics` | Impact metrics as structured data (e.g., `{ "performance_gain": "40%", "revenue": "$2M" }`) |
+| Model        | JSONB Column                         | Purpose                                                                                     |
+| ------------ | ------------------------------------ | ------------------------------------------------------------------------------------------- |
+| `Section`    | `style_config`                       | Visual styling overrides (background, padding, maxWidth, animation preset)                  |
+| `Section`    | `content`                            | Section-specific structured content (hero heading/CTA, about text, carousel items)          |
+| `Project`    | `content`                            | Rich text project body (Tiptap JSON), feature highlights, extended description              |
+| `Project`    | `metrics`                            | Key-value performance metrics (e.g., `{ "users": "10k+", "uptime": "99.9%" }`)              |
+| `BlogPost`   | (N/A — content is plain text/String) | Blog content stored as HTML string from Tiptap                                              |
+| `MediaAsset` | `variants`                           | Responsive image variant URLs (e.g., `{ "thumb": "...", "medium": "...", "large": "..." }`) |
+| `Lead`       | `metadata`                           | Additional lead data (UTM params, referrer, page context)                                   |
+| `CaseStudy`  | `metrics`                            | Impact metrics as structured data (e.g., `{ "performance_gain": "40%", "revenue": "$2M" }`) |
 
 ---
 
@@ -124,6 +124,7 @@ User selects file -> ImageUpload component -> POST /api/admin/media/upload (mult
 ```
 
 The `ImageUpload` component at `apps/web/src/components/admin/ImageUpload.tsx` handles:
+
 - Drag-and-drop or browse file selection
 - Upload progress indication
 - Preview of uploaded image
@@ -134,16 +135,16 @@ The `ImageUpload` component at `apps/web/src/components/admin/ImageUpload.tsx` h
 
 Sections are the building blocks of the homepage. Each section has:
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `section_key` | String (unique) | Internal identifier (e.g., `hero`, `about`, `projects`) |
-| `section_label` | String | Display name shown in admin UI |
-| `section_type` | String? | Categorization (e.g., `hero`, `about`, `projects`, `skills`) |
-| `is_live` | Boolean | Visibility toggle |
-| `style_preset` | String | Visual theme (default, minimal, bold, etc.) |
-| `display_order` | Int | Position in the section sequence |
-| `style_config` | JSONB | Visual overrides |
-| `content` | JSONB | Section-specific content data |
+| Field           | Type            | Description                                                  |
+| --------------- | --------------- | ------------------------------------------------------------ |
+| `section_key`   | String (unique) | Internal identifier (e.g., `hero`, `about`, `projects`)      |
+| `section_label` | String          | Display name shown in admin UI                               |
+| `section_type`  | String?         | Categorization (e.g., `hero`, `about`, `projects`, `skills`) |
+| `is_live`       | Boolean         | Visibility toggle                                            |
+| `style_preset`  | String          | Visual theme (default, minimal, bold, etc.)                  |
+| `display_order` | Int             | Position in the section sequence                             |
+| `style_config`  | JSONB           | Visual overrides                                             |
+| `content`       | JSONB           | Section-specific content data                                |
 
 Sections support drag-and-drop reordering via the `DraggableList` component and optimistic updates via SWR.
 
@@ -180,6 +181,7 @@ JSONB columns are used where the data shape varies per record:
 ### 4.3 Media Storage
 
 Images are stored in **Supabase Storage** (bucket: `assets` by default). The `MediaAsset` model tracks:
+
 - Original filename, path, bucket, MIME type, file size
 - Image dimensions (width, height)
 - Alt text
@@ -191,11 +193,11 @@ Images are stored in **Supabase Storage** (bucket: `assets` by default). The `Me
 
 Content types support a soft-delete pattern where applicable:
 
-| Model | Soft Delete Field | Hard Delete Available |
-|-------|-------------------|----------------------|
-| `Lead` | `deleted_at` | No (privacy/compliance) |
-| `MediaAsset` | `deleted_at` | Yes (admin-only) |
-| `BlogPost` | No (hard delete standard) | Separate `DELETE /:id/hard` endpoint |
+| Model        | Soft Delete Field         | Hard Delete Available                |
+| ------------ | ------------------------- | ------------------------------------ |
+| `Lead`       | `deleted_at`              | No (privacy/compliance)              |
+| `MediaAsset` | `deleted_at`              | Yes (admin-only)                     |
+| `BlogPost`   | No (hard delete standard) | Separate `DELETE /:id/hard` endpoint |
 
 Soft-deleted records are excluded from portfolio (public) queries. Admin queries can optionally include deleted records for recovery purposes.
 
@@ -207,13 +209,13 @@ Soft-deleted records are excluded from portfolio (public) queries. Admin queries
 
 Public pages use Next.js **Incremental Static Regeneration (ISR)** with the following revalidation intervals:
 
-| Page Route | ISR Revalidation | On-Demand Purge |
-|------------|-----------------|-----------------|
-| `/` (Homepage) | 60s | Yes — `revalidateTag('sections')` |
-| `/projects` | 60s | Yes — `revalidateTag('projects')` |
-| `/projects/[slug]` | 300s | Yes — `revalidateTag('projects')` |
-| `/blog` | 600s | Yes — `revalidateTag('blog')` |
-| `/blog/[slug]` | 600s | Yes — `revalidateTag('blog')` |
+| Page Route         | ISR Revalidation | On-Demand Purge                   |
+| ------------------ | ---------------- | --------------------------------- |
+| `/` (Homepage)     | 60s              | Yes — `revalidateTag('sections')` |
+| `/projects`        | 60s              | Yes — `revalidateTag('projects')` |
+| `/projects/[slug]` | 300s             | Yes — `revalidateTag('projects')` |
+| `/blog`            | 600s             | Yes — `revalidateTag('blog')`     |
+| `/blog/[slug]`     | 600s             | Yes — `revalidateTag('blog')`     |
 
 When admin saves content, the API calls the Next.js revalidation endpoint (`POST /api/revalidate`) with the affected cache tags. The revalidation endpoint:
 
@@ -247,10 +249,14 @@ Each content type has a **portfolio controller** that serves read-only, publicly
 @UseInterceptors(CacheInterceptor) // Response caching
 export class PortfolioSectionsController {
   @Get()
-  async findAll() { return this.sectionsService.findAll(); }
+  async findAll() {
+    return this.sectionsService.findAll();
+  }
 
   @Get(':key')
-  async findOne(@Param('key') key: string) { return { data: await this.sectionsService.findByKey(key) }; }
+  async findOne(@Param('key') key: string) {
+    return { data: await this.sectionsService.findByKey(key) };
+  }
 }
 ```
 
@@ -302,6 +308,7 @@ Draft ──> Published ──> Archived
 - **Archived:** Handled via unpublish (`PATCH /:id/unpublish`) which sets `is_published = false`
 
 Endpoints for blog lifecycle:
+
 - `PATCH /api/admin/blog/:id/publish` — Publish immediately
 - `PATCH /api/admin/blog/:id/unpublish` — Unpublish (return to draft)
 - Scheduled publishing is handled by checking `published_at` in the blog service
@@ -344,19 +351,19 @@ This simplicity is intentional — the portfolio is a single-owner site; complex
 
 The admin CMS interface is built from the following components in `apps/web/src/components/admin/`:
 
-| Component | File | Purpose |
-|-----------|------|---------|
-| `RichTextEditor` | `RichTextEditor.tsx` | Tiptap-based WYSIWYG editor for blog posts and descriptions |
-| `ImageUpload` | `ImageUpload.tsx` | Drag-and-drop image upload with preview |
-| `FileUpload` | `FileUpload.tsx` | Generic file upload component |
-| `BlogForm` | `BlogForm.tsx` | Blog post creation/editing form |
-| `ProjectForm` | `ProjectForm.tsx` | Project creation/editing form with tech stack, NDA toggle |
-| `SkillForm` | `SkillForm.tsx` | Skill entry form with proficiency slider |
-| `TestimonialForm` | `TestimonialForm.tsx` | Testimonial form with rating and avatar |
-| `DataTable` | `DataTable.tsx` | Sortable, filterable data table for content lists |
-| `DraggableList` | `DraggableList.tsx` | Drag-and-drop reorderable list for sections |
-| `AnalyticsCharts` | `AnalyticsCharts.tsx` | Dashboard analytics visualizations |
-| `AIAnalysisPanel` | `AIAnalysisPanel.tsx` | AI-powered content analysis panel |
+| Component         | File                  | Purpose                                                     |
+| ----------------- | --------------------- | ----------------------------------------------------------- |
+| `RichTextEditor`  | `RichTextEditor.tsx`  | Tiptap-based WYSIWYG editor for blog posts and descriptions |
+| `ImageUpload`     | `ImageUpload.tsx`     | Drag-and-drop image upload with preview                     |
+| `FileUpload`      | `FileUpload.tsx`      | Generic file upload component                               |
+| `BlogForm`        | `BlogForm.tsx`        | Blog post creation/editing form                             |
+| `ProjectForm`     | `ProjectForm.tsx`     | Project creation/editing form with tech stack, NDA toggle   |
+| `SkillForm`       | `SkillForm.tsx`       | Skill entry form with proficiency slider                    |
+| `TestimonialForm` | `TestimonialForm.tsx` | Testimonial form with rating and avatar                     |
+| `DataTable`       | `DataTable.tsx`       | Sortable, filterable data table for content lists           |
+| `DraggableList`   | `DraggableList.tsx`   | Drag-and-drop reorderable list for sections                 |
+| `AnalyticsCharts` | `AnalyticsCharts.tsx` | Dashboard analytics visualizations                          |
+| `AIAnalysisPanel` | `AIAnalysisPanel.tsx` | AI-powered content analysis panel                           |
 
 ---
 
@@ -364,11 +371,11 @@ The admin CMS interface is built from the following components in `apps/web/src/
 
 ### 8.1 Access Control
 
-| Role | View Content | Create/Edit | Publish/Toggle | Delete | Manage Users |
-|------|-------------|-------------|----------------|--------|-------------|
-| Admin | Yes | Yes | Yes | Yes | Yes |
-| Editor | Yes | Yes | Yes | No | No |
-| Viewer | Yes | No | No | No | No |
+| Role   | View Content | Create/Edit | Publish/Toggle | Delete | Manage Users |
+| ------ | ------------ | ----------- | -------------- | ------ | ------------ |
+| Admin  | Yes          | Yes         | Yes            | Yes    | Yes          |
+| Editor | Yes          | Yes         | Yes            | No     | No           |
+| Viewer | Yes          | No          | No             | No     | No           |
 
 Role enforcement uses `@Roles()` decorator on each admin controller route, implemented in `RolesGuard`.
 
@@ -394,13 +401,13 @@ The ISR revalidation endpoint (`POST /api/revalidate`) is protected by a shared 
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
-| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
-| [CONTENT-MODEL.md](CONTENT-MODEL.md) | Content model reference |
-| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md) | Image management and optimization |
-| [SANDBOX-IDE.md](SANDBOX-IDE.md) | Sandbox IDE architecture |
-| [ADMIN-ARCHITECTURE.md](../19-admin/ADMIN-ARCHITECTURE.md) | Admin architecture |
-| [FRONTEND-ARCHITECTURE.md](../07-frontend/FRONTEND-ARCHITECTURE.md) | Frontend architecture |
-| [DatabaseArchitecture.md](../09-database/DATABASE-ARCHITECTURE.md) | Database architecture |
+| Reference                                                            | Description                       |
+| -------------------------------------------------------------------- | --------------------------------- |
+| [MASTER-INDEX.md](../MASTER-INDEX.md)                                | Documentation master index        |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping           |
+| [CONTENT-MODEL.md](CONTENT-MODEL.md)                                 | Content model reference           |
+| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md)                           | Image management and optimization |
+| [SANDBOX-IDE.md](SANDBOX-IDE.md)                                     | Sandbox IDE architecture          |
+| [ADMIN-ARCHITECTURE.md](../19-admin/ADMIN-ARCHITECTURE.md)           | Admin architecture                |
+| [FRONTEND-ARCHITECTURE.md](../07-frontend/FRONTEND-ARCHITECTURE.md)  | Frontend architecture             |
+| [DatabaseArchitecture.md](../09-database/DATABASE-ARCHITECTURE.md)   | Database architecture             |

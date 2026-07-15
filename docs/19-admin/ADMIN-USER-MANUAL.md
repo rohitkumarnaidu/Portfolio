@@ -2,7 +2,7 @@
 
 > **Document:** `19-admin/ADMIN-USER-MANUAL.md` | **Version:** 1.0 | **Last Updated:** July 2026
 > **Status:** ✅ Active | **Audience:** Portfolio Admin Users
-> **Related:** [Admin Architecture](../design/AdminArchitecture.md) | [Admin Dashboard Architecture](../design/AdminDashboardArchitecture.md)
+> **Related:** [Admin Architecture](../04-design/AdminArchitecture.md) | [Admin Dashboard Architecture](../04-design/AdminDashboardArchitecture.md)
 
 ---
 
@@ -26,17 +26,20 @@
 Navigate to `/admin/login`. You have three authentication methods:
 
 **Email & Password:**
+
 1. Enter your registered email address and password.
 2. Click **Sign In**.
 3. You are redirected to the admin dashboard.
 
 **Google OAuth:**
+
 1. Click **Continue with Google**.
 2. A Google consent screen appears. Select your account.
 3. On first login, your Google profile (name, email, avatar) is linked to your admin account.
 4. You are redirected to the dashboard.
 
 **GitHub OAuth:**
+
 1. Click **Continue with GitHub**.
 2. Authorize the application in the GitHub OAuth flow.
 3. Your GitHub profile is linked on first login.
@@ -54,11 +57,11 @@ The dashboard at `/admin` is your command center. It displays:
 
 ### 1.3 User Roles
 
-| Role | Permissions | Typical Access |
-|------|-------------|----------------|
-| **Admin** | Full CRUD on all content, user management, settings, feature flags, API keys, audit log, analytics | Portfolio owner, super admin |
-| **Editor** | Create, edit, publish/unpublish content. Cannot manage users, change system settings, or view API keys. | Content contributors |
-| **Viewer** | Read-only access to all modules. Cannot create, edit, or delete anything. Can export data. | Clients, stakeholders, reviewers |
+| Role       | Permissions                                                                                             | Typical Access                   |
+| ---------- | ------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| **Admin**  | Full CRUD on all content, user management, settings, feature flags, API keys, audit log, analytics      | Portfolio owner, super admin     |
+| **Editor** | Create, edit, publish/unpublish content. Cannot manage users, change system settings, or view API keys. | Content contributors             |
+| **Viewer** | Read-only access to all modules. Cannot create, edit, or delete anything. Can export data.              | Clients, stakeholders, reviewers |
 
 Your role is displayed in the user menu (top-right avatar). Role changes are logged in the audit trail.
 
@@ -71,6 +74,7 @@ Your role is displayed in the user menu (top-right avatar). Role changes are log
 Manage portfolio sections at `/admin/sections`. Sections control which parts of your portfolio are visible to visitors and in what order.
 
 **Create a Section:**
+
 1. Click **Add Section** (opens the section form).
 2. Enter a **Section Label** (display name like "About Me") and **Section Key** (internal identifier like `about`).
 3. Select the **Section Type** (e.g., `hero`, `about`, `projects`, `skills`, `experience`, `testimonials`, `services`, `contact`).
@@ -78,14 +82,17 @@ Manage portfolio sections at `/admin/sections`. Sections control which parts of 
 5. Click **Save**.
 
 **Reorder Sections:**
+
 1. On the sections list, drag any row by the handle (six-dot icon) to a new position.
 2. The order auto-saves. A success toast confirms the change.
 
 **Toggle Visibility:**
+
 1. Find the section in the list.
 2. Click the toggle switch (green = visible, gray = hidden). `is_always_visible` sections (like Hero) cannot be hidden.
 
 **Delete a Section:**
+
 1. Click the trash icon on the section row.
 2. Confirm deletion in the modal. This is irreversible.
 
@@ -94,6 +101,7 @@ Manage portfolio sections at `/admin/sections`. Sections control which parts of 
 Manage projects at `/admin/projects`. Projects are your portfolio's centerpiece — each entry can include rich media, tech stack details, and NDA controls.
 
 **Create a Project:**
+
 1. Click **Add Project** to open the project form.
 2. Fill in the required fields:
    - **Title** — Project name (displayed publicly).
@@ -109,6 +117,7 @@ Manage projects at `/admin/projects`. Projects are your portfolio's centerpiece 
 5. Click **Save**.
 
 **Manage Projects:**
+
 - **Search** — Filter by title, description, or tech stack terms.
 - **Filter** — By category using the category filter buttons.
 - **Sort** — Click column headers (Title, Category, Date).
@@ -119,6 +128,7 @@ Manage projects at `/admin/projects`. Projects are your portfolio's centerpiece 
 Write blog posts at `/admin/blog`. The editor uses Tiptap, a rich text editor with a clean interface.
 
 **Create a Blog Post:**
+
 1. Click **Add Post** .
 2. Enter the **Title**.
 3. Write your content in the **Tiptap rich text editor**:
@@ -133,6 +143,7 @@ Write blog posts at `/admin/blog`. The editor uses Tiptap, a rich text editor wi
 9. Click **Save**.
 
 **Filter and Sort:**
+
 - Search by title, excerpt, or tags.
 - Filter by category.
 - Sort by title, category, or published date.
@@ -143,6 +154,7 @@ Write blog posts at `/admin/blog`. The editor uses Tiptap, a rich text editor wi
 Manage skills at `/admin/skills`. Skills are grouped by category and displayed as proficiency bars or grid items on your portfolio.
 
 **Create a Skill:**
+
 1. Click **Add Skill**.
 2. Enter **Name** (e.g., "TypeScript").
 3. Select **Category** (e.g., "Frontend", "Backend", "DevOps", "Design", "Database"). The category groups skills on the portfolio page. New categories are auto-created when typed.
@@ -152,6 +164,7 @@ Manage skills at `/admin/skills`. Skills are grouped by category and displayed a
 7. Click **Save**.
 
 **Organize:**
+
 - Grid or table view toggle controls how skills are displayed in the admin.
 - Skills are grouped by category in the admin list, matching the public portfolio grouping.
 - Delete a skill by clicking the trash icon.
@@ -161,6 +174,7 @@ Manage skills at `/admin/skills`. Skills are grouped by category and displayed a
 Manage professional experience at `/admin/experiences`. Entries appear as a chronological timeline on your portfolio.
 
 **Create an Experience Entry:**
+
 1. Click **Add Experience**.
 2. Fill in:
    - **Company** name.
@@ -172,6 +186,7 @@ Manage professional experience at `/admin/experiences`. Entries appear as a chro
 4. Click **Save**.
 
 **Manage:**
+
 - The list shows company, role, location, and dates.
 - Entries are sorted chronologically (newest first) on the public portfolio.
 - Edit any entry by clicking the pencil icon.
@@ -181,6 +196,7 @@ Manage professional experience at `/admin/experiences`. Entries appear as a chro
 Manage client testimonials at `/admin/testimonials`.
 
 **Create a Testimonial:**
+
 1. Click **Add Testimonial**.
 2. Enter:
    - **Name** — The person providing the testimonial.
@@ -198,6 +214,7 @@ Manage client testimonials at `/admin/testimonials`.
 Manage service offerings at `/admin/services`. Each service describes what you offer to potential clients.
 
 **Create a Service:**
+
 1. Click **Add Service**.
 2. Enter:
    - **Title** — Service name (e.g., "Web Application Development").
@@ -216,6 +233,7 @@ Manage service offerings at `/admin/services`. Each service describes what you o
 The leads page at `/admin/leads` displays all contact form submissions.
 
 **Filters:**
+
 - **Status Tabs** — Click any status button to filter: All, New, Read, Replied, Converted, Archived.
 - **Search** — Type a name, email, or company to search.
 
@@ -274,6 +292,7 @@ Navigate to `/admin/media`. The media library stores all images, documents, and 
 ### 4.2 Automatic Image Optimization
 
 Uploaded images are automatically optimized:
+
 - **WebP conversion** — Images are served as WebP to modern browsers (Chrome, Firefox, Edge).
 - **AVIF conversion** — Supported browsers receive AVIF for superior compression.
 - **Responsive sizes** — Multiple resolutions are generated (thumbnail, small, medium, large).
@@ -306,6 +325,7 @@ Usage metrics include: total conversations, messages per conversation, average r
 ### 5.3 Content Analysis Reports
 
 The Sections page includes an **AI Analysis Panel** that provides automated content suggestions:
+
 - SEO optimization recommendations for section labels.
 - Content completeness checks.
 - Keyword density analysis.
@@ -351,21 +371,23 @@ Track how visitors convert through your portfolio:
 
 Navigate to `/admin/settings`. Settings are organized in groups:
 
-| Group | Examples |
-|-------|----------|
-| **General** | Site name, tagline, timezone, language |
-| **SEO** | Default meta description, og:image, Google Analytics ID |
-| **Social** | GitHub, LinkedIn, Twitter/X, YouTube, Instagram URLs |
-| **Contact** | Email address, phone, location, Calendly link |
-| **Appearance** | Theme color, font selection, layout options |
-| **Analytics** | PostHog API key, Vercel Analytics enable |
+| Group          | Examples                                                |
+| -------------- | ------------------------------------------------------- |
+| **General**    | Site name, tagline, timezone, language                  |
+| **SEO**        | Default meta description, og:image, Google Analytics ID |
+| **Social**     | GitHub, LinkedIn, Twitter/X, YouTube, Instagram URLs    |
+| **Contact**    | Email address, phone, location, Calendly link           |
+| **Appearance** | Theme color, font selection, layout options             |
+| **Analytics**  | PostHog API key, Vercel Analytics enable                |
 
 **Edit a Setting:**
+
 1. Find the setting in its group.
 2. Click the value field to edit inline, or click the pencil icon to open the edit form.
 3. Update the value and press Enter or click Save.
 
 **Add a Setting:**
+
 1. Click **Add Setting**.
 2. Enter Key, Value, Group, Type (string/number/boolean/json), and Description.
 3. Click **Save**.
@@ -375,12 +397,14 @@ Navigate to `/admin/settings`. Settings are organized in groups:
 Manage feature flags at `/admin/feature-flags`. Flags let you enable or disable features without code deployments.
 
 **Create a Flag:**
+
 1. Click **Create Flag**.
 2. Enter **Flag Key** (e.g., `new_hero_design`), **Description**, and **Rollout Percentage** (0–100).
 3. Toggle **Enabled** to activate immediately.
 4. Click **Save**.
 
 **Manage:**
+
 - Toggle any flag on/off directly from the list.
 - Edit rollout percentage for gradual rollouts.
 - Delete flags that are no longer needed.
@@ -390,12 +414,14 @@ Manage feature flags at `/admin/feature-flags`. Flags let you enable or disable 
 Manage external integration keys at `/admin/api-keys`.
 
 **Create an API Key:**
+
 1. Click **Create API Key**.
 2. Enter a **Name** (e.g., "Production CI Integration") and optional **Permissions** (e.g., `read, write`).
 3. Click **Generate Key**. The full key is shown once — copy and store it securely.
 4. The key prefix is displayed in the list for identification.
 
 **Revoke/Delete:**
+
 - **Revoke** — Immediately invalidates the key. Revoked keys remain in the list with "Revoked" status.
 - **Delete** — Permanently removes the key record.
 
@@ -404,16 +430,19 @@ Manage external integration keys at `/admin/api-keys`.
 Manage users at `/admin/users`.
 
 **Add a User:**
+
 1. Click **Add User**.
 2. Enter Email, Display Name, and assign a Role (Admin, Editor, Viewer).
 3. Optionally set a password (users can also authenticate via OAuth).
 4. Click **Save**. The user receives a welcome email (if email service is configured).
 
 **Edit a User:**
+
 1. Click the user's row to edit name, email, or role.
 2. Role changes take effect immediately.
 
 **Locked Accounts:**
+
 - Accounts locked after failed login attempts show with "Locked" status.
 - Click **Unlock** to restore access.
 
@@ -435,6 +464,7 @@ The activity log at `/admin/activities` records every admin action. Each entry s
 ### 8.2 Audit Trail Review
 
 The audit log is immutable — entries cannot be edited or deleted. Use it for:
+
 - Compliance reviews (who changed what and when).
 - Debugging unexpected content changes.
 - Monitoring admin activity for security.
@@ -447,8 +477,9 @@ The audit log is immutable — entries cannot be edited or deleted. Use it for:
 
 ---
 
-*Last updated: July 2026. For questions or feature requests, contact the system administrator.*
+_Last updated: July 2026. For questions or feature requests, contact the system administrator._
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

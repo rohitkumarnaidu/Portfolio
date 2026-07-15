@@ -7,6 +7,7 @@
 ---
 
 ## Executive Summary
+
 This document defines the highly-optimized FAANG-level SEO architecture, ensuring robust semantic HTML, sub-100ms server-side rendering with Next.js 14 App Router, dynamic programmatic meta tags, rich structured schema, and LLM-ready semantic graphs for AI crawlers like ChatGPT, Perplexity, and Gemini.
 
 ## Table of Contents
@@ -46,28 +47,28 @@ The portfolio platform treats SEO as a **foundational growth engine**, not an af
 
 ### 1.2 Strategic Objectives
 
-| Objective | Target | Timeframe | Owner |
-|-----------|--------|-----------|-------|
-| **Brand keyword dominance** | #1–3 for "[Name] portfolio" and "[Name] developer" | Q3 2026 | Product Owner |
-| **Tech keyword presence** | Top 10 for 5+ relevant tech keywords (e.g., "React developer portfolio") | Q4 2026 | Product Owner |
-| **Rich snippet coverage** | 100% of pages have valid JSON-LD structured data | Q3 2026 | Frontend Lead |
-| **Core Web Vitals as SEO signal** | LCP < 1.8s, CLS < 0.05, INP < 50ms | Baseline | Full Team |
-| **Lighthouse SEO score** | ≥ 95 on every page, every deploy | Baseline | Frontend Lead |
-| **Index coverage** | 100% of public pages indexed in Google within 7 days of publish | Q3 2026 | Product Owner |
-| **Click-through rate optimization** | OG images + meta descriptions for every public page | Q3 2026 | Product Owner |
+| Objective                           | Target                                                                   | Timeframe | Owner         |
+| ----------------------------------- | ------------------------------------------------------------------------ | --------- | ------------- |
+| **Brand keyword dominance**         | #1–3 for "[Name] portfolio" and "[Name] developer"                       | Q3 2026   | Product Owner |
+| **Tech keyword presence**           | Top 10 for 5+ relevant tech keywords (e.g., "React developer portfolio") | Q4 2026   | Product Owner |
+| **Rich snippet coverage**           | 100% of pages have valid JSON-LD structured data                         | Q3 2026   | Frontend Lead |
+| **Core Web Vitals as SEO signal**   | LCP < 1.8s, CLS < 0.05, INP < 50ms                                       | Baseline  | Full Team     |
+| **Lighthouse SEO score**            | ≥ 95 on every page, every deploy                                         | Baseline  | Frontend Lead |
+| **Index coverage**                  | 100% of public pages indexed in Google within 7 days of publish          | Q3 2026   | Product Owner |
+| **Click-through rate optimization** | OG images + meta descriptions for every public page                      | Q3 2026   | Product Owner |
 
 ### 1.3 SEO Principles
 
-| # | Principle | Description | Implementation |
-|---|-----------|-------------|----------------|
-| P1 | **Semantic by default** | Use proper HTML landmarks, heading hierarchy, and semantic elements | Next.js App Router + semantic HTML |
-| P2 | **Structured everything** | Every page has JSON-LD structured data for rich results | `next/script` + dynamic JSON-LD generation |
-| P3 | **Shareable by design** | Every public page has auto-generated OG images and proper meta tags | `opengraph-image.tsx` per route |
-| P4 | **Content-first** | Content is the primary SEO driver; technical SEO enables discovery | Blog posts, case studies, project descriptions |
-| P5 | **Performance is SEO** | Core Web Vitals are ranking factors — performance and SEO are unified | See `docs/quality/PerformanceArchitecture.md` |
-| P6 | **Mobile-first indexing** | Google uses mobile content for ranking — mobile UX is SEO | Responsive design, mobile performance budgets |
-| P7 | **Index hygiene** | Only valuable pages are indexed; thin/low-value pages are noindexed | Robots meta + sitemap filtering |
-| P8 | **Data-driven optimization** | All SEO decisions are based on Search Console, analytics, and ranking data | Weekly SEO review cadence |
+| #   | Principle                    | Description                                                                | Implementation                                   |
+| --- | ---------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------ |
+| P1  | **Semantic by default**      | Use proper HTML landmarks, heading hierarchy, and semantic elements        | Next.js App Router + semantic HTML               |
+| P2  | **Structured everything**    | Every page has JSON-LD structured data for rich results                    | `next/script` + dynamic JSON-LD generation       |
+| P3  | **Shareable by design**      | Every public page has auto-generated OG images and proper meta tags        | `opengraph-image.tsx` per route                  |
+| P4  | **Content-first**            | Content is the primary SEO driver; technical SEO enables discovery         | Blog posts, case studies, project descriptions   |
+| P5  | **Performance is SEO**       | Core Web Vitals are ranking factors — performance and SEO are unified      | See `docs/35-quality/PerformanceArchitecture.md` |
+| P6  | **Mobile-first indexing**    | Google uses mobile content for ranking — mobile UX is SEO                  | Responsive design, mobile performance budgets    |
+| P7  | **Index hygiene**            | Only valuable pages are indexed; thin/low-value pages are noindexed        | Robots meta + sitemap filtering                  |
+| P8  | **Data-driven optimization** | All SEO decisions are based on Search Console, analytics, and ranking data | Weekly SEO review cadence                        |
 
 ---
 
@@ -77,40 +78,40 @@ The portfolio platform treats SEO as a **foundational growth engine**, not an af
 
 The portfolio platform targets **top 5 Google ranking for brand keywords** and **top 10 for relevant tech keywords** through a four-pillar SEO strategy:
 
-| Pillar | Focus | Tools | Owner |
-|--------|-------|-------|-------|
-| **Technical SEO** | Indexability, crawlability, structured data, sitemaps, robots | Next.js Metadata API, `next-sitemap`, JSON-LD | Frontend Lead |
-| **Content SEO** | Blog posts, project descriptions, case studies — quality content | Keystatic CMS, MDX, AI-assisted writing | Product Owner |
-| **On-Page SEO** | Metadata, Open Graph, Twitter Cards, heading structure | Next.js Metadata API, `opengraph-image.tsx` | Frontend Lead |
-| **Performance SEO** | Core Web Vitals as ranking signals | Vercel Analytics, Lighthouse CI, ISR caching | Full Team |
+| Pillar              | Focus                                                            | Tools                                         | Owner         |
+| ------------------- | ---------------------------------------------------------------- | --------------------------------------------- | ------------- |
+| **Technical SEO**   | Indexability, crawlability, structured data, sitemaps, robots    | Next.js Metadata API, `next-sitemap`, JSON-LD | Frontend Lead |
+| **Content SEO**     | Blog posts, project descriptions, case studies — quality content | Keystatic CMS, MDX, AI-assisted writing       | Product Owner |
+| **On-Page SEO**     | Metadata, Open Graph, Twitter Cards, heading structure           | Next.js Metadata API, `opengraph-image.tsx`   | Frontend Lead |
+| **Performance SEO** | Core Web Vitals as ranking signals                               | Vercel Analytics, Lighthouse CI, ISR caching  | Full Team     |
 
 **Goal:** Brand keywords top 5 | Tech keywords top 10 | Rich snippets for all pages | Lighthouse SEO ≥ 95
 
 ### 2.2 Current Baseline (v3.0 → v5.0 Upgrade)
 
-| Aspect | v3.0 Status | v5.0 Target | Improvement |
-|--------|-------------|-------------|-------------|
-| **Documentation** | Minimal skeleton (executive summary + change log only) | Complete enterprise architecture (22 sections) | 20x content expansion |
-| **Structured Data** | Not specified | 7+ JSON-LD types (Person, Project, BlogPosting, FAQ, etc.) | New capability |
-| **OG/Twitter Cards** | Not specified | Per-route auto-generated OG images + Twitter Card config | New capability |
-| **Sitemap Strategy** | Not specified | Dynamic sitemap with priority/frequency, image sitemap | New capability |
-| **Robots Strategy** | Not specified | Per-environment robots, dynamic rules, noindex admin | New capability |
-| **Canonical Strategy** | Not specified | Self-referencing canonicals, pagination handling | New capability |
-| **Programmatic SEO** | Not specified | Tag/category landing pages, project type filtering pages | New capability |
-| **Enterprise Standards** | Not specified | SLA framework, compliance matrix, governance cadence | New capability |
+| Aspect                   | v3.0 Status                                            | v5.0 Target                                                | Improvement           |
+| ------------------------ | ------------------------------------------------------ | ---------------------------------------------------------- | --------------------- |
+| **Documentation**        | Minimal skeleton (executive summary + change log only) | Complete enterprise architecture (22 sections)             | 20x content expansion |
+| **Structured Data**      | Not specified                                          | 7+ JSON-LD types (Person, Project, BlogPosting, FAQ, etc.) | New capability        |
+| **OG/Twitter Cards**     | Not specified                                          | Per-route auto-generated OG images + Twitter Card config   | New capability        |
+| **Sitemap Strategy**     | Not specified                                          | Dynamic sitemap with priority/frequency, image sitemap     | New capability        |
+| **Robots Strategy**      | Not specified                                          | Per-environment robots, dynamic rules, noindex admin       | New capability        |
+| **Canonical Strategy**   | Not specified                                          | Self-referencing canonicals, pagination handling           | New capability        |
+| **Programmatic SEO**     | Not specified                                          | Tag/category landing pages, project type filtering pages   | New capability        |
+| **Enterprise Standards** | Not specified                                          | SLA framework, compliance matrix, governance cadence       | New capability        |
 
 ### 2.3 Alignment with Other Documents
 
-| Document | Relationship |
-|----------|-------------|
-| `docs/quality/PerformanceArchitecture.md` (v5.0) | §5 Core Web Vitals — LCP/CLS/INP as SEO ranking factors; §20 Performance Monitoring — perf data feeds SEO analysis |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | §2 Frontend Architecture — metadata generation, rendering strategy for SEO; §3 Backend Architecture — API for content serving |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Next.js Metadata API, `next/font`, `next/image` — all SEO-relevant tech choices |
-| `docs/product/ContentArchitecture.md` (v3.0) | Content strategy — blog posts, project descriptions as SEO content |
-| `docs/operations/AnalyticsArchitecture.md` (v5.0) | §12 Performance Metrics — SEO-related analytics events; traffic source tracking |
-| `docs/operations/21-MONITORING.md` (v5.0) | Search Console monitoring, ranking position tracking |
-| `docs/quality/AccessibilityArchitecture.md` (v3.0) | Accessibility best practices overlap with SEO (semantic HTML, alt text, heading structure) |
-| `docx_content.json` | Ultimate Portfolio Plan — Ch.10 SEO, Performance & Launch (meta tags, OG images, sitemap, JSON-LD, Search Console) |
+| Document                                              | Relationship                                                                                                                  |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `docs/35-quality/PerformanceArchitecture.md` (v5.0)   | §5 Core Web Vitals — LCP/CLS/INP as SEO ranking factors; §20 Performance Monitoring — perf data feeds SEO analysis            |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0)   | §2 Frontend Architecture — metadata generation, rendering strategy for SEO; §3 Backend Architecture — API for content serving |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)         | Next.js Metadata API, `next/font`, `next/image` — all SEO-relevant tech choices                                               |
+| `docs/01-product/ContentArchitecture.md` (v3.0)       | Content strategy — blog posts, project descriptions as SEO content                                                            |
+| `docs/21-operations/AnalyticsArchitecture.md` (v5.0)  | §12 Performance Metrics — SEO-related analytics events; traffic source tracking                                               |
+| `docs/21-operations/21-MONITORING.md` (v5.0)          | Search Console monitoring, ranking position tracking                                                                          |
+| `docs/35-quality/AccessibilityArchitecture.md` (v3.0) | Accessibility best practices overlap with SEO (semantic HTML, alt text, heading structure)                                    |
+| `docx_content.json`                                   | Ultimate Portfolio Plan — Ch.10 SEO, Performance & Launch (meta tags, OG images, sitemap, JSON-LD, Search Console)            |
 
 ---
 
@@ -118,21 +119,21 @@ The portfolio platform targets **top 5 Google ranking for brand keywords** and *
 
 ### 3.1 SEO Technology Inventory
 
-| Tool | Version | Purpose | Cost | Integration |
-|------|---------|---------|------|-------------|
-| **Next.js Metadata API** | Built-in (14.2+) | Per-route metadata, OG images, JSON-LD | 🆓 Built-in | `generateMetadata()` per page |
-| **`next-sitemap`** | ^4.x | Automated sitemap generation with priority/frequency | 🆓 Free | Post-build script |
-| **`next/og`** (Satori) | Built-in | Server-side OG image generation | 🆓 Built-in | `opengraph-image.tsx` per route |
-| **`next/script`** | Built-in | JSON-LD structured data injection | 🆓 Built-in | AfterInteractive strategy |
-| **Google Search Console** | Web service | Index monitoring, crawl stats, performance reporting | 🆓 Free | Domain verification via DNS TXT |
-| **Google Analytics 4** | Web service | Traffic analysis, user behavior, conversion tracking | 🆓 Free | `next/script` + dataLayer |
-| **Bing Webmaster Tools** | Web service | Index monitoring for Bing/Yahoo | 🆓 Free | XML sitemap submission |
-| **PageSpeed Insights** | Web service | Core Web Vitals + Lighthouse scores | 🆓 Free | API integration for CI |
-| **Screaming Frog SEO Spider** | Desktop app | Technical SEO audit, broken link check | 🆓 Free (500 URLs) | Weekly crawl on staging |
-| **Ahrefs / SEMrush** | Web service | Keyword research, competitor analysis, backlink monitoring | 💰 Paid | Monthly audit |
-| **Vercel Analytics** | Built-in | Core Web Vitals (LCP, CLS, INP) as SEO signals | 🆓 Free | Vercel dashboard |
-| **Cloudflare** | Edge service | SSL, CDN, Early Hints (103), security headers | 🆓 Free | DNS + proxy |
-| **Structured Data Testing Tool** | Web service | JSON-LD validation | 🆓 Free | Pre-deploy check |
+| Tool                             | Version          | Purpose                                                    | Cost               | Integration                     |
+| -------------------------------- | ---------------- | ---------------------------------------------------------- | ------------------ | ------------------------------- |
+| **Next.js Metadata API**         | Built-in (14.2+) | Per-route metadata, OG images, JSON-LD                     | 🆓 Built-in        | `generateMetadata()` per page   |
+| **`next-sitemap`**               | ^4.x             | Automated sitemap generation with priority/frequency       | 🆓 Free            | Post-build script               |
+| **`next/og`** (Satori)           | Built-in         | Server-side OG image generation                            | 🆓 Built-in        | `opengraph-image.tsx` per route |
+| **`next/script`**                | Built-in         | JSON-LD structured data injection                          | 🆓 Built-in        | AfterInteractive strategy       |
+| **Google Search Console**        | Web service      | Index monitoring, crawl stats, performance reporting       | 🆓 Free            | Domain verification via DNS TXT |
+| **Google Analytics 4**           | Web service      | Traffic analysis, user behavior, conversion tracking       | 🆓 Free            | `next/script` + dataLayer       |
+| **Bing Webmaster Tools**         | Web service      | Index monitoring for Bing/Yahoo                            | 🆓 Free            | XML sitemap submission          |
+| **PageSpeed Insights**           | Web service      | Core Web Vitals + Lighthouse scores                        | 🆓 Free            | API integration for CI          |
+| **Screaming Frog SEO Spider**    | Desktop app      | Technical SEO audit, broken link check                     | 🆓 Free (500 URLs) | Weekly crawl on staging         |
+| **Ahrefs / SEMrush**             | Web service      | Keyword research, competitor analysis, backlink monitoring | 💰 Paid            | Monthly audit                   |
+| **Vercel Analytics**             | Built-in         | Core Web Vitals (LCP, CLS, INP) as SEO signals             | 🆓 Free            | Vercel dashboard                |
+| **Cloudflare**                   | Edge service     | SSL, CDN, Early Hints (103), security headers              | 🆓 Free            | DNS + proxy                     |
+| **Structured Data Testing Tool** | Web service      | JSON-LD validation                                         | 🆓 Free            | Pre-deploy check                |
 
 ### 3.2 SEO Data Flow
 
@@ -150,10 +151,10 @@ sequenceDiagram
     CF->>CF: SSL termination, WAF check
     CF->>Vercel: Forward (ISR cache check)
     Vercel->>App: Execute ISR page
-    
+
     Note over App: generateMetadata() → meta tags, OG, Twitter
     Note over App: JSON-LD schema injected via next/script
-    
+
     App-->>Vercel: HTML with complete metadata + structured data
     Vercel-->>CF: HTML (Cache-Control: s-maxage=60)
     CF-->>Google: Rendered HTML + 200 OK
@@ -172,7 +173,7 @@ sequenceDiagram
     Google-->>SearchConsole: Indexing status, errors
     App-->>SearchConsole: Sitemap ping (on content change)
     App-->>Google: IndexNow ping (on content change)
-    
+
     Note over SearchConsole,Analytics: === PERFORMANCE ===
     SearchConsole-->>Analytics: Search queries, clicks, impressions
     App-->>Analytics: Page views, user behavior (GA4/PostHog)
@@ -206,7 +207,7 @@ graph TB
     ROUTE_META --> JSON_LD
     ROUTE_META --> SITEMAP
     ROUTE_META --> ROBOTS
-    
+
     CMS --> MDX
     MDX --> ROUTE_META
     API --> JSON_LD
@@ -251,12 +252,12 @@ flowchart TD
     ROBOTS_TXT --> CRAWL
     SITEMAP_XML --> CRAWL
     INTERNAL_LINKS --> CRAWL
-    
+
     CRAWL["Crawl Budget Management"]
     CRAWL --> CANONICAL
     CRAWL --> META_ROBOTS
     CRAWL --> STATUS_CODES
-    
+
     ISR --> RENDER["Rendered HTML"]
     SSR --> RENDER
     RENDER --> JSONLD
@@ -267,15 +268,15 @@ flowchart TD
 
 ### 4.2 Crawl Budget Management
 
-| Factor | Strategy | Implementation |
-|--------|----------|----------------|
-| **Sitemap-driven crawl** | Submit complete, clean sitemap to Search Console | `next-sitemap` generates per-deploy |
-| **Reduce thin pages** | Noindex admin, API routes, auth pages | `meta robots: noindex` on non-public routes |
-| **Optimize crawl frequency** | ISR with 60s TTL → Googlebot gets fast response | Vercel CDN + Cloudflare cache |
-| **Eliminate crawl errors** | 404 → 410 for deleted pages, redirect chains minimized | Custom 404 page, proper redirects |
-| **Internal linking depth** | Every page within 3 clicks from homepage | Nav + breadcrumbs + related content |
-| **Server response time** | < 200ms TTFB for Googlebot (same as users) | ISR cache hit serves instantly |
-| **Resource hints for Googlebot** | Preconnect + DNS-prefetch for critical origins | `<link rel="preconnect">` in layout |
+| Factor                           | Strategy                                               | Implementation                              |
+| -------------------------------- | ------------------------------------------------------ | ------------------------------------------- |
+| **Sitemap-driven crawl**         | Submit complete, clean sitemap to Search Console       | `next-sitemap` generates per-deploy         |
+| **Reduce thin pages**            | Noindex admin, API routes, auth pages                  | `meta robots: noindex` on non-public routes |
+| **Optimize crawl frequency**     | ISR with 60s TTL → Googlebot gets fast response        | Vercel CDN + Cloudflare cache               |
+| **Eliminate crawl errors**       | 404 → 410 for deleted pages, redirect chains minimized | Custom 404 page, proper redirects           |
+| **Internal linking depth**       | Every page within 3 clicks from homepage               | Nav + breadcrumbs + related content         |
+| **Server response time**         | < 200ms TTFB for Googlebot (same as users)             | ISR cache hit serves instantly              |
+| **Resource hints for Googlebot** | Preconnect + DNS-prefetch for critical origins         | `<link rel="preconnect">` in layout         |
 
 ### 4.3 Next.js Technical SEO Configuration
 
@@ -302,7 +303,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Portfolio Owner', url: 'https://portfolioowner.com' }],
   creator: 'Portfolio Owner',
   publisher: 'Portfolio Owner',
-  
+
   // Robots
   robots: {
     index: true,
@@ -389,36 +390,36 @@ export async function generateMetadata({
 
 ### 4.4 Technical SEO Checklist
 
-| # | Check | Implementation | Verification |
-|---|-------|---------------|--------------|
-| 1 | ✅ Page has exactly one `<h1>` | Semantic HTML structure | axe DevTools |
-| 2 | ✅ Heading hierarchy is logical (h1 → h2 → h3) | Content authored with hierarchical structure | Lighthouse audit |
-| 3 | ✅ All images have descriptive `alt` text | ESLint `jsx-a11y/alt-text` rule | CI check |
-| 4 | ✅ Semantic HTML landmarks used (`<nav>`, `<main>`, `<footer>`) | App Router default layout structure | axe DevTools |
-| 5 | ✅ Links have descriptive text (no "click here") | Content review process | Code review |
-| 6 | ✅ No broken internal links | `next-sitemap` checks on build | CI check |
-| 7 | ✅ No duplicate content | Canonical tags on every page | Screaming Frog audit |
-| 8 | ✅ HTTP → HTTPS redirect | Vercel + Cloudflare auto | Browser test |
-| 9 | ✅ Security headers present (HSTS, CSP, XFO) | `next.config.js` headers | securityheaders.com |
-| 10 | ✅ Structured data valid on all pages | Schema.org validator | Pre-deploy check |
-| 11 | ✅ Pages render properly without JavaScript | Next.js Server Components + ISR | Lighthouse test |
-| 12 | ✅ Mobile viewport configured | Tailwind responsive design | Lighthouse audit |
-| 13 | ✅ Touch targets at least 48px | Tailwind spacing scale | Lighthouse audit |
-| 14 | ✅ Font size ≥ 16px to prevent iOS zoom | Tailwind base font size (`text-base`) | Manual test |
-| 15 | ✅ Color contrast meets WCAG AA (4.5:1) | Tailwind color tokens | axe DevTools |
+| #   | Check                                                           | Implementation                               | Verification         |
+| --- | --------------------------------------------------------------- | -------------------------------------------- | -------------------- |
+| 1   | ✅ Page has exactly one `<h1>`                                  | Semantic HTML structure                      | axe DevTools         |
+| 2   | ✅ Heading hierarchy is logical (h1 → h2 → h3)                  | Content authored with hierarchical structure | Lighthouse audit     |
+| 3   | ✅ All images have descriptive `alt` text                       | ESLint `jsx-a11y/alt-text` rule              | CI check             |
+| 4   | ✅ Semantic HTML landmarks used (`<nav>`, `<main>`, `<footer>`) | App Router default layout structure          | axe DevTools         |
+| 5   | ✅ Links have descriptive text (no "click here")                | Content review process                       | Code review          |
+| 6   | ✅ No broken internal links                                     | `next-sitemap` checks on build               | CI check             |
+| 7   | ✅ No duplicate content                                         | Canonical tags on every page                 | Screaming Frog audit |
+| 8   | ✅ HTTP → HTTPS redirect                                        | Vercel + Cloudflare auto                     | Browser test         |
+| 9   | ✅ Security headers present (HSTS, CSP, XFO)                    | `next.config.js` headers                     | securityheaders.com  |
+| 10  | ✅ Structured data valid on all pages                           | Schema.org validator                         | Pre-deploy check     |
+| 11  | ✅ Pages render properly without JavaScript                     | Next.js Server Components + ISR              | Lighthouse test      |
+| 12  | ✅ Mobile viewport configured                                   | Tailwind responsive design                   | Lighthouse audit     |
+| 13  | ✅ Touch targets at least 48px                                  | Tailwind spacing scale                       | Lighthouse audit     |
+| 14  | ✅ Font size ≥ 16px to prevent iOS zoom                         | Tailwind base font size (`text-base`)        | Manual test          |
+| 15  | ✅ Color contrast meets WCAG AA (4.5:1)                         | Tailwind color tokens                        | axe DevTools         |
 
 ### 4.5 HTTP Status Code Strategy
 
-| Status Code | When Used | Implementation |
-|-------------|-----------|----------------|
-| **200** | Successful page load | Normal rendering |
-| **301** | Permanent redirect (e.g., old slug → new slug) | Next.js `redirect()` in middleware |
-| **302** | Temporary redirect (e.g., maintenance page) | Next.js `redirect()` |
-| **404** | Page not found | Custom `not-found.tsx` |
-| **410** | Content permanently deleted | Next.js `notFound()` + `noindex` |
-| **429** | Rate limited | NestJS ThrottlerGuard |
-| **500** | Server error | Custom `error.tsx` |
-| **503** | Maintenance mode | Middleware check |
+| Status Code | When Used                                      | Implementation                     |
+| ----------- | ---------------------------------------------- | ---------------------------------- |
+| **200**     | Successful page load                           | Normal rendering                   |
+| **301**     | Permanent redirect (e.g., old slug → new slug) | Next.js `redirect()` in middleware |
+| **302**     | Temporary redirect (e.g., maintenance page)    | Next.js `redirect()`               |
+| **404**     | Page not found                                 | Custom `not-found.tsx`             |
+| **410**     | Content permanently deleted                    | Next.js `notFound()` + `noindex`   |
+| **429**     | Rate limited                                   | NestJS ThrottlerGuard              |
+| **500**     | Server error                                   | Custom `error.tsx`                 |
+| **503**     | Maintenance mode                               | Middleware check                   |
 
 ---
 
@@ -467,29 +468,29 @@ graph TB
 
 ### 5.2 Metadata Template
 
-| Page | Title Template | Description Template | Keywords | Priority |
-|------|---------------|---------------------|----------|----------|
-| **Homepage** | `Portfolio Owner — Full Stack Developer` | `Full Stack Developer specializing in React, TypeScript, and Node.js. Building performant, accessible web applications with modern technologies.` | `full stack developer, react, typescript, portfolio` | P0 |
-| **Projects** | `Projects %s` | `Explore my portfolio of projects — from full-stack web applications to open source contributions and design systems.` | `portfolio projects, web development projects` | P0 |
-| **Project Detail** | `{title} %s` | `{excerpt or 'A project by Portfolio Owner'}` | `{project.technologies.join(', ')}` | P0 |
-| **Blog** | `Blog %s` | `Read articles about web development, React, TypeScript, and building better software.` | `web development blog, react blog, typescript articles` | P1 |
-| **Blog Post** | `{title} %s` | `{excerpt or first 160 chars of content}` | `{post.tags.join(', ')}` | P1 |
-| **Contact** | `Contact %s` | `Get in touch — I'm always open to discussing new projects, creative ideas, or opportunities.` | `contact developer, hire full stack developer` | P1 |
-| **AI Assistant** | `AI Assistant %s` | `Chat with my AI assistant to learn more about my skills, experience, and projects.` | `portfolio AI chat, developer assistant` | P2 |
-| **Admin** | `Admin {page} %s` | — (noindex) | — | N/A |
+| Page               | Title Template                           | Description Template                                                                                                                              | Keywords                                                | Priority |
+| ------------------ | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- | -------- |
+| **Homepage**       | `Portfolio Owner — Full Stack Developer` | `Full Stack Developer specializing in React, TypeScript, and Node.js. Building performant, accessible web applications with modern technologies.` | `full stack developer, react, typescript, portfolio`    | P0       |
+| **Projects**       | `Projects %s`                            | `Explore my portfolio of projects — from full-stack web applications to open source contributions and design systems.`                            | `portfolio projects, web development projects`          | P0       |
+| **Project Detail** | `{title} %s`                             | `{excerpt or 'A project by Portfolio Owner'}`                                                                                                     | `{project.technologies.join(', ')}`                     | P0       |
+| **Blog**           | `Blog %s`                                | `Read articles about web development, React, TypeScript, and building better software.`                                                           | `web development blog, react blog, typescript articles` | P1       |
+| **Blog Post**      | `{title} %s`                             | `{excerpt or first 160 chars of content}`                                                                                                         | `{post.tags.join(', ')}`                                | P1       |
+| **Contact**        | `Contact %s`                             | `Get in touch — I'm always open to discussing new projects, creative ideas, or opportunities.`                                                    | `contact developer, hire full stack developer`          | P1       |
+| **AI Assistant**   | `AI Assistant %s`                        | `Chat with my AI assistant to learn more about my skills, experience, and projects.`                                                              | `portfolio AI chat, developer assistant`                | P2       |
+| **Admin**          | `Admin {page} %s`                        | — (noindex)                                                                                                                                       | —                                                       | N/A      |
 
 ### 5.3 Metadata Quality Standards
 
-| Requirement | Standard | Enforcement | Tool |
-|-------------|----------|-------------|------|
-| **Title length** | 50–60 characters | Lighthouse audit (≥ 95 SEO) | Lighthouse CI |
-| **Description length** | 120–158 characters | Custom ESLint rule | ESLint |
-| **Unique titles** | No duplicate titles across pages | `next-sitemap` validation | CI check |
-| **Unique descriptions** | No duplicate descriptions across pages | Script check in CI | CI check |
-| **OG image** | Every public page has an OG image | `generateMetadata()` ensures coverage | Code review |
-| **Canonical URL** | Every page has self-referencing canonical | Automatic in metadata generation | Code review |
-| **Keywords present** | At least 3 relevant keywords per page | Manual review per content publish | Content workflow |
-| **No HTML in meta** | Titles/descriptions are plain text | Content sanitization | Zod validation |
+| Requirement             | Standard                                  | Enforcement                           | Tool             |
+| ----------------------- | ----------------------------------------- | ------------------------------------- | ---------------- |
+| **Title length**        | 50–60 characters                          | Lighthouse audit (≥ 95 SEO)           | Lighthouse CI    |
+| **Description length**  | 120–158 characters                        | Custom ESLint rule                    | ESLint           |
+| **Unique titles**       | No duplicate titles across pages          | `next-sitemap` validation             | CI check         |
+| **Unique descriptions** | No duplicate descriptions across pages    | Script check in CI                    | CI check         |
+| **OG image**            | Every public page has an OG image         | `generateMetadata()` ensures coverage | Code review      |
+| **Canonical URL**       | Every page has self-referencing canonical | Automatic in metadata generation      | Code review      |
+| **Keywords present**    | At least 3 relevant keywords per page     | Manual review per content publish     | Content workflow |
+| **No HTML in meta**     | Titles/descriptions are plain text        | Content sanitization                  | Zod validation   |
 
 ### 5.4 Metadata Generation Pattern
 
@@ -535,7 +536,7 @@ export function generateSEO(config: SEOConfig): Metadata {
       card: 'summary_large_image',
       title: config.title,
       description: config.description,
-      images: images.map(i => i.url),
+      images: images.map((i) => i.url),
     },
   };
 }
@@ -568,7 +569,7 @@ flowchart LR
     EDGE --> RENDER
     RENDER --> CACHE
     CACHE -->|Response| REQ
-    
+
     RENDER --> DEFAULT
     RENDER --> PROJECT
     RENDER --> BLOG
@@ -719,22 +720,25 @@ export default async function Image({ params }: { params: { slug: string } }) {
 
 ### 6.3 OG Tag Configuration (Per Page)
 
-| Page | `og:type` | `og:image` | `og:title` | `og:description` |
-|------|-----------|------------|------------|-------------------|
-| **Homepage** | `website` | `/og/default` | `Portfolio Owner — Full Stack Developer` | Default site description |
-| **Projects** | `website` | `/og/projects` | `Projects \| Portfolio Owner` | Projects listing description |
-| **Project Detail** | `article` | `/og/projects/{slug}` | `{title} \| Portfolio Owner` | Project excerpt |
-| **Blog** | `website` | `/og/blog` | `Blog \| Portfolio Owner` | Blog listing description |
-| **Blog Post** | `article` | `/og/blog/{slug}` | `{title} \| Portfolio Owner` | Post excerpt |
-| **Contact** | `website` | `/og/contact` | `Contact \| Portfolio Owner` | Contact page description |
-| **AI Assistant** | `website` | `/og/ai` | `AI Assistant \| Portfolio Owner` | AI page description |
+| Page               | `og:type` | `og:image`            | `og:title`                               | `og:description`             |
+| ------------------ | --------- | --------------------- | ---------------------------------------- | ---------------------------- |
+| **Homepage**       | `website` | `/og/default`         | `Portfolio Owner — Full Stack Developer` | Default site description     |
+| **Projects**       | `website` | `/og/projects`        | `Projects \| Portfolio Owner`            | Projects listing description |
+| **Project Detail** | `article` | `/og/projects/{slug}` | `{title} \| Portfolio Owner`             | Project excerpt              |
+| **Blog**           | `website` | `/og/blog`            | `Blog \| Portfolio Owner`                | Blog listing description     |
+| **Blog Post**      | `article` | `/og/blog/{slug}`     | `{title} \| Portfolio Owner`             | Post excerpt                 |
+| **Contact**        | `website` | `/og/contact`         | `Contact \| Portfolio Owner`             | Contact page description     |
+| **AI Assistant**   | `website` | `/og/ai`              | `AI Assistant \| Portfolio Owner`        | AI page description          |
 
 ### 6.4 Required OG Tags
 
 ```html
 <!-- Minimum required OG tags -->
 <meta property="og:title" content="Portfolio Owner — Full Stack Developer" />
-<meta property="og:description" content="Full Stack Developer specializing in React, TypeScript, and Node.js." />
+<meta
+  property="og:description"
+  content="Full Stack Developer specializing in React, TypeScript, and Node.js."
+/>
 <meta property="og:url" content="https://portfolioowner.com" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="https://portfolioowner.com/og/default" />
@@ -745,8 +749,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
 
 <!-- Recommended additional tags -->
 <meta property="og:determiner" content="" />
-<meta property="og:audio" content="" /> <!-- if podcast -->
-<meta property="og:video" content="" /> <!-- if video project -->
+<meta property="og:audio" content="" />
+<!-- if podcast -->
+<meta property="og:video" content="" />
+<!-- if video project -->
 ```
 
 ---
@@ -771,21 +777,21 @@ export const metadata: Metadata = {
 
 ### 7.2 Twitter Card Types
 
-| Card Type | When Used | Image Size | Description |
-|-----------|-----------|------------|-------------|
-| **`summary_large_image`** | All public pages (default) | 1200×628 px | Large image with title + description |
-| **`summary`** | Admin pages (if indexed, unlikely) | 120×120 px | Small avatar with title + description |
-| **`player`** | Future: video projects | 1200×628 px | Video embed card |
-| **`app`** | Future: mobile app projects | — | App download card |
+| Card Type                 | When Used                          | Image Size  | Description                           |
+| ------------------------- | ---------------------------------- | ----------- | ------------------------------------- |
+| **`summary_large_image`** | All public pages (default)         | 1200×628 px | Large image with title + description  |
+| **`summary`**             | Admin pages (if indexed, unlikely) | 120×120 px  | Small avatar with title + description |
+| **`player`**              | Future: video projects             | 1200×628 px | Video embed card                      |
+| **`app`**                 | Future: mobile app projects        | —           | App download card                     |
 
 ### 7.3 Twitter Card Validator
 
-| Check | Tool | Frequency |
-|-------|------|-----------|
-| ✅ Cards render correctly | Twitter Card Validator (cards-dev.twitter.com/validator) | Per new URL pattern |
-| ✅ Image dimensions correct | 1200×628px, < 5MB, JPG/PNG/GIF | Per deploy |
-| ✅ Description fits (< 200 chars) | Manual character count | Content review |
-| ✅ No broken image URLs | Twitter validator reports broken images | Per deploy |
+| Check                             | Tool                                                     | Frequency           |
+| --------------------------------- | -------------------------------------------------------- | ------------------- |
+| ✅ Cards render correctly         | Twitter Card Validator (cards-dev.twitter.com/validator) | Per new URL pattern |
+| ✅ Image dimensions correct       | 1200×628px, < 5MB, JPG/PNG/GIF                           | Per deploy          |
+| ✅ Description fits (< 200 chars) | Manual character count                                   | Content review      |
+| ✅ No broken image URLs           | Twitter validator reports broken images                  | Per deploy          |
 
 ---
 
@@ -875,14 +881,7 @@ export function personSchema(): WithContext<Person> {
       'https://linkedin.com/in/portfolioowner',
       'https://twitter.com/portfolioowner',
     ],
-    knowsAbout: [
-      'React',
-      'TypeScript',
-      'Node.js',
-      'Next.js',
-      'PostgreSQL',
-      'Tailwind CSS',
-    ],
+    knowsAbout: ['React', 'TypeScript', 'Node.js', 'Next.js', 'PostgreSQL', 'Tailwind CSS'],
     email: 'hello@portfolioowner.com',
     address: {
       '@type': 'PostalAddress',
@@ -918,8 +917,7 @@ export function websiteSchema(): WithContext<WebSite> {
       },
       'query-input': 'required name=search_term_string',
     },
-    description:
-      'Full Stack Developer portfolio showcasing projects, skills, and experience.',
+    description: 'Full Stack Developer portfolio showcasing projects, skills, and experience.',
     inLanguage: 'en-US',
     copyrightYear: 2026,
   };
@@ -927,7 +925,7 @@ export function websiteSchema(): WithContext<WebSite> {
 
 // 3. BreadcrumbList Schema (All Pages)
 export function breadcrumbSchema(
-  items: { name: string; url: string }[]
+  items: { name: string; url: string }[],
 ): WithContext<BreadcrumbList> {
   return {
     '@context': 'https://schema.org',
@@ -1018,9 +1016,7 @@ export function projectSchema(project: {
 }
 
 // 6. FAQPage Schema (FAQ Section)
-export function faqSchema(
-  questions: { question: string; answer: string }[]
-): WithContext<FAQPage> {
+export function faqSchema(questions: { question: string; answer: string }[]): WithContext<FAQPage> {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -1037,7 +1033,7 @@ export function faqSchema(
 
 // 7. ItemList Schema (Skills)
 export function skillListSchema(
-  skills: { name: string; category: string; proficiency: number }[]
+  skills: { name: string; category: string; proficiency: number }[],
 ): WithContext<ItemList> {
   return {
     '@context': 'https://schema.org',
@@ -1096,28 +1092,28 @@ export function JsonLd({ data, id }: JsonLdProps) {
 
 ### 8.4 Per-Page Schema Inventory
 
-| Page | Schema Types | Priority | Rich Result Goal |
-|------|-------------|----------|-----------------|
-| **Homepage** | `Person`, `WebSite`, `SiteNavigationElement` | Critical | Knowledge Panel + Sitelinks |
-| **Projects Listing** | `ItemList`, `BreadcrumbList`, `WebSite` | High | — |
-| **Project Detail** | `CreativeWork`, `BreadcrumbList`, `Person` | Critical | Project rich result |
-| **Blog Listing** | `ItemList`, `BreadcrumbList`, `WebSite` | High | — |
-| **Blog Post** | `BlogPosting`, `BreadcrumbList`, `Person` | Critical | Article rich result |
-| **Contact** | `ContactPoint`, `WebSite`, `Person` | High | Contact rich result |
-| **FAQ Section** | `FAQPage`, `BreadcrumbList`, `WebSite` | Medium | FAQ rich result |
-| **Skills Section** | `ItemList`, `BreadcrumbList`, `Person` | Medium | — |
-| **About Section** | `AboutPage`, `BreadcrumbList`, `Person` | Medium | — |
+| Page                 | Schema Types                                 | Priority | Rich Result Goal            |
+| -------------------- | -------------------------------------------- | -------- | --------------------------- |
+| **Homepage**         | `Person`, `WebSite`, `SiteNavigationElement` | Critical | Knowledge Panel + Sitelinks |
+| **Projects Listing** | `ItemList`, `BreadcrumbList`, `WebSite`      | High     | —                           |
+| **Project Detail**   | `CreativeWork`, `BreadcrumbList`, `Person`   | Critical | Project rich result         |
+| **Blog Listing**     | `ItemList`, `BreadcrumbList`, `WebSite`      | High     | —                           |
+| **Blog Post**        | `BlogPosting`, `BreadcrumbList`, `Person`    | Critical | Article rich result         |
+| **Contact**          | `ContactPoint`, `WebSite`, `Person`          | High     | Contact rich result         |
+| **FAQ Section**      | `FAQPage`, `BreadcrumbList`, `WebSite`       | Medium   | FAQ rich result             |
+| **Skills Section**   | `ItemList`, `BreadcrumbList`, `Person`       | Medium   | —                           |
+| **About Section**    | `AboutPage`, `BreadcrumbList`, `Person`      | Medium   | —                           |
 
 ### 8.5 Schema Validation & Testing
 
-| Check | Tool | Frequency | Action on Failure |
-|-------|------|-----------|-------------------|
-| ✅ JSON-LD syntax valid | JSON-LD Playground (json-ld.org/playground) | Per deploy | Fix syntax errors |
-| ✅ Schema.org type correct | Schema.org validator | Per new schema type | Update to correct type |
-| ✅ Rich result eligible | Google Rich Results Test | Per deploy | Switch to eligible type |
-| ✅ All required fields present | Custom CI script | Per deploy | Add missing fields |
-| ✅ No HTML entities in schema | Custom CI script | Per deploy | Sanitize content |
-| ✅ No broken URLs in sameAs | Manual check | Monthly | Update URLs |
+| Check                          | Tool                                        | Frequency           | Action on Failure       |
+| ------------------------------ | ------------------------------------------- | ------------------- | ----------------------- |
+| ✅ JSON-LD syntax valid        | JSON-LD Playground (json-ld.org/playground) | Per deploy          | Fix syntax errors       |
+| ✅ Schema.org type correct     | Schema.org validator                        | Per new schema type | Update to correct type  |
+| ✅ Rich result eligible        | Google Rich Results Test                    | Per deploy          | Switch to eligible type |
+| ✅ All required fields present | Custom CI script                            | Per deploy          | Add missing fields      |
+| ✅ No HTML entities in schema  | Custom CI script                            | Per deploy          | Sanitize content        |
+| ✅ No broken URLs in sameAs    | Manual check                                | Monthly             | Update URLs             |
 
 ---
 
@@ -1161,7 +1157,7 @@ flowchart TD
 // next-sitemap.config.js
 module.exports = {
   siteUrl: 'https://portfolioowner.com',
-  generateRobotsTxt: true,              // Auto-generate robots.txt
+  generateRobotsTxt: true, // Auto-generate robots.txt
   robotsTxtOptions: {
     policies: [
       { userAgent: '*', allow: '/' },
@@ -1169,18 +1165,9 @@ module.exports = {
       { userAgent: '*', disallow: '/api/' },
       { userAgent: '*', disallow: '/_next/' },
     ],
-    additionalSitemaps: [
-      'https://portfolioowner.com/sitemap-images.xml',
-    ],
+    additionalSitemaps: ['https://portfolioowner.com/sitemap-images.xml'],
   },
-  exclude: [
-    '/admin/*',
-    '/api/*',
-    '/_next/*',
-    '/404',
-    '/500',
-    '/error',
-  ],
+  exclude: ['/admin/*', '/api/*', '/_next/*', '/404', '/500', '/error'],
   // Priority based on page type
   transform: async (config, path) => {
     if (path === '/') {
@@ -1205,15 +1192,15 @@ module.exports = {
     // Dynamic content from Supabase
     const projects = await getProjects();
     const blogPosts = await getPublishedPosts();
-    
+
     return [
-      ...projects.map(p => ({
+      ...projects.map((p) => ({
         loc: `/projects/${p.slug}`,
         changefreq: 'weekly',
         priority: 0.8,
         lastmod: new Date(p.updatedAt).toISOString(),
       })),
-      ...blogPosts.map(post => ({
+      ...blogPosts.map((post) => ({
         loc: `/blog/${post.slug}`,
         changefreq: 'monthly',
         priority: 0.6,
@@ -1226,25 +1213,25 @@ module.exports = {
 
 ### 9.3 Sitemap Priority & Frequency Matrix
 
-| Page Type | Priority | Changefreq | Rationale |
-|-----------|----------|------------|-----------|
-| **Homepage** | 1.0 | `daily` | Highest priority — landing page for all SEO |
-| **Projects Listing** | 0.9 | `weekly` | Second-most important — showcases work |
-| **Project Detail** | 0.8 | `weekly` | Individual project pages (content may update) |
-| **Blog Listing** | 0.7 | `weekly` | Blog hub — updates with new posts |
-| **Blog Post** | 0.6 | `monthly` | Evergreen content — rarely changes |
-| **Contact** | 0.5 | `monthly` | Static page — low change frequency |
-| **AI Assistant** | 0.3 | `monthly` | Utility page — low SEO value |
-| **Admin Pages** | — | — | Excluded (noindex) |
+| Page Type            | Priority | Changefreq | Rationale                                     |
+| -------------------- | -------- | ---------- | --------------------------------------------- |
+| **Homepage**         | 1.0      | `daily`    | Highest priority — landing page for all SEO   |
+| **Projects Listing** | 0.9      | `weekly`   | Second-most important — showcases work        |
+| **Project Detail**   | 0.8      | `weekly`   | Individual project pages (content may update) |
+| **Blog Listing**     | 0.7      | `weekly`   | Blog hub — updates with new posts             |
+| **Blog Post**        | 0.6      | `monthly`  | Evergreen content — rarely changes            |
+| **Contact**          | 0.5      | `monthly`  | Static page — low change frequency            |
+| **AI Assistant**     | 0.3      | `monthly`  | Utility page — low SEO value                  |
+| **Admin Pages**      | —        | —          | Excluded (noindex)                            |
 
 ### 9.4 Sitemap Submission Strategy
 
-| Search Engine | Submission Method | Frequency | URL |
-|---------------|------------------|-----------|-----|
-| **Google** | Search Console + sitemap URL submit | On deploy | `search.google.com/search-console` |
-| **Bing** | IndexNow API + Webmaster Tools | On content change | `bing.com/indexnow` |
-| **Yandex** | IndexNow API + Webmaster Tools | On content change | `yandex.com/webmaster` |
-| **IndexNow** | API ping on content change | On publish/update | `api.indexnow.org/indexnow` |
+| Search Engine | Submission Method                   | Frequency         | URL                                |
+| ------------- | ----------------------------------- | ----------------- | ---------------------------------- |
+| **Google**    | Search Console + sitemap URL submit | On deploy         | `search.google.com/search-console` |
+| **Bing**      | IndexNow API + Webmaster Tools      | On content change | `bing.com/indexnow`                |
+| **Yandex**    | IndexNow API + Webmaster Tools      | On content change | `yandex.com/webmaster`             |
+| **IndexNow**  | API ping on content change          | On publish/update | `api.indexnow.org/indexnow`        |
 
 ---
 
@@ -1265,23 +1252,23 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: '*',
         allow: '/',
         disallow: [
-          '/admin/',      // Admin panel — no index
-          '/api/',        // API routes — no index
-          '/_next/',      // Next.js internals — no index
-          '/404',         // Error page — no index
-          '/500',         // Error page — no index
+          '/admin/', // Admin panel — no index
+          '/api/', // API routes — no index
+          '/_next/', // Next.js internals — no index
+          '/404', // Error page — no index
+          '/500', // Error page — no index
         ],
       },
       {
-        userAgent: 'GPTBot',           // Block AI crawlers
-        disallow: '/',                  // from training on portfolio content
+        userAgent: 'GPTBot', // Block AI crawlers
+        disallow: '/', // from training on portfolio content
       },
       {
-        userAgent: 'CCBot',             // Common Crawl (AI training)
+        userAgent: 'CCBot', // Common Crawl (AI training)
         disallow: '/',
       },
       {
-        userAgent: 'anthropic-ai',      // Anthropic AI crawler
+        userAgent: 'anthropic-ai', // Anthropic AI crawler
         disallow: '/',
       },
     ],
@@ -1292,17 +1279,17 @@ export default function robots(): MetadataRoute.Robots {
 
 ### 10.2 Meta Robots Per Page
 
-| Page | `robots` Meta | Rationale |
-|------|---------------|-----------|
-| **All public pages** | `index, follow` | Default — crawl and index |
-| **Admin pages** | `noindex, nofollow` | Private — should not appear in search |
-| **API routes** | `noindex, nofollow` | Not user-facing content |
-| **404 page** | `noindex, follow` | Don't index, but follow links |
-| **Error page (500)** | `noindex, nofollow` | Don't index errors |
-| **Blog draft preview** | `noindex, nofollow` | Unpublished content |
-| **Project detail (private/NDA)** | `noindex, follow` | Don't index NDA projects |
-| **Tag/category pages (thin)** | `noindex, follow` | Avoid thin content penalty |
-| **Search results page** | `noindex, follow` | Avoid duplicate search results |
+| Page                             | `robots` Meta       | Rationale                             |
+| -------------------------------- | ------------------- | ------------------------------------- |
+| **All public pages**             | `index, follow`     | Default — crawl and index             |
+| **Admin pages**                  | `noindex, nofollow` | Private — should not appear in search |
+| **API routes**                   | `noindex, nofollow` | Not user-facing content               |
+| **404 page**                     | `noindex, follow`   | Don't index, but follow links         |
+| **Error page (500)**             | `noindex, nofollow` | Don't index errors                    |
+| **Blog draft preview**           | `noindex, nofollow` | Unpublished content                   |
+| **Project detail (private/NDA)** | `noindex, follow`   | Don't index NDA projects              |
+| **Tag/category pages (thin)**    | `noindex, follow`   | Avoid thin content penalty            |
+| **Search results page**          | `noindex, follow`   | Avoid duplicate search results        |
 
 ### 10.3 Crawler Allowlist
 
@@ -1316,35 +1303,33 @@ const KNOWN_CRAWLERS = [
   'Googlebot-Video',
   'Googlebot-Mobile',
   'Bingbot',
-  'Slurp',        // Yahoo
+  'Slurp', // Yahoo
   'DuckDuckBot',
   'Baiduspider',
   'YandexBot',
-  'facebookexternalhit',  // Facebook crawler
+  'facebookexternalhit', // Facebook crawler
   'Twitterbot',
   'LinkedInBot',
-  'WhatsApp',      // WhatsApp link preview
+  'WhatsApp', // WhatsApp link preview
   'Slackbot',
   'Discordbot',
   'TelegramBot',
 ];
 
 function isCrawler(userAgent: string): boolean {
-  return KNOWN_CRAWLERS.some(crawler => 
-    userAgent.toLowerCase().includes(crawler.toLowerCase())
-  );
+  return KNOWN_CRAWLERS.some((crawler) => userAgent.toLowerCase().includes(crawler.toLowerCase()));
 }
 ```
 
 ### 10.4 AI Crawler Blocking Strategy
 
-| AI Crawler | User-Agent | Blocked? | Method |
-|------------|------------|----------|--------|
-| **GPTBot** | `GPTBot` | ✅ Yes | robots.txt disallow |
-| **CCBot** (Common Crawl) | `CCBot` | ✅ Yes | robots.txt disallow |
-| **anthropic-ai** | `anthropic-ai` | ✅ Yes | robots.txt disallow |
-| **Google-Extended** | `Google-Extended` | ❌ No | Google's AI crawler — allow |
-| **Claude-Web** | `Claude-Web` | ❌ No | Monitor usage |
+| AI Crawler               | User-Agent        | Blocked? | Method                      |
+| ------------------------ | ----------------- | -------- | --------------------------- |
+| **GPTBot**               | `GPTBot`          | ✅ Yes   | robots.txt disallow         |
+| **CCBot** (Common Crawl) | `CCBot`           | ✅ Yes   | robots.txt disallow         |
+| **anthropic-ai**         | `anthropic-ai`    | ✅ Yes   | robots.txt disallow         |
+| **Google-Extended**      | `Google-Extended` | ❌ No    | Google's AI crawler — allow |
+| **Claude-Web**           | `Claude-Web`      | ❌ No    | Monitor usage               |
 
 > **Note:** AI crawler blocking is a personal choice that may be revisited. Google-Extended is allowed as it powers Google's AI features which may surface portfolio content.
 
@@ -1354,17 +1339,17 @@ function isCrawler(userAgent: string): boolean {
 
 ### 11.1 Canonical URL Rules
 
-| Scenario | Canonical URL | Implementation |
-|----------|--------------|----------------|
-| **Standard page** | Self-referencing: `https://portfolioowner.com/path` | Automatic in `generateMetadata()` |
-| **Page with query params** | URL without params: `https://portfolioowner.com/path` | Meta canonical strips tracking params |
-| **Pagination (page/2)** | Page 1: `/projects`, Page 2: `/projects?page=2` | Self-referencing per paginated page |
-| **Blog post with slug variants** | Original slug: `https://portfolioowner.com/blog/{slug}` | Consistent slug generation |
-| **HTTP → HTTPS** | HTTPS version | Vercel auto-redirect |
-| **WWW → non-WWW** | `https://portfolioowner.com` | Vercel domain config |
-| **Trailing slash** | No trailing slash: `https://portfolioowner.com/path` | Next.js `trailingSlash: false` |
-| **UTM tracking parameters** | URL without UTM params | Meta canonical strips UTM from canonical |
-| **Admin preview URLs** | No canonical (noindex) | No canonical set |
+| Scenario                         | Canonical URL                                           | Implementation                           |
+| -------------------------------- | ------------------------------------------------------- | ---------------------------------------- |
+| **Standard page**                | Self-referencing: `https://portfolioowner.com/path`     | Automatic in `generateMetadata()`        |
+| **Page with query params**       | URL without params: `https://portfolioowner.com/path`   | Meta canonical strips tracking params    |
+| **Pagination (page/2)**          | Page 1: `/projects`, Page 2: `/projects?page=2`         | Self-referencing per paginated page      |
+| **Blog post with slug variants** | Original slug: `https://portfolioowner.com/blog/{slug}` | Consistent slug generation               |
+| **HTTP → HTTPS**                 | HTTPS version                                           | Vercel auto-redirect                     |
+| **WWW → non-WWW**                | `https://portfolioowner.com`                            | Vercel domain config                     |
+| **Trailing slash**               | No trailing slash: `https://portfolioowner.com/path`    | Next.js `trailingSlash: false`           |
+| **UTM tracking parameters**      | URL without UTM params                                  | Meta canonical strips UTM from canonical |
+| **Admin preview URLs**           | No canonical (noindex)                                  | No canonical set                         |
 
 ### 11.2 Canonical Implementation
 
@@ -1382,12 +1367,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 // apps/web/src/middleware.ts
 export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
-  
+
   // Remove UTM tracking from canonical URL
   if (url.searchParams.has('utm_source')) {
     // Let the page handle canonical via meta tag
   }
-  
+
   // Redirect non-www to www (or vice versa)
   if (url.hostname === 'portfolioowner.com') {
     // Already correct — configured in Vercel
@@ -1452,32 +1437,32 @@ graph TB
 
 ### 12.2 Keyword Strategy
 
-| Keyword Type | Example Keywords | Target Pages | Competition | Priority |
-|-------------|-----------------|--------------|-------------|----------|
-| **Brand** | `Portfolio Owner portfolio`, `Portfolio Owner developer` | Homepage, About | Low | P0 |
-| **Brand + Role** | `Portfolio Owner full stack developer`, `Portfolio Owner React` | Homepage, About | Low | P0 |
-| **Technology + Role** | `React developer portfolio`, `TypeScript developer portfolio` | Homepage, Skills | Medium | P1 |
-| **Technology + Niche** | `Next.js portfolio with 3D`, `React Three Fiber portfolio` | Projects, Case Studies | Low | P1 |
-| **Long-tail** | `how to build a developer portfolio`, `best portfolio for React developers` | Blog posts | Low | P2 |
-| **Question** | `what should a developer portfolio include`, `how to showcase projects` | FAQ, Blog posts | Low | P2 |
-| **Location** | `full stack developer [city]`, `freelance react developer [city]` | Contact, About | Low | P2 |
+| Keyword Type           | Example Keywords                                                            | Target Pages           | Competition | Priority |
+| ---------------------- | --------------------------------------------------------------------------- | ---------------------- | ----------- | -------- |
+| **Brand**              | `Portfolio Owner portfolio`, `Portfolio Owner developer`                    | Homepage, About        | Low         | P0       |
+| **Brand + Role**       | `Portfolio Owner full stack developer`, `Portfolio Owner React`             | Homepage, About        | Low         | P0       |
+| **Technology + Role**  | `React developer portfolio`, `TypeScript developer portfolio`               | Homepage, Skills       | Medium      | P1       |
+| **Technology + Niche** | `Next.js portfolio with 3D`, `React Three Fiber portfolio`                  | Projects, Case Studies | Low         | P1       |
+| **Long-tail**          | `how to build a developer portfolio`, `best portfolio for React developers` | Blog posts             | Low         | P2       |
+| **Question**           | `what should a developer portfolio include`, `how to showcase projects`     | FAQ, Blog posts        | Low         | P2       |
+| **Location**           | `full stack developer [city]`, `freelance react developer [city]`           | Contact, About         | Low         | P2       |
 
 ### 12.3 Content Writing Standards
 
-| Element | Standard | Tool | 
-|---------|----------|------|
-| **Title** | 50–60 characters, includes primary keyword, compelling | Meta generation |
-| **Meta description** | 120–158 characters, includes keyword + CTA | Meta generation |
-| **H1** | Exactly one per page, includes primary keyword | Content structure |
-| **H2/H3** | Include secondary keywords naturally | Content structure |
-| **First paragraph** | ≤ 160 characters, includes primary keyword | Content review |
-| **Image alt text** | Descriptive, includes keyword when relevant | ESLint rule |
-| **Internal links** | 3–5 per post/article, to relevant portfolio pages | Content workflow |
-| **External links** | 1–2 per post, to authoritative sources (MDN, React docs) | Content review |
-| **Reading level** | Grade 8–10 (Flesch-Kincaid) for broad accessibility | AI content analysis |
-| **Word count** | Blog: 1500+ words; Case study: 2000+ words; Project: 300+ words | Content workflow |
-| **Call to action** | Each piece of content drives to contact/hire page | Content review |
-| **Last updated** | Date shown for all time-sensitive content | Metadata |
+| Element              | Standard                                                        | Tool                |
+| -------------------- | --------------------------------------------------------------- | ------------------- |
+| **Title**            | 50–60 characters, includes primary keyword, compelling          | Meta generation     |
+| **Meta description** | 120–158 characters, includes keyword + CTA                      | Meta generation     |
+| **H1**               | Exactly one per page, includes primary keyword                  | Content structure   |
+| **H2/H3**            | Include secondary keywords naturally                            | Content structure   |
+| **First paragraph**  | ≤ 160 characters, includes primary keyword                      | Content review      |
+| **Image alt text**   | Descriptive, includes keyword when relevant                     | ESLint rule         |
+| **Internal links**   | 3–5 per post/article, to relevant portfolio pages               | Content workflow    |
+| **External links**   | 1–2 per post, to authoritative sources (MDN, React docs)        | Content review      |
+| **Reading level**    | Grade 8–10 (Flesch-Kincaid) for broad accessibility             | AI content analysis |
+| **Word count**       | Blog: 1500+ words; Case study: 2000+ words; Project: 300+ words | Content workflow    |
+| **Call to action**   | Each piece of content drives to contact/hire page               | Content review      |
+| **Last updated**     | Date shown for all time-sensitive content                       | Metadata            |
 
 ### 12.4 Topic Cluster Strategy
 
@@ -1521,13 +1506,13 @@ graph TB
 
 ### 12.5 Content Calendar
 
-| Frequency | Content Type | SEO Impact | Effort | Notes |
-|-----------|-------------|------------|--------|-------|
-| **Weekly** | Blog post (1500+ words) | High | Medium | Technical articles, tutorials, insights |
-| **Bi-weekly** | Project update | Medium | Low | New project or significant update |
-| **Monthly** | Case study (2000+ words) | Very High | High | Deep dive into project process |
-| **Quarterly** | About page refresh | Low | Low | Update bio, skills, availability |
-| **Per launch** | Project page | High | Medium | Every new project gets full SEO treatment |
+| Frequency      | Content Type             | SEO Impact | Effort | Notes                                     |
+| -------------- | ------------------------ | ---------- | ------ | ----------------------------------------- |
+| **Weekly**     | Blog post (1500+ words)  | High       | Medium | Technical articles, tutorials, insights   |
+| **Bi-weekly**  | Project update           | Medium     | Low    | New project or significant update         |
+| **Monthly**    | Case study (2000+ words) | Very High  | High   | Deep dive into project process            |
+| **Quarterly**  | About page refresh       | Low        | Low    | Update bio, skills, availability          |
+| **Per launch** | Project page             | High       | Medium | Every new project gets full SEO treatment |
 
 ---
 
@@ -1608,7 +1593,7 @@ async function TechnologyPage({ params }: { params: { tech: string } }) {
         { name: 'Projects', url: '/projects' },
         { name: tech, url: `/technologies/${params.tech}` },
       ])} />
-      
+
       <section>
         <h1>Projects Using {tech}</h1>
         <p>{projects.length} project{projects.length > 1 ? 's' : ''} found</p>
@@ -1621,22 +1606,22 @@ async function TechnologyPage({ params }: { params: { tech: string } }) {
 
 ### 13.3 Programmatic Page Inventory
 
-| Page Pattern | Generated From | Count (Est.) | SEO Value | Index Policy |
-|-------------|---------------|--------------|-----------|--------------|
-| `/technologies/{tech}` | Project technologies array | 10–30 | High (long-tail tech keywords) | `index, follow` |
-| `/categories/{category}` | Project category field | 3–6 | Medium (category keywords) | `index, follow` |
-| `/blog/tags/{tag}` | Blog post tags array | 10–50 | Medium (long-tail content topics) | `index, follow` (only if ≥ 2 posts) |
-| `/projects/page/{n}` | Pagination | 2–5 | Low (pagination) | `index, follow` |
+| Page Pattern             | Generated From             | Count (Est.) | SEO Value                         | Index Policy                        |
+| ------------------------ | -------------------------- | ------------ | --------------------------------- | ----------------------------------- |
+| `/technologies/{tech}`   | Project technologies array | 10–30        | High (long-tail tech keywords)    | `index, follow`                     |
+| `/categories/{category}` | Project category field     | 3–6          | Medium (category keywords)        | `index, follow`                     |
+| `/blog/tags/{tag}`       | Blog post tags array       | 10–50        | Medium (long-tail content topics) | `index, follow` (only if ≥ 2 posts) |
+| `/projects/page/{n}`     | Pagination                 | 2–5          | Low (pagination)                  | `index, follow`                     |
 
 ### 13.4 Thin Content Prevention
 
-| Rule | Threshold | Action |
-|------|-----------|--------|
-| **Minimum projects per tech page** | < 2 projects | `noindex` until 2+ projects exist |
-| **Minimum posts per tag page** | < 2 posts | `noindex` until 2+ posts exist |
-| **Minimum projects per category** | < 2 projects | `noindex` until 2+ projects exist |
-| **Duplicate content check** | > 80% similarity with another page | Merge pages or add unique content |
-| **Word count minimum** | < 100 words of unique content | Add intro paragraph or `noindex` |
+| Rule                               | Threshold                          | Action                            |
+| ---------------------------------- | ---------------------------------- | --------------------------------- |
+| **Minimum projects per tech page** | < 2 projects                       | `noindex` until 2+ projects exist |
+| **Minimum posts per tag page**     | < 2 posts                          | `noindex` until 2+ posts exist    |
+| **Minimum projects per category**  | < 2 projects                       | `noindex` until 2+ projects exist |
+| **Duplicate content check**        | > 80% similarity with another page | Merge pages or add unique content |
+| **Word count minimum**             | < 100 words of unique content      | Add intro paragraph or `noindex`  |
 
 ---
 
@@ -1710,7 +1695,7 @@ async function BlogPostPage({ params }: { params: { slug: string } }) {
         { name: 'Blog', url: '/blog' },
         { name: post.title, url: `/blog/${post.slug}` },
       ])} />
-      
+
       {/* Header */}
       <header>
         <h1>{post.title}</h1>
@@ -1761,26 +1746,26 @@ async function BlogPostPage({ params }: { params: { slug: string } }) {
 
 ### 14.2 Blog SEO Checklist
 
-| # | Check | Implementation |
-|---|-------|---------------|
-| 1 | ✅ Unique, keyword-rich title (50–60 chars) | `generateMetadata()` |
-| 2 | ✅ Compelling meta description (120–158 chars) | Excerpt from post |
-| 3 | ✅ Exact one `<h1>` with primary keyword | Post title |
-| 4 | ✅ Logical heading hierarchy (h2 → h3) | MDX content structure |
-| 5 | ✅ Images have descriptive `alt` text | MDX image component |
-| 6 | ✅ Internal links to other portfolio pages | 3–5 per post |
-| 7 | ✅ External links to authoritative sources | MDN, React docs, etc. |
-| 8 | ✅ Open Graph tags with custom OG image | `opengraph-image.tsx` |
-| 9 | ✅ Twitter Card with large image | `generateMetadata()` |
-| 10 | ✅ JSON-LD BlogPosting schema | `blogPostSchema()` |
-| 11 | ✅ JSON-LD BreadcrumbList schema | `breadcrumbSchema()` |
-| 12 | ✅ Canonical URL set | `alternates.canonical` |
-| 13 | ✅ Published date shown | `<time>` element |
-| 14 | ✅ Tags as internal links to tag pages | `Link` to `/blog/tags/{tag}` |
-| 15 | ✅ Related posts at bottom of article | `RelatedPosts` component |
-| 16 | ✅ 1500+ words for SEO value | Content workflow check |
-| 17 | ✅ Grade 8–10 reading level | AI content analysis |
-| 18 | ✅ Mobile-friendly layout | Tailwind responsive design |
+| #   | Check                                          | Implementation               |
+| --- | ---------------------------------------------- | ---------------------------- |
+| 1   | ✅ Unique, keyword-rich title (50–60 chars)    | `generateMetadata()`         |
+| 2   | ✅ Compelling meta description (120–158 chars) | Excerpt from post            |
+| 3   | ✅ Exact one `<h1>` with primary keyword       | Post title                   |
+| 4   | ✅ Logical heading hierarchy (h2 → h3)         | MDX content structure        |
+| 5   | ✅ Images have descriptive `alt` text          | MDX image component          |
+| 6   | ✅ Internal links to other portfolio pages     | 3–5 per post                 |
+| 7   | ✅ External links to authoritative sources     | MDN, React docs, etc.        |
+| 8   | ✅ Open Graph tags with custom OG image        | `opengraph-image.tsx`        |
+| 9   | ✅ Twitter Card with large image               | `generateMetadata()`         |
+| 10  | ✅ JSON-LD BlogPosting schema                  | `blogPostSchema()`           |
+| 11  | ✅ JSON-LD BreadcrumbList schema               | `breadcrumbSchema()`         |
+| 12  | ✅ Canonical URL set                           | `alternates.canonical`       |
+| 13  | ✅ Published date shown                        | `<time>` element             |
+| 14  | ✅ Tags as internal links to tag pages         | `Link` to `/blog/tags/{tag}` |
+| 15  | ✅ Related posts at bottom of article          | `RelatedPosts` component     |
+| 16  | ✅ 1500+ words for SEO value                   | Content workflow check       |
+| 17  | ✅ Grade 8–10 reading level                    | AI content analysis          |
+| 18  | ✅ Mobile-friendly layout                      | Tailwind responsive design   |
 
 ---
 
@@ -1863,46 +1848,46 @@ export function caseStudySchema(caseStudy: {
 
 Core Web Vitals are confirmed Google ranking signals. Performance IS SEO on this portfolio.
 
-| CWV Metric | Google Threshold | Our Target | SEO Impact |
-|------------|-----------------|------------|------------|
-| **LCP** (Largest Contentful Paint) | < 2.5s | **< 1.8s** | Direct ranking factor |
-| **CLS** (Cumulative Layout Shift) | < 0.1 | **< 0.05** | Direct ranking factor |
-| **INP** (Interaction to Next Paint) | < 200ms | **< 50ms** | Direct ranking factor |
-| **FCP** (First Contentful Paint) | < 1.8s | **< 1.2s** | Indirect (perceived performance) |
-| **TTFB** (Time to First Byte) | < 800ms | **< 200ms** | Crawl budget efficiency |
-| **Lighthouse Performance** | ≥ 90 | **≥ 95** | Google uses Lighthouse as guidance |
+| CWV Metric                          | Google Threshold | Our Target  | SEO Impact                         |
+| ----------------------------------- | ---------------- | ----------- | ---------------------------------- |
+| **LCP** (Largest Contentful Paint)  | < 2.5s           | **< 1.8s**  | Direct ranking factor              |
+| **CLS** (Cumulative Layout Shift)   | < 0.1            | **< 0.05**  | Direct ranking factor              |
+| **INP** (Interaction to Next Paint) | < 200ms          | **< 50ms**  | Direct ranking factor              |
+| **FCP** (First Contentful Paint)    | < 1.8s           | **< 1.2s**  | Indirect (perceived performance)   |
+| **TTFB** (Time to First Byte)       | < 800ms          | **< 200ms** | Crawl budget efficiency            |
+| **Lighthouse Performance**          | ≥ 90             | **≥ 95**    | Google uses Lighthouse as guidance |
 
-> **Detailed performance strategy:** See `docs/quality/PerformanceArchitecture.md` — §5 Core Web Vitals, §6 Performance Budgets, §7 Frontend Performance
+> **Detailed performance strategy:** See `docs/35-quality/PerformanceArchitecture.md` — §5 Core Web Vitals, §6 Performance Budgets, §7 Frontend Performance
 
 ### 16.2 SEO-Specific Performance Optimizations
 
-| Optimization | SEO Benefit | Implementation | Reference |
-|-------------|-------------|---------------|-----------|
-| **ISR caching** | Googlebot gets fast HTML → better crawl budget | `revalidate: 60` on public pages | §4 Rendering Strategy (PERFORMANCE.md) |
-| **Server Components** | Full HTML rendered server-side → Googlebot sees complete content | App Router default | §7 Frontend Performance |
-| **Preconnect to origins** | Faster resource loading → better LCP | `<link rel="preconnect">` in layout | §12.1 Cache Layers |
-| **Preload LCP image** | Faster hero image → better LCP | `<Image priority>` on hero | §13 Image Optimization |
-| **Font optimization** | No FOIT/FOUT → better CLS | `next/font` with `display: swap` | §17 Font Optimization |
-| **Image optimization** | Smaller images → faster page loads | `next/image` with WebP/AVIF | §13 Image Optimization |
-| **Code splitting** | Smaller JS bundle → faster interactive time | `next/dynamic` for 3D, chat | §14 Code Splitting |
-| **CDN edge delivery** | Global < 50ms TTFB for Googlebot | Cloudflare + Vercel | §12.1 Cache Layers |
-| **Brotli compression** | Smaller HTML → faster Googlebot download | Automatic (Vercel + Cloudflare) | §23.5 Network Optimization |
-| **HTTP/2 multiplexing** | Parallel resource loading | Automatic (Vercel) | §23.5 Network Optimization |
-| **Early Hints (103)** | Subresource loading before HTML | Cloudflare automatic | §23.5 Network Optimization |
+| Optimization              | SEO Benefit                                                      | Implementation                      | Reference                              |
+| ------------------------- | ---------------------------------------------------------------- | ----------------------------------- | -------------------------------------- |
+| **ISR caching**           | Googlebot gets fast HTML → better crawl budget                   | `revalidate: 60` on public pages    | §4 Rendering Strategy (PERFORMANCE.md) |
+| **Server Components**     | Full HTML rendered server-side → Googlebot sees complete content | App Router default                  | §7 Frontend Performance                |
+| **Preconnect to origins** | Faster resource loading → better LCP                             | `<link rel="preconnect">` in layout | §12.1 Cache Layers                     |
+| **Preload LCP image**     | Faster hero image → better LCP                                   | `<Image priority>` on hero          | §13 Image Optimization                 |
+| **Font optimization**     | No FOIT/FOUT → better CLS                                        | `next/font` with `display: swap`    | §17 Font Optimization                  |
+| **Image optimization**    | Smaller images → faster page loads                               | `next/image` with WebP/AVIF         | §13 Image Optimization                 |
+| **Code splitting**        | Smaller JS bundle → faster interactive time                      | `next/dynamic` for 3D, chat         | §14 Code Splitting                     |
+| **CDN edge delivery**     | Global < 50ms TTFB for Googlebot                                 | Cloudflare + Vercel                 | §12.1 Cache Layers                     |
+| **Brotli compression**    | Smaller HTML → faster Googlebot download                         | Automatic (Vercel + Cloudflare)     | §23.5 Network Optimization             |
+| **HTTP/2 multiplexing**   | Parallel resource loading                                        | Automatic (Vercel)                  | §23.5 Network Optimization             |
+| **Early Hints (103)**     | Subresource loading before HTML                                  | Cloudflare automatic                | §23.5 Network Optimization             |
 
 ### 16.3 Mobile SEO Performance
 
 Since Google uses **mobile-first indexing**, mobile performance is critical for SEO:
 
-| Mobile Metric | Target | Implementation |
-|--------------|--------|---------------|
-| **Mobile LCP** | < 2.0s | Optimized images, reduced JS, ISR caching |
-| **Mobile CLS** | < 0.05 | Fixed dimensions on all elements, font fallbacks |
-| **Mobile TTFB** | < 300ms | Edge CDN (Cloudflare + Vercel) |
-| **Touch targets** | > 48px | Tailwind spacing, shadcn/ui components |
-| **Font size** | ≥ 16px (prevents iOS zoom) | Tailwind `text-base` minimum |
-| **No intrusive interstitials** | No popups that cover content | No popup ads, non-blocking cookie consent |
-| **Mobile viewport** | `<meta name="viewport" content="width=device-width">` | Next.js default |
+| Mobile Metric                  | Target                                                | Implementation                                   |
+| ------------------------------ | ----------------------------------------------------- | ------------------------------------------------ |
+| **Mobile LCP**                 | < 2.0s                                                | Optimized images, reduced JS, ISR caching        |
+| **Mobile CLS**                 | < 0.05                                                | Fixed dimensions on all elements, font fallbacks |
+| **Mobile TTFB**                | < 300ms                                               | Edge CDN (Cloudflare + Vercel)                   |
+| **Touch targets**              | > 48px                                                | Tailwind spacing, shadcn/ui components           |
+| **Font size**                  | ≥ 16px (prevents iOS zoom)                            | Tailwind `text-base` minimum                     |
+| **No intrusive interstitials** | No popups that cover content                          | No popup ads, non-blocking cookie consent        |
+| **Mobile viewport**            | `<meta name="viewport" content="width=device-width">` | Next.js default                                  |
 
 ---
 
@@ -1943,19 +1928,19 @@ graph TB
 
 ### 17.2 SEO KPIs & Metrics
 
-| KPI | Tool | Target | Review Frequency |
-|-----|------|--------|-----------------|
-| **Organic clicks (monthly)** | Google Search Console | +10% month-over-month | Monthly |
-| **Average CTR** | Google Search Console | > 5% overall | Weekly |
-| **Average position (brand)** | Google Search Console | #1–3 | Weekly |
-| **Average position (tech keywords)** | Google Search Console | Top 10 | Weekly |
-| **Index coverage ratio** | Google Search Console | > 95% valid, < 1% errors | Weekly |
-| **Pages with rich results** | Google Search Console | 100% of public pages | Monthly |
-| **Mobile usability errors** | Google Search Console | 0 errors | Weekly |
-| **Core Web Vitals pass rate** | Google Search Console | > 90% good | Monthly |
-| **Bounce rate (organic traffic)** | GA4 | < 40% | Monthly |
-| **Lighthouse SEO score** | Lighthouse CI | ≥ 95 | Per deploy |
-| **Sitemap errors** | Google Search Console | 0 errors | Weekly |
+| KPI                                  | Tool                  | Target                   | Review Frequency |
+| ------------------------------------ | --------------------- | ------------------------ | ---------------- |
+| **Organic clicks (monthly)**         | Google Search Console | +10% month-over-month    | Monthly          |
+| **Average CTR**                      | Google Search Console | > 5% overall             | Weekly           |
+| **Average position (brand)**         | Google Search Console | #1–3                     | Weekly           |
+| **Average position (tech keywords)** | Google Search Console | Top 10                   | Weekly           |
+| **Index coverage ratio**             | Google Search Console | > 95% valid, < 1% errors | Weekly           |
+| **Pages with rich results**          | Google Search Console | 100% of public pages     | Monthly          |
+| **Mobile usability errors**          | Google Search Console | 0 errors                 | Weekly           |
+| **Core Web Vitals pass rate**        | Google Search Console | > 90% good               | Monthly          |
+| **Bounce rate (organic traffic)**    | GA4                   | < 40%                    | Monthly          |
+| **Lighthouse SEO score**             | Lighthouse CI         | ≥ 95                     | Per deploy       |
+| **Sitemap errors**                   | Google Search Console | 0 errors                 | Weekly           |
 
 ### 17.3 Google Search Console Configuration
 
@@ -2004,15 +1989,15 @@ export function trackCTAClick(ctaLocation: string, ctaText: string) {
 
 While the portfolio is primarily English-first, internationalization is architecturally supported:
 
-| Aspect | Current Status | Future Plan |
-|--------|---------------|-------------|
-| **Primary language** | `en-US` | English |
-| **Secondary language** | Not implemented | Tamil / Hindi / other |
-| **hreflang tags** | Not needed (single language) | Add when multi-language |
-| **Locale detection** | `Accept-Language` header + IP geolocation | Future: auto-detect + toggle |
-| **URL structure** | No locale prefix | Future: `/en/`, `/ta/` or subdomain |
-| **Content translation** | English only | Future: CMS dual-language fields |
-| **Geo-specific content** | Not implemented | Future: location-aware CTAs |
+| Aspect                   | Current Status                            | Future Plan                         |
+| ------------------------ | ----------------------------------------- | ----------------------------------- |
+| **Primary language**     | `en-US`                                   | English                             |
+| **Secondary language**   | Not implemented                           | Tamil / Hindi / other               |
+| **hreflang tags**        | Not needed (single language)              | Add when multi-language             |
+| **Locale detection**     | `Accept-Language` header + IP geolocation | Future: auto-detect + toggle        |
+| **URL structure**        | No locale prefix                          | Future: `/en/`, `/ta/` or subdomain |
+| **Content translation**  | English only                              | Future: CMS dual-language fields    |
+| **Geo-specific content** | Not implemented                           | Future: location-aware CTAs         |
 
 ### 18.2 hreflang Configuration (Future)
 
@@ -2024,8 +2009,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     alternates: {
       canonical: `/en/blog/${params.slug}`,
       languages: {
-        'en': `/en/blog/${params.slug}`,
-        'ta': `/ta/blog/${params.slug}`,
+        en: `/en/blog/${params.slug}`,
+        ta: `/ta/blog/${params.slug}`,
         'x-default': `/en/blog/${params.slug}`,
       },
     },
@@ -2073,39 +2058,39 @@ graph TB
 
 ### 19.2 SEO Monitoring Tools
 
-| Tool | What It Monitors | Check Frequency | Alert Threshold |
-|------|-----------------|-----------------|-----------------|
-| **Google Search Console** | Index coverage, crawl errors, search queries, Core Web Vitals | Weekly | > 5% index drop |
-| **Google Analytics 4** | Organic traffic, bounce rate, landing pages | Weekly | > 20% organic traffic drop |
-| **PageSpeed Insights API** | CWV scores, Lighthouse scores, opportunities | Weekly (automated) | Any CWV in "needs improvement" |
-| **Lighthouse CI** | SEO score, performance score | Per deploy | SEO < 95 fails build |
-| **Screaming Frog** | Broken links, redirect chains, meta issues | Weekly | Any new critical errors |
-| **Ahrefs / SEMrush** | Keyword rankings, backlinks, competitor SEO | Monthly | Brand keywords drop > 3 positions |
-| **Better Uptime** | Site availability (affects crawl budget) | Continuous | Downtime > 5 min |
-| **Sentry** | Server errors (affects crawl) | Continuous | 500 errors > 0.1% |
+| Tool                       | What It Monitors                                              | Check Frequency    | Alert Threshold                   |
+| -------------------------- | ------------------------------------------------------------- | ------------------ | --------------------------------- |
+| **Google Search Console**  | Index coverage, crawl errors, search queries, Core Web Vitals | Weekly             | > 5% index drop                   |
+| **Google Analytics 4**     | Organic traffic, bounce rate, landing pages                   | Weekly             | > 20% organic traffic drop        |
+| **PageSpeed Insights API** | CWV scores, Lighthouse scores, opportunities                  | Weekly (automated) | Any CWV in "needs improvement"    |
+| **Lighthouse CI**          | SEO score, performance score                                  | Per deploy         | SEO < 95 fails build              |
+| **Screaming Frog**         | Broken links, redirect chains, meta issues                    | Weekly             | Any new critical errors           |
+| **Ahrefs / SEMrush**       | Keyword rankings, backlinks, competitor SEO                   | Monthly            | Brand keywords drop > 3 positions |
+| **Better Uptime**          | Site availability (affects crawl budget)                      | Continuous         | Downtime > 5 min                  |
+| **Sentry**                 | Server errors (affects crawl)                                 | Continuous         | 500 errors > 0.1%                 |
 
 ### 19.3 SEO SLA Framework
 
-| Service / Metric | SLO | Measurement | Window | Error Budget |
-|-----------------|-----|-------------|--------|-------------|
-| **Lighthouse SEO score** | ≥ 95 | Lighthouse CI | Per deploy | 0% below 95 |
-| **Index coverage** | > 95% valid | Search Console | Weekly | < 5% errors/warnings |
-| **Crawl errors (404s)** | < 5 new per week | Search Console | Weekly | > 5 triggers review |
-| **Server errors (5xx)** | < 0.1% of crawls | Search Console | Daily | > 0.1% triggers alert |
-| **Core Web Vitals (good)** | > 90% of pages | Search Console | Monthly | < 90% triggers review |
-| **Mobile usability** | 0 errors | Search Console | Weekly | Any error triggers fix |
-| **Sitemap validity** | 0 errors | Search Console | Weekly | Any error triggers fix |
-| **Structured data validity** | 100% valid | Rich Results Test | Per deploy | Invalid triggers fix |
+| Service / Metric             | SLO              | Measurement       | Window     | Error Budget           |
+| ---------------------------- | ---------------- | ----------------- | ---------- | ---------------------- |
+| **Lighthouse SEO score**     | ≥ 95             | Lighthouse CI     | Per deploy | 0% below 95            |
+| **Index coverage**           | > 95% valid      | Search Console    | Weekly     | < 5% errors/warnings   |
+| **Crawl errors (404s)**      | < 5 new per week | Search Console    | Weekly     | > 5 triggers review    |
+| **Server errors (5xx)**      | < 0.1% of crawls | Search Console    | Daily      | > 0.1% triggers alert  |
+| **Core Web Vitals (good)**   | > 90% of pages   | Search Console    | Monthly    | < 90% triggers review  |
+| **Mobile usability**         | 0 errors         | Search Console    | Weekly     | Any error triggers fix |
+| **Sitemap validity**         | 0 errors         | Search Console    | Weekly     | Any error triggers fix |
+| **Structured data validity** | 100% valid       | Rich Results Test | Per deploy | Invalid triggers fix   |
 
 ### 19.4 SEO Governance Cadence
 
-| Review Type | Frequency | Participants | Artifacts | Actions |
-|-------------|-----------|--------------|-----------|---------|
-| **Automated monitoring** | Continuous (daily) | Automated | Index coverage, crawl errors, alerts | Fix critical issues same day |
-| **Weekly SEO check** | Weekly | Product Owner | Search Console report, GA4 traffic | Update meta for low-CTR pages |
-| **Monthly SEO review** | Monthly | Product Owner, Frontend Lead | Full SEO report, keyword positions | Content calendar adjustments |
-| **Quarterly SEO strategy** | Quarterly | Product Owner | Competitor analysis, keyword refresh | Update content strategy |
-| **Per-deploy SEO audit** | Per deploy | Automated (CI) | Lighthouse SEO score, structured data | Block deploy if SEO < 95 |
+| Review Type                | Frequency          | Participants                 | Artifacts                             | Actions                       |
+| -------------------------- | ------------------ | ---------------------------- | ------------------------------------- | ----------------------------- |
+| **Automated monitoring**   | Continuous (daily) | Automated                    | Index coverage, crawl errors, alerts  | Fix critical issues same day  |
+| **Weekly SEO check**       | Weekly             | Product Owner                | Search Console report, GA4 traffic    | Update meta for low-CTR pages |
+| **Monthly SEO review**     | Monthly            | Product Owner, Frontend Lead | Full SEO report, keyword positions    | Content calendar adjustments  |
+| **Quarterly SEO strategy** | Quarterly          | Product Owner                | Competitor analysis, keyword refresh  | Update content strategy       |
+| **Per-deploy SEO audit**   | Per deploy         | Automated (CI)               | Lighthouse SEO score, structured data | Block deploy if SEO < 95      |
 
 ---
 
@@ -2148,37 +2133,37 @@ graph TB
 
 ### 20.2 Standards Compliance Matrix
 
-| Standard / Guideline | Requirement | Our Compliance | Verification |
-|---------------------|-------------|---------------|--------------|
-| **Google SEO Starter Guide** | All guidelines | ✅ 100% | Manual audit |
-| **Google Webmaster Guidelines** | Quality guidelines | ✅ 100% | Manual audit |
-| **Google Rich Results Guidelines** | Structured data policy | ✅ 100% | Rich Results Test |
-| **Google Core Web Vitals** | LCP < 2.5s, CLS < 0.1, INP < 200ms | ✅ LCP < 1.8s, CLS < 0.05, INP < 50ms | Search Console + Vercel Analytics |
-| **Google Mobile-First Indexing** | Mobile version = primary | ✅ Fully responsive | Mobile-Friendly Test |
-| **Schema.org** | Valid structured data | ✅ 7+ schema types | Schema.org Validator |
-| **Open Graph Protocol** | og: tags on all pages | ✅ 7+ OG tags per page | Facebook Sharing Debugger |
-| **Twitter Card** | twitter: tags on all pages | ✅ summary_large_image | Twitter Card Validator |
-| **WCAG 2.2 AA** | Accessible content | ✅ Alt text, headings, contrast | axe DevTools |
-| **Lighthouse SEO** | Score ≥ 90 | ✅ Score ≥ 95 target | Lighthouse CI per deploy |
-| **securityheaders.com** | A+ grade | ✅ A+ target | securityheaders.com |
-| **W3C HTML Validation** | Valid HTML | ✅ 0 errors target | W3C Validator |
+| Standard / Guideline               | Requirement                        | Our Compliance                        | Verification                      |
+| ---------------------------------- | ---------------------------------- | ------------------------------------- | --------------------------------- |
+| **Google SEO Starter Guide**       | All guidelines                     | ✅ 100%                               | Manual audit                      |
+| **Google Webmaster Guidelines**    | Quality guidelines                 | ✅ 100%                               | Manual audit                      |
+| **Google Rich Results Guidelines** | Structured data policy             | ✅ 100%                               | Rich Results Test                 |
+| **Google Core Web Vitals**         | LCP < 2.5s, CLS < 0.1, INP < 200ms | ✅ LCP < 1.8s, CLS < 0.05, INP < 50ms | Search Console + Vercel Analytics |
+| **Google Mobile-First Indexing**   | Mobile version = primary           | ✅ Fully responsive                   | Mobile-Friendly Test              |
+| **Schema.org**                     | Valid structured data              | ✅ 7+ schema types                    | Schema.org Validator              |
+| **Open Graph Protocol**            | og: tags on all pages              | ✅ 7+ OG tags per page                | Facebook Sharing Debugger         |
+| **Twitter Card**                   | twitter: tags on all pages         | ✅ summary_large_image                | Twitter Card Validator            |
+| **WCAG 2.2 AA**                    | Accessible content                 | ✅ Alt text, headings, contrast       | axe DevTools                      |
+| **Lighthouse SEO**                 | Score ≥ 90                         | ✅ Score ≥ 95 target                  | Lighthouse CI per deploy          |
+| **securityheaders.com**            | A+ grade                           | ✅ A+ target                          | securityheaders.com               |
+| **W3C HTML Validation**            | Valid HTML                         | ✅ 0 errors target                    | W3C Validator                     |
 
 ### 20.3 Industry Benchmark Comparison
 
-| Benchmark | Industry Median | Top 10% | Our Target | Status |
-|-----------|----------------|---------|------------|--------|
-| **Lighthouse SEO score** | 82 | 95+ | ≥ 95 | 🎯 Target |
-| **Pages with title tags** | 85% | 100% | 100% | ✅ Achieved |
-| **Pages with meta descriptions** | 68% | 95% | 100% | ✅ Achieved |
-| **Pages with OG tags** | 45% | 90% | 100% | ✅ Achieved |
-| **Pages with structured data** | 30% | 80% | 100% | 🎯 Target |
-| **Pages with canonical tags** | 60% | 95% | 100% | ✅ Achieved |
-| **Pages with alt text** | 55% | 95% | 100% | ✅ Achieved (ESLint enforced) |
-| **Core Web Vitals pass rate** | 50% | 90% | > 90% | 🎯 Target |
-| **Mobile usability errors** | 15% of sites | 0% | 0% | ✅ Achieved |
-| **Sitemap submission** | 40% | 90% | 100% | ✅ Achieved |
-| **robots.txt correctness** | 60% | 95% | 100% | ✅ Achieved |
-| **HTTP → HTTPS** | 85% | 100% | 100% | ✅ Achieved |
+| Benchmark                        | Industry Median | Top 10% | Our Target | Status                        |
+| -------------------------------- | --------------- | ------- | ---------- | ----------------------------- |
+| **Lighthouse SEO score**         | 82              | 95+     | ≥ 95       | 🎯 Target                     |
+| **Pages with title tags**        | 85%             | 100%    | 100%       | ✅ Achieved                   |
+| **Pages with meta descriptions** | 68%             | 95%     | 100%       | ✅ Achieved                   |
+| **Pages with OG tags**           | 45%             | 90%     | 100%       | ✅ Achieved                   |
+| **Pages with structured data**   | 30%             | 80%     | 100%       | 🎯 Target                     |
+| **Pages with canonical tags**    | 60%             | 95%     | 100%       | ✅ Achieved                   |
+| **Pages with alt text**          | 55%             | 95%     | 100%       | ✅ Achieved (ESLint enforced) |
+| **Core Web Vitals pass rate**    | 50%             | 90%     | > 90%      | 🎯 Target                     |
+| **Mobile usability errors**      | 15% of sites    | 0%      | 0%         | ✅ Achieved                   |
+| **Sitemap submission**           | 40%             | 90%     | 100%       | ✅ Achieved                   |
+| **robots.txt correctness**       | 60%             | 95%     | 100%       | ✅ Achieved                   |
+| **HTTP → HTTPS**                 | 85%             | 100%    | 100%       | ✅ Achieved                   |
 
 ### 20.4 SEO Override Log
 
@@ -2324,93 +2309,92 @@ Before every deploy, verify:
 
 ## 23. Decision Log
 
-| Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
-|-------------|------|----------|-----------|------------------------|---------|
-| D-SEO-001 | Jun 2026 | 12-tool SEO stack with Google Search Console as primary monitoring | Free, industry standard, integrates with all Google services | Premium SEO tools (Ahrefs, SEMrush) rejected — cost not justified at launch | Adopted |
-| D-SEO-002 | Jun 2026 | Dynamic sitemap generation via next-sitemap with per-section priority/frequency | Ensures sitemap always reflects current content, no manual updates | Static sitemap rejected — maintenance burden, easy to forget updates | Adopted |
-| D-SEO-003 | Jun 2026 | 7 JSON-LD schema generators for structured data | Maximizes rich snippet eligibility across all content types | Single generic schema rejected — misses page-specific rich results | Adopted |
-| D-SEO-004 | Jun 2026 | AI crawler blocking via robots.ts with specific allowlist | Preserves crawl budget for legitimate search engines while blocking AI training crawlers | Allow-all rejected — risks crawl budget waste on non-SEO bots | Adopted |
-| D-SEO-005 | Jun 2026 | Programmatic SEO for 3 page types (technologies, categories, tags) | Creates hundreds of indexable pages from structured data with thin-content prevention | Manual page creation rejected — doesn't scale, inconsistent quality | Adopted |
+| Decision ID | Date     | Decision                                                                        | Rationale                                                                                | Alternatives Considered                                                     | Outcome |
+| ----------- | -------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------- |
+| D-SEO-001   | Jun 2026 | 12-tool SEO stack with Google Search Console as primary monitoring              | Free, industry standard, integrates with all Google services                             | Premium SEO tools (Ahrefs, SEMrush) rejected — cost not justified at launch | Adopted |
+| D-SEO-002   | Jun 2026 | Dynamic sitemap generation via next-sitemap with per-section priority/frequency | Ensures sitemap always reflects current content, no manual updates                       | Static sitemap rejected — maintenance burden, easy to forget updates        | Adopted |
+| D-SEO-003   | Jun 2026 | 7 JSON-LD schema generators for structured data                                 | Maximizes rich snippet eligibility across all content types                              | Single generic schema rejected — misses page-specific rich results          | Adopted |
+| D-SEO-004   | Jun 2026 | AI crawler blocking via robots.ts with specific allowlist                       | Preserves crawl budget for legitimate search engines while blocking AI training crawlers | Allow-all rejected — risks crawl budget waste on non-SEO bots               | Adopted |
+| D-SEO-005   | Jun 2026 | Programmatic SEO for 3 page types (technologies, categories, tags)              | Creates hundreds of indexable pages from structured data with thin-content prevention    | Manual page creation rejected — doesn't scale, inconsistent quality         | Adopted |
 
 ## 24. Risk Register
 
-| Risk ID | Risk Description | Probability | Impact | Severity | Mitigation Strategy | Contingency | Owner |
-|---------|-----------------|-------------|--------|----------|---------------------|-------------|-------|
-| R-SEO-001 | Search algorithm update penalizes programmatic SEO pages as thin content | Medium | High | High | Thin content prevention rules, minimum content thresholds for each page type | De-index programmatic pages, consolidate into fewer, richer pages | Product Owner |
-| R-SEO-002 | Structured data validation fails after schema update | Medium | Medium | Medium | CI validation of all schema markup, automated structured data testing | Quick-fix schema update, temporary disable rich results | Frontend Lead |
-| R-SEO-003 | Competitor outranks for target keywords due to stronger domain authority | High | Medium | High | Long-tail keyword focus, quality content strategy, backlink building | Target alternative keywords with lower competition | Product Owner |
-| R-SEO-004 | Metadata drift: page metadata falls out of sync with content | Medium | Medium | Medium | Metadata audit in QA checklist, automated metadata extraction verification | Monthly metadata review, template-based metadata generation | Content Owner |
-| R-SEO-005 | Core Web Vitals score changes cause ranking fluctuation | Medium | High | High | CWV monitoring in CI, performance regression gates | Investigate and fix CWV regressions within 48h, request Google re-crawl | Frontend Lead |
+| Risk ID   | Risk Description                                                         | Probability | Impact | Severity | Mitigation Strategy                                                          | Contingency                                                             | Owner         |
+| --------- | ------------------------------------------------------------------------ | ----------- | ------ | -------- | ---------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------- |
+| R-SEO-001 | Search algorithm update penalizes programmatic SEO pages as thin content | Medium      | High   | High     | Thin content prevention rules, minimum content thresholds for each page type | De-index programmatic pages, consolidate into fewer, richer pages       | Product Owner |
+| R-SEO-002 | Structured data validation fails after schema update                     | Medium      | Medium | Medium   | CI validation of all schema markup, automated structured data testing        | Quick-fix schema update, temporary disable rich results                 | Frontend Lead |
+| R-SEO-003 | Competitor outranks for target keywords due to stronger domain authority | High        | Medium | High     | Long-tail keyword focus, quality content strategy, backlink building         | Target alternative keywords with lower competition                      | Product Owner |
+| R-SEO-004 | Metadata drift: page metadata falls out of sync with content             | Medium      | Medium | Medium   | Metadata audit in QA checklist, automated metadata extraction verification   | Monthly metadata review, template-based metadata generation             | Content Owner |
+| R-SEO-005 | Core Web Vitals score changes cause ranking fluctuation                  | Medium      | High   | High     | CWV monitoring in CI, performance regression gates                           | Investigate and fix CWV regressions within 48h, request Google re-crawl | Frontend Lead |
 
 ## 25. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Author        |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | **5.0** | Jun 2026 | **Enterprise v5.0 Upgrade**: Complete rewrite from v3.0 skeleton to full enterprise SEO architecture. Added 20 new sections — §1 SEO Vision & North Star (vision statement, 5 strategic objectives, 8 SEO principles), §3 Technology Stack for SEO (13 tools with cost + integration, SEO data flow sequence diagram, Next.js SEO architecture diagram), §4 Technical SEO (crawl budget management, 15-item technical checklist, HTTP status code strategy, Next.js SEO configuration with code examples), §5 Metadata Standards (metadata architecture diagram, per-page title/description templates, 7 quality standards, SEO metadata generator utility), §6 Open Graph Protocol (OG image generation pipeline, 3 OG image templates with code, per-page OG configuration, required OG tags), §7 Twitter Cards (card type strategy, validator checklist), §8 Structured Data & Schema Markup (7 schema generators with full TypeScript code — Person, WebSite, BreadcrumbList, BlogPosting, CreativeWork, FAQPage, ItemList, ContactPoint; per-page schema inventory, 6-item validation checklist), §9 Sitemap Strategy (architecture diagram, complete next-sitemap config, priority/frequency matrix, submission strategy), §10 Robots Strategy (dynamic robots.ts, per-page meta robots, crawler allowlist, AI crawler blocking), §11 Canonical Strategy (10 rules table, pagination prev/next handling), §12 Content SEO (keyword strategy matrix, writing standards, topic cluster strategy with diagram, content calendar), §13 Programmatic SEO (3 programmatic page types — /technologies/{tech}, /categories/{category}, /blog/tags/{tag}; thin content prevention rules), §14 Blog SEO (full blog SEO code with all metadata, 18-item blog SEO checklist), §15 Case Study SEO (case study schema generator, NDA project handling), §16 Performance SEO (CWV as ranking factors, 11 SEO-specific optimizations, mobile SEO metrics), §17 Analytics SEO (SEO analytics data flow diagram, 11 KPI table, Search Console config, event tracking code), §18 International SEO & Localization (hreflang pattern for future multi-language), §19 SEO Monitoring & Governance (diagram + monitoring tools table + SLA framework + governance cadence), §20 Enterprise Standards & Compliance (enterprise SEO policy, standards compliance matrix vs 12 standards, industry benchmark comparison vs median/top-10%, override log, pre-launch compliance checklist). §21 SEO Implementation Checklist (5 phases — Foundation, Structured Data, Content & URL Structure, Advanced, Ongoing). Added 16 Mermaid diagrams. 22 total sections. All code examples include real TypeScript implementations. | Product Owner |
-| 3.0 | Jun 2026 | Added executive summary, change log (minimal content) | Product Owner |
-| 2.0 | Jun 2026 | Updated for enterprise structure (minimal content) | Product Owner |
-| 1.0 | Mar 2026 | Initial SEO documentation | Product Owner |
+| 3.0     | Jun 2026 | Added executive summary, change log (minimal content)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Product Owner |
+| 2.0     | Jun 2026 | Updated for enterprise structure (minimal content)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Product Owner |
+| 1.0     | Mar 2026 | Initial SEO documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Product Owner |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/quality/PerformanceArchitecture.md` (v5.0) | Performance Architecture — §5 Core Web Vitals (LCP/CLS/INP as SEO ranking factors), §20 Performance Monitoring, §22 Enterprise Standards & Compliance |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System Architecture — §2 Frontend Architecture (metadata generation, rendering strategy for SEO), §6 Analytics Architecture |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Tech Stack — Next.js Metadata API, `next/font`, `next/image`, all SEO-relevant technology decisions |
-| `docs/product/ContentArchitecture.md` (v3.0) | Content Strategy — blog posts, project descriptions as SEO content assets |
-| `docs/operations/AnalyticsArchitecture.md` (v5.0) | Analytics Strategy — §12 Performance Metrics, traffic source tracking, conversion events |
-| `docs/operations/21-MONITORING.md` (v5.0) | Monitoring Architecture — Search Console monitoring, ranking position tracking |
-| `docs/quality/AccessibilityArchitecture.md` (v3.0) | Accessibility — semantic HTML, alt text, heading structure (overlaps with SEO best practices) |
-| `docs/operations/25-CICD.md` (v5.0) | CI/CD Pipeline — Lighthouse CI with SEO budget, structured data validation in CI |
-| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment — CDN strategy, SSL configuration, domain/ DNS configuration |
-| `docs/design/DesignSystem.md` (v5.0) | Design System — semantic component structure, accessibility tokens |
-| `docs/MASTER-INDEX.md` (v3.0) | Master Index — document dependency graph, version history |
-| `docx_content.json` | Ultimate Portfolio Plan — Ch.10 SEO, Performance & Launch (meta tags, OG images, sitemap, JSON-LD, Search Console); Ch.14 Next-Gen Features |
-| Google Search Console | https://search.google.com/search-console — Index monitoring, crawl stats, performance reports |
-| Google Rich Results Test | https://search.google.com/test/rich-results — Structured data validation |
-| Schema.org | https://schema.org — Structured data vocabulary reference |
-| Google SEO Guide | https://developers.google.com/search/docs/fundamentals/seo-starter-guide — Official SEO guidelines |
-| Open Graph Protocol | https://ogp.me — Open Graph meta tag specification |
-| Twitter Card Docs | https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started — Twitter Card implementation |
-| `next-seo` / Next.js Metadata | https://nextjs.org/docs/app/building-your-application/optimizing/metadata — Next.js Metadata API documentation |
-| next-sitemap | https://github.com/iamvishnusankar/next-sitemap — Sitemap generation for Next.js |
+| Reference                                             | Description                                                                                                                                           |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `docs/35-quality/PerformanceArchitecture.md` (v5.0)   | Performance Architecture — §5 Core Web Vitals (LCP/CLS/INP as SEO ranking factors), §20 Performance Monitoring, §22 Enterprise Standards & Compliance |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0)   | System Architecture — §2 Frontend Architecture (metadata generation, rendering strategy for SEO), §6 Analytics Architecture                           |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)         | Tech Stack — Next.js Metadata API, `next/font`, `next/image`, all SEO-relevant technology decisions                                                   |
+| `docs/01-product/ContentArchitecture.md` (v3.0)       | Content Strategy — blog posts, project descriptions as SEO content assets                                                                             |
+| `docs/21-operations/AnalyticsArchitecture.md` (v5.0)  | Analytics Strategy — §12 Performance Metrics, traffic source tracking, conversion events                                                              |
+| `docs/21-operations/21-MONITORING.md` (v5.0)          | Monitoring Architecture — Search Console monitoring, ranking position tracking                                                                        |
+| `docs/35-quality/AccessibilityArchitecture.md` (v3.0) | Accessibility — semantic HTML, alt text, heading structure (overlaps with SEO best practices)                                                         |
+| `docs/21-operations/25-CICD.md` (v5.0)                | CI/CD Pipeline — Lighthouse CI with SEO budget, structured data validation in CI                                                                      |
+| `docs/21-operations/DeploymentGuide.md` (v5.0)        | Deployment — CDN strategy, SSL configuration, domain/ DNS configuration                                                                               |
+| `docs/04-design/DesignSystem.md` (v5.0)               | Design System — semantic component structure, accessibility tokens                                                                                    |
+| `docs/MASTER-INDEX.md` (v3.0)                         | Master Index — document dependency graph, version history                                                                                             |
+| `docx_content.json`                                   | Ultimate Portfolio Plan — Ch.10 SEO, Performance & Launch (meta tags, OG images, sitemap, JSON-LD, Search Console); Ch.14 Next-Gen Features           |
+| Google Search Console                                 | https://search.google.com/search-console — Index monitoring, crawl stats, performance reports                                                         |
+| Google Rich Results Test                              | https://search.google.com/test/rich-results — Structured data validation                                                                              |
+| Schema.org                                            | https://schema.org — Structured data vocabulary reference                                                                                             |
+| Google SEO Guide                                      | https://developers.google.com/search/docs/fundamentals/seo-starter-guide — Official SEO guidelines                                                    |
+| Open Graph Protocol                                   | https://ogp.me — Open Graph meta tag specification                                                                                                    |
+| Twitter Card Docs                                     | https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started — Twitter Card implementation                                 |
+| `next-seo` / Next.js Metadata                         | https://nextjs.org/docs/app/building-your-application/optimizing/metadata — Next.js Metadata API documentation                                        |
+| next-sitemap                                          | https://github.com/iamvishnusankar/next-sitemap — Sitemap generation for Next.js                                                                      |
 
 ---
 
-
-
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 5.0 | Jun 2026 | Enterprise SEO - strategy, sitemaps, structured data, performance-SEO nexus | Product Owner |
-| 4.0 | Jun 2026 | Added content strategy, structured data guide | Product Owner |
-| 3.0 | Jun 2026 | Updated for enterprise structure; added technical SEO | Product Owner |
-| 2.0 | Jun 2026 | Added keyword strategy, content optimization | Product Owner |
-| 1.0 | Mar 2026 | Initial SEO documentation | Product Owner |
+| Version | Date     | Changes                                                                     | Author        |
+| ------- | -------- | --------------------------------------------------------------------------- | ------------- |
+| 5.0     | Jun 2026 | Enterprise SEO - strategy, sitemaps, structured data, performance-SEO nexus | Product Owner |
+| 4.0     | Jun 2026 | Added content strategy, structured data guide                               | Product Owner |
+| 3.0     | Jun 2026 | Updated for enterprise structure; added technical SEO                       | Product Owner |
+| 2.0     | Jun 2026 | Added keyword strategy, content optimization                                | Product Owner |
+| 1.0     | Mar 2026 | Initial SEO documentation                                                   | Product Owner |
 
 ## 26. Glossary
 
-| Term | Definition |
-|------|------------|
-| **JSON-LD** | A JavaScript-based format for structured data that Google uses to generate rich search results |
-| **Rich Snippet** | Enhanced search result display that includes ratings, images, prices, or other structured data (target: 100% coverage) |
-| **Crawl Budget** | The number of pages a search engine will crawl on a site within a given time period |
-| **Programmatic SEO** | Automatically generating hundreds of indexable pages from structured data with thin-content prevention |
-| **Schema Markup** | Structured data vocabulary (Schema.org) that helps search engines understand page content |
-| **Sitemap** | An XML file listing all indexable URLs with metadata (priority, change frequency, last modified) |
-| **Canonical URL** | The preferred version of a page when duplicate or similar content exists at multiple URLs |
-| **Open Graph (OG)** | Meta tags that control how content appears when shared on social media platforms |
-| **Topic Cluster** | A content strategy organizing pages around a central pillar topic with supporting cluster content |
-| **Metadata Drift** | When page metadata (titles, descriptions) becomes outdated or inconsistent with actual content |
-| **AI Crawler** | A bot that scrapes website content for training AI models, blocked via robots.txt or meta tags |
-| **Structured Data Validation** | Automated testing that verifies schema markup is parseable and error-free (run in CI) |
+| Term                           | Definition                                                                                                             |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| **JSON-LD**                    | A JavaScript-based format for structured data that Google uses to generate rich search results                         |
+| **Rich Snippet**               | Enhanced search result display that includes ratings, images, prices, or other structured data (target: 100% coverage) |
+| **Crawl Budget**               | The number of pages a search engine will crawl on a site within a given time period                                    |
+| **Programmatic SEO**           | Automatically generating hundreds of indexable pages from structured data with thin-content prevention                 |
+| **Schema Markup**              | Structured data vocabulary (Schema.org) that helps search engines understand page content                              |
+| **Sitemap**                    | An XML file listing all indexable URLs with metadata (priority, change frequency, last modified)                       |
+| **Canonical URL**              | The preferred version of a page when duplicate or similar content exists at multiple URLs                              |
+| **Open Graph (OG)**            | Meta tags that control how content appears when shared on social media platforms                                       |
+| **Topic Cluster**              | A content strategy organizing pages around a central pillar topic with supporting cluster content                      |
+| **Metadata Drift**             | When page metadata (titles, descriptions) becomes outdated or inconsistent with actual content                         |
+| **AI Crawler**                 | A bot that scrapes website content for training AI models, blocked via robots.txt or meta tags                         |
+| **Structured Data Validation** | Automated testing that verifies schema markup is parseable and error-free (run in CI)                                  |
 
-*Document Version: 5.0 — Enterprise Edition*
+_Document Version: 5.0 — Enterprise Edition_
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-The Phase 4 architecture introduces a paradigm shift in how the portfolio is maintained. Instead of relying solely on local development environments or raw CMS forms, administrators have access to an **Enterprise Sandbox IDE** directly at `/admin/sandbox`. 
+The Phase 4 architecture introduces a paradigm shift in how the portfolio is maintained. Instead of relying solely on local development environments or raw CMS forms, administrators have access to an **Enterprise Sandbox IDE** directly at `/admin/sandbox`.
 
 This environment boots a full Node.js runtime inside the browser using `@webcontainer/api`. It provides a split-pane interface (Code Editor + Live Preview) and, crucially, establishes a **Multi-Agent Connectivity Bridge**. This bridge allows the admin to pair-program with advanced AI agents (like Antigravity, Claude Code, or Cursor) directly within the live portfolio, preview changes instantly via Hot Module Replacement (HMR), and deploy to production via a seamless GitHub integration.
 
@@ -19,7 +19,9 @@ This environment boots a full Node.js runtime inside the browser using `@webcont
 To make this truly enterprise-grade and fill the technical gaps of standard browser IDEs, the system implements the following core concepts:
 
 ### A. The Multi-Agent Orchestration Bridge
-*How do external tools like Cursor or Antigravity connect to a browser?*
+
+_How do external tools like Cursor or Antigravity connect to a browser?_
+
 - **The Gap:** Browser security sandboxes prevent external desktop applications (like Cursor or Claude Code CLI) from directly editing the browser's Virtual File System (VFS).
 - **The Enterprise Solution:** We introduce a **WebSocket Relay Proxy** in the NestJS backend.
   - The browser IDE connects to the NestJS WebSocket.
@@ -27,12 +29,14 @@ To make this truly enterprise-grade and fill the technical gaps of standard brow
   - External tools (like Antigravity) can connect to this proxy API. When Antigravity proposes a file change, the proxy forwards the diff to the WebContainer VFS in real-time.
 
 ### B. Ephemeral State & IndexedDB Caching
+
 - **The Gap:** WebContainers are ephemeral; refreshing the page destroys the `node_modules` and local edits.
-- **The Enterprise Solution:** 
+- **The Enterprise Solution:**
   - **Code State:** Continuous delta-sync to browser `IndexedDB`. If the tab crashes, the unsaved state is restored instantly.
   - **Dependency Cache:** A Service Worker caches the `node_modules` installation, reducing WebContainer boot time from 40 seconds to < 5 seconds on subsequent loads.
 
 ### C. GitOps "One-Click" Deployment
+
 - **The Concept:** The Sandbox does not deploy directly to Vercel/Railway. It treats **GitHub as the single source of truth**.
 - **The Flow:** When the Admin clicks "Approve & Deploy", the system bundles the VFS diffs, uses a securely vaulted GitHub Personal Access Token (PAT) via the NestJS API, and creates a commit on the `main` branch. This triggers the standard, rigorous CI/CD pipeline, ensuring zero bypasses of production security checks.
 
@@ -56,14 +60,14 @@ sequenceDiagram
     UI->>GH: Fetch latest `main` branch code
     GH-->>WC: Hydrate VFS
     WC->>WC: `npm run dev` (Triggers HMR Iframe)
-    
+
     Admin->>UI: "Connect Agent" (Generates Token)
     AI->>API: Authenticate via Relay Token
     AI->>API: Send file edit (e.g., Update Hero Component)
     API->>UI: Push diff via WebSocket
     UI->>WC: Write to VFS
     WC-->>Admin: HMR updates Live Preview instantly!
-    
+
     Admin->>UI: Click "Deploy to Production"
     UI->>API: Send approved diffs
     API->>GH: Commit to `main` branch
@@ -108,12 +112,12 @@ If we are to build this tomorrow, the engineering team must resolve:
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
-| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
-| [CMS-ARCHITECTURE.md](CMS-ARCHITECTURE.md) | CMS architecture overview |
-| [CONTENT-MODEL.md](CONTENT-MODEL.md) | Content model reference |
-| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md) | Image management and optimization |
-| [FRONTEND-ARCHITECTURE.md](../07-frontend/FRONTEND-ARCHITECTURE.md) | Frontend architecture |
-| [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md) | AI agent instructions |
+| Reference                                                            | Description                       |
+| -------------------------------------------------------------------- | --------------------------------- |
+| [MASTER-INDEX.md](../MASTER-INDEX.md)                                | Documentation master index        |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping           |
+| [CMS-ARCHITECTURE.md](CMS-ARCHITECTURE.md)                           | CMS architecture overview         |
+| [CONTENT-MODEL.md](CONTENT-MODEL.md)                                 | Content model reference           |
+| [IMAGE-MANAGEMENT.md](IMAGE-MANAGEMENT.md)                           | Image management and optimization |
+| [FRONTEND-ARCHITECTURE.md](../07-frontend/FRONTEND-ARCHITECTURE.md)  | Frontend architecture             |
+| [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md)              | AI agent instructions             |
