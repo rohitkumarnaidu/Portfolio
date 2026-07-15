@@ -1,0 +1,215 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '22'
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  determine-env:
+    name: Environment Resolution
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-env.outputs.environment }}
+      site_url: ${{ steps.set-env.outputs.site_url }}
+      api_url: ${{ steps.set-env.outputs.api_url }}
+      ai_url: ${{ steps.set-env.outputs.ai_url }}
+    steps:
+      - id: set-env
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "environment=${{ inputs.environment }}" >> "$GITHUB_OUTPUT"
+            if [[ "${{ inputs.environment }}" == "production" ]]; then
+              echo "site_url=https://portfolio.dev" >> "$GITHUB_OUTPUT"
+              echo "api_url=https://api.portfolio.dev" >> "$GITHUB_OUTPUT"
+              echo "ai_url=https://ai.portfolio.dev" >> "$GITHUB_OUTPUT"
+            else
+              echo "site_url=https://staging.portfolio.dev" >> "$GITHUB_OUTPUT"
+              echo "api_url=https://staging-api.portfolio.dev" >> "$GITHUB_OUTPUT"
+              echo "ai_url=https://staging-ai.portfolio.dev" >> "$GITHUB_OUTPUT"
+            fi
+          elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "environment=production" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://portfolio.dev" >> "$GITHUB_OUTPUT"
+            echo "api_url=https://api.portfolio.dev" >> "$GITHUB_OUTPUT"
+            echo "ai_url=https://ai.portfolio.dev" >> "$GITHUB_OUTPUT"
+          else
+            echo "environment=staging" >> "$GITHUB_OUTPUT"
+            echo "site_url=https://staging.portfolio.dev" >> "$GITHUB_OUTPUT"
+            echo "api_url=https://staging-api.portfolio.dev" >> "$GITHUB_OUTPUT"
+            echo "ai_url=https://staging-ai.portfolio.dev" >> "$GITHUB_OUTPUT"
+          fi
+
+  quality:
+    name: Quality Gate (${{ matrix.workspace }})
+    needs: [determine-env]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: [apps/api, apps/web]
+      fail-fast: true
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: dummy_password
+          POSTGRES_DB: portfolio_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+        working-directory: ${{ matrix.workspace }}
+      - name: Typecheck
+        run: npm run typecheck
+        working-directory: ${{ matrix.workspace }}
+      - name: Test with coverage
+        run: npm run test:coverage
+        working-directory: ${{ matrix.workspace }}
+        env:
+          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
+      - name: Build
+        run: npm run build
+        working-directory: ${{ matrix.workspace }}
+        env:
+          NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
+          NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
+
+  deploy-web:
+    name: Deploy Web (Vercel)
+    needs: [determine-env, quality]
+    if: success()
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.determine-env.outputs.environment }}
+      url: ${{ needs.determine-env.outputs.site_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Deploy to Vercel
+        run: |
+          if [[ "${{ needs.determine-env.outputs.environment }}" == "production" ]]; then
+            npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
+          else
+            npx vercel --token=${{ secrets.VERCEL_TOKEN }}
+          fi
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
+          NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
+
+  deploy-api:
+    name: Deploy API (Railway)
+    needs: [determine-env, quality]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Deploy to Railway
+        run: npx railway up --service api --ci --environment ${{ needs.determine-env.outputs.environment }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  deploy-ai:
+    name: Deploy AI (Railway)
+    needs: [determine-env, quality]
+    if: success()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Railway
+        run: npx railway up --service ai --ci --environment ${{ needs.determine-env.outputs.environment }}
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+  smoke-test:
+    name: Post-Deploy Smoke Tests
+    needs: [determine-env, deploy-web, deploy-api, deploy-ai]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for deployment propagation
+        run: sleep 30
+
+      - name: Health check web
+        run: |
+          STATUS=$(curl -sI ${{ needs.determine-env.outputs.site_url }} -o /dev/null -w '%{http_code}')
+          if [[ "$STATUS" != "200" && "$STATUS" != "301" && "$STATUS" != "307" ]]; then
+            echo "::error::Web health check failed with status $STATUS"
+            exit 1
+          fi
+          echo "::notice::Web health check passed ($STATUS)"
+
+      - name: Health check API
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' ${{ needs.determine-env.outputs.api_url }}/api/health)
+          if [[ "$STATUS" != "200" ]]; then
+            echo "::error::API health check failed with status $STATUS"
+            exit 1
+          fi
+          echo "::notice::API health check passed ($STATUS)"
+
+      - name: Health check AI
+        run: |
+          STATUS=$(curl -s -o /dev/null -w '%{http_code}' ${{ needs.determine-env.outputs.ai_url }}/health)
+          if [[ "$STATUS" != "200" ]]; then
+            echo "::error::AI health check failed with status $STATUS"
+            exit 1
+          fi
+          echo "::notice::AI health check passed ($STATUS)"
+
+      - name: Rollback instructions
+        if: failure()
+        run: |
+          echo "::error::============================================"
+          echo "::error::  SMOKE TESTS FAILED - ROLLBACK REQUIRED"
+          echo "::error::============================================"
+          echo "::error::"
+          echo "::error::Vercel rollback command:"
+          echo "::error::  npx vercel rollback --token=\$VERCEL_TOKEN"
+          echo "::error::"
+          echo "::error::Railway rollback commands:"
+          echo "::error::  npx railway rollback --service api --environment ${{ needs.determine-env.outputs.environment }}"
+          echo "::error::  npx railway rollback --service ai --environment ${{ needs.determine-env.outputs.environment }}"
+          echo "::error::"
+          echo "::error::Or re-run this workflow with the previous commit:"
+          echo "::error::  gh workflow run deploy.yml --ref <previous-stable-sha>"
