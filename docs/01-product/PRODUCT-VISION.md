@@ -27,7 +27,7 @@
 
 **A modern portfolio platform that showcases full-stack engineering excellence through immersive, interactive, and performant web experiences Ã¢â‚¬â€ proving that a personal portfolio can be both a technical demonstration and a genuinely useful tool for its visitors.**
 
-The portfolio is not just a list of projects and a resume. It is itself the best project. Every line of code, every architectural decision, every animation and interaction is intentionally designed to demonstrate the kind of engineer behind it. When a visitor lands on the site, they should immediately understand: *this person knows how to build real software.*
+The portfolio is not just a list of projects and a resume. It is itself the best project. Every line of code, every architectural decision, every animation and interaction is intentionally designed to demonstrate the kind of engineer behind it. When a visitor lands on the site, they should immediately understand: _this person knows how to build real software._
 
 ---
 
@@ -37,10 +37,10 @@ The portfolio is not just a list of projects and a resume. It is itself the best
 
 The platform has three simultaneous missions:
 
-| Audience | Mission |
-|----------|---------|
-| **Visitors** | Provide a fast, accessible, memorable experience that communicates technical skill and personal brand |
-| **Administrator** | Offer a powerful, real-time content management dashboard with analytics, lead tracking, and AI tools |
+| Audience                | Mission                                                                                                    |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Visitors**            | Provide a fast, accessible, memorable experience that communicates technical skill and personal brand      |
+| **Administrator**       | Offer a powerful, real-time content management dashboard with analytics, lead tracking, and AI tools       |
 | **Developer community** | Serve as an open-source reference for modern full-stack architecture (Next.js + NestJS + FastAPI monorepo) |
 
 ---
@@ -50,6 +50,7 @@ The platform has three simultaneous missions:
 ### Primary: Recruiters & Hiring Managers
 
 Recruiters are the primary audience. They spend 30-60 seconds scanning a portfolio. The site must:
+
 - Convey seniority and technical depth within the first visual impression
 - Make key information (experience, skills, projects) instantly scannable
 - Load fast and perform flawlessly Ã¢â‚¬â€ a slow portfolio implies slow engineering
@@ -58,6 +59,7 @@ Recruiters are the primary audience. They spend 30-60 seconds scanning a portfol
 ### Secondary: Potential Clients & Collaborators
 
 Freelance clients and open-source collaborators need to assess:
+
 - Quality of past work (project case studies with real outcomes)
 - Communication style and professionalism (blog posts, about page tone)
 - Technical range (full-stack, AI, 3D, DevOps capability)
@@ -66,6 +68,7 @@ Freelance clients and open-source collaborators need to assess:
 ### Tertiary: Developer Peers
 
 Fellow developers will inspect the site for:
+
 - Architecture patterns and stack choices (monorepo, microservices, auth design)
 - Code quality (open-source repo, contributors welcome)
 - Innovation (AI assistant, 3D portfolio, WebContainer sandbox)
@@ -74,13 +77,13 @@ Fellow developers will inspect the site for:
 
 ## 4. Core Values
 
-| Value | Manifestation |
-|-------|---------------|
-| **Performance** | Sub-second page loads via ISR, lazy-loaded 3D, optimized bundles, 90+ Lighthouse scores |
-| **Accessibility** | WCAG 2.2 AA compliance, keyboard navigation, screen reader support, reduced motion preferences |
-| **Craftsmanship** | Polished micro-interactions, deliberate typography scale, consistent spacing, intentional color system |
-| **Innovation** | AI-powered assistant, immersive 3D scenes, WebContainer sandbox IDE Ã¢â‚¬â€ features most portfolios don't have |
-| **Transparency** | Open-source codebase, documented architecture decisions (ADRs), public roadmap, privacy-first analytics |
+| Value             | Manifestation                                                                                                   |
+| ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Performance**   | Sub-second page loads via ISR, lazy-loaded 3D, optimized bundles, 90+ Lighthouse scores                         |
+| **Accessibility** | WCAG 2.2 AA compliance, keyboard navigation, screen reader support, reduced motion preferences                  |
+| **Craftsmanship** | Polished micro-interactions, deliberate typography scale, consistent spacing, intentional color system          |
+| **Innovation**    | AI-powered assistant, immersive 3D scenes, WebContainer sandbox IDE Ã¢â‚¬â€ features most portfolios don't have |
+| **Transparency**  | Open-source codebase, documented architecture decisions (ADRs), public roadmap, privacy-first analytics         |
 
 ---
 
@@ -97,6 +100,7 @@ A custom multi-LLM AI assistant (integrated via the FastAPI service) allows visi
 ### 5.3 Admin Dashboard
 
 A full CRUD admin dashboard for managing portfolio content Ã¢â‚¬â€ projects, blog posts, experience entries, site settings, media assets, and leads. This transforms the portfolio from a static page into a living CMS. It includes:
+
 - Real-time visitor analytics and heatmaps
 - Lead management (contact form submissions)
 - Rich text editing (TipTap)
@@ -116,36 +120,36 @@ The entire platform is open source (MIT license) and fully Dockerized. Anyone ca
 
 ### 6.1 Engagement Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Monthly Active Visitors | 10,000 | PostHog analytics |
-| Pages per Session | 3+ | PostHog analytics |
-| Average Session Duration | 90s+ | PostHog analytics |
-| Contact Form Conversion | 5% | API + PostHog funnel |
-| Blog Post Read Rate | 50%+ of visits | PostHog events |
+| Metric                   | Target         | Measurement          |
+| ------------------------ | -------------- | -------------------- |
+| Monthly Active Visitors  | 10,000         | PostHog analytics    |
+| Pages per Session        | 3+             | PostHog analytics    |
+| Average Session Duration | 90s+           | PostHog analytics    |
+| Contact Form Conversion  | 5%             | API + PostHog funnel |
+| Blog Post Read Rate      | 50%+ of visits | PostHog events       |
 
 ### 6.2 Technical Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Lighthouse Performance | 90+ | CI audit + periodic testing |
-| Lighthouse Accessibility | 95+ | CI audit + periodic testing |
-| Core Web Vitals (LCP) | <2.5s | Sentry + CrUX |
-| Core Web Vitals (FID/INP) | <200ms | Sentry + CrUX |
-| Core Web Vitals (CLS) | <0.1 | Sentry + CrUX |
-| API Response Time (p95) | <200ms | Sentry performance |
-| Uptime (API + Web) | 99.9% | Monitoring |
+| Metric                     | Target    | Measurement                  |
+| -------------------------- | --------- | ---------------------------- |
+| Lighthouse Performance     | 90+       | CI audit + periodic testing  |
+| Lighthouse Accessibility   | 95+       | CI audit + periodic testing  |
+| Core Web Vitals (LCP)      | <2.5s     | Sentry + CrUX                |
+| Core Web Vitals (FID/INP)  | <200ms    | Sentry + CrUX                |
+| Core Web Vitals (CLS)      | <0.1      | Sentry + CrUX                |
+| API Response Time (p95)    | <200ms    | Sentry performance           |
+| Uptime (API + Web)         | 99.9%     | Monitoring                   |
 | Bundle Size (initial load) | <150KB JS | Lighthouse + bundle analyzer |
 
 ### 6.3 Business Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Qualified Lead Generation | 10+/month | Contact form + CRM |
-| GitHub Stars | 100+ | GitHub |
-| Open Source Contributors | 5+ | GitHub |
-| Feature Requests Implemented | 80%+ of backlog | GitHub Issues |
-| Time to First Byte (TTFB) | <500ms | Sentry + Web Vitals |
+| Metric                       | Target          | Measurement         |
+| ---------------------------- | --------------- | ------------------- |
+| Qualified Lead Generation    | 10+/month       | Contact form + CRM  |
+| GitHub Stars                 | 100+            | GitHub              |
+| Open Source Contributors     | 5+              | GitHub              |
+| Feature Requests Implemented | 80%+ of backlog | GitHub Issues       |
+| Time to First Byte (TTFB)    | <500ms          | Sentry + Web Vitals |
 
 ---
 
@@ -193,16 +197,16 @@ Great for reach and built-in audience, but limited customization and individuali
 
 ### 2026 Goals
 
-| Goal | Target | Timeline |
-|------|--------|----------|
-| Traffic | 10,000 monthly active visitors | Q4 2026 |
-| Engagement | 5% contact form conversion rate | Q4 2026 |
-| Quality | 90+ Lighthouse score across all pages | Q2 2026 |
-| Community | 100+ GitHub stars, 5+ contributors | Q4 2026 |
-| Visibility | Featured on Product Hunt | Q3 2026 |
-| Content | 12+ blog posts about architecture decisions | Q4 2026 |
-| AI | AI assistant handling 50%+ of visitor questions | Q3 2026 |
-| SEO | Top 10 Google ranking for "[name] portfolio" | Q4 2026 |
+| Goal       | Target                                          | Timeline |
+| ---------- | ----------------------------------------------- | -------- |
+| Traffic    | 10,000 monthly active visitors                  | Q4 2026  |
+| Engagement | 5% contact form conversion rate                 | Q4 2026  |
+| Quality    | 90+ Lighthouse score across all pages           | Q2 2026  |
+| Community  | 100+ GitHub stars, 5+ contributors              | Q4 2026  |
+| Visibility | Featured on Product Hunt                        | Q3 2026  |
+| Content    | 12+ blog posts about architecture decisions     | Q4 2026  |
+| AI         | AI assistant handling 50%+ of visitor questions | Q3 2026  |
+| SEO        | Top 10 Google ranking for "[name] portfolio"    | Q4 2026  |
 
 ### 2027+ Aspirations
 
@@ -291,9 +295,10 @@ Every step of this journey is designed, built, and monitored with the same rigor
 
 - `ProductRequirements.md` Ã¢â‚¬â€ Detailed functional and non-functional requirements
 - `CompetitiveAnalysis.md` Ã¢â‚¬â€ Competitive landscape deep dive
-- `docs/architecture/SystemArchitecture.md` Ã¢â‚¬â€ System architecture and deployment topology
-- `docs/adr/` Ã¢â‚¬â€ Architecture Decision Records for all major technical choices
+- `docs/05-architecture/SystemArchitecture.md` Ã¢â‚¬â€ System architecture and deployment topology
+- `docs/27-decisions/` Ã¢â‚¬â€ Architecture Decision Records for all major technical choices
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

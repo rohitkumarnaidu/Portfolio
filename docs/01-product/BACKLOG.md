@@ -173,8 +173,9 @@ Items removed from the active sprint must meet:
 ---
 
 ## Cross-References
+
 - MASTER-INDEX.md — Documentation master index
-- CROSS-REFERENCE-INDEX.md — Cross-reference mapping
+- ../26-reference/CROSS-REFERENCE-INDEX.md — Cross-reference mapping
 - PRODUCT-ROADMAP.md — Product roadmap
 - INNOVATION-BACKLOG.md — Innovation backlog
 

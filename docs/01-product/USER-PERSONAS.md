@@ -12,13 +12,13 @@ This document defines the primary user personas for the Portfolio platform. Each
 
 ### 1.1 Persona Ecosystem
 
-| # | Persona | Primary Motivation | Platform Surface | Business Value |
-|---|---------|-------------------|-----------------|----------------|
-| 1 | Sarah Chen Ã¢â‚¬â€ The Recruiter | Candidate evaluation | Public portfolio | Lead generation pipeline |
-| 2 | Marcus Johnson Ã¢â‚¬â€ The Client | Vendor assessment | Public portfolio | Revenue conversion |
-| 3 | Alex Rivera Ã¢â‚¬â€ The Admin/Owner | Content management | Admin dashboard | Platform sustainability |
-| 4 | Jordan Kim Ã¢â‚¬â€ The OSS Contributor | Learn & contribute | GitHub + Docs | Community growth |
-| 5 | Priya Sharma Ã¢â‚¬â€ The Peer/Visitor | Inspiration & learning | Public portfolio | Brand authority |
+| #   | Persona                                | Primary Motivation     | Platform Surface | Business Value           |
+| --- | -------------------------------------- | ---------------------- | ---------------- | ------------------------ |
+| 1   | Sarah Chen Ã¢â‚¬â€ The Recruiter       | Candidate evaluation   | Public portfolio | Lead generation pipeline |
+| 2   | Marcus Johnson Ã¢â‚¬â€ The Client      | Vendor assessment      | Public portfolio | Revenue conversion       |
+| 3   | Alex Rivera Ã¢â‚¬â€ The Admin/Owner    | Content management     | Admin dashboard  | Platform sustainability  |
+| 4   | Jordan Kim Ã¢â‚¬â€ The OSS Contributor | Learn & contribute     | GitHub + Docs    | Community growth         |
+| 5   | Priya Sharma Ã¢â‚¬â€ The Peer/Visitor  | Inspiration & learning | Public portfolio | Brand authority          |
 
 ### 1.2 How to Use This Document
 
@@ -38,17 +38,17 @@ This document defines the primary user personas for the Portfolio platform. Each
 
 ### 2.1 Demographics
 
-| Attribute | Detail |
-|-----------|--------|
-| Age | 34 |
-| Industry | Technology / Staffing |
+| Attribute       | Detail                                                                      |
+| --------------- | --------------------------------------------------------------------------- |
+| Age             | 34                                                                          |
+| Industry        | Technology / Staffing                                                       |
 | Technical Level | Low-to-Medium (can read tech names, cannot evaluate implementation quality) |
-| Primary Device | MacBook Pro 16" (work), iPhone 15 (mobile scanning) |
-| Primary Browser | Chrome (work), Safari (personal) |
-| Network | Office fiber (500Mbps), Mobile 5G |
-| Time per Visit | 30Ã¢â‚¬â€œ60 seconds initial scan; 2Ã¢â‚¬â€œ3 minutes if qualified |
-| Visit Frequency | Single session per candidate review cycle |
-| Entry Source | LinkedIn profile link, resume URL, Google search, referral |
+| Primary Device  | MacBook Pro 16" (work), iPhone 15 (mobile scanning)                         |
+| Primary Browser | Chrome (work), Safari (personal)                                            |
+| Network         | Office fiber (500Mbps), Mobile 5G                                           |
+| Time per Visit  | 30Ã¢â‚¬â€œ60 seconds initial scan; 2Ã¢â‚¬â€œ3 minutes if qualified          |
+| Visit Frequency | Single session per candidate review cycle                                   |
+| Entry Source    | LinkedIn profile link, resume URL, Google search, referral                  |
 
 ### 2.2 Goals
 
@@ -60,14 +60,14 @@ This document defines the primary user personas for the Portfolio platform. Each
 
 ### 2.3 Pain Points
 
-| # | Pain Point | Frequency | Severity | Current Workaround |
-|---|------------|-----------|----------|-------------------|
-| PP1 | Portfolios take >5 seconds to load | Common | High | Skips candidate entirely |
-| PP2 | Key info (resume, GitHub, role) buried or missing | Very Common | High | Manually searches LinkedIn |
-| PP3 | Templated/generic design signals lack of effort | Common | Medium | Discounts candidate |
-| PP4 | Projects described in buzzwords with no evidence | Common | High | Does not advance candidate |
-| PP5 | Broken links or outdated project info | Very Common | High | Questions candidate quality |
-| PP6 | No clear CTA to contact or download resume | Common | Medium | Leaves without action |
+| #   | Pain Point                                        | Frequency   | Severity | Current Workaround          |
+| --- | ------------------------------------------------- | ----------- | -------- | --------------------------- |
+| PP1 | Portfolios take >5 seconds to load                | Common      | High     | Skips candidate entirely    |
+| PP2 | Key info (resume, GitHub, role) buried or missing | Very Common | High     | Manually searches LinkedIn  |
+| PP3 | Templated/generic design signals lack of effort   | Common      | Medium   | Discounts candidate         |
+| PP4 | Projects described in buzzwords with no evidence  | Common      | High     | Does not advance candidate  |
+| PP5 | Broken links or outdated project info             | Very Common | High     | Questions candidate quality |
+| PP6 | No clear CTA to contact or download resume        | Common      | Medium   | Leaves without action       |
 
 ### 2.4 Behavioral Patterns
 
@@ -84,18 +84,18 @@ Landing (3s) Ã¢â€ â€™ Hero scan (5s) Ã¢â€ â€™ Skills glanc
 
 ### 2.5 User Story
 
-> *"As a recruiter screening 50+ candidates this week, I want to verify within 30 seconds whether this candidate has the React Native and NestJS experience my team needs, see a real project they built, and grab their resume Ã¢â‚¬â€ without fighting a slow, confusing portfolio."*
+> _"As a recruiter screening 50+ candidates this week, I want to verify within 30 seconds whether this candidate has the React Native and NestJS experience my team needs, see a real project they built, and grab their resume Ã¢â‚¬â€ without fighting a slow, confusing portfolio."_
 
 ### 2.6 Success Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Time to key info discovery | < 10 seconds | Session recording analysis |
-| Resume download rate | Ã¢â€°Â¥ 15% of recruiter visits | Analytics event tracking |
-| Contact form initiation | Ã¢â€°Â¥ 8% of recruiter visits | Form analytics |
-| Return visits per recruiter | Ã¢â€°Â¥ 1.5 over 30 days | Cookie/GA4 user stitching |
-| Bounce rate (recruiter segment) | < 40% | Segment-filtered analytics |
-| GitHub profile click rate | Ã¢â€°Â¥ 25% of recruiter visits | Click tracking |
+| Metric                          | Target                          | Measurement                |
+| ------------------------------- | ------------------------------- | -------------------------- |
+| Time to key info discovery      | < 10 seconds                    | Session recording analysis |
+| Resume download rate            | Ã¢â€°Â¥ 15% of recruiter visits | Analytics event tracking   |
+| Contact form initiation         | Ã¢â€°Â¥ 8% of recruiter visits  | Form analytics             |
+| Return visits per recruiter     | Ã¢â€°Â¥ 1.5 over 30 days        | Cookie/GA4 user stitching  |
+| Bounce rate (recruiter segment) | < 40%                           | Segment-filtered analytics |
+| GitHub profile click rate       | Ã¢â€°Â¥ 25% of recruiter visits | Click tracking             |
 
 ### 2.7 Journey Map (Text)
 
@@ -108,13 +108,13 @@ result  (3s)    (5s)     (20s)       (5s)         or leave
 click                                              (5s)
 ```
 
-| Phase | Emotion | Success Criteria | Risk |
-|-------|---------|-----------------|------|
-| Entry | Curious | Page loads < 2s LCP | Slow load Ã¢â€ â€™ bounce |
-| Hero | Interested | Name/role visible above fold | Generic tagline Ã¢â€ â€™ no interest |
-| Skills | Skeptical | Skills match open req | Buzzwords with no evidence |
-| Projects | Engaged | Real screenshots + architecture | Lorem ipsum projects Ã¢â€ â€™ distrust |
-| Action | Confident | Resume downloads instantly | Dead link Ã¢â€ â€™ negative signal |
+| Phase    | Emotion    | Success Criteria                | Risk                                   |
+| -------- | ---------- | ------------------------------- | -------------------------------------- |
+| Entry    | Curious    | Page loads < 2s LCP             | Slow load Ã¢â€ â€™ bounce              |
+| Hero     | Interested | Name/role visible above fold    | Generic tagline Ã¢â€ â€™ no interest   |
+| Skills   | Skeptical  | Skills match open req           | Buzzwords with no evidence             |
+| Projects | Engaged    | Real screenshots + architecture | Lorem ipsum projects Ã¢â€ â€™ distrust |
+| Action   | Confident  | Resume downloads instantly      | Dead link Ã¢â€ â€™ negative signal     |
 
 ### 2.8 Key Design Implications
 
@@ -134,17 +134,17 @@ click                                              (5s)
 
 ### 3.1 Demographics
 
-| Attribute | Detail |
-|-----------|--------|
-| Age | 42 |
-| Industry | B2B SaaS, E-commerce, Fintech |
-| Technical Level | High (can evaluate architecture quality) |
-| Primary Device | iPad Pro 12.9" (browsing), MacBook Pro (deep evaluation) |
-| Primary Browser | Safari (iPad), Chrome (desktop) |
-| Network | Variable Ã¢â‚¬â€ WiFi, 4G, coworking spaces |
-| Time per Visit | 2Ã¢â‚¬â€œ5 minutes initial; returns 2Ã¢â‚¬â€œ3 times before decision |
-| Visit Frequency | 2Ã¢â‚¬â€œ3 sessions over 1Ã¢â‚¬â€œ2 weeks |
-| Entry Source | Google search, referral from peer, LinkedIn, blog post |
+| Attribute       | Detail                                                               |
+| --------------- | -------------------------------------------------------------------- |
+| Age             | 42                                                                   |
+| Industry        | B2B SaaS, E-commerce, Fintech                                        |
+| Technical Level | High (can evaluate architecture quality)                             |
+| Primary Device  | iPad Pro 12.9" (browsing), MacBook Pro (deep evaluation)             |
+| Primary Browser | Safari (iPad), Chrome (desktop)                                      |
+| Network         | Variable Ã¢â‚¬â€ WiFi, 4G, coworking spaces                          |
+| Time per Visit  | 2Ã¢â‚¬â€œ5 minutes initial; returns 2Ã¢â‚¬â€œ3 times before decision |
+| Visit Frequency | 2Ã¢â‚¬â€œ3 sessions over 1Ã¢â‚¬â€œ2 weeks                            |
+| Entry Source    | Google search, referral from peer, LinkedIn, blog post               |
 
 ### 3.2 Goals
 
@@ -156,14 +156,14 @@ click                                              (5s)
 
 ### 3.3 Pain Points
 
-| # | Pain Point | Frequency | Severity | Current Workaround |
-|---|------------|-----------|----------|-------------------|
-| PP1 | No case studies with quantified business impact | Very Common | High | Moves to next candidate |
-| PP2 | Services/pricing not clearly listed | Common | Medium | Assumes unaffordable, leaves |
-| PP3 | No testimonials or client references | Common | High | Questions credibility |
-| PP4 | Unclear engagement process (how to start?) | Common | Medium | Abandons contact |
-| PP5 | No sense of the developer's personality or work style | Common | Low | Relies on interview |
-| PP6 | Cannot tell if candidate has experience in their industry | Common | High | Filters out prematurely |
+| #   | Pain Point                                                | Frequency   | Severity | Current Workaround           |
+| --- | --------------------------------------------------------- | ----------- | -------- | ---------------------------- |
+| PP1 | No case studies with quantified business impact           | Very Common | High     | Moves to next candidate      |
+| PP2 | Services/pricing not clearly listed                       | Common      | Medium   | Assumes unaffordable, leaves |
+| PP3 | No testimonials or client references                      | Common      | High     | Questions credibility        |
+| PP4 | Unclear engagement process (how to start?)                | Common      | Medium   | Abandons contact             |
+| PP5 | No sense of the developer's personality or work style     | Common      | Low      | Relies on interview          |
+| PP6 | Cannot tell if candidate has experience in their industry | Common      | High     | Filters out prematurely      |
 
 ### 3.4 Behavioral Patterns
 
@@ -184,18 +184,18 @@ Qualify  Connect  Evaluate   Validate       Trust         Convert
 
 ### 3.5 User Story
 
-> *"As a CTO needing to hire a contract architect for our microservices migration, I want to see case studies showing similar work with measurable outcomes, understand your engagement model, and easily reach out for a conversation Ã¢â‚¬â€ all in one smooth visit."*
+> _"As a CTO needing to hire a contract architect for our microservices migration, I want to see case studies showing similar work with measurable outcomes, understand your engagement model, and easily reach out for a conversation Ã¢â‚¬â€ all in one smooth visit."_
 
 ### 3.6 Success Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Case study read completion | Ã¢â€°Â¥ 60% scroll depth | Scroll tracking |
-| Contact form conversion rate | Ã¢â€°Â¥ 12% of client visits | Form analytics |
-| Average session duration | Ã¢â€°Â¥ 3 minutes | Analytics |
-| Return visits before conversion | Ã¢â€°Â¤ 3 | Cookie stitching |
-| Testimonial section engagement | Ã¢â€°Â¥ 40% scroll-to | Scroll tracking |
-| Lead quality score (message length) | Ã¢â€°Â¥ 100 chars | Form validation |
+| Metric                              | Target                       | Measurement      |
+| ----------------------------------- | ---------------------------- | ---------------- |
+| Case study read completion          | Ã¢â€°Â¥ 60% scroll depth     | Scroll tracking  |
+| Contact form conversion rate        | Ã¢â€°Â¥ 12% of client visits | Form analytics   |
+| Average session duration            | Ã¢â€°Â¥ 3 minutes            | Analytics        |
+| Return visits before conversion     | Ã¢â€°Â¤ 3                    | Cookie stitching |
+| Testimonial section engagement      | Ã¢â€°Â¥ 40% scroll-to        | Scroll tracking  |
+| Lead quality score (message length) | Ã¢â€°Â¥ 100 chars            | Form validation  |
 
 ### 3.7 Journey Map (Text)
 
@@ -207,13 +207,13 @@ Search   Connect  Evaluate     Validate       Trust        Convert
 result                                                  form submit
 ```
 
-| Phase | Emotion | Success Criteria | Risk |
-|-------|---------|-----------------|------|
-| Landing | Curious | Professional design, fast load | Slow or poor design Ã¢â€ â€™ bounce |
-| About | Interested | Authentic personal story | Generic bio Ã¢â€ â€™ no connection |
-| Case Studies | Engaged | Quantified results (e.g., "40% perf gain") | Vague descriptions Ã¢â€ â€™ distrust |
-| Testimonials | Trusting | Recognizable names/comments | Missing or fake-feeling Ã¢â€ â€™ leave |
-| Contact | Confident | Easy form, clear next step | Form friction Ã¢â€ â€™ abandon |
+| Phase        | Emotion    | Success Criteria                           | Risk                                   |
+| ------------ | ---------- | ------------------------------------------ | -------------------------------------- |
+| Landing      | Curious    | Professional design, fast load             | Slow or poor design Ã¢â€ â€™ bounce    |
+| About        | Interested | Authentic personal story                   | Generic bio Ã¢â€ â€™ no connection     |
+| Case Studies | Engaged    | Quantified results (e.g., "40% perf gain") | Vague descriptions Ã¢â€ â€™ distrust   |
+| Testimonials | Trusting   | Recognizable names/comments                | Missing or fake-feeling Ã¢â€ â€™ leave |
+| Contact      | Confident  | Easy form, clear next step                 | Form friction Ã¢â€ â€™ abandon         |
 
 ### 3.8 Key Design Implications
 
@@ -233,17 +233,17 @@ result                                                  form submit
 
 ### 4.1 Demographics
 
-| Attribute | Detail |
-|-----------|--------|
-| Age | 29 |
-| Role | Portfolio Creator, Developer, Content Manager |
-| Technical Level | Expert Ã¢â‚¬â€ knows the codebase intimately |
-| Primary Device | Windows desktop + Android phone |
-| Primary Browser | Chrome (dev), Edge (testing) |
-| Update Frequency | Weekly content updates, daily lead/analytics checks |
-| Session Duration | 10Ã¢â‚¬â€œ30 minutes per update session |
-| Visit Frequency | Daily quick checks (5 min), weekly deep sessions (30 min) |
-| Entry Source | Direct URL or bookmark to admin dashboard |
+| Attribute        | Detail                                                    |
+| ---------------- | --------------------------------------------------------- |
+| Age              | 29                                                        |
+| Role             | Portfolio Creator, Developer, Content Manager             |
+| Technical Level  | Expert Ã¢â‚¬â€ knows the codebase intimately              |
+| Primary Device   | Windows desktop + Android phone                           |
+| Primary Browser  | Chrome (dev), Edge (testing)                              |
+| Update Frequency | Weekly content updates, daily lead/analytics checks       |
+| Session Duration | 10Ã¢â‚¬â€œ30 minutes per update session                   |
+| Visit Frequency  | Daily quick checks (5 min), weekly deep sessions (30 min) |
+| Entry Source     | Direct URL or bookmark to admin dashboard                 |
 
 ### 4.2 Goals
 
@@ -255,14 +255,14 @@ result                                                  form submit
 
 ### 4.3 Pain Points
 
-| # | Pain Point | Frequency | Severity | Current Workaround |
-|---|------------|-----------|----------|-------------------|
-| PP1 | Updating portfolio requires code deploy | Every update | High | Avoids updating, content stagnates |
-| PP2 | Context-switching between code and content | Daily | Medium | Uses separate note-taking app |
-| PP3 | No insight into what visitors actually see/do | Ongoing | High | Blind to what works |
-| PP4 | Duplicate data entry (project on portfolio + LinkedIn + GitHub) | Weekly | Medium | Manual copy-paste |
-| PP5 | Difficult to A/B test or preview changes | Per update | Medium | Staging branch deploy |
-| PP6 | No mobile preview of content edits | Per update | Low | Checks on phone manually |
+| #   | Pain Point                                                      | Frequency    | Severity | Current Workaround                 |
+| --- | --------------------------------------------------------------- | ------------ | -------- | ---------------------------------- |
+| PP1 | Updating portfolio requires code deploy                         | Every update | High     | Avoids updating, content stagnates |
+| PP2 | Context-switching between code and content                      | Daily        | Medium   | Uses separate note-taking app      |
+| PP3 | No insight into what visitors actually see/do                   | Ongoing      | High     | Blind to what works                |
+| PP4 | Duplicate data entry (project on portfolio + LinkedIn + GitHub) | Weekly       | Medium   | Manual copy-paste                  |
+| PP5 | Difficult to A/B test or preview changes                        | Per update   | Medium   | Staging branch deploy              |
+| PP6 | No mobile preview of content edits                              | Per update   | Low      | Checks on phone manually           |
 
 ### 4.4 Behavioral Patterns
 
@@ -278,18 +278,18 @@ Login Ã¢â€ â€™ Dashboard overview Ã¢â€ â€™ Leads check Ã�
 
 ### 4.5 User Story
 
-> *"As a busy developer who ships code all week, I want to update my portfolio with my latest project in under 5 minutes without touching Git, and see real-time analytics on how visitors interact with my work."*
+> _"As a busy developer who ships code all week, I want to update my portfolio with my latest project in under 5 minutes without touching Git, and see real-time analytics on how visitors interact with my work."_
 
 ### 4.6 Success Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Time to publish content update | < 5 minutes | CMS session duration |
-| Content update frequency | Ã¢â€°Â¥ 1 per week | CMS activity log |
-| Admin login frequency | Ã¢â€°Â¥ 5 per week | Auth logs |
-| Lead response time | < 24 hours | Lead timestamp analysis |
-| System uptime | Ã¢â€°Â¥ 99.5% | Uptime monitor |
-| Admin dashboard NPS | Ã¢â€°Â¥ 70 | Quarterly survey |
+| Metric                         | Target             | Measurement             |
+| ------------------------------ | ------------------ | ----------------------- |
+| Time to publish content update | < 5 minutes        | CMS session duration    |
+| Content update frequency       | Ã¢â€°Â¥ 1 per week | CMS activity log        |
+| Admin login frequency          | Ã¢â€°Â¥ 5 per week | Auth logs               |
+| Lead response time             | < 24 hours         | Lead timestamp analysis |
+| System uptime                  | Ã¢â€°Â¥ 99.5%      | Uptime monitor          |
+| Admin dashboard NPS            | Ã¢â€°Â¥ 70         | Quarterly survey        |
 
 ### 4.7 Key Design Implications
 
@@ -310,17 +310,17 @@ Login Ã¢â€ â€™ Dashboard overview Ã¢â€ â€™ Leads check Ã�
 
 ### 5.1 Demographics
 
-| Attribute | Detail |
-|-----------|--------|
-| Age | 26 |
-| Industry | Software Development |
+| Attribute       | Detail                                                  |
+| --------------- | ------------------------------------------------------- |
+| Age             | 26                                                      |
+| Industry        | Software Development                                    |
 | Technical Level | Intermediate-Expert Ã¢â‚¬â€ comfortable with full stack |
-| Primary Device | Linux workstation, multiple monitors |
-| Primary Browser | Firefox (primary), Chromium (secondary) |
-| GitHub Activity | Moderate (5Ã¢â‚¬â€œ15 contributions/month) |
-| Time per Visit | 30Ã¢â‚¬â€œ90 minutes exploring codebase |
+| Primary Device  | Linux workstation, multiple monitors                    |
+| Primary Browser | Firefox (primary), Chromium (secondary)                 |
+| GitHub Activity | Moderate (5Ã¢â‚¬â€œ15 contributions/month)              |
+| Time per Visit  | 30Ã¢â‚¬â€œ90 minutes exploring codebase                 |
 | Visit Frequency | 1Ã¢â‚¬â€œ2 times per month initially; weekly if engaged |
-| Entry Source | GitHub trending, Hacker News, peer referral, blog post |
+| Entry Source    | GitHub trending, Hacker News, peer referral, blog post  |
 
 ### 5.2 Goals
 
@@ -332,14 +332,14 @@ Login Ã¢â€ â€™ Dashboard overview Ã¢â€ â€™ Leads check Ã�
 
 ### 5.3 Pain Points
 
-| # | Pain Point | Frequency | Severity | Current Workaround |
-|---|------------|-----------|----------|-------------------|
-| PP1 | Unclear contribution guidelines or missing CONTRIBUTING.md | First visit | High | Leaves without contributing |
-| PP2 | Complex setup requiring multiple services (PostgreSQL, Redis, AI) | First visit | High | Gives up on local setup |
-| PP3 | No good first issues labeled | First visit | High | Doesn't know where to start |
-| PP4 | Missing or outdated documentation | Ongoing | Medium | Reverse-engineers from code |
-| PP5 | No response to PRs/issues | Ongoing | High | Abandons contribution |
-| PP6 | Unclear coding standards or linting rules | First contribution | Medium | Style nitpick in PR review |
+| #   | Pain Point                                                        | Frequency          | Severity | Current Workaround          |
+| --- | ----------------------------------------------------------------- | ------------------ | -------- | --------------------------- |
+| PP1 | Unclear contribution guidelines or missing CONTRIBUTING.md        | First visit        | High     | Leaves without contributing |
+| PP2 | Complex setup requiring multiple services (PostgreSQL, Redis, AI) | First visit        | High     | Gives up on local setup     |
+| PP3 | No good first issues labeled                                      | First visit        | High     | Doesn't know where to start |
+| PP4 | Missing or outdated documentation                                 | Ongoing            | Medium   | Reverse-engineers from code |
+| PP5 | No response to PRs/issues                                         | Ongoing            | High     | Abandons contribution       |
+| PP6 | Unclear coding standards or linting rules                         | First contribution | Medium   | Style nitpick in PR review  |
 
 ### 5.4 Behavioral Patterns
 
@@ -359,18 +359,18 @@ trending  docs     run      issues    fork
 
 ### 5.5 User Story
 
-> *"As a developer looking to level up my React and NestJS skills, I want to clone this portfolio repo, understand its architecture from the docs, and contribute a meaningful PR Ã¢â‚¬â€ so I can learn from production code and grow my OSS profile."*
+> _"As a developer looking to level up my React and NestJS skills, I want to clone this portfolio repo, understand its architecture from the docs, and contribute a meaningful PR Ã¢â‚¬â€ so I can learn from production code and grow my OSS profile."_
 
 ### 5.6 Success Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Time-to-first-PR from clone | < 1 week | GitHub event tracking |
-| Setup success rate | Ã¢â€°Â¥ 80% of clone attempts | Anonymous setup telemetry |
-| Contributors who submit >1 PR | Ã¢â€°Â¥ 25% | GitHub contributor stats |
-| Issue-to-PR conversion rate | Ã¢â€°Â¥ 40% | GitHub metrics |
-| Documentation accuracy score | Ã¢â€°Â¥ 4.5/5 | Contributor survey |
-| Average PR merge time | < 48 hours | GitHub metrics |
+| Metric                        | Target                        | Measurement               |
+| ----------------------------- | ----------------------------- | ------------------------- |
+| Time-to-first-PR from clone   | < 1 week                      | GitHub event tracking     |
+| Setup success rate            | Ã¢â€°Â¥ 80% of clone attempts | Anonymous setup telemetry |
+| Contributors who submit >1 PR | Ã¢â€°Â¥ 25%                   | GitHub contributor stats  |
+| Issue-to-PR conversion rate   | Ã¢â€°Â¥ 40%                   | GitHub metrics            |
+| Documentation accuracy score  | Ã¢â€°Â¥ 4.5/5                 | Contributor survey        |
+| Average PR merge time         | < 48 hours                    | GitHub metrics            |
 
 ### 5.7 Key Design Implications
 
@@ -391,17 +391,17 @@ trending  docs     run      issues    fork
 
 ### 6.1 Demographics
 
-| Attribute | Detail |
-|-----------|--------|
-| Age | 33 |
-| Industry | Technology (big tech, late-stage startup) |
+| Attribute       | Detail                                                 |
+| --------------- | ------------------------------------------------------ |
+| Age             | 33                                                     |
+| Industry        | Technology (big tech, late-stage startup)              |
 | Technical Level | Expert Ã¢â‚¬â€ evaluates architecture and code quality |
-| Primary Device | MacBook Pro (personal), work laptop |
-| Primary Browser | Arc or Chrome |
-| Network | Home fiber, office WiFi |
-| Time per Visit | 5Ã¢â‚¬â€œ15 minutes for deep reading |
-| Visit Frequency | Weekly blog reader, quarterly full revisit |
-| Entry Source | Blog post link, Twitter/X, newsletter, peer referral |
+| Primary Device  | MacBook Pro (personal), work laptop                    |
+| Primary Browser | Arc or Chrome                                          |
+| Network         | Home fiber, office WiFi                                |
+| Time per Visit  | 5Ã¢â‚¬â€œ15 minutes for deep reading                   |
+| Visit Frequency | Weekly blog reader, quarterly full revisit             |
+| Entry Source    | Blog post link, Twitter/X, newsletter, peer referral   |
 
 ### 6.2 Goals
 
@@ -413,13 +413,13 @@ trending  docs     run      issues    fork
 
 ### 6.3 Pain Points
 
-| # | Pain Point | Frequency | Severity | Current Workaround |
-|---|------------|-----------|----------|-------------------|
-| PP1 | Blog posts are superficial or too short | Common | High | Does not return |
-| PP2 | No code snippets or interactive examples | Common | Medium | Less engagement |
-| PP3 | No way to connect/share feedback | Common | Medium | Leaves without engaging |
-| PP4 | Outdated or infrequent content | Common | High | Unfollows/unsubscribes |
-| PP5 | Performance-heavy interactive elements on low-end devices | Occasional | Low | Disables animations |
+| #   | Pain Point                                                | Frequency  | Severity | Current Workaround      |
+| --- | --------------------------------------------------------- | ---------- | -------- | ----------------------- |
+| PP1 | Blog posts are superficial or too short                   | Common     | High     | Does not return         |
+| PP2 | No code snippets or interactive examples                  | Common     | Medium   | Less engagement         |
+| PP3 | No way to connect/share feedback                          | Common     | Medium   | Leaves without engaging |
+| PP4 | Outdated or infrequent content                            | Common     | High     | Unfollows/unsubscribes  |
+| PP5 | Performance-heavy interactive elements on low-end devices | Occasional | Low      | Disables animations     |
 
 ### 6.4 Behavioral Patterns
 
@@ -438,18 +438,18 @@ link    posts    code       projects  LinkedIn   reader
 
 ### 6.5 User Story
 
-> *"As a fellow engineer, I want to read technically substantive blog posts with real code examples and architecture discussions, so I can learn new patterns and evaluate whether this is someone I'd recommend to my network."*
+> _"As a fellow engineer, I want to read technically substantive blog posts with real code examples and architecture discussions, so I can learn new patterns and evaluate whether this is someone I'd recommend to my network."_
 
 ### 6.6 Success Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Average blog read time | Ã¢â€°Â¥ 5 minutes | Analytics scroll depth |
-| Blog return visitor rate | Ã¢â€°Â¥ 30% | Cookie-based return tracking |
-| Social share rate per post | Ã¢â€°Â¥ 5% of readers | Share button analytics |
-| Newsletter signup from blog | Ã¢â€°Â¥ 3% of readers | Conversion tracking |
-| Blog posts published per month | Ã¢â€°Â¥ 2 | CMS content calendar |
-| Peer referral to recruiter | Measured qual. | Testimonial/interview |
+| Metric                         | Target                | Measurement                  |
+| ------------------------------ | --------------------- | ---------------------------- |
+| Average blog read time         | Ã¢â€°Â¥ 5 minutes     | Analytics scroll depth       |
+| Blog return visitor rate       | Ã¢â€°Â¥ 30%           | Cookie-based return tracking |
+| Social share rate per post     | Ã¢â€°Â¥ 5% of readers | Share button analytics       |
+| Newsletter signup from blog    | Ã¢â€°Â¥ 3% of readers | Conversion tracking          |
+| Blog posts published per month | Ã¢â€°Â¥ 2             | CMS content calendar         |
+| Peer referral to recruiter     | Measured qual.        | Testimonial/interview        |
 
 ### 6.7 Key Design Implications
 
@@ -464,17 +464,17 @@ link    posts    code       projects  LinkedIn   reader
 
 ## 7. Persona Comparison Matrix
 
-| Dimension | Sarah (Recruiter) | Marcus (Client) | Alex (Admin) | Jordan (Contributor) | Priya (Peer) |
-|-----------|-------------------|-----------------|--------------|----------------------|--------------|
-| **Priority** | P0 Ã¢â‚¬â€ Primary | P0 Ã¢â‚¬â€ Primary | P1 Ã¢â‚¬â€ Secondary | P2 Ã¢â‚¬â€ Tertiary | P1 Ã¢â‚¬â€ Secondary |
-| **Time per visit** | 30Ã¢â‚¬â€œ60s | 2Ã¢â‚¬â€œ5min | 5Ã¢â‚¬â€œ30min | 30Ã¢â‚¬â€œ90min | 5Ã¢â‚¬â€œ15min |
-| **Technical level** | LowÃ¢â‚¬â€œMed | High | Expert | IntÃ¢â‚¬â€œExpert | Expert |
-| **Primary device** | Desktop | Tablet/Desktop | Desktop | Linux WS | Desktop |
-| **Key need** | Speed + clarity | Trust + evidence | Ease of use | Docs + setup | Depth + inspiration |
-| **Entry source** | LinkedIn | Google/referral | Direct | GitHub | Social/blog |
-| **Bounce sensitivity** | Extremely high | High | N/A | Medium | Medium |
-| **Conversion action** | Resume download | Contact form | Content publish | PR submit | Social share |
-| **Emotional arc** | Curious Ã¢â€ â€™ Confident | Curious Ã¢â€ â€™ Trusting | Efficient Ã¢â€ â€™ Satisfied | Curious Ã¢â€ â€™ Accomplished | Inspired Ã¢â€ â€™ Connected |
+| Dimension              | Sarah (Recruiter)          | Marcus (Client)           | Alex (Admin)                 | Jordan (Contributor)          | Priya (Peer)                |
+| ---------------------- | -------------------------- | ------------------------- | ---------------------------- | ----------------------------- | --------------------------- |
+| **Priority**           | P0 Ã¢â‚¬â€ Primary         | P0 Ã¢â‚¬â€ Primary        | P1 Ã¢â‚¬â€ Secondary         | P2 Ã¢â‚¬â€ Tertiary           | P1 Ã¢â‚¬â€ Secondary        |
+| **Time per visit**     | 30Ã¢â‚¬â€œ60s              | 2Ã¢â‚¬â€œ5min             | 5Ã¢â‚¬â€œ30min               | 30Ã¢â‚¬â€œ90min               | 5Ã¢â‚¬â€œ15min              |
+| **Technical level**    | LowÃ¢â‚¬â€œMed             | High                      | Expert                       | IntÃ¢â‚¬â€œExpert             | Expert                      |
+| **Primary device**     | Desktop                    | Tablet/Desktop            | Desktop                      | Linux WS                      | Desktop                     |
+| **Key need**           | Speed + clarity            | Trust + evidence          | Ease of use                  | Docs + setup                  | Depth + inspiration         |
+| **Entry source**       | LinkedIn                   | Google/referral           | Direct                       | GitHub                        | Social/blog                 |
+| **Bounce sensitivity** | Extremely high             | High                      | N/A                          | Medium                        | Medium                      |
+| **Conversion action**  | Resume download            | Contact form              | Content publish              | PR submit                     | Social share                |
+| **Emotional arc**      | Curious Ã¢â€ â€™ Confident | Curious Ã¢â€ â€™ Trusting | Efficient Ã¢â€ â€™ Satisfied | Curious Ã¢â€ â€™ Accomplished | Inspired Ã¢â€ â€™ Connected |
 
 ---
 
@@ -482,13 +482,13 @@ link    posts    code       projects  LinkedIn   reader
 
 Design and development priority is determined by: **Business Value Ãƒâ€” User Frequency Ãƒâ€” Conversion Impact**
 
-| Persona | Business Value | Frequency | Conversion Impact | Priority Score | Design Rank |
-|---------|---------------|-----------|-------------------|----------------|-------------|
-| Sarah Ã¢â‚¬â€ Recruiter | High (leads) | High (daily) | High (direct funnel) | **9.5/10** | **P0 Ã¢â‚¬â€ Design First** |
-| Marcus Ã¢â‚¬â€ Client | High (revenue) | Medium | High (highest value) | **9.0/10** | **P0 Ã¢â‚¬â€ Design First** |
-| Alex Ã¢â‚¬â€ Admin | Medium (ops) | High (daily) | Medium (indirect) | **7.5/10** | **P1 Ã¢â‚¬â€ Design Second** |
-| Priya Ã¢â‚¬â€ Peer | Medium (brand) | Medium (weekly) | Low (indirect) | **6.5/10** | **P1 Ã¢â‚¬â€ Design Second** |
-| Jordan Ã¢â‚¬â€ Contributor | Low (community) | Low (monthly) | Low (indirect) | **4.5/10** | **P2 Ã¢â‚¬â€ Design Third** |
+| Persona                    | Business Value  | Frequency       | Conversion Impact    | Priority Score | Design Rank                  |
+| -------------------------- | --------------- | --------------- | -------------------- | -------------- | ---------------------------- |
+| Sarah Ã¢â‚¬â€ Recruiter    | High (leads)    | High (daily)    | High (direct funnel) | **9.5/10**     | **P0 Ã¢â‚¬â€ Design First**  |
+| Marcus Ã¢â‚¬â€ Client      | High (revenue)  | Medium          | High (highest value) | **9.0/10**     | **P0 Ã¢â‚¬â€ Design First**  |
+| Alex Ã¢â‚¬â€ Admin         | Medium (ops)    | High (daily)    | Medium (indirect)    | **7.5/10**     | **P1 Ã¢â‚¬â€ Design Second** |
+| Priya Ã¢â‚¬â€ Peer         | Medium (brand)  | Medium (weekly) | Low (indirect)       | **6.5/10**     | **P1 Ã¢â‚¬â€ Design Second** |
+| Jordan Ã¢â‚¬â€ Contributor | Low (community) | Low (monthly)   | Low (indirect)       | **4.5/10**     | **P2 Ã¢â‚¬â€ Design Third**  |
 
 ### 8.1 Design Principles by Priority
 
@@ -504,23 +504,23 @@ These personas were validated through the research methodology described in `Use
 
 ### 9.1 Research Sources
 
-| Source | Details | Personas Informed |
-|--------|---------|------------------|
-| 5 technical recruiter interviews | Agency and in-house recruiters at mid-to-large tech companies | Sarah |
-| 3 startup founder interviews | CTOs and founders who hired contractors | Marcus |
-| Industry portfolio audit | 50+ top-tier developer portfolios analyzed | All personas |
-| Self-observation | Portfolio owner's own workflow analysis | Alex |
-| OSS community patterns | GitHub contribution trends and developer surveys | Jordan, Priya |
+| Source                           | Details                                                       | Personas Informed |
+| -------------------------------- | ------------------------------------------------------------- | ----------------- |
+| 5 technical recruiter interviews | Agency and in-house recruiters at mid-to-large tech companies | Sarah             |
+| 3 startup founder interviews     | CTOs and founders who hired contractors                       | Marcus            |
+| Industry portfolio audit         | 50+ top-tier developer portfolios analyzed                    | All personas      |
+| Self-observation                 | Portfolio owner's own workflow analysis                       | Alex              |
+| OSS community patterns           | GitHub contribution trends and developer surveys              | Jordan, Priya     |
 
 ### 9.2 Key Validation Findings
 
-| Finding | Source | Impact on Personas |
-|---------|--------|-------------------|
-| Recruiters spend 6s on resumes, <30s on portfolios | Recruiter interviews | Sarah's 30-second scan target |
-| Static portfolios have high bounce rates | Portfolio audit | Interactive elements for engagement (all personas) |
-| Tech leaders want quantified case studies | Founder interviews | Marcus's need for ROI evidence |
-| Developers abandon custom portfolios due to update friction | Self-observation | Alex's admin dashboard requirements |
-| OSS contributors need clear onboarding | GitHub community patterns | Jordan's setup documentation needs |
+| Finding                                                     | Source                    | Impact on Personas                                 |
+| ----------------------------------------------------------- | ------------------------- | -------------------------------------------------- |
+| Recruiters spend 6s on resumes, <30s on portfolios          | Recruiter interviews      | Sarah's 30-second scan target                      |
+| Static portfolios have high bounce rates                    | Portfolio audit           | Interactive elements for engagement (all personas) |
+| Tech leaders want quantified case studies                   | Founder interviews        | Marcus's need for ROI evidence                     |
+| Developers abandon custom portfolios due to update friction | Self-observation          | Alex's admin dashboard requirements                |
+| OSS contributors need clear onboarding                      | GitHub community patterns | Jordan's setup documentation needs                 |
 
 ### 9.3 Limitation & Next Steps
 
@@ -532,15 +532,16 @@ These personas were validated through the research methodology described in `Use
 
 ## 10. Revision History
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | Mar 2026 | Product Owner | Initial draft with 4 personas |
+| Version | Date         | Author            | Changes                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------- | ------------ | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1.0     | Mar 2026     | Product Owner     | Initial draft with 4 personas                                                                                                                                                                                                                                                                                                                                                           |
 | **2.0** | **Jul 2026** | **Product Owner** | **Complete enterprise rewrite. Added: Priya (peer) persona, demographics tables per persona, pain point severity matrices, behavioral sequence diagrams, quantitative success metrics per persona, journey map tables, prioritized design implications, cross-persona comparison matrix, prioritization framework, validation section referencing UserResearch.md, revision tracking.** |
 
 ---
 
-*Document Version: 2.0 Ã¢â‚¬â€ Enterprise Personas*
+_Document Version: 2.0 Ã¢â‚¬â€ Enterprise Personas_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

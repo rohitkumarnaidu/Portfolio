@@ -12,13 +12,13 @@ This document catalogs **61 user stories** across **11 epics** (E1-E11) with a t
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/product/ProductRequirements.md` | Product Requirements — stories trace to PRD requirements |
-| `docs/product/02-FEATURES.md` | Feature Catalog — each story maps to a feature ID |
-| `docs/product/UserFlows.md` | User Journeys — stories validate persona-based flows |
-| `docs/quality/TestingArchitecture.md` | Testing Strategy — acceptance criteria inform test cases |
-| `docs/product/37-IMPLEMENTATION_PLAN.md` | Implementation Plan — stories sequenced in phases |
+| Reference                                   | Description                                              |
+| ------------------------------------------- | -------------------------------------------------------- |
+| `docs/01-product/ProductRequirements.md`    | Product Requirements — stories trace to PRD requirements |
+| `docs/01-product/02-FEATURES.md`            | Feature Catalog — each story maps to a feature ID        |
+| `docs/01-product/UserFlows.md`              | User Journeys — stories validate persona-based flows     |
+| `docs/35-quality/TestingArchitecture.md`    | Testing Strategy — acceptance criteria inform test cases |
+| `docs/01-product/37-IMPLEMENTATION_PLAN.md` | Implementation Plan — stories sequenced in phases        |
 
 ## Epic-to-Story Mapping
 
@@ -68,20 +68,20 @@ flowchart TD
 
 ### Epic Definitions
 
-| Epic | Theme | Stories | Points | P0 | P1 | P2 | P3 |
-|------|-------|---------|--------|----|----|----|----|
-| **E1** | Visitor Experience | 20 | 101 | 8 | 7 | 3 | 2 |
-| **E2** | Admin Content Management | 5 | 34 | 4 | 1 | 0 | 0 |
-| **E3** | Lead Management | 5 | 18 | 2 | 2 | 1 | 0 |
-| **E4** | Admin Authentication | 3 | 16 | 3 | 0 | 0 | 0 |
-| **E5** | Analytics & Insights | 2 | 13 | 1 | 1 | 0 | 0 |
-| **E6** | AI & Intelligence | 6 | 38 | 0 | 0 | 6 | 0 |
-| **E7** | Developer Experience | 4 | 16 | 0 | 2 | 2 | 0 |
-| **E8** | Performance & Reliability | 3 | 13 | 0 | 2 | 1 | 0 |
-| **E9** | Blog Engine | 3 | 15 | 0 | 0 | 0 | 3 |
-| **E10** | Monitoring & Observability | 3 | 10 | 0 | 2 | 1 | 0 |
-| **E11** | Future Features | 8 | 44 | 0 | 0 | 0 | 8 |
-| **Total** | — | **62** | **318** | **18** | **17** | **15** | **11** |
+| Epic      | Theme                      | Stories | Points  | P0     | P1     | P2     | P3     |
+| --------- | -------------------------- | ------- | ------- | ------ | ------ | ------ | ------ |
+| **E1**    | Visitor Experience         | 20      | 101     | 8      | 7      | 3      | 2      |
+| **E2**    | Admin Content Management   | 5       | 34      | 4      | 1      | 0      | 0      |
+| **E3**    | Lead Management            | 5       | 18      | 2      | 2      | 1      | 0      |
+| **E4**    | Admin Authentication       | 3       | 16      | 3      | 0      | 0      | 0      |
+| **E5**    | Analytics & Insights       | 2       | 13      | 1      | 1      | 0      | 0      |
+| **E6**    | AI & Intelligence          | 6       | 38      | 0      | 0      | 6      | 0      |
+| **E7**    | Developer Experience       | 4       | 16      | 0      | 2      | 2      | 0      |
+| **E8**    | Performance & Reliability  | 3       | 13      | 0      | 2      | 1      | 0      |
+| **E9**    | Blog Engine                | 3       | 15      | 0      | 0      | 0      | 3      |
+| **E10**   | Monitoring & Observability | 3       | 10      | 0      | 2      | 1      | 0      |
+| **E11**   | Future Features            | 8       | 44      | 0      | 0      | 0      | 8      |
+| **Total** | —                          | **62**  | **318** | **18** | **17** | **15** | **11** |
 
 ### User Story Template
 
@@ -178,13 +178,13 @@ A user story is considered **Done** when:
 > **I want** to see a visually stunning hero section with my name, title, and clear CTAs  
 > **So that** I'm immediately impressed and know exactly what to do next
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-001 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 03 |
+| Field            | Value                                      |
+| ---------------- | ------------------------------------------ |
+| **Epic**         | E1: Visitor Experience                     |
+| **Feature ID**   | F-001                                      |
+| **Priority**     | P0                                         |
+| **Story Points** | 5                                          |
+| **Phase**        | 03                                         |
 | **Dependencies** | US-003 (Navigation), US-022 (Theme System) |
 
 #### Acceptance Criteria
@@ -207,31 +207,31 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| LCP | < 2.5s | Vercel Analytics |
-| CTA visibility | 100% above fold | Manual check |
-| Bounce rate reduction | 10% improvement | PostHog |
-| Social link click rate | > 5% of visitors | PostHog |
+| Metric                 | Target           | Measurement      |
+| ---------------------- | ---------------- | ---------------- |
+| LCP                    | < 2.5s           | Vercel Analytics |
+| CTA visibility         | 100% above fold  | Manual check     |
+| Bounce rate reduction  | 10% improvement  | PostHog          |
+| Social link click rate | > 5% of visitors | PostHog          |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Ultra-wide monitor (3440×1440) | Hero scales, no empty space, max-width constraint |
-| Very small mobile (320px) | Font sizes adjust, CTAs stack vertically, no overflow |
-| Screen reader user | `aria-label` on social links, semantic heading hierarchy |
-| Keyboard-only user | Tab order: CTAs → social links → scroll indicator |
-| 3D scene fails to load | Static gradient background, no error shown |
+| Scenario                       | Expected Behavior                                        |
+| ------------------------------ | -------------------------------------------------------- |
+| Ultra-wide monitor (3440×1440) | Hero scales, no empty space, max-width constraint        |
+| Very small mobile (320px)      | Font sizes adjust, CTAs stack vertically, no overflow    |
+| Screen reader user             | `aria-label` on social links, semantic heading hierarchy |
+| Keyboard-only user             | Tab order: CTAs → social links → scroll indicator        |
+| 3D scene fails to load         | Static gradient background, no error shown               |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Hero image fails to load | CSS gradient fallback, no broken image icon |
-| API fails to return hero content | Static default hero with hardcoded fallback |
-| 3D WebGL not supported | Feature detection → static background, no console error |
-| Font fails to load | System font fallback, no FOIT (font-display: swap) |
+| Scenario                         | Recovery                                                |
+| -------------------------------- | ------------------------------------------------------- |
+| Hero image fails to load         | CSS gradient fallback, no broken image icon             |
+| API fails to return hero content | Static default hero with hardcoded fallback             |
+| 3D WebGL not supported           | Feature detection → static background, no console error |
+| Font fails to load               | System font fallback, no FOIT (font-display: swap)      |
 
 ---
 
@@ -241,14 +241,14 @@ A user story is considered **Done** when:
 > **I want** to see visual skill indicators with proficiency levels, grouped by category  
 > **So that** I can quickly match skills to job requirements
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-002 |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 04 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-002                  |
+| **Priority**     | P1                     |
+| **Story Points** | 5                      |
+| **Phase**        | 04                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -267,28 +267,28 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Skill hover rate | > 30% of section viewers | PostHog |
-| Category filter usage | > 20% of section viewers | PostHog |
-| Time on section | > 15 seconds | PostHog |
+| Metric                | Target                   | Measurement |
+| --------------------- | ------------------------ | ----------- |
+| Skill hover rate      | > 30% of section viewers | PostHog     |
+| Category filter usage | > 20% of section viewers | PostHog     |
+| Time on section       | > 15 seconds             | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 20+ skills in one category | Scrollable grid, paginate if > 12 |
-| Proficiency at 0% | Still shown (learning), progress bar at minimum |
-| Skill name very long (30+ chars) | Text truncation with tooltip on hover |
-| No skills configured | Empty state with CTA to admin dashboard |
+| Scenario                         | Expected Behavior                               |
+| -------------------------------- | ----------------------------------------------- |
+| 20+ skills in one category       | Scrollable grid, paginate if > 12               |
+| Proficiency at 0%                | Still shown (learning), progress bar at minimum |
+| Skill name very long (30+ chars) | Text truncation with tooltip on hover           |
+| No skills configured             | Empty state with CTA to admin dashboard         |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| API returns 500 | Error state with retry, section gracefully hidden after 3 retries |
-| Network timeout (> 10s) | Show timeout message, retry option |
-| ISR cache stale | Serve stale data while revalidating |
+| Scenario                | Recovery                                                          |
+| ----------------------- | ----------------------------------------------------------------- |
+| API returns 500         | Error state with retry, section gracefully hidden after 3 retries |
+| Network timeout (> 10s) | Show timeout message, retry option                                |
+| ISR cache stale         | Serve stale data while revalidating                               |
 
 ---
 
@@ -298,13 +298,13 @@ A user story is considered **Done** when:
 > **I want** clear, sticky navigation that shows all sections and my current location  
 > **So that** I can easily jump to any section and know where I am
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-003 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 02 |
+| Field            | Value                                         |
+| ---------------- | --------------------------------------------- |
+| **Epic**         | E1: Visitor Experience                        |
+| **Feature ID**   | F-003                                         |
+| **Priority**     | P0                                            |
+| **Story Points** | 5                                             |
+| **Phase**        | 02                                            |
 | **Dependencies** | US-022 (Theme System), US-023 (Design System) |
 
 #### Acceptance Criteria
@@ -326,28 +326,28 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Nav link click rate | > 40% of visitors | PostHog |
-| Mobile menu open rate | > 50% of mobile visitors | PostHog |
-| Scroll-to-section accuracy | 100% (no offset errors) | Manual QA |
+| Metric                     | Target                   | Measurement |
+| -------------------------- | ------------------------ | ----------- |
+| Nav link click rate        | > 40% of visitors        | PostHog     |
+| Mobile menu open rate      | > 50% of mobile visitors | PostHog     |
+| Scroll-to-section accuracy | 100% (no offset errors)  | Manual QA   |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Very long section list (15+ items) | Truncate, "More" dropdown, or scrollable nav |
-| Single section portfolio | Navigation still shows, minimal mode |
-| Browser back button after smooth scroll | Restore scroll position correctly |
-| Resize from desktop to mobile | Nav switches from full to hamburger without glitch |
+| Scenario                                | Expected Behavior                                  |
+| --------------------------------------- | -------------------------------------------------- |
+| Very long section list (15+ items)      | Truncate, "More" dropdown, or scrollable nav       |
+| Single section portfolio                | Navigation still shows, minimal mode               |
+| Browser back button after smooth scroll | Restore scroll position correctly                  |
+| Resize from desktop to mobile           | Nav switches from full to hamburger without glitch |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| JavaScript disabled | Fallback anchor links (`#section-id`), no smooth scroll |
-| IntersectionObserver not supported | Polyfill or scroll event listener fallback |
-| Mobile menu animation jank | Hardware-accelerated CSS transforms (`translate3d`) |
+| Scenario                           | Recovery                                                |
+| ---------------------------------- | ------------------------------------------------------- |
+| JavaScript disabled                | Fallback anchor links (`#section-id`), no smooth scroll |
+| IntersectionObserver not supported | Polyfill or scroll event listener fallback              |
+| Mobile menu animation jank         | Hardware-accelerated CSS transforms (`translate3d`)     |
 
 ---
 
@@ -357,14 +357,14 @@ A user story is considered **Done** when:
 > **I want** to read a professional bio with photo and key statistics  
 > **So that** I can assess personality, experience, and credibility
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-004 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 04 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-004                  |
+| **Priority**     | P0                     |
+| **Story Points** | 5                      |
+| **Phase**        | 04                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -381,27 +381,27 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Resume downloads per visitor | > 3% | PostHog |
-| Time on section | > 20 seconds | PostHog |
-| Stat counter engagement | > 60% view it | PostHog |
+| Metric                       | Target        | Measurement |
+| ---------------------------- | ------------- | ----------- |
+| Resume downloads per visitor | > 3%          | PostHog     |
+| Time on section              | > 20 seconds  | PostHog     |
+| Stat counter engagement      | > 60% view it | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| No photo uploaded | Monogram/initial avatar placeholder |
-| Very long bio (1000+ words) | "Read more" truncation with expand |
-| Stats all zero | Hide stat section gracefully |
+| Scenario                    | Expected Behavior                   |
+| --------------------------- | ----------------------------------- |
+| No photo uploaded           | Monogram/initial avatar placeholder |
+| Very long bio (1000+ words) | "Read more" truncation with expand  |
+| Stats all zero              | Hide stat section gracefully        |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Image fails to load | Monogram fallback, no broken image |
-| API fails | Static about text from Next.js config fallback |
-| Resume file missing | Hide download button, log error to Sentry |
+| Scenario            | Recovery                                       |
+| ------------------- | ---------------------------------------------- |
+| Image fails to load | Monogram fallback, no broken image             |
+| API fails           | Static about text from Next.js config fallback |
+| Resume file missing | Hide download button, log error to Sentry      |
 
 ---
 
@@ -411,14 +411,14 @@ A user story is considered **Done** when:
 > **I want** to see a clear timeline of work experience  
 > **So that** I can understand career progression and time in each role
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-005 |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 04 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-005                  |
+| **Priority**     | P1                     |
+| **Story Points** | 5                      |
+| **Phase**        | 04                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -435,25 +435,25 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Timeline item expansion rate | > 25% | PostHog |
-| Time on section | > 30 seconds | PostHog |
+| Metric                       | Target       | Measurement |
+| ---------------------------- | ------------ | ----------- |
+| Timeline item expansion rate | > 25%        | PostHog     |
+| Time on section              | > 30 seconds | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 10+ years with 6+ positions | Scrollable, no pagination needed |
-| Gap in employment (1+ year) | Show gap, no negative styling |
+| Scenario                     | Expected Behavior                |
+| ---------------------------- | -------------------------------- |
+| 10+ years with 6+ positions  | Scrollable, no pagination needed |
+| Gap in employment (1+ year)  | Show gap, no negative styling    |
 | Current role has no end date | "Present" badge, ongoing styling |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| API returns empty | Empty state with message |
-| Company logo missing | Show initials as fallback |
+| Scenario                  | Recovery                                    |
+| ------------------------- | ------------------------------------------- |
+| API returns empty         | Empty state with message                    |
+| Company logo missing      | Show initials as fallback                   |
 | Timeline breaks on mobile | Responsive adjustments, QA every breakpoint |
 
 ---
@@ -464,14 +464,14 @@ A user story is considered **Done** when:
 > **I want** to see authentic testimonials from past clients  
 > **So that** I can trust the quality of work and professionalism
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-006 |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 06 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-006                  |
+| **Priority**     | P1                     |
+| **Story Points** | 5                      |
+| **Phase**        | 06                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -488,26 +488,26 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Carousel interaction rate | > 15% | PostHog |
-| Click-through to contact | > 5% after viewing | PostHog |
+| Metric                    | Target             | Measurement |
+| ------------------------- | ------------------ | ----------- |
+| Carousel interaction rate | > 15%              | PostHog     |
+| Click-through to contact  | > 5% after viewing | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Single testimonial | No carousel, single card centered |
-| No avatar image | Initials avatar with random background color |
-| Very long testimonial (500+ words) | Truncate with "Read more" expand |
+| Scenario                           | Expected Behavior                            |
+| ---------------------------------- | -------------------------------------------- |
+| Single testimonial                 | No carousel, single card centered            |
+| No avatar image                    | Initials avatar with random background color |
+| Very long testimonial (500+ words) | Truncate with "Read more" expand             |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Carousel JavaScript fails | Static grid of all testimonials |
-| Image fails to load | Initials fallback avatar |
-| API returns empty array | Empty state, section hidden if `isVisible=false` |
+| Scenario                  | Recovery                                         |
+| ------------------------- | ------------------------------------------------ |
+| Carousel JavaScript fails | Static grid of all testimonials                  |
+| Image fails to load       | Initials fallback avatar                         |
+| API returns empty array   | Empty state, section hidden if `isVisible=false` |
 
 ---
 
@@ -517,13 +517,13 @@ A user story is considered **Done** when:
 > **I want** to submit a contact form with my name, email, and message  
 > **So that** I can easily reach out about opportunities
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-007 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 04 |
+| Field            | Value                                       |
+| ---------------- | ------------------------------------------- |
+| **Epic**         | E1: Visitor Experience                      |
+| **Feature ID**   | F-007                                       |
+| **Priority**     | P0                                          |
+| **Story Points** | 5                                           |
+| **Phase**        | 04                                          |
 | **Dependencies** | US-023 (Input Component), US-800 (Lead API) |
 
 #### Acceptance Criteria
@@ -545,32 +545,32 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Form completion rate | > 60% of starters | PostHog funnel |
-| Submission success rate | > 95% | PostHog |
-| Spam rejection rate | > 99% | Honeypot + rate limiting |
-| Auto-reply delivery | < 60s | Resend analytics |
+| Metric                  | Target            | Measurement              |
+| ----------------------- | ----------------- | ------------------------ |
+| Form completion rate    | > 60% of starters | PostHog funnel           |
+| Submission success rate | > 95%             | PostHog                  |
+| Spam rejection rate     | > 99%             | Honeypot + rate limiting |
+| Auto-reply delivery     | < 60s             | Resend analytics         |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Email with Unicode characters | Validated and stored correctly (UTF-8) |
-| Message with HTML tags | Sanitized, tags stripped |
-| Very long name (100+ chars) | Truncated at 100 chars with server validation |
-| Copied/pasted text with formatting | Paste as plain text only |
-| Double-click submit | Button disabled after first click, prevent duplicate |
+| Scenario                           | Expected Behavior                                    |
+| ---------------------------------- | ---------------------------------------------------- |
+| Email with Unicode characters      | Validated and stored correctly (UTF-8)               |
+| Message with HTML tags             | Sanitized, tags stripped                             |
+| Very long name (100+ chars)        | Truncated at 100 chars with server validation        |
+| Copied/pasted text with formatting | Paste as plain text only                             |
+| Double-click submit                | Button disabled after first click, prevent duplicate |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Rate limit exceeded | "Please try again in X minutes" with countdown |
-| Network offline | "Connection lost. Your message will be saved." + retry |
-| Server validation error | Field-level error messages, don't clear form |
-| Auto-reply email fails | Log to Sentry, still show success to user |
-| Server 500 error | "Something went wrong. We've been notified." + retry |
+| Scenario                | Recovery                                               |
+| ----------------------- | ------------------------------------------------------ |
+| Rate limit exceeded     | "Please try again in X minutes" with countdown         |
+| Network offline         | "Connection lost. Your message will be saved." + retry |
+| Server validation error | Field-level error messages, don't clear form           |
+| Auto-reply email fails  | Log to Sentry, still show success to user              |
+| Server 500 error        | "Something went wrong. We've been notified." + retry   |
 
 ---
 
@@ -580,14 +580,14 @@ A user story is considered **Done** when:
 > **I want** an expandable FAQ section with common questions  
 > **So that** I can find answers without emailing
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-008 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 04 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-008                  |
+| **Priority**     | P1                     |
+| **Story Points** | 3                      |
+| **Phase**        | 04                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -604,25 +604,25 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| FAQ open rate | > 30% of section viewers | PostHog |
-| Average questions opened | > 2 per viewer | PostHog |
+| Metric                   | Target                   | Measurement |
+| ------------------------ | ------------------------ | ----------- |
+| FAQ open rate            | > 30% of section viewers | PostHog     |
+| Average questions opened | > 2 per viewer           | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 20+ FAQ items | Scrollable, group by category |
+| Scenario                       | Expected Behavior                              |
+| ------------------------------ | ---------------------------------------------- |
+| 20+ FAQ items                  | Scrollable, group by category                  |
 | Very long answer (1000+ words) | Scroll within answer panel, no external scroll |
-| FAQ with embedded video | Responsive iframe, lazy load |
+| FAQ with embedded video        | Responsive iframe, lazy load                   |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| API fails | Hide section if `isVisible=false`, else static fallback |
-| Animation performance on low-end device | `will-change: max-height`, reduce motion fallback |
+| Scenario                                | Recovery                                                |
+| --------------------------------------- | ------------------------------------------------------- |
+| API fails                               | Hide section if `isVisible=false`, else static fallback |
+| Animation performance on low-end device | `will-change: max-height`, reduce motion fallback       |
 
 ---
 
@@ -632,14 +632,14 @@ A user story is considered **Done** when:
 > **I want** to see available services with descriptions and pricing  
 > **So that** I can decide if you're the right fit before contacting
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-009 |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 04 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-009                  |
+| **Priority**     | P1                     |
+| **Story Points** | 5                      |
+| **Phase**        | 04                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -654,22 +654,22 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Service CTA click rate | > 10% of section viewers | PostHog |
-| Pricing tier view rate | > 40% of section viewers | PostHog |
+| Metric                 | Target                   | Measurement |
+| ---------------------- | ------------------------ | ----------- |
+| Service CTA click rate | > 10% of section viewers | PostHog     |
+| Pricing tier view rate | > 40% of section viewers | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Single service | Full-width card, centered |
+| Scenario        | Expected Behavior            |
+| --------------- | ---------------------------- |
+| Single service  | Full-width card, centered    |
 | Dynamic pricing | Badge: "Contact for pricing" |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario  | Recovery                      |
+| --------- | ----------------------------- |
 | API fails | Hide section or show fallback |
 
 ---
@@ -680,14 +680,14 @@ A user story is considered **Done** when:
 > **I want** to see key statistics with animated counters  
 > **So that** I immediately grasp the scale of experience
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-010 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 06 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-010                  |
+| **Priority**     | P1                     |
+| **Story Points** | 3                      |
+| **Phase**        | 06                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -700,21 +700,21 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Counter animation completion | 100% viewable | PostHog |
+| Metric                       | Target        | Measurement |
+| ---------------------------- | ------------- | ----------- |
+| Counter animation completion | 100% viewable | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario             | Expected Behavior                  |
+| -------------------- | ---------------------------------- |
 | Value over 1,000,000 | Formatted with commas: "1,000,000" |
-| Decimal values | Format accordingly: "4.5" |
+| Decimal values       | Format accordingly: "4.5"          |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario  | Recovery                        |
+| --------- | ------------------------------- |
 | API fails | Hide or show hardcoded defaults |
 
 ---
@@ -725,14 +725,14 @@ A user story is considered **Done** when:
 > **I want** to see logos of companies worked with  
 > **So that** I immediately recognize established client relationships
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-011 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 06 |
-| **Dependencies** | US-003 (Navigation) |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-011                  |
+| **Priority**     | P1                     |
+| **Story Points** | 3                      |
+| **Phase**        | 06                     |
+| **Dependencies** | US-003 (Navigation)    |
 
 #### Acceptance Criteria
 
@@ -744,21 +744,21 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Logo hover rate | > 20% of section viewers | PostHog |
+| Metric          | Target                   | Measurement |
+| --------------- | ------------------------ | ----------- |
+| Logo hover rate | > 20% of section viewers | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 30+ logos | Paginated grid or faster scroll speed |
-| Logo image fails | Company name text fallback |
+| Scenario         | Expected Behavior                     |
+| ---------------- | ------------------------------------- |
+| 30+ logos        | Paginated grid or faster scroll speed |
+| Logo image fails | Company name text fallback            |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario  | Recovery     |
+| --------- | ------------ |
 | API fails | Hide section |
 
 ---
@@ -769,13 +769,13 @@ A user story is considered **Done** when:
 > **I want** to toggle between dark and light themes  
 > **So that** I can read comfortably in any environment
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-012 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 02 |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-012                  |
+| **Priority**     | P1                     |
+| **Story Points** | 3                      |
+| **Phase**        | 02                     |
 | **Dependencies** | US-023 (Design System) |
 
 #### Acceptance Criteria
@@ -792,25 +792,25 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Theme toggle usage | > 10% of visitors | PostHog |
-| No flash rate | 100% | Manual verification |
+| Metric             | Target            | Measurement         |
+| ------------------ | ----------------- | ------------------- |
+| Theme toggle usage | > 10% of visitors | PostHog             |
+| No flash rate      | 100%              | Manual verification |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| localStorage unavailable | Cookie fallback, then system preference only |
-| Third-party cookies blocked | Work without persistence (system preference each visit) |
-| System preference changes while browsing | Optionally detect and prompt user |
+| Scenario                                 | Expected Behavior                                       |
+| ---------------------------------------- | ------------------------------------------------------- |
+| localStorage unavailable                 | Cookie fallback, then system preference only            |
+| Third-party cookies blocked              | Work without persistence (system preference each visit) |
+| System preference changes while browsing | Optionally detect and prompt user                       |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| CSS variable not applied | Fallback to system preference, no broken layout |
-| JavaScript disabled | System preference via CSS `prefers-color-scheme` media query |
+| Scenario                 | Recovery                                                     |
+| ------------------------ | ------------------------------------------------------------ |
+| CSS variable not applied | Fallback to system preference, no broken layout              |
+| JavaScript disabled      | System preference via CSS `prefers-color-scheme` media query |
 
 ---
 
@@ -820,13 +820,13 @@ A user story is considered **Done** when:
 > **I want** smooth scroll-triggered animations that reveal sections  
 > **So that** the browsing experience feels polished and engaging
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-013 |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 02 |
+| Field            | Value                                      |
+| ---------------- | ------------------------------------------ |
+| **Epic**         | E1: Visitor Experience                     |
+| **Feature ID**   | F-013                                      |
+| **Priority**     | P1                                         |
+| **Story Points** | 5                                          |
+| **Phase**        | 02                                         |
 | **Dependencies** | US-003 (Navigation), US-022 (Theme System) |
 
 #### Acceptance Criteria
@@ -843,26 +843,26 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
+| Metric        | Target  | Measurement                 |
+| ------------- | ------- | --------------------------- |
 | Animation FPS | ≥ 55fps | Chrome DevTools Performance |
-| CLS impact | 0 | Lighthouse |
+| CLS impact    | 0       | Lighthouse                  |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Very fast scroll past section | Animation still plays once (IntersectionObserver `once: true`) |
-| Section already in viewport on load | Animate in immediately (no delay) |
-| User tabs to a section (skip scroll) | Still animate, triggered by IntersectionObserver |
+| Scenario                             | Expected Behavior                                              |
+| ------------------------------------ | -------------------------------------------------------------- |
+| Very fast scroll past section        | Animation still plays once (IntersectionObserver `once: true`) |
+| Section already in viewport on load  | Animate in immediately (no delay)                              |
+| User tabs to a section (skip scroll) | Still animate, triggered by IntersectionObserver               |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| IntersectionObserver not supported | Polyfill or static reveal |
-| Low-end device drops frames | Auto-disable if FPS < 30 detected |
-| Reduced motion not detected | Manual animation toggle in settings (future) |
+| Scenario                           | Recovery                                     |
+| ---------------------------------- | -------------------------------------------- |
+| IntersectionObserver not supported | Polyfill or static reveal                    |
+| Low-end device drops frames        | Auto-disable if FPS < 30 detected            |
+| Reduced motion not detected        | Manual animation toggle in settings (future) |
 
 ---
 
@@ -872,13 +872,13 @@ A user story is considered **Done** when:
 > **I want** to see skeleton loading states while content loads  
 > **So that** I understand content is coming and don't see blank space
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-014 |
-| **Priority** | P0 |
-| **Story Points** | 3 |
-| **Phase** | 02 |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-014                  |
+| **Priority**     | P0                     |
+| **Story Points** | 3                      |
+| **Phase**        | 02                     |
 | **Dependencies** | US-023 (Design System) |
 
 #### Acceptance Criteria
@@ -893,22 +893,22 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Perceived load time | < 100ms (skeleton shows instantly) | Lighthouse |
-| Cumulative Layout Shift | < 0.1 (skeleton prevents shift) | Lighthouse |
+| Metric                  | Target                             | Measurement |
+| ----------------------- | ---------------------------------- | ----------- |
+| Perceived load time     | < 100ms (skeleton shows instantly) | Lighthouse  |
+| Cumulative Layout Shift | < 0.1 (skeleton prevents shift)    | Lighthouse  |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                 | Expected Behavior                    |
+| ------------------------ | ------------------------------------ |
 | Content loads in < 100ms | Skeleton flash is acceptable (brief) |
-| Slow API (5+ seconds) | Skeleton → timeout message after 10s |
+| Slow API (5+ seconds)    | Skeleton → timeout message after 10s |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario                   | Recovery                                    |
+| -------------------------- | ------------------------------------------- |
 | Skeleton CSS fails to load | Static placeholder, browser default loading |
 
 ---
@@ -919,13 +919,13 @@ A user story is considered **Done** when:
 > **I want** to see friendly error messages if something breaks  
 > **So that** I can retry or navigate away without frustration
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-015 |
-| **Priority** | P0 |
-| **Story Points** | 3 |
-| **Phase** | 02 |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-015                  |
+| **Priority**     | P0                     |
+| **Story Points** | 3                      |
+| **Phase**        | 02                     |
 | **Dependencies** | US-023 (Design System) |
 
 #### Acceptance Criteria
@@ -941,24 +941,24 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Error recovery rate | > 80% retry success | Sentry |
+| Metric               | Target                  | Measurement |
+| -------------------- | ----------------------- | ----------- |
+| Error recovery rate  | > 80% retry success     | Sentry      |
 | Full-page crash rate | 0 (all errors isolated) | Manual test |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                              | Expected Behavior                                     |
+| ------------------------------------- | ----------------------------------------------------- |
 | Multiple sections fail simultaneously | Each shows independent error, page is still navigable |
-| Error in error boundary itself | Catch at higher level, show fallback UI |
+| Error in error boundary itself        | Catch at higher level, show fallback UI               |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Sentry fails to report error | Console.error fallback, no user-facing impact |
-| Critical layout component fails | Full-page error with recovery navigation |
+| Scenario                        | Recovery                                      |
+| ------------------------------- | --------------------------------------------- |
+| Sentry fails to report error    | Console.error fallback, no user-facing impact |
+| Critical layout component fails | Full-page error with recovery navigation      |
 
 ---
 
@@ -968,13 +968,13 @@ A user story is considered **Done** when:
 > **I want** to browse projects in a filterable grid  
 > **So that** I can see relevant work quickly
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-100 |
-| **Priority** | P0 |
-| **Story Points** | 8 |
-| **Phase** | 05 |
+| Field            | Value                                    |
+| ---------------- | ---------------------------------------- |
+| **Epic**         | E1: Visitor Experience                   |
+| **Feature ID**   | F-100                                    |
+| **Priority**     | P0                                       |
+| **Story Points** | 8                                        |
+| **Phase**        | 05                                       |
 | **Dependencies** | US-003 (Navigation), US-013 (Animations) |
 
 #### Acceptance Criteria
@@ -999,28 +999,28 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Filter usage rate | > 30% of viewers | PostHog |
-| Project click-through rate | > 40% | PostHog |
-| Average projects viewed | > 3 per session | PostHog |
+| Metric                     | Target           | Measurement |
+| -------------------------- | ---------------- | ----------- |
+| Filter usage rate          | > 30% of viewers | PostHog     |
+| Project click-through rate | > 40%            | PostHog     |
+| Average projects viewed    | > 3 per session  | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 50+ projects | Pagination, search becomes important |
-| No projects match filter | "No projects match your filters" with "Clear all" CTA |
-| Very long title (80+ chars) | Truncated with ellipsis, tooltip on hover |
+| Scenario                          | Expected Behavior                                      |
+| --------------------------------- | ------------------------------------------------------ |
+| 50+ projects                      | Pagination, search becomes important                   |
+| No projects match filter          | "No projects match your filters" with "Clear all" CTA  |
+| Very long title (80+ chars)       | Truncated with ellipsis, tooltip on hover              |
 | Image in 4:3 vs 16:9 aspect ratio | Object-fit: cover, maintaining consistent card heights |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| API fails | Error state with retry, cached data if available |
-| Image CDN fails | Placeholder image with project initials |
-| Filter URL invalid | Ignore invalid filter params, show all projects |
+| Scenario           | Recovery                                         |
+| ------------------ | ------------------------------------------------ |
+| API fails          | Error state with retry, cached data if available |
+| Image CDN fails    | Placeholder image with project initials          |
+| Filter URL invalid | Ignore invalid filter params, show all projects  |
 
 ---
 
@@ -1030,13 +1030,13 @@ A user story is considered **Done** when:
 > **I want** to see a detailed project page with gallery and tech stack  
 > **So that** I can evaluate technical depth and quality
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-101 |
-| **Priority** | P0 |
-| **Story Points** | 8 |
-| **Phase** | 05 |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-101                  |
+| **Priority**     | P0                     |
+| **Story Points** | 8                      |
+| **Phase**        | 05                     |
 | **Dependencies** | US-016 (Projects Grid) |
 
 #### Acceptance Criteria
@@ -1060,28 +1060,28 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Time on page | > 2 minutes | PostHog |
-| Gallery interaction | > 40% of visitors | PostHog |
-| External link click | > 30% of visitors | PostHog |
+| Metric              | Target            | Measurement |
+| ------------------- | ----------------- | ----------- |
+| Time on page        | > 2 minutes       | PostHog     |
+| Gallery interaction | > 40% of visitors | PostHog     |
+| External link click | > 30% of visitors | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| No gallery images | Show hero image only, no gallery controls |
-| No related projects | Hide related section gracefully |
-| GitHub API rate limit | Show link without star count |
-| Very long description (5000+ words) | Readable formatting, table of contents |
+| Scenario                            | Expected Behavior                         |
+| ----------------------------------- | ----------------------------------------- |
+| No gallery images                   | Show hero image only, no gallery controls |
+| No related projects                 | Hide related section gracefully           |
+| GitHub API rate limit               | Show link without star count              |
+| Very long description (5000+ words) | Readable formatting, table of contents    |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Invalid slug | 404 page with navigation to projects grid |
-| ISR build fails | Fallback to server-side render |
-| External links broken | Still show, use `target="_blank"` |
+| Scenario              | Recovery                                  |
+| --------------------- | ----------------------------------------- |
+| Invalid slug          | 404 page with navigation to projects grid |
+| ISR build fails       | Fallback to server-side render            |
+| External links broken | Still show, use `target="_blank"`         |
 
 ---
 
@@ -1091,13 +1091,13 @@ A user story is considered **Done** when:
 > **I want** to see a featured projects carousel on the home page  
 > **So that** I can quickly see the best work
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-102 |
-| **Priority** | P2 |
-| **Story Points** | 5 |
-| **Phase** | 05 |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-102                  |
+| **Priority**     | P2                     |
+| **Story Points** | 5                      |
+| **Phase**        | 05                     |
 | **Dependencies** | US-016 (Projects Grid) |
 
 #### Acceptance Criteria
@@ -1114,25 +1114,25 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Carousel interaction | > 20% of home page visitors | PostHog |
-| Click-through to detail | > 15% | PostHog |
+| Metric                  | Target                      | Measurement |
+| ----------------------- | --------------------------- | ----------- |
+| Carousel interaction    | > 20% of home page visitors | PostHog     |
+| Click-through to detail | > 15%                       | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 1 featured project | No carousel, single card |
-| All projects featured | Show top 5 by display_order |
-| Screen reader | `aria-roledescription="carousel"` with slide announcements |
+| Scenario              | Expected Behavior                                          |
+| --------------------- | ---------------------------------------------------------- |
+| 1 featured project    | No carousel, single card                                   |
+| All projects featured | Show top 5 by display_order                                |
+| Screen reader         | `aria-roledescription="carousel"` with slide announcements |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario             | Recovery               |
+| -------------------- | ---------------------- |
 | No featured projects | Hide carousel entirely |
-| Carousel JS fails | Static grid fallback |
+| Carousel JS fails    | Static grid fallback   |
 
 ---
 
@@ -1142,13 +1142,13 @@ A user story is considered **Done** when:
 > **I want** to read structured case studies with problem/solution/impact  
 > **So that** I can understand problem-solving methodology
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-105 |
-| **Priority** | P2 |
-| **Story Points** | 8 |
-| **Phase** | 05 |
+| Field            | Value                   |
+| ---------------- | ----------------------- |
+| **Epic**         | E1: Visitor Experience  |
+| **Feature ID**   | F-105                   |
+| **Priority**     | P2                      |
+| **Story Points** | 8                       |
+| **Phase**        | 05                      |
 | **Dependencies** | US-017 (Project Detail) |
 
 #### Acceptance Criteria
@@ -1164,21 +1164,21 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Scroll depth | > 75% of page | PostHog |
-| Share rate | > 5% of viewers | PostHog |
+| Metric       | Target          | Measurement |
+| ------------ | --------------- | ----------- |
+| Scroll depth | > 75% of page   | PostHog     |
+| Share rate   | > 5% of viewers | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario           | Expected Behavior                         |
+| ------------------ | ----------------------------------------- |
 | No metrics to show | Hide metrics section, show narrative only |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario                | Recovery                                  |
+| ----------------------- | ----------------------------------------- |
 | Mermaid fails to render | Static image fallback or description text |
 
 ---
@@ -1189,13 +1189,13 @@ A user story is considered **Done** when:
 > **I want** to filter projects by technology, category, and year  
 > **So that** I can quickly find projects most relevant to my needs
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E1: Visitor Experience |
-| **Feature ID** | F-106 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 05 |
+| Field            | Value                  |
+| ---------------- | ---------------------- |
+| **Epic**         | E1: Visitor Experience |
+| **Feature ID**   | F-106                  |
+| **Priority**     | P1                     |
+| **Story Points** | 3                      |
+| **Phase**        | 05                     |
 | **Dependencies** | US-016 (Projects Grid) |
 
 #### Acceptance Criteria
@@ -1212,23 +1212,23 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Filter usage rate | > 30% of projects section viewers | PostHog |
-| Combined filter usage | > 10% use 2+ filters | PostHog |
+| Metric                | Target                            | Measurement |
+| --------------------- | --------------------------------- | ----------- |
+| Filter usage rate     | > 30% of projects section viewers | PostHog     |
+| Combined filter usage | > 10% use 2+ filters              | PostHog     |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| No projects match | "No projects found" with "Clear filters" button |
-| Invalid URL filter param | Ignore invalid params gracefully |
-| Year with no projects | Don't show that year in filter options |
+| Scenario                 | Expected Behavior                               |
+| ------------------------ | ----------------------------------------------- |
+| No projects match        | "No projects found" with "Clear filters" button |
+| Invalid URL filter param | Ignore invalid params gracefully                |
+| Year with no projects    | Don't show that year in filter options          |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario                          | Recovery                    |
+| --------------------------------- | --------------------------- |
 | URL query parameter parsing fails | Show all projects, no error |
 
 ---
@@ -1245,14 +1245,14 @@ A user story is considered **Done** when:
 > **I want** a dashboard showing key metrics and quick actions  
 > **So that** I can see portfolio health at a glance
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E2: Admin Content Management |
-| **Feature ID** | F-400 |
-| **Priority** | P0 |
-| **Story Points** | 8 |
-| **Phase** | 08 |
-| **Dependencies** | US-301 (Authentication) |
+| Field            | Value                        |
+| ---------------- | ---------------------------- |
+| **Epic**         | E2: Admin Content Management |
+| **Feature ID**   | F-400                        |
+| **Priority**     | P0                           |
+| **Story Points** | 8                            |
+| **Phase**        | 08                           |
+| **Dependencies** | US-301 (Authentication)      |
 
 #### Acceptance Criteria
 
@@ -1269,25 +1269,25 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Dashboard load time | < 2s | Manual |
+| Metric                  | Target        | Measurement |
+| ----------------------- | ------------- | ----------- |
+| Dashboard load time     | < 2s          | Manual      |
 | Widget failure recovery | No page crash | Manual test |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| No data yet (first login) | "Collecting data..." state, zero values |
+| Scenario                          | Expected Behavior                       |
+| --------------------------------- | --------------------------------------- |
+| No data yet (first login)         | "Collecting data..." state, zero values |
 | Very high traffic (10k+ visitors) | Chart scales appropriately, no overflow |
-| Mobile view | Single column, condensed stat cards |
+| Mobile view                       | Single column, condensed stat cards     |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Analytics API fails | That widget shows error, others unaffected |
-| Supabase connection lost | Show "Connection issue" with retry |
+| Scenario                 | Recovery                                   |
+| ------------------------ | ------------------------------------------ |
+| Analytics API fails      | That widget shows error, others unaffected |
+| Supabase connection lost | Show "Connection issue" with retry         |
 
 ---
 
@@ -1297,14 +1297,14 @@ A user story is considered **Done** when:
 > **I want** to manage portfolio sections with CRUD operations  
 > **So that** I can update content without touching code
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E2: Admin Content Management |
-| **Feature ID** | F-600 |
-| **Priority** | P0 |
-| **Story Points** | 8 |
-| **Phase** | 08 |
-| **Dependencies** | US-301 (Authentication) |
+| Field            | Value                        |
+| ---------------- | ---------------------------- |
+| **Epic**         | E2: Admin Content Management |
+| **Feature ID**   | F-600                        |
+| **Priority**     | P0                           |
+| **Story Points** | 8                            |
+| **Phase**        | 08                           |
+| **Dependencies** | US-301 (Authentication)      |
 
 #### Acceptance Criteria
 
@@ -1324,27 +1324,27 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Save success rate | > 98% | Sentry |
-| Auto-save reliability | 100% of drafts saved | Manual test |
+| Metric                 | Target                | Measurement |
+| ---------------------- | --------------------- | ----------- |
+| Save success rate      | > 98%                 | Sentry      |
+| Auto-save reliability  | 100% of drafts saved  | Manual test |
 | Reorder responsiveness | < 100ms drag feedback | Manual test |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 30+ sections | Pagination or virtual scrolling |
-| Rapid toggle clicks (spam) | Debounce, last click wins |
+| Scenario                        | Expected Behavior                    |
+| ------------------------------- | ------------------------------------ |
+| 30+ sections                    | Pagination or virtual scrolling      |
+| Rapid toggle clicks (spam)      | Debounce, last click wins            |
 | Very large content (10k+ chars) | No performance degradation in editor |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Save fails | Revert optimistic UI, show error toast, keep content in editor |
-| Auto-save conflicts | Last write wins, show warning toast |
-| Drag reorder fails mid-list | Revert to previous order, show error |
+| Scenario                    | Recovery                                                       |
+| --------------------------- | -------------------------------------------------------------- |
+| Save fails                  | Revert optimistic UI, show error toast, keep content in editor |
+| Auto-save conflicts         | Last write wins, show warning toast                            |
+| Drag reorder fails mid-list | Revert to previous order, show error                           |
 
 ---
 
@@ -1354,14 +1354,14 @@ A user story is considered **Done** when:
 > **I want** a WYSIWYG rich text editor with formatting toolbar  
 > **So that** I can create beautiful content without HTML knowledge
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E2: Admin Content Management |
-| **Feature ID** | F-601 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 08 |
-| **Dependencies** | US-102 (Section Manager) |
+| Field            | Value                        |
+| ---------------- | ---------------------------- |
+| **Epic**         | E2: Admin Content Management |
+| **Feature ID**   | F-601                        |
+| **Priority**     | P0                           |
+| **Story Points** | 5                            |
+| **Phase**        | 08                           |
+| **Dependencies** | US-102 (Section Manager)     |
 
 #### Acceptance Criteria
 
@@ -1382,26 +1382,26 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Formatting usage | > 80% of edits use formatting | PostHog |
-| Save time per section | < 5 minutes | Manual |
-| Clean HTML output | No validation errors | Linter |
+| Metric                | Target                        | Measurement |
+| --------------------- | ----------------------------- | ----------- |
+| Formatting usage      | > 80% of edits use formatting | PostHog     |
+| Save time per section | < 5 minutes                   | Manual      |
+| Clean HTML output     | No validation errors          | Linter      |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Paste from Word with inline styles | Strip inline styles, keep structure |
-| Very long content (10k+ chars) | No lag in editor, auto-save still works |
-| Paste 2000+ word article | Handle in chunks, no browser freeze |
+| Scenario                           | Expected Behavior                       |
+| ---------------------------------- | --------------------------------------- |
+| Paste from Word with inline styles | Strip inline styles, keep structure     |
+| Very long content (10k+ chars)     | No lag in editor, auto-save still works |
+| Paste 2000+ word article           | Handle in chunks, no browser freeze     |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Editor fails to initialize | Textarea fallback with HTML editing |
-| Auto-save fails | Retry with backoff, warn user after 3 failures |
+| Scenario                   | Recovery                                       |
+| -------------------------- | ---------------------------------------------- |
+| Editor fails to initialize | Textarea fallback with HTML editing            |
+| Auto-save fails            | Retry with backoff, warn user after 3 failures |
 
 ---
 
@@ -1411,13 +1411,13 @@ A user story is considered **Done** when:
 > **I want** to upload, optimize, and manage images  
 > **So that** I can add visuals to my portfolio easily
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E2: Admin Content Management |
-| **Feature ID** | F-602 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 08 |
+| Field            | Value                                      |
+| ---------------- | ------------------------------------------ |
+| **Epic**         | E2: Admin Content Management               |
+| **Feature ID**   | F-602                                      |
+| **Priority**     | P0                                         |
+| **Story Points** | 5                                          |
+| **Phase**        | 08                                         |
 | **Dependencies** | US-102 (Section Manager), Supabase Storage |
 
 #### Acceptance Criteria
@@ -1437,28 +1437,28 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Upload success rate | > 95% | Sentry |
-| Optimization savings | > 40% file size reduction | Manual |
-| Upload time (5MB) | < 5 seconds | Manual test |
+| Metric               | Target                    | Measurement |
+| -------------------- | ------------------------- | ----------- |
+| Upload success rate  | > 95%                     | Sentry      |
+| Optimization savings | > 40% file size reduction | Manual      |
+| Upload time (5MB)    | < 5 seconds               | Manual test |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Drag 20+ images at once | Queue uploads, show progress per image |
+| Scenario                       | Expected Behavior                           |
+| ------------------------------ | ------------------------------------------- |
+| Drag 20+ images at once        | Queue uploads, show progress per image      |
 | Very large image (8000px wide) | Resize to max 1920px, maintain aspect ratio |
-| Duplicate filename | Append timestamp, no overwrite |
-| Network drops during upload | Auto-retry, show "retrying..." state |
+| Duplicate filename             | Append timestamp, no overwrite              |
+| Network drops during upload    | Auto-retry, show "retrying..." state        |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario                        | Recovery                                               |
+| ------------------------------- | ------------------------------------------------------ |
 | Supabase storage quota exceeded | Show "Storage full" error, suggest deleting old images |
-| File type invalid | Reject immediately, show accepted formats |
-| Upload fails mid-way | Cancel, show error, keep other uploads in queue |
+| File type invalid               | Reject immediately, show accepted formats              |
+| Upload fails mid-way            | Cancel, show error, keep other uploads in queue        |
 
 ---
 
@@ -1468,14 +1468,14 @@ A user story is considered **Done** when:
 > **I want** to choose visual style presets for each section  
 > **So that** the portfolio looks unique without CSS knowledge
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E2: Admin Content Management |
-| **Feature ID** | F-603 |
-| **Priority** | P1 |
-| **Story Points** | 8 |
-| **Phase** | 08 |
-| **Dependencies** | US-102 (Section Manager) |
+| Field            | Value                        |
+| ---------------- | ---------------------------- |
+| **Epic**         | E2: Admin Content Management |
+| **Feature ID**   | F-603                        |
+| **Priority**     | P1                           |
+| **Story Points** | 8                            |
+| **Phase**        | 08                           |
+| **Dependencies** | US-102 (Section Manager)     |
 
 #### Acceptance Criteria
 
@@ -1489,24 +1489,24 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Preset selection rate | > 60% of sections use non-default | PostHog |
-| User satisfaction | High (qualitative) | Admin feedback |
+| Metric                | Target                            | Measurement    |
+| --------------------- | --------------------------------- | -------------- |
+| Preset selection rate | > 60% of sections use non-default | PostHog        |
+| User satisfaction     | High (qualitative)                | Admin feedback |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                                 | Expected Behavior                   |
+| ---------------------------------------- | ----------------------------------- |
 | Section content incompatible with preset | Graceful fallback to default layout |
-| Custom CSS conflicts with preset | Preset takes priority, warn admin |
+| Custom CSS conflicts with preset         | Preset takes priority, warn admin   |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Preset CSS fails to load | Fallback to minimal preset |
-| Save fails | Revert to previous preset, show error |
+| Scenario                 | Recovery                              |
+| ------------------------ | ------------------------------------- |
+| Preset CSS fails to load | Fallback to minimal preset            |
+| Save fails               | Revert to previous preset, show error |
 
 ---
 
@@ -1522,13 +1522,13 @@ A user story is considered **Done** when:
 > **I want** a centralized inbox to view and manage leads  
 > **So that** I can follow up with potential opportunities
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E3: Lead Management |
-| **Feature ID** | F-800 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 08 |
+| Field            | Value                   |
+| ---------------- | ----------------------- |
+| **Epic**         | E3: Lead Management     |
+| **Feature ID**   | F-800                   |
+| **Priority**     | P0                      |
+| **Story Points** | 5                       |
+| **Phase**        | 08                      |
 | **Dependencies** | US-301 (Authentication) |
 
 #### Acceptance Criteria
@@ -1549,23 +1549,23 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Lead response time | < 24 hours | Manual tracking |
-| Filter usage | > 50% of admin sessions | PostHog |
+| Metric             | Target                  | Measurement     |
+| ------------------ | ----------------------- | --------------- |
+| Lead response time | < 24 hours              | Manual tracking |
+| Filter usage       | > 50% of admin sessions | PostHog         |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| 10,000+ leads | Virtual scrolling or efficient pagination |
-| Leads with missing fields | Show "—" for empty, no crash |
+| Scenario                  | Expected Behavior                         |
+| ------------------------- | ----------------------------------------- |
+| 10,000+ leads             | Virtual scrolling or efficient pagination |
+| Leads with missing fields | Show "—" for empty, no crash              |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| API fails | Error toast, retry button |
+| Scenario                       | Recovery                            |
+| ------------------------------ | ----------------------------------- |
+| API fails                      | Error toast, retry button           |
 | Bulk action partially succeeds | Show warning with count of failures |
 
 ---
@@ -1576,13 +1576,13 @@ A user story is considered **Done** when:
 > **I want** to see full lead details with all fields  
 > **So that** I have the full context before responding
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E3: Lead Management |
-| **Feature ID** | F-801 |
-| **Priority** | P0 |
-| **Story Points** | 3 |
-| **Phase** | 08 |
+| Field            | Value               |
+| ---------------- | ------------------- |
+| **Epic**         | E3: Lead Management |
+| **Feature ID**   | F-801               |
+| **Priority**     | P0                  |
+| **Story Points** | 3                   |
+| **Phase**        | 08                  |
 | **Dependencies** | US-201 (Lead Inbox) |
 
 #### Acceptance Criteria
@@ -1600,11 +1600,11 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Lead has no email | Hide reply button, show "No email provided" |
-| Very long message (10k+ chars) | Scrollable panel, no truncation |
-| Multiple leads opened simultaneously | Sequential, one panel at a time |
+| Scenario                             | Expected Behavior                           |
+| ------------------------------------ | ------------------------------------------- |
+| Lead has no email                    | Hide reply button, show "No email provided" |
+| Very long message (10k+ chars)       | Scrollable panel, no truncation             |
+| Multiple leads opened simultaneously | Sequential, one panel at a time             |
 
 ---
 
@@ -1614,13 +1614,13 @@ A user story is considered **Done** when:
 > **I want** to export leads as CSV with date filtering  
 > **So that** I can import them into my CRM
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E3: Lead Management |
-| **Feature ID** | F-802 |
-| **Priority** | P1 |
-| **Story Points** | 2 |
-| **Phase** | 08 |
+| Field            | Value               |
+| ---------------- | ------------------- |
+| **Epic**         | E3: Lead Management |
+| **Feature ID**   | F-802               |
+| **Priority**     | P1                  |
+| **Story Points** | 2                   |
+| **Phase**        | 08                  |
 | **Dependencies** | US-201 (Lead Inbox) |
 
 #### Acceptance Criteria
@@ -1635,17 +1635,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                | Expected Behavior                    |
+| ----------------------- | ------------------------------------ |
 | 10,000+ leads to export | Server-side stream, chunked response |
-| Special chars in data | Properly escaped, UTF-8 encoded |
-| No leads in date range | Download empty CSV with headers |
+| Special chars in data   | Properly escaped, UTF-8 encoded      |
+| No leads in date range  | Download empty CSV with headers      |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Export fails | Error toast, retry button |
+| Scenario                | Recovery                  |
+| ----------------------- | ------------------------- |
+| Export fails            | Error toast, retry button |
 | Browser blocks download | Show manual download link |
 
 ---
@@ -1656,13 +1656,13 @@ A user story is considered **Done** when:
 > **I want** to receive an automated email reply after submitting the form  
 > **So that** I know my message was received
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E3: Lead Management |
-| **Feature ID** | F-803 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 08 |
+| Field            | Value                 |
+| ---------------- | --------------------- |
+| **Epic**         | E3: Lead Management   |
+| **Feature ID**   | F-803                 |
+| **Priority**     | P1                    |
+| **Story Points** | 3                     |
+| **Phase**        | 08                    |
 | **Dependencies** | US-007 (Contact Form) |
 
 #### Acceptance Criteria
@@ -1678,18 +1678,18 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Visitor enters invalid email | Form validation prevents submission |
-| Email service down | Log error, admin gets Telegram notification instead |
-| Daily email quota exceeded | Skip auto-reply, log warning |
+| Scenario                     | Expected Behavior                                   |
+| ---------------------------- | --------------------------------------------------- |
+| Visitor enters invalid email | Form validation prevents submission                 |
+| Email service down           | Log error, admin gets Telegram notification instead |
+| Daily email quota exceeded   | Skip auto-reply, log warning                        |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario                 | Recovery                               |
+| ------------------------ | -------------------------------------- |
 | Resend API returns error | Retry 3 times with exponential backoff |
-| Template rendering fails | Send plain text fallback |
+| Template rendering fails | Send plain text fallback               |
 
 ---
 
@@ -1699,13 +1699,13 @@ A user story is considered **Done** when:
 > **I want** to receive Telegram notifications for new leads  
 > **So that** I can respond quickly from my phone
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E3: Lead Management |
-| **Feature ID** | F-804 |
-| **Priority** | P2 |
-| **Story Points** | 3 |
-| **Phase** | 09 |
+| Field            | Value                 |
+| ---------------- | --------------------- |
+| **Epic**         | E3: Lead Management   |
+| **Feature ID**   | F-804                 |
+| **Priority**     | P2                    |
+| **Story Points** | 3                     |
+| **Phase**        | 09                    |
 | **Dependencies** | US-007 (Contact Form) |
 
 #### Acceptance Criteria
@@ -1718,17 +1718,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Telegram API rate limited | Queue, send when available |
-| Bot not started by admin | Show configuration error in settings |
+| Scenario                  | Expected Behavior                    |
+| ------------------------- | ------------------------------------ |
+| Telegram API rate limited | Queue, send when available           |
+| Bot not started by admin  | Show configuration error in settings |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| API fails | Retry 3 times, then log to Sentry |
-| Invalid token | Show error in admin settings |
+| Scenario      | Recovery                          |
+| ------------- | --------------------------------- |
+| API fails     | Retry 3 times, then log to Sentry |
+| Invalid token | Show error in admin settings      |
 
 ---
 
@@ -1744,14 +1744,14 @@ A user story is considered **Done** when:
 > **I want** to securely log in with email/password or OAuth (Google, GitHub)  
 > **So that** I can access the admin dashboard
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E4: Admin Authentication |
-| **Feature ID** | F-700 |
-| **Priority** | P0 |
-| **Story Points** | 8 |
-| **Phase** | 08 |
-| **Dependencies** | Supabase Auth setup |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E4: Admin Authentication |
+| **Feature ID**   | F-700                    |
+| **Priority**     | P0                       |
+| **Story Points** | 8                        |
+| **Phase**        | 08                       |
+| **Dependencies** | Supabase Auth setup      |
 
 #### Acceptance Criteria
 
@@ -1773,26 +1773,26 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Login success rate | > 95% | PostHog |
-| OAuth usage | > 40% of logins | PostHog |
-| Session reliability | 100% persistence | Manual |
+| Metric              | Target           | Measurement |
+| ------------------- | ---------------- | ----------- |
+| Login success rate  | > 95%            | PostHog     |
+| OAuth usage         | > 40% of logins  | PostHog     |
+| Session reliability | 100% persistence | Manual      |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Account locked | "Account locked for X minutes", countdown |
-| OAuth popup blocked | Show manual login fallback instructions |
-| Multiple tabs | Session shared, no conflict |
-| Session expires mid-action | Redirect to login, preserve intended URL |
+| Scenario                   | Expected Behavior                         |
+| -------------------------- | ----------------------------------------- |
+| Account locked             | "Account locked for X minutes", countdown |
+| OAuth popup blocked        | Show manual login fallback instructions   |
+| Multiple tabs              | Session shared, no conflict               |
+| Session expires mid-action | Redirect to login, preserve intended URL  |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| OAuth provider down | Show "Try email login instead" message |
+| Scenario                  | Recovery                               |
+| ------------------------- | -------------------------------------- |
+| OAuth provider down       | Show "Try email login instead" message |
 | Database connection fails | "Service unavailable" page, auto-retry |
 
 ---
@@ -1803,13 +1803,13 @@ A user story is considered **Done** when:
 > **I want** my API requests to be authenticated with JWT tokens  
 > **So that** my data is secure from unauthorized access
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E4: Admin Authentication |
-| **Feature ID** | F-701 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 08 |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E4: Admin Authentication |
+| **Feature ID**   | F-701                    |
+| **Priority**     | P0                       |
+| **Story Points** | 5                        |
+| **Phase**        | 08                       |
 | **Dependencies** | US-301 (NestJS Passport) |
 
 #### Acceptance Criteria
@@ -1825,17 +1825,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Token expires mid-request | 401 → auto-refresh → retry original request |
-| Refresh token expired | Force re-login |
-| Concurrent requests with expired token | Queue, single refresh, retry all |
+| Scenario                               | Expected Behavior                           |
+| -------------------------------------- | ------------------------------------------- |
+| Token expires mid-request              | 401 → auto-refresh → retry original request |
+| Refresh token expired                  | Force re-login                              |
+| Concurrent requests with expired token | Queue, single refresh, retry all            |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| JWT secret compromised | Emergency key rotation, force re-login all |
+| Scenario                    | Recovery                                   |
+| --------------------------- | ------------------------------------------ |
+| JWT secret compromised      | Emergency key rotation, force re-login all |
 | Clock skew between services | 30-second grace period on token validation |
 
 ---
@@ -1846,13 +1846,13 @@ A user story is considered **Done** when:
 > **I want** to register my account for the first time  
 > **So that** I can access the admin panel
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E4: Admin Authentication |
-| **Feature ID** | F-702 |
-| **Priority** | P0 |
-| **Story Points** | 3 |
-| **Phase** | 08 |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E4: Admin Authentication |
+| **Feature ID**   | F-702                    |
+| **Priority**     | P0                       |
+| **Story Points** | 3                        |
+| **Phase**        | 08                       |
 | **Dependencies** | US-301 (NestJS Passport) |
 
 #### Acceptance Criteria
@@ -1869,17 +1869,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                    | Expected Behavior                              |
+| --------------------------- | ---------------------------------------------- |
 | Second registration attempt | Redirect to login, show "Admin already exists" |
-| Email already in use | Show "Email already registered" error |
-| Weak password submitted | Show strength indicator with specific feedback |
+| Email already in use        | Show "Email already registered" error          |
+| Weak password submitted     | Show strength indicator with specific feedback |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Supabase Auth API fails | Error toast, retry button |
+| Scenario                              | Recovery                                    |
+| ------------------------------------- | ------------------------------------------- |
+| Supabase Auth API fails               | Error toast, retry button                   |
 | Email service down (for verification) | Allow registration, send verification later |
 
 ---
@@ -1896,13 +1896,13 @@ A user story is considered **Done** when:
 > **I want** a comprehensive analytics dashboard with charts  
 > **So that** I understand visitor behavior and engagement
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E5: Analytics & Insights |
-| **Feature ID** | F-900 |
-| **Priority** | P1 |
-| **Story Points** | 8 |
-| **Phase** | 09 |
+| Field            | Value                            |
+| ---------------- | -------------------------------- |
+| **Epic**         | E5: Analytics & Insights         |
+| **Feature ID**   | F-900                            |
+| **Priority**     | P1                               |
+| **Story Points** | 8                                |
+| **Phase**        | 09                               |
 | **Dependencies** | US-301 (Authentication), PostHog |
 
 #### Acceptance Criteria
@@ -1922,24 +1922,24 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Dashboard usage | > 80% of admin sessions | PostHog |
-| Widget load time | < 2s | Manual |
+| Metric           | Target                  | Measurement |
+| ---------------- | ----------------------- | ----------- |
+| Dashboard usage  | > 80% of admin sessions | PostHog     |
+| Widget load time | < 2s                    | Manual      |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| No data yet | "Collecting data..." state for each widget |
-| Very high traffic | Chart axes scale appropriately |
-| Privacy blockers (adblock) | Show notice, limited data |
+| Scenario                   | Expected Behavior                          |
+| -------------------------- | ------------------------------------------ |
+| No data yet                | "Collecting data..." state for each widget |
+| Very high traffic          | Chart axes scale appropriately             |
+| Privacy blockers (adblock) | Show notice, limited data                  |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| PostHog API fails | Widget shows error, others unaffected |
+| Scenario                | Recovery                                    |
+| ----------------------- | ------------------------------------------- |
+| PostHog API fails       | Widget shows error, others unaffected       |
 | Browser locale mismatch | Format dates in UTC with tooltip conversion |
 
 ---
@@ -1950,14 +1950,14 @@ A user story is considered **Done** when:
 > **I want** comprehensive visitor events tracked automatically  
 > **So that** I can analyze traffic patterns and engagement
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E5: Analytics & Insights |
-| **Feature ID** | F-901 |
-| **Priority** | P0 |
-| **Story Points** | 5 |
-| **Phase** | 02 |
-| **Dependencies** | PostHog SDK |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E5: Analytics & Insights |
+| **Feature ID**   | F-901                    |
+| **Priority**     | P0                       |
+| **Story Points** | 5                        |
+| **Phase**        | 02                       |
+| **Dependencies** | PostHog SDK              |
 
 #### Acceptance Criteria
 
@@ -1975,17 +1975,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| User opts out of cookies | No events tracked, feature flags default |
-| Ad blocker blocks PostHog | Graceful degradation, no console errors |
-| Very rapid page navigation | Batch events, send every 5 seconds |
+| Scenario                   | Expected Behavior                        |
+| -------------------------- | ---------------------------------------- |
+| User opts out of cookies   | No events tracked, feature flags default |
+| Ad blocker blocks PostHog  | Graceful degradation, no console errors  |
+| Very rapid page navigation | Batch events, send every 5 seconds       |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| PostHog SDK fails to load | No tracking, no user impact |
+| Scenario                             | Recovery                            |
+| ------------------------------------ | ----------------------------------- |
+| PostHog SDK fails to load            | No tracking, no user impact         |
 | Event queue overflow (1000+ pending) | Drop oldest events, maintain newest |
 
 ---
@@ -2002,13 +2002,13 @@ A user story is considered **Done** when:
 > **I want** to chat with an AI assistant about the portfolio owner  
 > **So that** I get immediate answers without waiting for email
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E6: AI & Intelligence |
-| **Feature ID** | F-300 |
-| **Priority** | P2 |
-| **Story Points** | 8 |
-| **Phase** | 07 |
+| Field            | Value                             |
+| ---------------- | --------------------------------- |
+| **Epic**         | E6: AI & Intelligence             |
+| **Feature ID**   | F-300                             |
+| **Priority**     | P2                                |
+| **Story Points** | 8                                 |
+| **Phase**        | 07                                |
 | **Dependencies** | US-502 (RAG), US-503 (AI Service) |
 
 #### Acceptance Criteria
@@ -2032,32 +2032,32 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Chat open rate | > 10% of visitors | PostHog |
-| Messages per session | > 3 | PostHog |
-| Response time p95 | < 3s | FastAPI metrics |
-| User satisfaction | > 4/5 (thumbs up/down) | In-chat feedback |
+| Metric               | Target                 | Measurement      |
+| -------------------- | ---------------------- | ---------------- |
+| Chat open rate       | > 10% of visitors      | PostHog          |
+| Messages per session | > 3                    | PostHog          |
+| Response time p95    | < 3s                   | FastAPI metrics  |
+| User satisfaction    | > 4/5 (thumbs up/down) | In-chat feedback |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| AI returns irrelevant answer | "I don't have information about that" fallback |
-| Visitor sends 500+ word message | Truncate to 500 chars for AI |
-| Multiple rapid messages (spam) | Enforce rate limit, show "Slow down" message |
-| Special characters / emoji | Handle gracefully, don't break UI |
-| Long response (1000+ chars) | Scrollable message, no truncation |
+| Scenario                        | Expected Behavior                              |
+| ------------------------------- | ---------------------------------------------- |
+| AI returns irrelevant answer    | "I don't have information about that" fallback |
+| Visitor sends 500+ word message | Truncate to 500 chars for AI                   |
+| Multiple rapid messages (spam)  | Enforce rate limit, show "Slow down" message   |
+| Special characters / emoji      | Handle gracefully, don't break UI              |
+| Long response (1000+ chars)     | Scrollable message, no truncation              |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| AI service offline | "Chat is temporarily unavailable" message |
+| Scenario                 | Recovery                                           |
+| ------------------------ | -------------------------------------------------- |
+| AI service offline       | "Chat is temporarily unavailable" message          |
 | OpenAI API returns error | Retry with fallback model (GPT-3.5-turbo → Claude) |
-| Rate limit exceeded | Show "You've reached the limit. Try again later." |
-| Network disconnected | "Connection lost. Please check your internet." |
-| Prompt injection attempt | Input sanitization, "I can't answer that" |
+| Rate limit exceeded      | Show "You've reached the limit. Try again later."  |
+| Network disconnected     | "Connection lost. Please check your internet."     |
+| Prompt injection attempt | Input sanitization, "I can't answer that"          |
 
 ---
 
@@ -2067,13 +2067,13 @@ A user story is considered **Done** when:
 > **I want** portfolio content to be indexed for AI retrieval  
 > **So that** the chatbot answers are accurate and grounded
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E6: AI & Intelligence |
-| **Feature ID** | F-301 |
-| **Priority** | P2 |
-| **Story Points** | 8 |
-| **Phase** | 07 |
+| Field            | Value                         |
+| ---------------- | ----------------------------- |
+| **Epic**         | E6: AI & Intelligence         |
+| **Feature ID**   | F-301                         |
+| **Priority**     | P2                            |
+| **Story Points** | 8                             |
+| **Phase**        | 07                            |
 | **Dependencies** | US-503 (AI Service), pgvector |
 
 #### Acceptance Criteria
@@ -2091,27 +2091,27 @@ A user story is considered **Done** when:
 
 #### Success Criteria
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Retrieval accuracy | > 85% relevant | Manual QA |
-| Indexing latency | < 30s for full re-index | Manual |
-| Embedding cost per month | < $5 | OpenAI dashboard |
+| Metric                   | Target                  | Measurement      |
+| ------------------------ | ----------------------- | ---------------- |
+| Retrieval accuracy       | > 85% relevant          | Manual QA        |
+| Indexing latency         | < 30s for full re-index | Manual           |
+| Embedding cost per month | < $5                    | OpenAI dashboard |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Content has duplicate sections | Deduplicate before indexing |
-| Very long single page (10k+ chars) | Split into multiple chunks |
-| No content to index | Skip indexing, return empty vector store |
+| Scenario                           | Expected Behavior                        |
+| ---------------------------------- | ---------------------------------------- |
+| Content has duplicate sections     | Deduplicate before indexing              |
+| Very long single page (10k+ chars) | Split into multiple chunks               |
+| No content to index                | Skip indexing, return empty vector store |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| OpenAPI embedding API fails | Retry with backoff, fallback to keyword search |
-| pgvector index corruption | Rebuild index from source content |
-| Storage quota for vectors exceeded | Compress or remove oldest embeddings |
+| Scenario                           | Recovery                                       |
+| ---------------------------------- | ---------------------------------------------- |
+| OpenAPI embedding API fails        | Retry with backoff, fallback to keyword search |
+| pgvector index corruption          | Rebuild index from source content              |
+| Storage quota for vectors exceeded | Compress or remove oldest embeddings           |
 
 ---
 
@@ -2121,13 +2121,13 @@ A user story is considered **Done** when:
 > **I want** a FastAPI AI service with health monitoring  
 > **So that** AI features are reliable and observable
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E6: AI & Intelligence |
-| **Feature ID** | F-302 |
-| **Priority** | P2 |
-| **Story Points** | 5 |
-| **Phase** | 07 |
+| Field            | Value                     |
+| ---------------- | ------------------------- |
+| **Epic**         | E6: AI & Intelligence     |
+| **Feature ID**   | F-302                     |
+| **Priority**     | P2                        |
+| **Story Points** | 5                         |
+| **Phase**        | 07                        |
 | **Dependencies** | Phase 01 (Infrastructure) |
 
 #### Acceptance Criteria
@@ -2145,11 +2145,11 @@ A user story is considered **Done** when:
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| Both AI providers down | Return cached responses or "unavailable" |
-| Memory leak in LangChain | Auto-restart (Docker health check) |
-| Prometheus endpoint overloaded | Sample metrics, don't block requests |
+| Scenario                       | Recovery                                 |
+| ------------------------------ | ---------------------------------------- |
+| Both AI providers down         | Return cached responses or "unavailable" |
+| Memory leak in LangChain       | Auto-restart (Docker health check)       |
+| Prometheus endpoint overloaded | Sample metrics, don't block requests     |
 
 ---
 
@@ -2159,14 +2159,14 @@ A user story is considered **Done** when:
 > **I want** AI to analyze my content for improvements  
 > **So that** I can write more effectively
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E6: AI & Intelligence |
-| **Feature ID** | F-303 |
-| **Priority** | P2 |
-| **Story Points** | 5 |
-| **Phase** | 07 |
-| **Dependencies** | US-503 (AI Service) |
+| Field            | Value                 |
+| ---------------- | --------------------- |
+| **Epic**         | E6: AI & Intelligence |
+| **Feature ID**   | F-303                 |
+| **Priority**     | P2                    |
+| **Story Points** | 5                     |
+| **Phase**        | 07                    |
+| **Dependencies** | US-503 (AI Service)   |
 
 #### Acceptance Criteria
 
@@ -2182,11 +2182,11 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                     | Expected Behavior                      |
+| ---------------------------- | -------------------------------------- |
 | Very short text (< 50 chars) | Return analysis with note about length |
-| Text in multiple languages | Detect, analyze accordingly |
-| Text with code snippets | Don't penalize for code in readability |
+| Text in multiple languages   | Detect, analyze accordingly            |
+| Text with code snippets      | Don't penalize for code in readability |
 
 ---
 
@@ -2196,14 +2196,14 @@ A user story is considered **Done** when:
 > **I want** to review past chatbot conversations  
 > **So that** I can understand common visitor questions
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E6: AI & Intelligence |
-| **Feature ID** | F-304 |
-| **Priority** | P2 |
-| **Story Points** | 3 |
-| **Phase** | 07 |
-| **Dependencies** | US-501 (Chatbot) |
+| Field            | Value                 |
+| ---------------- | --------------------- |
+| **Epic**         | E6: AI & Intelligence |
+| **Feature ID**   | F-304                 |
+| **Priority**     | P2                    |
+| **Story Points** | 3                     |
+| **Phase**        | 07                    |
+| **Dependencies** | US-501 (Chatbot)      |
 
 #### Acceptance Criteria
 
@@ -2217,17 +2217,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| User returns within 24 hours | Continue existing session |
+| Scenario                     | Expected Behavior             |
+| ---------------------------- | ----------------------------- |
+| User returns within 24 hours | Continue existing session     |
 | Admin deletes a conversation | Soft delete (is_deleted flag) |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| DB write fails | Continue chat without persistence, log error |
-| Delete job fails | Retry next cycle, alert if > 3 failures |
+| Scenario         | Recovery                                     |
+| ---------------- | -------------------------------------------- |
+| DB write fails   | Continue chat without persistence, log error |
+| Delete job fails | Retry next cycle, alert if > 3 failures      |
 
 ---
 
@@ -2237,13 +2237,13 @@ A user story is considered **Done** when:
 > **I want** AI to suggest content for portfolio sections  
 > **So that** I overcome writer's block and write better copy
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E6: AI & Intelligence |
-| **Feature ID** | F-305 |
-| **Priority** | P2 |
-| **Story Points** | 5 |
-| **Phase** | 07 |
+| Field            | Value                                      |
+| ---------------- | ------------------------------------------ |
+| **Epic**         | E6: AI & Intelligence                      |
+| **Feature ID**   | F-305                                      |
+| **Priority**     | P2                                         |
+| **Story Points** | 5                                          |
+| **Phase**        | 07                                         |
 | **Dependencies** | US-503 (AI Service), US-502 (RAG Pipeline) |
 
 #### Acceptance Criteria
@@ -2258,17 +2258,17 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
+| Scenario                        | Expected Behavior                           |
+| ------------------------------- | ------------------------------------------- |
 | Section has no existing content | Generate from scratch based on section type |
-| All 3 variants similar | Note "Variants may be similar" |
-| AI generates offensive content | Content filter, show "Couldn't generate" |
+| All 3 variants similar          | Note "Variants may be similar"              |
+| AI generates offensive content  | Content filter, show "Couldn't generate"    |
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
-| AI API fails | Show cached suggestions or "Try again" |
+| Scenario               | Recovery                                           |
+| ---------------------- | -------------------------------------------------- |
+| AI API fails           | Show cached suggestions or "Try again"             |
 | RAG returns no context | Generate generic suggestions based on section type |
 
 ---
@@ -2285,13 +2285,13 @@ A user story is considered **Done** when:
 > **I want** to clone and run the project locally in under 5 minutes  
 > **So that** I can start contributing quickly
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E7: Developer Experience |
-| **Feature ID** | — (Infrastructure) |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 01 |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E7: Developer Experience |
+| **Feature ID**   | — (Infrastructure)       |
+| **Priority**     | P1                       |
+| **Story Points** | 5                        |
+| **Phase**        | 01                       |
 
 #### Acceptance Criteria
 
@@ -2305,10 +2305,10 @@ A user story is considered **Done** when:
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario              | Recovery                                      |
+| --------------------- | --------------------------------------------- |
 | Node version mismatch | `.nvmrc` + engine requirement in package.json |
-| Docker not installed | Document alternative: Supabase cloud |
+| Docker not installed  | Document alternative: Supabase cloud          |
 
 ---
 
@@ -2318,13 +2318,13 @@ A user story is considered **Done** when:
 > **I want** to run tests, linting, and type checking locally  
 > **So that** I can verify my changes before pushing
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E7: Developer Experience |
-| **Feature ID** | — (DevOps) |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 01 |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E7: Developer Experience |
+| **Feature ID**   | — (DevOps)               |
+| **Priority**     | P1                       |
+| **Story Points** | 3                        |
+| **Phase**        | 01                       |
 
 #### Acceptance Criteria
 
@@ -2336,8 +2336,8 @@ A user story is considered **Done** when:
 
 #### Failure Scenarios
 
-| Scenario | Recovery |
-|----------|----------|
+| Scenario      | Recovery                                |
+| ------------- | --------------------------------------- |
 | Tests timeout | Configurable timeout, abort after 5 min |
 
 ---
@@ -2348,13 +2348,13 @@ A user story is considered **Done** when:
 > **I want** CI/CD to automatically run quality checks on PRs  
 > **So that** I know my changes are safe before merging
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E7: Developer Experience |
-| **Feature ID** | — (DevOps) |
-| **Priority** | P2 |
-| **Story Points** | 5 |
-| **Phase** | 01 |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E7: Developer Experience |
+| **Feature ID**   | — (DevOps)               |
+| **Priority**     | P2                       |
+| **Story Points** | 5                        |
+| **Phase**        | 01                       |
 
 #### Acceptance Criteria
 
@@ -2372,13 +2372,13 @@ A user story is considered **Done** when:
 > **I want** interactive Swagger documentation for all APIs  
 > **So that** I can understand and test endpoints
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E7: Developer Experience |
-| **Feature ID** | — (Documentation) |
-| **Priority** | P2 |
-| **Story Points** | 3 |
-| **Phase** | 03 |
+| Field            | Value                    |
+| ---------------- | ------------------------ |
+| **Epic**         | E7: Developer Experience |
+| **Feature ID**   | — (Documentation)        |
+| **Priority**     | P2                       |
+| **Story Points** | 3                        |
+| **Phase**        | 03                       |
 
 #### Acceptance Criteria
 
@@ -2401,13 +2401,13 @@ A user story is considered **Done** when:
 > **I want** Lighthouse scores ≥ 95 across all categories  
 > **So that** the portfolio loads fast and ranks well
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E8: Performance & Reliability |
-| **Feature ID** | — (Performance) |
-| **Priority** | P1 |
-| **Story Points** | 8 |
-| **Phase** | 10 |
+| Field            | Value                         |
+| ---------------- | ----------------------------- |
+| **Epic**         | E8: Performance & Reliability |
+| **Feature ID**   | — (Performance)               |
+| **Priority**     | P1                            |
+| **Story Points** | 8                             |
+| **Phase**        | 10                            |
 
 #### Acceptance Criteria
 
@@ -2421,9 +2421,9 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Slow network (3G) | Performance still ≥ 90 |
+| Scenario                 | Expected Behavior               |
+| ------------------------ | ------------------------------- |
+| Slow network (3G)        | Performance still ≥ 90          |
 | Many third-party scripts | Lazy load, async where possible |
 
 ---
@@ -2434,21 +2434,21 @@ A user story is considered **Done** when:
 > **I want** the portfolio to load in under 2 seconds from anywhere  
 > **So that** I don't wait
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E8: Performance & Reliability |
-| **Feature ID** | — (Performance) |
-| **Priority** | P1 |
-| **Story Points** | 5 |
-| **Phase** | 10 |
+| Field            | Value                         |
+| ---------------- | ----------------------------- |
+| **Epic**         | E8: Performance & Reliability |
+| **Feature ID**   | — (Performance)               |
+| **Priority**     | P1                            |
+| **Story Points** | 5                             |
+| **Phase**        | 10                            |
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| First visit (cold cache) | Load < 3s (ISR + CDN warm it) |
-| Remote location (Australia) | CDN edge node nearby |
-| Slow mobile network | Progressive loading, skeleton states |
+| Scenario                    | Expected Behavior                    |
+| --------------------------- | ------------------------------------ |
+| First visit (cold cache)    | Load < 3s (ISR + CDN warm it)        |
+| Remote location (Australia) | CDN edge node nearby                 |
+| Slow mobile network         | Progressive loading, skeleton states |
 
 ---
 
@@ -2464,13 +2464,13 @@ A user story is considered **Done** when:
 > **I want** a blog listing page with cards and filtering  
 > **So that** I can browse articles
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E9: Blog Engine |
-| **Feature ID** | F-200 |
-| **Priority** | P3 |
-| **Story Points** | 8 |
-| **Phase** | TBD |
+| Field            | Value           |
+| ---------------- | --------------- |
+| **Epic**         | E9: Blog Engine |
+| **Feature ID**   | F-200           |
+| **Priority**     | P3              |
+| **Story Points** | 8               |
+| **Phase**        | TBD             |
 
 #### Acceptance Criteria
 
@@ -2491,13 +2491,13 @@ A user story is considered **Done** when:
 > **I want** to read articles with proper formatting and code highlighting  
 > **So that** I can learn from technical content
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E9: Blog Engine |
-| **Feature ID** | F-201 |
-| **Priority** | P3 |
-| **Story Points** | 5 |
-| **Phase** | TBD |
+| Field            | Value           |
+| ---------------- | --------------- |
+| **Epic**         | E9: Blog Engine |
+| **Feature ID**   | F-201           |
+| **Priority**     | P3              |
+| **Story Points** | 5               |
+| **Phase**        | TBD             |
 
 ---
 
@@ -2507,13 +2507,13 @@ A user story is considered **Done** when:
 > **I want** an RSS feed for blog content  
 > **So that** I can subscribe in my RSS reader
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E9: Blog Engine |
-| **Feature ID** | F-202 |
-| **Priority** | P3 |
-| **Story Points** | 2 |
-| **Phase** | TBD |
+| Field            | Value           |
+| ---------------- | --------------- |
+| **Epic**         | E9: Blog Engine |
+| **Feature ID**   | F-202           |
+| **Priority**     | P3              |
+| **Story Points** | 2               |
+| **Phase**        | TBD             |
 
 ---
 
@@ -2528,13 +2528,13 @@ A user story is considered **Done** when:
 > **I want** errors tracked and reported to Sentry automatically  
 > **So that** I can fix bugs before users notice
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E10: Monitoring & Observability |
-| **Feature ID** | F-1000 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 09 |
+| Field            | Value                           |
+| ---------------- | ------------------------------- |
+| **Epic**         | E10: Monitoring & Observability |
+| **Feature ID**   | F-1000                          |
+| **Priority**     | P1                              |
+| **Story Points** | 3                               |
+| **Phase**        | 09                              |
 
 #### Acceptance Criteria
 
@@ -2549,10 +2549,10 @@ A user story is considered **Done** when:
 
 #### Edge Cases
 
-| Scenario | Expected Behavior |
-|----------|------------------|
-| Sentry API down | Queue errors locally, send when available |
-| PII in error context | `beforeSend` hook strips PII fields |
+| Scenario             | Expected Behavior                         |
+| -------------------- | ----------------------------------------- |
+| Sentry API down      | Queue errors locally, send when available |
+| PII in error context | `beforeSend` hook strips PII fields       |
 
 ---
 
@@ -2562,13 +2562,13 @@ A user story is considered **Done** when:
 > **I want** portfolio uptime monitored 24/7  
 > **So that** I'm alerted immediately if it goes down
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E10: Monitoring & Observability |
-| **Feature ID** | F-1001 |
-| **Priority** | P2 |
-| **Story Points** | 2 |
-| **Phase** | 09 |
+| Field            | Value                           |
+| ---------------- | ------------------------------- |
+| **Epic**         | E10: Monitoring & Observability |
+| **Feature ID**   | F-1001                          |
+| **Priority**     | P2                              |
+| **Story Points** | 2                               |
+| **Phase**        | 09                              |
 
 #### Acceptance Criteria
 
@@ -2586,13 +2586,13 @@ A user story is considered **Done** when:
 > **I want** Core Web Vitals tracked continuously  
 > **So that** I catch performance regressions
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E10: Monitoring & Observability |
-| **Feature ID** | F-1002 |
-| **Priority** | P1 |
-| **Story Points** | 3 |
-| **Phase** | 09 |
+| Field            | Value                           |
+| ---------------- | ------------------------------- |
+| **Epic**         | E10: Monitoring & Observability |
+| **Feature ID**   | F-1002                          |
+| **Priority**     | P1                              |
+| **Story Points** | 3                               |
+| **Phase**        | 09                              |
 
 ---
 
@@ -2608,13 +2608,13 @@ A user story is considered **Done** when:
 > **I want** to view the portfolio in my preferred language  
 > **So that** I can understand the content better
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1100 |
-| **Priority** | P3 |
-| **Story Points** | 13 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1100               |
+| **Priority**     | P3                   |
+| **Story Points** | 13                   |
+| **Phase**        | TBD                  |
 
 ### US-1002: A/B Testing System (F-1101)
 
@@ -2622,13 +2622,13 @@ A user story is considered **Done** when:
 > **I want** to run A/B tests on hero and CTA variants  
 > **So that** I optimize conversion rates
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1101 |
-| **Priority** | P3 |
-| **Story Points** | 8 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1101               |
+| **Priority**     | P3                   |
+| **Story Points** | 8                    |
+| **Phase**        | TBD                  |
 
 ### US-1003: Blog Comments (F-1102)
 
@@ -2636,13 +2636,13 @@ A user story is considered **Done** when:
 > **I want** to comment on blog posts  
 > **So that** I can engage with the content
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1102 |
-| **Priority** | P3 |
-| **Story Points** | 5 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1102               |
+| **Priority**     | P3                   |
+| **Story Points** | 5                    |
+| **Phase**        | TBD                  |
 
 ### US-1004: Newsletter Signup (F-1103)
 
@@ -2650,13 +2650,13 @@ A user story is considered **Done** when:
 > **I want** to subscribe to a newsletter  
 > **So that** I get updates on new projects and articles
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1103 |
-| **Priority** | P3 |
-| **Story Points** | 5 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1103               |
+| **Priority**     | P3                   |
+| **Story Points** | 5                    |
+| **Phase**        | TBD                  |
 
 ### US-1005: PDF Resume Generation (F-1104)
 
@@ -2664,13 +2664,13 @@ A user story is considered **Done** when:
 > **I want** to download a PDF version of the portfolio  
 > **So that** I can save it for offline review
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1104 |
-| **Priority** | P3 |
-| **Story Points** | 3 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1104               |
+| **Priority**     | P3                   |
+| **Story Points** | 3                    |
+| **Phase**        | TBD                  |
 
 ### US-1006: Calendar Booking (F-1105)
 
@@ -2678,13 +2678,13 @@ A user story is considered **Done** when:
 > **I want** to book a call directly from the portfolio  
 > **So that** I can schedule a meeting without emailing
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1105 |
-| **Priority** | P3 |
-| **Story Points** | 3 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1105               |
+| **Priority**     | P3                   |
+| **Story Points** | 3                    |
+| **Phase**        | TBD                  |
 
 ### US-1007: Interactive 3D Elements (F-1106)
 
@@ -2692,13 +2692,13 @@ A user story is considered **Done** when:
 > **I want** to see cool 3D visual effects  
 > **So that** I'm impressed by the technical capability
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1106 |
-| **Priority** | P3 |
-| **Story Points** | 8 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1106               |
+| **Priority**     | P3                   |
+| **Story Points** | 8                    |
+| **Phase**        | TBD                  |
 
 ### US-1008: PWA Support (F-1108)
 
@@ -2706,141 +2706,140 @@ A user story is considered **Done** when:
 > **I want** to install the portfolio as an app on my phone  
 > **So that** I can access it offline
 
-| Field | Value |
-|-------|-------|
-| **Epic** | E11: Future Features |
-| **Feature ID** | F-1108 |
-| **Priority** | P3 |
-| **Story Points** | 5 |
-| **Phase** | TBD |
+| Field            | Value                |
+| ---------------- | -------------------- |
+| **Epic**         | E11: Future Features |
+| **Feature ID**   | F-1108               |
+| **Priority**     | P3                   |
+| **Story Points** | 5                    |
+| **Phase**        | TBD                  |
 
 ---
 
 ## 14. Story Points Summary
 
-| Epic | Theme | Stories | Points | P0 | P1 | P2 | P3 | % Total |
-|------|-------|---------|--------|----|----|----|----|---------|
-| **E1** | Visitor Experience | 16 | 86 | 8 | 7 | 1 | 0 | 30% |
-| **E2** | Admin Content Management | 5 | 34 | 4 | 1 | 0 | 0 | 12% |
-| **E3** | Lead Management | 5 | 18 | 2 | 2 | 1 | 0 | 6% |
-| **E4** | Admin Authentication | 3 | 16 | 3 | 0 | 0 | 0 | 6% |
-| **E5** | Analytics & Insights | 2 | 13 | 1 | 1 | 0 | 0 | 5% |
-| **E6** | AI & Intelligence | 6 | 38 | 0 | 0 | 6 | 0 | 13% |
-| **E7** | Developer Experience | 4 | 16 | 0 | 2 | 2 | 0 | 6% |
-| **E8** | Performance & Reliability | 3 | 13 | 0 | 2 | 1 | 0 | 5% |
-| **E9** | Blog Engine | 3 | 15 | 0 | 0 | 0 | 3 | 5% |
-| **E10** | Monitoring & Observability | 3 | 8 | 0 | 2 | 1 | 0 | 3% |
-| **E11** | Future Features | 8 | 43 | 0 | 0 | 0 | 8 | 15% |
-| **Total** | — | **52** | **284** | **18** | **14** | **12** | **8** | **100%** |
+| Epic      | Theme                      | Stories | Points  | P0     | P1     | P2     | P3    | % Total  |
+| --------- | -------------------------- | ------- | ------- | ------ | ------ | ------ | ----- | -------- |
+| **E1**    | Visitor Experience         | 16      | 86      | 8      | 7      | 1      | 0     | 30%      |
+| **E2**    | Admin Content Management   | 5       | 34      | 4      | 1      | 0      | 0     | 12%      |
+| **E3**    | Lead Management            | 5       | 18      | 2      | 2      | 1      | 0     | 6%       |
+| **E4**    | Admin Authentication       | 3       | 16      | 3      | 0      | 0      | 0     | 6%       |
+| **E5**    | Analytics & Insights       | 2       | 13      | 1      | 1      | 0      | 0     | 5%       |
+| **E6**    | AI & Intelligence          | 6       | 38      | 0      | 0      | 6      | 0     | 13%      |
+| **E7**    | Developer Experience       | 4       | 16      | 0      | 2      | 2      | 0     | 6%       |
+| **E8**    | Performance & Reliability  | 3       | 13      | 0      | 2      | 1      | 0     | 5%       |
+| **E9**    | Blog Engine                | 3       | 15      | 0      | 0      | 0      | 3     | 5%       |
+| **E10**   | Monitoring & Observability | 3       | 8       | 0      | 2      | 1      | 0     | 3%       |
+| **E11**   | Future Features            | 8       | 43      | 0      | 0      | 0      | 8     | 15%      |
+| **Total** | —                          | **52**  | **284** | **18** | **14** | **12** | **8** | **100%** |
 
 ---
 
 ## 15. Traceability Matrix: Feature → Story
 
-| Feature ID | Feature Name | Story ID | Epic | Priority | Points |
-|------------|--------------|----------|------|----------|--------|
-| F-001 | Hero Section | US-001 | E1 | P0 | 5 |
-| F-002 | Skills Section | US-002 | E1 | P1 | 5 |
-| F-003 | Navigation System | US-003 | E1 | P0 | 5 |
-| F-004 | About Section | US-004 | E1 | P0 | 5 |
-| F-005 | Experience Timeline | US-005 | E1 | P1 | 5 |
-| F-006 | Testimonials Carousel | US-006 | E1 | P1 | 5 |
-| F-007 | Contact Form | US-007 | E1 | P0 | 5 |
-| F-008 | FAQ Section | US-008 | E1 | P1 | 3 |
-| F-009 | Services Section | US-009 | E1 | P1 | 5 |
-| F-010 | Statistics Section | US-010 | E1 | P1 | 3 |
-| F-011 | Client Logos | US-011 | E1 | P1 | 3 |
-| F-012 | Dark/Light Theme | US-012 | E1 | P1 | 3 |
-| F-013 | Scroll Animations | US-013 | E1 | P1 | 5 |
-| F-014 | Loading States | US-014 | E1 | P0 | 3 |
-| F-015 | Error Boundaries | US-015 | E1 | P0 | 3 |
-| F-100 | Projects Grid | US-016 | E1 | P0 | 8 |
-| F-101 | Project Detail | US-017 | E1 | P0 | 8 |
-| F-102 | Featured Carousel | US-018 | E1 | P2 | 5 |
-| F-105 | Case Studies | US-019 | E1 | P2 | 8 |
-| F-106 | Project Filters | US-020 | E1 | P1 | 3 |
-| F-400 | Admin Dashboard | US-101 | E2 | P0 | 8 |
-| F-600 | Section Manager | US-102 | E2 | P0 | 8 |
-| F-601 | Rich Text Editor | US-103 | E2 | P0 | 5 |
-| F-602 | Image Upload | US-104 | E2 | P0 | 5 |
-| F-603 | Style Presets | US-105 | E2 | P1 | 8 |
-| F-800 | Lead Inbox | US-201 | E3 | P0 | 5 |
-| F-801 | Lead Detail | US-202 | E3 | P0 | 3 |
-| F-802 | CSV Export | US-203 | E3 | P1 | 2 |
-| F-803 | Auto-Reply Email | US-204 | E3 | P1 | 3 |
-| F-804 | Telegram Notification | US-205 | E3 | P2 | 3 |
-| F-700 | Admin Auth (NestJS Passport) | US-301 | E4 | P0 | 8 |
-| F-701 | JWT API Auth | US-302 | E4 | P0 | 5 |
-| F-702 | Admin Registration | US-303 | E4 | P0 | 3 |
-| F-900 | Analytics Dashboard | US-401 | E5 | P1 | 8 |
-| F-901 | Event Tracking | US-402 | E5 | P0 | 5 |
-| F-300 | AI Chatbot | US-501 | E6 | P2 | 8 |
-| F-301 | RAG Pipeline | US-502 | E6 | P2 | 8 |
-| F-302 | AI Infrastructure | US-503 | E6 | P2 | 5 |
-| F-303 | Content Analysis | US-504 | E6 | P2 | 5 |
-| F-304 | Conversation History | US-505 | E6 | P2 | 3 |
-| F-305 | Content Suggestions | US-506 | E6 | P2 | 5 |
-| — | Dev Setup | US-601 | E7 | P1 | 5 |
-| — | Test/Run | US-602 | E7 | P1 | 3 |
-| — | CI/CD | US-603 | E7 | P2 | 5 |
-| — | API Docs | US-604 | E7 | P2 | 3 |
-| F-1000 | Error Tracking | US-901 | E10 | P1 | 3 |
-| F-1001 | Uptime Monitor | US-902 | E10 | P2 | 2 |
-| F-1002 | Perf Monitoring | US-903 | E10 | P1 | 3 |
-| F-200 | Blog Listing | US-801 | E9 | P3 | 8 |
-| F-201 | Blog Article | US-802 | E9 | P3 | 5 |
-| F-202 | RSS Feed | US-803 | E9 | P3 | 2 |
-| F-1100 | i18n | US-1001 | E11 | P3 | 13 |
-| F-1101 | A/B Testing | US-1002 | E11 | P3 | 8 |
-| F-1102 | Blog Comments | US-1003 | E11 | P3 | 5 |
-| F-1103 | Newsletter | US-1004 | E11 | P3 | 5 |
-| F-1104 | PDF Resume | US-1005 | E11 | P3 | 3 |
-| F-1105 | Calendar Booking | US-1006 | E11 | P3 | 3 |
-| F-1106 | 3D Elements | US-1007 | E11 | P3 | 8 |
-| F-1108 | PWA Support | US-1008 | E11 | P3 | 5 |
+| Feature ID | Feature Name                 | Story ID | Epic | Priority | Points |
+| ---------- | ---------------------------- | -------- | ---- | -------- | ------ |
+| F-001      | Hero Section                 | US-001   | E1   | P0       | 5      |
+| F-002      | Skills Section               | US-002   | E1   | P1       | 5      |
+| F-003      | Navigation System            | US-003   | E1   | P0       | 5      |
+| F-004      | About Section                | US-004   | E1   | P0       | 5      |
+| F-005      | Experience Timeline          | US-005   | E1   | P1       | 5      |
+| F-006      | Testimonials Carousel        | US-006   | E1   | P1       | 5      |
+| F-007      | Contact Form                 | US-007   | E1   | P0       | 5      |
+| F-008      | FAQ Section                  | US-008   | E1   | P1       | 3      |
+| F-009      | Services Section             | US-009   | E1   | P1       | 5      |
+| F-010      | Statistics Section           | US-010   | E1   | P1       | 3      |
+| F-011      | Client Logos                 | US-011   | E1   | P1       | 3      |
+| F-012      | Dark/Light Theme             | US-012   | E1   | P1       | 3      |
+| F-013      | Scroll Animations            | US-013   | E1   | P1       | 5      |
+| F-014      | Loading States               | US-014   | E1   | P0       | 3      |
+| F-015      | Error Boundaries             | US-015   | E1   | P0       | 3      |
+| F-100      | Projects Grid                | US-016   | E1   | P0       | 8      |
+| F-101      | Project Detail               | US-017   | E1   | P0       | 8      |
+| F-102      | Featured Carousel            | US-018   | E1   | P2       | 5      |
+| F-105      | Case Studies                 | US-019   | E1   | P2       | 8      |
+| F-106      | Project Filters              | US-020   | E1   | P1       | 3      |
+| F-400      | Admin Dashboard              | US-101   | E2   | P0       | 8      |
+| F-600      | Section Manager              | US-102   | E2   | P0       | 8      |
+| F-601      | Rich Text Editor             | US-103   | E2   | P0       | 5      |
+| F-602      | Image Upload                 | US-104   | E2   | P0       | 5      |
+| F-603      | Style Presets                | US-105   | E2   | P1       | 8      |
+| F-800      | Lead Inbox                   | US-201   | E3   | P0       | 5      |
+| F-801      | Lead Detail                  | US-202   | E3   | P0       | 3      |
+| F-802      | CSV Export                   | US-203   | E3   | P1       | 2      |
+| F-803      | Auto-Reply Email             | US-204   | E3   | P1       | 3      |
+| F-804      | Telegram Notification        | US-205   | E3   | P2       | 3      |
+| F-700      | Admin Auth (NestJS Passport) | US-301   | E4   | P0       | 8      |
+| F-701      | JWT API Auth                 | US-302   | E4   | P0       | 5      |
+| F-702      | Admin Registration           | US-303   | E4   | P0       | 3      |
+| F-900      | Analytics Dashboard          | US-401   | E5   | P1       | 8      |
+| F-901      | Event Tracking               | US-402   | E5   | P0       | 5      |
+| F-300      | AI Chatbot                   | US-501   | E6   | P2       | 8      |
+| F-301      | RAG Pipeline                 | US-502   | E6   | P2       | 8      |
+| F-302      | AI Infrastructure            | US-503   | E6   | P2       | 5      |
+| F-303      | Content Analysis             | US-504   | E6   | P2       | 5      |
+| F-304      | Conversation History         | US-505   | E6   | P2       | 3      |
+| F-305      | Content Suggestions          | US-506   | E6   | P2       | 5      |
+| —          | Dev Setup                    | US-601   | E7   | P1       | 5      |
+| —          | Test/Run                     | US-602   | E7   | P1       | 3      |
+| —          | CI/CD                        | US-603   | E7   | P2       | 5      |
+| —          | API Docs                     | US-604   | E7   | P2       | 3      |
+| F-1000     | Error Tracking               | US-901   | E10  | P1       | 3      |
+| F-1001     | Uptime Monitor               | US-902   | E10  | P2       | 2      |
+| F-1002     | Perf Monitoring              | US-903   | E10  | P1       | 3      |
+| F-200      | Blog Listing                 | US-801   | E9   | P3       | 8      |
+| F-201      | Blog Article                 | US-802   | E9   | P3       | 5      |
+| F-202      | RSS Feed                     | US-803   | E9   | P3       | 2      |
+| F-1100     | i18n                         | US-1001  | E11  | P3       | 13     |
+| F-1101     | A/B Testing                  | US-1002  | E11  | P3       | 8      |
+| F-1102     | Blog Comments                | US-1003  | E11  | P3       | 5      |
+| F-1103     | Newsletter                   | US-1004  | E11  | P3       | 5      |
+| F-1104     | PDF Resume                   | US-1005  | E11  | P3       | 3      |
+| F-1105     | Calendar Booking             | US-1006  | E11  | P3       | 3      |
+| F-1106     | 3D Elements                  | US-1007  | E11  | P3       | 8      |
+| F-1108     | PWA Support                  | US-1008  | E11  | P3       | 5      |
 
 ---
 
 ## 16. Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| US-D001 | 61 stories across 11 epics | Covers every feature with acceptance criteria while keeping epics manageable | Fewer epics (5), more stories per epic; single flat backlog | Mar 2026 | Product Owner |
-| US-D002 | Story point estimation (1-13 Fibonacci) | Standard agile sizing; forces differentiation between trivial and complex stories | T-shirt sizing, time-based estimation, no estimation | Mar 2026 | Tech Lead |
-| US-D003 | Acceptance criteria as Gherkin-style tables | Machine-readable format; unambiguous pass/fail for QA | Free-form text, checklist format | Mar 2026 | QA Lead |
-| US-D004 | Traceability matrix (Feature → Story) | Every story maps to a feature for full audit trail | No traceability, story → epic only | Mar 2026 | Product Owner |
-| US-D005 | DoD before story writing | Ensures consistent quality gates across all stories before implementation | DoD per-story after writing, no DoD | Mar 2026 | QA Lead |
-
+| ID      | Decision                                    | Rationale                                                                         | Alternatives Considered                                     | Date     | Approver      |
+| ------- | ------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------- | -------- | ------------- |
+| US-D001 | 61 stories across 11 epics                  | Covers every feature with acceptance criteria while keeping epics manageable      | Fewer epics (5), more stories per epic; single flat backlog | Mar 2026 | Product Owner |
+| US-D002 | Story point estimation (1-13 Fibonacci)     | Standard agile sizing; forces differentiation between trivial and complex stories | T-shirt sizing, time-based estimation, no estimation        | Mar 2026 | Tech Lead     |
+| US-D003 | Acceptance criteria as Gherkin-style tables | Machine-readable format; unambiguous pass/fail for QA                             | Free-form text, checklist format                            | Mar 2026 | QA Lead       |
+| US-D004 | Traceability matrix (Feature → Story)       | Every story maps to a feature for full audit trail                                | No traceability, story → epic only                          | Mar 2026 | Product Owner |
+| US-D005 | DoD before story writing                    | Ensures consistent quality gates across all stories before implementation         | DoD per-story after writing, no DoD                         | Mar 2026 | QA Lead       |
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| User Story | Short description of a feature from the user's perspective |
-| Epic | Large body of work spanning multiple sprints/releases |
-| Story Points | Relative estimate of effort required for a story |
-| Acceptance Criteria | Conditions a story must meet to be accepted |
-| Definition of Done | Checklist that must be satisfied for work to be complete |
-| Sprint | Time-boxed period (usually 2 weeks) for completing work |
-| Velocity | Number of story points a team completes per sprint |
-| Traceability Matrix | Mapping between features, stories, and requirements |
-| Fibonacci | Sequence (1, 2, 3, 5, 8, 13) used for story point estimation |
-| P0/P1/P2/P3 | Priority levels from Critical (P0) to Future (P3) |
-| Edge Case | Uncommon scenario that must be handled correctly |
-| Failure Path | Sequence of events when a process does not succeed |
-| Happy Path | Sequence of events when everything works as expected |
-| Regression | Bug introduced when existing functionality breaks |
-| Gherkin | Given/When/Then format for writing acceptance criteria |
+| Term                | Definition                                                   |
+| ------------------- | ------------------------------------------------------------ |
+| User Story          | Short description of a feature from the user's perspective   |
+| Epic                | Large body of work spanning multiple sprints/releases        |
+| Story Points        | Relative estimate of effort required for a story             |
+| Acceptance Criteria | Conditions a story must meet to be accepted                  |
+| Definition of Done  | Checklist that must be satisfied for work to be complete     |
+| Sprint              | Time-boxed period (usually 2 weeks) for completing work      |
+| Velocity            | Number of story points a team completes per sprint           |
+| Traceability Matrix | Mapping between features, stories, and requirements          |
+| Fibonacci           | Sequence (1, 2, 3, 5, 8, 13) used for story point estimation |
+| P0/P1/P2/P3         | Priority levels from Critical (P0) to Future (P3)            |
+| Edge Case           | Uncommon scenario that must be handled correctly             |
+| Failure Path        | Sequence of events when a process does not succeed           |
+| Happy Path          | Sequence of events when everything works as expected         |
+| Regression          | Bug introduced when existing functionality breaks            |
+| Gherkin             | Given/When/Then format for writing acceptance criteria       |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 3.0 | Jun 2026 | Enterprise feature inventory - 61 stories, acceptance criteria, traceability matrix | Product Owner |
-| 2.0 | Jun 2026 | Updated for enterprise structure | Product Owner |
-| 1.0 | Mar 2026 | Initial user story documentation | Product Owner |
+| Version | Date     | Changes                                                                             | Author        |
+| ------- | -------- | ----------------------------------------------------------------------------------- | ------------- |
+| 3.0     | Jun 2026 | Enterprise feature inventory - 61 stories, acceptance criteria, traceability matrix | Product Owner |
+| 2.0     | Jun 2026 | Updated for enterprise structure                                                    | Product Owner |
+| 1.0     | Mar 2026 | Initial user story documentation                                                    | Product Owner |
 
-*Document Version: 3.0 — Enterprise Feature Inventory*  
-*Supersedes v2.0 (June 2026)*
+_Document Version: 3.0 — Enterprise Feature Inventory_  
+_Supersedes v2.0 (June 2026)_

@@ -26,15 +26,15 @@
 
 Competitors are evaluated across seven dimensions that matter most for a technical portfolio:
 
-| Dimension | Weight | Why It Matters |
-|-----------|--------|----------------|
-| **Design Quality** | High | First impression Ã¢â‚¬â€ recruiters judge within seconds |
-| **Technical Showcase** | Critical | The portfolio must itself demonstrate technical depth |
-| **Performance** | High | Slow load times = bad engineering signal |
-| **Accessibility** | Medium | WCAG compliance demonstrates inclusive engineering |
-| **AI Integration** | Medium | Cutting-edge differentiator in 2026 |
-| **Developer Experience** | Low-Medium | Matters for open-source contributors but not primary visitors |
-| **Content Management** | Medium | Ease of updating content affects long-term maintenance viability |
+| Dimension                | Weight     | Why It Matters                                                   |
+| ------------------------ | ---------- | ---------------------------------------------------------------- |
+| **Design Quality**       | High       | First impression Ã¢â‚¬â€ recruiters judge within seconds         |
+| **Technical Showcase**   | Critical   | The portfolio must itself demonstrate technical depth            |
+| **Performance**          | High       | Slow load times = bad engineering signal                         |
+| **Accessibility**        | Medium     | WCAG compliance demonstrates inclusive engineering               |
+| **AI Integration**       | Medium     | Cutting-edge differentiator in 2026                              |
+| **Developer Experience** | Low-Medium | Matters for open-source contributors but not primary visitors    |
+| **Content Management**   | Medium     | Ease of updating content affects long-term maintenance viability |
 
 Each competitor is rated on a scale: **None**, **Basic**, **Good**, **Great**, **Exceptional**.
 
@@ -64,33 +64,38 @@ graph LR
 The developer portfolio ecosystem in 2026 can be categorized into five archetypes:
 
 ### Archetype A: The Static Template (70% of developer portfolios)
+
 - Next.js/Gatsby/Hugo template with hardcoded JSON data
 - Clean, functional, but indistinguishable from thousands of others
 - No backend, no dynamic content, no AI
 - **Examples:** Most GitHub Pages portfolios, most Next.js starter templates
 
 ### Archetype B: The WebGL Wizard (5% of developer portfolios)
+
 - Three.js / raw WebGL / React Three Fiber
 - Visually stunning, technically impressive frontend
 - Often terrible SEO, poor accessibility, no backend
 - **Examples:** Bruno Simon, Rik Schennink, many Awwwards winners
 
 ### Archetype C: The Full-Stack Demonstrator (5% of developer portfolios)
+
 - Custom backend + frontend, often with a CMS
 - Demonstrates both frontend and backend skills
 - Rare Ã¢â‚¬â€ requires significantly more effort
 - **Examples:** This portfolio, Lee Robinson (vercel.com), evilcottons.com
 
 ### Archetype D: The Community Blog Platform (15% of developer portfolios)
+
 - Hashnode, Dev.to, Medium
 - Built-in audience, great SEO, zero engineering effort
 - No design control, content lives on third-party platform
 - No way to demonstrate technical skill through the platform itself
 
 ### Archetype E: The No-Code Builder (5% of developer portfolios)
+
 - Squarespace, Wix, Readymag, Framer
 - Fast setup, beautiful templates, no coding required
-- Actively signals *lack* of technical skill to technical hiring managers
+- Actively signals _lack_ of technical skill to technical hiring managers
 - **Examples:** Designers using Squarespace, non-technical founders
 
 ---
@@ -103,15 +108,15 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 **Stack:** Gatsby, styled-components, hardcoded JSON  
 **Notable for:** The gold standard of developer portfolios for years. v4 features a polished dark theme, smooth scroll animations, and a clean project showcase.
 
-| Dimension | Rating | Notes |
-|-----------|--------|-------|
-| Design Quality | Great | Clean, timeless dark theme; excellent typography; consistent spacing |
-| Technical Showcase | Good | The site itself demonstrates frontend skill but not backend |
-| Performance | Great | ~95 Lighthouse, static site, minimal JS |
-| Accessibility | Unknown | Not documented; keyboard navigation is basic |
-| AI Integration | None | No AI features |
-| Content Management | None | Hardcoded JSON Ã¢â‚¬â€ every update requires a PR |
-| CMS | None | No admin interface |
+| Dimension          | Rating  | Notes                                                                |
+| ------------------ | ------- | -------------------------------------------------------------------- |
+| Design Quality     | Great   | Clean, timeless dark theme; excellent typography; consistent spacing |
+| Technical Showcase | Good    | The site itself demonstrates frontend skill but not backend          |
+| Performance        | Great   | ~95 Lighthouse, static site, minimal JS                              |
+| Accessibility      | Unknown | Not documented; keyboard navigation is basic                         |
+| AI Integration     | None    | No AI features                                                       |
+| Content Management | None    | Hardcoded JSON Ã¢â‚¬â€ every update requires a PR                    |
+| CMS                | None    | No admin interface                                                   |
 
 **Weaknesses:** No backend, no dynamic content, no AI, hardcoded data that requires coding to update. Cannot demonstrate full-stack capability.
 
@@ -121,17 +126,17 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 **Stack:** Three.js, raw WebGL, no framework  
 **Notable for:** Legendary 3D portfolio where you drive a car around a 3D island. Viral-level creativity.
 
-| Dimension | Rating | Notes |
-|-----------|--------|-------|
-| Design Quality | Exceptional | Unforgettable 3D experience; incredibly creative |
-| Technical Showcase | Exceptional | Demonstrates deep WebGL/Three.js mastery |
-| Performance | Poor | Heavy 3D scene, slow load on mobile, no fallback |
-| Accessibility | None | Virtually inaccessible Ã¢â‚¬â€ no keyboard nav, no screen reader support |
-| AI Integration | None | No AI features |
-| Content Management | None | Hardcoded scene Ã¢â‚¬â€ requires Three.js expertise to update |
-| SEO | Poor | Almost no textual content for search engines |
+| Dimension          | Rating      | Notes                                                                    |
+| ------------------ | ----------- | ------------------------------------------------------------------------ |
+| Design Quality     | Exceptional | Unforgettable 3D experience; incredibly creative                         |
+| Technical Showcase | Exceptional | Demonstrates deep WebGL/Three.js mastery                                 |
+| Performance        | Poor        | Heavy 3D scene, slow load on mobile, no fallback                         |
+| Accessibility      | None        | Virtually inaccessible Ã¢â‚¬â€ no keyboard nav, no screen reader support |
+| AI Integration     | None        | No AI features                                                           |
+| Content Management | None        | Hardcoded scene Ã¢â‚¬â€ requires Three.js expertise to update            |
+| SEO                | Poor        | Almost no textual content for search engines                             |
 
-**Weaknesses:** The 3D scene is the *only* interface. No textual content, no SEO, no accessibility. Cannot demonstrate full-stack, backend, or AI skills.
+**Weaknesses:** The 3D scene is the _only_ interface. No textual content, no SEO, no accessibility. Cannot demonstrate full-stack, backend, or AI skills.
 
 ### 3.3 Lee Robinson (vercel.com)
 
@@ -139,15 +144,15 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 **Stack:** Next.js, MDX, ISR, Vercel  
 **Notable for:** Clean, content-focused blog-portfolio hybrid. Demonstrates Next.js expertise.
 
-| Dimension | Rating | Notes |
-|-----------|--------|-------|
-| Design Quality | Good | Clean, minimal, content-forward; not visually flashy |
-| Technical Showcase | Great | Demonstrates Next.js, ISR, MDX, Vercel edge |
-| Performance | Exceptional | Fast ISR, edge-delivered, CDN-optimized |
-| Accessibility | Good | Semantic HTML, keyboard navigable |
-| AI Integration | None | No AI features |
-| Content Management | Good | MDX-based Ã¢â‚¬â€ writes in markdown, but no visual editor |
-| CMS | None | File-based content, no admin dashboard |
+| Dimension          | Rating      | Notes                                                      |
+| ------------------ | ----------- | ---------------------------------------------------------- |
+| Design Quality     | Good        | Clean, minimal, content-forward; not visually flashy       |
+| Technical Showcase | Great       | Demonstrates Next.js, ISR, MDX, Vercel edge                |
+| Performance        | Exceptional | Fast ISR, edge-delivered, CDN-optimized                    |
+| Accessibility      | Good        | Semantic HTML, keyboard navigable                          |
+| AI Integration     | None        | No AI features                                             |
+| Content Management | Good        | MDX-based Ã¢â‚¬â€ writes in markdown, but no visual editor |
+| CMS                | None        | File-based content, no admin dashboard                     |
 
 **Weaknesses:** No backend showcase (it's a Vercel-hosted frontend), no AI features, no admin dashboard, content requires markdown editing + Git push to update.
 
@@ -157,14 +162,14 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 **Stack:** Next.js, Custom CMS, 3D elements  
 **Notable for:** Full-stack portfolio with 3D elements and custom content management.
 
-| Dimension | Rating | Notes |
-|-----------|--------|-------|
-| Design Quality | Great | Polished, custom design with 3D accents |
-| Technical Showcase | Great | Demonstrates full-stack capability |
-| Performance | Good | 3D elements add weight, but generally fast |
-| Accessibility | Unknown | Not publicly documented |
-| AI Integration | None | No AI features |
-| Content Management | Good | Custom CMS for portfolio content |
+| Dimension          | Rating  | Notes                                      |
+| ------------------ | ------- | ------------------------------------------ |
+| Design Quality     | Great   | Polished, custom design with 3D accents    |
+| Technical Showcase | Great   | Demonstrates full-stack capability         |
+| Performance        | Good    | 3D elements add weight, but generally fast |
+| Accessibility      | Unknown | Not publicly documented                    |
+| AI Integration     | None    | No AI features                             |
+| Content Management | Good    | Custom CMS for portfolio content           |
 
 **Weaknesses:** Not open source (can't verify architecture claims), no AI features, limited analytics/lead tracking.
 
@@ -174,14 +179,14 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 **Stack:** Next.js, Gatsby, styled-components, MDX  
 **Notable for:** Deep interactive blog posts with embedded code playgrounds. Gold standard for developer blogging.
 
-| Dimension | Rating | Notes |
-|-----------|--------|-------|
-| Design Quality | Exceptional | Beautiful, playful design with interactive elements |
-| Technical Showcase | Great | Interactive code playgrounds demonstrate frontend depth |
-| Performance | Good | Heavy interactive elements but well-optimized |
-| Accessibility | Great | Excellent keyboard support, reduced motion, accessible interactive elements |
-| AI Integration | None | No AI features |
-| Content Management | None | Hardcoded content, no admin interface |
+| Dimension          | Rating      | Notes                                                                       |
+| ------------------ | ----------- | --------------------------------------------------------------------------- |
+| Design Quality     | Exceptional | Beautiful, playful design with interactive elements                         |
+| Technical Showcase | Great       | Interactive code playgrounds demonstrate frontend depth                     |
+| Performance        | Good        | Heavy interactive elements but well-optimized                               |
+| Accessibility      | Great       | Excellent keyboard support, reduced motion, accessible interactive elements |
+| AI Integration     | None        | No AI features                                                              |
+| Content Management | None        | Hardcoded content, no admin interface                                       |
 
 **Weaknesses:** No backend, no AI, no CRM, no admin dashboard, hardcoded content. Focused entirely on educational content rather than portfolio showcase.
 
@@ -239,25 +244,25 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 
 ## 5. Comparison Matrix
 
-| Feature | This Portfolio | Brittany Chiang | Bruno Simon | Lee Robinson | Notion | Squarespace | Hashnode |
-|---------|---------------|-----------------|-------------|--------------|--------|-------------|----------|
-| **3D/Interactive** | Ã¢Å“â€¦ Heavy (R3F) | Ã¢ÂÅ’ | Ã¢Å“â€¦ Exceptional | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **AI Chat** | Ã¢Å“â€¦ Custom RAG | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **Admin Dashboard** | Ã¢Å“â€¦ Full CRUD | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ Basic | Ã¢Å“â€¦ Basic | Ã¢Å“â€¦ Basic |
-| **CMS** | Ã¢Å“â€¦ Custom (TipTap) | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ (MDX) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| **API Backend** | Ã¢Å“â€¦ NestJS | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **Database** | Ã¢Å“â€¦ PostgreSQL | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **Auth System** | Ã¢Å“â€¦ Passport.js (3 strategies) | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ OAuth | Ã¢Å“â€¦ OAuth | Ã¢Å“â€¦ OAuth |
-| **Queue System** | Ã¢Å“â€¦ BullMQ + Redis | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **Performance** | Target 90+ | ~95 | ~60 | 95+ | ~80 | ~60 | ~85 |
-| **Accessibility** | WCAG 2.2 AA | Unknown | None | Good | Good | Good | Good |
-| **SEO** | Excellent (ISR + SSR) | Excellent | Poor | Excellent | Good | Good | Great |
-| **Open Source** | Ã¢Å“â€¦ MIT | Ã¢Å“â€¦ MIT | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **Self-Hosted** | Ã¢Å“â€¦ Docker | Ã¢Å“â€¦ Simple | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| **Lead Capture** | Ã¢Å“â€¦ Contact form + queue | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| **Analytics** | Ã¢Å“â€¦ PostHog | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Ã¢Å“â€¦ Vercel | Ã¢ÂÅ’ | Ã¢Å“â€¦ Built-in | Ã¢Å“â€¦ Built-in |
-| **Cost** | ~$10/yr (domain) | Free | Free | Free | Free-$10/mo | $16-30/mo | Free |
-| **Content Updates** | Admin dashboard | Code + PR | Code + build | Code + PR | GUI editor | GUI editor | GUI editor |
+| Feature             | This Portfolio                     | Brittany Chiang | Bruno Simon         | Lee Robinson   | Notion        | Squarespace      | Hashnode         |
+| ------------------- | ---------------------------------- | --------------- | ------------------- | -------------- | ------------- | ---------------- | ---------------- |
+| **3D/Interactive**  | Ã¢Å“â€¦ Heavy (R3F)                | Ã¢ÂÅ’           | Ã¢Å“â€¦ Exceptional | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **AI Chat**         | Ã¢Å“â€¦ Custom RAG                 | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **Admin Dashboard** | Ã¢Å“â€¦ Full CRUD                  | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢Å“â€¦ Basic | Ã¢Å“â€¦ Basic    | Ã¢Å“â€¦ Basic    |
+| **CMS**             | Ã¢Å“â€¦ Custom (TipTap)            | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’ (MDX)    | Ã¢Å“â€¦       | Ã¢Å“â€¦          | Ã¢Å“â€¦          |
+| **API Backend**     | Ã¢Å“â€¦ NestJS                     | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **Database**        | Ã¢Å“â€¦ PostgreSQL                 | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **Auth System**     | Ã¢Å“â€¦ Passport.js (3 strategies) | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢Å“â€¦ OAuth | Ã¢Å“â€¦ OAuth    | Ã¢Å“â€¦ OAuth    |
+| **Queue System**    | Ã¢Å“â€¦ BullMQ + Redis             | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **Performance**     | Target 90+                         | ~95             | ~60                 | 95+            | ~80           | ~60              | ~85              |
+| **Accessibility**   | WCAG 2.2 AA                        | Unknown         | None                | Good           | Good          | Good             | Good             |
+| **SEO**             | Excellent (ISR + SSR)              | Excellent       | Poor                | Excellent      | Good          | Good             | Great            |
+| **Open Source**     | Ã¢Å“â€¦ MIT                        | Ã¢Å“â€¦ MIT     | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **Self-Hosted**     | Ã¢Å“â€¦ Docker                     | Ã¢Å“â€¦ Simple  | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢ÂÅ’            | Ã¢ÂÅ’            |
+| **Lead Capture**    | Ã¢Å“â€¦ Contact form + queue       | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢ÂÅ’          | Ã¢ÂÅ’         | Ã¢Å“â€¦          | Ã¢ÂÅ’            |
+| **Analytics**       | Ã¢Å“â€¦ PostHog                    | Ã¢ÂÅ’           | Ã¢ÂÅ’               | Ã¢Å“â€¦ Vercel | Ã¢ÂÅ’         | Ã¢Å“â€¦ Built-in | Ã¢Å“â€¦ Built-in |
+| **Cost**            | ~$10/yr (domain)                   | Free            | Free                | Free           | Free-$10/mo   | $16-30/mo        | Free             |
+| **Content Updates** | Admin dashboard                    | Code + PR       | Code + build        | Code + PR      | GUI editor    | GUI editor       | GUI editor       |
 
 ---
 
@@ -265,7 +270,7 @@ The developer portfolio ecosystem in 2026 can be categorized into five archetype
 
 ### 6.1 Full-Stack Demonstration (Critical Advantage)
 
-This is the single biggest differentiator. Most developer portfolios demonstrate *only* frontend skill. Ours demonstrates:
+This is the single biggest differentiator. Most developer portfolios demonstrate _only_ frontend skill. Ours demonstrates:
 
 - **Frontend:** Next.js 14 App Router, React Three Fiber, Tailwind CSS, GSAP, Framer Motion
 - **Backend:** NestJS API with Prisma, PostgreSQL, JWT auth, BullMQ queues, Redis caching
@@ -310,15 +315,15 @@ Using self-hosted PostHog (or PostHog Cloud with privacy defaults) instead of Go
 
 ## 7. Gaps vs Competitors
 
-| Gap | Competitor Stronger | Impact | Mitigation |
-|-----|-------------------|--------|------------|
-| **Established brand** | Brittany Chiang, Lee Robinson, Josh Comeau | High Ã¢â‚¬â€ they have years of content, SEO authority, and community trust | Publish consistently, build SEO authority over time |
-| **Portfolio of work** | All competitors with more experience | Medium Ã¢â‚¬â€ a portfolio is only as good as the work in it | Focus on quality over quantity; write detailed case studies |
-| **Community / social proof** | Hashnode/Dev.to bloggers, Brittany Chiang | Medium Ã¢â‚¬â€ testimonials, Twitter following, conference talks | Cross-post to Dev.to, engage on Twitter/LinkedIn, speak at meetups |
-| **SEO authority** | All older sites | High Ã¢â‚¬â€ new domains take 6-12 months to rank | Leverage ISR for fresh content, write SEO-optimized posts |
-| **Content volume** | Josh Comeau (100+ articles), Lee Robinson | Medium Ã¢â‚¬â€ blog content drives traffic | Start with 12 high-quality posts in 2026 |
-| **Design recognition** | Awwwards winners, Bruno Simon | Low-Medium Ã¢â‚¬â€ design awards drive referrals | Submit to Awwwards and CSS Design Awards after launch |
-| **Template availability** | Squarespace, Framer | Low Ã¢â‚¬â€ these are fundamentally different products | Not a gap; we do not compete on templating |
+| Gap                          | Competitor Stronger                        | Impact                                                                      | Mitigation                                                         |
+| ---------------------------- | ------------------------------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| **Established brand**        | Brittany Chiang, Lee Robinson, Josh Comeau | High Ã¢â‚¬â€ they have years of content, SEO authority, and community trust | Publish consistently, build SEO authority over time                |
+| **Portfolio of work**        | All competitors with more experience       | Medium Ã¢â‚¬â€ a portfolio is only as good as the work in it                | Focus on quality over quantity; write detailed case studies        |
+| **Community / social proof** | Hashnode/Dev.to bloggers, Brittany Chiang  | Medium Ã¢â‚¬â€ testimonials, Twitter following, conference talks            | Cross-post to Dev.to, engage on Twitter/LinkedIn, speak at meetups |
+| **SEO authority**            | All older sites                            | High Ã¢â‚¬â€ new domains take 6-12 months to rank                           | Leverage ISR for fresh content, write SEO-optimized posts          |
+| **Content volume**           | Josh Comeau (100+ articles), Lee Robinson  | Medium Ã¢â‚¬â€ blog content drives traffic                                  | Start with 12 high-quality posts in 2026                           |
+| **Design recognition**       | Awwwards winners, Bruno Simon              | Low-Medium Ã¢â‚¬â€ design awards drive referrals                            | Submit to Awwwards and CSS Design Awards after launch              |
+| **Template availability**    | Squarespace, Framer                        | Low Ã¢â‚¬â€ these are fundamentally different products                      | Not a gap; we do not compete on templating                         |
 
 ---
 
@@ -331,6 +336,7 @@ The primary competitive advantage is full-stack depth. Every feature should be d
 ### 8.2 Blog About Architecture Decisions
 
 Publish one architecture deep-dive per month. Topics:
+
 - Monorepo setup with Turborepo (ADR-001 in practice)
 - Why NestJS over Express for a solo project
 - Building a RAG pipeline with FastAPI + pgvector
@@ -343,6 +349,7 @@ These posts demonstrate communication skill, technical depth, and build SEO auth
 ### 8.3 Open Source the Platform
 
 The platform is already open source. Actively encourage contributions by:
+
 - Adding `CONTRIBUTING.md` with clear setup instructions
 - Labeling good first issues for new contributors
 - Writing documentation for the architecture (ADRs, runbooks)
@@ -351,6 +358,7 @@ The platform is already open source. Actively encourage contributions by:
 ### 8.4 Target Product Hunt Launch
 
 A Product Hunt launch for a developer tool (the open-source portfolio platform) could drive significant initial traffic and establish the brand. Prepare:
+
 - A compelling landing page
 - A demo video showcasing all features
 - A "one-click deploy to Vercel" button
@@ -359,6 +367,7 @@ A Product Hunt launch for a developer tool (the open-source portfolio platform) 
 ### 8.5 Build the Blog as a Growth Engine
 
 A portfolio without a blog is a dead end for traffic growth. The blog should cover:
+
 - Architecture deep-dives (technical audience)
 - Project case studies with metrics (recruiter audience)
 - Career reflections and lessons learned (general audience)
@@ -367,6 +376,7 @@ A portfolio without a blog is a dead end for traffic growth. The blog should cov
 ### 8.6 Optimize for Mobile and Performance Continuously
 
 Performance is a competitive advantage that requires ongoing maintenance. Set up:
+
 - CI performance budgets (Lighthouse scoring in CI)
 - Regular bundle analysis runs
 - Sentry performance monitoring alerts
@@ -376,13 +386,13 @@ Performance is a competitive advantage that requires ongoing maintenance. Set up
 
 ## 9. Risk Analysis
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| **Competitor adds AI features** | Medium (2026-2027) | Medium | Lead on quality and integration depth, not just feature presence |
-| **SEO algorithm change** | High | High | Diversify traffic sources (cross-posting, social, direct) |
-| **3D trend fades** | Low | Low | 3D is progressive enhancement Ã¢â‚¬â€ core content is always accessible |
-| **Open-source competitor emerges** | Medium | Medium | Focus on quality, documentation, and unique features (AI, admin) |
-| **New portfolio platform disrupts** | Low | Medium | Being open-source and self-hostable is the ultimate hedge against disruption |
+| Risk                                | Likelihood         | Impact | Mitigation                                                                   |
+| ----------------------------------- | ------------------ | ------ | ---------------------------------------------------------------------------- |
+| **Competitor adds AI features**     | Medium (2026-2027) | Medium | Lead on quality and integration depth, not just feature presence             |
+| **SEO algorithm change**            | High               | High   | Diversify traffic sources (cross-posting, social, direct)                    |
+| **3D trend fades**                  | Low                | Low    | 3D is progressive enhancement Ã¢â‚¬â€ core content is always accessible      |
+| **Open-source competitor emerges**  | Medium             | Medium | Focus on quality, documentation, and unique features (AI, admin)             |
+| **New portfolio platform disrupts** | Low                | Medium | Being open-source and self-hostable is the ultimate hedge against disruption |
 
 ---
 
@@ -410,13 +420,14 @@ Tools that use AI to build, populate, and maintain portfolios automatically. **O
 
 - `product-vision-expanded.md` Ã¢â‚¬â€ Product vision, values, and strategic goals
 - `ProductRequirements.md` Ã¢â‚¬â€ Functional and non-functional requirements
-- `docs/architecture/SystemArchitecture.md` Ã¢â‚¬â€ Technical architecture documentation
-- `docs/adr/` Ã¢â‚¬â€ Architecture Decision Records
+- `docs/05-architecture/SystemArchitecture.md` Ã¢â‚¬â€ Technical architecture documentation
+- `docs/27-decisions/` Ã¢â‚¬â€ Architecture Decision Records
 
 ---
 
-*Document Version: 2.0 Ã¢â‚¬â€ Enterprise Edition*
+_Document Version: 2.0 Ã¢â‚¬â€ Enterprise Edition_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -1,6 +1,8 @@
-﻿# Overview
+# Overview
 
-> **Category:** 00-overview | **Docs:** 2 | **Status:** Active
+> **Category:** 00 | **Documents:** 2 | **Status:** Active
+> **Purpose:** Provide an executive summary and architectural overview of the entire portfolio project.
+> **Audience:** developers, architects, project managers
 
 ## Overview
 
@@ -8,13 +10,14 @@ High-level documentation providing an executive summary and architectural overvi
 
 ## Documents
 
-| Document | Description |
-|----------|-------------|
-| [ARCHITECTURE-OVERVIEW.md](ARCHITECTURE-OVERVIEW.md) |  |
-| [EXECUTIVE-SUMMARY.md](EXECUTIVE-SUMMARY.md) |  |
+| Document                                             | Description |
+| ---------------------------------------------------- | ----------- |
+| [ARCHITECTURE-OVERVIEW.md](ARCHITECTURE-OVERVIEW.md) |             |
+| [EXECUTIVE-SUMMARY.md](EXECUTIVE-SUMMARY.md)         |             |
 
 ## Cross-References
-- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../CROSS-REFERENCE-INDEX.md) — Cross-reference mapping
-- [MASTER-INDEX.md](../MASTER-INDEX.md) — Related documentation
-- [CROSS-REFERENCE-INDEX.md](../CROSS-REFERENCE-INDEX.md) — Related documentation
+
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference mapping
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Related documentation
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Related documentation

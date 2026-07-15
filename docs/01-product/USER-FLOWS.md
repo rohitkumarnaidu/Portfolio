@@ -34,6 +34,7 @@ This document defines 10 persona-based user journeys covering the complete spect
 ## 1. Flow Conventions
 
 ### Swimlane Key
+
 ```
 ┌─ [PERSONA] ──────────────────────┐   ┌─ SYSTEM ────────────────────────────┐
 │                                    │   │                                      │
@@ -52,17 +53,18 @@ This document defines 10 persona-based user journeys covering the complete spect
 ```
 
 ### Symbols
-| Symbol | Meaning |
-|--------|---------|
-| `●` | Start node |
-| `◆` | Decision point |
-| `→` | User action |
-| `──→` | Async system action |
-| `⚠️` | Failure point / error state |
-| `📊` | Success metric checkpoint |
-| `🔒` | Security boundary |
-| `⚡` | Performance budget checkpoint |
-| `🎯` | Conversion / key goal |
+
+| Symbol | Meaning                       |
+| ------ | ----------------------------- |
+| `●`    | Start node                    |
+| `◆`    | Decision point                |
+| `→`    | User action                   |
+| `──→`  | Async system action           |
+| `⚠️`   | Failure point / error state   |
+| `📊`   | Success metric checkpoint     |
+| `🔒`   | Security boundary             |
+| `⚡`   | Performance budget checkpoint |
+| `🎯`   | Conversion / key goal         |
 
 ---
 
@@ -130,40 +132,40 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES | Criteria for NO |
-|----------|-----------------|-----------------|
-| **Is the person/title relevant?** | Name matches search, title aligns with need | Wrong person, wrong role, wrong industry |
-| **Are skills impressive?** | Skills match requirements, proficiency visible | Skills don't match, too generic, no depth |
-| **Interested in work?** | Projects look professional, relevant tech stack | Projects don't align, low quality |
+| Decision                          | Criteria for YES                                | Criteria for NO                           |
+| --------------------------------- | ----------------------------------------------- | ----------------------------------------- |
+| **Is the person/title relevant?** | Name matches search, title aligns with need     | Wrong person, wrong role, wrong industry  |
+| **Are skills impressive?**        | Skills match requirements, proficiency visible  | Skills don't match, too generic, no depth |
+| **Interested in work?**           | Projects look professional, relevant tech stack | Projects don't align, low quality         |
 
 ### Success Paths
 
-| Path | Description | Probability | Outcome |
-|------|-------------|-------------|---------|
-| **S1: Quick Scan → Lead** | Sees hero → skills → contact → submits form | 15% | New lead captured |
-| **S2: Project Deep Dive** | Sees hero → skills → projects → detail page → contact | 25% | Qualified lead |
-| **S3: Full Exploration** | Views all sections → reads testimonials → contact | 10% | High-intent lead |
-| **S4: Reference Check** | Reads about → testimonials → checks external links → leaves | 20% | Passive lead (may return) |
+| Path                      | Description                                                 | Probability | Outcome                   |
+| ------------------------- | ----------------------------------------------------------- | ----------- | ------------------------- |
+| **S1: Quick Scan → Lead** | Sees hero → skills → contact → submits form                 | 15%         | New lead captured         |
+| **S2: Project Deep Dive** | Sees hero → skills → projects → detail page → contact       | 25%         | Qualified lead            |
+| **S3: Full Exploration**  | Views all sections → reads testimonials → contact           | 10%         | High-intent lead          |
+| **S4: Reference Check**   | Reads about → testimonials → checks external links → leaves | 20%         | Passive lead (may return) |
 
 ### Failure Paths
 
-| Path | Drop-off Point | Cause | Mitigation |
-|------|----------------|-------|------------|
-| **F1: Instant Bounce** | Hero section (< 5s) | Not relevant, slow load, unappealing design | Improve hero, optimize LCP, clear CTA |
-| **F2: Skills Rejection** | Skills section (< 15s) | Skills don't match | Ensure skills relevant to target audience |
-| **F3: Content Overload** | Any section (> 30s) | Too much text, poor readability | Progressive disclosure, scannable content |
-| **F4: No CTA** | End of page | No clear next step | Prominent "Contact Me" at section bottoms |
+| Path                     | Drop-off Point         | Cause                                       | Mitigation                                |
+| ------------------------ | ---------------------- | ------------------------------------------- | ----------------------------------------- |
+| **F1: Instant Bounce**   | Hero section (< 5s)    | Not relevant, slow load, unappealing design | Improve hero, optimize LCP, clear CTA     |
+| **F2: Skills Rejection** | Skills section (< 15s) | Skills don't match                          | Ensure skills relevant to target audience |
+| **F3: Content Overload** | Any section (> 30s)    | Too much text, poor readability             | Progressive disclosure, scannable content |
+| **F4: No CTA**           | End of page            | No clear next step                          | Prominent "Contact Me" at section bottoms |
 
 ### Exit Points
 
-| Exit Point | % of Users | Reason | Recovery |
-|------------|------------|--------|----------|
-| Hero section | 30% | Not interested, slow load | Improve first impression, LCP |
-| Skills section | 15% | Skills mismatch | Better targeting |
-| Projects section | 10% | Not impressed | Improve project presentation |
-| Contact section | 5% | Form too long, friction | Simplify form |
-| External link | 10% | Clicks GitHub/LinkedIn | Return via browser back |
-| **Conversion** | **30%** | Submits form or bookmarks | Success! |
+| Exit Point       | % of Users | Reason                    | Recovery                      |
+| ---------------- | ---------- | ------------------------- | ----------------------------- |
+| Hero section     | 30%        | Not interested, slow load | Improve first impression, LCP |
+| Skills section   | 15%        | Skills mismatch           | Better targeting              |
+| Projects section | 10%        | Not impressed             | Improve project presentation  |
+| Contact section  | 5%         | Form too long, friction   | Simplify form                 |
+| External link    | 10%        | Clicks GitHub/LinkedIn    | Return via browser back       |
+| **Conversion**   | **30%**    | Submits form or bookmarks | Success!                      |
 
 ---
 
@@ -234,39 +236,39 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES | Criteria for NO |
-|----------|-----------------|-----------------|
-| **Relevant for my roles?** | Title/description matches open reqs | Wrong seniority, wrong stack |
-| **Skills match?** | Core tech meets requirements | Missing critical skills |
-| **Quality evident?** | Real projects, clear impact, good README | Sparse, no depth, no GitHub |
-| **Hire potential?** | Excellent fit, impressive work | Good but not great, close but no |
+| Decision                   | Criteria for YES                         | Criteria for NO                  |
+| -------------------------- | ---------------------------------------- | -------------------------------- |
+| **Relevant for my roles?** | Title/description matches open reqs      | Wrong seniority, wrong stack     |
+| **Skills match?**          | Core tech meets requirements             | Missing critical skills          |
+| **Quality evident?**       | Real projects, clear impact, good README | Sparse, no depth, no GitHub      |
+| **Hire potential?**        | Excellent fit, impressive work           | Good but not great, close but no |
 
 ### Success Paths
 
-| Path | Description | Probability |
-|------|-------------|-------------|
-| **S1: Strong Match → Contact** | Hero → skills match → projects impressive → contact form | 20% |
-| **S2: Promising → Bookmark** | Good match → saves link → may contact later | 25% |
-| **S3: Quick Screener** | Fast scan → "Maybe" → moves on to next candidate | 30% |
+| Path                           | Description                                              | Probability |
+| ------------------------------ | -------------------------------------------------------- | ----------- |
+| **S1: Strong Match → Contact** | Hero → skills match → projects impressive → contact form | 20%         |
+| **S2: Promising → Bookmark**   | Good match → saves link → may contact later              | 25%         |
+| **S3: Quick Screener**         | Fast scan → "Maybe" → moves on to next candidate         | 30%         |
 
 ### Failure Paths
 
-| Path | Cause | Mitigation |
-|------|-------|------------|
-| **F1: Skills don't match** | Wrong tech stack | Target job descriptions when listing skills |
-| **F2: Projects not impressive** | No real-world impact | Lead with outcomes, metrics, testimonials |
-| **F3: Hard to find contact** | No CTA, no email visible | Make contact form prominent, show email |
-| **F4: GitHub empty/inactive** | No public code | Link to active repos, contribute to OSS |
+| Path                            | Cause                    | Mitigation                                  |
+| ------------------------------- | ------------------------ | ------------------------------------------- |
+| **F1: Skills don't match**      | Wrong tech stack         | Target job descriptions when listing skills |
+| **F2: Projects not impressive** | No real-world impact     | Lead with outcomes, metrics, testimonials   |
+| **F3: Hard to find contact**    | No CTA, no email visible | Make contact form prominent, show email     |
+| **F4: GitHub empty/inactive**   | No public code           | Link to active repos, contribute to OSS     |
 
 ### Exit Points
 
-| Exit Point | % | Reason |
-|------------|---|--------|
-| Skills section | 30% | Skills mismatch |
-| Projects section | 20% | Not impressed |
+| Exit Point             | %   | Reason                   |
+| ---------------------- | --- | ------------------------ |
+| Skills section         | 30% | Skills mismatch          |
+| Projects section       | 20% | Not impressed            |
 | GitHub link (external) | 20% | Reviews code, may return |
-| Contact form | 15% | Submits interest |
-| Bookmark for later | 15% | Will return |
+| Contact form           | 15% | Submits interest         |
+| Bookmark for later     | 15% | Will return              |
 
 ---
 
@@ -340,29 +342,29 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES | Criteria for NO |
-|----------|-----------------|-----------------|
-| **Cultural fit?** | Bio resonates, values align, communication style matches | Mismatch in values, tone, or approach |
-| **Progression?** | Increasing responsibility, promotions, skill growth | Stagnation, short stints (multiple < 1yr) |
-| **Technical depth?** | Complex projects, good code, architecture thinking | Trivial projects, poor code quality |
-| **Should I interview?** | Excellent across all dimensions | Good but not exceptional |
+| Decision                | Criteria for YES                                         | Criteria for NO                           |
+| ----------------------- | -------------------------------------------------------- | ----------------------------------------- |
+| **Cultural fit?**       | Bio resonates, values align, communication style matches | Mismatch in values, tone, or approach     |
+| **Progression?**        | Increasing responsibility, promotions, skill growth      | Stagnation, short stints (multiple < 1yr) |
+| **Technical depth?**    | Complex projects, good code, architecture thinking       | Trivial projects, poor code quality       |
+| **Should I interview?** | Excellent across all dimensions                          | Good but not exceptional                  |
 
 ### Success Paths
 
-| Path | Description | Probability |
-|------|-------------|-------------|
-| **S1: Excellent Fit → Interview** | All checks pass → submits detailed inquiry | 15% |
-| **S2: Strong Candidate → Pipeline** | Strong match → saves for future opening | 25% |
-| **S3: Good Reference** | Impressed → refers to colleague | 10% |
+| Path                                | Description                                | Probability |
+| ----------------------------------- | ------------------------------------------ | ----------- |
+| **S1: Excellent Fit → Interview**   | All checks pass → submits detailed inquiry | 15%         |
+| **S2: Strong Candidate → Pipeline** | Strong match → saves for future opening    | 25%         |
+| **S3: Good Reference**              | Impressed → refers to colleague            | 10%         |
 
 ### Failure Paths
 
-| Path | Cause | Mitigation |
-|------|-------|------------|
-| **F1: Red flags in experience** | Short stints, unclear progression | Show context (contract roles, startups) |
-| **F2: Code quality not evident** | No GitHub, sparse commits | Contribute regularly, pin good repos |
-| **F3: No testimonials** | Can't verify soft skills | Collect LinkedIn recommendations |
-| **F4: Overwhelming info** | Too much text, poor structure | Progressive disclosure, case study format |
+| Path                             | Cause                             | Mitigation                                |
+| -------------------------------- | --------------------------------- | ----------------------------------------- |
+| **F1: Red flags in experience**  | Short stints, unclear progression | Show context (contract roles, startups)   |
+| **F2: Code quality not evident** | No GitHub, sparse commits         | Contribute regularly, pin good repos      |
+| **F3: No testimonials**          | Can't verify soft skills          | Collect LinkedIn recommendations          |
+| **F4: Overwhelming info**        | Too much text, poor structure     | Progressive disclosure, case study format |
 
 ---
 
@@ -438,30 +440,30 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES | Criteria for NO |
-|----------|-----------------|-----------------|
-| **Does this person do what I need?** | Services listed match project type | Wrong services, no service listing |
-| **Services match?** | Pricing clear, scope aligns | Too expensive, unclear offering |
-| **Quality and relevance?** | Portfolio projects similar to my need | Different category, low quality |
-| **Trust established?** | Positive testimonials, case studies, metrics | No social proof, generic claims |
+| Decision                             | Criteria for YES                             | Criteria for NO                    |
+| ------------------------------------ | -------------------------------------------- | ---------------------------------- |
+| **Does this person do what I need?** | Services listed match project type           | Wrong services, no service listing |
+| **Services match?**                  | Pricing clear, scope aligns                  | Too expensive, unclear offering    |
+| **Quality and relevance?**           | Portfolio projects similar to my need        | Different category, low quality    |
+| **Trust established?**               | Positive testimonials, case studies, metrics | No social proof, generic claims    |
 
 ### Success Paths
 
-| Path | Description | Probability |
-|------|-------------|-------------|
-| **S1: Perfect Fit → Detailed Proposal** | All criteria match → submits detailed requirements form | 20% |
-| **S2: Good Fit → Discovery Call** | Strong match → books call via Calendly | 15% |
-| **S3: Referral** | Impressed but not right fit → refers to colleague | 10% |
+| Path                                    | Description                                             | Probability |
+| --------------------------------------- | ------------------------------------------------------- | ----------- |
+| **S1: Perfect Fit → Detailed Proposal** | All criteria match → submits detailed requirements form | 20%         |
+| **S2: Good Fit → Discovery Call**       | Strong match → books call via Calendly                  | 15%         |
+| **S3: Referral**                        | Impressed but not right fit → refers to colleague       | 10%         |
 
 ### Failure Paths
 
-| Path | Cause | Mitigation |
-|------|-------|------------|
-| **F1: No services listed** | Can't tell what's offered | Add Services section |
-| **F2: No pricing** | Hesitant to reach out | Add pricing tiers or "Starting at $X" |
-| **F3: No testimonials** | Can't verify quality | Collect and display testimonials |
-| **F4: Form too long** | Abandons form | Minimize fields, save drafts |
-| **F5: No response** | Sends email but no reply | Auto-reply with timeline, Telegram alert |
+| Path                       | Cause                     | Mitigation                               |
+| -------------------------- | ------------------------- | ---------------------------------------- |
+| **F1: No services listed** | Can't tell what's offered | Add Services section                     |
+| **F2: No pricing**         | Hesitant to reach out     | Add pricing tiers or "Starting at $X"    |
+| **F3: No testimonials**    | Can't verify quality      | Collect and display testimonials         |
+| **F4: Form too long**      | Abandons form             | Minimize fields, save drafts             |
+| **F5: No response**        | Sends email but no reply  | Auto-reply with timeline, Telegram alert |
 
 ---
 
@@ -547,29 +549,29 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES |
-|----------|-----------------|
-| **Interesting/well-maintained?** | Good README, recent commits, CI passing, active issues |
-| **Setup works?** | Docker Compose or manual setup documented, no dependency conflicts |
-| **Good first issue found?** | Labeled "good first issue", clear description, low complexity |
+| Decision                         | Criteria for YES                                                   |
+| -------------------------------- | ------------------------------------------------------------------ |
+| **Interesting/well-maintained?** | Good README, recent commits, CI passing, active issues             |
+| **Setup works?**                 | Docker Compose or manual setup documented, no dependency conflicts |
+| **Good first issue found?**      | Labeled "good first issue", clear description, low complexity      |
 
 ### Success Paths
 
-| Path | Description |
-|------|-------------|
-| **S1: Quick Contribution** | Clone → setup → fix → PR → merge (within hours) |
-| **S2: Long-term Contributor** | Starts with one fix, becomes regular contributor |
-| **S3: Issue Reporter** | Doesn't code but files high-quality bugs / feature requests |
+| Path                          | Description                                                 |
+| ----------------------------- | ----------------------------------------------------------- |
+| **S1: Quick Contribution**    | Clone → setup → fix → PR → merge (within hours)             |
+| **S2: Long-term Contributor** | Starts with one fix, becomes regular contributor            |
+| **S3: Issue Reporter**        | Doesn't code but files high-quality bugs / feature requests |
 
 ### Failure Paths
 
-| Path | Cause | Mitigation |
-|------|-------|------------|
-| **F1: Complex setup** | Docker not installed, env var maze | Document manual setup, Docker default |
-| **F2: No good first issues** | Can't find where to start | Tag and document good first issues |
-| **F3: CI failing** | PR blocked by unrelated failures | Maintain CI, fix flaky tests |
-| **F4: PR not reviewed** | Stale PR, contributor loses interest | Review within 2 business days |
-| **F5: No contributing guide** | Unclear expectations | CONTRIBUTING.md, PR template |
+| Path                          | Cause                                | Mitigation                            |
+| ----------------------------- | ------------------------------------ | ------------------------------------- |
+| **F1: Complex setup**         | Docker not installed, env var maze   | Document manual setup, Docker default |
+| **F2: No good first issues**  | Can't find where to start            | Tag and document good first issues    |
+| **F3: CI failing**            | PR blocked by unrelated failures     | Maintain CI, fix flaky tests          |
+| **F4: PR not reviewed**       | Stale PR, contributor loses interest | Review within 2 business days         |
+| **F5: No contributing guide** | Unclear expectations                 | CONTRIBUTING.md, PR template          |
 
 ---
 
@@ -629,28 +631,28 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES | Criteria for NO |
-|----------|-----------------|-----------------|
-| **Interesting titles?** | Topics relevant to reader's work | Too generic, wrong niche |
-| **Content valuable?** | Well-written, actionable, insightful | Shallow, fluff, rehashed |
-| **Engaged enough to act?** | Learned something, impressed | Informative but not actionable |
+| Decision                   | Criteria for YES                     | Criteria for NO                |
+| -------------------------- | ------------------------------------ | ------------------------------ |
+| **Interesting titles?**    | Topics relevant to reader's work     | Too generic, wrong niche       |
+| **Content valuable?**      | Well-written, actionable, insightful | Shallow, fluff, rehashed       |
+| **Engaged enough to act?** | Learned something, impressed         | Informative but not actionable |
 
 ### Success Paths
 
-| Path | Description |
-|------|-------------|
-| **S1: Deep Reader** | Reads full article → shares → reads more → explores portfolio |
-| **S2: Skimmer → Subscriber** | Skims → impressed → subscribes to RSS → returns regularly |
-| **S3: One-off Learner** | Reads one article → leaves → may return via search |
+| Path                         | Description                                                   |
+| ---------------------------- | ------------------------------------------------------------- |
+| **S1: Deep Reader**          | Reads full article → shares → reads more → explores portfolio |
+| **S2: Skimmer → Subscriber** | Skims → impressed → subscribes to RSS → returns regularly     |
+| **S3: One-off Learner**      | Reads one article → leaves → may return via search            |
 
 ### Failure Paths
 
-| Path | Cause |
-|------|-------|
-| **F1: Title clickbait, content shallow** | Misleading title, poor depth |
-| **F2: Code blocks broken** | Syntax highlighting not working |
-| **F3: Slow loading** | > 3s load time, reader leaves |
-| **F4: Poor mobile formatting** | Code blocks overflow, font too small |
+| Path                                     | Cause                                |
+| ---------------------------------------- | ------------------------------------ |
+| **F1: Title clickbait, content shallow** | Misleading title, poor depth         |
+| **F2: Code blocks broken**               | Syntax highlighting not working      |
+| **F3: Slow loading**                     | > 3s load time, reader leaves        |
+| **F4: Poor mobile formatting**           | Code blocks overflow, font too small |
 
 ---
 
@@ -723,29 +725,29 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria |
-|----------|----------|
-| **Authenticated?** | Valid session cookie / JWT token |
-| **What needs attention?** | Unread leads count, stale content, traffic trends |
-| **Valid credentials?** | Email + password match stored hash, not rate-limited |
+| Decision                  | Criteria                                             |
+| ------------------------- | ---------------------------------------------------- |
+| **Authenticated?**        | Valid session cookie / JWT token                     |
+| **What needs attention?** | Unread leads count, stale content, traffic trends    |
+| **Valid credentials?**    | Email + password match stored hash, not rate-limited |
 
 ### Admin Task Flow
 
-| Task | Steps | Avg Time | Frequency |
-|------|-------|----------|-----------|
-| **Check leads** | Login → Leads → Review → Reply/Archive | 2 min | Daily |
-| **Update section** | Login → Sections → Edit → Save → Preview | 5 min | Weekly |
-| **View analytics** | Login → Analytics → Review trends | 3 min | Weekly |
-| **Toggle visibility** | Login → Sections → Toggle | 10s | As needed |
-| **Upload images** | Login → Sections → Edit → Upload | 1 min | As needed |
+| Task                  | Steps                                    | Avg Time | Frequency |
+| --------------------- | ---------------------------------------- | -------- | --------- |
+| **Check leads**       | Login → Leads → Review → Reply/Archive   | 2 min    | Daily     |
+| **Update section**    | Login → Sections → Edit → Save → Preview | 5 min    | Weekly    |
+| **View analytics**    | Login → Analytics → Review trends        | 3 min    | Weekly    |
+| **Toggle visibility** | Login → Sections → Toggle                | 10s      | As needed |
+| **Upload images**     | Login → Sections → Edit → Upload         | 1 min    | As needed |
 
 ### Failure Paths
 
-| Path | Cause | Recovery |
-|------|-------|----------|
-| **F1: Forgot password** | Can't remember credentials | Use "Forgot password?" reset flow |
-| **F2: Save fails** | Network, server error | Auto-save, retry, show error toast |
-| **F3: Session expired** | Idle > 24 hours | Auto-redirect to login, preserve intended URL |
+| Path                    | Cause                      | Recovery                                      |
+| ----------------------- | -------------------------- | --------------------------------------------- |
+| **F1: Forgot password** | Can't remember credentials | Use "Forgot password?" reset flow             |
+| **F2: Save fails**      | Network, server error      | Auto-save, retry, show error toast            |
+| **F3: Session expired** | Idle > 24 hours            | Auto-redirect to login, preserve intended URL |
 
 ---
 
@@ -816,30 +818,30 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria for YES | Criteria for NO |
-|----------|-----------------|-----------------|
-| **Form simple enough?** | 3-5 fields, no required account | 10+ fields, requires login |
-| **Validation passes?** | Valid email, message > 10 chars | Invalid email, empty fields |
-| **Rate limit OK?** | < 10 submissions in 15 min | > 10 submissions in 15 min |
+| Decision                | Criteria for YES                | Criteria for NO             |
+| ----------------------- | ------------------------------- | --------------------------- |
+| **Form simple enough?** | 3-5 fields, no required account | 10+ fields, requires login  |
+| **Validation passes?**  | Valid email, message > 10 chars | Invalid email, empty fields |
+| **Rate limit OK?**      | < 10 submissions in 15 min      | > 10 submissions in 15 min  |
 
 ### Lead Quality Indicators
 
-| Indicator | High Quality | Low Quality |
-|-----------|-------------|-------------|
+| Indicator          | High Quality          | Low Quality         |
+| ------------------ | --------------------- | ------------------- |
 | **Message length** | > 100 chars, detailed | < 20 chars, generic |
-| **Company filled** | Real company name | Empty or "N/A" |
-| **Source** | Referral, LinkedIn | Direct (unknown) |
-| **UTM tracking** | Specific campaign | No UTM params |
+| **Company filled** | Real company name     | Empty or "N/A"      |
+| **Source**         | Referral, LinkedIn    | Direct (unknown)    |
+| **UTM tracking**   | Specific campaign     | No UTM params       |
 
 ### Failure Paths
 
-| Path | Cause | Recovery |
-|------|-------|----------|
-| **F1: Form too complex** | Too many fields, asks for too much info | Keep to 5 fields max |
-| **F2: Validation frustration** | Overly strict validation | Real-time validation, helpful messages |
-| **F3: Rate limited** | Submitted too many times | Clear countdown, alternative contact method |
-| **F4: Network error** | Lost connection during submit | Save form data, retry on reconnect |
-| **F5: No confirmation** | Submitted but no visual feedback | Success toast + email within 60s |
+| Path                           | Cause                                   | Recovery                                    |
+| ------------------------------ | --------------------------------------- | ------------------------------------------- |
+| **F1: Form too complex**       | Too many fields, asks for too much info | Keep to 5 fields max                        |
+| **F2: Validation frustration** | Overly strict validation                | Real-time validation, helpful messages      |
+| **F3: Rate limited**           | Submitted too many times                | Clear countdown, alternative contact method |
+| **F4: Network error**          | Lost connection during submit           | Save form data, retry on reconnect          |
+| **F5: No confirmation**        | Submitted but no visual feedback        | Success toast + email within 60s            |
 
 ---
 
@@ -914,30 +916,30 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Decision Points
 
-| Decision | Criteria |
-|----------|----------|
-| **Try the chatbot?** | Has a question, seen chatbot on other sites, curious |
-| **Was the answer helpful?** | Relevant, accurate, sourced from portfolio |
-| **Question answered?** | Got the info needed, or needs more detail |
+| Decision                    | Criteria                                             |
+| --------------------------- | ---------------------------------------------------- |
+| **Try the chatbot?**        | Has a question, seen chatbot on other sites, curious |
+| **Was the answer helpful?** | Relevant, accurate, sourced from portfolio           |
+| **Question answered?**      | Got the info needed, or needs more detail            |
 
 ### Success Paths
 
-| Path | Description | Probability |
-|------|-------------|-------------|
-| **S1: Complete Resolution** | Asks question → gets answer → satisfied → closes | 50% |
-| **S2: Interactive Discovery** | Starts with one question → explores via follow-ups | 25% |
-| **S3: Quick Fact Check** | Quick question → quick answer → closes | 15% |
-| **S4: Lead Generation** | Chat interaction → convinces user → submits contact form | 10% |
+| Path                          | Description                                              | Probability |
+| ----------------------------- | -------------------------------------------------------- | ----------- |
+| **S1: Complete Resolution**   | Asks question → gets answer → satisfied → closes         | 50%         |
+| **S2: Interactive Discovery** | Starts with one question → explores via follow-ups       | 25%         |
+| **S3: Quick Fact Check**      | Quick question → quick answer → closes                   | 15%         |
+| **S4: Lead Generation**       | Chat interaction → convinces user → submits contact form | 10%         |
 
 ### Failure Paths
 
-| Path | Cause | Mitigation |
-|------|-------|------------|
-| **F1: AI doesn't understand** | Poor question phrasing, ambiguous | Show suggested questions, ask clarifying |
-| **F2: AI hallucinates** | Makes up information about portfolio owner | RAG grounding, "I don't have info about X" |
-| **F3: Too slow** | Response > 5 seconds | Typing indicator, cache common Qs |
-| **F4: Rate limited** | Too many messages | Show friendly limit message |
-| **F5: AI unavailable** | Service down | "Chat unavailable. Email instead." link |
+| Path                          | Cause                                      | Mitigation                                 |
+| ----------------------------- | ------------------------------------------ | ------------------------------------------ |
+| **F1: AI doesn't understand** | Poor question phrasing, ambiguous          | Show suggested questions, ask clarifying   |
+| **F2: AI hallucinates**       | Makes up information about portfolio owner | RAG grounding, "I don't have info about X" |
+| **F3: Too slow**              | Response > 5 seconds                       | Typing indicator, cache common Qs          |
+| **F4: Rate limited**          | Too many messages                          | Show friendly limit message                |
+| **F5: AI unavailable**        | Service down                               | "Chat unavailable. Email instead." link    |
 
 ---
 
@@ -945,97 +947,97 @@ This document defines 10 persona-based user journeys covering the complete spect
 
 ### Flow Dependencies
 
-| From \\ To | P1: Visitor | P2: Recruiter | P3: H.Manager | P4: Client | P5: OSS | P6: Blog | P7: Admin | P8: Lead | P9: AI User |
-|------------|-------------|---------------|---------------|-------------|---------|----------|------------|----------|-------------|
-| **P1: Visitor** | — | ✅ Skills | ✅ About | ✅ Services | ❌ | ❌ | ❌ | ✅ Contact | ✅ Chat |
-| **P2: Recruiter** | ✅ Hero | — | ✅ Experience | ❌ | ✅ GitHub | ❌ | ❌ | ✅ Contact | ✅ Fast scan |
-| **P3: H.Manager** | ✅ About | ✅ Exp | — | ❌ | ✅ Code | ❌ | ❌ | ✅ Contact | ✅ Deep dive |
-| **P4: Client** | ✅ Services | ❌ | ❌ | — | ❌ | ❌ | ❌ | ✅ Form | ✅ Chat |
-| **P5: OSS** | ❌ | ❌ | ❌ | ❌ | — | ❌ | ✅ PR | ❌ | ❌ |
-| **P6: Blog** | ✅ Portfolio | ❌ | ❌ | ❌ | ❌ | — | ❌ | ❌ | ❌ |
-| **P7: Admin** | ❌ | ❌ | ❌ | ❌ | ✅ Review PR | ❌ | — | ✅ Reply | ✅ Monitor |
-| **P8: Lead** | ✅ Explore | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Inbox | — | ❌ |
-| **P9: AI User** | ✅ Browse | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ Convert | — |
+| From \\ To        | P1: Visitor  | P2: Recruiter | P3: H.Manager | P4: Client  | P5: OSS      | P6: Blog | P7: Admin | P8: Lead   | P9: AI User  |
+| ----------------- | ------------ | ------------- | ------------- | ----------- | ------------ | -------- | --------- | ---------- | ------------ |
+| **P1: Visitor**   | —            | ✅ Skills     | ✅ About      | ✅ Services | ❌           | ❌       | ❌        | ✅ Contact | ✅ Chat      |
+| **P2: Recruiter** | ✅ Hero      | —             | ✅ Experience | ❌          | ✅ GitHub    | ❌       | ❌        | ✅ Contact | ✅ Fast scan |
+| **P3: H.Manager** | ✅ About     | ✅ Exp        | —             | ❌          | ✅ Code      | ❌       | ❌        | ✅ Contact | ✅ Deep dive |
+| **P4: Client**    | ✅ Services  | ❌            | ❌            | —           | ❌           | ❌       | ❌        | ✅ Form    | ✅ Chat      |
+| **P5: OSS**       | ❌           | ❌            | ❌            | ❌          | —            | ❌       | ✅ PR     | ❌         | ❌           |
+| **P6: Blog**      | ✅ Portfolio | ❌            | ❌            | ❌          | ❌           | —        | ❌        | ❌         | ❌           |
+| **P7: Admin**     | ❌           | ❌            | ❌            | ❌          | ✅ Review PR | ❌       | —         | ✅ Reply   | ✅ Monitor   |
+| **P8: Lead**      | ✅ Explore   | ❌            | ❌            | ❌          | ❌           | ❌       | ✅ Inbox  | —          | ❌           |
+| **P9: AI User**   | ✅ Browse    | ❌            | ❌            | ❌          | ❌           | ❌       | ❌        | ✅ Convert | —            |
 
 ### Data Flow Per Persona
 
-| Persona | Reads | Creates | Updates | Converts To |
-|---------|-------|---------|---------|-------------|
-| P1: Visitor | Sections, Skills, Projects | — | — | P8: Lead |
-| P2: Recruiter | Skills, Projects, GitHub | — | — | P8: Lead |
-| P3: H.Manager | About, Experience, Projects, GitHub | — | — | P8: Lead |
-| P4: Client | Services, Projects, Testimonials | Lead record | — | P8: Lead |
-| P5: OSS | README, Code, Docs | Pull request | — | P7: Admin (review) |
-| P6: Blog | Blog posts | — | — | P1: Visitor |
-| P7: Admin | Dashboard, Analytics | Content updates | Sections, Leads | — |
-| P8: Lead | Confirmation, Auto-reply | Lead record | — | P7: Admin (reply) |
-| P9: AI User | AI responses | Chat message | — | P8: Lead |
+| Persona       | Reads                               | Creates         | Updates         | Converts To        |
+| ------------- | ----------------------------------- | --------------- | --------------- | ------------------ |
+| P1: Visitor   | Sections, Skills, Projects          | —               | —               | P8: Lead           |
+| P2: Recruiter | Skills, Projects, GitHub            | —               | —               | P8: Lead           |
+| P3: H.Manager | About, Experience, Projects, GitHub | —               | —               | P8: Lead           |
+| P4: Client    | Services, Projects, Testimonials    | Lead record     | —               | P8: Lead           |
+| P5: OSS       | README, Code, Docs                  | Pull request    | —               | P7: Admin (review) |
+| P6: Blog      | Blog posts                          | —               | —               | P1: Visitor        |
+| P7: Admin     | Dashboard, Analytics                | Content updates | Sections, Leads | —                  |
+| P8: Lead      | Confirmation, Auto-reply            | Lead record     | —               | P7: Admin (reply)  |
+| P9: AI User   | AI responses                        | Chat message    | —               | P8: Lead           |
 
 ---
 
 ## 12. Performance Budgets per Persona
 
-| Persona | Critical Metric | Target | Failure Threshold |
-|---------|----------------|--------|-------------------|
-| P1: Homepage Visitor | LCP | < 2.0s | > 2.5s |
-| P1: Homepage Visitor | TTI | < 3.0s | > 4.0s |
-| P2: Recruiter | Skills section render | < 500ms | > 1s |
-| P3: Hiring Manager | Project detail load | < 1s | > 2s |
-| P4: Client | Contact form submit | < 2s | > 5s |
-| P5: OSS Contributor | `npm install` | < 2 min | > 5 min |
-| P5: OSS Contributor | First build | < 3 min | > 10 min |
-| P6: Blog Reader | Article load | < 1.5s | > 3s |
-| P7: Admin | Dashboard load | < 2s | > 4s |
-| P7: Admin | Section save | < 1s | > 3s |
-| P8: Lead | Form submission | < 2s | > 5s |
-| P8: Lead | Auto-reply delivery | < 60s | > 5 min |
-| P9: AI User | First response | < 2s | > 5s |
-| P9: AI User | Follow-up response | < 1.5s | > 3s |
+| Persona              | Critical Metric       | Target  | Failure Threshold |
+| -------------------- | --------------------- | ------- | ----------------- |
+| P1: Homepage Visitor | LCP                   | < 2.0s  | > 2.5s            |
+| P1: Homepage Visitor | TTI                   | < 3.0s  | > 4.0s            |
+| P2: Recruiter        | Skills section render | < 500ms | > 1s              |
+| P3: Hiring Manager   | Project detail load   | < 1s    | > 2s              |
+| P4: Client           | Contact form submit   | < 2s    | > 5s              |
+| P5: OSS Contributor  | `npm install`         | < 2 min | > 5 min           |
+| P5: OSS Contributor  | First build           | < 3 min | > 10 min          |
+| P6: Blog Reader      | Article load          | < 1.5s  | > 3s              |
+| P7: Admin            | Dashboard load        | < 2s    | > 4s              |
+| P7: Admin            | Section save          | < 1s    | > 3s              |
+| P8: Lead             | Form submission       | < 2s    | > 5s              |
+| P8: Lead             | Auto-reply delivery   | < 60s   | > 5 min           |
+| P9: AI User          | First response        | < 2s    | > 5s              |
+| P9: AI User          | Follow-up response    | < 1.5s  | > 3s              |
 
 ---
 
 ## 13. Test Matrix per Persona Journey
 
-| Test | Personas Covered | Tool | Frequency |
-|------|-----------------|------|-----------|
-| Homepage load → first scroll | P1, P2 | Playwright | Every PR |
-| Skills section rendering | P1, P2 | Playwright | Every PR |
-| Project detail navigation | P3 | Playwright | Every PR |
-| Contact form submission (all paths) | P4, P8 | Playwright | Every PR |
-| Admin login + CRUD | P7 | Playwright | Every PR |
-| GitHub → Clone → Setup | P5 | Manual | Every release |
-| Blog article rendering | P6 | Playwright | Every PR |
-| AI chatbot conversation | P9 | Playwright | Every release |
-| All flows keyboard-only | P1-P9 | Manual + axe | Every release |
-| All flows screen reader | P1-P9 | VoiceOver/NVDA | Every release |
-| All flows 200% zoom | P1-P9 | Manual | Every release |
-| Lead → Auto-reply → Telegram | P8 | Integration | Every release |
+| Test                                | Personas Covered | Tool           | Frequency     |
+| ----------------------------------- | ---------------- | -------------- | ------------- |
+| Homepage load → first scroll        | P1, P2           | Playwright     | Every PR      |
+| Skills section rendering            | P1, P2           | Playwright     | Every PR      |
+| Project detail navigation           | P3               | Playwright     | Every PR      |
+| Contact form submission (all paths) | P4, P8           | Playwright     | Every PR      |
+| Admin login + CRUD                  | P7               | Playwright     | Every PR      |
+| GitHub → Clone → Setup              | P5               | Manual         | Every release |
+| Blog article rendering              | P6               | Playwright     | Every PR      |
+| AI chatbot conversation             | P9               | Playwright     | Every release |
+| All flows keyboard-only             | P1-P9            | Manual + axe   | Every release |
+| All flows screen reader             | P1-P9            | VoiceOver/NVDA | Every release |
+| All flows 200% zoom                 | P1-P9            | Manual         | Every release |
+| Lead → Auto-reply → Telegram        | P8               | Integration    | Every release |
 
 ---
 
 ## 15. Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| UF-D001 | 9 persona-based flows (P1-P9) | Covers all visitor types with realistic journey archetypes; better than action-based flows | Action-based flows (F1-F7), screen-based flows, feature-based flows | Mar 2026 | Product Owner |
-| UF-D002 | Swimlane diagrams with decision points | Shows branching logic and recovery paths; clear success/failure separation | Standard flowcharts, sequence diagrams, wireframes | Mar 2026 | UX Lead |
-| UF-D003 | Cross-persona interaction matrix | Documents relationships between personas for edge-case handling | Isolated persona docs, no interaction tracking | Mar 2026 | Product Owner |
-| UF-D004 | Per-persona performance budgets | Ensures consistent UX across visitor types and device profiles | Single performance budget for all personas | Mar 2026 | Frontend Lead |
-| UF-D005 | Test matrix per persona | Every flow maps to explicit test coverage requirements | Single test plan for all flows | Mar 2026 | QA Lead |
+| ID      | Decision                               | Rationale                                                                                  | Alternatives Considered                                             | Date     | Approver      |
+| ------- | -------------------------------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | -------- | ------------- |
+| UF-D001 | 9 persona-based flows (P1-P9)          | Covers all visitor types with realistic journey archetypes; better than action-based flows | Action-based flows (F1-F7), screen-based flows, feature-based flows | Mar 2026 | Product Owner |
+| UF-D002 | Swimlane diagrams with decision points | Shows branching logic and recovery paths; clear success/failure separation                 | Standard flowcharts, sequence diagrams, wireframes                  | Mar 2026 | UX Lead       |
+| UF-D003 | Cross-persona interaction matrix       | Documents relationships between personas for edge-case handling                            | Isolated persona docs, no interaction tracking                      | Mar 2026 | Product Owner |
+| UF-D004 | Per-persona performance budgets        | Ensures consistent UX across visitor types and device profiles                             | Single performance budget for all personas                          | Mar 2026 | Frontend Lead |
+| UF-D005 | Test matrix per persona                | Every flow maps to explicit test coverage requirements                                     | Single test plan for all flows                                      | Mar 2026 | QA Lead       |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/product/03-USER-STORIES.md` | User stories — each flow maps to stories and epics |
-| `docs/product/02-FEATURES.md` | Feature catalog — flows validate feature acceptance criteria |
-| `docs/product/ProductRequirements.md` | Product requirements — flows trace to PRD requirements |
-| `docs/quality/TestingArchitecture.md` | Testing strategy — flows inform test scenarios |
-| `docs/design/DesignSystem.md` | UI/UX design — flows validate design decisions |
-| `docs/quality/AccessibilityArchitecture.md` | Accessibility — flows include WCAG checkpoints |
-| `docs/product/37-IMPLEMENTATION_PLAN.md` | Implementation — flows sequenced in phases |
+| Reference                                      | Description                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------ |
+| `docs/01-product/03-USER-STORIES.md`           | User stories — each flow maps to stories and epics           |
+| `docs/01-product/02-FEATURES.md`               | Feature catalog — flows validate feature acceptance criteria |
+| `docs/01-product/ProductRequirements.md`       | Product requirements — flows trace to PRD requirements       |
+| `docs/35-quality/TestingArchitecture.md`       | Testing strategy — flows inform test scenarios               |
+| `docs/04-design/DesignSystem.md`               | UI/UX design — flows validate design decisions               |
+| `docs/35-quality/AccessibilityArchitecture.md` | Accessibility — flows include WCAG checkpoints               |
+| `docs/01-product/37-IMPLEMENTATION_PLAN.md`    | Implementation — flows sequenced in phases                   |
 
 ## Persona Interaction Flow
 
@@ -1054,28 +1056,28 @@ flowchart TD
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| Persona | A fictional user archetype representing a distinct visitor type with specific goals and behaviors |
-| Entry Point | The page or source where a persona begins their journey on the portfolio |
-| Journey Swimlane | A step-by-step sequence of user actions and system responses for a persona |
-| Decision Point | A moment in the journey where the user makes a choice that determines the flow path |
-| Success Path | The optimal journey outcome where the persona achieves their primary goal |
-| Failure Path | A negative outcome where the persona drops off or fails to complete their goal |
-| Exit Point | The location and conditions under which a persona leaves the portfolio |
-| Cross-Persona Interaction | A scenario where two or more personas interact or share system resources |
-| Performance Budget | The maximum acceptable latency or load time for a persona's journey |
-| UTM Parameter | Tracking parameters appended to URLs for source/medium/campaign attribution |
+| Term                      | Definition                                                                                        |
+| ------------------------- | ------------------------------------------------------------------------------------------------- |
+| Persona                   | A fictional user archetype representing a distinct visitor type with specific goals and behaviors |
+| Entry Point               | The page or source where a persona begins their journey on the portfolio                          |
+| Journey Swimlane          | A step-by-step sequence of user actions and system responses for a persona                        |
+| Decision Point            | A moment in the journey where the user makes a choice that determines the flow path               |
+| Success Path              | The optimal journey outcome where the persona achieves their primary goal                         |
+| Failure Path              | A negative outcome where the persona drops off or fails to complete their goal                    |
+| Exit Point                | The location and conditions under which a persona leaves the portfolio                            |
+| Cross-Persona Interaction | A scenario where two or more personas interact or share system resources                          |
+| Performance Budget        | The maximum acceptable latency or load time for a persona's journey                               |
+| UTM Parameter             | Tracking parameters appended to URLs for source/medium/campaign attribution                       |
 
 ---
 
 ## 14. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | Complete rewrite from action-based flows (F1-F7) to 9 persona-based journeys (P1-P9). Each flow includes Entry Point, Journey swimlane, Decision Points, Success/Failure Paths, Exit Points. Added cross-persona interaction matrix, data flow per persona, performance budgets per persona, test matrix per persona. | Product Owner |
-| 3.0 | Jun 2026 | Added executive summary, success metrics, KPI targets per flow, performance budgets, accessibility checkpoints, UTM tracking, session management table, data dependency tables, test matrix, change log | Product Owner |
-| 2.0 | Jun 2026 | Updated for enterprise monorepo structure; added cross-flow matrix, decision trees, enhanced error states | Product Owner |
-| 1.0 | Mar 2026 | Initial user flow documentation with 7 action-based flows (F1-F7) | Product Owner |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                               | Author        |
+| ------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 4.0     | Jun 2026 | Complete rewrite from action-based flows (F1-F7) to 9 persona-based journeys (P1-P9). Each flow includes Entry Point, Journey swimlane, Decision Points, Success/Failure Paths, Exit Points. Added cross-persona interaction matrix, data flow per persona, performance budgets per persona, test matrix per persona. | Product Owner |
+| 3.0     | Jun 2026 | Added executive summary, success metrics, KPI targets per flow, performance budgets, accessibility checkpoints, UTM tracking, session management table, data dependency tables, test matrix, change log                                                                                                               | Product Owner |
+| 2.0     | Jun 2026 | Updated for enterprise monorepo structure; added cross-flow matrix, decision trees, enhanced error states                                                                                                                                                                                                             | Product Owner |
+| 1.0     | Mar 2026 | Initial user flow documentation with 7 action-based flows (F1-F7)                                                                                                                                                                                                                                                     | Product Owner |
 
-*Document Version: 4.0 — Persona-Based Journey Maps*
+_Document Version: 4.0 — Persona-Based Journey Maps_
