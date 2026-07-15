@@ -1,4 +1,5 @@
-import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
+import type { PipeTransform, ArgumentMetadata } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import sanitizeHtml from 'sanitize-html';
 
 const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {

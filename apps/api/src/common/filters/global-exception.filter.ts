@@ -1,12 +1,6 @@
-import {
-  ExceptionFilter,
-  Catch,
-  ArgumentsHost,
-  HttpException,
-  HttpStatus,
-  Logger,
-} from '@nestjs/common';
-import { Response, Request } from 'express';
+import type { ExceptionFilter, ArgumentsHost } from '@nestjs/common';
+import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import type { Response, Request } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 @Catch()
@@ -34,7 +28,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         message = (resp.message as string) || exception.message;
 
         if (Array.isArray(resp.message)) {
-          details = (resp.message as Array<{ field?: string; message: string; code: string }>);
+          details = resp.message as Array<{ field?: string; message: string; code: string }>;
           message = 'Validation failed';
         }
 
@@ -54,12 +48,15 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     if (process.env.SENTRY_DSN && status >= 500) {
       try {
-        const Sentry = require('@sentry/node');
+        const Sentry = require('@sentry/node'); // eslint-disable-line @typescript-eslint/no-var-requires
+        const reqUser = (request as unknown as { user?: { id: string; email: string } }).user;
         Sentry.captureException(exception, {
           extra: { correlationId, method: request.method, url: request.url },
-          user: (request as any).user ? { id: (request as any).user.id, email: (request as any).user.email } : undefined,
+          user: reqUser ? { id: reqUser.id, email: reqUser.email } : undefined,
         });
-      } catch {}
+      } catch {
+        // Sentry unavailable
+      }
     }
 
     response.status(status).json({
@@ -75,4 +72,3 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     });
   }
 }
-
