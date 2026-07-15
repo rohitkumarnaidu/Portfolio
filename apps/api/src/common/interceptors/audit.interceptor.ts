@@ -1,8 +1,11 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
-import { Observable, tap } from 'rxjs';
-import { ActivitiesService } from '../../modules/activities/activities.service';
-import { AUDIT_KEY, AuditMetadata } from '../decorators/audit.decorator';
+import type { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import type { Reflector } from '@nestjs/core';
+import type { Observable } from 'rxjs';
+import { tap } from 'rxjs';
+import type { ActivitiesService } from '../../modules/activities/activities.service';
+import type { AuditMetadata } from '../decorators/audit.decorator';
+import { AUDIT_KEY } from '../decorators/audit.decorator';
 
 @Injectable()
 export class AuditInterceptor implements NestInterceptor {
@@ -24,7 +27,9 @@ export class AuditInterceptor implements NestInterceptor {
     return next.handle().pipe(
       tap(() => {
         const resourceId = request.params?.id;
-        this.activities.log(audit.action, audit.resource, user?.id || 'system', resourceId).catch(() => {});
+        this.activities
+          .log(audit.action, audit.resource, user?.id || 'system', resourceId)
+          .catch(() => {});
       }),
     );
   }
