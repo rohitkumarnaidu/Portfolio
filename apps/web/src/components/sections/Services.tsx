@@ -180,8 +180,11 @@ export function Services({ data }: { data?: Section }) {
   return (
     <SectionWrapper
       id={SECTION_IDS.SERVICES}
-      heading={content.title || "How I can help"}
-      subtitle={content.subtitle || "From design to deployment, I offer end-to-end development services tailored to your needs."}
+      heading={content.title || 'How I can help'}
+      subtitle={
+        content.subtitle ||
+        'From design to deployment, I offer end-to-end development services tailored to your needs.'
+      }
       animate={false}
     >
       <div ref={ref}>
@@ -198,18 +201,11 @@ export function Services({ data }: { data?: Section }) {
             ))}
           </div>
         ) : items.length === 0 ? (
-          <p className="text-center text-text-secondary py-12">
-            No services yet.
-          </p>
+          <p className="text-center text-text-secondary py-12">No services yet.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 items-start">
             {items.map((service, index) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                index={index}
-                inView={inView}
-              />
+              <ServiceCard key={service.id} service={service} index={index} inView={inView} />
             ))}
           </div>
         )}

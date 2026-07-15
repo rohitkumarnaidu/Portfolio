@@ -5,7 +5,15 @@ import { usePublicSkills } from '@/lib/hooks/usePublicData';
 import type { Section } from '@portfolio/shared';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
 
-function SkillBar({ name, proficiency, delay = 0 }: { name: string; proficiency: number; delay: number }) {
+function SkillBar({
+  name,
+  proficiency,
+  delay = 0,
+}: {
+  name: string;
+  proficiency: number;
+  delay: number;
+}) {
   const [width, setWidth] = useState(0);
   const [inView, setInView] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -38,7 +46,9 @@ function SkillBar({ name, proficiency, delay = 0 }: { name: string; proficiency:
     <div ref={ref} className="space-y-1.5">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-text-primary">{name}</span>
-        <span className={`text-xs font-mono text-text-tertiary transition-opacity duration-300 ${inView ? 'opacity-100' : 'opacity-0'}`}>
+        <span
+          className={`text-xs font-mono text-text-tertiary transition-opacity duration-300 ${inView ? 'opacity-100' : 'opacity-0'}`}
+        >
           {proficiency}%
         </span>
       </div>
@@ -58,12 +68,15 @@ function SkillBar({ name, proficiency, delay = 0 }: { name: string; proficiency:
 export function Skills({ data }: { data?: Section }) {
   const { data: skills, isLoading } = usePublicSkills();
 
-  const grouped = (skills ?? []).reduce<Record<string, typeof skills>>((acc, skill) => {
-    const cat = skill.category;
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat]!.push(skill);
-    return acc;
-  }, {} as Record<string, typeof skills>);
+  const grouped = (skills ?? []).reduce<Record<string, typeof skills>>(
+    (acc, skill) => {
+      const cat = skill.category;
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat]!.push(skill);
+      return acc;
+    },
+    {} as Record<string, typeof skills>,
+  );
 
   const categoryOrder = ['Languages', 'Frontend', 'Backend', 'DevOps'];
   const sortedCategories = Object.keys(grouped).sort(
@@ -99,8 +112,11 @@ export function Skills({ data }: { data?: Section }) {
     <SectionWrapper
       id="skills"
       variant="alt"
-      heading={content.title || "Technologies I work with"}
-      subtitle={content.subtitle || "A curated selection of technologies I use daily. From frontend to backend to infrastructure — I believe in mastering the tools that matter."}
+      heading={content.title || 'Technologies I work with'}
+      subtitle={
+        content.subtitle ||
+        'A curated selection of technologies I use daily. From frontend to backend to infrastructure — I believe in mastering the tools that matter.'
+      }
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {sortedCategories.map((category) => (

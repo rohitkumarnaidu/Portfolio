@@ -74,9 +74,7 @@ function StarRating({ rating }: { rating: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <svg
           key={i}
-          className={`w-4 h-4 ${
-            i < rating ? 'text-yellow-400' : 'text-border-primary'
-          }`}
+          className={`w-4 h-4 ${i < rating ? 'text-yellow-400' : 'text-border-primary'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           aria-hidden="true"
@@ -94,9 +92,7 @@ function Avatar({ initials }: { initials: string }) {
       className="w-12 h-12 rounded-full bg-accent-100 flex items-center justify-center shrink-0"
       aria-hidden="true"
     >
-      <span className="text-body-sm font-semibold text-accent-700">
-        {initials}
-      </span>
+      <span className="text-body-sm font-semibold text-accent-700">{initials}</span>
     </div>
   );
 }
@@ -222,8 +218,11 @@ export function Testimonials({ data }: { data?: Section }) {
   return (
     <SectionWrapper
       id={SECTION_IDS.TESTIMONIALS}
-      heading={content.title || "What people say"}
-      subtitle={content.subtitle || "Feedback from colleagues, clients, and managers I've had the pleasure of working with."}
+      heading={content.title || 'What people say'}
+      subtitle={
+        content.subtitle ||
+        "Feedback from colleagues, clients, and managers I've had the pleasure of working with."
+      }
       variant="alt"
       animate={false}
     >
@@ -253,9 +252,7 @@ export function Testimonials({ data }: { data?: Section }) {
                 </div>
               ))
             ) : items.length === 0 ? (
-              <p className="text-center text-text-secondary py-12">
-                No testimonials yet.
-              </p>
+              <p className="text-center text-text-secondary py-12">No testimonials yet.</p>
             ) : (
               items.map((testimonial, index) => (
                 <TestimonialCard
@@ -275,7 +272,14 @@ export function Testimonials({ data }: { data?: Section }) {
                 aria-label="Previous testimonial"
                 type="button"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden="true"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
@@ -306,7 +310,14 @@ export function Testimonials({ data }: { data?: Section }) {
                 aria-label="Next testimonial"
                 type="button"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  aria-hidden="true"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -315,7 +326,10 @@ export function Testimonials({ data }: { data?: Section }) {
 
           <div className="sr-only" aria-live="polite" aria-atomic="true">
             {!isLoading && items.length > 0 && (
-              <>Showing testimonial {activeIndex + 1} of {totalSlides}: from {items[activeIndex]?.name}</>
+              <>
+                Showing testimonial {activeIndex + 1} of {totalSlides}: from{' '}
+                {items[activeIndex]?.name}
+              </>
             )}
           </div>
         </div>
