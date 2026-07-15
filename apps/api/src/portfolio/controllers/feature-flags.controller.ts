@@ -1,7 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { FeatureFlagsService } from '../../modules/feature-flags/feature-flags.service';
+import type { FeatureFlagsService } from '../../modules/feature-flags/feature-flags.service';
 
 @ApiTags('Portfolio - Feature Flags')
 @Controller('portfolio/feature-flags')

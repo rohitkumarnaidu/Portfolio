@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { ExperiencesService } from '../../modules/experiences/experiences.service';
+import type { ExperiencesService } from '../../modules/experiences/experiences.service';
 
 @ApiTags('Portfolio - Experiences')
 @Controller('portfolio/experiences')

@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { GuestAppearancesService } from '../../modules/guest-appearances/guest-appearances.service';
+import type { GuestAppearancesService } from '../../modules/guest-appearances/guest-appearances.service';
 
 @ApiTags('Portfolio - Guest Appearances')
 @Controller('portfolio/guest-appearances')
