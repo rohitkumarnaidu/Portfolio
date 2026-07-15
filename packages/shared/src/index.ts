@@ -1,5 +1,7 @@
-// Shared TypeScript types, interfaces, and Zod schemas
-// Used by both apps/web and apps/api for consistent data contracts
+// SHARED SCHEMAS - Source of Truth
+// These Zod schemas define the data contracts shared between web and api.
+// NestJS DTOs (apps/api/src/modules/*/dto/) should mirror these schemas.
+// When adding new fields, update BOTH the Zod schema AND the class-validator DTO.
 
 import { z } from 'zod';
 
@@ -24,7 +26,11 @@ export type ExperienceId = string & { readonly __brand: 'ExperienceId' };
 
 export const SectionSchema = z.object({
   id: z.string().uuid(),
-  section_key: z.string().min(3).max(50).regex(/^[a-z_]+$/),
+  section_key: z
+    .string()
+    .min(3)
+    .max(50)
+    .regex(/^[a-z_]+$/),
   section_label: z.string().min(1).max(100),
   section_type: z.string().optional(),
   is_live: z.boolean().default(false),
@@ -75,7 +81,6 @@ export const CreateProjectSchema = ProjectSchema.omit({
 
 export const UpdateProjectSchema = CreateProjectSchema.partial();
 
-
 export const SkillSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(2).max(100),
@@ -96,7 +101,6 @@ export const CreateSkillSchema = SkillSchema.omit({
 });
 
 export const UpdateSkillSchema = CreateSkillSchema.partial();
-
 
 export const LeadSchema = z.object({
   id: z.string().uuid(),
@@ -121,7 +125,6 @@ export const CreateLeadSchema = LeadSchema.omit({
 });
 
 export const UpdateLeadSchema = CreateLeadSchema.partial();
-
 
 export const LoginSchema = z.object({
   email: z.string().email().max(255),
@@ -275,36 +278,41 @@ export interface ApiError {
 
 export const ExperienceSchema = z.object({
   id: z.string().uuid(),
-  role: z.string().min(2).max(200),
   company: z.string().min(1).max(200),
-  company_url: z.string().url().optional().or(z.literal('')),
-  location: z.string().min(1).max(200),
-  start_date: z.string().regex(/^\d{4}-\d{2}$/),
-  end_date: z.string().regex(/^\d{4}-\d{2}$/).or(z.literal('Present')),
-  description: z.string().min(10).max(2000),
-  achievements: z.array(z.string().min(5).max(500)).min(1).max(10),
+  role: z.string().min(2).max(200),
+  description: z.string().optional(),
   technologies: z.array(z.string().min(1).max(50)).max(20),
-  display_order: z.number().int().min(0).default(0),
-  is_visible: z.boolean().default(true),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  companyLogoUrl: z.string().url().optional().or(z.literal('')),
+  companyUrl: z.string().url().optional().or(z.literal('')),
+  location: z.string().optional(),
+  startDate: z.string().regex(/^\d{4}-\d{2}$/),
+  endDate: z
+    .string()
+    .regex(/^\d{4}-\d{2}$/)
+    .optional(),
+  isCurrent: z.boolean().default(false),
+  displayOrder: z.number().int().min(0).default(0),
+  isVisible: z.boolean().default(true),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
 });
 
 export interface Experience {
   id: ExperienceId | string;
-  role: string;
   company: string;
-  company_url?: string;
-  location: string;
-  start_date: string;
-  end_date: string | 'Present';
-  description: string;
-  achievements: string[];
+  role: string;
+  description?: string;
   technologies: string[];
-  display_order: number;
-  is_visible: boolean;
-  created_at: string;
-  updated_at: string;
+  companyLogoUrl?: string;
+  companyUrl?: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  isCurrent: boolean;
+  displayOrder: number;
+  isVisible: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ── Testimonial ─────────────────────────────────────────────
@@ -314,13 +322,15 @@ export const TestimonialSchema = z.object({
   name: z.string().min(2).max(100),
   role: z.string().min(1).max(100),
   company: z.string().min(1).max(100),
-  avatar_url: z.string().url().optional(),
+  avatarUrl: z.string().url().optional(),
   content: z.string().min(20).max(1000),
-  rating: z.number().int().min(1).max(5),
-  is_visible: z.boolean().default(true),
-  display_order: z.number().int().min(0).default(0),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  rating: z.number().int().min(1).max(5).default(5),
+  displayOrder: z.number().int().min(0).default(0),
+  isVerified: z.boolean().default(false),
+  isFeatured: z.boolean().default(false),
+  isVisible: z.boolean().default(true),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
 });
 
 export interface Testimonial {
@@ -328,13 +338,15 @@ export interface Testimonial {
   name: string;
   role: string;
   company: string;
-  avatar_url?: string;
+  avatarUrl?: string;
   content: string;
   rating: number;
-  is_visible: boolean;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
+  displayOrder: number;
+  isVerified: boolean;
+  isFeatured: boolean;
+  isVisible: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ── Blog Post ───────────────────────────────────────────────
@@ -343,40 +355,40 @@ export const BlogPostSchema = z.object({
   id: z.string().uuid(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().min(5).max(200),
-  excerpt: z.string().min(10).max(500),
+  excerpt: z.string().optional(),
   content: z.string().min(50),
-  cover_image: z.string().url().optional(),
-  category: z.string().min(1).max(50),
+  coverImage: z.string().url().optional(),
+  category: z.string().optional(),
   tags: z.array(z.string().min(1).max(30)).max(10).default([]),
-  read_time: z.number().int().min(1).max(120),
-  is_published: z.boolean().default(false),
-  is_featured: z.boolean().default(false),
-  published_at: z.string().datetime().optional(),
-  author: z.string().min(1).max(100),
-  seo_title: z.string().max(60).optional(),
-  seo_description: z.string().max(160).optional(),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  authorName: z.string().min(1).max(100),
+  readTimeMinutes: z.number().int().min(1).max(120),
+  isPublished: z.boolean().default(false),
+  isFeatured: z.boolean().default(false),
+  seoTitle: z.string().max(60).optional(),
+  seoDescription: z.string().max(160).optional(),
+  publishedAt: z.string().datetime().optional(),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
 });
 
 export interface BlogPost {
   id: BlogPostId | string;
   slug: string;
   title: string;
-  excerpt: string;
+  excerpt?: string;
   content: string;
-  cover_image?: string;
-  category: string;
+  coverImage?: string;
+  category?: string;
   tags: string[];
-  read_time: number;
-  is_published: boolean;
-  is_featured: boolean;
-  published_at?: string;
-  author: string;
-  seo_title?: string;
-  seo_description?: string;
-  created_at: string;
-  updated_at: string;
+  authorName: string;
+  readTimeMinutes: number;
+  isPublished: boolean;
+  isFeatured: boolean;
+  seoTitle?: string;
+  seoDescription?: string;
+  publishedAt?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ── Service ─────────────────────────────────────────────────
@@ -387,10 +399,15 @@ export const ServiceSchema = z.object({
   description: z.string().min(10).max(500),
   icon: z.string().min(1).max(10),
   features: z.array(z.string().min(3).max(200)).min(1).max(10),
-  is_highlighted: z.boolean().default(false),
-  display_order: z.number().int().min(0).default(0),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  pricingTier: z.string().optional(),
+  priceCents: z.number().int().optional(),
+  ctaText: z.string().optional(),
+  ctaUrl: z.string().url().optional(),
+  is_highlighted: z.boolean().optional(),
+  isActive: z.boolean().default(true),
+  displayOrder: z.number().int().min(0).default(0),
+  createdAt: z.string().datetime(),
+  updatedAt: z.string().datetime(),
 });
 
 export interface Service {
@@ -399,10 +416,15 @@ export interface Service {
   description: string;
   icon: string;
   features: string[];
-  is_highlighted: boolean;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
+  pricingTier?: string;
+  priceCents?: number;
+  ctaText?: string;
+  ctaUrl?: string;
+  is_highlighted?: boolean;
+  isActive: boolean;
+  displayOrder: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ── FAQ ─────────────────────────────────────────────────────
@@ -427,6 +449,70 @@ export interface FAQ {
   is_visible: boolean;
   created_at: string;
   updated_at: string;
+}
+
+// ── Chat ─────────────────────────────────────────────────────
+
+export const ChatMessageSchema = z.object({
+  id: z.string().uuid(),
+  conversationId: z.string().uuid(),
+  role: z.enum(['user', 'assistant', 'system']),
+  content: z.string(),
+  tokensUsed: z.number().int().nonnegative().default(0),
+  responseTimeMs: z.number().int().nonnegative().default(0),
+  createdAt: z.string().datetime().or(z.date()),
+});
+
+export interface ChatMessage {
+  id: string;
+  conversationId: string;
+  role: 'user' | 'assistant' | 'system';
+  content: string;
+  tokensUsed: number;
+  responseTimeMs: number;
+  createdAt: string | Date;
+}
+
+export const ChatConversationSchema = z.object({
+  id: z.string().uuid(),
+  sessionId: z.string().max(200),
+  visitorId: z.string().optional().nullable(),
+  pageContext: z.string().max(500).optional().nullable(),
+  messageCount: z.number().int().nonnegative().default(0),
+  createdAt: z.string().datetime().or(z.date()),
+  lastActivityAt: z.string().datetime().or(z.date()),
+});
+
+export interface ChatConversation {
+  id: string;
+  sessionId: string;
+  visitorId?: string | null;
+  pageContext?: string | null;
+  messageCount: number;
+  createdAt: string | Date;
+  lastActivityAt: string | Date;
+}
+
+export const SendChatMessageSchema = z.object({
+  sessionId: z.string().max(200),
+  content: z.string().min(1).max(5000),
+  pageContext: z.string().max(500).optional(),
+});
+
+export interface SendChatMessage {
+  sessionId: string;
+  content: string;
+  pageContext?: string;
+}
+
+export const ChatStreamChunkSchema = z.object({
+  type: z.enum(['token', 'error', 'done']),
+  content: z.string().optional(),
+});
+
+export interface ChatStreamChunk {
+  type: 'token' | 'error' | 'done';
+  content?: string;
 }
 
 export * from './env';

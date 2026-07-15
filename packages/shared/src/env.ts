@@ -18,7 +18,12 @@ export const EnvSchema = z.object({
   // Site Config
   NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   NEXT_PUBLIC_API_URL: z.string().url().optional(),
-  
+
+  // AI Service
+  AI_API_URL: z.string().url().default('http://localhost:8000'),
+  OPENAI_API_KEY: z.string().min(1).optional(),
+  ANTHROPIC_API_KEY: z.string().min(1).optional(),
+
   // Node Env
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
   PORT: z.string().regex(/^\d+$/).default('3001'),
