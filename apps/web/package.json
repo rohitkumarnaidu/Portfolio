@@ -38,7 +38,7 @@
     "@tiptap/extension-underline": "^3.27.1",
     "@tiptap/pm": "^3.27.1",
     "@tiptap/react": "^3.27.1",
-    "@tiptap/starter-kit": "^3.27.1",
+    "@tiptap/starter-kit": "^3.27.3",
     "@webcontainer/api": "^1.6.4",
     "detect-gpu": "^5.0.0",
     "framer-motion": "^12.42.2",
