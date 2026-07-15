@@ -43,14 +43,14 @@ There is no formal steering committee or voting process.
 
 Issues are labeled according to the following taxonomy:
 
-| Label | Description | Response SLA |
-|-------|------------|-------------|
-| `bug` | Confirmed defect | 48 hours |
-| `enhancement` | Feature request | 7 days |
-| `good first issue` | Beginner-friendly task | 7 days |
-| `help wanted` | Maintainer cannot prioritize | 7 days |
-| `question` | Usage or setup inquiry | 48 hours |
-| `security` | Vulnerability report (private) | 48 hours |
+| Label              | Description                    | Response SLA |
+| ------------------ | ------------------------------ | ------------ |
+| `bug`              | Confirmed defect               | 48 hours     |
+| `enhancement`      | Feature request                | 7 days       |
+| `good first issue` | Beginner-friendly task         | 7 days       |
+| `help wanted`      | Maintainer cannot prioritize   | 7 days       |
+| `question`         | Usage or setup inquiry         | 48 hours     |
+| `security`         | Vulnerability report (private) | 48 hours     |
 
 Response SLA is measured from the time of submission to first maintainer acknowledgment. Labels are applied by the maintainer or trusted contributors.
 
@@ -118,14 +118,15 @@ External contributions are welcome and encouraged. By submitting a pull request,
 
 ## References
 
-| Document | Link |
-|----------|------|
-| License | [`LICENSE.md`](./LICENSE.md) |
-| Contributing Guide | [`CONTRIBUTING.md`](./CONTRIBUTING.md) |
-| Code of Conduct | [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) |
-| Security Policy | [`SECURITY.md`](./SECURITY.md) |
+| Document            | Link                                         |
+| ------------------- | -------------------------------------------- |
+| License             | [`LICENSE.md`](./LICENSE.md)                 |
+| Contributing Guide  | [`CONTRIBUTING.md`](./CONTRIBUTING.md)       |
+| Code of Conduct     | [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) |
+| Security Policy     | [`SECURITY.md`](./SECURITY.md)               |
 | Documentation Index | [`docs/MASTER-INDEX.md`](../MASTER-INDEX.md) |
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

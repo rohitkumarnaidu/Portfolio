@@ -113,7 +113,7 @@ portfolio/
 
 ## Coding Standards
 
-This project follows the [AI Engineering Constitution](docs/governance/32-SKILL.md) for all coding standards. Key highlights:
+This project follows the [AI Engineering Constitution](docs/23-governance/32-SKILL.md) for all coding standards. Key highlights:
 
 - **TypeScript:** Strict mode, no `any`, prefer interfaces over types for objects
 - **React:** Server components by default, client components only when needed
@@ -133,8 +133,8 @@ Run all checks from root: `npm run lint && npm run typecheck`
 ## Documentation
 
 - Update docs in `docs/` when changing behavior
-- Architecture decisions `docs/adr/`
-- API changes update `docs/api/`
+- Architecture decisions `docs/27-decisions/`
+- API changes update `docs/10-api/`
 - All docs follow the [MASTER-INDEX.md](docs/MASTER-INDEX.md) taxonomy
 
 ## Pull Request Process
@@ -176,5 +176,6 @@ docs(adr): add database migration ADR
 Thank you for contributing!
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

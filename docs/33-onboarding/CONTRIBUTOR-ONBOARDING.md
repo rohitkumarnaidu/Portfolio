@@ -16,13 +16,13 @@ Thanks for your interest in contributing to the Portfolio Platform! This is a fu
 
 Before you begin, make sure you have these installed:
 
-| Tool | Minimum Version | Check Command |
-|------|----------------|---------------|
-| Node.js | 18 | `node --version` |
-| npm | 10 | `npm --version` |
-| Docker | Latest | `docker --version` |
-| Docker Compose | v2+ | `docker compose version` |
-| Git | Latest | `git --version` |
+| Tool           | Minimum Version | Check Command            |
+| -------------- | --------------- | ------------------------ |
+| Node.js        | 18              | `node --version`         |
+| npm            | 10              | `npm --version`          |
+| Docker         | Latest          | `docker --version`       |
+| Docker Compose | v2+             | `docker compose version` |
+| Git            | Latest          | `git --version`          |
 
 ---
 
@@ -177,11 +177,11 @@ All open issues are tracked on the [GitHub Issues](https://github.com/youruserna
 
 ## Communication Channels
 
-| Channel | Purpose |
-|---------|---------|
-| [GitHub Discussions](https://github.com/yourusername/portfolio/discussions) | Questions, ideas, feature proposals |
-| [GitHub Issues](https://github.com/yourusername/portfolio/issues) | Bug reports, specific tasks |
-| Pull Requests | Code review and feedback on your changes |
+| Channel                                                                     | Purpose                                  |
+| --------------------------------------------------------------------------- | ---------------------------------------- |
+| [GitHub Discussions](https://github.com/yourusername/portfolio/discussions) | Questions, ideas, feature proposals      |
+| [GitHub Issues](https://github.com/yourusername/portfolio/issues)           | Bug reports, specific tasks              |
+| Pull Requests                                                               | Code review and feedback on your changes |
 
 Use Discussions for open-ended conversations. Use Issues for trackable, actionable work.
 
@@ -193,8 +193,9 @@ This project follows a [Code of Conduct](../34-contributing/CODE_OF_CONDUCT.md).
 
 ---
 
-*Happy contributing! Every contribution — whether it's fixing a typo or building a new feature — makes the project better for everyone.*
+_Happy contributing! Every contribution — whether it's fixing a typo or building a new feature — makes the project better for everyone._
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

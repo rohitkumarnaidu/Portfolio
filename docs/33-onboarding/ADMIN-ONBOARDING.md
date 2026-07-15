@@ -36,11 +36,13 @@ A super admin will send you an invitation email from the platform. Click the lin
 Navigate to `/admin/login` in your browser. You have two options:
 
 **Google OAuth:**
+
 1. Click **Continue with Google**.
 2. Select the Google account tied to your invitation email.
 3. You're redirected to the admin dashboard.
 
 **GitHub OAuth:**
+
 1. Click **Continue with GitHub**.
 2. Authorize the application when prompted.
 3. You're redirected to the admin dashboard.
@@ -88,11 +90,11 @@ The left sidebar (collapsed to a hamburger menu on mobile) lists every admin mod
 
 Your role determines what you can do:
 
-| Role | Capabilities |
-|------|-------------|
-| **Admin** | Full access: create, edit, delete all content, manage users, change settings, view API keys, see analytics. |
-| **Editor** | Create, edit, publish, and unpublish content. Cannot manage users, change settings, or view API keys. |
-| **Viewer** | Read-only access. Can view everything and export data, but cannot create, edit, or delete anything. |
+| Role       | Capabilities                                                                                                |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
+| **Admin**  | Full access: create, edit, delete all content, manage users, change settings, view API keys, see analytics. |
+| **Editor** | Create, edit, publish, and unpublish content. Cannot manage users, change settings, or view API keys.       |
+| **Viewer** | Read-only access. Can view everything and export data, but cannot create, edit, or delete anything.         |
 
 Your role is shown in the user menu (top-right avatar). If you need different permissions, talk to a super admin.
 
@@ -145,11 +147,11 @@ The full [Admin User Manual](../19-admin/ADMIN-USER-MANUAL.md) covers every modu
 
 ### Who to Contact
 
-| Issue | Contact |
-|-------|---------|
-| Account access or permissions | Your super admin or team lead |
+| Issue                         | Contact                                          |
+| ----------------------------- | ------------------------------------------------ |
+| Account access or permissions | Your super admin or team lead                    |
 | Feature requests or questions | Create a GitHub Discussion or reach out on Slack |
-| Technical bugs or errors | Open a GitHub Issue with steps to reproduce |
+| Technical bugs or errors      | Open a GitHub Issue with steps to reproduce      |
 
 ### How to Report a Bug
 
@@ -160,8 +162,9 @@ The full [Admin User Manual](../19-admin/ADMIN-USER-MANUAL.md) covers every modu
 
 ---
 
-*Welcome aboard! The dashboard is designed to be intuitive, so don't be afraid to explore. If something breaks, it's not your fault — just report it and we'll fix it.*
+_Welcome aboard! The dashboard is designed to be intuitive, so don't be afraid to explore. If something breaks, it's not your fault — just report it and we'll fix it._
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

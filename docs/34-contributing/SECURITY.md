@@ -60,5 +60,6 @@ Out of scope:
 - Dependency vulnerabilities - check our DependencyInventory.md for remediation timelines
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
