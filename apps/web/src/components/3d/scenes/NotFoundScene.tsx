@@ -11,11 +11,7 @@ interface NotFoundSceneProps {
   reducedMotion: boolean;
 }
 
-export const NotFoundScene = ({
-  tier,
-  theme,
-  reducedMotion,
-}: NotFoundSceneProps) => {
+export const NotFoundScene = ({ tier, theme, reducedMotion }: NotFoundSceneProps) => {
   const meshRef = useRef<Mesh>(null);
 
   useFrame((state) => {

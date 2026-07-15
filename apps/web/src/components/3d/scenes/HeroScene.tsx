@@ -42,7 +42,12 @@ export const HeroScene = ({ tier, theme, reducedMotion }: HeroSceneProps) => {
         color={theme === 'dark' ? '#818cf8' : '#6366f1'}
       />
       <FloatingShapes tier={tier} theme={theme} reducedMotion={reducedMotion} />
-      <Particles count={tier === 'high' ? 2000 : 500} tier={tier} theme={theme} reducedMotion={reducedMotion} />
+      <Particles
+        count={tier === 'high' ? 2000 : 500}
+        tier={tier}
+        theme={theme}
+        reducedMotion={reducedMotion}
+      />
     </group>
   );
 };

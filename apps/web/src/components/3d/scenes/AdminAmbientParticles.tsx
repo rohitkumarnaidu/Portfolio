@@ -94,7 +94,7 @@ export const AdminAmbientParticles = ({
 
   const { positions, phases, speeds, sizes } = useMemo(
     () => generateParticleField(count, tier),
-    [count, tier]
+    [count, tier],
   );
 
   const geometry = useMemo(() => {
@@ -102,9 +102,13 @@ export const AdminAmbientParticles = ({
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geo.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
     geo.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1));
-    geo.setAttribute('aSize', new THREE.BufferAttribute(
-      sizes.map(s => s * 0.3), 1
-    ));
+    geo.setAttribute(
+      'aSize',
+      new THREE.BufferAttribute(
+        sizes.map((s) => s * 0.3),
+        1,
+      ),
+    );
     return geo;
   }, [positions, phases, speeds, sizes]);
 
@@ -155,7 +159,5 @@ export const AdminAmbientParticles = ({
 
   if (reducedMotion || tier === 'off') return null;
 
-  return (
-    <points ref={meshRef} geometry={geometry} material={material} />
-  );
+  return <points ref={meshRef} geometry={geometry} material={material} />;
 };
