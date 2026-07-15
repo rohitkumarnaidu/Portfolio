@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { AnimatePresence } from 'framer-motion';
 import { fontVariables } from '@/lib/fonts';
+import { websiteSchema, personSchema } from '@/lib/json-ld';
 import '@/styles/globals.css';
 import { ThemeProvider } from '@/components/layout/ThemeProvider';
 import { Navbar } from '@/components/layout/Navbar';
@@ -29,8 +30,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Portfolio Owner' }],
   openGraph: {
     title: 'Portfolio — Full-Stack Developer',
-    description:
-      'Full-stack developer specializing in React, Next.js, NestJS, and TypeScript.',
+    description: 'Full-stack developer specializing in React, Next.js, NestJS, and TypeScript.',
     type: 'website',
     locale: 'en_US',
   },
@@ -49,11 +49,7 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={fontVariables} suppressHydrationWarning>
       <head>
@@ -77,26 +73,54 @@ export default function RootLayout({
         <ThemeProvider>
           <PublicQueryProvider>
             <ClientShell>
-            <SkipLink targetId="main-content" />
-            <Navbar variant="sticky" />
-            <div id="main-content" className="flex-grow focus:outline-none" tabIndex={-1}>
-              <AnimatePresence mode="wait">
-                {children}
-              </AnimatePresence>
-            </div>
-            <Footer />
-            
-            {/* Ambient Animated Background */}
-            <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
-              <div className="absolute -top-[40%] -left-[10%] w-[70%] h-[70%] rounded-full bg-accent-500/10 blur-3xl animate-mesh-shift mix-blend-screen" />
-              <div className="absolute top-[20%] -right-[20%] w-[60%] h-[80%] rounded-full bg-accent-800/10 blur-3xl animate-mesh-shift mix-blend-screen" style={{ animationDelay: '2s' }} />
-              <div className="absolute -bottom-[30%] left-[20%] w-[80%] h-[60%] rounded-full bg-accent-400/10 blur-3xl animate-mesh-shift mix-blend-screen" style={{ animationDelay: '4s' }} />
-            </div>
-            
-            <div className="noise-overlay" aria-hidden="true" />
-            <ChatPanel />
-          </ClientShell>
-        </PublicQueryProvider>
+              <SkipLink targetId="main-content" />
+              <Navbar variant="sticky" />
+              <div id="main-content" className="flex-grow focus:outline-none" tabIndex={-1}>
+                <AnimatePresence mode="wait">{children}</AnimatePresence>
+              </div>
+              <Footer />
+
+              {/* Ambient Animated Background */}
+              <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden">
+                <div className="absolute -top-[40%] -left-[10%] w-[70%] h-[70%] rounded-full bg-accent-500/10 blur-3xl animate-mesh-shift mix-blend-screen" />
+                <div
+                  className="absolute top-[20%] -right-[20%] w-[60%] h-[80%] rounded-full bg-accent-800/10 blur-3xl animate-mesh-shift mix-blend-screen"
+                  style={{ animationDelay: '2s' }}
+                />
+                <div
+                  className="absolute -bottom-[30%] left-[20%] w-[80%] h-[60%] rounded-full bg-accent-400/10 blur-3xl animate-mesh-shift mix-blend-screen"
+                  style={{ animationDelay: '4s' }}
+                />
+              </div>
+
+              <div className="noise-overlay" aria-hidden="true" />
+              <ChatPanel />
+            </ClientShell>
+
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(
+                  websiteSchema(
+                    'Portfolio — Full-Stack Developer',
+                    process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com',
+                  ),
+                ),
+              }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(
+                  personSchema(
+                    'Portfolio Owner',
+                    'Full-Stack Developer',
+                    process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com',
+                  ),
+                ),
+              }}
+            />
+          </PublicQueryProvider>
         </ThemeProvider>
       </body>
     </html>
