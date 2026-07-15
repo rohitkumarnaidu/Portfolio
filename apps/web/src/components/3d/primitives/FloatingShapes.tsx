@@ -14,16 +14,24 @@ interface FloatingShapesProps {
 
 const SHAPES = [
   { type: 'box' as const, position: [-2, 1, -1] as [number, number, number], color: '#6366f1' },
-  { type: 'sphere' as const, position: [2.5, -0.5, -2] as [number, number, number], color: '#22d3ee' },
-  { type: 'torus' as const, position: [-1.5, -1.5, -3] as [number, number, number], color: '#a78bfa' },
-  { type: 'octahedron' as const, position: [1.8, 1.8, -1.5] as [number, number, number], color: '#67e8f9' },
+  {
+    type: 'sphere' as const,
+    position: [2.5, -0.5, -2] as [number, number, number],
+    color: '#22d3ee',
+  },
+  {
+    type: 'torus' as const,
+    position: [-1.5, -1.5, -3] as [number, number, number],
+    color: '#a78bfa',
+  },
+  {
+    type: 'octahedron' as const,
+    position: [1.8, 1.8, -1.5] as [number, number, number],
+    color: '#67e8f9',
+  },
 ];
 
-export const FloatingShapes = ({
-  tier,
-  theme,
-  reducedMotion,
-}: FloatingShapesProps) => {
+export const FloatingShapes = ({ tier, theme, reducedMotion }: FloatingShapesProps) => {
   if (reducedMotion || tier !== 'high') return null;
 
   return (
@@ -72,11 +80,7 @@ const FloatingShape = ({ type, position, color, speed }: FloatingShapeProps) => 
 
   return (
     <Float speed={speed} rotationIntensity={0.2} floatIntensity={0.3}>
-      <mesh
-        ref={meshRef}
-        position={position}
-        geometry={geometry}
-      >
+      <mesh ref={meshRef} position={position} geometry={geometry}>
         <meshPhysicalMaterial
           color={color}
           transparent

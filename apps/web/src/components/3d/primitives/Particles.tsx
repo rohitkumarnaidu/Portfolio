@@ -14,12 +14,7 @@ interface ParticlesProps {
   reducedMotion: boolean;
 }
 
-export const Particles = ({
-  count,
-  tier,
-  theme,
-  reducedMotion,
-}: ParticlesProps) => {
+export const Particles = ({ count, tier, theme, reducedMotion }: ParticlesProps) => {
   const meshRef = useRef<THREE.Points>(null);
   const mouseRef = useRef({ x: 0, y: 0, targetX: 0, targetY: 0 });
   const idleRef = useRef(false);
@@ -27,7 +22,7 @@ export const Particles = ({
 
   const { positions, phases, speeds, sizes } = useMemo(
     () => generateParticleField(count, tier),
-    [count, tier]
+    [count, tier],
   );
 
   const geometry = useMemo(() => {
@@ -41,7 +36,7 @@ export const Particles = ({
 
   const material = useMemo(
     () => createParticleMaterial({ tier, scene: 'hero', theme }),
-    [tier, theme]
+    [tier, theme],
   );
 
   useFrame(() => {
@@ -59,10 +54,7 @@ export const Particles = ({
     mouseRef.current.x += dx * spring;
     mouseRef.current.y += dy * spring;
 
-    material.uniforms.uMouse!.value = [
-      mouseRef.current.x * 0.5,
-      mouseRef.current.y * 0.3,
-    ];
+    material.uniforms.uMouse!.value = [mouseRef.current.x * 0.5, mouseRef.current.y * 0.3];
   });
 
   useEffect(() => {
@@ -94,8 +86,7 @@ export const Particles = ({
 
   useEffect(() => {
     if (material) {
-      material.uniforms.uMixFactor!.value =
-        theme === 'dark' ? 1.0 : 0.0;
+      material.uniforms.uMixFactor!.value = theme === 'dark' ? 1.0 : 0.0;
     }
   }, [theme, material]);
 
@@ -108,7 +99,5 @@ export const Particles = ({
 
   if (reducedMotion || tier === 'off') return null;
 
-  return (
-    <points ref={meshRef} geometry={geometry} material={material} />
-  );
+  return <points ref={meshRef} geometry={geometry} material={material} />;
 };

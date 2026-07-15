@@ -16,17 +16,14 @@ export const LightingSystem = ({ tier, theme }: LightingSystemProps) => {
       ambient: getLightColor(theme, 'ambient'),
       accent: getLightColor(theme, 'accent'),
     }),
-    [theme]
+    [theme],
   );
 
   if (tier === 'off') return null;
 
   return (
     <>
-      <ambientLight
-        intensity={tier === 'high' ? 0.4 : 0.2}
-        color={colors.ambient}
-      />
+      <ambientLight intensity={tier === 'high' ? 0.4 : 0.2} color={colors.ambient} />
       <directionalLight
         position={[5, 5, 5]}
         intensity={tier === 'high' ? 0.8 : tier === 'mid' ? 0.5 : 0.3}
