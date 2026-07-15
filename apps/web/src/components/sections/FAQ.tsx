@@ -47,9 +47,7 @@ function FAQAccordionItem({
       </summary>
 
       <div className="pb-5 md:pb-6 pr-12">
-        <p className="text-body text-text-secondary leading-relaxed">
-          {item.answer}
-        </p>
+        <p className="text-body text-text-secondary leading-relaxed">{item.answer}</p>
       </div>
     </details>
   );
@@ -85,15 +83,20 @@ export function FAQ({ data }: { data?: Section }) {
     return (
       <SectionWrapper
         id={SECTION_IDS.FAQ}
-        heading={content.title || "Frequently asked questions"}
-        subtitle={content.subtitle || "Common questions about my services, process, and availability."}
+        heading={content.title || 'Frequently asked questions'}
+        subtitle={
+          content.subtitle || 'Common questions about my services, process, and availability.'
+        }
         variant="alt"
         animate={false}
         className="max-w-3xl"
       >
         <div className="animate-pulse divide-y-0 border-t border-border-primary">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="border-b border-border-primary py-5 md:py-6 flex items-center justify-between">
+            <div
+              key={i}
+              className="border-b border-border-primary py-5 md:py-6 flex items-center justify-between"
+            >
               <div className="h-5 w-3/4 bg-surface-elevated rounded" />
               <div className="w-5 h-5 bg-surface-elevated rounded" />
             </div>
@@ -106,8 +109,10 @@ export function FAQ({ data }: { data?: Section }) {
   return (
     <SectionWrapper
       id={SECTION_IDS.FAQ}
-      heading={content.title || "Frequently asked questions"}
-      subtitle={content.subtitle || "Common questions about my services, process, and availability."}
+      heading={content.title || 'Frequently asked questions'}
+      subtitle={
+        content.subtitle || 'Common questions about my services, process, and availability.'
+      }
       variant="alt"
       animate={false}
       className="max-w-3xl"
@@ -117,19 +122,24 @@ export function FAQ({ data }: { data?: Section }) {
         {items.length > 0 ? (
           <div className="divide-y-0 border-t border-border-primary">
             {items.map((item, index) => (
-              <FAQAccordionItem
-                key={item.id}
-                item={item}
-                index={index}
-                inView={inView}
-              />
+              <FAQAccordionItem key={item.id} item={item} index={index} inView={inView} />
             ))}
           </div>
         ) : (
           <div className="text-center py-16 border-t border-border-primary">
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-surface-elevated flex items-center justify-center">
-              <svg className="w-8 h-8 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+              <svg
+                className="w-8 h-8 text-text-tertiary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                />
               </svg>
             </div>
             <p className="text-body text-text-secondary">No FAQs yet.</p>
@@ -142,9 +152,7 @@ export function FAQ({ data }: { data?: Section }) {
             inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          <p className="text-body text-text-secondary mb-4">
-            Have a different question?
-          </p>
+          <p className="text-body text-text-secondary mb-4">Have a different question?</p>
           <a
             href={`#${SECTION_IDS.CONTACT}`}
             className="inline-flex items-center px-6 py-3 rounded-xl text-button font-medium bg-accent-500 text-white hover:bg-accent-600 transition-all duration-200 active:scale-[0.97] hover:no-underline"

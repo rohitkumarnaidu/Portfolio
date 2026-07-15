@@ -17,7 +17,15 @@ const categories = [
   { value: 'design', label: 'Design' },
 ];
 
-function ProjectCard({ project, index, inView }: { project: Project; index: number; inView: boolean }) {
+function ProjectCard({
+  project,
+  index,
+  inView,
+}: {
+  project: Project;
+  index: number;
+  inView: boolean;
+}) {
   return (
     <div
       className={`transition-all duration-700 ${
@@ -25,7 +33,10 @@ function ProjectCard({ project, index, inView }: { project: Project; index: numb
       }`}
       style={{ transitionDelay: `${index * 100 + 200}ms` }}
     >
-      <Card variant="elevated" className="h-full flex flex-col glass-medium relative group hover:shadow-accent-hover neu-transition">
+      <Card
+        variant="elevated"
+        className="h-full flex flex-col glass-medium relative group hover:shadow-accent-hover neu-transition"
+      >
         {/* Project Image */}
         <div className="relative aspect-video rounded-xl overflow-hidden bg-surface-elevated mb-4 -mx-6 -mt-6">
           {project.cover_image ? (
@@ -38,8 +49,18 @@ function ProjectCard({ project, index, inView }: { project: Project; index: numb
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <svg className="w-12 h-12 text-text-tertiary/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <svg
+                className="w-12 h-12 text-text-tertiary/30"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
               </svg>
             </div>
           )}
@@ -62,7 +83,9 @@ function ProjectCard({ project, index, inView }: { project: Project; index: numb
 
           <h3 className="font-display text-h4 text-text-primary mb-2">{project.title}</h3>
           {project.description && (
-            <p className="text-body-sm text-text-secondary mb-4 line-clamp-2">{project.description}</p>
+            <p className="text-body-sm text-text-secondary mb-4 line-clamp-2">
+              {project.description}
+            </p>
           )}
 
           {/* Tech Stack */}
@@ -93,8 +116,18 @@ function ProjectCard({ project, index, inView }: { project: Project; index: numb
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-medium text-accent-500 hover:text-accent-600 transition-colors"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                  />
                 </svg>
                 Live Demo
               </a>
@@ -140,7 +173,10 @@ export function Projects({ data }: { data?: Section }) {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="rounded-2xl bg-surface-secondary border border-border-primary p-6 space-y-4">
+              <div
+                key={i}
+                className="rounded-2xl bg-surface-secondary border border-border-primary p-6 space-y-4"
+              >
                 <div className="aspect-video bg-surface-elevated rounded-xl" />
                 <div className="h-4 w-16 bg-surface-elevated rounded" />
                 <div className="h-5 w-3/4 bg-surface-elevated rounded" />
@@ -163,13 +199,18 @@ export function Projects({ data }: { data?: Section }) {
   return (
     <SectionWrapper
       id="projects"
-      heading={content.title || "Featured work"}
-      subtitle={content.subtitle || "A selection of projects I've built. Each one presented unique challenges and taught me something new."}
+      heading={content.title || 'Featured work'}
+      subtitle={
+        content.subtitle ||
+        "A selection of projects I've built. Each one presented unique challenges and taught me something new."
+      }
       animate={false}
     >
       <div ref={ref}>
         {/* Category Filters */}
-        <div className={`flex flex-wrap gap-2 mb-10 transition-all duration-500 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div
+          className={`flex flex-wrap gap-2 mb-10 transition-all duration-500 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+        >
           {categories.map((cat) => (
             <button
               key={cat.value}
@@ -195,8 +236,18 @@ export function Projects({ data }: { data?: Section }) {
         ) : (
           <div className="text-center py-16">
             <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-surface-elevated flex items-center justify-center">
-              <svg className="w-8 h-8 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              <svg
+                className="w-8 h-8 text-text-tertiary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                />
               </svg>
             </div>
             <p className="text-body text-text-secondary">No projects found for this category.</p>

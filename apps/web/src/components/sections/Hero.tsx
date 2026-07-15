@@ -38,10 +38,15 @@ export function Hero({ data }: { data?: Section }) {
   const content = data?.content ?? {};
   const safe = content as Record<string, string | undefined>;
   const title = safe.title || 'Full-stack developer crafting enterprise-grade digital experiences';
-  const subtitle = safe.subtitle || 'I build full-stack web applications with React, Next.js, NestJS, and TypeScript. Focused on performance, accessibility, and clean architecture.';
+  const subtitle =
+    safe.subtitle ||
+    'I build full-stack web applications with React, Next.js, NestJS, and TypeScript. Focused on performance, accessibility, and clean architecture.';
 
   return (
-    <section id={SECTION_IDS.HERO} className="relative min-h-dvh flex items-center justify-center overflow-hidden pt-16 bg-surface-primary">
+    <section
+      id={SECTION_IDS.HERO}
+      className="relative min-h-dvh flex items-center justify-center overflow-hidden pt-16 bg-surface-primary"
+    >
       {/* Background Layer: 3D Scene or Fallback */}
       <div className="absolute inset-0 z-0">
         {tier === 'off' ? (
@@ -74,7 +79,12 @@ export function Hero({ data }: { data?: Section }) {
           className={`font-display text-display text-text-primary mb-6 text-balance max-w-5xl mx-auto transition-all duration-700 delay-100 pointer-events-auto ${
             inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
-          dangerouslySetInnerHTML={{ __html: title.replace('enterprise-grade', '<span class="text-transparent bg-clip-text bg-[image:var(--gradient-text-hero)] font-bold animate-pulse-dot">enterprise-grade</span>') }}
+          dangerouslySetInnerHTML={{
+            __html: title.replace(
+              'enterprise-grade',
+              '<span class="text-transparent bg-clip-text bg-[image:var(--gradient-text-hero)] font-bold animate-pulse-dot">enterprise-grade</span>',
+            ),
+          }}
         />
 
         <p
@@ -97,7 +107,13 @@ export function Hero({ data }: { data?: Section }) {
             }}
           >
             {safe.primary_cta || 'View My Work'}
-            <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg
+              className="w-4 h-4 ml-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </Button>
@@ -128,4 +144,3 @@ export function Hero({ data }: { data?: Section }) {
     </section>
   );
 }
-
