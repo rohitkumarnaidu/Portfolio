@@ -1,4 +1,3 @@
-from app.config import settings
 from app.services.embedding_service import EmbeddingService
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import text
