@@ -17,14 +17,11 @@ import { cn } from './cn';
  */
 
 const cardVariants = {
-  default:
-    'bg-surface-secondary border border-border-primary shadow-sm',
-  elevated:
-    'bg-surface-primary shadow-md',
+  default: 'bg-surface-secondary border border-border-primary shadow-sm',
+  elevated: 'bg-surface-primary shadow-md',
   glass:
     'bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-lg',
-  bordered:
-    'bg-transparent border border-border-primary',
+  bordered: 'bg-transparent border border-border-primary',
   interactive:
     'bg-surface-secondary border border-border-primary shadow-sm cursor-pointer hover:shadow-lg hover:-translate-y-0.5 hover:border-border-accent',
 } as const;

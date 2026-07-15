@@ -12,8 +12,7 @@ import { cn } from './cn';
  * Follows WCAG 3.3.2 (Labels) and 3.3.1 (Error Identification).
  */
 
-export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   /** Input label */
   label?: string;
   /** Error message — triggers error state */
@@ -60,10 +59,7 @@ export function Input({
   return (
     <div className={cn('w-full space-y-1.5', containerClassName)}>
       {label && (
-        <label
-          htmlFor={id}
-          className="block text-sm font-medium text-text-primary"
-        >
+        <label htmlFor={id} className="block text-sm font-medium text-text-primary">
           {label}
         </label>
       )}
@@ -92,17 +88,15 @@ export function Input({
             error
               ? 'border-red-400 dark:border-red-500 focus:ring-red-500'
               : isSuccess
-              ? 'border-green-400 dark:border-green-500 focus:ring-green-500'
-              : 'border-border-primary hover:border-border-accent',
+                ? 'border-green-400 dark:border-green-500 focus:ring-green-500'
+                : 'border-border-primary hover:border-border-accent',
             // Icon padding
             leftIcon && 'pl-10',
             rightIcon && 'pr-10',
             className,
           )}
           aria-invalid={error ? 'true' : undefined}
-          aria-describedby={
-            error ? errorId : helperText ? helperId : undefined
-          }
+          aria-describedby={error ? errorId : helperText ? helperId : undefined}
           {...props}
         />
 

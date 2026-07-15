@@ -22,12 +22,10 @@ const buttonVariants = {
       'bg-accent-500 text-white hover:bg-accent-600 active:bg-accent-700 shadow-lg shadow-accent-500/20',
     secondary:
       'bg-transparent text-text-primary border border-border-primary hover:bg-surface-elevated active:bg-surface-elevated',
-    ghost:
-      'bg-transparent text-text-primary hover:bg-surface-elevated active:bg-surface-elevated',
+    ghost: 'bg-transparent text-text-primary hover:bg-surface-elevated active:bg-surface-elevated',
     danger:
       'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 dark:bg-red-500 dark:hover:bg-red-600 shadow-lg shadow-red-600/20',
-    link:
-      'bg-transparent text-text-link hover:underline active:underline p-0 h-auto shadow-none',
+    link: 'bg-transparent text-text-link hover:underline active:underline p-0 h-auto shadow-none',
   },
   size: {
     sm: 'h-8 px-3 py-1.5 text-[13px] gap-1.5',
@@ -40,8 +38,7 @@ const buttonVariants = {
 type Variant = keyof typeof buttonVariants.variant;
 type Size = keyof typeof buttonVariants.size;
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Visual variant */
   variant?: Variant;
   /** Size */
@@ -115,11 +112,15 @@ export function Button({
           />
         </svg>
       ) : leftIcon ? (
-        <span className="shrink-0" aria-hidden="true">{leftIcon}</span>
+        <span className="shrink-0" aria-hidden="true">
+          {leftIcon}
+        </span>
       ) : null}
       {children && <span>{children}</span>}
       {rightIcon && !isLoading && (
-        <span className="shrink-0" aria-hidden="true">{rightIcon}</span>
+        <span className="shrink-0" aria-hidden="true">
+          {rightIcon}
+        </span>
       )}
     </button>
   );
