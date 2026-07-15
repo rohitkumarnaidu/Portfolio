@@ -13,13 +13,13 @@ Feature flags enable **safe, continuous delivery** by decoupling deployment from
 
 **Why flags matter:** Trunk-based development (merge incomplete features), canary releases (new themes/layouts/AI), A/B experiments (CTA copy, hero variants), kill switches (instant disable without redeploy), permission gating (admin/beta features).
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Time-to-flag cleanup | ≤ 30 days post-release | PostHog flag age report |
-| Active flag count | ≤ 50 | Monthly inventory audit |
-| A/B experiment confidence | ≥ 95% | Statistical significance |
-| Rollback time via kill switch | < 30 seconds | Toggle → full rollout off |
-| Flag evaluation p50 latency | < 5ms | PostHog SDK metrics |
+| Metric                        | Target                 | Measurement               |
+| ----------------------------- | ---------------------- | ------------------------- |
+| Time-to-flag cleanup          | ≤ 30 days post-release | PostHog flag age report   |
+| Active flag count             | ≤ 50                   | Monthly inventory audit   |
+| A/B experiment confidence     | ≥ 95%                  | Statistical significance  |
+| Rollback time via kill switch | < 30 seconds           | Toggle → full rollout off |
+| Flag evaluation p50 latency   | < 5ms                  | PostHog SDK metrics       |
 
 **Core principle:** Every flag is temporary. Flags without a cleanup date are technical debt.
 
@@ -53,8 +53,6 @@ graph TB
     EDGE & SSR & CSR -->|Emit| EVAL --> AUDIT
 ```
 
-
-
 ---
 
 ## 3. Flag Types
@@ -68,11 +66,11 @@ const showTheme = await getFlag('release-theme-v2', {
 return showTheme ? <ThemeV2 /> : <ThemeV1 />;
 ```
 
-| Property | Value |
-|----------|-------|
-| Prefix | `release-` |
-| Default | `false` |
-| Lifetime | ≤ 30 days |
+| Property  | Value            |
+| --------- | ---------------- |
+| Prefix    | `release-`       |
+| Default   | `false`          |
+| Lifetime  | ≤ 30 days        |
 | Targeting | Env, %, user IDs |
 
 ### 3.2 Experiment Flags
@@ -85,28 +83,29 @@ const variant = await getFlagValue('exp-hero-cta', {
 });
 ```
 
-| Property | Value |
-|----------|-------|
-| Prefix | `exp-` |
-| Variants | 2–5, equal split |
-| Min sample | 1,000/variant |
-| Confidence | ≥ 95% |
+| Property   | Value            |
+| ---------- | ---------------- |
+| Prefix     | `exp-`           |
+| Variants   | 2–5, equal split |
+| Min sample | 1,000/variant    |
+| Confidence | ≥ 95%            |
 
 ### 3.3 Ops Flags
 
 ```typescript
 const enabled = await getFlag('ops-ai-chat', {
-  user: { id: 'system' }, defaultValue: true,
+  user: { id: 'system' },
+  defaultValue: true,
 });
 if (!enabled) return NextResponse.redirect('/api/ai/disabled');
 ```
 
-| Property | Value |
-|----------|-------|
-| Prefix | `ops-` |
-| Lifetime | Indefinite |
-| Access | Platform engineers |
-| Eval | Every request |
+| Property | Value              |
+| -------- | ------------------ |
+| Prefix   | `ops-`             |
+| Lifetime | Indefinite         |
+| Access   | Platform engineers |
+| Eval     | Every request      |
 
 ### 3.4 Permission Flags
 
@@ -118,10 +117,10 @@ const canAccess = await getFlag('perm-admin-beta', {
 });
 ```
 
-| Property | Value |
-|----------|-------|
-| Prefix | `perm-` |
-| Lifetime | Until GA |
+| Property  | Value               |
+| --------- | ------------------- |
+| Prefix    | `perm-`             |
+| Lifetime  | Until GA            |
 | Targeting | Email, role, cohort |
 
 ---
@@ -142,16 +141,16 @@ graph LR
     J --> K["ARCHIVE Delete"]
 ```
 
-| Phase | Gate | Owner | Duration |
-|-------|------|-------|----------|
-| Request | GitHub Issue | Engineer | — |
-| Approve | PR + flag checklist | Sr engineer | < 1d |
-| Create | PostHog definition | Engineer | < 1h |
-| Evaluate | Code + tests | Engineer | < 1 sprint |
-| Rollout | Gradual % | Eng + SRE | ≤ 14d |
-| Stabilize | Observability | SRE | 7d |
-| Cleanup | Remove branches | Engineer | < 1 sprint |
-| Archive | Delete | Engineer | < 1d |
+| Phase     | Gate                | Owner       | Duration   |
+| --------- | ------------------- | ----------- | ---------- |
+| Request   | GitHub Issue        | Engineer    | —          |
+| Approve   | PR + flag checklist | Sr engineer | < 1d       |
+| Create    | PostHog definition  | Engineer    | < 1h       |
+| Evaluate  | Code + tests        | Engineer    | < 1 sprint |
+| Rollout   | Gradual %           | Eng + SRE   | ≤ 14d      |
+| Stabilize | Observability       | SRE         | 7d         |
+| Cleanup   | Remove branches     | Engineer    | < 1 sprint |
+| Archive   | Delete              | Engineer    | < 1d       |
 
 ### 4.1 Request Template
 
@@ -188,13 +187,13 @@ Examples: release-theme-v2-PROJ-123 | exp-hero-cta-PROJ-456
 
 ### 5.3 Ownership
 
-| Role | Responsibility |
-|------|---------------|
-| Creator | Implementation, rollout, cleanup |
-| Tech Lead | Approves flags, reviews cleanup |
-| Platform Eng | Infrastructure, kill-switch access |
-| PM | Experiment targeting decisions |
-| SRE | Ops flag monitoring, incident response |
+| Role         | Responsibility                         |
+| ------------ | -------------------------------------- |
+| Creator      | Implementation, rollout, cleanup       |
+| Tech Lead    | Approves flags, reviews cleanup        |
+| Platform Eng | Infrastructure, kill-switch access     |
+| PM           | Experiment targeting decisions         |
+| SRE          | Ops flag monitoring, incident response |
 
 ### 5.4 Inventory
 
@@ -206,8 +205,8 @@ Examples: release-theme-v2-PROJ-123 | exp-hero-cta-PROJ-456
 async function auditStaleFlags() {
   const flags = await posthogClient.getFlags();
   return flags
-    .filter(f => !f.metadata?.cleanupBy || new Date(f.metadata.cleanupBy) < new Date())
-    .map(f => ({ key: f.key, owner: f.metadata?.owner ?? 'unknown' }));
+    .filter((f) => !f.metadata?.cleanupBy || new Date(f.metadata.cleanupBy) < new Date())
+    .map((f) => ({ key: f.key, owner: f.metadata?.owner ?? 'unknown' }));
 }
 ```
 
@@ -222,19 +221,19 @@ async function auditStaleFlags() {
 import { PostHog } from 'posthog-node';
 import { cache } from 'react';
 
-export const getClient = cache(() =>
-  new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!)
-);
+export const getClient = cache(() => new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY!));
 
 export async function getFlag(key: string, userId: string, d = false) {
-  return await getClient().isFeatureEnabled(key, userId) ?? d;
+  return (await getClient().isFeatureEnabled(key, userId)) ?? d;
 }
 
 export async function getFlagValue<T extends string>(
-  key: string, userId: string, ctx: { d: T; variants: T[] }
+  key: string,
+  userId: string,
+  ctx: { d: T; variants: T[] },
 ) {
   const v = await getClient().getFeatureFlag(key, userId);
-  return ctx.variants.includes(v as T) ? v as T : ctx.d;
+  return ctx.variants.includes(v as T) ? (v as T) : ctx.d;
 }
 ```
 
@@ -283,13 +282,13 @@ export const config = { matcher: ['/', '/projects', '/blog'] };
 
 ### 6.4 Decision Matrix
 
-| Context | Point | Cache | Budget | SDK |
-|---------|-------|-------|--------|-----|
-| Server Component | `getFlag()` | 60s local | < 10ms | `posthog-node` |
-| Client Component | `useFeatureFlag()` | Bootstrap payload | < 5ms | `posthog-js` |
-| Edge Middleware | `middleware.ts` | 60s edge | < 15ms | `posthog-node` |
-| API Route | `flagMiddleware()` | 60s/req | < 10ms | `posthog-node` |
-| Static Build | `getStaticProps()` | Build-time | 0ms | Direct |
+| Context          | Point              | Cache             | Budget | SDK            |
+| ---------------- | ------------------ | ----------------- | ------ | -------------- |
+| Server Component | `getFlag()`        | 60s local         | < 10ms | `posthog-node` |
+| Client Component | `useFeatureFlag()` | Bootstrap payload | < 5ms  | `posthog-js`   |
+| Edge Middleware  | `middleware.ts`    | 60s edge          | < 15ms | `posthog-node` |
+| API Route        | `flagMiddleware()` | 60s/req           | < 10ms | `posthog-node` |
+| Static Build     | `getStaticProps()` | Build-time        | 0ms    | Direct         |
 
 ---
 
@@ -331,14 +330,14 @@ high-risk: [{ 0.5,"30m",["err<0.01%"],["any err"]},{1,"2h",["err<0.05%"],["err>0
 
 ### 7.2 Targeting Rules
 
-| Rule | Example | Use |
-|------|---------|-----|
-| Environment | `env = prod` | Prod-only |
-| Percentage | `25%` | Ramp |
-| User ID | `id in [u1, u2]` | Internal |
+| Rule         | Example              | Use           |
+| ------------ | -------------------- | ------------- |
+| Environment  | `env = prod`         | Prod-only     |
+| Percentage   | `25%`                | Ramp          |
+| User ID      | `id in [u1, u2]`     | Internal      |
 | Email domain | `email endsWith @co` | Employee beta |
-| Geo | `country in [US]` | Regional |
-| Cohort | `cohort = early` | Behavioral |
+| Geo          | `country in [US]`    | Regional      |
+| Cohort       | `cohort = early`     | Behavioral    |
 
 ---
 
@@ -407,13 +406,13 @@ graph TB
 
 ### 9.4 Tech Debt Prevention
 
-| Practice | Mechanism | Enforcement |
-|----------|-----------|-------------|
-| Flag expiry | `cleanupBy` metadata | Bi-weekly audit |
-| Code reviews | Flag metadata in PR | PR template |
-| Max flags | 50 limit | Monthly gate |
-| No nested flags | ESLint rule | Linter |
-| Age alert | > 60d → P3 ticket | GitHub Action |
+| Practice        | Mechanism            | Enforcement     |
+| --------------- | -------------------- | --------------- |
+| Flag expiry     | `cleanupBy` metadata | Bi-weekly audit |
+| Code reviews    | Flag metadata in PR  | PR template     |
+| Max flags       | 50 limit             | Monthly gate    |
+| No nested flags | ESLint rule          | Linter          |
+| Age alert       | > 60d → P3 ticket    | GitHub Action   |
 
 ```
 // ESLint rule: no-nested-feature-flags
@@ -434,103 +433,103 @@ export const noNestedFlags = { create(ctx) {
 
 ## 10. Enterprise Standards Alignment
 
-| Standard | Requirement | How Flags Address |
-|----------|-------------|-------------------|
-| **ISO 27001** A.12.6.1 | Change management | Gated rollouts + audit trail |
-| **SOC 2** CC7.1 | Authorized changes | PR + approval per flag |
-| **PCI DSS** 6.4.2 | Change control | Gradual phases w/ rollback |
-| **NIST 800-53** CM-3 | Config control | Owner, ticket, cleanup date |
-| **AWS Well-Architected** REL-13 | Safe deploy | Kill switches + % rollouts |
-| **GitOps** | Declarative state | Version-controlled flags |
+| Standard                        | Requirement        | How Flags Address            |
+| ------------------------------- | ------------------ | ---------------------------- |
+| **ISO 27001** A.12.6.1          | Change management  | Gated rollouts + audit trail |
+| **SOC 2** CC7.1                 | Authorized changes | PR + approval per flag       |
+| **PCI DSS** 6.4.2               | Change control     | Gradual phases w/ rollback   |
+| **NIST 800-53** CM-3            | Config control     | Owner, ticket, cleanup date  |
+| **AWS Well-Architected** REL-13 | Safe deploy        | Kill switches + % rollouts   |
+| **GitOps**                      | Declarative state  | Version-controlled flags     |
 
 ### Compliance Gates
 
-| Gate | Phase | Enforced By |
-|------|-------|-------------|
-| Metadata complete | Create | GitHub Action webhook |
-| Approval ≥ 50% | Rollout | PR + SRE sign-off |
-| Pre-registration | Experiment | Hypothesis + metrics required |
-| Cleanup PR | Post-rollout | Stale-flag bot |
-| Count ≤ 50 | Monthly | Inventory check |
+| Gate              | Phase        | Enforced By                   |
+| ----------------- | ------------ | ----------------------------- |
+| Metadata complete | Create       | GitHub Action webhook         |
+| Approval ≥ 50%    | Rollout      | PR + SRE sign-off             |
+| Pre-registration  | Experiment   | Hypothesis + metrics required |
+| Cleanup PR        | Post-rollout | Stale-flag bot                |
+| Count ≤ 50        | Monthly      | Inventory check               |
 
 ### Risk Classification
 
-| Level | Impact | Approval | Rollback SLA |
-|-------|--------|----------|-------------|
-| **Critical** | Payment, auth, data loss, AI | CTO + SRE | < 1 min |
-| **High** | Core UX, navigation, rendering | Tech Lead + SRE | < 5 min |
-| **Medium** | Secondary UI/features | Tech Lead | < 15 min |
-| **Low** | Cosmetic, analytics, internal | Engineer | < 30 min |
+| Level        | Impact                         | Approval        | Rollback SLA |
+| ------------ | ------------------------------ | --------------- | ------------ |
+| **Critical** | Payment, auth, data loss, AI   | CTO + SRE       | < 1 min      |
+| **High**     | Core UX, navigation, rendering | Tech Lead + SRE | < 5 min      |
+| **Medium**   | Secondary UI/features          | Tech Lead       | < 15 min     |
+| **Low**      | Cosmetic, analytics, internal  | Engineer        | < 30 min     |
 
 ---
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives | Date | Approver |
-|----|----------|-----------|--------------|------|----------|
-| FLAG-001 | Adopt LaunchDarkly as the feature flag platform with client-side SDK | LaunchDarkly provides enterprise-grade feature management with targeting, A/B testing, and audit trails at portfolio scale | Custom feature flag service would require ongoing maintenance; Unleash would add another self-hosted component | Jun 2026 | Staff Platform Engineer |
-| FLAG-002 | Implement 4-tier flag lifecycle (Dev → Staging → Canary → Production) with mandatory TTL | Prevents permanent flags accumulating in production; TTL enforcement ensures flags are removed when no longer needed | No lifecycle would lead to flag debt (5+ permanent flags per feature); manual cleanup only would be inconsistently followed | Jun 2026 | Staff Platform Engineer |
-| FLAG-003 | Use 5-phase gradual rollout (1% → 5% → 20% → 50% → 100%) with auto-rollback on error budget burn | Gradual rollout limits blast radius of bad releases; auto-rollback on error budget burn prevents extended degradation | Single-step 100% rollout risks full user impact; manual rollback would add minutes of unnecessary downtime | Jun 2026 | Staff Platform Engineer |
-| FLAG-004 | Implement flag auditing with weekly stale-flag reports and monthly cleanup sprints | Regular audit cycle prevents flag accumulation; cleanup sprint provides dedicated time for safe removal | No auditing would lead to unmaintainable flag count; ad-hoc cleanup would be deprioritized against feature work | Jun 2026 | Staff Platform Engineer |
-| FLAG-005 | Require targeting rules at environment level with percentage rollouts as minimum for Production | Ensures changes are progressively exposed rather than toggled all-at-once; prevents binary flag flipping in production | Binary on/off flags bypass gradual rollout benefits; user-level targeting adds complexity for small team | Jun 2026 | Staff Platform Engineer |
+| ID       | Decision                                                                                         | Rationale                                                                                                                  | Alternatives                                                                                                                | Date     | Approver                |
+| -------- | ------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------- |
+| FLAG-001 | Adopt LaunchDarkly as the feature flag platform with client-side SDK                             | LaunchDarkly provides enterprise-grade feature management with targeting, A/B testing, and audit trails at portfolio scale | Custom feature flag service would require ongoing maintenance; Unleash would add another self-hosted component              | Jun 2026 | Staff Platform Engineer |
+| FLAG-002 | Implement 4-tier flag lifecycle (Dev → Staging → Canary → Production) with mandatory TTL         | Prevents permanent flags accumulating in production; TTL enforcement ensures flags are removed when no longer needed       | No lifecycle would lead to flag debt (5+ permanent flags per feature); manual cleanup only would be inconsistently followed | Jun 2026 | Staff Platform Engineer |
+| FLAG-003 | Use 5-phase gradual rollout (1% → 5% → 20% → 50% → 100%) with auto-rollback on error budget burn | Gradual rollout limits blast radius of bad releases; auto-rollback on error budget burn prevents extended degradation      | Single-step 100% rollout risks full user impact; manual rollback would add minutes of unnecessary downtime                  | Jun 2026 | Staff Platform Engineer |
+| FLAG-004 | Implement flag auditing with weekly stale-flag reports and monthly cleanup sprints               | Regular audit cycle prevents flag accumulation; cleanup sprint provides dedicated time for safe removal                    | No auditing would lead to unmaintainable flag count; ad-hoc cleanup would be deprioritized against feature work             | Jun 2026 | Staff Platform Engineer |
+| FLAG-005 | Require targeting rules at environment level with percentage rollouts as minimum for Production  | Ensures changes are progressively exposed rather than toggled all-at-once; prevents binary flag flipping in production     | Binary on/off flags bypass gradual rollout benefits; user-level targeting adds complexity for small team                    | Jun 2026 | Staff Platform Engineer |
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|-----------|
-| **A/B Test Flag** | A feature flag used to split traffic between two or more variants for experimental comparison |
-| **Auto-Rollback** | An automated process that reverts a feature flag to its previous state when error budget burn exceeds a defined threshold |
-| **Canary Release** | A deployment strategy where a new feature is gradually exposed to a small subset of users before full rollout |
-| **Context Kind** | The type of entity a flag targets — user, device, or session — determining how targeting rules are evaluated |
-| **Flag Debt** | The accumulation of stale or permanent feature flags that remain in the codebase after their feature has been fully released |
-| **Flag Key** | A unique identifier for a feature flag, following the format `flag-feature-description` |
-| **Flag TTL** | Time-to-Live — the maximum duration a temporary flag can exist before requiring renewal or removal |
-| **Gradual Rollout** | A phased release strategy that incrementally increases the percentage of users exposed to a new feature |
-| **Kill Switch** | A permanent, operationally critical feature flag used to disable a non-functional or harmful feature immediately |
-| **Permanent Flag** | A long-lived feature flag used for operations (kill switches) or entitlements that is never removed |
-| **Release Flag** | A temporary feature flag used to control the rollout of a new feature, removed after full release |
-| **Targeting Rule** | A condition-based rule that determines which users/segments see a feature (e.g., `user.country == "US"`) |
-| **Temporary Flag** | A feature flag created for a specific release or experiment with a defined lifespan and mandatory removal date |
-| **Variant** | A specific version of a feature under test in an A/B experiment, each with its own flag state and behavior |
+| Term                | Definition                                                                                                                   |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| **A/B Test Flag**   | A feature flag used to split traffic between two or more variants for experimental comparison                                |
+| **Auto-Rollback**   | An automated process that reverts a feature flag to its previous state when error budget burn exceeds a defined threshold    |
+| **Canary Release**  | A deployment strategy where a new feature is gradually exposed to a small subset of users before full rollout                |
+| **Context Kind**    | The type of entity a flag targets — user, device, or session — determining how targeting rules are evaluated                 |
+| **Flag Debt**       | The accumulation of stale or permanent feature flags that remain in the codebase after their feature has been fully released |
+| **Flag Key**        | A unique identifier for a feature flag, following the format `flag-feature-description`                                      |
+| **Flag TTL**        | Time-to-Live — the maximum duration a temporary flag can exist before requiring renewal or removal                           |
+| **Gradual Rollout** | A phased release strategy that incrementally increases the percentage of users exposed to a new feature                      |
+| **Kill Switch**     | A permanent, operationally critical feature flag used to disable a non-functional or harmful feature immediately             |
+| **Permanent Flag**  | A long-lived feature flag used for operations (kill switches) or entitlements that is never removed                          |
+| **Release Flag**    | A temporary feature flag used to control the rollout of a new feature, removed after full release                            |
+| **Targeting Rule**  | A condition-based rule that determines which users/segments see a feature (e.g., `user.country == "US"`)                     |
+| **Temporary Flag**  | A feature flag created for a specific release or experiment with a defined lifespan and mandatory removal date               |
+| **Variant**         | A specific version of a feature under test in an A/B experiment, each with its own flag state and behavior                   |
 
 ---
 
 ## 11. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial feature flag strategy — architecture, types, lifecycle, rollout, A/B, cleanup | Staff Platform Engineer |
+| Version | Date     | Changes                                                                               | Author                  |
+| ------- | -------- | ------------------------------------------------------------------------------------- | ----------------------- |
+| 1.0     | Jun 2026 | Initial feature flag strategy — architecture, types, lifecycle, rollout, A/B, cleanup | Staff Platform Engineer |
 
 ---
 
-*Document Version: 1.0 — Enterprise Edition*
+_Document Version: 1.0 — Enterprise Edition_
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| docs/product/02-FEATURES.md | Feature catalog with flag integration |
-| docs/operations/25-CICD.md | CI/CD pipeline with flag-based deployments |
-| docs/product/37-IMPLEMENTATION_PLAN.md | Implementation plan with flag rollout phases |
-| docs/quality/TestingArchitecture.md | Testing strategy with flag-based test scenarios |
-| docs/MASTER-INDEX.md | Full document dependency graph |
+| Reference                                 | Description                                     |
+| ----------------------------------------- | ----------------------------------------------- |
+| docs/01-product/02-FEATURES.md            | Feature catalog with flag integration           |
+| docs/21-operations/25-CICD.md             | CI/CD pipeline with flag-based deployments      |
+| docs/01-product/37-IMPLEMENTATION_PLAN.md | Implementation plan with flag rollout phases    |
+| docs/35-quality/TestingArchitecture.md    | Testing strategy with flag-based test scenarios |
+| docs/MASTER-INDEX.md                      | Full document dependency graph                  |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |

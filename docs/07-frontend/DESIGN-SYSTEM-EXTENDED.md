@@ -41,7 +41,7 @@ flowchart TD
 
 ## Executive Summary
 
-This design system is the single source of truth for all visual components, design tokens, interaction patterns, and accessibility requirements across the portfolio platform. It implements the visual identity defined in docs/design/DesignTokens.md as concrete, reusable React components and CSS custom properties. Every component targets WCAG 2.2 AA compliance, supports light, dark, and high-contrast themes, and follows the 4px/8px spacing system with 4px base unit.
+This design system is the single source of truth for all visual components, design tokens, interaction patterns, and accessibility requirements across the portfolio platform. It implements the visual identity defined in docs/04-design/DesignTokens.md as concrete, reusable React components and CSS custom properties. Every component targets WCAG 2.2 AA compliance, supports light, dark, and high-contrast themes, and follows the 4px/8px spacing system with 4px base unit.
 
 **Key Stats:**
 - **Components:** 72+ cataloged across 9 categories (Foundation, Navigation, Input, Feedback, Data Display, AI, Admin, Charts, Dashboard)
@@ -2163,7 +2163,7 @@ Every component PR must pass these checks (blocking):
 | Component API docs | packages/ui/src/*.tsx | JSDoc | With PR |
 | Token definitions | packages/ui/tailwind.config.ts | TypeScript | With token change |
 | Theme variables | pps/web/src/styles/globals.css | CSS | With theme change |
-| Accessibility audit | docs/quality/AccessibilityArchitecture.md | Markdown | Quarterly |
+| Accessibility audit | docs/35-quality/AccessibilityArchitecture.md | Markdown | Quarterly |
 | Visual changelog | docs/changelog/ | Markdown | With release |
 
 ### 8.5 Breaking Change Protocol

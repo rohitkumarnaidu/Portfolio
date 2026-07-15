@@ -128,12 +128,12 @@ All z-index values are CSS custom properties — never use raw integers:
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
-| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
-| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md) | Frontend architecture overview |
-| [3D-ARCHITECTURE.md](3D-ARCHITECTURE.md) | 3D architecture implementation |
-| [MOTION-SYSTEM.md](MOTION-SYSTEM.md) | Motion system reference |
-| [NEUMORPHISM.md](NEUMORPHISM.md) | Neumorphism design language |
+| Reference                                                             | Description                                |
+| --------------------------------------------------------------------- | ------------------------------------------ |
+| [MASTER-INDEX.md](../MASTER-INDEX.md)                                 | Documentation master index                 |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md)  | Cross-reference mapping                    |
+| [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md)                  | Frontend architecture overview             |
+| [3D-ARCHITECTURE.md](3D-ARCHITECTURE.md)                              | 3D architecture implementation             |
+| [MOTION-SYSTEM.md](MOTION-SYSTEM.md)                                  | Motion system reference                    |
+| [NEUMORPHISM.md](NEUMORPHISM.md)                                      | Neumorphism design language                |
 | [VisualExperienceSystem.md](../04-design/VISUAL-EXPERIENCE-SYSTEM.md) | Visual experience system (design category) |

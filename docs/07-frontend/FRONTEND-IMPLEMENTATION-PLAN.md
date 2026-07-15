@@ -85,29 +85,29 @@ flowchart LR
     AL --> M[14. Monitoring]
     M --> T[15. Testing]
     T --> D[16. Deployment]
- ```
+```
 
 ---
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| FIP-001 | Turborepo 2.0 monorepo over Nx or single-package | Turborepo has native Next.js support, faster cache, and simpler config; already proven in Next.js ecosystem | Nx (more features but heavier), single-package (no shared code isolation) | 2026-06-01 | Tech Lead |
-| FIP-002 | pnpm 9 over npm or yarn for monorepo | pnpm workspace protocol is the best-supported by Turborepo; strict dependency isolation prevents phantom dependencies | npm workspaces (loose isolation), yarn 4 (less ecosystem support) | 2026-06-01 | Tech Lead |
-| FIP-003 | SWR over React Query for data fetching | SWR has smaller bundle (~4KB vs ~13KB), simpler API, and built-in revalidation that matches ISR pattern well | React Query (more features, heavier), RTK Query (tight Redux coupling) | 2026-06-01 | Frontend Lead |
-| FIP-004 | Framer Motion + GSAP dual animation library | Framer Motion for layout/enter animations (lightweight, React-native), GSAP ScrollTrigger for complex scroll/parallax (best-in-class) | Only Framer Motion (limited scroll), only GSAP (no React transitions), CSS-only (limited capability) | 2026-06-01 | Frontend Lead |
-| FIP-005 | PostHog over Google Analytics for analytics | PostHog is privacy-first, self-hostable, has built-in session recording and feature flags; avoids GDPR issues with Google | Google Analytics 4 (free, but privacy concerns), Plausible (simpler, less features) | 2026-06-01 | Tech Lead |
+| ID      | Decision                                         | Rationale                                                                                                                             | Alternatives Considered                                                                              | Date       | Approver      |
+| ------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------- | ------------- |
+| FIP-001 | Turborepo 2.0 monorepo over Nx or single-package | Turborepo has native Next.js support, faster cache, and simpler config; already proven in Next.js ecosystem                           | Nx (more features but heavier), single-package (no shared code isolation)                            | 2026-06-01 | Tech Lead     |
+| FIP-002 | pnpm 9 over npm or yarn for monorepo             | pnpm workspace protocol is the best-supported by Turborepo; strict dependency isolation prevents phantom dependencies                 | npm workspaces (loose isolation), yarn 4 (less ecosystem support)                                    | 2026-06-01 | Tech Lead     |
+| FIP-003 | SWR over React Query for data fetching           | SWR has smaller bundle (~4KB vs ~13KB), simpler API, and built-in revalidation that matches ISR pattern well                          | React Query (more features, heavier), RTK Query (tight Redux coupling)                               | 2026-06-01 | Frontend Lead |
+| FIP-004 | Framer Motion + GSAP dual animation library      | Framer Motion for layout/enter animations (lightweight, React-native), GSAP ScrollTrigger for complex scroll/parallax (best-in-class) | Only Framer Motion (limited scroll), only GSAP (no React transitions), CSS-only (limited capability) | 2026-06-01 | Frontend Lead |
+| FIP-005 | PostHog over Google Analytics for analytics      | PostHog is privacy-first, self-hostable, has built-in session recording and feature flags; avoids GDPR issues with Google             | Google Analytics 4 (free, but privacy concerns), Plausible (simpler, less features)                  | 2026-06-01 | Tech Lead     |
 
 ## Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| FIP-R01 | Team capacity insufficient for 14-18 week timeline | Medium | High | Phase dependencies allow parallel work; reduce scope by deferring P2 items if needed |
-| FIP-R02 | Backend API unavailable during frontend development | High | High | Use MSW mocks for all API endpoints from day one; define API contracts before implementation |
-| FIP-R03 | Animation performance degrades on mid-range mobile devices | Medium | Medium | Progressive enhancement: graceful degradation to CSS-only animations; test on real devices |
-| FIP-R04 | LLM API costs exceed budget during AI assistant phase | Medium | Medium | Use GPT-3.5-Turbo for classification, GPT-4 only for response generation; set daily/monthly caps |
-| FIP-R05 | Design token drift between Figma and code | Medium | Low | Automated token export script from Figma; quarterly token audit in project board |
+| ID      | Risk                                                       | Likelihood | Impact | Mitigation                                                                                       |
+| ------- | ---------------------------------------------------------- | ---------- | ------ | ------------------------------------------------------------------------------------------------ |
+| FIP-R01 | Team capacity insufficient for 14-18 week timeline         | Medium     | High   | Phase dependencies allow parallel work; reduce scope by deferring P2 items if needed             |
+| FIP-R02 | Backend API unavailable during frontend development        | High       | High   | Use MSW mocks for all API endpoints from day one; define API contracts before implementation     |
+| FIP-R03 | Animation performance degrades on mid-range mobile devices | Medium     | Medium | Progressive enhancement: graceful degradation to CSS-only animations; test on real devices       |
+| FIP-R04 | LLM API costs exceed budget during AI assistant phase      | Medium     | Medium | Use GPT-3.5-Turbo for classification, GPT-4 only for response generation; set daily/monthly caps |
+| FIP-R05 | Design token drift between Figma and code                  | Medium     | Low    | Automated token export script from Figma; quarterly token audit in project board                 |
 
 ---
 
@@ -132,23 +132,23 @@ flowchart LR
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Node.js 20 LTS | External | Required for pnpm 9 + Next.js 14
-| pnpm 9 | External | Must install globally or use corepack
-| GitHub repository | External | Must exist with main branch
-| Vercel account | External | Team plan with preview deploys
-| NestJS API repo | External | API must be available for integration
-| PostgreSQL | External | Local Docker instance for development
+| Dependency        | Type     | Notes                                 |
+| ----------------- | -------- | ------------------------------------- |
+| Node.js 20 LTS    | External | Required for pnpm 9 + Next.js 14      |
+| pnpm 9            | External | Must install globally or use corepack |
+| GitHub repository | External | Must exist with main branch           |
+| Vercel account    | External | Team plan with preview deploys        |
+| NestJS API repo   | External | API must be available for integration |
+| PostgreSQL        | External | Local Docker instance for development |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation
-|------|-------------|--------|----------
-| Tooling version conflicts | Low | High | Pin all major versions in package.json, use .nvmrc
-| CI misconfiguration | Medium | High | Test CI on minimal PR before proceeding
-| Monorepo package resolution | Low | Medium | Verify pnpm workspace protocol works early
-| Team environment inconsistency | Medium | Low | Provide Docker devcontainer or setup script
+| Risk                           | Probability | Impact | Mitigation                                         |
+| ------------------------------ | ----------- | ------ | -------------------------------------------------- |
+| Tooling version conflicts      | Low         | High   | Pin all major versions in package.json, use .nvmrc |
+| CI misconfiguration            | Medium      | High   | Test CI on minimal PR before proceeding            |
+| Monorepo package resolution    | Low         | Medium | Verify pnpm workspace protocol works early         |
+| Team environment inconsistency | Medium      | Low    | Provide Docker devcontainer or setup script        |
 
 ### Definition of Done
 
@@ -162,15 +162,15 @@ flowchart LR
 
 ### Validation Checklist
 
-| Check | Command | Expected |
-|-------|---------|---------|
-| Clean install | `pnpm install` | No warnings, lockfile generated |
-| Dev server | `pnpm dev` | Starts on :3000, HMR works |
-| Build | `pnpm build` | All packages build, output in .next |
-| Lint | `pnpm lint` | 0 errors, 0 warnings |
-| Type check | `pnpm typecheck` | 0 errors |
-| CI pipeline | Push to PR branch | All checks pass green |
-| Preview deploy | PR created | Vercel comment with preview URL |
+| Check          | Command           | Expected                            |
+| -------------- | ----------------- | ----------------------------------- |
+| Clean install  | `pnpm install`    | No warnings, lockfile generated     |
+| Dev server     | `pnpm dev`        | Starts on :3000, HMR works          |
+| Build          | `pnpm build`      | All packages build, output in .next |
+| Lint           | `pnpm lint`       | 0 errors, 0 warnings                |
+| Type check     | `pnpm typecheck`  | 0 errors                            |
+| CI pipeline    | Push to PR branch | All checks pass green               |
+| Preview deploy | PR created        | Vercel comment with preview URL     |
 
 ---
 
@@ -197,20 +197,20 @@ flowchart LR
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Foundation phase | Internal | Must have Tailwind + project scaffold |
-| DesignSystem.md | Documentation | All 280+ tokens must be finalized |
-| Figma design files | External | Design tokens must match component designs |
+| Dependency         | Type          | Notes                                      |
+| ------------------ | ------------- | ------------------------------------------ |
+| Foundation phase   | Internal      | Must have Tailwind + project scaffold      |
+| DesignSystem.md    | Documentation | All 280+ tokens must be finalized          |
+| Figma design files | External      | Design tokens must match component designs |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Theme switching causes FOUC | Medium | High | Inject critical CSS before hydration |
-| Contrast ratio fails WCAG AA | Low | High | Pre-validate all token pairs with axe |
-| Token naming inconsistency | Medium | Medium | Enforce --color-*, --space-*, --font-* prefix convention |
-| Design token drift from Figma | Medium | Low | Add quarterly design token audit to project board |
+| Risk                          | Probability | Impact | Mitigation                                                |
+| ----------------------------- | ----------- | ------ | --------------------------------------------------------- |
+| Theme switching causes FOUC   | Medium      | High   | Inject critical CSS before hydration                      |
+| Contrast ratio fails WCAG AA  | Low         | High   | Pre-validate all token pairs with axe                     |
+| Token naming inconsistency    | Medium      | Medium | Enforce --color-_, --space-_, --font-\* prefix convention |
+| Design token drift from Figma | Medium      | Low    | Add quarterly design token audit to project board         |
 
 ### Definition of Done
 
@@ -224,13 +224,13 @@ flowchart LR
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Theme toggle | Manual + unit test | Toggles between 3 themes, persists |
-| FOUC test | Slow 3G throttling | No flash of unstyled content |
-| Contrast check | axe-core accessibility scan | 0 color contrast violations |
-| Token coverage | ESLint rule | No hardcoded color values in components |
-| Token export | Script compare | matches DesignSystem.md |
+| Check          | Method                      | Expected                                |
+| -------------- | --------------------------- | --------------------------------------- |
+| Theme toggle   | Manual + unit test          | Toggles between 3 themes, persists      |
+| FOUC test      | Slow 3G throttling          | No flash of unstyled content            |
+| Contrast check | axe-core accessibility scan | 0 color contrast violations             |
+| Token coverage | ESLint rule                 | No hardcoded color values in components |
+| Token export   | Script compare              | matches DesignSystem.md                 |
 
 ---
 
@@ -257,20 +257,20 @@ flowchart LR
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Design Tokens | Internal | Must have theme variables for styling |
-| Next.js 14 App Router | Internal | Must understand layout nesting |
-| Navigation structure | External | Must be finalized by design/product |
+| Dependency            | Type     | Notes                                 |
+| --------------------- | -------- | ------------------------------------- |
+| Design Tokens         | Internal | Must have theme variables for styling |
+| Next.js 14 App Router | Internal | Must understand layout nesting        |
+| Navigation structure  | External | Must be finalized by design/product   |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Layout shift during hydration | Medium | High | Reserve space for dynamic content |
-| Mobile nav menu accessibility | Medium | Medium | Ensure proper ARIA, focus trap, keyboard nav |
-| Admin sidebar responsive | Medium | Medium | Collapse to icon-only on tablet, bottom nav on mobile |
-| Font loading causes FOIT | Low | Medium | Use font-display: swap with fallback fonts |
+| Risk                          | Probability | Impact | Mitigation                                            |
+| ----------------------------- | ----------- | ------ | ----------------------------------------------------- |
+| Layout shift during hydration | Medium      | High   | Reserve space for dynamic content                     |
+| Mobile nav menu accessibility | Medium      | Medium | Ensure proper ARIA, focus trap, keyboard nav          |
+| Admin sidebar responsive      | Medium      | Medium | Collapse to icon-only on tablet, bottom nav on mobile |
+| Font loading causes FOIT      | Low         | Medium | Use font-display: swap with fallback fonts            |
 
 ### Definition of Done
 
@@ -284,14 +284,14 @@ flowchart LR
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Layout render | Unit test + visual | All layouts render with correct structure |
-| Responsive nav | Browser resize to 375px | Hamburger appears, links hidden |
-| Mobile nav open | Click hamburger | Nav overlay opens, focus trapped, ESC closes |
-| Auth redirect | Visit /admin without token | Redirected to /admin/login |
-| CLS measurement | Lighthouse | CLS = 0 |
-| Keyboard nav | Tab through nav | All links reachable, visible focus ring |
+| Check           | Method                     | Expected                                     |
+| --------------- | -------------------------- | -------------------------------------------- |
+| Layout render   | Unit test + visual         | All layouts render with correct structure    |
+| Responsive nav  | Browser resize to 375px    | Hamburger appears, links hidden              |
+| Mobile nav open | Click hamburger            | Nav overlay opens, focus trapped, ESC closes |
+| Auth redirect   | Visit /admin without token | Redirected to /admin/login                   |
+| CLS measurement | Lighthouse                 | CLS = 0                                      |
+| Keyboard nav    | Tab through nav            | All links reachable, visible focus ring      |
 
 ---
 
@@ -303,53 +303,53 @@ flowchart LR
 
 All 26 components from ComponentLibrary.md, each with:
 
-| # | Component | Variants | States | Priority |
-|---|-----------|----------|--------|----------|
-| 1 | Button | primary, secondary, ghost, danger | default, hover, active, focus, loading, disabled | P0 |
-| 2 | Card | default, interactive, bordered, elevated | default, hover | P0 |
-| 3 | Input | text, email, password, search | default, focus, error, disabled, readonly | P0 |
-| 4 | Badge | default, success, warning, error, info | solid, outline, subtle | P0 |
-| 5 | Accordion | single, multiple | expanded, collapsed, disabled | P1 |
-| 6 | Tabs | underlined, pill, box | active, inactive, disabled | P1 |
-| 7 | Modal | default, fullscreen, sidepanel | open, closed, closing | P1 |
-| 8 | Toast | success, error, warning, info | enter, exit, stacked | P1 |
-| 9 | Avatar | sm, md, lg, xl | image, initials, fallback | P1 |
-| 10 | Tooltip | top, bottom, left, right | show, hide, delay | P1 |
-| 11 | Select | single, multiple, searchable | default, open, selected, disabled | P1 |
-| 12 | Spinner | sm, md, lg | spinning (indeterminate) | P0 |
-| 13 | Skeleton | text, card, avatar, table | loading | P0 |
-| 14 | Breadcrumb | default, collapsed | > 4 items collapse | P1 |
-| 15 | Pagination | numbered, prev/next | page selected, disabled | P1 |
-| 16 | SearchBar | default, expanded | empty, typing, results | P1 |
-| 17 | StatCard | up, down, neutral | loading, value, error | P1 |
-| 18 | DataTable | sortable, filterable | loading, empty, populated, error | P1 |
-| 19 | FormField | default, inline, stacked | label, input, error, helper | P0 |
-| 20 | TagInput | default, creatable | empty, hasTags, maxReached | P2 |
-| 21 | FileUpload | single, multiple | empty, uploading, uploaded, error | P2 |
-| 22 | ProgressBar | determinate, indeterminate | 0-100%, animated | P1 |
-| 23 | Timeline | default, alternate | completed, active, future | P2 |
-| 24 | NotificationDot | online, away, busy, offline | pulse animation | P2 |
-| 25 | StatusBadge | active, archived, draft, published | color-coded | P1 |
-| 26 | IconButton | sm, md, lg | default, hover, active, disabled | P0 |
+| #   | Component       | Variants                                 | States                                           | Priority |
+| --- | --------------- | ---------------------------------------- | ------------------------------------------------ | -------- |
+| 1   | Button          | primary, secondary, ghost, danger        | default, hover, active, focus, loading, disabled | P0       |
+| 2   | Card            | default, interactive, bordered, elevated | default, hover                                   | P0       |
+| 3   | Input           | text, email, password, search            | default, focus, error, disabled, readonly        | P0       |
+| 4   | Badge           | default, success, warning, error, info   | solid, outline, subtle                           | P0       |
+| 5   | Accordion       | single, multiple                         | expanded, collapsed, disabled                    | P1       |
+| 6   | Tabs            | underlined, pill, box                    | active, inactive, disabled                       | P1       |
+| 7   | Modal           | default, fullscreen, sidepanel           | open, closed, closing                            | P1       |
+| 8   | Toast           | success, error, warning, info            | enter, exit, stacked                             | P1       |
+| 9   | Avatar          | sm, md, lg, xl                           | image, initials, fallback                        | P1       |
+| 10  | Tooltip         | top, bottom, left, right                 | show, hide, delay                                | P1       |
+| 11  | Select          | single, multiple, searchable             | default, open, selected, disabled                | P1       |
+| 12  | Spinner         | sm, md, lg                               | spinning (indeterminate)                         | P0       |
+| 13  | Skeleton        | text, card, avatar, table                | loading                                          | P0       |
+| 14  | Breadcrumb      | default, collapsed                       | > 4 items collapse                               | P1       |
+| 15  | Pagination      | numbered, prev/next                      | page selected, disabled                          | P1       |
+| 16  | SearchBar       | default, expanded                        | empty, typing, results                           | P1       |
+| 17  | StatCard        | up, down, neutral                        | loading, value, error                            | P1       |
+| 18  | DataTable       | sortable, filterable                     | loading, empty, populated, error                 | P1       |
+| 19  | FormField       | default, inline, stacked                 | label, input, error, helper                      | P0       |
+| 20  | TagInput        | default, creatable                       | empty, hasTags, maxReached                       | P2       |
+| 21  | FileUpload      | single, multiple                         | empty, uploading, uploaded, error                | P2       |
+| 22  | ProgressBar     | determinate, indeterminate               | 0-100%, animated                                 | P1       |
+| 23  | Timeline        | default, alternate                       | completed, active, future                        | P2       |
+| 24  | NotificationDot | online, away, busy, offline              | pulse animation                                  | P2       |
+| 25  | StatusBadge     | active, archived, draft, published       | color-coded                                      | P1       |
+| 26  | IconButton      | sm, md, lg                               | default, hover, active, disabled                 | P0       |
 
 Each component includes: TypeScript props interface, named export, forwardRef, displayName, data-testid attributes, className merge via cn(), comprehensive unit tests, Storybook stories (all variants + states), axe-core a11y tests, and bundle size tracking.
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Design Tokens | Internal | Colors, spacing, typography must be defined |
-| @portfolio/ui package | Internal | Package must exist in workspace |
-| ComponentLibrary.md | Documentation | Final specs for all 26 components |
+| Dependency            | Type          | Notes                                       |
+| --------------------- | ------------- | ------------------------------------------- |
+| Design Tokens         | Internal      | Colors, spacing, typography must be defined |
+| @portfolio/ui package | Internal      | Package must exist in workspace             |
+| ComponentLibrary.md   | Documentation | Final specs for all 26 components           |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Component scope creep | Medium | Medium | Strictly limit to 26; defer enhancements |
-| Inconsistent prop APIs | Medium | High | Define and enforce component API conventions doc |
-| Bundle size bloat | Medium | High | Track per-component bundle, use tree-shaking |
-| Accessibility gaps | Medium | High | Enforce a11y in code review, run axe in CI |
+| Risk                   | Probability | Impact | Mitigation                                       |
+| ---------------------- | ----------- | ------ | ------------------------------------------------ |
+| Component scope creep  | Medium      | Medium | Strictly limit to 26; defer enhancements         |
+| Inconsistent prop APIs | Medium      | High   | Define and enforce component API conventions doc |
+| Bundle size bloat      | Medium      | High   | Track per-component bundle, use tree-shaking     |
+| Accessibility gaps     | Medium      | High   | Enforce a11y in code review, run axe in CI       |
 
 ### Definition of Done
 
@@ -383,19 +383,19 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (Button, Card, Badge, Skeleton, Spinner) | Internal | Must have basic components ready |
-| CMS API endpoints (sections, projects, skills) | Backend | Must return section-based content |
-| Design mockups for hero | Design | Must provide hero layout specs |
+| Dependency                                          | Type     | Notes                             |
+| --------------------------------------------------- | -------- | --------------------------------- |
+| Components (Button, Card, Badge, Skeleton, Spinner) | Internal | Must have basic components ready  |
+| CMS API endpoints (sections, projects, skills)      | Backend  | Must return section-based content |
+| Design mockups for hero                             | Design   | Must provide hero layout specs    |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| 3D scene performance on low-end devices | Medium | Medium | Use progressive enhancement: fallback to gradient |
-| Section loading order from CMS | Low | Medium | Set default order, handle missing sections gracefully |
-| LCP exceeding 1.5s | Medium | High | Preload hero image, prioritize hero above-fold, lazy below |
+| Risk                                    | Probability | Impact | Mitigation                                                 |
+| --------------------------------------- | ----------- | ------ | ---------------------------------------------------------- |
+| 3D scene performance on low-end devices | Medium      | Medium | Use progressive enhancement: fallback to gradient          |
+| Section loading order from CMS          | Low         | Medium | Set default order, handle missing sections gracefully      |
+| LCP exceeding 1.5s                      | Medium      | High   | Preload hero image, prioritize hero above-fold, lazy below |
 
 ### Definition of Done
 
@@ -410,13 +410,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Section rendering | Integration test | All sections render from CMS mock |
-| Section reorder | Update CMS order, refresh page | New order reflected |
-| LCP measurement | Lighthouse | LCP < 1.5s |
-| 3D fallback | Set prefers-reduced-motion | Gradient displays instead of 3D |
-| SEO preview | Social share debugger | Correct title, description, OG image |
+| Check             | Method                         | Expected                             |
+| ----------------- | ------------------------------ | ------------------------------------ |
+| Section rendering | Integration test               | All sections render from CMS mock    |
+| Section reorder   | Update CMS order, refresh page | New order reflected                  |
+| LCP measurement   | Lighthouse                     | LCP < 1.5s                           |
+| 3D fallback       | Set prefers-reduced-motion     | Gradient displays instead of 3D      |
+| SEO preview       | Social share debugger          | Correct title, description, OG image |
 
 ---
 
@@ -442,19 +442,19 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (Card, Badge, Select, Skeleton, Pagination) | Internal | Core UI components required |
-| CMS API (/api/v1/projects) | Backend | Must return projects with filtering |
-| Image CDN | External | Project images must be optimized |
+| Dependency                                             | Type     | Notes                               |
+| ------------------------------------------------------ | -------- | ----------------------------------- |
+| Components (Card, Badge, Select, Skeleton, Pagination) | Internal | Core UI components required         |
+| CMS API (/api/v1/projects)                             | Backend  | Must return projects with filtering |
+| Image CDN                                              | External | Project images must be optimized    |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Filter performance with 100+ projects | Medium | Medium | Use SWR cache + debounced filter, virtualize if needed |
-| Image loading performance | Medium | High | Use next/image with blurDataURL, lazy load below-fold |
-| Filter state lost on browser back | Low | Medium | Store active filters in URL searchParams |
+| Risk                                  | Probability | Impact | Mitigation                                             |
+| ------------------------------------- | ----------- | ------ | ------------------------------------------------------ |
+| Filter performance with 100+ projects | Medium      | Medium | Use SWR cache + debounced filter, virtualize if needed |
+| Image loading performance             | Medium      | High   | Use next/image with blurDataURL, lazy load below-fold  |
+| Filter state lost on browser back     | Low         | Medium | Store active filters in URL searchParams               |
 
 ### Definition of Done
 
@@ -469,13 +469,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Filter renders | Integration test | All filters render with options from API |
-| Filter applies | Click filter | Project list updates, URL updates |
-| Detail page | Navigate to /projects/[slug] | Full project content renders |
-| ISR test | Publish project, wait 60s | Project appears without redeploy |
-| Empty state | Filter to nonexistent category | Empty state message renders |
+| Check          | Method                         | Expected                                 |
+| -------------- | ------------------------------ | ---------------------------------------- |
+| Filter renders | Integration test               | All filters render with options from API |
+| Filter applies | Click filter                   | Project list updates, URL updates        |
+| Detail page    | Navigate to /projects/[slug]   | Full project content renders             |
+| ISR test       | Publish project, wait 60s      | Project appears without redeploy         |
+| Empty state    | Filter to nonexistent category | Empty state message renders              |
 
 ---
 
@@ -498,19 +498,19 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (StatCard, Modal, ProgressBar, Badge) | Internal | Data display components required |
-| CMS /projects/[slug] endpoint | Backend | Must return full case study content (MDX/markdown) |
-| Syntax highlighting library | External | Prism.js or shiki (lazy loaded ~15KB) |
+| Dependency                                       | Type     | Notes                                              |
+| ------------------------------------------------ | -------- | -------------------------------------------------- |
+| Components (StatCard, Modal, ProgressBar, Badge) | Internal | Data display components required                   |
+| CMS /projects/[slug] endpoint                    | Backend  | Must return full case study content (MDX/markdown) |
+| Syntax highlighting library                      | External | Prism.js or shiki (lazy loaded ~15KB)              |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Long-form content rendering > 500ms | Medium | Medium | Lazy render below-fold sections, virtualize if needed |
-| Syntax highlighting bundle size | Medium | Medium | Load shiki on demand, only common languages |
-| Scrollspy performance with 50+ headings | Low | Low | Use IntersectionObserver with root margin |
+| Risk                                    | Probability | Impact | Mitigation                                            |
+| --------------------------------------- | ----------- | ------ | ----------------------------------------------------- |
+| Long-form content rendering > 500ms     | Medium      | Medium | Lazy render below-fold sections, virtualize if needed |
+| Syntax highlighting bundle size         | Medium      | Medium | Load shiki on demand, only common languages           |
+| Scrollspy performance with 50+ headings | Low         | Low    | Use IntersectionObserver with root margin             |
 
 ### Definition of Done
 
@@ -525,13 +525,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Rich content render | Integration test | Headings, images, code, tables all render |
-| ToC navigation | Click ToC item | Scrolls to correct heading, highlights active |
-| Progress bar | Scroll page | Bar fills proportionally |
-| Lightbox | Click gallery image | Opens in modal, close with ESC |
-| Copy code | Click copy button | Code copied to clipboard |
+| Check               | Method              | Expected                                      |
+| ------------------- | ------------------- | --------------------------------------------- |
+| Rich content render | Integration test    | Headings, images, code, tables all render     |
+| ToC navigation      | Click ToC item      | Scrolls to correct heading, highlights active |
+| Progress bar        | Scroll page         | Bar fills proportionally                      |
+| Lightbox            | Click gallery image | Opens in modal, close with ESC                |
+| Copy code           | Click copy button   | Code copied to clipboard                      |
 
 ---
 
@@ -554,18 +554,18 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (Card, Badge, SearchBar, Pagination, Toast) | Internal | Core components required |
-| CMS /blog endpoint | Backend | Paginated posts with categories |
-| MDX/markdown renderer | Internal | Reuse from Case Studies |
+| Dependency                                             | Type     | Notes                           |
+| ------------------------------------------------------ | -------- | ------------------------------- |
+| Components (Card, Badge, SearchBar, Pagination, Toast) | Internal | Core components required        |
+| CMS /blog endpoint                                     | Backend  | Paginated posts with categories |
+| MDX/markdown renderer                                  | Internal | Reuse from Case Studies         |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| RSS feed generation complexity | Low | Medium | Use feed npm package, test with validator |
-| Search indexing lag | Medium | Low | Index posts at build time, client-side search in memory |
+| Risk                           | Probability | Impact | Mitigation                                              |
+| ------------------------------ | ----------- | ------ | ------------------------------------------------------- |
+| RSS feed generation complexity | Low         | Medium | Use feed npm package, test with validator               |
+| Search indexing lag            | Medium      | Low    | Index posts at build time, client-side search in memory |
 
 ### Definition of Done
 
@@ -579,11 +579,11 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Blog list | Integration test | Posts render with correct pagination |
-| Search | Type in search bar | Results filter in real-time |
-| RSS feed | GET /rss.xml | Valid XML, passes W3C validator |
+| Check        | Method              | Expected                               |
+| ------------ | ------------------- | -------------------------------------- |
+| Blog list    | Integration test    | Posts render with correct pagination   |
+| Search       | Type in search bar  | Results filter in real-time            |
+| RSS feed     | GET /rss.xml        | Valid XML, passes W3C validator        |
 | Social share | Click share buttons | Opens correct URL/tweet with post link |
 
 ---
@@ -607,19 +607,19 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (FormField, Input, Button, Toast) | Internal | Form components required |
-| reCAPTCHA v3 key | External | Register with Google, add to env vars |
-| API endpoint POST /api/contact | Backend | Must accept and store contact submissions |
+| Dependency                                   | Type     | Notes                                     |
+| -------------------------------------------- | -------- | ----------------------------------------- |
+| Components (FormField, Input, Button, Toast) | Internal | Form components required                  |
+| reCAPTCHA v3 key                             | External | Register with Google, add to env vars     |
+| API endpoint POST /api/contact               | Backend  | Must accept and store contact submissions |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Spam submissions | High | Medium | Honeypot + reCAPTCHA + rate limiting triple layer |
-| reCAPTCHA false positives | Low | Medium | Score threshold adjustable via admin |
-| Form state loss on error | Medium | Low | Preserve form values on validation failure |
+| Risk                      | Probability | Impact | Mitigation                                        |
+| ------------------------- | ----------- | ------ | ------------------------------------------------- |
+| Spam submissions          | High        | Medium | Honeypot + reCAPTCHA + rate limiting triple layer |
+| reCAPTCHA false positives | Low         | Medium | Score threshold adjustable via admin              |
+| Form state loss on error  | Medium      | Low    | Preserve form values on validation failure        |
 
 ### Definition of Done
 
@@ -635,14 +635,14 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Form validation | Submit empty form | All required field errors display |
-| Email validation | Type invalid email | Email format error displays |
-| Submit flow | Fill + submit valid form | Success message, form clears |
-| Honeypot | Fill hidden field | Submission rejected silently |
-| Rate limit | Submit N+1 times | Rate limit error displays with cooldown |
-| Admin receipt | Check LeadManager | New lead appears in list |
+| Check            | Method                   | Expected                                |
+| ---------------- | ------------------------ | --------------------------------------- |
+| Form validation  | Submit empty form        | All required field errors display       |
+| Email validation | Type invalid email       | Email format error displays             |
+| Submit flow      | Fill + submit valid form | Success message, form clears            |
+| Honeypot         | Fill hidden field        | Submission rejected silently            |
+| Rate limit       | Submit N+1 times         | Rate limit error displays with cooldown |
+| Admin receipt    | Check LeadManager        | New lead appears in list                |
 
 ---
 
@@ -668,21 +668,21 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (Button, Input, Spinner) | Internal | Core UI components |
-| FastAPI SSE endpoint (/api/chat/stream) | Backend | Must stream tokens via Server-Sent Events |
-| LLM API key | External | OpenAI / Anthropic / custom model |
-| Markdown renderer | Internal | Reuse from Case Studies/Blog |
+| Dependency                              | Type     | Notes                                     |
+| --------------------------------------- | -------- | ----------------------------------------- |
+| Components (Button, Input, Spinner)     | Internal | Core UI components                        |
+| FastAPI SSE endpoint (/api/chat/stream) | Backend  | Must stream tokens via Server-Sent Events |
+| LLM API key                             | External | OpenAI / Anthropic / custom model         |
+| Markdown renderer                       | Internal | Reuse from Case Studies/Blog              |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| SSE reconnection on network interrupt | Medium | High | Implement exponential backoff reconnect, show partial messages |
-| Token streaming UX janky | Medium | Medium | Use requestAnimationFrame for batched DOM updates |
-| Rate limit reached during conversation | Medium | Low | Show clear countdown, prevent message send |
-| Mobile keyboard overlaps chat input | High | Medium | Use visualViewport API + scroll-into-view |
+| Risk                                   | Probability | Impact | Mitigation                                                     |
+| -------------------------------------- | ----------- | ------ | -------------------------------------------------------------- |
+| SSE reconnection on network interrupt  | Medium      | High   | Implement exponential backoff reconnect, show partial messages |
+| Token streaming UX janky               | Medium      | Medium | Use requestAnimationFrame for batched DOM updates              |
+| Rate limit reached during conversation | Medium      | Low    | Show clear countdown, prevent message send                     |
+| Mobile keyboard overlaps chat input    | High        | Medium | Use visualViewport API + scroll-into-view                      |
 
 ### Definition of Done
 
@@ -697,17 +697,16 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Send message | Type + Enter | User message appears, AI starts streaming |
-| Token streaming | Watch response | Tokens appear progressively, not all at once |
-| Stop generation | Click stop mid-stream | Stream halts, partial message shown |
-| Markdown | Send message with code/link | Correctly rendered in message |
-| History refresh | Send messages, reload page | History preserved from sessionStorage |
-| Mode switch | Toggle overlay/inline/full | UI changes correctly per mode |
+| Check           | Method                      | Expected                                     |
+| --------------- | --------------------------- | -------------------------------------------- |
+| Send message    | Type + Enter                | User message appears, AI starts streaming    |
+| Token streaming | Watch response              | Tokens appear progressively, not all at once |
+| Stop generation | Click stop mid-stream       | Stream halts, partial message shown          |
+| Markdown        | Send message with code/link | Correctly rendered in message                |
+| History refresh | Send messages, reload page  | History preserved from sessionStorage        |
+| Mode switch     | Toggle overlay/inline/full  | UI changes correctly per mode                |
 
 ---
-
 
 ## 11. Admin Dashboard
 
@@ -730,21 +729,21 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Components (DataTable, FormField, Modal, Button, Badge) | Internal | Admin UI components required |
-| All public features | Internal | Admin manages these entities |
-| Auth + CRUD API endpoints | Backend | Login, projects, sections, blog, leads |
-| Tiptap rich text editor | External | ~40KB lazy loaded |
+| Dependency                                              | Type     | Notes                                  |
+| ------------------------------------------------------- | -------- | -------------------------------------- |
+| Components (DataTable, FormField, Modal, Button, Badge) | Internal | Admin UI components required           |
+| All public features                                     | Internal | Admin manages these entities           |
+| Auth + CRUD API endpoints                               | Backend  | Login, projects, sections, blog, leads |
+| Tiptap rich text editor                                 | External | ~40KB lazy loaded                      |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Drag-and-drop reorder complexity | Medium | High | Use @dnd-kit library (proven, accessible) |
-| Optimistic rollback on API failure | Medium | High | Always rollbackOnError: true in SWR mutate |
-| Rich text editor bundle size | Medium | Medium | Lazy load with next/dynamic, loading skeleton |
-| Image upload handling | Medium | Medium | Client-side resize before upload, progress indicator |
+| Risk                               | Probability | Impact | Mitigation                                           |
+| ---------------------------------- | ----------- | ------ | ---------------------------------------------------- |
+| Drag-and-drop reorder complexity   | Medium      | High   | Use @dnd-kit library (proven, accessible)            |
+| Optimistic rollback on API failure | Medium      | High   | Always rollbackOnError: true in SWR mutate           |
+| Rich text editor bundle size       | Medium      | Medium | Lazy load with next/dynamic, loading skeleton        |
+| Image upload handling              | Medium      | Medium | Client-side resize before upload, progress indicator |
 
 ### Definition of Done
 
@@ -759,14 +758,14 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Login | Enter credentials | Redirects to dashboard, token stored |
-| Token refresh | Wait 10+ min | No session expiry |
-| Project CRUD | Create, edit, delete | Reflects in DataTable + public page |
-| Section reorder | Drag section | New order persists after refresh |
-| Optimistic update | Save project | UI updates instantly before API |
-| CSV export | Click export in Leads | CSV file downloads correctly |
+| Check             | Method                | Expected                             |
+| ----------------- | --------------------- | ------------------------------------ |
+| Login             | Enter credentials     | Redirects to dashboard, token stored |
+| Token refresh     | Wait 10+ min          | No session expiry                    |
+| Project CRUD      | Create, edit, delete  | Reflects in DataTable + public page  |
+| Section reorder   | Drag section          | New order persists after refresh     |
+| Optimistic update | Save project          | UI updates instantly before API      |
+| CSV export        | Click export in Leads | CSV file downloads correctly         |
 
 ---
 
@@ -789,22 +788,22 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
+| Dependency                    | Type     | Notes                               |
+| ----------------------------- | -------- | ----------------------------------- |
 | All visual features completed | Internal | Must exist before adding animations |
-| Framer Motion 11.x | External | ~15KB always loaded |
-| GSAP 3.12 + ScrollTrigger | External | ~20KB lazy loaded |
-| Lenis 1.x | External | ~5KB lazy loaded |
-| @react-three/fiber + three.js | External | ~50KB lazy loaded |
+| Framer Motion 11.x            | External | ~15KB always loaded                 |
+| GSAP 3.12 + ScrollTrigger     | External | ~20KB lazy loaded                   |
+| Lenis 1.x                     | External | ~5KB lazy loaded                    |
+| @react-three/fiber + three.js | External | ~50KB lazy loaded                   |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Mobile performance degradation | High | Medium | Disable GPU animations on low-end, will-change sparingly |
-| GSAP + Lenis bundle affecting LCP | Medium | High | Lazy load with next/dynamic + ssr:false |
-| Reduced motion compliance missed | Low | High | Test with prefers-reduced-motion: reduce in all browsers |
-| Three.js 3D scene jank | Medium | Medium | Limit polygons, use instancing, fallback to gradient |
+| Risk                              | Probability | Impact | Mitigation                                               |
+| --------------------------------- | ----------- | ------ | -------------------------------------------------------- |
+| Mobile performance degradation    | High        | Medium | Disable GPU animations on low-end, will-change sparingly |
+| GSAP + Lenis bundle affecting LCP | Medium      | High   | Lazy load with next/dynamic + ssr:false                  |
+| Reduced motion compliance missed  | Low         | High   | Test with prefers-reduced-motion: reduce in all browsers |
+| Three.js 3D scene jank            | Medium      | Medium | Limit polygons, use instancing, fallback to gradient     |
 
 ### Definition of Done
 
@@ -819,13 +818,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Scroll animation | Scroll page | Elements animate in on viewport entry |
-| Page transition | Navigate routes | Exit/enter animations play |
-| Reduced motion | Set OS prefers-reduced-motion | All animations disabled |
-| 3D scene | Load hero | Scene renders, no console errors |
-| Performance | DevTools Performance tab | 60fps during animations |
+| Check            | Method                        | Expected                              |
+| ---------------- | ----------------------------- | ------------------------------------- |
+| Scroll animation | Scroll page                   | Elements animate in on viewport entry |
+| Page transition  | Navigate routes               | Exit/enter animations play            |
+| Reduced motion   | Set OS prefers-reduced-motion | All animations disabled               |
+| 3D scene         | Load hero                     | Scene renders, no console errors      |
+| Performance      | DevTools Performance tab      | 60fps during animations               |
 
 ---
 
@@ -850,19 +849,19 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| Admin Dashboard | Internal | Analytics renders inside admin shell |
-| PostHog project + API key | External | Register project, configure events |
-| Analytics API endpoint | Backend | Aggregate page views, events, conversions |
+| Dependency                | Type     | Notes                                     |
+| ------------------------- | -------- | ----------------------------------------- |
+| Admin Dashboard           | Internal | Analytics renders inside admin shell      |
+| PostHog project + API key | External | Register project, configure events        |
+| Analytics API endpoint    | Backend  | Aggregate page views, events, conversions |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Event data accuracy discrepancies | Medium | Medium | Compare PostHog vs API data daily |
-| Chart performance with 90-day data | Low | Medium | Aggregate at API level, downsample display |
-| GDPR compliance | Low | High | Cookie consent, anonymize IPs, opt-out |
+| Risk                               | Probability | Impact | Mitigation                                 |
+| ---------------------------------- | ----------- | ------ | ------------------------------------------ |
+| Event data accuracy discrepancies  | Medium      | Medium | Compare PostHog vs API data daily          |
+| Chart performance with 90-day data | Low         | Medium | Aggregate at API level, downsample display |
+| GDPR compliance                    | Low         | High   | Cookie consent, anonymize IPs, opt-out     |
 
 ### Definition of Done
 
@@ -877,13 +876,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Page tracking | Navigate routes | PostHog receives event per route |
-| Custom events | Submit contact form | PostHog captures contact_submitted |
-| Dashboard render | Load /admin/analytics | All 8 metrics with chart data |
-| Period switch | Click 7d | All charts update to 7-day window |
-| Auto-refresh | Wait 30s | Charts update without reload |
+| Check            | Method                | Expected                           |
+| ---------------- | --------------------- | ---------------------------------- |
+| Page tracking    | Navigate routes       | PostHog receives event per route   |
+| Custom events    | Submit contact form   | PostHog captures contact_submitted |
+| Dashboard render | Load /admin/analytics | All 8 metrics with chart data      |
+| Period switch    | Click 7d              | All charts update to 7-day window  |
+| Auto-refresh     | Wait 30s              | Charts update without reload       |
 
 ---
 
@@ -906,19 +905,19 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
+| Dependency            | Type     | Notes                      |
+| --------------------- | -------- | -------------------------- |
 | Production deployment | Internal | Must have live environment |
-| Sentry account | External | Create project, get DSN |
-| Slack webhook | External | For alert notifications |
+| Sentry account        | External | Create project, get DSN    |
+| Slack webhook         | External | For alert notifications    |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| False positive alerts causing fatigue | High | Medium | Set thresholds, rate-limit alerts |
-| Source map exposure in production | Low | High | Upload to Sentry, dont serve to browsers |
-| Alert noise during deployment | Medium | Low | Suppress during deployment windows |
+| Risk                                  | Probability | Impact | Mitigation                               |
+| ------------------------------------- | ----------- | ------ | ---------------------------------------- |
+| False positive alerts causing fatigue | High        | Medium | Set thresholds, rate-limit alerts        |
+| Source map exposure in production     | Low         | High   | Upload to Sentry, dont serve to browsers |
+| Alert noise during deployment         | Medium      | Low    | Suppress during deployment windows       |
 
 ### Definition of Done
 
@@ -931,13 +930,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Error capture | Throw unhandled error | Appears in Sentry with stack trace |
-| Error boundary | Throw in component | Fallback UI renders, logged to Sentry |
-| Web Vitals | Load any page | LCP, CLS, INP captured |
-| Alert | Trigger 5xx spike | Slack alert within 1 min |
-| Uptime | Health endpoint | Returns 200, badge green |
+| Check          | Method                | Expected                              |
+| -------------- | --------------------- | ------------------------------------- |
+| Error capture  | Throw unhandled error | Appears in Sentry with stack trace    |
+| Error boundary | Throw in component    | Fallback UI renders, logged to Sentry |
+| Web Vitals     | Load any page         | LCP, CLS, INP captured                |
+| Alert          | Trigger 5xx spike     | Slack alert within 1 min              |
+| Uptime         | Health endpoint       | Returns 200, badge green              |
 
 ---
 
@@ -960,20 +959,20 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
+| Dependency            | Type     | Notes                          |
+| --------------------- | -------- | ------------------------------ |
 | All features complete | Internal | Must have final code for tests |
-| Vitest + RTL | External | Already in devDependencies |
-| Playwright | External | npx playwright install |
-| axe-core | External | Playwright a11y integration |
+| Vitest + RTL          | External | Already in devDependencies     |
+| Playwright            | External | npx playwright install         |
+| axe-core              | External | Playwright a11y integration    |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| Flaky E2E tests | High | Medium | Stable data-testid selectors, retry 2x |
-| Slow CI (E2E 10+ min) | Medium | High | Unit first, E2E parallel shards |
-| Snapshot maintenance | Medium | Low | Key pages only, regenerate on intent |
+| Risk                  | Probability | Impact | Mitigation                             |
+| --------------------- | ----------- | ------ | -------------------------------------- |
+| Flaky E2E tests       | High        | Medium | Stable data-testid selectors, retry 2x |
+| Slow CI (E2E 10+ min) | Medium      | High   | Unit first, E2E parallel shards        |
+| Snapshot maintenance  | Medium      | Low    | Key pages only, regenerate on intent   |
 
 ### Definition of Done
 
@@ -988,13 +987,13 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Command | Expected |
-|-------|---------|----------|
-| Unit tests | pnpm test --coverage | >= 90% line coverage |
-| E2E tests | pnpm e2e | All critical flows pass |
-| A11y | pnpm e2e:a11y | 0 violations |
-| Lighthouse CI | pnpm lhci | >= 95 all budgets |
-| Visual regressions | pnpm e2e:visual | No unexpected diffs |
+| Check              | Command              | Expected                |
+| ------------------ | -------------------- | ----------------------- |
+| Unit tests         | pnpm test --coverage | >= 90% line coverage    |
+| E2E tests          | pnpm e2e             | All critical flows pass |
+| A11y               | pnpm e2e:a11y        | 0 violations            |
+| Lighthouse CI      | pnpm lhci            | >= 95 all budgets       |
+| Visual regressions | pnpm e2e:visual      | No unexpected diffs     |
 
 ---
 
@@ -1020,21 +1019,21 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Dependencies
 
-| Dependency | Type | Notes |
-|------------|------|-------|
-| All phases complete | Internal | Final code ready |
-| Vercel team account | External | Production + Preview |
-| Custom domain | External | DNS pointing to Vercel |
-| GitHub main branch | External | Branch protection rules |
+| Dependency          | Type     | Notes                   |
+| ------------------- | -------- | ----------------------- |
+| All phases complete | Internal | Final code ready        |
+| Vercel team account | External | Production + Preview    |
+| Custom domain       | External | DNS pointing to Vercel  |
+| GitHub main branch  | External | Branch protection rules |
 
 ### Risks
 
-| Risk | Probability | Impact | Mitigation |
-|------|-------------|--------|-----------|
-| DNS propagation delay | Medium | High | Low TTL (300s) during initial deploy |
-| SSL cert issuance delay | Low | High | Vercel auto-provisions, typically < 5 min |
-| Cache invalidation incomplete | Low | Medium | ISR targeted purge + full purge fallback |
-| Environment variable mismatch | Medium | High | Validate all vars before deploy via CI |
+| Risk                          | Probability | Impact | Mitigation                                |
+| ----------------------------- | ----------- | ------ | ----------------------------------------- |
+| DNS propagation delay         | Medium      | High   | Low TTL (300s) during initial deploy      |
+| SSL cert issuance delay       | Low         | High   | Vercel auto-provisions, typically < 5 min |
+| Cache invalidation incomplete | Low         | Medium | ISR targeted purge + full purge fallback  |
+| Environment variable mismatch | Medium      | High   | Validate all vars before deploy via CI    |
 
 ### Definition of Done
 
@@ -1048,61 +1047,61 @@ Each component includes: TypeScript props interface, named export, forwardRef, d
 
 ### Validation Checklist
 
-| Check | Method | Expected |
-|-------|--------|----------|
-| Production URL | Visit domain.com | HTTPS, no mixed content |
-| Preview URL | Create PR | Vercel preview URL comment |
-| CI pipeline | Push to main | Lint > typecheck > test > build > deploy |
-| ISR webhook | Publish from admin | Public page updates within 5s |
-| Rollback | Deploy previous | Previous version live within 60s |
-| Smoketest | Playwright against prod | All critical flows pass |
+| Check          | Method                  | Expected                                 |
+| -------------- | ----------------------- | ---------------------------------------- |
+| Production URL | Visit domain.com        | HTTPS, no mixed content                  |
+| Preview URL    | Create PR               | Vercel preview URL comment               |
+| CI pipeline    | Push to main            | Lint > typecheck > test > build > deploy |
+| ISR webhook    | Publish from admin      | Public page updates within 5s            |
+| Rollback       | Deploy previous         | Previous version live within 60s         |
+| Smoketest      | Playwright against prod | All critical flows pass                  |
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **ISR** | Incremental Static Regeneration — Next.js feature that re-renders static pages at runtime without full rebuild |
-| **SSE** | Server-Sent Events — HTTP-based streaming protocol for real-time token delivery from AI backend |
-| **SWR** | Stale-While-Revalidate — React data fetching library with cache-first strategy and background revalidation |
-| **FOUC** | Flash of Unstyled Content — visual flash when theme is applied after initial render |
-| **CLS** | Cumulative Layout Shift — Core Web Vital measuring visual stability during page load |
-| **LCP** | Largest Contentful Paint — Core Web Vital measuring perceived load speed |
-| **INP** | Interaction to Next Paint — Core Web Vital measuring interaction responsiveness |
-| **Turborepo** | High-performance monorepo build system with parallel task execution and remote caching |
-| **MDX** | Markdown with JSX — allows embedded React components inside markdown content |
-| **MSW** | Mock Service Worker — API mocking library that intercepts network requests at the service worker level |
-| **RTL** | React Testing Library — lightweight testing utility for React component behavior |
-| **ISR Revalidation** | Process of triggering a page rebuild after content changes, either time-based or on-demand via webhook |
-| **Lenis** | Smooth scrolling library with custom easing and native scroll feel |
-| **Honeypot** | Anti-spam technique using hidden form fields that bots fill but humans don't see |
-| **next/dynamic** | Next.js dynamic import utility for code splitting and lazy loading components |
-| **SSR** | Server-Side Rendering — rendering pages on the server per request (as opposed to static generation) |
+| Term                 | Definition                                                                                                     |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **ISR**              | Incremental Static Regeneration — Next.js feature that re-renders static pages at runtime without full rebuild |
+| **SSE**              | Server-Sent Events — HTTP-based streaming protocol for real-time token delivery from AI backend                |
+| **SWR**              | Stale-While-Revalidate — React data fetching library with cache-first strategy and background revalidation     |
+| **FOUC**             | Flash of Unstyled Content — visual flash when theme is applied after initial render                            |
+| **CLS**              | Cumulative Layout Shift — Core Web Vital measuring visual stability during page load                           |
+| **LCP**              | Largest Contentful Paint — Core Web Vital measuring perceived load speed                                       |
+| **INP**              | Interaction to Next Paint — Core Web Vital measuring interaction responsiveness                                |
+| **Turborepo**        | High-performance monorepo build system with parallel task execution and remote caching                         |
+| **MDX**              | Markdown with JSX — allows embedded React components inside markdown content                                   |
+| **MSW**              | Mock Service Worker — API mocking library that intercepts network requests at the service worker level         |
+| **RTL**              | React Testing Library — lightweight testing utility for React component behavior                               |
+| **ISR Revalidation** | Process of triggering a page rebuild after content changes, either time-based or on-demand via webhook         |
+| **Lenis**            | Smooth scrolling library with custom easing and native scroll feel                                             |
+| **Honeypot**         | Anti-spam technique using hidden form fields that bots fill but humans don't see                               |
+| **next/dynamic**     | Next.js dynamic import utility for code splitting and lazy loading components                                  |
+| **SSR**              | Server-Side Rendering — rendering pages on the server per request (as opposed to static generation)            |
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.1 | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (16 terms), Change Log | Tech Lead |
-| 1.0 | Jun 2026 | Initial 16-phase implementation plan | Tech Lead |
+| Version | Date     | Changes                                                                                                       | Author    |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------- | --------- |
+| 1.1     | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (16 terms), Change Log | Tech Lead |
+| 1.0     | Jun 2026 | Initial 16-phase implementation plan                                                                          | Tech Lead |
 
 ---
 
-*End of Frontend Implementation Plan v1.1 — 16 phases, enterprise execution roadmap*
+_End of Frontend Implementation Plan v1.1 — 16 phases, enterprise execution roadmap_
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference            | Description                                            |
+| -------------------- | ------------------------------------------------------ |
 | docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |

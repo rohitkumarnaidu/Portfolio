@@ -1,7 +1,7 @@
 # API Versioning Strategy
 
-> **Document:** `docs/backend/api-versioning.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** Ã¢Å“â€¦ Active | **Owner:** API Architect | **Related:** [44-API-STANDARDS.md](../api/44-API-STANDARDS.md), [12-API.md](../api/12-API.md)
+> **Document:** `docs/06-backend/api-versioning.md` | **Version:** 1.0 | **Last Updated:** July 2026
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** API Architect | **Related:** [44-API-STANDARDS.md](../10-api/44-API-STANDARDS.md), [12-API.md](../10-api/12-API.md)
 
 ---
 
@@ -11,14 +11,14 @@ This document defines the API versioning approach for the Portfolio platform. Th
 
 ## Versioning Scheme
 
-| Property | Value |
-|----------|-------|
-| **Mechanism** | `Accept` header content negotiation |
-| **Format** | `application/vnd.portfolio.v{n}+json` |
-| **Current version** | `v1` |
-| **Default (no header)** | `v1` |
+| Property                   | Value                                       |
+| -------------------------- | ------------------------------------------- |
+| **Mechanism**              | `Accept` header content negotiation         |
+| **Format**                 | `application/vnd.portfolio.v{n}+json`       |
+| **Current version**        | `v1`                                        |
+| **Default (no header)**    | `v1`                                        |
 | **Backward compatibility** | Within major version, additive changes only |
-| **Deprecation window** | 6 months |
+| **Deprecation window**     | 6 months                                    |
 
 ## Content Negotiation Implementation
 
@@ -57,11 +57,11 @@ The parsed version is available on every request via `req.apiVersion` for use in
 
 ## Version Lifecycle
 
-| Phase | Status | Duration | What It Means |
-|-------|--------|----------|---------------|
-| **Active** | Ã¢Å“â€¦ Current | Indefinite | Additive changes only. No breaking changes. |
-| **Deprecated** | Ã¢Å¡Â Ã¯Â¸Â Warning | 6 months | Bug fixes only. `Deprecation: true` header set. |
-| **Sunset** | Ã°Å¸Å¡Â« Removed | After deprecation | Endpoint returns `410 Gone`. No support. |
+| Phase          | Status              | Duration          | What It Means                                   |
+| -------------- | ------------------- | ----------------- | ----------------------------------------------- |
+| **Active**     | Ã¢Å“â€¦ Current     | Indefinite        | Additive changes only. No breaking changes.     |
+| **Deprecated** | Ã¢Å¡Â Ã¯Â¸Â Warning | 6 months          | Bug fixes only. `Deprecation: true` header set. |
+| **Sunset**     | Ã°Å¸Å¡Â« Removed    | After deprecation | Endpoint returns `410 Gone`. No support.        |
 
 ### Deprecation Headers
 
@@ -78,24 +78,24 @@ Link: <https://api.portfolio.dev/api/portfolio/sections>; rel="successor-version
 
 ### Constitutes a Breaking Change
 
-| Change | Action |
-|--------|--------|
-| Removing or renaming fields in responses | New major version |
-| Changing endpoint URLs | New major version |
-| Changing error response format | New major version |
-| Removing endpoints | New major version |
-| Changing auth requirements | New major version |
+| Change                                        | Action            |
+| --------------------------------------------- | ----------------- |
+| Removing or renaming fields in responses      | New major version |
+| Changing endpoint URLs                        | New major version |
+| Changing error response format                | New major version |
+| Removing endpoints                            | New major version |
+| Changing auth requirements                    | New major version |
 | Changing field types (string Ã¢â€ â€™ number) | New major version |
-| Adding required request fields | New major version |
+| Adding required request fields                | New major version |
 
 ### Does NOT Constitute a Breaking Change
 
-| Change | Action |
-|--------|--------|
-| Adding new fields to responses | Same version |
-| Adding new endpoints | Same version |
-| Adding new optional query parameters | Same version |
-| Changing internal implementation | Same version |
+| Change                                  | Action       |
+| --------------------------------------- | ------------ |
+| Adding new fields to responses          | Same version |
+| Adding new endpoints                    | Same version |
+| Adding new optional query parameters    | Same version |
+| Changing internal implementation        | Same version |
 | Adding new optional request body fields | Same version |
 
 ## Controller Usage Pattern
@@ -146,5 +146,6 @@ GET /api/admin/sections        Ã¢â€ â€™ AdminSectionController (authe
 Versioning is orthogonal to routing Ã¢â‚¬â€ the same controller can serve multiple versions via the `req.apiVersion` check.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -1,6 +1,8 @@
-ï»¿# Frontend
+# Frontend
 
-> **Category:** 07-frontend | **Docs:** 11 | **Status:** Active
+> **Category:** 07 | **Documents:** 11 | **Status:** Active
+> **Purpose:** Document frontend architecture including component libraries, 3D systems, motion design, rendering strategies, and visual experience.
+> **Audience:** frontend developers, designers
 
 ## Overview
 
@@ -23,8 +25,8 @@ Frontend architecture documentation covering component libraries, 3D systems, mo
 | [VISUAL-EXPERIENCE-SYSTEM.md](VISUAL-EXPERIENCE-SYSTEM.md) |  |
 
 ## Cross-References
-- [MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../CROSS-REFERENCE-INDEX.md) â€” Cross-reference mapping
-- [04-design/](../04-design/README.md) â€” Design
-- [05-architecture/](../05-architecture/README.md) â€” Architecture
-- [24-development/](../24-development/README.md) â€” Development
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference mapping
+- [04-design/](../04-design/README.md) — Design
+- [05-architecture/](../05-architecture/README.md) — Architecture
+- [24-development/](../24-development/README.md) — Development

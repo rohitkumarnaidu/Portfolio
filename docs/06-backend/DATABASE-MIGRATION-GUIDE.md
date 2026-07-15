@@ -1,7 +1,7 @@
 # Database Migration Guide
 
-> **Document:** `docs/backend/database-migration-guide.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** Ã¢Å“â€¦ Active | **Owner:** Database Architect | **Related:** [DatabaseArchitecture.md](../database/DatabaseArchitecture.md), [DatabaseSchema.md](../database/DatabaseSchema.md)
+> **Document:** `docs/06-backend/database-migration-guide.md` | **Version:** 1.0 | **Last Updated:** July 2026
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Database Architect | **Related:** [DatabaseArchitecture.md](../09-database/DatabaseArchitecture.md), [DatabaseSchema.md](../09-database/DatabaseSchema.md)
 
 ---
 
@@ -28,6 +28,7 @@ npm run prisma:migrate:dev -- --name describe_your_change
 ```
 
 This:
+
 1. Compares the schema against the current database
 2. Generates a migration SQL file in `prisma/migrations/`
 3. Applies the migration to the local database
@@ -37,11 +38,11 @@ This:
 
 ### Applying Migrations
 
-| Environment | Command | Notes |
-|-------------|---------|-------|
-| Development | `npm run prisma:migrate:dev` | Creates + applies |
-| Production | `npm run prisma:migrate:deploy` | Applies only (safe) |
-| CI | `npm run prisma:migrate:deploy` | Applies only (safe) |
+| Environment | Command                         | Notes               |
+| ----------- | ------------------------------- | ------------------- |
+| Development | `npm run prisma:migrate:dev`    | Creates + applies   |
+| Production  | `npm run prisma:migrate:deploy` | Applies only (safe) |
+| CI          | `npm run prisma:migrate:deploy` | Applies only (safe) |
 
 ### Regenerating the Client
 
@@ -62,16 +63,16 @@ This is required after every schema change and is typically run automatically du
 
 ## Schema Changes Workflow
 
-| Operation | Migration Step | Generate | Data Migration Needed? |
-|-----------|---------------|----------|----------------------|
-| Add model | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | No |
-| Add optional field | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | No |
-| Add required field | `prisma:migrate:dev` (with default) | Ã¢Å“â€¦ Auto | Set defaults for existing rows |
-| Rename field | Manual (see below) | Ã¢Å“â€¦ After | Yes |
-| Remove field | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | Export data first |
-| Remove model | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | Archive first |
-| Add enum value | `prisma:migrate:dev` | Ã¢Å“â€¦ Auto | No |
-| Add index | Edit schema + migrate | Ã¢Å“â€¦ Auto | No |
+| Operation          | Migration Step                      | Generate      | Data Migration Needed?         |
+| ------------------ | ----------------------------------- | ------------- | ------------------------------ |
+| Add model          | `prisma:migrate:dev`                | Ã¢Å“â€¦ Auto  | No                             |
+| Add optional field | `prisma:migrate:dev`                | Ã¢Å“â€¦ Auto  | No                             |
+| Add required field | `prisma:migrate:dev` (with default) | Ã¢Å“â€¦ Auto  | Set defaults for existing rows |
+| Rename field       | Manual (see below)                  | Ã¢Å“â€¦ After | Yes                            |
+| Remove field       | `prisma:migrate:dev`                | Ã¢Å“â€¦ Auto  | Export data first              |
+| Remove model       | `prisma:migrate:dev`                | Ã¢Å“â€¦ Auto  | Archive first                  |
+| Add enum value     | `prisma:migrate:dev`                | Ã¢Å“â€¦ Auto  | No                             |
+| Add index          | Edit schema + migrate               | Ã¢Å“â€¦ Auto  | No                             |
 
 ## Common Migration Scenarios
 
@@ -80,6 +81,7 @@ This is required after every schema change and is typically run automatically du
 To add a model like `Tag`, following the three-layer module pattern:
 
 1. **Define the model** in `schema.prisma`:
+
    ```prisma
    model Tag {
      id        String   @id @default(uuid())
@@ -90,6 +92,7 @@ To add a model like `Tag`, following the three-layer module pattern:
      @@map("tags")
    }
    ```
+
 2. **Create migration**: `npm run prisma:migrate:dev -- --name add_tags`
 3. **Regenerate client**: `npm run prisma:generate`
 4. **Create service module** in `apps/api/src/modules/tags/`
@@ -188,11 +191,11 @@ Checks the schema for validity without connecting to the database.
 
 Prisma does not natively support "down" migrations. Alternatives:
 
-| Strategy | When to Use | How |
-|----------|-------------|-----|
-| **Reverse migration** | Non-destructive changes | Create a new migration that reverses the change |
-| **Point-in-time restore** | Destructive change with data loss | Restore from Supabase backup |
-| **Migration revert** | Migration not yet deployed | Delete the migration file and recreate |
+| Strategy                  | When to Use                       | How                                             |
+| ------------------------- | --------------------------------- | ----------------------------------------------- |
+| **Reverse migration**     | Non-destructive changes           | Create a new migration that reverses the change |
+| **Point-in-time restore** | Destructive change with data loss | Restore from Supabase backup                    |
+| **Migration revert**      | Migration not yet deployed        | Delete the migration file and recreate          |
 
 ### Emergency Rollback
 
@@ -207,14 +210,15 @@ npx prisma migrate deploy
 
 ## Schema Reference
 
-| Resource | Path |
-|----------|------|
-| **Prisma schema** | `apps/api/prisma/schema.prisma` (34 models) |
-| **Generated client** | `apps/api/generated/prisma/` |
-| **Migration history** | `apps/api/prisma/migrations/` |
-| **ERD** | `docs/database/DatabaseSchema.md` |
-| **Architecture** | `docs/database/DatabaseArchitecture.md` |
+| Resource              | Path                                        |
+| --------------------- | ------------------------------------------- |
+| **Prisma schema**     | `apps/api/prisma/schema.prisma` (34 models) |
+| **Generated client**  | `apps/api/generated/prisma/`                |
+| **Migration history** | `apps/api/prisma/migrations/`               |
+| **ERD**               | `docs/09-database/DatabaseSchema.md`        |
+| **Architecture**      | `docs/09-database/DatabaseArchitecture.md`  |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

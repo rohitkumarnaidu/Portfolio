@@ -1,7 +1,7 @@
 # Feature Flag Guide
 
-> **Document:** `docs/backend/feature-flag-guide.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** Ã¢Å“â€¦ Active | **Owner:** Platform Engineer | **Related:** [60-FEATURE-FLAGS.md](../operations/60-FEATURE-FLAGS.md)
+> **Document:** `docs/06-backend/feature-flag-guide.md` | **Version:** 1.0 | **Last Updated:** July 2026
+> **Status:** Ã¢Å“â€¦ Active | **Owner:** Platform Engineer | **Related:** [60-FEATURE-FLAGS.md](../21-operations/60-FEATURE-FLAGS.md)
 
 ---
 
@@ -121,13 +121,13 @@ All flags are listed at `/api/admin/feature-flags` (authenticated). The public r
 
 ## Flag Lifecycle
 
-| Stage | `isEnabled` | `rolloutPercentage` | Description |
-|-------|-------------|---------------------|-------------|
-| **Development** | `false` | `0` | Flag created, off by default. Test in dev environment. |
-| **Staging** | `true` | `100` | Enabled for staging via targeting rules. QA verification. |
-| **Canary** | `true` | `10` | 10% rollout to production. Monitor errors. |
-| **Production** | `true` | `100` | Full release. All users get the feature. |
-| **Cleanup** | Removed | Ã¢â‚¬â€ | Delete the flag after code is stabilized. |
+| Stage           | `isEnabled` | `rolloutPercentage` | Description                                               |
+| --------------- | ----------- | ------------------- | --------------------------------------------------------- |
+| **Development** | `false`     | `0`                 | Flag created, off by default. Test in dev environment.    |
+| **Staging**     | `true`      | `100`               | Enabled for staging via targeting rules. QA verification. |
+| **Canary**      | `true`      | `10`                | 10% rollout to production. Monitor errors.                |
+| **Production**  | `true`      | `100`               | Full release. All users get the feature.                  |
+| **Cleanup**     | Removed     | Ã¢â‚¬â€             | Delete the flag after code is stabilized.                 |
 
 ## Flag Evaluation Patterns
 
@@ -172,10 +172,10 @@ async isEnabledForEnvironment(key: string): Promise<boolean> {
 ```typescript
 // apps/api/src/modules/feature-flags/dto/create-feature-flag.dto.ts
 class CreateFeatureFlagDto {
-  flagKey: string;           // e.g., "new_dashboard"
-  description?: string;      // e.g., "Enables the new dashboard UI"
-  isEnabled?: boolean;       // default: false
-  targetingRules?: object;   // JSON targeting configuration
+  flagKey: string; // e.g., "new_dashboard"
+  description?: string; // e.g., "Enables the new dashboard UI"
+  isEnabled?: boolean; // default: false
+  targetingRules?: object; // JSON targeting configuration
   rolloutPercentage?: number; // 0Ã¢â‚¬â€œ100, default: 0
 }
 ```
@@ -192,13 +192,13 @@ class CreateFeatureFlagDto {
 
 ## Flag Inventory
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/admin/feature-flags` | `GET` | List all flags (authenticated) |
-| `/api/admin/feature-flags` | `POST` | Create a flag (admin only) |
-| `/api/admin/feature-flags/:key` | `PATCH` | Update a flag (admin/editor) |
-| `/api/admin/feature-flags/:key` | `DELETE` | Delete a flag (admin only) |
-| `/api/portfolio/feature-flags` | `GET` | Public read-only flag status |
+| Endpoint                        | Method   | Description                    |
+| ------------------------------- | -------- | ------------------------------ |
+| `/api/admin/feature-flags`      | `GET`    | List all flags (authenticated) |
+| `/api/admin/feature-flags`      | `POST`   | Create a flag (admin only)     |
+| `/api/admin/feature-flags/:key` | `PATCH`  | Update a flag (admin/editor)   |
+| `/api/admin/feature-flags/:key` | `DELETE` | Delete a flag (admin only)     |
+| `/api/portfolio/feature-flags`  | `GET`    | Public read-only flag status   |
 
 ## Testing with Feature Flags
 
@@ -226,5 +226,6 @@ it('returns legacy dashboard when flag disabled', async () => {
 ```
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

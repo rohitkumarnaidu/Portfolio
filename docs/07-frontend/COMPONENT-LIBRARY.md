@@ -16,7 +16,7 @@ This document catalogs 26 application-level components across 4 categories (Layo
 - Total components: 26 | Layout: 6 | Portfolio: 8 | AI: 6 | Admin: 6
 - Test coverage target: 100% (unit + interaction + a11y + visual regression)
 - Bundle budget: < 80KB total JS for all foundational components
-- Cross-references: DesignSystem.md (v5.0), docs/ai/17-AI_INSTRUCTIONS.md
+- Cross-references: DesignSystem.md (v5.0), docs/08-ai/17-AI_INSTRUCTIONS.md
 
 ---
 
@@ -43,7 +43,7 @@ Throughout this document, → arrows reference existing files:
 - → DesignSystem.md:4.1.1 refers to Button design spec
 - → packages/ui/src/Button.tsx refers to implementation file
 - → globals.css:.card-grid refers to CSS utility class
-- → docs/ai/17-AI_INSTRUCTIONS.md:3 refers to AI architecture doc
+- → docs/08-ai/17-AI_INSTRUCTIONS.md:3 refers to AI architecture doc
 
 ### Data Flow Architecture
 
