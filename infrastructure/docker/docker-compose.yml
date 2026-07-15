@@ -1,12 +1,56 @@
 x-env: &env
   NODE_ENV: ${NODE_ENV:-development}
-  DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@localhost:5432/portfolio?schema=public}
+  DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/portfolio?schema=public}
+  REDIS_URL: ${REDIS_URL:-redis://redis:6379}
   JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-change-in-production-min-32-chars!!}
   CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
   SUPABASE_URL: ${SUPABASE_URL:-}
   SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
 
 services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: portfolio
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ../../supabase/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d portfolio"]
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
   web:
     build:
       context: ../../apps/web
@@ -55,6 +99,11 @@ services:
       PORT: 3001
     env_file:
       - ../../config/.env.example
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     volumes:
       - ../../apps/api:/app
       - /app/node_modules
@@ -80,10 +129,17 @@ services:
     ports:
       - "${AI_PORT:-8000}:8000"
     environment:
-      - PYTHONUNBUFFERED=1
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      <<: *env
+      PYTHONUNBUFFERED: 1
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
     env_file:
       - ../../config/.env.example
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -92,4 +148,5 @@ services:
         max-file: "3"
 
 volumes:
-  supabase-data:
+  postgres-data:
+  redis-data:
