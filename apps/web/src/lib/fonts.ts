@@ -64,8 +64,4 @@ export const fontMono = JetBrains_Mono({
  * <html className={fontVariables}>
  * ```
  */
-export const fontVariables = [
-  fontDisplay.variable,
-  fontBody.variable,
-  fontMono.variable,
-].join(' ');
+export const fontVariables = [fontDisplay.variable, fontBody.variable, fontMono.variable].join(' ');
