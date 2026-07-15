@@ -22,16 +22,16 @@ export function PreviewPane({ url }: PreviewPaneProps) {
     <div className="flex flex-col h-full bg-[#f5f5f5] dark:bg-[#1a1a1a]">
       {/* Toolbar */}
       <div className="flex items-center justify-center p-2 border-b border-border-primary bg-surface-secondary gap-2">
-        <Button 
-          variant={device === 'desktop' ? 'primary' : 'ghost'} 
-          size="sm" 
+        <Button
+          variant={device === 'desktop' ? 'primary' : 'ghost'}
+          size="sm"
           onClick={() => setDevice('desktop')}
         >
           Desktop
         </Button>
-        <Button 
-          variant={device === 'mobile' ? 'primary' : 'ghost'} 
-          size="sm" 
+        <Button
+          variant={device === 'mobile' ? 'primary' : 'ghost'}
+          size="sm"
           onClick={() => setDevice('mobile')}
         >
           Mobile
@@ -40,14 +40,14 @@ export function PreviewPane({ url }: PreviewPaneProps) {
 
       {/* Iframe Container */}
       <div className="flex-1 overflow-auto flex items-center justify-center p-4">
-        <div 
+        <div
           className={`bg-white rounded-md shadow-2xl overflow-hidden transition-all duration-300 ${
             device === 'mobile' ? 'w-[375px] h-[812px]' : 'w-full h-full max-w-[1440px]'
           }`}
         >
-          <iframe 
-            src={url} 
-            className="w-full h-full border-0" 
+          <iframe
+            src={url}
+            className="w-full h-full border-0"
             title="Live Preview"
             sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
             allow="cross-origin-isolated"

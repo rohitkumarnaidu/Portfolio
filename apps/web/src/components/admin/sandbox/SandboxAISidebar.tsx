@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Input } from '@portfolio/ui';
+import { Input } from '@portfolio/ui';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Bot, Send } from 'lucide-react';
 
@@ -17,10 +17,10 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!instruction) return;
-    
+
     setLoading(true);
     let fullResponse = '';
-    
+
     try {
       const response = await fetch('http://localhost:8000/api/agent/code', {
         method: 'POST',
@@ -32,19 +32,20 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
           instruction,
         }),
       });
-      
+
       const reader = response.body?.getReader();
       const decoder = new TextDecoder();
-      
+
       if (!reader) return;
-      
+
+      // eslint-disable-next-line no-constant-condition
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
-        
+
         const chunk = decoder.decode(value);
         const lines = chunk.split('\n');
-        
+
         for (const line of lines) {
           if (line.startsWith('data: ') && line !== 'data: [DONE]') {
             const data = line.replace('data: ', '');
@@ -52,7 +53,7 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
           }
         }
       }
-      
+
       onCodeSuggested(fullResponse);
       setInstruction('');
     } catch (e) {
@@ -68,19 +69,20 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
         <Sparkles size={16} />
         AI Copilot
       </div>
-      
+
       <div className="flex-1 overflow-y-auto p-4 text-gray-400 flex flex-col gap-4 relative">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/5 p-3 rounded-lg border border-white/5 text-xs leading-relaxed"
         >
-          Highlight code in the editor, or ask me to modify the current file. I can connect to your GitHub repo and push changes.
+          Highlight code in the editor, or ask me to modify the current file. I can connect to your
+          GitHub repo and push changes.
         </motion.div>
 
         <AnimatePresence>
           {loading && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -93,27 +95,39 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
               <div className="flex-1">
                 <p className="text-xs text-indigo-300 font-medium">Agent is thinking...</p>
                 <div className="flex gap-1 mt-1">
-                  <motion.div className="w-1 h-1 bg-indigo-400 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} />
-                  <motion.div className="w-1 h-1 bg-indigo-400 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }} />
-                  <motion.div className="w-1 h-1 bg-indigo-400 rounded-full" animate={{ y: [0, -3, 0] }} transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }} />
+                  <motion.div
+                    className="w-1 h-1 bg-indigo-400 rounded-full"
+                    animate={{ y: [0, -3, 0] }}
+                    transition={{ repeat: Infinity, duration: 0.6, delay: 0 }}
+                  />
+                  <motion.div
+                    className="w-1 h-1 bg-indigo-400 rounded-full"
+                    animate={{ y: [0, -3, 0] }}
+                    transition={{ repeat: Infinity, duration: 0.6, delay: 0.2 }}
+                  />
+                  <motion.div
+                    className="w-1 h-1 bg-indigo-400 rounded-full"
+                    animate={{ y: [0, -3, 0] }}
+                    transition={{ repeat: Infinity, duration: 0.6, delay: 0.4 }}
+                  />
                 </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-      
+
       <div className="p-4 border-t border-white/5 bg-black/20">
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
           <div className="relative">
-            <Input 
+            <Input
               value={instruction}
               onChange={(e) => setInstruction(e.target.value)}
               placeholder="e.g. Refactor this to use Tailwind..."
               disabled={loading}
               className="bg-[#0e0e11] border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500 transition-colors pr-10"
             />
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               disabled={loading || !instruction}
