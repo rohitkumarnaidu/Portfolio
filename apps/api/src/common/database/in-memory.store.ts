@@ -24,12 +24,13 @@ export class InMemoryStore {
   private getEntries<T>(collection: string, includeDeleted = false): T[] {
     const store = this.getCollection<T>(collection);
     const entries = Array.from(store.values());
-    const filtered = includeDeleted
-      ? entries
-      : entries.filter((e) => !e.deleted_at);
+    const filtered = includeDeleted ? entries : entries.filter((e) => !e.deleted_at);
     return filtered
       .map((e) => e.data)
-      .sort((a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0));
+      .sort(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0),
+      );
   }
 
   findAll<T>(collection: string): T[] {
@@ -45,7 +46,10 @@ export class InMemoryStore {
     return Array.from(store.values())
       .filter((e) => e.deleted_at)
       .map((e) => e.data)
-      .sort((a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0));
+      .sort(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0),
+      );
   }
 
   findById<T>(collection: string, id: string): T | undefined {
@@ -61,7 +65,12 @@ export class InMemoryStore {
       created_at: now,
       updated_at: now,
     } as unknown as T;
-    const storeEntry: StoreEntry<T> = { id: entryId, data: entry, created_at: now, updated_at: now };
+    const storeEntry: StoreEntry<T> = {
+      id: entryId,
+      data: entry,
+      created_at: now,
+      updated_at: now,
+    };
     this.getCollection<T>(collection).set(entryId, storeEntry);
     return entry;
   }
@@ -111,7 +120,10 @@ export class InMemoryStore {
     for (const entry of store.values()) {
       if (predicate(entry.data)) results.push(entry.data);
     }
-    return results.sort((a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0));
+    return results.sort(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (a: any, b: any) => (a.display_order ?? 0) - (b.display_order ?? 0),
+    );
   }
 
   count(collection: string, predicate?: (item: unknown) => boolean): number {

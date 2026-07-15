@@ -9,18 +9,15 @@ export interface PaginatedResult<T> {
   data: T[];
   meta: {
     page: number;
-    per_page: number;
+    perPage: number;
     total: number;
-    total_pages: number;
-    has_next_page: boolean;
-    has_previous_page: boolean;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
   };
 }
 
-export function paginate<T>(
-  items: T[],
-  opts: PaginationOpts = {},
-): PaginatedResult<T> {
+export function paginate<T>(items: T[], opts: PaginationOpts = {}): PaginatedResult<T> {
   const page = Math.max(1, opts.page ?? 1);
   const perPage = Math.min(100, Math.max(1, opts.perPage ?? 20));
   const total = items.length;
@@ -31,11 +28,11 @@ export function paginate<T>(
     data,
     meta: {
       page,
-      per_page: perPage,
+      perPage,
       total,
-      total_pages: Math.ceil(total / perPage),
-      has_next_page: start + perPage < total,
-      has_previous_page: page > 1,
+      totalPages: Math.ceil(total / perPage),
+      hasNextPage: start + perPage < total,
+      hasPreviousPage: page > 1,
     },
   };
 }
@@ -52,8 +49,14 @@ export interface DbPaginationOpts extends PaginationOpts {
   take?: number;
 }
 
+export type OrderByInput = Record<string, 'asc' | 'desc'>;
+
 export async function paginateQuery<T>(
-  prismaQuery: (args: { skip: number; take: number; orderBy?: any }) => Promise<T[]>,
+  prismaQuery: (args: {
+    skip: number;
+    take: number;
+    orderBy?: OrderByInput | OrderByInput[];
+  }) => Promise<T[]>,
   countQuery: () => Promise<number>,
   opts: PaginationOpts = {},
 ): Promise<PaginatedResult<T>> {
@@ -62,20 +65,17 @@ export async function paginateQuery<T>(
   const skip = (page - 1) * perPage;
   const take = perPage;
 
-  const [data, total] = await Promise.all([
-    prismaQuery({ skip, take }),
-    countQuery(),
-  ]);
+  const [data, total] = await Promise.all([prismaQuery({ skip, take }), countQuery()]);
 
   return {
     data,
     meta: {
       page,
-      per_page: perPage,
+      perPage,
       total,
-      total_pages: Math.ceil(total / perPage),
-      has_next_page: skip + perPage < total,
-      has_previous_page: page > 1,
+      totalPages: Math.ceil(total / perPage),
+      hasNextPage: skip + perPage < total,
+      hasPreviousPage: page > 1,
     },
   };
 }
