@@ -19,7 +19,7 @@ export default function RootLoading() {
             <Skeleton className="h-16 md:h-24 w-full rounded-xl" />
             <Skeleton className="h-6 w-3/4 rounded-lg" />
           </div>
-          
+
           <div className="flex items-center gap-4 pt-4">
             <Skeleton className="h-12 w-32 rounded-lg" />
             <Skeleton className="h-12 w-32 rounded-lg" />
