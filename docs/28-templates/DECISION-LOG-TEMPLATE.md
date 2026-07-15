@@ -27,18 +27,20 @@ flowchart LR
 
 ## Options Considered
 
-| Option | Description | Pros | Cons |
-|--------|-------------|------|------|
+| Option     | Description         | Pros             | Cons             |
+| ---------- | ------------------- | ---------------- | ---------------- |
 | [Option A] | [Brief description] | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
 | [Option B] | [Brief description] | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
 
 ## Consequences
 
 **Positive:**
+
 - [Positive outcome 1]
 - [Positive outcome 2]
 
 **Negative:**
+
 - [Negative outcome 1]
 - [Negative outcome 2]
 
@@ -50,5 +52,6 @@ flowchart LR
 - [Issue #N: Discussion](link)
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

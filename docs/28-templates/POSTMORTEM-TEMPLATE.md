@@ -19,34 +19,34 @@ flowchart TD
 
 ## Incident Summary
 
-| Field | Value |
-|-------|-------|
-| Incident ID | INC-XXX |
-| Severity | SEV-1 / SEV-2 / SEV-3 / SEV-4 |
-| Date | YYYY-MM-DD |
-| Duration | X hours X minutes |
-| Reported by | |
-| Responders | |
+| Field       | Value                         |
+| ----------- | ----------------------------- |
+| Incident ID | INC-XXX                       |
+| Severity    | SEV-1 / SEV-2 / SEV-3 / SEV-4 |
+| Date        | YYYY-MM-DD                    |
+| Duration    | X hours X minutes             |
+| Reported by |                               |
+| Responders  |                               |
 
 ## Timeline
 
-| Time (UTC) | Event |
-|------------|-------|
-| HH:MM | Incident detected via [alert/user report] |
-| HH:MM | Triage started |
-| HH:MM | Root cause identified |
-| HH:MM | Mitigation applied |
-| HH:MM | Service restored |
-| HH:MM | Monitoring confirmed stable |
+| Time (UTC) | Event                                     |
+| ---------- | ----------------------------------------- |
+| HH:MM      | Incident detected via [alert/user report] |
+| HH:MM      | Triage started                            |
+| HH:MM      | Root cause identified                     |
+| HH:MM      | Mitigation applied                        |
+| HH:MM      | Service restored                          |
+| HH:MM      | Monitoring confirmed stable               |
 
 ## Impact
 
-| Metric | Expected | Actual During Incident |
-|--------|----------|----------------------|
-| Uptime | 99.9% | X% |
-| Error Rate | < 0.1% | X% |
-| Response Time (P95) | < 200ms | Xms |
-| Affected Users | - | X |
+| Metric              | Expected | Actual During Incident |
+| ------------------- | -------- | ---------------------- |
+| Uptime              | 99.9%    | X%                     |
+| Error Rate          | < 0.1%   | X%                     |
+| Response Time (P95) | < 200ms  | Xms                    |
+| Affected Users      | -        | X                      |
 
 ## Root Cause Analysis
 
@@ -75,11 +75,11 @@ flowchart TD
 
 ## Action Items
 
-| # | Action | Owner | Priority | Due Date |
-|---|--------|-------|----------|----------|
-| 1 | | | P0 | |
-| 2 | | | P1 | |
-| 3 | | | P2 | |
+| #   | Action | Owner | Priority | Due Date |
+| --- | ------ | ----- | -------- | -------- |
+| 1   |        |       | P0       |          |
+| 2   |        |       | P1       |          |
+| 3   |        |       | P2       |          |
 
 ## Prevention
 
@@ -96,11 +96,12 @@ flowchart TD
 
 ## Follow-Up
 
-| Review Date | Status | Notes |
-|-------------|--------|-------|
-| +1 week | Open/Closed | |
-| +1 month | Open/Closed | |
+| Review Date | Status      | Notes |
+| ----------- | ----------- | ----- |
+| +1 week     | Open/Closed |       |
+| +1 month    | Open/Closed |       |
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

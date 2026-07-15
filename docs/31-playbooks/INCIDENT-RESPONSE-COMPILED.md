@@ -12,17 +12,17 @@
 
 ## 1. Unified Severity Matrix
 
-| Criteria | SEV-1 (Critical) | SEV-2 (High) | SEV-3 (Medium) | SEV-4 (Low) |
-|----------|------------------|--------------|----------------|-------------|
-| **User Impact** | All users unable to use site | Significant subset affected | Minor feature degraded | Cosmetic issue |
-| **Revenue Impact** | Revenue loss > $1K/hr | Revenue loss < $1K/hr | No revenue impact | No revenue impact |
-| **Data Integrity** | Data loss or corruption confirmed | Data at risk, not yet lost | No data risk | No data risk |
-| **Security** | Active breach, PII exposed | Vulnerability with evidence | Theoretical vulnerability | Best practice gap |
-| **Response SLA** | 5 minutes | 15 minutes | 1 hour | 4 hours |
-| **Fix SLA** | 4 hours | 8 hours | 48 hours | Next sprint |
-| **Communication** | Email + Slack to all team | Slack to engineering | Slack to team lead | PR description |
-| **Postmortem** | Required within 5 days | Required within 10 days | Not required | Not required |
-| **Escalation** | All-hands, CTO notified | Engineering lead | Team lead | Self-service |
+| Criteria           | SEV-1 (Critical)                  | SEV-2 (High)                | SEV-3 (Medium)            | SEV-4 (Low)       |
+| ------------------ | --------------------------------- | --------------------------- | ------------------------- | ----------------- |
+| **User Impact**    | All users unable to use site      | Significant subset affected | Minor feature degraded    | Cosmetic issue    |
+| **Revenue Impact** | Revenue loss > $1K/hr             | Revenue loss < $1K/hr       | No revenue impact         | No revenue impact |
+| **Data Integrity** | Data loss or corruption confirmed | Data at risk, not yet lost  | No data risk              | No data risk      |
+| **Security**       | Active breach, PII exposed        | Vulnerability with evidence | Theoretical vulnerability | Best practice gap |
+| **Response SLA**   | 5 minutes                         | 15 minutes                  | 1 hour                    | 4 hours           |
+| **Fix SLA**        | 4 hours                           | 8 hours                     | 48 hours                  | Next sprint       |
+| **Communication**  | Email + Slack to all team         | Slack to engineering        | Slack to team lead        | PR description    |
+| **Postmortem**     | Required within 5 days            | Required within 10 days     | Not required              | Not required      |
+| **Escalation**     | All-hands, CTO notified           | Engineering lead            | Team lead                 | Self-service      |
 
 ### Severity Decision Flow
 
@@ -72,14 +72,14 @@ git log --oneline -10 --all
 
 ### Phase 3: Contain
 
-| Action | When | How |
-|--------|------|-----|
-| **Rollback deployment** | Recent deploy triggered regression | `git revert HEAD` + push, or Vercel/Railway rollback UI |
-| **Feature flag disabled** | Non-critical feature causing errors | Toggle flag in admin dashboard or PostHog |
-| **Scale resources** | Traffic spike, CPU saturation | Railway scale up, Vercel Pro auto-scales |
-| **Redirect traffic** | Regional outage | Cloudflare load balancing rules |
-| **Fail over** | Database region failure | Supabase read replica promotion |
-| **Degrade gracefully** | AI service unavailable | Disable AI chat, show fallback UI |
+| Action                    | When                                | How                                                     |
+| ------------------------- | ----------------------------------- | ------------------------------------------------------- |
+| **Rollback deployment**   | Recent deploy triggered regression  | `git revert HEAD` + push, or Vercel/Railway rollback UI |
+| **Feature flag disabled** | Non-critical feature causing errors | Toggle flag in admin dashboard or PostHog               |
+| **Scale resources**       | Traffic spike, CPU saturation       | Railway scale up, Vercel Pro auto-scales                |
+| **Redirect traffic**      | Regional outage                     | Cloudflare load balancing rules                         |
+| **Fail over**             | Database region failure             | Supabase read replica promotion                         |
+| **Degrade gracefully**    | AI service unavailable              | Disable AI chat, show fallback UI                       |
 
 ### Phase 4: Eradicate
 
@@ -97,24 +97,24 @@ git log --oneline -10 --all
 
 ### Phase 6: Post-Mortem
 
-| Step | Owner | Timeline | Artifact |
-|------|-------|----------|----------|
-| Draft postmortem | On-call engineer | Within 48 hours | `docs/postmortems/YYYY-MM-DD-description.md` |
-| Root cause analysis | Engineering lead | Within 48 hours | Documented in postmortem |
-| Action items with owners | Engineering team | Within 5 business days | Added to sprint backlog |
-| Update runbooks | DevOps Lead | Within 1 week | PR to this playbook |
-| Review SLO impact | Architecture Lead | Next monthly review | Update error budget |
+| Step                     | Owner             | Timeline               | Artifact                                     |
+| ------------------------ | ----------------- | ---------------------- | -------------------------------------------- |
+| Draft postmortem         | On-call engineer  | Within 48 hours        | `docs/postmortems/YYYY-MM-DD-description.md` |
+| Root cause analysis      | Engineering lead  | Within 48 hours        | Documented in postmortem                     |
+| Action items with owners | Engineering team  | Within 5 business days | Added to sprint backlog                      |
+| Update runbooks          | DevOps Lead       | Within 1 week          | PR to this playbook                          |
+| Review SLO impact        | Architecture Lead | Next monthly review    | Update error budget                          |
 
 ---
 
 ## 3. Communication Cadence
 
-| Severity | First Status Update | Cadence | Channels |
-|----------|---------------------|---------|----------|
-| SEV-1 | 15 minutes | Every 30 minutes | #ops-alerts, #ops-incident, email to all team |
-| SEV-2 | 30 minutes | Every 60 minutes | #ops-incident |
-| SEV-3 | 2 hours | Per update | Team lead |
-| SEV-4 | Next business day | PR comment | Issue/PR |
+| Severity | First Status Update | Cadence          | Channels                                      |
+| -------- | ------------------- | ---------------- | --------------------------------------------- |
+| SEV-1    | 15 minutes          | Every 30 minutes | #ops-alerts, #ops-incident, email to all team |
+| SEV-2    | 30 minutes          | Every 60 minutes | #ops-incident                                 |
+| SEV-3    | 2 hours             | Per update       | Team lead                                     |
+| SEV-4    | Next business day   | PR comment       | Issue/PR                                      |
 
 ---
 
@@ -160,14 +160,14 @@ git log --oneline -10 --all
 
 ## 5. Escalation Paths
 
-| Role | Contact | Channel |
-|------|---------|---------|
-| Primary on-call | [on-call@portfolio.dev] | Telegram + SMS |
-| Engineering Lead | [lead@portfolio.dev] | Telegram |
-| DevOps Lead | [devops@portfolio.dev] | Telegram + Phone |
-| Security Lead | [security@portfolio.dev] | Telegram |
-| Architecture Lead | [arch@portfolio.dev] | Telegram |
-| CTO | [cto@portfolio.dev] | Phone |
+| Role              | Contact                  | Channel          |
+| ----------------- | ------------------------ | ---------------- |
+| Primary on-call   | [on-call@portfolio.dev]  | Telegram + SMS   |
+| Engineering Lead  | [lead@portfolio.dev]     | Telegram         |
+| DevOps Lead       | [devops@portfolio.dev]   | Telegram + Phone |
+| Security Lead     | [security@portfolio.dev] | Telegram         |
+| Architecture Lead | [arch@portfolio.dev]     | Telegram         |
+| CTO               | [cto@portfolio.dev]      | Phone            |
 
 ---
 
@@ -185,27 +185,34 @@ git log --oneline -10 --all
 # Postmortem: [Date] — [Title]
 
 ## Incident Summary
+
 - **Date:** YYYY-MM-DD | **Duration:** HH:MM — HH:MM UTC | **Severity:** SEV-1/SEV-2
 - **Services affected:** [list] | **Users affected:** [count]
 
 ## Timeline
-| Time (UTC) | Event |
-|------------|-------|
-| 12:00 | Alert triggered | ... |
+
+| Time (UTC) | Event           |
+| ---------- | --------------- | --- |
+| 12:00      | Alert triggered | ... |
 
 ## Root Cause
+
 [Description of what caused the incident]
 
 ## Impact
+
 - Downtime: X minutes | Errors: X 5xx | Users: X affected | Revenue: $X
 
 ## Action Items
+
 | Action | Owner | Ticket | Status |
 
 ## Lessons Learned
+
 - What went well: | What went wrong: | What to improve:
 
 ## Blameless Statement
+
 This incident was caused by systemic issues, not individual failure.
 ```
 
@@ -213,12 +220,12 @@ This incident was caused by systemic issues, not individual failure.
 
 ## 8. On-Call Rotation
 
-| Week | Primary | Secondary |
-|------|---------|-----------|
-| Week 1 | TBD | TBD |
-| Week 2 | TBD | TBD |
-| Week 3 | TBD | TBD |
-| Week 4 | TBD | TBD |
+| Week   | Primary | Secondary |
+| ------ | ------- | --------- |
+| Week 1 | TBD     | TBD       |
+| Week 2 | TBD     | TBD       |
+| Week 3 | TBD     | TBD       |
+| Week 4 | TBD     | TBD       |
 
 Shifts run Mon–Mon, 09:00 UTC handover. Schedule maintained in Team Calendar.
 
@@ -227,16 +234,17 @@ Shifts run Mon–Mon, 09:00 UTC handover. Schedule maintained in Team Calendar.
 ## 9. Related Documents
 
 - `docs/31-playbooks/rollback-playbook.md` — Deployment rollback procedures
-- `docs/runbooks/database-failover.md` — Database failover procedures
-- `docs/runbooks/service-restart.md` — Service restart procedures
-- `docs/operations/56-SLA-SLO.md` — SLO definitions and error budgets
-- `docs/operations/postmortem-tracker.md` — Action item tracking
+- `docs/30-runbooks/database-failover.md` — Database failover procedures
+- `docs/30-runbooks/service-restart.md` — Service restart procedures
+- `docs/21-operations/56-SLA-SLO.md` — SLO definitions and error budgets
+- `docs/21-operations/postmortem-tracker.md` — Action item tracking
 
 ---
 
-*Document Version: 2.0 — Compiled Incident Response Runbook*
-*Last Updated: July 2026 | Next Review: October 2026*
+_Document Version: 2.0 — Compiled Incident Response Runbook_
+_Last Updated: July 2026 | Next Review: October 2026_
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

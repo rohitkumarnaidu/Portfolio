@@ -2,7 +2,7 @@
 
 > **Document:** `incident-communication-templates.md` | **Version:** 1.0 | **Last Updated:** July 2026
 > **Status:** Active | **Owner:** DevOps Lead | **Review Cadence:** Quarterly
-> **Related:** [incident-response-playbook.md](../operations/incident-response-playbook.md) | [incident-severity-criteria.md](../operations/incident-severity-criteria.md) | [on-call-schedule.md](../operations/on-call-schedule.md)
+> **Related:** [incident-response-playbook.md](../21-operations/incident-response-playbook.md) | [incident-severity-criteria.md](../21-operations/incident-severity-criteria.md) | [on-call-schedule.md](../21-operations/on-call-schedule.md)
 
 ---
 
@@ -497,5 +497,6 @@ _Last Updated: July 2026_
 _Next Review Date: October 2026_
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

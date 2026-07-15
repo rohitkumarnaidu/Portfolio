@@ -1,7 +1,7 @@
 # Production Go-Live Checklist
 
 > **Document:** `29-checklists/PRODUCTION-GO-LIVE-CHECKLIST.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** Architecture Lead | **Related:** [LaunchPlan.md](../operations/LaunchPlan.md)
+> **Status:** ✅ Active | **Owner:** Architecture Lead | **Related:** [LaunchPlan.md](../21-operations/LaunchPlan.md)
 
 ---
 
@@ -22,12 +22,14 @@ flowchart LR
 ## Pre-Launch (T-7 Days)
 
 ### DNS & Networking
+
 - [ ] **DNS records configured** — `A`/`CNAME` records for `portfolio.com` and `www.portfolio.com` point to Vercel's edge network.
 - [ ] **DNS propagation verified** — `dig`/`nslookup` resolves to expected Vercel IPs across multiple resolvers.
 - [ ] **SSL certificates issued and verified** — Auto-provisioned via Vercel or LetsEncrypt; no browser warnings.
 - [ ] **CORS origins whitelisted** — `CORS_ORIGIN` env var includes `https://portfolio.com`, `https://www.portfolio.com`, and `http://localhost:3000` (dev).
 
 ### Infrastructure
+
 - [ ] **Database migrations run and verified** — `npm run prisma:migrate:deploy` applied cleanly against production Supabase; schema matches staging.
 - [ ] **All environment variables set** in Vercel (frontend), Docker/NestJS (API), and Docker/FastAPI (AI). Verified with `printenv`-style health check.
 - [ ] **CDN configured** — Vercel edge network active; ISR cache purge mechanism tested.
@@ -35,16 +37,19 @@ flowchart LR
 - [ ] **Redis connection verified** — BullMQ queues (email, notifications) connect and process test jobs.
 
 ### Monitoring & Observability
+
 - [ ] **Sentry DSN configured** — Test error sent via health endpoint; error appears in Sentry dashboard within 30s.
 - [ ] **PostHog configured** — Test event received and visible in PostHog live events view.
 - [ ] **Pino logging verified** — Structured JSON logs flowing; log level set to `info` in production.
 
 ### External Services
+
 - [ ] **Email service (Resend) configured** — Test email sent from contact form; received within 60s.
 - [ ] **AI provider API keys configured** — OpenAI/Anthropic keys valid; test prompt returns expected response.
 - [ ] **OAuth providers configured** — Google and GitHub OAuth apps registered; redirect URIs point to production (`https://api.portfolio.com/api/admin/auth/*`).
 
 ### Backup & Recovery
+
 - [ ] **Backup system verified** — Automated daily Supabase backup enabled; manual pg_dump tested and restorable.
 - [ ] **Rollback plan documented** — Steps in LaunchPlan.md; team has reviewed and practiced.
 
@@ -53,11 +58,13 @@ flowchart LR
 ## Launch Day (T-0)
 
 ### Deployment
+
 - [ ] **Final database backup taken** — `pg_dump` completed; backup file checksummed and stored off-site.
 - [ ] **All services deployed to production** — Frontend (Vercel), API (Docker/ghcr.io), AI (Docker/ghcr.io). CI pipeline green on `main`.
 - [ ] **Health check endpoints returning 200** — `/api/health` (NestJS), `/health` (FastAPI), Vercel status page.
 
 ### Verification
+
 - [ ] **Smoke tests passed** — All critical user flows verified:
   - Portfolio landing page loads with 3D scene and content.
   - Contact form submits successfully; email notification received.
@@ -68,12 +75,14 @@ flowchart LR
 - [ ] **Custom domain returns 200** — `https://portfolio.com`, `https://www.portfolio.com`, `https://api.portfolio.com`.
 
 ### Delivery & Analytics
+
 - [ ] **Email delivery verified** — Contact form email, password reset, welcome emails all deliverable (no spam folder).
 - [ ] **AI chat responds correctly** — QA script of 5 test prompts returns coherent, context-aware responses.
 - [ ] **Admin login works** — All three OAuth providers (Google, GitHub, email/password) tested.
 - [ ] **Analytics events firing correctly** — Page views, form submissions, chat initiations appear in PostHog within 30s.
 
 ### Performance & Alerts
+
 - [ ] **CDN cache warming initiated** — Key pages (home, projects, about) pre-cached via curl requests from multiple regions.
 - [ ] **Monitoring dashboards verified** — Sentry, PostHog, Better Uptime dashboards show live data.
 - [ ] **Alerts configured and test-triggered** — Slack/PagerDuty alert fires for test error and test downtime.
@@ -93,14 +102,14 @@ flowchart LR
 
 ## Rollback Criteria
 
-| Condition | Threshold | Action |
-|-----------|-----------|--------|
-| **Error rate** | > 5% for > 5 minutes | Rollback immediately |
-| **P95 API latency** | > 500ms for > 10 minutes | Rollback immediately |
-| **Security vulnerability** | Confirmed (any severity) | Rollback immediately |
-| **Critical feature broken** | > 50% of smoke tests fail | Rollback immediately |
-| **Database corruption** | Any confirmed data loss | Restore from backup |
-| **Auth failure** | Any OAuth provider unavailable > 15 min | Rollback to previous release |
+| Condition                   | Threshold                               | Action                       |
+| --------------------------- | --------------------------------------- | ---------------------------- |
+| **Error rate**              | > 5% for > 5 minutes                    | Rollback immediately         |
+| **P95 API latency**         | > 500ms for > 10 minutes                | Rollback immediately         |
+| **Security vulnerability**  | Confirmed (any severity)                | Rollback immediately         |
+| **Critical feature broken** | > 50% of smoke tests fail               | Rollback immediately         |
+| **Database corruption**     | Any confirmed data loss                 | Restore from backup          |
+| **Auth failure**            | Any OAuth provider unavailable > 15 min | Rollback to previous release |
 
 ### Rollback Procedure
 
@@ -114,18 +123,18 @@ flowchart LR
 
 ---
 
-*Last updated: July 2026. Review before every production deployment.*
+_Last updated: July 2026. Review before every production deployment._
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
-| [MASTER-INDEX.md](../MASTER-INDEX.md) | Documentation master index |
-| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping |
-| [LaunchPlan.md](../21-operations/LAUNCH-PLAN.md) | Launch plan reference |
-| [PRODUCTION-READINESS.md](../21-operations/PRODUCTION-READINESS.md) | Production readiness review |
-| [DeploymentGuide.md](../12-devops/DEPLOYMENT-GUIDE.md) | Deployment guide |
-| [SecurityHardening.md](../11-security/SECURITY-HARDENING.md) | Security hardening plan |
-| [ReleaseChecklist.md](../21-operations/RELEASE-CHECKLIST.md) | Release checklist |
+| Reference                                                            | Description                 |
+| -------------------------------------------------------------------- | --------------------------- |
+| [MASTER-INDEX.md](../MASTER-INDEX.md)                                | Documentation master index  |
+| [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping     |
+| [LaunchPlan.md](../21-operations/LAUNCH-PLAN.md)                     | Launch plan reference       |
+| [PRODUCTION-READINESS.md](../21-operations/PRODUCTION-READINESS.md)  | Production readiness review |
+| [DeploymentGuide.md](../12-devops/DEPLOYMENT-GUIDE.md)               | Deployment guide            |
+| [SecurityHardening.md](../11-security/SECURITY-HARDENING.md)         | Security hardening plan     |
+| [ReleaseChecklist.md](../21-operations/RELEASE-CHECKLIST.md)         | Release checklist           |

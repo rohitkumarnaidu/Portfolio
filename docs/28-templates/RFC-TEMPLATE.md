@@ -40,6 +40,7 @@ flowchart LR
 [Why is this change needed? What problem does it solve? Describe the current state, its limitations, and the desired future state.]
 
 **Key drivers:**
+
 - [Driver 1]
 - [Driver 2]
 - [Driver 3]
@@ -69,31 +70,31 @@ interface ProposedInterface {
 
 ## Alternatives Considered
 
-| Alternative | Pros | Cons |
-|-------------|------|------|
-| [Option A] | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
-| [Option B] | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
-| [Option C] | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
+| Alternative | Pros             | Cons             |
+| ----------- | ---------------- | ---------------- |
+| [Option A]  | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
+| [Option B]  | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
+| [Option C]  | [Pro 1], [Pro 2] | [Con 1], [Con 2] |
 
 ## Migration Plan
 
 [How to migrate from the current state to the proposed state. Include rollout phases, feature flags, backward compatibility guarantees, and rollback strategy.]
 
-| Phase | Description | Duration |
-|-------|-------------|----------|
-| 1 | [Phase 1] | [Timeline] |
-| 2 | [Phase 2] | [Timeline] |
-| 3 | [Phase 3] | [Timeline] |
+| Phase | Description | Duration   |
+| ----- | ----------- | ---------- |
+| 1     | [Phase 1]   | [Timeline] |
+| 2     | [Phase 2]   | [Timeline] |
+| 3     | [Phase 3]   | [Timeline] |
 
 ## Testing Strategy
 
 [How will this be tested? Describe unit tests, integration tests, E2E tests, manual QA, and monitoring/observability for the new feature.]
 
-| Test Type | Scope | Tooling |
-|-----------|-------|---------|
-| Unit | [What is covered] | Jest / Vitest |
+| Test Type   | Scope             | Tooling                |
+| ----------- | ----------------- | ---------------------- |
+| Unit        | [What is covered] | Jest / Vitest          |
 | Integration | [What is covered] | Supertest / Playwright |
-| E2E | [What is covered] | Playwright |
+| E2E         | [What is covered] | Playwright             |
 
 ## Open Questions
 
@@ -105,10 +106,11 @@ interface ProposedInterface {
 
 > **Status:** [Accepted / Rejected / Superseded]  
 > **Date:** YYYY-MM-DD  
-> **Reviewed by:** [Reviewers]  
+> **Reviewed by:** [Reviewers]
 
 [Rationale for the decision, any modifications made during review, and links to the review discussion.]
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
