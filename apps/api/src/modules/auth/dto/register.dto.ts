@@ -21,4 +21,3 @@ export class RegisterDto {
   @MaxLength(100)
   display_name!: string;
 }
-
