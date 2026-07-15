@@ -1,13 +1,18 @@
 import { Logger } from '@nestjs/common';
 
 export function SentryTrace(name?: string) {
-  return function (_target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function (
+    _target: Record<string, unknown>,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+  ) {
     const originalMethod = descriptor.value;
     const logger = new Logger('SentryTrace');
     const spanName = name || `${_target.constructor?.name || ''}.${propertyKey}`;
 
-    descriptor.value = async function (...args: any[]) {
+    descriptor.value = async function (...args: unknown[]) {
       try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const Sentry = require('@sentry/node');
         if (Sentry.getCurrentHub) {
           const scope = Sentry.getCurrentHub().getScope();

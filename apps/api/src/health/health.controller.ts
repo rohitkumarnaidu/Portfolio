@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { PrismaService } from '../common/database/prisma.service';
+import type { PrismaService } from '../common/database/prisma.service';
 
 @ApiTags('Health')
 @Controller('health')
@@ -22,7 +22,9 @@ export class HealthController {
     try {
       await this.prisma.$queryRaw`SELECT 1`;
       dbStatus = 'connected';
-    } catch { dbStatus = 'error'; }
+    } catch {
+      dbStatus = 'error';
+    }
     return {
       status: dbStatus === 'connected' ? 'ok' : 'degraded',
       database: dbStatus,

@@ -7,7 +7,10 @@ const envSchema = z.object({
   CORS_ORIGIN: z.string().default('http://localhost:3000'),
   JWT_SECRET: z.string().min(32).default('dev-jwt-secret-change-in-production-min-32-chars!!'),
   JWT_EXPIRES_IN: z.string().default('15m'),
-  JWT_REFRESH_SECRET: z.string().min(32).default('dev-refresh-secret-change-in-production-min-32!!'),
+  JWT_REFRESH_SECRET: z
+    .string()
+    .min(32)
+    .default('dev-refresh-secret-change-in-production-min-32!!'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
   ADMIN_EMAIL: z.string().email().default('admin@portfolio.com'),
   ADMIN_PASSWORD: z.string().min(8).default('***REDACTED***'),
@@ -21,6 +24,7 @@ const envSchema = z.object({
   LOCKOUT_DURATION_MS: z.coerce.number().default(15 * 60 * 1000),
   EMAIL_FROM: z.string().default('noreply@portfolio.com'),
   ADMIN_NOTIFICATION_EMAIL: z.string().default('admin@portfolio.com'),
+  AI_API_URL: z.string().default('http://localhost:8000'),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;
@@ -33,4 +37,3 @@ export const config = registerAs('app', () => {
   }
   return parsed.data;
 });
-
