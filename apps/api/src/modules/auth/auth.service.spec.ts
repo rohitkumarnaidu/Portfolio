@@ -1,4 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -18,12 +19,10 @@ const mockUser = {
   email: 'test@example.com',
   displayName: 'Test User',
   passwordHash: '$2b$12$hashedpassword',
-  role: 'admin' as const,
+  roles: [{ role: { name: 'admin' } }],
   isActive: true,
-  failedLoginAttempts: 0,
-  lockedUntil: null,
   avatarUrl: null,
-  metadata: {},
+  metadata: { failedLoginAttempts: 0, lockedUntil: null },
   createdAt: new Date(),
   updatedAt: new Date(),
 };
@@ -77,7 +76,7 @@ describe('AuthService', () => {
   describe('login', () => {
     it('should login successfully with valid credentials', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
-      mockPrisma.user.update.mockResolvedValue({ ...mockUser, failedLoginAttempts: 0, lockedUntil: null });
+      mockPrisma.user.update.mockResolvedValue(mockUser);
 
       const result = await service.login({ email: mockUser.email, password: 'correct' });
 
@@ -91,58 +90,92 @@ describe('AuthService', () => {
     it('should throw UnauthorizedException for unknown email', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(null);
 
-      await expect(service.login({ email: 'unknown@test.com', password: 'x' }))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(service.login({ email: 'unknown@test.com', password: 'x' })).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
 
     it('should throw UnauthorizedException for inactive account', async () => {
       mockPrisma.user.findUnique.mockResolvedValue({ ...mockUser, isActive: false });
 
-      await expect(service.login({ email: mockUser.email, password: 'x' }))
-        .rejects.toThrow('Account is deactivated');
+      await expect(service.login({ email: mockUser.email, password: 'x' })).rejects.toThrow(
+        'Account is deactivated',
+      );
     });
 
     it('should throw UnauthorizedException for locked account', async () => {
       const futureLock = new Date(Date.now() + 10 * 60 * 1000);
-      mockPrisma.user.findUnique.mockResolvedValue({ ...mockUser, lockedUntil: futureLock });
+      mockPrisma.user.findUnique.mockResolvedValue({
+        ...mockUser,
+        metadata: { ...mockUser.metadata, lockedUntil: futureLock },
+      });
 
-      await expect(service.login({ email: mockUser.email, password: 'x' }))
-        .rejects.toThrow(/Account is locked/);
-    });
-
-    it('should increment failed attempts on wrong password', async () => {
-      const userWithAttempts = { ...mockUser, failedLoginAttempts: 2 };
-      mockPrisma.user.findUnique.mockResolvedValue(userWithAttempts);
-      mockPrisma.user.update.mockResolvedValue({ ...userWithAttempts, failedLoginAttempts: 3 });
-
-      await expect(service.login({ email: mockUser.email, password: 'wrong' }))
-        .rejects.toThrow(UnauthorizedException);
-
-      expect(mockPrisma.user.update).toHaveBeenCalledWith(
-        expect.objectContaining({ where: { id: mockUser.id }, data: expect.objectContaining({ failedLoginAttempts: 3 }) }),
+      await expect(service.login({ email: mockUser.email, password: 'x' })).rejects.toThrow(
+        /Account is locked/,
       );
     });
 
-    it('should lock account after reaching threshold', async () => {
-      const nearLimit = { ...mockUser, failedLoginAttempts: 5 };
-      mockPrisma.user.findUnique.mockResolvedValue(nearLimit);
-      mockPrisma.user.update.mockResolvedValue({ ...nearLimit, lockedUntil: new Date(Date.now() + 15 * 60 * 1000), failedLoginAttempts: 0 });
+    it('should increment failed attempts on wrong password', async () => {
+      const userWithAttempts = {
+        ...mockUser,
+        metadata: { ...mockUser.metadata, failedLoginAttempts: 2 },
+      };
+      mockPrisma.user.findUnique.mockResolvedValue(userWithAttempts);
+      mockPrisma.user.update.mockResolvedValue({
+        ...userWithAttempts,
+        metadata: { ...userWithAttempts.metadata, failedLoginAttempts: 3 },
+      });
 
-      await expect(service.login({ email: mockUser.email, password: 'wrong' }))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(service.login({ email: mockUser.email, password: 'wrong' })).rejects.toThrow(
+        UnauthorizedException,
+      );
 
       expect(mockPrisma.user.update).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { id: mockUser.id },
-          data: expect.objectContaining({ lockedUntil: expect.any(Date) }),
+          data: expect.objectContaining({
+            metadata: expect.objectContaining({ failedLoginAttempts: 3 }),
+          }),
+        }),
+      );
+    });
+
+    it('should lock account after reaching threshold', async () => {
+      const nearLimit = { ...mockUser, metadata: { ...mockUser.metadata, failedLoginAttempts: 5 } };
+      mockPrisma.user.findUnique.mockResolvedValue(nearLimit);
+      mockPrisma.user.update.mockResolvedValue({
+        ...nearLimit,
+        metadata: {
+          ...nearLimit.metadata,
+          failedLoginAttempts: 0,
+          lockedUntil: new Date(Date.now() + 15 * 60 * 1000).toISOString(),
+        },
+      });
+
+      await expect(service.login({ email: mockUser.email, password: 'wrong' })).rejects.toThrow(
+        UnauthorizedException,
+      );
+
+      expect(mockPrisma.user.update).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: { id: mockUser.id },
+          data: expect.objectContaining({
+            metadata: expect.objectContaining({ lockedUntil: expect.any(String) }),
+          }),
         }),
       );
     });
 
     it('should reset failed attempts on successful login', async () => {
-      const userWithAttempts = { ...mockUser, failedLoginAttempts: 3 };
+      const userWithAttempts = {
+        ...mockUser,
+        metadata: { ...mockUser.metadata, failedLoginAttempts: 3 },
+      };
       mockPrisma.user.findUnique.mockResolvedValue(userWithAttempts);
-      mockPrisma.user.update.mockResolvedValue({ ...userWithAttempts, failedLoginAttempts: 0, lockedUntil: null });
+      mockPrisma.user.update.mockResolvedValue({
+        ...userWithAttempts,
+        metadata: { failedLoginAttempts: 0, lockedUntil: null },
+      });
 
       const result = await service.login({ email: mockUser.email, password: 'correct' });
 
@@ -150,7 +183,9 @@ describe('AuthService', () => {
       expect(mockPrisma.user.update).toHaveBeenCalledWith(
         expect.objectContaining({
           where: { id: mockUser.id },
-          data: expect.objectContaining({ failedLoginAttempts: 0, lockedUntil: null }),
+          data: expect.objectContaining({
+            metadata: { failedLoginAttempts: 0, lockedUntil: null },
+          }),
         }),
       );
     });
@@ -162,8 +197,8 @@ describe('AuthService', () => {
       mockPrisma.user.create.mockResolvedValue({
         ...mockUser,
         email: 'new@test.com',
-        role: 'editor',
         displayName: 'New User',
+        roles: [{ role: { name: 'editor' } }],
       });
 
       const result = await service.register({
@@ -182,11 +217,13 @@ describe('AuthService', () => {
     it('should throw for duplicate email', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
 
-      await expect(service.register({
-        email: mockUser.email,
-        password: 'password123',
-        display_name: 'Test',
-      })).rejects.toThrow('Email already registered');
+      await expect(
+        service.register({
+          email: mockUser.email,
+          password: 'password123',
+          display_name: 'Test',
+        }),
+      ).rejects.toThrow('Email already registered');
     });
   });
 
@@ -206,15 +243,13 @@ describe('AuthService', () => {
     it('should throw for invalid refresh token', async () => {
       mockCache.get.mockResolvedValue(null);
 
-      await expect(service.refresh('invalid-token'))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(service.refresh('invalid-token')).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw for revoked token', async () => {
       mockCache.get.mockResolvedValue({ userId: mockUser.id, isRevoked: true });
 
-      await expect(service.refresh('revoked-token'))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(service.refresh('revoked-token')).rejects.toThrow(UnauthorizedException);
     });
   });
 

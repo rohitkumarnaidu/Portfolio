@@ -1,4 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { PrismaService } from '../../common/database/prisma.service';
@@ -41,10 +42,7 @@ describe('BlogService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        BlogService,
-        { provide: PrismaService, useValue: mockPrisma },
-      ],
+      providers: [BlogService, { provide: PrismaService, useValue: mockPrisma }],
     }).compile();
 
     service = module.get<BlogService>(BlogService);
@@ -59,7 +57,13 @@ describe('BlogService', () => {
         title: 'Test Blog Post',
       });
 
-      const result = await service.create({ title: 'Test Blog Post', content: 'Hello world', excerpt: 'Short', category: 'tech', authorName: 'Admin' } as any);
+      const result = await service.create({
+        title: 'Test Blog Post',
+        content: 'Hello world',
+        excerpt: 'Short',
+        category: 'tech',
+        authorName: 'Admin',
+      } as any);
 
       expect(result.slug).toBe('test-blog-post');
       expect(mockPrisma.blogPost.create).toHaveBeenCalledWith(
@@ -182,8 +186,9 @@ describe('BlogService', () => {
     it('should throw for non-existent post', async () => {
       mockPrisma.blogPost.findUnique.mockResolvedValue(null);
 
-      await expect(service.update('post-1', { title: 'X' } as any))
-        .rejects.toThrow(NotFoundException);
+      await expect(service.update('post-1', { title: 'X' } as any)).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
