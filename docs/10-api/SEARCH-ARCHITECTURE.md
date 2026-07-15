@@ -16,23 +16,23 @@ The search architecture provides four search modes across six content types: ful
 
 ### 1.1 What Users Search
 
-| Search Target | Content Type | Volume | Search Mode |
-|--------------|-------------|:------:|:-----------:|
-| Projects | Title, description, tech_stack | ~20 items | FTS + filter |
-| Blog Posts | Title, excerpt, content, tags | ~50 items | FTS |
-| Skills | Name, category | ~30 items | Filter only |
-| Case Studies | Challenge, approach, solution, impact | ~10 items | FTS |
-| Experiences | Company, role, description | ~15 items | Filter only |
-| AI Chat Context | All portfolio content (RAG) | ~500 chunks | Vector (semantic) |
+| Search Target   | Content Type                          |   Volume    |    Search Mode    |
+| --------------- | ------------------------------------- | :---------: | :---------------: |
+| Projects        | Title, description, tech_stack        |  ~20 items  |   FTS + filter    |
+| Blog Posts      | Title, excerpt, content, tags         |  ~50 items  |        FTS        |
+| Skills          | Name, category                        |  ~30 items  |    Filter only    |
+| Case Studies    | Challenge, approach, solution, impact |  ~10 items  |        FTS        |
+| Experiences     | Company, role, description            |  ~15 items  |    Filter only    |
+| AI Chat Context | All portfolio content (RAG)           | ~500 chunks | Vector (semantic) |
 
 ### 1.2 Search Modes
 
-| Mode | Technology | Use Case | Response Time |
-|------|-----------|----------|:-------------:|
-| **Full-Text Search (FTS)** | PostgreSQL `tsvector` + `ts_query` | Keyword search: "React dashboard" | < 20ms |
-| **Semantic Search** | pgvector cosine similarity | AI chat context retrieval: "Tell me about your backend experience" | < 50ms |
-| **Filter Search** | SQL WHERE clauses | Category/tech/year filtering | < 10ms |
-| **Hybrid** | FTS + Filter | Search + category filter: "React" in category "web" | < 30ms |
+| Mode                       | Technology                         | Use Case                                                           | Response Time |
+| -------------------------- | ---------------------------------- | ------------------------------------------------------------------ | :-----------: |
+| **Full-Text Search (FTS)** | PostgreSQL `tsvector` + `ts_query` | Keyword search: "React dashboard"                                  |    < 20ms     |
+| **Semantic Search**        | pgvector cosine similarity         | AI chat context retrieval: "Tell me about your backend experience" |    < 50ms     |
+| **Filter Search**          | SQL WHERE clauses                  | Category/tech/year filtering                                       |    < 10ms     |
+| **Hybrid**                 | FTS + Filter                       | Search + category filter: "React" in category "web"                |    < 30ms     |
 
 ---
 
@@ -69,7 +69,7 @@ CREATE INDEX idx_blog_posts_title_trgm ON blog_posts USING gin(title gin_trgm_op
 
 ```sql
 -- Ranked full-text search with highlighting
-SELECT 
+SELECT
   id, title, description,
   ts_rank(search_vector, query) AS rank,
   ts_headline('english', description, query, 'StartSel=<mark>, StopSel=</mark>') AS highlight
@@ -110,7 +110,7 @@ CREATE TABLE document_chunks (
 );
 
 -- IVFFlat index for approximate nearest neighbor
-CREATE INDEX idx_document_chunks_embedding ON document_chunks 
+CREATE INDEX idx_document_chunks_embedding ON document_chunks
   USING ivfflat (embedding vector_cosine_ops) WITH (lists = 10);
 ```
 
@@ -118,7 +118,7 @@ CREATE INDEX idx_document_chunks_embedding ON document_chunks
 
 ```sql
 -- Find top-k similar chunks for RAG retrieval
-SELECT 
+SELECT
   id, content, metadata,
   1 - (embedding <=> $1::vector) AS similarity
 FROM document_chunks
@@ -137,12 +137,12 @@ LIMIT 3;  -- k=3 for RAG context
 GET /v1/search?q={query}&type={type}&mode={fts|semantic}&limit={limit}
 ```
 
-| Parameter | Type | Default | Description |
-|-----------|------|:-------:|-------------|
-| `q` | string | (required) | Search query |
-| `type` | string | `all` | Resource type: `all`, `projects`, `blog`, `case_studies` |
-| `mode` | string | `fts` | Search mode: `fts` (keyword) or `semantic` (AI) |
-| `limit` | integer | `10` | Max results per type |
+| Parameter | Type    |  Default   | Description                                              |
+| --------- | ------- | :--------: | -------------------------------------------------------- |
+| `q`       | string  | (required) | Search query                                             |
+| `type`    | string  |   `all`    | Resource type: `all`, `projects`, `blog`, `case_studies` |
+| `mode`    | string  |   `fts`    | Search mode: `fts` (keyword) or `semantic` (AI)          |
+| `limit`   | integer |    `10`    | Max results per type                                     |
 
 ### 4.2 Response Format
 
@@ -184,13 +184,13 @@ GET /v1/search?q={query}&type={type}&mode={fts|semantic}&limit={limit}
 
 ### 5.1 When to Reindex
 
-| Trigger | Action | Latency |
-|---------|--------|:-------:|
-| Content CRUD operation | Auto-update `search_vector` (generated column) | Immediate |
-| Admin publishes project | Generate/update vector embeddings | ~10s |
-| Admin publishes blog post | Generate/update vector embeddings | ~10s |
-| Nightly batch | Full reindex of all content + regenerate all embeddings | 2-5 min |
-| Admin triggers manual rebuild | Drop + recreate IVFFlat index, regenerate all embeddings | 5-10 min |
+| Trigger                       | Action                                                   |  Latency  |
+| ----------------------------- | -------------------------------------------------------- | :-------: |
+| Content CRUD operation        | Auto-update `search_vector` (generated column)           | Immediate |
+| Admin publishes project       | Generate/update vector embeddings                        |   ~10s    |
+| Admin publishes blog post     | Generate/update vector embeddings                        |   ~10s    |
+| Nightly batch                 | Full reindex of all content + regenerate all embeddings  |  2-5 min  |
+| Admin triggers manual rebuild | Drop + recreate IVFFlat index, regenerate all embeddings | 5-10 min  |
 
 ### 5.2 Embedding Pipeline
 
@@ -206,67 +206,67 @@ graph LR
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.1 | Jun 2026 | Added Executive Summary, Decision Log, Risk Register, Glossary | Chief Architect |
-| 1.0 | Jun 2026 | Initial search architecture — FTS, vector search, unified API, indexing pipeline | Staff Backend Architect |
+| Version | Date     | Changes                                                                          | Author                  |
+| ------- | -------- | -------------------------------------------------------------------------------- | ----------------------- |
+| 1.1     | Jun 2026 | Added Executive Summary, Decision Log, Risk Register, Glossary                   | Chief Architect         |
+| 1.0     | Jun 2026 | Initial search architecture — FTS, vector search, unified API, indexing pipeline | Staff Backend Architect |
 
 ---
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| D-SRCH-001 | Use PostgreSQL tsvector for full-text search | No additional infrastructure; generated columns auto-update on content changes; GIN indexes provide <20ms query times | Elasticsearch (rejected — operational overhead, added cost for small dataset); Algolia (rejected — vendor lock-in, paid tier needed); Meilisearch (rejected — additional service to manage) | Jun 2026 | Staff Backend Architect |
-| D-SRCH-002 | Use pgvector with IVFFlat index for semantic search | In-database vector search eliminates separate vector DB; IVFFlat provides good accuracy/speed tradeoff at 500 chunk scale | Pinecone (rejected — $70/mo minimum, overkill for 500 chunks); Weaviate (rejected — additional infrastructure); HNSW index (rejected — slower build time, not necessary at this scale) | Jun 2026 | Staff Backend Architect |
-| D-SRCH-003 | Use weighted tsvector with setweight('A','B','C') for relevance ranking | Title matches rank higher than description matches, which rank higher than tech_stack/content matches; aligns with user expectation | Uniform weight (rejected — all matches equal regardless of field); BM25 scoring only (rejected — no field-level control) | Jun 2026 | Staff Backend Architect |
-| D-SRCH-004 | Add trigram indexes for fuzzy/typo-tolerant search | Users commonly misspell or partially recall project names; trigram similarity handles this gracefully | Levenshtein distance in application code (rejected — no index support, slow); suggest-as-you-type only (rejected — doesn't help with already-typed queries) | Jun 2026 | Staff Backend Architect |
-| D-SRCH-005 | Set k=3 with 0.7 similarity threshold for RAG context retrieval | 3 chunks provide sufficient context for LLM without overflowing the context window; 0.7 threshold filters irrelevant chunks | k=1 (rejected — too little context); k=5+ (rejected — context window waste, slower); no threshold (rejected — irrelevant content pollutes response) | Jun 2026 | Staff Backend Architect |
-| D-SRCH-006 | Expose unified /v1/search endpoint rather than per-type endpoints | Single endpoint enables cross-content-type search results; simpler client integration | Per-type endpoints (rejected — /projects/search, /blog/search — client needs multiple calls); GraphQL (rejected — overkill for search-only use) | Jun 2026 | Staff Backend Architect |
+| ID         | Decision                                                                | Rationale                                                                                                                           | Alternatives Considered                                                                                                                                                                     | Date     | Approver                |
+| ---------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------- |
+| D-SRCH-001 | Use PostgreSQL tsvector for full-text search                            | No additional infrastructure; generated columns auto-update on content changes; GIN indexes provide <20ms query times               | Elasticsearch (rejected — operational overhead, added cost for small dataset); Algolia (rejected — vendor lock-in, paid tier needed); Meilisearch (rejected — additional service to manage) | Jun 2026 | Staff Backend Architect |
+| D-SRCH-002 | Use pgvector with IVFFlat index for semantic search                     | In-database vector search eliminates separate vector DB; IVFFlat provides good accuracy/speed tradeoff at 500 chunk scale           | Pinecone (rejected — $70/mo minimum, overkill for 500 chunks); Weaviate (rejected — additional infrastructure); HNSW index (rejected — slower build time, not necessary at this scale)      | Jun 2026 | Staff Backend Architect |
+| D-SRCH-003 | Use weighted tsvector with setweight('A','B','C') for relevance ranking | Title matches rank higher than description matches, which rank higher than tech_stack/content matches; aligns with user expectation | Uniform weight (rejected — all matches equal regardless of field); BM25 scoring only (rejected — no field-level control)                                                                    | Jun 2026 | Staff Backend Architect |
+| D-SRCH-004 | Add trigram indexes for fuzzy/typo-tolerant search                      | Users commonly misspell or partially recall project names; trigram similarity handles this gracefully                               | Levenshtein distance in application code (rejected — no index support, slow); suggest-as-you-type only (rejected — doesn't help with already-typed queries)                                 | Jun 2026 | Staff Backend Architect |
+| D-SRCH-005 | Set k=3 with 0.7 similarity threshold for RAG context retrieval         | 3 chunks provide sufficient context for LLM without overflowing the context window; 0.7 threshold filters irrelevant chunks         | k=1 (rejected — too little context); k=5+ (rejected — context window waste, slower); no threshold (rejected — irrelevant content pollutes response)                                         | Jun 2026 | Staff Backend Architect |
+| D-SRCH-006 | Expose unified /v1/search endpoint rather than per-type endpoints       | Single endpoint enables cross-content-type search results; simpler client integration                                               | Per-type endpoints (rejected — /projects/search, /blog/search — client needs multiple calls); GraphQL (rejected — overkill for search-only use)                                             | Jun 2026 | Staff Backend Architect |
 
 ## Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| R-SRCH-001 | Embedding generation fails (OpenAI API down or rate limited), leaving document_chunks stale | Medium | High | Retry with exponential backoff; fallback to FTS-only search when embeddings unavailable; queue failed embeddings for reprocessing |
-| R-SRCH-002 | IVFFlat index accuracy degrades as document_chunks grows beyond 500 vectors | Low | Medium | Monitor query recall metrics; rebuild index monthly; upgrade to HNSW index if recall drops below 90% |
-| R-SRCH-003 | tsvector search returns poor results for non-English content | Low | Low | Use `simple` dictionary as fallback; add language detection if multi-language content is added |
-| R-SRCH-004 | Concurrent content updates cause temporary inconsistency between FTS index and embeddings | Medium | Low | FTS uses generated columns (always consistent); accept brief embedding staleness; nightly batch ensures full sync |
-| R-SRCH-005 | trigram indexes grow large and slow down write operations on content tables | Low | Medium | Trigram index on title only (not full text); benchmark write performance at 100+ content items |
+| ID         | Risk                                                                                        | Likelihood | Impact | Mitigation                                                                                                                        |
+| ---------- | ------------------------------------------------------------------------------------------- | ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| R-SRCH-001 | Embedding generation fails (OpenAI API down or rate limited), leaving document_chunks stale | Medium     | High   | Retry with exponential backoff; fallback to FTS-only search when embeddings unavailable; queue failed embeddings for reprocessing |
+| R-SRCH-002 | IVFFlat index accuracy degrades as document_chunks grows beyond 500 vectors                 | Low        | Medium | Monitor query recall metrics; rebuild index monthly; upgrade to HNSW index if recall drops below 90%                              |
+| R-SRCH-003 | tsvector search returns poor results for non-English content                                | Low        | Low    | Use `simple` dictionary as fallback; add language detection if multi-language content is added                                    |
+| R-SRCH-004 | Concurrent content updates cause temporary inconsistency between FTS index and embeddings   | Medium     | Low    | FTS uses generated columns (always consistent); accept brief embedding staleness; nightly batch ensures full sync                 |
+| R-SRCH-005 | trigram indexes grow large and slow down write operations on content tables                 | Low        | Medium | Trigram index on title only (not full text); benchmark write performance at 100+ content items                                    |
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **tsvector** | PostgreSQL data type that represents a document optimized for full-text search, storing lexemes with positional information |
-| **tsquery** | PostgreSQL data type representing a full-text search query with boolean operators (&, \|, !) |
-| **GIN Index** | Generalized Inverted Index — a PostgreSQL index type optimized for full-text search and array containment queries |
-| **Trigram** | A group of three consecutive characters used for fuzzy string matching; PostgreSQL pg_trgm extension enables similarity search |
-| **pgvector** | A PostgreSQL extension for storing and querying vector embeddings with approximate nearest neighbor search |
-| **IVFFlat** | Inverted File with Flat Compression — an approximate nearest neighbor index that partitions vectors into lists for faster search |
-| **Embedding** | A dense vector representation of text generated by an LLM (e.g., OpenAI text-embedding-3-small, 1536 dimensions) |
-| **Cosine Similarity** | A measure of similarity between two vectors calculated as the cosine of the angle between them (range: -1 to 1) |
-| **RAG** | Retrieval-Augmented Generation — an AI pattern that retrieves relevant context from a knowledge base before generating a response |
-| **HNSW** | Hierarchical Navigable Small World — a graph-based ANN index offering better recall than IVFFlat at the cost of larger memory usage |
-| **Lexeme** | A normalized word form in PostgreSQL FTS (e.g., "running" normalizes to "run"), stored in tsvector for matching |
-| **Weighting (setweight)** | Assigns importance levels (A=highest, D=lowest) to different tsvector content segments for relevance ranking |
+| Term                      | Definition                                                                                                                          |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **tsvector**              | PostgreSQL data type that represents a document optimized for full-text search, storing lexemes with positional information         |
+| **tsquery**               | PostgreSQL data type representing a full-text search query with boolean operators (&, \|, !)                                        |
+| **GIN Index**             | Generalized Inverted Index — a PostgreSQL index type optimized for full-text search and array containment queries                   |
+| **Trigram**               | A group of three consecutive characters used for fuzzy string matching; PostgreSQL pg_trgm extension enables similarity search      |
+| **pgvector**              | A PostgreSQL extension for storing and querying vector embeddings with approximate nearest neighbor search                          |
+| **IVFFlat**               | Inverted File with Flat Compression — an approximate nearest neighbor index that partitions vectors into lists for faster search    |
+| **Embedding**             | A dense vector representation of text generated by an LLM (e.g., OpenAI text-embedding-3-small, 1536 dimensions)                    |
+| **Cosine Similarity**     | A measure of similarity between two vectors calculated as the cosine of the angle between them (range: -1 to 1)                     |
+| **RAG**                   | Retrieval-Augmented Generation — an AI pattern that retrieves relevant context from a knowledge base before generating a response   |
+| **HNSW**                  | Hierarchical Navigable Small World — a graph-based ANN index offering better recall than IVFFlat at the cost of larger memory usage |
+| **Lexeme**                | A normalized word form in PostgreSQL FTS (e.g., "running" normalizes to "run"), stored in tsvector for matching                     |
+| **Weighting (setweight)** | Assigns importance levels (A=highest, D=lowest) to different tsvector content segments for relevance ranking                        |
 
 ---
 
-*Document Version: 1.1 — Enterprise Edition*
+_Document Version: 1.1 — Enterprise Edition_
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference            | Description                                            |
+| -------------------- | ------------------------------------------------------ |
 | docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |

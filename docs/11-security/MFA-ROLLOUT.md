@@ -14,23 +14,23 @@ Implement **TOTP-based Multi-Factor Authentication (MFA)** for all admin account
 
 ### 1.2 Goals
 
-| Goal | Metric | Target |
-|------|--------|--------|
-| Eliminate credential-stuffing risk | Admin accounts with MFA enabled | 100% |
-| Reduce phishing impact | Accounts compromised via password-only | 0 |
-| Meet OWASP ASVS V2.6.1 | MFA implemented for admin | Ã¢Å“â€¦ |
-| Meet NIST SP 800-63B AAL2 | TOTP-based MFA | Ã¢Å“â€¦ |
-| User friction minimized | Enrollment completion rate | > 90% |
+| Goal                               | Metric                                 | Target  |
+| ---------------------------------- | -------------------------------------- | ------- |
+| Eliminate credential-stuffing risk | Admin accounts with MFA enabled        | 100%    |
+| Reduce phishing impact             | Accounts compromised via password-only | 0       |
+| Meet OWASP ASVS V2.6.1             | MFA implemented for admin              | Ã¢Å“â€¦ |
+| Meet NIST SP 800-63B AAL2          | TOTP-based MFA                         | Ã¢Å“â€¦ |
+| User friction minimized            | Enrollment completion rate             | > 90%   |
 
 ### 1.3 Success Criteria
 
-| Criterion | Target | Measurement |
-|-----------|--------|-------------|
-| Admin MFA enrollment rate | 100% within 6 weeks | Database enrollment records |
-| Recovery code usage rate | < 5% of logins | Recovery code consumption logs |
-| Support tickets related to MFA | < 3 per month | Support ticket tracker |
-| Login success rate (with MFA) | > 99% | Auth logs |
-| Time to enroll (new admin) | < 2 minutes | UX timing measurement |
+| Criterion                      | Target              | Measurement                    |
+| ------------------------------ | ------------------- | ------------------------------ |
+| Admin MFA enrollment rate      | 100% within 6 weeks | Database enrollment records    |
+| Recovery code usage rate       | < 5% of logins      | Recovery code consumption logs |
+| Support tickets related to MFA | < 3 per month       | Support ticket tracker         |
+| Login success rate (with MFA)  | > 99%               | Auth logs                      |
+| Time to enroll (new admin)     | < 2 minutes         | UX timing measurement          |
 
 ---
 
@@ -38,32 +38,32 @@ Implement **TOTP-based Multi-Factor Authentication (MFA)** for all admin account
 
 ### 2.1 Threat Coverage
 
-| Threat | MFA Mitigation | Current Risk (No MFA) | Residual Risk (With MFA) |
-|--------|---------------|----------------------|-------------------------|
-| **Credential Stuffing** Ã¢â‚¬â€ Attacker uses breached passwords from other sites | TOTP code required even with valid password | Ã°Å¸â€Â´ High | Ã°Å¸Å¸Â¢ Low |
-| **Phishing** Ã¢â‚¬â€ Attacker tricks admin into revealing password | TOTP code is time-limited and site-specific | Ã°Å¸â€Â´ High | Ã°Å¸Å¸Â¢ Low |
-| **Brute Force** Ã¢â‚¬â€ Automated password guessing | Password + TOTP required | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low |
-| **Session Token Theft** Ã¢â‚¬â€ XSS or MITM steals JWT | MFA challenge on new device/session | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low |
-| **Keylogging** Ã¢â‚¬â€ Password captured via malware | TOTP code changes every 30s | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low |
-| **SIM Swap** Ã¢â‚¬â€ Phone-based MFA bypass | TOTP (not SMS) prevents SIM swap | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low |
+| Threat                                                                            | MFA Mitigation                              | Current Risk (No MFA) | Residual Risk (With MFA) |
+| --------------------------------------------------------------------------------- | ------------------------------------------- | --------------------- | ------------------------ |
+| **Credential Stuffing** Ã¢â‚¬â€ Attacker uses breached passwords from other sites | TOTP code required even with valid password | Ã°Å¸â€Â´ High         | Ã°Å¸Å¸Â¢ Low             |
+| **Phishing** Ã¢â‚¬â€ Attacker tricks admin into revealing password                | TOTP code is time-limited and site-specific | Ã°Å¸â€Â´ High         | Ã°Å¸Å¸Â¢ Low             |
+| **Brute Force** Ã¢â‚¬â€ Automated password guessing                               | Password + TOTP required                    | Ã°Å¸Å¸Â¡ Medium       | Ã°Å¸Å¸Â¢ Low             |
+| **Session Token Theft** Ã¢â‚¬â€ XSS or MITM steals JWT                            | MFA challenge on new device/session         | Ã°Å¸Å¸Â¡ Medium       | Ã°Å¸Å¸Â¢ Low             |
+| **Keylogging** Ã¢â‚¬â€ Password captured via malware                              | TOTP code changes every 30s                 | Ã°Å¸Å¸Â¡ Medium       | Ã°Å¸Å¸Â¢ Low             |
+| **SIM Swap** Ã¢â‚¬â€ Phone-based MFA bypass                                       | TOTP (not SMS) prevents SIM swap            | Ã°Å¸Å¸Â¡ Medium       | Ã°Å¸Å¸Â¢ Low             |
 
 ### 1.2 Mapped Threats from ThreatModel.md
 
-| Threat Model Reference | Threat | MFA Mitigation |
-|------------------------|--------|---------------|
-| Ã‚Â§3.1 Spoofing Ã¢â‚¬â€ Identity theft via JWT forgery | Attacker forges or steals JWT | MFA challenge on new device/session |
-| Ã‚Â§3.1 Spoofing Ã¢â‚¬â€ OAuth token interception | OAuth token stolen | TOTP required even with valid OAuth |
-| Ã‚Â§3.3 Attack Tree 1.2.2 Ã¢â‚¬â€ Credential stuffing | Breached passwords used | TOTP required in addition to password |
-| Ã‚Â§3.3 Attack Tree 1.1 Ã¢â‚¬â€ Phishing | Admin tricked into revealing password | TOTP code is time-limited and site-specific |
+| Threat Model Reference                                  | Threat                                | MFA Mitigation                              |
+| ------------------------------------------------------- | ------------------------------------- | ------------------------------------------- |
+| Ã‚Â§3.1 Spoofing Ã¢â‚¬â€ Identity theft via JWT forgery | Attacker forges or steals JWT         | MFA challenge on new device/session         |
+| Ã‚Â§3.1 Spoofing Ã¢â‚¬â€ OAuth token interception       | OAuth token stolen                    | TOTP required even with valid OAuth         |
+| Ã‚Â§3.3 Attack Tree 1.2.2 Ã¢â‚¬â€ Credential stuffing   | Breached passwords used               | TOTP required in addition to password       |
+| Ã‚Â§3.3 Attack Tree 1.1 Ã¢â‚¬â€ Phishing                | Admin tricked into revealing password | TOTP code is time-limited and site-specific |
 
 ### 1.2 Design Principles
 
-| Principle | Application to MFA |
-|-----------|-------------------|
-| **Defense in depth** | MFA adds a second authentication factor beyond password |
-| **Fail closed** | MFA challenge failure denies access; no fallback to password-only |
-| **Least privilege** | MFA required proportional to role (admin > editor > viewer) |
-| **Secure by default** | MFA opt-in available immediately; mandatory for admin by Phase 3 |
+| Principle             | Application to MFA                                                |
+| --------------------- | ----------------------------------------------------------------- |
+| **Defense in depth**  | MFA adds a second authentication factor beyond password           |
+| **Fail closed**       | MFA challenge failure denies access; no fallback to password-only |
+| **Least privilege**   | MFA required proportional to role (admin > editor > viewer)       |
+| **Secure by default** | MFA opt-in available immediately; mandatory for admin by Phase 3  |
 
 ---
 
@@ -71,14 +71,14 @@ Implement **TOTP-based Multi-Factor Authentication (MFA)** for all admin account
 
 ### 2.1 Attack Vectors Neutralized by MFA
 
-| Attack Vector | Pre-MFA Risk | Post-MFA Risk | Mechanism |
-|---------------|-------------|---------------|-----------|
-| **Credential Stuffing** Ã¢â‚¬â€ 10B+ breached passwords tested against login | Ã°Å¸â€Â´ High | Ã°Å¸Å¸Â¢ Low | Password alone insufficient; TOTP required |
-| **Phishing** Ã¢â‚¬â€ Fake login page captures credentials | Ã°Å¸â€Â´ High | Ã°Å¸Å¸Â¢ Low | TOTP code is time-bound (30s) and origin-bound |
-| **Keylogging** Ã¢â‚¬â€ Malware captures keystrokes | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low | TOTP code expires before attacker can use it |
-| **Session Token Theft** Ã¢â‚¬â€ XSS/MITM steals JWT | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low | MFA re-challenge on new device/session |
-| **Brute Force** Ã¢â‚¬â€ Automated password guessing | Ã°Å¸Å¸Â¡ Medium | Ã°Å¸Å¸Â¢ Low | Password + TOTP doubles attack difficulty |
-| **SIM Swap** Ã¢â‚¬â€ Phone number takeover | N/A (TOTP, not SMS) | Ã°Å¸Å¸Â¢ Low | TOTP is device-bound, not phone-bound |
+| Attack Vector                                                                | Pre-MFA Risk        | Post-MFA Risk | Mechanism                                      |
+| ---------------------------------------------------------------------------- | ------------------- | ------------- | ---------------------------------------------- |
+| **Credential Stuffing** Ã¢â‚¬â€ 10B+ breached passwords tested against login | Ã°Å¸â€Â´ High       | Ã°Å¸Å¸Â¢ Low  | Password alone insufficient; TOTP required     |
+| **Phishing** Ã¢â‚¬â€ Fake login page captures credentials                    | Ã°Å¸â€Â´ High       | Ã°Å¸Å¸Â¢ Low  | TOTP code is time-bound (30s) and origin-bound |
+| **Keylogging** Ã¢â‚¬â€ Malware captures keystrokes                           | Ã°Å¸Å¸Â¡ Medium     | Ã°Å¸Å¸Â¢ Low  | TOTP code expires before attacker can use it   |
+| **Session Token Theft** Ã¢â‚¬â€ XSS/MITM steals JWT                          | Ã°Å¸Å¸Â¡ Medium     | Ã°Å¸Å¸Â¢ Low  | MFA re-challenge on new device/session         |
+| **Brute Force** Ã¢â‚¬â€ Automated password guessing                          | Ã°Å¸Å¸Â¡ Medium     | Ã°Å¸Å¸Â¢ Low  | Password + TOTP doubles attack difficulty      |
+| **SIM Swap** Ã¢â‚¬â€ Phone number takeover                                   | N/A (TOTP, not SMS) | Ã°Å¸Å¸Â¢ Low  | TOTP is device-bound, not phone-bound          |
 
 ### 1.3 Alignment with Existing Security Architecture
 
@@ -90,20 +90,21 @@ This plan implements the MFA control identified as "Planned" in SecurityArchitec
 
 ### 2.1 Technology Selection: TOTP
 
-| Factor | TOTP (Selected) | SMS OTP | Push Notification | Hardware Token |
-|--------|----------------|---------|-------------------|----------------|
-| **Security** | Ã°Å¸Å¸Â¢ High | Ã°Å¸Å¸Â¡ Medium (SIM swap) | Ã°Å¸Å¸Â¢ High | Ã°Å¸Å¸Â¢ Very High |
-| **Cost** | Ã°Å¸Å¸Â¢ Free | Ã°Å¸Å¸Â¡ Per-message cost | Ã°Å¸Å¸Â¢ Free | Ã°Å¸â€Â´ Hardware cost |
-| **User Experience** | Ã°Å¸Å¸Â¡ Medium (app required) | Ã°Å¸Å¸Â¢ Easy | Ã°Å¸Å¸Â¢ Easy | Ã°Å¸Å¸Â¡ Carry token |
-| **Standard** | RFC 6238 | NIST deprecated | Proprietary | FIDO2/WebAuthn |
-| **Offline capable** | Ã¢Å“â€¦ Yes | Ã¢ÂÅ’ No | Ã¢ÂÅ’ No | Ã¢Å“â€¦ Yes |
-| **Phishing resistant** | Ã°Å¸Å¸Â¡ Partial | Ã°Å¸â€Â´ Low | Ã°Å¸Å¸Â¡ Partial | Ã°Å¸Å¸Â¢ High |
+| Factor                 | TOTP (Selected)                | SMS OTP                    | Push Notification | Hardware Token         |
+| ---------------------- | ------------------------------ | -------------------------- | ----------------- | ---------------------- |
+| **Security**           | Ã°Å¸Å¸Â¢ High                  | Ã°Å¸Å¸Â¡ Medium (SIM swap) | Ã°Å¸Å¸Â¢ High     | Ã°Å¸Å¸Â¢ Very High     |
+| **Cost**               | Ã°Å¸Å¸Â¢ Free                  | Ã°Å¸Å¸Â¡ Per-message cost  | Ã°Å¸Å¸Â¢ Free     | Ã°Å¸â€Â´ Hardware cost |
+| **User Experience**    | Ã°Å¸Å¸Â¡ Medium (app required) | Ã°Å¸Å¸Â¢ Easy              | Ã°Å¸Å¸Â¢ Easy     | Ã°Å¸Å¸Â¡ Carry token   |
+| **Standard**           | RFC 6238                       | NIST deprecated            | Proprietary       | FIDO2/WebAuthn         |
+| **Offline capable**    | Ã¢Å“â€¦ Yes                    | Ã¢ÂÅ’ No                   | Ã¢ÂÅ’ No          | Ã¢Å“â€¦ Yes            |
+| **Phishing resistant** | Ã°Å¸Å¸Â¡ Partial               | Ã°Å¸â€Â´ Low               | Ã°Å¸Å¸Â¡ Partial  | Ã°Å¸Å¸Â¢ High          |
 
 **Decision:** TOTP via authenticator app (Google Authenticator, Authy, 1Password, etc.) Ã¢â‚¬â€ best balance of security, cost, and user experience.
 
 ### 2.2 Recovery Codes
 
 Each user receives **10 one-time recovery codes** upon MFA enrollment. Recovery codes are:
+
 - Generated using `crypto.randomBytes(5).toString('hex')` (10-char hex, 40 bits of entropy)
 - Stored as SHA-256 hashes in the database
 - Displayed exactly once during enrollment
@@ -112,11 +113,11 @@ Each user receives **10 one-time recovery codes** upon MFA enrollment. Recovery 
 
 ### 2.3 Backup Methods
 
-| Method | Priority | Use Case | Security Level |
-|--------|----------|----------|---------------|
-| TOTP Authenticator App | Primary | Standard login | Ã°Å¸Å¸Â¢ High |
-| Recovery Codes (10) | Secondary | Lost device | Ã°Å¸Å¸Â¡ Medium |
-| Admin Override | Emergency | Support escalation | Ã°Å¸â€Â´ Audit-only |
+| Method                 | Priority  | Use Case           | Security Level      |
+| ---------------------- | --------- | ------------------ | ------------------- |
+| TOTP Authenticator App | Primary   | Standard login     | Ã°Å¸Å¸Â¢ High       |
+| Recovery Codes (10)    | Secondary | Lost device        | Ã°Å¸Å¸Â¡ Medium     |
+| Admin Override         | Emergency | Support escalation | Ã°Å¸â€Â´ Audit-only |
 
 ---
 
@@ -160,16 +161,17 @@ User Ã¢â€ â€™ POST /auth/login Ã¢â€ â€™ Validate password 
 
 ### 4.1 Phase 1 Ã¢â‚¬â€ Opt-In (Week 1)
 
-| Aspect | Detail |
-|--------|--------|
-| **Duration** | 2 weeks |
-| **Audience** | All users (admin, editor, viewer) |
-| **Enforcement** | Optional Ã¢â‚¬â€ users can enable MFA in settings |
-| **Communication** | Email notification to all users announcing MFA availability |
-| **Support** | Help desk trained on MFA enrollment flow |
-| **Success Metric** | 30% voluntary enrollment |
+| Aspect             | Detail                                                      |
+| ------------------ | ----------------------------------------------------------- |
+| **Duration**       | 2 weeks                                                     |
+| **Audience**       | All users (admin, editor, viewer)                           |
+| **Enforcement**    | Optional Ã¢â‚¬â€ users can enable MFA in settings           |
+| **Communication**  | Email notification to all users announcing MFA availability |
+| **Support**        | Help desk trained on MFA enrollment flow                    |
+| **Success Metric** | 30% voluntary enrollment                                    |
 
 **Activities:**
+
 - Deploy MFA backend (TOTP secret table, verify endpoint, recovery codes)
 - Deploy enrollment UI in admin settings
 - Send announcement email with setup guide
@@ -177,16 +179,17 @@ User Ã¢â€ â€™ POST /auth/login Ã¢â€ â€™ Validate password 
 
 ### 4.2 Phase 2 Ã¢â‚¬â€ Required for Admin (Week 3)
 
-| Aspect | Detail |
-|--------|--------|
-| **Duration** | 3 weeks |
-| **Audience** | Admin role: **required**. Editor/viewer: **optional** |
-| **Enforcement** | Admin users cannot access admin dashboard without MFA |
-| **Grace period** | 7 days from notification to enroll |
-| **Communication** | Direct email to admin users with deadline |
-| **Success Metric** | 100% admin enrollment |
+| Aspect             | Detail                                                |
+| ------------------ | ----------------------------------------------------- |
+| **Duration**       | 3 weeks                                               |
+| **Audience**       | Admin role: **required**. Editor/viewer: **optional** |
+| **Enforcement**    | Admin users cannot access admin dashboard without MFA |
+| **Grace period**   | 7 days from notification to enroll                    |
+| **Communication**  | Direct email to admin users with deadline             |
+| **Success Metric** | 100% admin enrollment                                 |
 
 **Activities:**
+
 - Enforce MFA check in auth middleware for admin role
 - Add grace period countdown banner in admin dashboard
 - Monitor admin users who haven't enrolled
@@ -194,15 +197,16 @@ User Ã¢â€ â€™ POST /auth/login Ã¢â€ â€™ Validate password 
 
 ### 4.3 Phase 3 Ã¢â‚¬â€ Required for All (Week 6)
 
-| Aspect | Detail |
-|--------|--------|
-| **Duration** | Ongoing |
-| **Audience** | All users with admin access (admin, editor, viewer) |
-| **Enforcement** | MFA required for all authenticated sessions |
-| **Communication** | Final notice to all users |
-| **Success Metric** | 100% enrollment across all roles |
+| Aspect             | Detail                                              |
+| ------------------ | --------------------------------------------------- |
+| **Duration**       | Ongoing                                             |
+| **Audience**       | All users with admin access (admin, editor, viewer) |
+| **Enforcement**    | MFA required for all authenticated sessions         |
+| **Communication**  | Final notice to all users                           |
+| **Success Metric** | 100% enrollment across all roles                    |
 
 **Activities:**
+
 - Remove MFA opt-out option
 - Enforce MFA check globally for all authenticated routes
 - Archive Phase 1/Phase 2 migration data
@@ -223,6 +227,7 @@ User Ã¢â€ â€™ POST /auth/login Ã¢â€ â€™ Validate password 
 6. User is shown 10 recovery codes (one-time display)
 7. User confirms recovery codes saved Ã¢â€ â€™ Enrollment complete
 ```
+
 ### 5.1a MFA Enrollment Flow
 
 ```mermaid
@@ -271,6 +276,7 @@ sequenceDiagram
 5. If invalid Ã¢â€ â€™ show error, remaining attempts: 9
 6. After 10 failed recovery attempts Ã¢â€ â€™ account locked, admin override required
 ```
+
 ### 5.3a Recovery Flow
 
 ```mermaid
@@ -295,6 +301,7 @@ flowchart TD
 ### 5.4 Device Management
 
 Users can manage MFA devices from Settings Ã¢â€ â€™ Security:
+
 - View enrolled devices (name, enrolled date, last used)
 - Remove device (requires current TOTP or recovery code)
 - Rename device
@@ -376,7 +383,7 @@ export class MfaGuard implements CanActivate {
 async setupMfa(userId: string): Promise<{ secret: string; qrCodeUrl: string; recoveryCodes: string[] }> {
   // 1. Generate TOTP secret
   const secret = speakeasy.generateSecret({ length: 20, name: `Portfolio:${userId}` });
-  
+
   // 2. Store encrypted secret
   await this.prisma.mfaSecret.upsert({
     where: { userId },
@@ -413,18 +420,19 @@ async setupMfa(userId: string): Promise<{ secret: string; qrCodeUrl: string; rec
 
 ### 7.1 New Endpoints
 
-| Method | Endpoint | Auth | Rate Limit | Description |
-|--------|----------|------|------------|-------------|
-| `POST` | `/api/auth/mfa/setup` | JWT | 3/15min | Generate TOTP secret + recovery codes |
-| `POST` | `/api/auth/mfa/verify` | MFA Challenge Token | 10/15min | Verify TOTP code, issue JWT |
-| `POST` | `/api/auth/mfa/recovery` | MFA Challenge Token | 5/15min | Verify recovery code, issue JWT |
-| `POST` | `/api/auth/mfa/disable` | JWT + TOTP | 3/15min | Disable MFA (requires current TOTP) |
-| `GET` | `/api/auth/mfa/status` | JWT | 10/15min | Get MFA enrollment status |
-| `POST` | `/api/auth/mfa/recovery-codes/regenerate` | JWT + TOTP | 1/24h | Regenerate recovery codes |
+| Method | Endpoint                                  | Auth                | Rate Limit | Description                           |
+| ------ | ----------------------------------------- | ------------------- | ---------- | ------------------------------------- |
+| `POST` | `/api/auth/mfa/setup`                     | JWT                 | 3/15min    | Generate TOTP secret + recovery codes |
+| `POST` | `/api/auth/mfa/verify`                    | MFA Challenge Token | 10/15min   | Verify TOTP code, issue JWT           |
+| `POST` | `/api/auth/mfa/recovery`                  | MFA Challenge Token | 5/15min    | Verify recovery code, issue JWT       |
+| `POST` | `/api/auth/mfa/disable`                   | JWT + TOTP          | 3/15min    | Disable MFA (requires current TOTP)   |
+| `GET`  | `/api/auth/mfa/status`                    | JWT                 | 10/15min   | Get MFA enrollment status             |
+| `POST` | `/api/auth/mfa/recovery-codes/regenerate` | JWT + TOTP          | 1/24h      | Regenerate recovery codes             |
 
 ### 7.2 API Contracts
 
 **POST /api/auth/mfa/setup**
+
 ```json
 // Request: (no body, authenticated)
 // Response 200:
@@ -438,6 +446,7 @@ async setupMfa(userId: string): Promise<{ secret: string; qrCodeUrl: string; rec
 ```
 
 **POST /api/auth/mfa/verify**
+
 ```json
 // Request:
 {
@@ -464,6 +473,7 @@ async setupMfa(userId: string): Promise<{ secret: string; qrCodeUrl: string; rec
 ```
 
 **POST /api/auth/mfa/recovery**
+
 ```json
 // Request:
 {
@@ -487,24 +497,24 @@ async setupMfa(userId: string): Promise<{ secret: string; qrCodeUrl: string; rec
 
 ### 8.1 Recovery Code Lifecycle
 
-| Stage | Description |
-|-------|-------------|
-| **Generation** | 10 codes generated at enrollment, stored as SHA-256 hashes |
-| **Display** | Shown once on enrollment screen; user must save them |
-| **Usage** | One code consumed per recovery login |
-| **Exhaustion** | After 10 codes used, user must contact admin for override |
-| **Regeneration** | User can regenerate codes (invalidates all previous) |
+| Stage            | Description                                                |
+| ---------------- | ---------------------------------------------------------- |
+| **Generation**   | 10 codes generated at enrollment, stored as SHA-256 hashes |
+| **Display**      | Shown once on enrollment screen; user must save them       |
+| **Usage**        | One code consumed per recovery login                       |
+| **Exhaustion**   | After 10 codes used, user must contact admin for override  |
+| **Regeneration** | User can regenerate codes (invalidates all previous)       |
 
 ### 8.2 Admin Override
 
-| Step | Action | Audit Trail |
-|------|--------|-------------|
-| 1 | User contacts support (cannot access MFA) | Support ticket created |
-| 2 | Support verifies identity (email + security questions) | Identity verification logged |
-| 3 | Admin initiates override in admin panel | `audit_logs` entry: `MFA_OVERRIDE` |
-| 4 | User's MFA is disabled, forced to re-enroll | `mfa_secrets` updated, `is_enabled = false` |
-| 5 | User logs in with password only, immediately prompted to re-enroll | Session flagged `mfa_pending` |
-| 6 | All override actions logged with admin ID, timestamp, reason | Immutable audit trail |
+| Step | Action                                                             | Audit Trail                                 |
+| ---- | ------------------------------------------------------------------ | ------------------------------------------- |
+| 1    | User contacts support (cannot access MFA)                          | Support ticket created                      |
+| 2    | Support verifies identity (email + security questions)             | Identity verification logged                |
+| 3    | Admin initiates override in admin panel                            | `audit_logs` entry: `MFA_OVERRIDE`          |
+| 4    | User's MFA is disabled, forced to re-enroll                        | `mfa_secrets` updated, `is_enabled = false` |
+| 5    | User logs in with password only, immediately prompted to re-enroll | Session flagged `mfa_pending`               |
+| 6    | All override actions logged with admin ID, timestamp, reason       | Immutable audit trail                       |
 
 ---
 
@@ -512,25 +522,25 @@ async setupMfa(userId: string): Promise<{ secret: string; qrCodeUrl: string; rec
 
 ### 9.1 Unit Tests
 
-| Test | Description | Coverage |
-|------|-------------|----------|
-| TOTP generation | Verify `speakeasy.generateSecret()` produces valid secrets | 100% of setup paths |
-| TOTP verification | Verify valid codes pass, expired codes fail, wrong codes fail | 100% of verify paths |
-| Recovery code generation | Verify 10 codes generated, no duplicates | 100% of setup paths |
-| Recovery code verification | Verify valid code passes, consumed code fails, wrong code fails | 100% of recovery paths |
-| Recovery code exhaustion | Verify all 10 codes consumed Ã¢â€ â€™ account locked | Edge case |
-| MFA challenge token | Verify 5-min TTL, single-use enforcement | 100% of challenge paths |
-| Secret encryption | Verify TOTP secret encrypted at rest | 100% |
+| Test                       | Description                                                     | Coverage                |
+| -------------------------- | --------------------------------------------------------------- | ----------------------- |
+| TOTP generation            | Verify `speakeasy.generateSecret()` produces valid secrets      | 100% of setup paths     |
+| TOTP verification          | Verify valid codes pass, expired codes fail, wrong codes fail   | 100% of verify paths    |
+| Recovery code generation   | Verify 10 codes generated, no duplicates                        | 100% of setup paths     |
+| Recovery code verification | Verify valid code passes, consumed code fails, wrong code fails | 100% of recovery paths  |
+| Recovery code exhaustion   | Verify all 10 codes consumed Ã¢â€ â€™ account locked            | Edge case               |
+| MFA challenge token        | Verify 5-min TTL, single-use enforcement                        | 100% of challenge paths |
+| Secret encryption          | Verify TOTP secret encrypted at rest                            | 100%                    |
 
 ### 9.2 Integration Tests
 
-| Test | Description |
-|------|-------------|
-| Enrollment flow e2e | Setup Ã¢â€ â€™ verify Ã¢â€ â€™ login with MFA Ã¢â€ â€™ logout |
-| Recovery flow e2e | Login Ã¢â€ â€™ recovery code Ã¢â€ â€™ new JWT Ã¢â€ â€™ re-enroll |
-| MFA bypass attempt | Try to access admin without MFA challenge Ã¢â€ â€™ 401 |
-| Invalid TOTP | Wrong code Ã¢â€ â€™ 401, retry allowed |
-| Expired challenge token | Wait 5min Ã¢â€ â€™ use expired token Ã¢â€ â€™ 401 |
+| Test                     | Description                                                          |
+| ------------------------ | -------------------------------------------------------------------- |
+| Enrollment flow e2e      | Setup Ã¢â€ â€™ verify Ã¢â€ â€™ login with MFA Ã¢â€ â€™ logout        |
+| Recovery flow e2e        | Login Ã¢â€ â€™ recovery code Ã¢â€ â€™ new JWT Ã¢â€ â€™ re-enroll     |
+| MFA bypass attempt       | Try to access admin without MFA challenge Ã¢â€ â€™ 401               |
+| Invalid TOTP             | Wrong code Ã¢â€ â€™ 401, retry allowed                               |
+| Expired challenge token  | Wait 5min Ã¢â€ â€™ use expired token Ã¢â€ â€™ 401                    |
 | Recovery code exhaustion | Use all 10 codes Ã¢â€ â€™ 11th attempt fails Ã¢â€ â€™ account locked |
 
 ### 9.3 E2E Tests
@@ -571,13 +581,13 @@ describe('MFA Enrollment Flow', () => {
 
 ### 9.3 Security Tests
 
-| Test | Expected Result |
-|------|----------------|
-| TOTP replay attack | Same code used twice within 30s window Ã¢â€ â€™ rejected |
-| Clock drift tolerance | Codes valid within Ã‚Â±1 interval (30s) |
-| Recovery code replay | Same code used twice Ã¢â€ â€™ rejected |
-| Brute force TOTP | 10 rapid attempts Ã¢â€ â€™ rate limited |
-| MFA bypass via API | Direct admin endpoint access without MFA Ã¢â€ â€™ 401 |
+| Test                  | Expected Result                                          |
+| --------------------- | -------------------------------------------------------- |
+| TOTP replay attack    | Same code used twice within 30s window Ã¢â€ â€™ rejected |
+| Clock drift tolerance | Codes valid within Ã‚Â±1 interval (30s)                  |
+| Recovery code replay  | Same code used twice Ã¢â€ â€™ rejected                   |
+| Brute force TOTP      | 10 rapid attempts Ã¢â€ â€™ rate limited                  |
+| MFA bypass via API    | Direct admin endpoint access without MFA Ã¢â€ â€™ 401    |
 
 ---
 
@@ -585,32 +595,32 @@ describe('MFA Enrollment Flow', () => {
 
 ### 10.1 Rollback Triggers
 
-| Trigger | Severity | Action |
-|---------|----------|--------|
-| > 5% of users unable to login | Ã°Å¸â€Â´ Critical | Immediate rollback to password-only |
-| > 10 support tickets/day related to MFA | Ã°Å¸Å¸Â¡ High | Rollback within 24h |
-| TOTP verification bug (false negatives) | Ã°Å¸â€Â´ Critical | Immediate rollback |
-| Recovery code generation bug | Ã°Å¸Å¸Â¡ High | Rollback within 24h |
-| Performance degradation > 20% | Ã°Å¸Å¸Â¡ High | Rollback within 24h |
+| Trigger                                 | Severity          | Action                              |
+| --------------------------------------- | ----------------- | ----------------------------------- |
+| > 5% of users unable to login           | Ã°Å¸â€Â´ Critical | Immediate rollback to password-only |
+| > 10 support tickets/day related to MFA | Ã°Å¸Å¸Â¡ High     | Rollback within 24h                 |
+| TOTP verification bug (false negatives) | Ã°Å¸â€Â´ Critical | Immediate rollback                  |
+| Recovery code generation bug            | Ã°Å¸Å¸Â¡ High     | Rollback within 24h                 |
+| Performance degradation > 20%           | Ã°Å¸Å¸Â¡ High     | Rollback within 24h                 |
 
 ### 10.2 Rollback Steps
 
-| Step | Action | Duration | Verification |
-|------|--------|----------|-------------|
-| 1 | Disable MfaGuard middleware | 5 min | All admin endpoints accessible with password only |
-| 2 | Set `mfa_required` feature flag to `false` | 2 min | Feature flag dashboard |
-| 3 | Remove MFA challenge from login flow | 10 min | Login flow returns JWT directly |
-| 4 | Notify users of MFA requirement suspension | 15 min | Email sent to all admin users |
-| 5 | Keep MFA secrets table (no data loss) | Ã¢â‚¬â€ | Data preserved for re-enablement |
-| 6 | Monitor login success rate | 24h | Return to baseline |
+| Step | Action                                     | Duration | Verification                                      |
+| ---- | ------------------------------------------ | -------- | ------------------------------------------------- |
+| 1    | Disable MfaGuard middleware                | 5 min    | All admin endpoints accessible with password only |
+| 2    | Set `mfa_required` feature flag to `false` | 2 min    | Feature flag dashboard                            |
+| 3    | Remove MFA challenge from login flow       | 10 min   | Login flow returns JWT directly                   |
+| 4    | Notify users of MFA requirement suspension | 15 min   | Email sent to all admin users                     |
+| 5    | Keep MFA secrets table (no data loss)      | Ã¢â‚¬â€  | Data preserved for re-enablement                  |
+| 6    | Monitor login success rate                 | 24h      | Return to baseline                                |
 
 ### 10.3 Rollback Communication
 
-| Audience | Channel | Message |
-|----------|---------|---------|
-| Admin users | Email | "MFA requirement temporarily suspended due to technical issue. Your MFA settings are preserved." |
-| Internal team | Slack | "MFA rollback initiated. Root cause analysis in progress. ETA for fix: [TBD]." |
-| Stakeholders | Status page | "MFA feature temporarily disabled. No data loss. ETA for re-enablement: [TBD]." |
+| Audience      | Channel     | Message                                                                                          |
+| ------------- | ----------- | ------------------------------------------------------------------------------------------------ |
+| Admin users   | Email       | "MFA requirement temporarily suspended due to technical issue. Your MFA settings are preserved." |
+| Internal team | Slack       | "MFA rollback initiated. Root cause analysis in progress. ETA for fix: [TBD]."                   |
+| Stakeholders  | Status page | "MFA feature temporarily disabled. No data loss. ETA for re-enablement: [TBD]."                  |
 
 ---
 
@@ -618,21 +628,21 @@ describe('MFA Enrollment Flow', () => {
 
 ### 11.1 Dependencies
 
-| Dependency | Version | Purpose |
-|-----------|---------|---------|
-| `speakeasy` | ^2.0.0 | TOTP generation and verification |
-| `qrcode` | ^1.5.3 | QR code generation for enrollment |
-| `@types/speakeasy` | ^2.0.0 | TypeScript types |
+| Dependency         | Version | Purpose                           |
+| ------------------ | ------- | --------------------------------- |
+| `speakeasy`        | ^2.0.0  | TOTP generation and verification  |
+| `qrcode`           | ^1.5.3  | QR code generation for enrollment |
+| `@types/speakeasy` | ^2.0.0  | TypeScript types                  |
 
 ### 11.2 Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `MFA_TOTP_PERIOD` | TOTP time step (default: 30) | No |
-| `MFA_TOTP_DIGITS` | TOTP code length (default: 6) | No |
-| `MFA_TOTP_ALGORITHM` | TOTP hash algorithm (default: SHA1) | No |
-| `MFA_CHALLENGE_TTL` | MFA challenge token TTL in seconds (default: 300) | No |
-| `MFA_RECOVERY_CODES_COUNT` | Number of recovery codes (default: 10) | No |
+| Variable                   | Description                                       | Required |
+| -------------------------- | ------------------------------------------------- | -------- |
+| `MFA_TOTP_PERIOD`          | TOTP time step (default: 30)                      | No       |
+| `MFA_TOTP_DIGITS`          | TOTP code length (default: 6)                     | No       |
+| `MFA_TOTP_ALGORITHM`       | TOTP hash algorithm (default: SHA1)               | No       |
+| `MFA_CHALLENGE_TTL`        | MFA challenge token TTL in seconds (default: 300) | No       |
+| `MFA_RECOVERY_CODES_COUNT` | Number of recovery codes (default: 10)            | No       |
 
 ### 11.3 Prisma Schema Addition
 
@@ -671,10 +681,11 @@ model MfaRecoveryCode {
 
 ## 12. Change Log
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | July 2026 | Security Team | Initial MFA rollout plan |
+| Version | Date      | Author        | Changes                  |
+| ------- | --------- | ------------- | ------------------------ |
+| 1.0     | July 2026 | Security Team | Initial MFA rollout plan |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

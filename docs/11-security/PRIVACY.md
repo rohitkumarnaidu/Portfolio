@@ -2,7 +2,7 @@
 
 > **Document:** `PRIVACY.md` | **Version:** 1.0 | **Last Updated:** July 2026  
 > **Status:** Ã¢Å“â€¦ Active | **Owner:** Chief Security Architect | **Review Cadence:** Quarterly  
-> **Related:** [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) | [SecurityArchitecture.md](./SecurityArchitecture.md) | [16-COMPLIANCE.md](./16-COMPLIANCE.md)
+> **Related:** [AnalyticsArchitecture.md](../21-operations/AnalyticsArchitecture.md) | [SecurityArchitecture.md](./SecurityArchitecture.md) | [16-COMPLIANCE.md](./16-COMPLIANCE.md)
 
 ---
 
@@ -34,7 +34,7 @@ All data collection on the platform follows four core principles:
 - **Lawfulness, Fairness & Transparency:** Users are informed of what data is collected and why via a clear privacy notice and cookie consent banner. Consent is obtained before any non-essential tracking.
 - **Purpose Limitation:** Data is collected only for specified, explicit, and legitimate purposes (analytics, portfolio engagement, contact, AI interaction). No secondary processing without separate consent.
 - **Data Minimization:** Only the minimum data necessary for each purpose is collected. Analytics events avoid PII by design; PostHog and Umami are configured to mask IP addresses and disable cookie-based tracking.
-- **Accountability:** The platform maintains a record of processing activities (ROPA) per GDPR Art. 30. All data flows are documented in [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) and validated against the event schema registry.
+- **Accountability:** The platform maintains a record of processing activities (ROPA) per GDPR Art. 30. All data flows are documented in [AnalyticsArchitecture.md](../21-operations/AnalyticsArchitecture.md) and validated against the event schema registry.
 
 ## 2. Regulatory Compliance (GDPR / CCPA)
 
@@ -58,7 +58,7 @@ Data subjects may exercise rights through the DSAR portal at `/api/privacy/dsar`
 
 ## 7. Analytics Privacy
 
-Privacy controls are embedded per analytics provider: **Umami** Ã¢â‚¬â€ IP masking, no cookies, EU-hosted; **PostHog** Ã¢â‚¬â€ IP geolocation disabled, cookie-less tracking, server-side PII stripping via plugin, US-hosted with DPA; **Vercel Analytics** Ã¢â‚¬â€ edge-computed, aggregate only, no persistent individual events; **Custom DB (Supabase)** Ã¢â‚¬â€ PII columns encrypted, analytics schema isolated via RLS, no PII in event payloads by design. All events are validated against the schema registry in [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) to prevent PII leakage.
+Privacy controls are embedded per analytics provider: **Umami** Ã¢â‚¬â€ IP masking, no cookies, EU-hosted; **PostHog** Ã¢â‚¬â€ IP geolocation disabled, cookie-less tracking, server-side PII stripping via plugin, US-hosted with DPA; **Vercel Analytics** Ã¢â‚¬â€ edge-computed, aggregate only, no persistent individual events; **Custom DB (Supabase)** Ã¢â‚¬â€ PII columns encrypted, analytics schema isolated via RLS, no PII in event payloads by design. All events are validated against the schema registry in [AnalyticsArchitecture.md](../21-operations/AnalyticsArchitecture.md) to prevent PII leakage.
 
 ## 8. Breach Notification
 
@@ -72,14 +72,14 @@ The incident response procedure is detailed in [SecurityArchitecture.md](./Secur
 
 ## 9. Related Documentation
 
-| Document                                                           | Purpose                                                      |
-| ------------------------------------------------------------------ | ------------------------------------------------------------ |
-| [SecurityArchitecture.md](./SecurityArchitecture.md)               | Overall security posture, encryption, access control         |
-| [16-COMPLIANCE.md](./16-COMPLIANCE.md)                             | Full compliance framework, DSAR process, breach notification |
-| [AnalyticsArchitecture.md](../operations/AnalyticsArchitecture.md) | Analytics event taxonomy, data flows, event schema           |
-| [data-classification.md](./data-classification.md)                 | Data classification tiers and handling requirements          |
-| [15-AUTHORIZATION.md](./15-AUTHORIZATION.md)                       | RBAC model governing PII access                              |
-| [AuditLogging.md](./AuditLogging.md)                               | Audit trail for PII access events                            |
+| Document                                                              | Purpose                                                      |
+| --------------------------------------------------------------------- | ------------------------------------------------------------ |
+| [SecurityArchitecture.md](./SecurityArchitecture.md)                  | Overall security posture, encryption, access control         |
+| [16-COMPLIANCE.md](./16-COMPLIANCE.md)                                | Full compliance framework, DSAR process, breach notification |
+| [AnalyticsArchitecture.md](../21-operations/AnalyticsArchitecture.md) | Analytics event taxonomy, data flows, event schema           |
+| [data-classification.md](./data-classification.md)                    | Data classification tiers and handling requirements          |
+| [15-AUTHORIZATION.md](./15-AUTHORIZATION.md)                          | RBAC model governing PII access                              |
+| [AuditLogging.md](./AuditLogging.md)                                  | Audit trail for PII access events                            |
 
 ---
 
@@ -100,10 +100,11 @@ flowchart LR
 
 ## 10. Change Log
 
-| Version | Date      | Author                   | Changes                                               |
-| ------- | --------- | ------------------------ | ----------------------------------------------------- |
+| Version | Date      | Author                   | Changes                                                     |
+| ------- | --------- | ------------------------ | ----------------------------------------------------------- |
 | 1.0     | July 2026 | Chief Security Architect | Initial release Ã¢â‚¬â€ privacy & data protection framework |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -3,7 +3,7 @@
 > **Document:** `15-AUTHORIZATION.md` | **Version:** 4.0 | **Last Updated:** June 2026  
 > **Status:** ✅ Active | **Owner:** Security Lead | **Review Cadence:** Quarterly  
 > **Classification:** Enterprise Architecture | **Compliance:** OWASP ASVS L2, GDPR Art. 25  
-> **Related:** [SecurityArchitecture.md](./SecurityArchitecture.md) | [SystemArchitecture.md](../architecture/SystemArchitecture.md) | [DatabaseArchitecture.md](../database/DatabaseArchitecture.md)
+> **Related:** [SecurityArchitecture.md](./SecurityArchitecture.md) | [SystemArchitecture.md](../05-architecture/SystemArchitecture.md) | [DatabaseArchitecture.md](../09-database/DatabaseArchitecture.md)
 
 ---
 
@@ -61,25 +61,25 @@ graph TB
 
 ### 1.1 Authorization Model Summary
 
-| Attribute | Value |
-|-----------|-------|
-| **Model** | Role-Based Access Control (RBAC) |
-| **Roles** | 2 (Visitor, Admin) — expandable |
-| **Enforcement** | 4-layer defense-in-depth |
-| **Primary Layer** | Database RLS (Supabase PostgreSQL 15) |
-| **Token Type** | JWT (RS256) via Supabase Auth |
-| **Session Storage** | httpOnly, Secure, SameSite=Strict cookies |
-| **Tables Protected** | 37/37 (100% RLS coverage) |
-| **OAuth Providers** | Google, GitHub (via Supabase Auth) |
+| Attribute            | Value                                     |
+| -------------------- | ----------------------------------------- |
+| **Model**            | Role-Based Access Control (RBAC)          |
+| **Roles**            | 2 (Visitor, Admin) — expandable           |
+| **Enforcement**      | 4-layer defense-in-depth                  |
+| **Primary Layer**    | Database RLS (Supabase PostgreSQL 15)     |
+| **Token Type**       | JWT (RS256) via Supabase Auth             |
+| **Session Storage**  | httpOnly, Secure, SameSite=Strict cookies |
+| **Tables Protected** | 37/37 (100% RLS coverage)                 |
+| **OAuth Providers**  | Google, GitHub (via Supabase Auth)        |
 
 ### 1.2 Key Design Decisions
 
-| Decision | Rationale | ADR Reference |
-|----------|-----------|---------------|
-| RLS as primary enforcement | Database is last line of defense; app bugs can't bypass it | ADR-004 |
-| JWT over session-based auth | Stateless verification, no session store needed, works with Supabase | ADR-011 |
-| Two roles only (v1) | Portfolio is single-admin; complexity deferred until needed | ADR-011 |
-| httpOnly cookies | XSS-resistant token storage; no localStorage exposure | ADR-011 |
+| Decision                    | Rationale                                                            | ADR Reference |
+| --------------------------- | -------------------------------------------------------------------- | ------------- |
+| RLS as primary enforcement  | Database is last line of defense; app bugs can't bypass it           | ADR-004       |
+| JWT over session-based auth | Stateless verification, no session store needed, works with Supabase | ADR-011       |
+| Two roles only (v1)         | Portfolio is single-admin; complexity deferred until needed          | ADR-011       |
+| httpOnly cookies            | XSS-resistant token storage; no localStorage exposure                | ADR-011       |
 
 ---
 
@@ -106,50 +106,50 @@ graph LR
 
 ### 2.2 Role Definition Matrix
 
-| Role | Database Role | Authentication | Scope | Token Claim |
-|------|--------------|----------------|-------|-------------|
-| **Visitor** | `anon` | None | Public read-only access to published content | No JWT / anonymous key |
-| **Admin** | `authenticated` | Email + Password or OAuth (Google/GitHub) | Full CRUD on all resources, system administration | `role: "admin"` in JWT |
+| Role        | Database Role   | Authentication                            | Scope                                             | Token Claim            |
+| ----------- | --------------- | ----------------------------------------- | ------------------------------------------------- | ---------------------- |
+| **Visitor** | `anon`          | None                                      | Public read-only access to published content      | No JWT / anonymous key |
+| **Admin**   | `authenticated` | Email + Password or OAuth (Google/GitHub) | Full CRUD on all resources, system administration | `role: "admin"` in JWT |
 
 ### 2.3 Visitor Role — Detailed Permissions
 
 The Visitor role represents any unauthenticated user browsing the portfolio. Their access is strictly limited to:
 
-| Capability | Allowed | Details |
-|-----------|---------|---------|
-| View published sections | ✅ | Only where `is_live = true` |
-| View published projects | ✅ | Only where `is_private = false` |
-| View published blog posts | ✅ | Only where `published = true` |
-| View testimonials | ✅ | All visible testimonials |
-| View skills, experiences, achievements | ✅ | Public content only |
-| View services | ✅ | Only where `is_active = true` |
-| Submit contact form (create lead) | ✅ | Rate-limited: 3 per hour per IP |
-| Access AI chatbot | ✅ | Rate-limited: 20 messages per session |
-| View availability status | ✅ | Current status only |
-| Access admin pages | ❌ | Redirected to 404 |
-| Modify any content | ❌ | RLS blocks all writes |
-| View lead data | ❌ | RLS blocks all reads |
-| View analytics data | ❌ | RLS blocks all reads |
-| View audit logs | ❌ | RLS blocks all reads |
+| Capability                             | Allowed | Details                               |
+| -------------------------------------- | ------- | ------------------------------------- |
+| View published sections                | ✅      | Only where `is_live = true`           |
+| View published projects                | ✅      | Only where `is_private = false`       |
+| View published blog posts              | ✅      | Only where `published = true`         |
+| View testimonials                      | ✅      | All visible testimonials              |
+| View skills, experiences, achievements | ✅      | Public content only                   |
+| View services                          | ✅      | Only where `is_active = true`         |
+| Submit contact form (create lead)      | ✅      | Rate-limited: 3 per hour per IP       |
+| Access AI chatbot                      | ✅      | Rate-limited: 20 messages per session |
+| View availability status               | ✅      | Current status only                   |
+| Access admin pages                     | ❌      | Redirected to 404                     |
+| Modify any content                     | ❌      | RLS blocks all writes                 |
+| View lead data                         | ❌      | RLS blocks all reads                  |
+| View analytics data                    | ❌      | RLS blocks all reads                  |
+| View audit logs                        | ❌      | RLS blocks all reads                  |
 
 ### 2.4 Admin Role — Detailed Permissions
 
 The Admin role is the portfolio owner with full system access:
 
-| Capability | Allowed | Details |
-|-----------|---------|---------|
-| All Visitor capabilities | ✅ | Including private/draft content |
-| Create/edit/delete sections | ✅ | Full CMS control |
-| Create/edit/delete projects | ✅ | Including private projects |
-| Create/edit/delete blog posts | ✅ | Including unpublished drafts |
-| Manage leads | ✅ | View, filter, export CSV, add notes |
-| View analytics | ✅ | Full dashboard access |
-| Manage system settings | ✅ | Site config, integrations, API keys |
-| Upload media assets | ✅ | Images, PDFs to Supabase Storage |
-| Access AI admin features | ✅ | RAG management, chat history review |
-| View audit logs | ✅ | Full audit trail |
-| Manage feature flags | ✅ | Enable/disable features |
-| Export data | ✅ | CSV exports for leads, analytics |
+| Capability                    | Allowed | Details                             |
+| ----------------------------- | ------- | ----------------------------------- |
+| All Visitor capabilities      | ✅      | Including private/draft content     |
+| Create/edit/delete sections   | ✅      | Full CMS control                    |
+| Create/edit/delete projects   | ✅      | Including private projects          |
+| Create/edit/delete blog posts | ✅      | Including unpublished drafts        |
+| Manage leads                  | ✅      | View, filter, export CSV, add notes |
+| View analytics                | ✅      | Full dashboard access               |
+| Manage system settings        | ✅      | Site config, integrations, API keys |
+| Upload media assets           | ✅      | Images, PDFs to Supabase Storage    |
+| Access AI admin features      | ✅      | RAG management, chat history review |
+| View audit logs               | ✅      | Full audit trail                    |
+| Manage feature flags          | ✅      | Enable/disable features             |
+| Export data                   | ✅      | CSV exports for leads, analytics    |
 
 ---
 
@@ -163,33 +163,34 @@ The following matrix defines every authorization decision for all 37 database ta
 
 #### Core Tables
 
-| Table | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `users` | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| `roles` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
-| `permissions` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
-| `user_roles` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ |
+| Table         | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
+| ------------- | :------------: | :------------: | :------------: | :------------: | :----------: | :----------: | :----------: | :----------: |
+| `users`       |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ❌      |      ✅      |      ❌      |
+| `roles`       |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ❌      |
+| `permissions` |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ❌      |
+| `user_roles`  |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ✅      |
 
 #### Content Tables
 
-| Table | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `sections` | 🔒¹ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `projects` | 🔒² | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `project_images` | 🔒³ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `blog_posts` | 🔒⁴ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `post_tags` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `testimonials` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `skills` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `experiences` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `achievements` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `services` | 🔒⁵ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `case_studies` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `press_features` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `guest_appearances` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `reading_list` | ✅ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Table               | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
+| ------------------- | :------------: | :------------: | :------------: | :------------: | :----------: | :----------: | :----------: | :----------: |
+| `sections`          |      🔒¹       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `projects`          |      🔒²       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `project_images`    |      🔒³       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `blog_posts`        |      🔒⁴       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `post_tags`         |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `testimonials`      |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `skills`            |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `experiences`       |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `achievements`      |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `services`          |      🔒⁵       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `case_studies`      |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `press_features`    |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `guest_appearances` |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `reading_list`      |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
 
 **Conditional Notes:**
+
 1. ¹ `sections`: Visitor SELECT only where `is_live = true`
 2. ² `projects`: Visitor SELECT only where `is_private = false`
 3. ³ `project_images`: Visitor SELECT only for images belonging to non-private projects
@@ -198,60 +199,50 @@ The following matrix defines every authorization decision for all 37 database ta
 
 #### Lead Tables
 
-| Table | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `leads` | ❌ | ✅⁶ | ❌ | ❌ | ✅ | ✅ | ✅ | 🔒⁷ |
-| `lead_notes` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `lead_activities` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
+| Table             | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
+| ----------------- | :------------: | :------------: | :------------: | :------------: | :----------: | :----------: | :----------: | :----------: |
+| `leads`           |       ❌       |      ✅⁶       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |     🔒⁷      |
+| `lead_notes`      |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `lead_activities` |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ❌      |
 
-**Conditional Notes:**
-6. ⁶ `leads`: Visitor INSERT via contact form only (rate-limited: 3/hour/IP)
-7. ⁷ `leads`: Admin DELETE is soft-delete only (`deleted_at` timestamp)
+**Conditional Notes:** 6. ⁶ `leads`: Visitor INSERT via contact form only (rate-limited: 3/hour/IP) 7. ⁷ `leads`: Admin DELETE is soft-delete only (`deleted_at` timestamp)
 
 #### Analytics Tables
 
-| Table | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `analytics_events` | ❌ | ✅⁸ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
-| `analytics_sessions` | ❌ | ✅⁸ | ✅⁹ | ❌ | ✅ | ✅ | ✅ | ❌ |
-| `page_views` | ❌ | ✅⁸ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
+| Table                | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
+| -------------------- | :------------: | :------------: | :------------: | :------------: | :----------: | :----------: | :----------: | :----------: |
+| `analytics_events`   |       ❌       |      ✅⁸       |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ❌      |
+| `analytics_sessions` |       ❌       |      ✅⁸       |      ✅⁹       |       ❌       |      ✅      |      ✅      |      ✅      |      ❌      |
+| `page_views`         |       ❌       |      ✅⁸       |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ❌      |
 
-**Conditional Notes:**
-8. ⁸ Analytics INSERT: Visitor can insert own analytics events (server-side via API)
-9. ⁹ `analytics_sessions`: Visitor UPDATE only for `last_activity_at` and `page_views` on own session
+**Conditional Notes:** 8. ⁸ Analytics INSERT: Visitor can insert own analytics events (server-side via API) 9. ⁹ `analytics_sessions`: Visitor UPDATE only for `last_activity_at` and `page_views` on own session
 
 #### AI Tables
 
-| Table | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `chat_conversations` | 🔒¹⁰ | ✅¹¹ | ✅¹² | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `chat_messages` | 🔒¹⁰ | ✅¹¹ | ❌ | ❌ | ✅ | ✅ | ❌ | ✅ |
-| `document_chunks` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `embeddings_cache` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Table                | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
+| -------------------- | :------------: | :------------: | :------------: | :------------: | :----------: | :----------: | :----------: | :----------: |
+| `chat_conversations` |      🔒¹⁰      |      ✅¹¹      |      ✅¹²      |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `chat_messages`      |      🔒¹⁰      |      ✅¹¹      |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ✅      |
+| `document_chunks`    |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `embeddings_cache`   |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
 
-**Conditional Notes:**
-10. ¹⁰ Visitor SELECT only own conversation (matched by `session_id`)
-11. ¹¹ Visitor INSERT only within own active conversation
-12. ¹² Visitor UPDATE only `last_activity_at` on own conversation
+**Conditional Notes:** 10. ¹⁰ Visitor SELECT only own conversation (matched by `session_id`) 11. ¹¹ Visitor INSERT only within own active conversation 12. ¹² Visitor UPDATE only `last_activity_at` on own conversation
 
 #### System Tables
 
-| Table | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
-|-------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| `media_assets` | ✅¹³ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | 🔒¹⁴ |
-| `availability_status` | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| `system_settings` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `notifications` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `audit_logs` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
-| `sessions` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `api_keys` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | 🔒¹⁵ |
-| `feature_flags` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| `admin_activities` | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ❌ | ❌ |
+| Table                 | Visitor SELECT | Visitor INSERT | Visitor UPDATE | Visitor DELETE | Admin SELECT | Admin INSERT | Admin UPDATE | Admin DELETE |
+| --------------------- | :------------: | :------------: | :------------: | :------------: | :----------: | :----------: | :----------: | :----------: |
+| `media_assets`        |      ✅¹³      |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |     🔒¹⁴     |
+| `availability_status` |       ✅       |       ❌       |       ❌       |       ❌       |      ✅      |      ❌      |      ✅      |      ❌      |
+| `system_settings`     |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `notifications`       |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `audit_logs`          |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ❌      |
+| `sessions`            |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `api_keys`            |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |     🔒¹⁵     |
+| `feature_flags`       |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ✅      |      ✅      |
+| `admin_activities`    |       ❌       |       ❌       |       ❌       |       ❌       |      ✅      |      ✅      |      ❌      |      ❌      |
 
-**Conditional Notes:**
-13. ¹³ `media_assets`: Visitor SELECT only non-deleted assets (public URLs)
-14. ¹⁴ `media_assets`: Admin DELETE is soft-delete only
-15. ¹⁵ `api_keys`: Admin DELETE is revoke (set `revoked_at`, not hard delete)
+**Conditional Notes:** 13. ¹³ `media_assets`: Visitor SELECT only non-deleted assets (public URLs) 14. ¹⁴ `media_assets`: Admin DELETE is soft-delete only 15. ¹⁵ `api_keys`: Admin DELETE is revoke (set `revoked_at`, not hard delete)
 
 ---
 
@@ -600,15 +591,15 @@ CREATE POLICY insert_admin_activities_auth ON admin_activities
 
 ### 4.7 RLS Coverage Summary
 
-| Table Group | Tables | Policies | Anon SELECT | Anon INSERT | Auth Full |
-|------------|:------:|:--------:|:-----------:|:-----------:|:---------:|
-| Core | 4 | 8 | ❌ | ❌ | ✅ |
-| Content | 14 | 42 | ✅ (filtered) | ❌ | ✅ |
-| Leads | 3 | 8 | ❌ | ✅ (leads only) | ✅ |
-| Analytics | 3 | 8 | ❌ | ✅ (server-side) | ✅ |
-| AI | 4 | 10 | 🔒 (own session) | ✅ (chat only) | ✅ |
-| System | 9 | 18 | 🔒 (media, status) | ❌ | ✅ |
-| **Total** | **37** | **94** | | | |
+| Table Group | Tables | Policies |    Anon SELECT     |   Anon INSERT    | Auth Full |
+| ----------- | :----: | :------: | :----------------: | :--------------: | :-------: |
+| Core        |   4    |    8     |         ❌         |        ❌        |    ✅     |
+| Content     |   14   |    42    |   ✅ (filtered)    |        ❌        |    ✅     |
+| Leads       |   3    |    8     |         ❌         | ✅ (leads only)  |    ✅     |
+| Analytics   |   3    |    8     |         ❌         | ✅ (server-side) |    ✅     |
+| AI          |   4    |    10    |  🔒 (own session)  |  ✅ (chat only)  |    ✅     |
+| System      |   9    |    18    | 🔒 (media, status) |        ❌        |    ✅     |
+| **Total**   | **37** |  **94**  |                    |                  |           |
 
 ---
 
@@ -616,12 +607,12 @@ CREATE POLICY insert_admin_activities_auth ON admin_activities
 
 ### 5.1 Token Types
 
-| Token | Purpose | Lifetime | Storage | Refresh |
-|-------|---------|----------|---------|---------|
-| **Access Token** | API authorization | 1 hour | httpOnly cookie | Via refresh token |
-| **Refresh Token** | Access token renewal | 7 days | httpOnly cookie | Rotation on use |
-| **Supabase anon key** | Public API access | N/A | Environment variable | N/A |
-| **Supabase service key** | Server-side admin access | N/A | Environment variable (server only) | N/A |
+| Token                    | Purpose                  | Lifetime | Storage                            | Refresh           |
+| ------------------------ | ------------------------ | -------- | ---------------------------------- | ----------------- |
+| **Access Token**         | API authorization        | 1 hour   | httpOnly cookie                    | Via refresh token |
+| **Refresh Token**        | Access token renewal     | 7 days   | httpOnly cookie                    | Rotation on use   |
+| **Supabase anon key**    | Public API access        | N/A      | Environment variable               | N/A               |
+| **Supabase service key** | Server-side admin access | N/A      | Environment variable (server only) | N/A               |
 
 ### 5.2 Access Token Claims (JWT Payload)
 
@@ -644,9 +635,7 @@ CREATE POLICY insert_admin_activities_auth ON admin_activities
   },
   "role": "authenticated",
   "aal": "aal1",
-  "amr": [
-    { "method": "oauth", "timestamp": 1718895600 }
-  ],
+  "amr": [{ "method": "oauth", "timestamp": 1718895600 }],
   "session_id": "s1e2s3s4-i5o6-n7i8-d9a0-bcdef1234567"
 }
 ```
@@ -693,14 +682,14 @@ sequenceDiagram
 
 ### 5.4 Token Validation Rules
 
-| Check | Layer | Failure Response |
-|-------|-------|------------------|
-| Signature verification (RS256) | API Gateway | `401 Unauthorized` |
-| Expiration (`exp` claim) | Middleware + API | `401 Unauthorized` → refresh attempt |
-| Audience (`aud` = `authenticated`) | API Gateway | `401 Unauthorized` |
-| Issuer (`iss` = Supabase project URL) | API Gateway | `401 Unauthorized` |
-| Role claim present | RolesGuard | `403 Forbidden` |
-| Token not revoked | Session table lookup | `401 Unauthorized` |
+| Check                                 | Layer                | Failure Response                     |
+| ------------------------------------- | -------------------- | ------------------------------------ |
+| Signature verification (RS256)        | API Gateway          | `401 Unauthorized`                   |
+| Expiration (`exp` claim)              | Middleware + API     | `401 Unauthorized` → refresh attempt |
+| Audience (`aud` = `authenticated`)    | API Gateway          | `401 Unauthorized`                   |
+| Issuer (`iss` = Supabase project URL) | API Gateway          | `401 Unauthorized`                   |
+| Role claim present                    | RolesGuard           | `403 Forbidden`                      |
+| Token not revoked                     | Session table lookup | `401 Unauthorized`                   |
 
 ---
 
@@ -755,13 +744,13 @@ sequenceDiagram
 
 ### 6.3 OAuth Security Configuration
 
-| Setting | Value | Rationale |
-|---------|-------|-----------|
-| Allowed redirect URLs | `https://portfolio.dev/auth/callback` | Prevent redirect attacks |
-| Email domain restriction | None (single admin) | Admin whitelist in DB |
-| Auto-confirm email | Disabled | Manual admin verification |
-| PKCE flow | Enabled | Prevent authorization code interception |
-| Token in URL fragment | Yes (Supabase default) | Fragment not sent to server |
+| Setting                  | Value                                 | Rationale                               |
+| ------------------------ | ------------------------------------- | --------------------------------------- |
+| Allowed redirect URLs    | `https://portfolio.dev/auth/callback` | Prevent redirect attacks                |
+| Email domain restriction | None (single admin)                   | Admin whitelist in DB                   |
+| Auto-confirm email       | Disabled                              | Manual admin verification               |
+| PKCE flow                | Enabled                               | Prevent authorization code interception |
+| Token in URL fragment    | Yes (Supabase default)                | Fragment not sent to server             |
 
 ---
 
@@ -773,11 +762,11 @@ sequenceDiagram
 // Cookie settings for JWT storage
 const COOKIE_OPTIONS = {
   name: 'sb-access-token',
-  httpOnly: true,        // Prevent XSS access
-  secure: true,          // HTTPS only
-  sameSite: 'strict',    // Prevent CSRF
-  path: '/',             // Available to all routes
-  maxAge: 60 * 60,       // 1 hour (matches access token)
+  httpOnly: true, // Prevent XSS access
+  secure: true, // HTTPS only
+  sameSite: 'strict', // Prevent CSRF
+  path: '/', // Available to all routes
+  maxAge: 60 * 60, // 1 hour (matches access token)
   domain: '.portfolio.dev',
 };
 
@@ -786,7 +775,7 @@ const REFRESH_COOKIE_OPTIONS = {
   httpOnly: true,
   secure: true,
   sameSite: 'strict',
-  path: '/auth/refresh',  // Only sent to refresh endpoint
+  path: '/auth/refresh', // Only sent to refresh endpoint
   maxAge: 60 * 60 * 24 * 7, // 7 days
   domain: '.portfolio.dev',
 };
@@ -794,15 +783,15 @@ const REFRESH_COOKIE_OPTIONS = {
 
 ### 7.2 Session Lifecycle
 
-| Event | Action | Audit Log |
-|-------|--------|-----------|
-| Login | Create session record, issue tokens | `auth.login` |
-| API request | Validate access token, check session | — |
-| Token refresh | Rotate refresh token, issue new access token | `auth.token_refresh` |
-| Idle timeout (30 min) | Client-side: prompt re-auth | — |
-| Explicit logout | Revoke all tokens, clear cookies, delete session | `auth.logout` |
-| Password change | Revoke ALL sessions (forced re-login) | `auth.password_change` |
-| Suspicious activity | Revoke specific session | `auth.session_revoked` |
+| Event                 | Action                                           | Audit Log              |
+| --------------------- | ------------------------------------------------ | ---------------------- |
+| Login                 | Create session record, issue tokens              | `auth.login`           |
+| API request           | Validate access token, check session             | —                      |
+| Token refresh         | Rotate refresh token, issue new access token     | `auth.token_refresh`   |
+| Idle timeout (30 min) | Client-side: prompt re-auth                      | —                      |
+| Explicit logout       | Revoke all tokens, clear cookies, delete session | `auth.logout`          |
+| Password change       | Revoke ALL sessions (forced re-login)            | `auth.password_change` |
+| Suspicious activity   | Revoke specific session                          | `auth.session_revoked` |
 
 ### 7.3 Session Table Schema
 
@@ -869,15 +858,15 @@ graph TB
 
 ### 8.2 Authorization Decision Table
 
-| Request | Layer 1 (MW) | Layer 2 (Guard) | Layer 3 (RLS) | Result |
-|---------|:---:|:---:|:---:|--------|
-| `GET /` (public) | ✅ Pass | ✅ No guard | ✅ anon SELECT | 200: Public content |
-| `GET /admin/dashboard` (no token) | ❌ No cookie | — | — | 302: Redirect to login |
-| `GET /admin/dashboard` (valid token) | ✅ Valid JWT | ✅ Role=admin | ✅ Auth SELECT | 200: Admin dashboard |
-| `POST /api/leads` (public form) | ✅ Pass | ✅ No guard | ✅ anon INSERT | 201: Lead created |
-| `GET /api/admin/leads` (no token) | ✅ Pass | ❌ JwtAuthGuard | — | 401: Unauthorized |
-| `DELETE /api/admin/leads/:id` (valid) | ✅ Valid JWT | ✅ Role=admin | ✅ Soft delete | 200: Lead archived |
-| `GET /api/admin/audit-logs` (valid) | ✅ Valid JWT | ✅ Role=admin | ✅ Auth SELECT | 200: Audit log entries |
+| Request                               | Layer 1 (MW) | Layer 2 (Guard) | Layer 3 (RLS)  | Result                 |
+| ------------------------------------- | :----------: | :-------------: | :------------: | ---------------------- |
+| `GET /` (public)                      |   ✅ Pass    |   ✅ No guard   | ✅ anon SELECT | 200: Public content    |
+| `GET /admin/dashboard` (no token)     | ❌ No cookie |        —        |       —        | 302: Redirect to login |
+| `GET /admin/dashboard` (valid token)  | ✅ Valid JWT |  ✅ Role=admin  | ✅ Auth SELECT | 200: Admin dashboard   |
+| `POST /api/leads` (public form)       |   ✅ Pass    |   ✅ No guard   | ✅ anon INSERT | 201: Lead created      |
+| `GET /api/admin/leads` (no token)     |   ✅ Pass    | ❌ JwtAuthGuard |       —        | 401: Unauthorized      |
+| `DELETE /api/admin/leads/:id` (valid) | ✅ Valid JWT |  ✅ Role=admin  | ✅ Soft delete | 200: Lead archived     |
+| `GET /api/admin/audit-logs` (valid)   | ✅ Valid JWT |  ✅ Role=admin  | ✅ Auth SELECT | 200: Audit log entries |
 
 ---
 
@@ -903,12 +892,10 @@ export async function middleware(req: NextRequest) {
   } = await supabase.auth.getSession();
 
   const isProtectedRoute = PROTECTED_ROUTES.some((pattern) =>
-    new RegExp(`^${pattern}$`).test(req.nextUrl.pathname)
+    new RegExp(`^${pattern}$`).test(req.nextUrl.pathname),
   );
 
-  const isAuthRoute = AUTH_ROUTES.some((route) =>
-    req.nextUrl.pathname.startsWith(route)
-  );
+  const isAuthRoute = AUTH_ROUTES.some((route) => req.nextUrl.pathname.startsWith(route));
 
   // Redirect unauthenticated users away from admin
   if (isProtectedRoute && !session) {
@@ -983,10 +970,10 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<string[]>(
-      ROLES_KEY,
-      [context.getHandler(), context.getClass()]
-    );
+    const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
 
     if (!requiredRoles) return true; // No @Roles() = public
 
@@ -1007,7 +994,9 @@ export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
 @Controller('api/sections')
 export class SectionsController {
   @Get()
-  findPublished() { /* RLS filters to is_live=true for anon */ }
+  findPublished() {
+    /* RLS filters to is_live=true for anon */
+  }
 }
 
 // Protected endpoint — JWT + Role required
@@ -1016,13 +1005,15 @@ export class SectionsController {
 @Roles('admin')
 export class AdminSectionsController {
   @Post()
-  create(@Body() dto: CreateSectionDto) { /* Auth user, full access */ }
+  create(@Body() dto: CreateSectionDto) {
+    /* Auth user, full access */
+  }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() dto: UpdateSectionDto) { }
+  update(@Param('id') id: string, @Body() dto: UpdateSectionDto) {}
 
   @Delete(':id')
-  remove(@Param('id') id: string) { }
+  remove(@Param('id') id: string) {}
 }
 
 // Mixed endpoint — public read, protected write
@@ -1030,26 +1021,30 @@ export class AdminSectionsController {
 export class LeadsController {
   @Post()
   @Throttle(3, 3600) // Rate limit: 3 per hour
-  submitContact(@Body() dto: CreateLeadDto) { /* Public, rate-limited */ }
+  submitContact(@Body() dto: CreateLeadDto) {
+    /* Public, rate-limited */
+  }
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
-  findAll(@Query() query: LeadQueryDto) { /* Admin only */ }
+  findAll(@Query() query: LeadQueryDto) {
+    /* Admin only */
+  }
 }
 ```
 
 ### 10.3 API Route Authorization Summary
 
-| Route Pattern | Method | Auth Required | Rate Limit | Guard Chain |
-|---------------|--------|:---:|:---:|-------------|
-| `/api/sections` | GET | ❌ | 100/min | None (RLS) |
-| `/api/projects` | GET | ❌ | 100/min | None (RLS) |
-| `/api/blog` | GET | ❌ | 100/min | None (RLS) |
-| `/api/leads` | POST | ❌ | 3/hour | Throttle |
-| `/api/ai/chat` | POST | ❌ | 20/session | Throttle |
-| `/api/admin/*` | ALL | ✅ | 30/min | JWT → Roles |
-| `/api/health` | GET | ❌ | 10/min | None |
+| Route Pattern   | Method | Auth Required | Rate Limit | Guard Chain |
+| --------------- | ------ | :-----------: | :--------: | ----------- |
+| `/api/sections` | GET    |      ❌       |  100/min   | None (RLS)  |
+| `/api/projects` | GET    |      ❌       |  100/min   | None (RLS)  |
+| `/api/blog`     | GET    |      ❌       |  100/min   | None (RLS)  |
+| `/api/leads`    | POST   |      ❌       |   3/hour   | Throttle    |
+| `/api/ai/chat`  | POST   |      ❌       | 20/session | Throttle    |
+| `/api/admin/*`  | ALL    |      ✅       |   30/min   | JWT → Roles |
+| `/api/health`   | GET    |      ❌       |   10/min   | None        |
 
 ---
 
@@ -1074,13 +1069,13 @@ graph TB
 
 ### 11.2 Planned Permission Expansion
 
-| Role | Content CRUD | Lead Mgmt | Analytics | System Settings | User Mgmt |
-|------|:---:|:---:|:---:|:---:|:---:|
-| Super Admin | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Admin | ✅ | ✅ | ✅ | ✅ | ❌ |
-| Editor | ✅ | ❌ | 🔒 (own) | ❌ | ❌ |
-| Moderator | ❌ | ✅ | 🔒 (leads) | ❌ | ❌ |
-| Viewer | 🔒 (read) | 🔒 (read) | ✅ | ❌ | ❌ |
+| Role        | Content CRUD | Lead Mgmt | Analytics  | System Settings | User Mgmt |
+| ----------- | :----------: | :-------: | :--------: | :-------------: | :-------: |
+| Super Admin |      ✅      |    ✅     |     ✅     |       ✅        |    ✅     |
+| Admin       |      ✅      |    ✅     |     ✅     |       ✅        |    ❌     |
+| Editor      |      ✅      |    ❌     |  🔒 (own)  |       ❌        |    ❌     |
+| Moderator   |      ❌      |    ✅     | 🔒 (leads) |       ❌        |    ❌     |
+| Viewer      |  🔒 (read)   | 🔒 (read) |     ✅     |       ❌        |    ❌     |
 
 ### 11.3 Migration Path
 
@@ -1094,29 +1089,29 @@ graph TB
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| D-AUTHZ-001 | RBAC with Super Admin and Admin roles (v1.0); planned expansion to 5 roles (v2.0) | Simplicity for single-admin portfolio; extensible for future multi-user scenarios | ABAC (rejected — over-engineered for single admin); flat permissions (rejected — no role grouping); no authorization (rejected — OWASP non-compliance) | Mar 2026 | Security Lead |
-| D-AUTHZ-002 | 4-layer authorization (Edge Middleware → JwtAuthGuard → RolesGuard → RLS) | Defense-in-depth; every layer independently enforces access; no single bypass possible | Single-layer auth (rejected — catastrophic on failure); 2-layer only (rejected — insufficient for OWASP ASVS L2) | Mar 2026 | Security Lead |
-| D-AUTHZ-003 | RLS policies on all 37 tables with role-specific WHERE clauses | Database-level enforcement independent of application; policy-as-code; auditable | Application-layer only (rejected — trust issues); API gateway only (rejected — no query-level control) | Mar 2026 | Security Lead |
-| D-AUTHZ-004 | JWT with role embedded in custom claim (app_role) | Stateless authorization; no DB lookup per request; signed and verified at every layer | Session-based role storage (rejected — server state); DB lookup per request (rejected — latency overhead) | Mar 2026 | Security Lead |
-| D-AUTHZ-005 | Google OAuth as exclusive auth provider for admin | Free; portfolio owner has Google account; no password management | Email/password (rejected — security burden, no MFA); GitHub OAuth (rejected — less universal) | Mar 2026 | Security Lead |
+| ID          | Decision                                                                          | Rationale                                                                              | Alternatives Considered                                                                                                                                | Date     | Approver      |
+| ----------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------------- |
+| D-AUTHZ-001 | RBAC with Super Admin and Admin roles (v1.0); planned expansion to 5 roles (v2.0) | Simplicity for single-admin portfolio; extensible for future multi-user scenarios      | ABAC (rejected — over-engineered for single admin); flat permissions (rejected — no role grouping); no authorization (rejected — OWASP non-compliance) | Mar 2026 | Security Lead |
+| D-AUTHZ-002 | 4-layer authorization (Edge Middleware → JwtAuthGuard → RolesGuard → RLS)         | Defense-in-depth; every layer independently enforces access; no single bypass possible | Single-layer auth (rejected — catastrophic on failure); 2-layer only (rejected — insufficient for OWASP ASVS L2)                                       | Mar 2026 | Security Lead |
+| D-AUTHZ-003 | RLS policies on all 37 tables with role-specific WHERE clauses                    | Database-level enforcement independent of application; policy-as-code; auditable       | Application-layer only (rejected — trust issues); API gateway only (rejected — no query-level control)                                                 | Mar 2026 | Security Lead |
+| D-AUTHZ-004 | JWT with role embedded in custom claim (app_role)                                 | Stateless authorization; no DB lookup per request; signed and verified at every layer  | Session-based role storage (rejected — server state); DB lookup per request (rejected — latency overhead)                                              | Mar 2026 | Security Lead |
+| D-AUTHZ-005 | Google OAuth as exclusive auth provider for admin                                 | Free; portfolio owner has Google account; no password management                       | Email/password (rejected — security burden, no MFA); GitHub OAuth (rejected — less universal)                                                          | Mar 2026 | Security Lead |
 
 ---
 
 ## 12. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | Enterprise rewrite — full RLS catalog, JWT structure, OAuth flows, 37-table permission matrix, 94 policies, multi-role expansion plan | Security Lead |
-| 3.0 | Jun 2026 | Added executive summary, permission verification flow | Security Lead |
-| 2.0 | Jun 2026 | Updated for enterprise structure | Security Lead |
-| 1.0 | Mar 2026 | Initial authorization documentation | Security Lead |
+| Version | Date     | Changes                                                                                                                               | Author        |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| 4.0     | Jun 2026 | Enterprise rewrite — full RLS catalog, JWT structure, OAuth flows, 37-table permission matrix, 94 policies, multi-role expansion plan | Security Lead |
+| 3.0     | Jun 2026 | Added executive summary, permission verification flow                                                                                 | Security Lead |
+| 2.0     | Jun 2026 | Updated for enterprise structure                                                                                                      | Security Lead |
+| 1.0     | Mar 2026 | Initial authorization documentation                                                                                                   | Security Lead |
 
 ---
 
-*Document Version: 4.0 — Enterprise Edition*
-*Authorization Architecture for Portfolio Platform*
+_Document Version: 4.0 — Enterprise Edition_
+_Authorization Architecture for Portfolio Platform_
 
 ---
 
@@ -1127,58 +1122,62 @@ graph TB
 During Phase 4, the authorization stack underwent a significant architectural shift. Rather than relying exclusively on Supabase Auth for session management, the platform now utilizes a custom **NestJS + Passport.js** implementation for maximum flexibility.
 
 ### 1. NestJS Authentication (`apps/api`)
-The API gateway completely owns the authentication layer via the `@nestjs/jwt` and `@nestjs/passport` libraries. 
+
+The API gateway completely owns the authentication layer via the `@nestjs/jwt` and `@nestjs/passport` libraries.
+
 - **Secret Management:** JWTs are signed directly by the NestJS backend using a secure `JWT_SECRET`, rather than Supabase.
 - **Custom Payload:** The JWT payloads are tightly controlled by the application, injecting necessary sandbox and admin context that Supabase Auth does not natively support.
 
 ### 2. OAuth Strategies
+
 Admin login is restricted to GitHub and Google OAuth, leveraging:
+
 - `passport-google-oauth20`
 - `passport-github2`
 
 When an admin clicks "Login with GitHub" on the Next.js frontend, the request routes to the NestJS backend, which handles the entire OAuth dance. Upon success, the NestJS backend issues the JWT and redirects the user back to the `/admin/sandbox` with the token securely stored.
 
-*Note: The Supabase RLS policies documented in Section 4 are currently bypassed for Admin operations since the backend utilizes the Supabase Service Role Key to perform CRUD operations after verifying the custom NestJS JWT.*
+_Note: The Supabase RLS policies documented in Section 4 are currently bypassed for Admin operations since the backend utilizes the Supabase Service Role Key to perform CRUD operations after verifying the custom NestJS JWT._
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **RBAC (Role-Based Access Control)** | An authorization model that grants permissions based on assigned roles rather than individual users |
-| **RLS (Row-Level Security)** | A PostgreSQL feature that restricts which rows a user can query or modify based on a security policy expression |
-| **JWT (JSON Web Token)** | A compact, URL-safe token format for transmitting claims between parties, used for stateless authentication |
-| **OAuth 2.0** | An authorization framework that enables applications to obtain limited access to user accounts on an HTTP service |
-| **Claims** | Key-value pairs embedded in a JWT that convey information about the authenticated user |
-| **Guard (NestJS)** | A NestJS component that implements authorization logic, determining whether a request should be processed |
-| **Permission Matrix** | A structured table mapping roles to their authorized operations across resources |
-| **Defense in Depth** | A security strategy where multiple layers of defense are implemented so that if one layer fails, others still provide protection |
-| **Middleware (Next.js)** | Code that runs before a request is completed, used for route protection and redirect logic |
-| **Audit Log** | An immutable record of who performed what action and when, used for compliance and security monitoring |
-| **Non-repudiation** | The assurance that someone cannot deny having performed a specific action, ensured through audit logs |
-| **Least Privilege** | A security principle where users and systems are granted only the minimum permissions necessary to perform their function |
+| Term                                 | Definition                                                                                                                       |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| **RBAC (Role-Based Access Control)** | An authorization model that grants permissions based on assigned roles rather than individual users                              |
+| **RLS (Row-Level Security)**         | A PostgreSQL feature that restricts which rows a user can query or modify based on a security policy expression                  |
+| **JWT (JSON Web Token)**             | A compact, URL-safe token format for transmitting claims between parties, used for stateless authentication                      |
+| **OAuth 2.0**                        | An authorization framework that enables applications to obtain limited access to user accounts on an HTTP service                |
+| **Claims**                           | Key-value pairs embedded in a JWT that convey information about the authenticated user                                           |
+| **Guard (NestJS)**                   | A NestJS component that implements authorization logic, determining whether a request should be processed                        |
+| **Permission Matrix**                | A structured table mapping roles to their authorized operations across resources                                                 |
+| **Defense in Depth**                 | A security strategy where multiple layers of defense are implemented so that if one layer fails, others still provide protection |
+| **Middleware (Next.js)**             | Code that runs before a request is completed, used for route protection and redirect logic                                       |
+| **Audit Log**                        | An immutable record of who performed what action and when, used for compliance and security monitoring                           |
+| **Non-repudiation**                  | The assurance that someone cannot deny having performed a specific action, ensured through audit logs                            |
+| **Least Privilege**                  | A security principle where users and systems are granted only the minimum permissions necessary to perform their function        |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference            | Description                                            |
+| -------------------- | ------------------------------------------------------ |
 | docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |

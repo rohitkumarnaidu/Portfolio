@@ -4,6 +4,7 @@
 > **Status:** Ã¢Å“â€¦ Active | **Owner:** Principal Database Architect | **Review Cadence:** Quarterly
 
 ## 1. Executive Summary
+
 This document visualizes the complete FAANG-level database schema for the portfolio project. It leverages Supabase PostgreSQL 15 and pgvector to support multi-LLM semantic search alongside strict role-based access control.
 
 ## 2. Mermaid ERD
@@ -94,5 +95,6 @@ erDiagram
 - **User & Audit Log**: Administrative actions performed by users are recorded in the Audit Log for security tracking (1:N).
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

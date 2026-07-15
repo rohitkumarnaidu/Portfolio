@@ -87,6 +87,7 @@ As an enterprise application managing a portfolio, AI interactions, and an admin
 - No `root` user in container.
 - Pin base image versions (no `latest` tag).
 - Scan enforced via pre-commit hook.
+
 ### 6.2 SAST/DAST Pipeline
 
 ```mermaid
@@ -119,6 +120,7 @@ flowchart LR
 - All secrets stored in Vercel Environment Variables or Doppler vault.
 - Secrets are never committed to the repository.
 - `.env` files are in `.gitignore`. `.env.example` contains placeholder values.
+
 ### 7.4 CI Security Gates
 
 ```mermaid
@@ -194,5 +196,6 @@ graph LR
 - **CSRF Testing:** Verify state-changing requests without proper tokens are rejected.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

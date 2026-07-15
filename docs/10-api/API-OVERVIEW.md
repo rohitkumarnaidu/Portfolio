@@ -54,39 +54,39 @@ The API platform serves as the **backbone of all data operations** across the po
 
 ### 1.2 Design Principles
 
-| # | Principle | Rationale | Violation Penalty |
-|---|-----------|-----------|-------------------|
-| P1 | **RESTful by default** | Standard HTTP methods, resource-based URLs, stateless | Must fix before deployment |
-| P2 | **Defense in depth** | Auth at every layer: API gateway Ã¢â€ â€™ guard Ã¢â€ â€™ RLS | Security vulnerability |
-| P3 | **Fail closed** | Deny access unless explicitly permitted | Data breach risk |
-| P4 | **Explicit validation** | All inputs validated at boundary with clear error messages | Data corruption risk |
-| P5 | **Idempotent mutations** | Safe methods (GET, PUT, DELETE) are idempotent | Unexpected side effects |
-| P6 | **Consistent error format** | Every error follows `{ error, message, statusCode, details }` | Debugging difficulty |
-| P7 | **Correlation everywhere** | Every request gets a correlation ID for tracing | Debugging difficulty |
-| P8 | **Versioned from day one** | All public APIs have a versioning strategy | Breaking change disasters |
-| P9 | **Documented by default** | OpenAPI/Swagger for all endpoints | Integration friction |
-| P10 | **Rate limited at edge** | Every endpoint has appropriate rate limiting | Abuse vulnerability |
+| #   | Principle                   | Rationale                                                     | Violation Penalty          |
+| --- | --------------------------- | ------------------------------------------------------------- | -------------------------- |
+| P1  | **RESTful by default**      | Standard HTTP methods, resource-based URLs, stateless         | Must fix before deployment |
+| P2  | **Defense in depth**        | Auth at every layer: API gateway Ã¢â€ â€™ guard Ã¢â€ â€™ RLS  | Security vulnerability     |
+| P3  | **Fail closed**             | Deny access unless explicitly permitted                       | Data breach risk           |
+| P4  | **Explicit validation**     | All inputs validated at boundary with clear error messages    | Data corruption risk       |
+| P5  | **Idempotent mutations**    | Safe methods (GET, PUT, DELETE) are idempotent                | Unexpected side effects    |
+| P6  | **Consistent error format** | Every error follows `{ error, message, statusCode, details }` | Debugging difficulty       |
+| P7  | **Correlation everywhere**  | Every request gets a correlation ID for tracing               | Debugging difficulty       |
+| P8  | **Versioned from day one**  | All public APIs have a versioning strategy                    | Breaking change disasters  |
+| P9  | **Documented by default**   | OpenAPI/Swagger for all endpoints                             | Integration friction       |
+| P10 | **Rate limited at edge**    | Every endpoint has appropriate rate limiting                  | Abuse vulnerability        |
 
 ### 1.3 API Surface Overview
 
-| Surface | Framework | Base URL | Primary Role | Auth Method | Deploy Target |
-|---------|-----------|----------|--------------|-------------|---------------|
-| **NestJS Primary API** | NestJS 10 | `/api/v1` | CRUD for all portfolio content, leads, analytics | JWT Bearer Token | Vercel (Serverless) |
-| **FastAPI AI Service** | FastAPI | `/api/v1/ai` | AI chat, content analysis, suggestions | API Key + JWT | Railway (Container) |
-| **Next.js BFF** | Next.js 14 | `/api` | Auth (NestJS Passport), ISR revalidation, SSR data fetch | NestJS Passport Session | Vercel (Edge) |
-| **Supabase Direct** | Supabase JS SDK | Direct | ISR server component reads (public data only) | Supabase anon key | Vercel (Edge) |
+| Surface                | Framework       | Base URL     | Primary Role                                             | Auth Method             | Deploy Target       |
+| ---------------------- | --------------- | ------------ | -------------------------------------------------------- | ----------------------- | ------------------- |
+| **NestJS Primary API** | NestJS 10       | `/api/v1`    | CRUD for all portfolio content, leads, analytics         | JWT Bearer Token        | Vercel (Serverless) |
+| **FastAPI AI Service** | FastAPI         | `/api/v1/ai` | AI chat, content analysis, suggestions                   | API Key + JWT           | Railway (Container) |
+| **Next.js BFF**        | Next.js 14      | `/api`       | Auth (NestJS Passport), ISR revalidation, SSR data fetch | NestJS Passport Session | Vercel (Edge)       |
+| **Supabase Direct**    | Supabase JS SDK | Direct       | ISR server component reads (public data only)            | Supabase anon key       | Vercel (Edge)       |
 
 ### 1.3 Key Metrics
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| API GET p95 response | < 100ms | Sentry Tracing |
-| API POST p95 response | < 200ms | Sentry Tracing |
-| AI Chat p95 response | < 3s | Custom logging |
-| Error rate (all endpoints) | < 0.1% | Sentry |
-| API availability | 99.9% | Uptime Robot |
-| Endpoints documented | 100% | Swagger UI |
-| Auth check latency | < 5ms | Sentry Tracing |
+| Metric                     | Target  | Measurement    |
+| -------------------------- | ------- | -------------- |
+| API GET p95 response       | < 100ms | Sentry Tracing |
+| API POST p95 response      | < 200ms | Sentry Tracing |
+| AI Chat p95 response       | < 3s    | Custom logging |
+| Error rate (all endpoints) | < 0.1%  | Sentry         |
+| API availability           | 99.9%   | Uptime Robot   |
+| Endpoints documented       | 100%    | Swagger UI     |
+| Auth check latency         | < 5ms   | Sentry Tracing |
 
 ---
 
@@ -94,50 +94,50 @@ The API platform serves as the **backbone of all data operations** across the po
 
 ### 2.1 Naming Conventions
 
-| Element | Convention | Example | Rule |
-|---------|-----------|---------|------|
-| Base URL | `/api/v{version}/{resource}` | `/api/v1/projects` | Versioned, lowercase |
-| Resource names | Plural nouns | `/leads`, `/projects` | RESTful convention |
-| Resource IDs | UUID path param | `/leads/{id}` | Always UUID v4 |
-| Query params | `snake_case` | `?page=1&per_page=20` | Consistent with DB |
-| Request body | `camelCase` JSON | `{ "displayName": "John" }` | JS/TS convention |
-| Response body | `camelCase` JSON | `{ "createdAt": "..." }` | JS/TS convention |
-| Headers | `Pascal-Case` | `X-Correlation-ID` | HTTP standard |
-| Status codes | Standard HTTP | `200`, `201`, `400`, `401`, `404` | RFC 7231 |
+| Element        | Convention                   | Example                           | Rule                 |
+| -------------- | ---------------------------- | --------------------------------- | -------------------- |
+| Base URL       | `/api/v{version}/{resource}` | `/api/v1/projects`                | Versioned, lowercase |
+| Resource names | Plural nouns                 | `/leads`, `/projects`             | RESTful convention   |
+| Resource IDs   | UUID path param              | `/leads/{id}`                     | Always UUID v4       |
+| Query params   | `snake_case`                 | `?page=1&per_page=20`             | Consistent with DB   |
+| Request body   | `camelCase` JSON             | `{ "displayName": "John" }`       | JS/TS convention     |
+| Response body  | `camelCase` JSON             | `{ "createdAt": "..." }`          | JS/TS convention     |
+| Headers        | `Pascal-Case`                | `X-Correlation-ID`                | HTTP standard        |
+| Status codes   | Standard HTTP                | `200`, `201`, `400`, `401`, `404` | RFC 7231             |
 
 ### 2.2 HTTP Methods & Semantics
 
-| Method | Semantics | Idempotent | Safe | Body | Response |
-|--------|-----------|------------|------|------|----------|
-| `GET` | Retrieve resource(s) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | No | `200 OK` |
-| `POST` | Create resource | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Yes | `201 Created` |
-| `PUT` | Full replace | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Yes | `200 OK` |
-| `PATCH` | Partial update | Ã¢ÂÅ’ | Ã¢ÂÅ’ | Yes | `200 OK` |
-| `DELETE` | Remove resource | Ã¢Å“â€¦ | Ã¢ÂÅ’ | No | `204 No Content` |
+| Method   | Semantics            | Idempotent | Safe    | Body | Response         |
+| -------- | -------------------- | ---------- | ------- | ---- | ---------------- |
+| `GET`    | Retrieve resource(s) | Ã¢Å“â€¦    | Ã¢Å“â€¦ | No   | `200 OK`         |
+| `POST`   | Create resource      | Ã¢ÂÅ’      | Ã¢ÂÅ’   | Yes  | `201 Created`    |
+| `PUT`    | Full replace         | Ã¢Å“â€¦    | Ã¢ÂÅ’   | Yes  | `200 OK`         |
+| `PATCH`  | Partial update       | Ã¢ÂÅ’      | Ã¢ÂÅ’   | Yes  | `200 OK`         |
+| `DELETE` | Remove resource      | Ã¢Å“â€¦    | Ã¢ÂÅ’   | No   | `204 No Content` |
 
 ### 2.3 Request Headers
 
-| Header | Required | Description | Example |
-|--------|----------|-------------|---------|
-| `Authorization` | For auth endpoints | Bearer JWT token | `Bearer eyJhbGci...` |
-| `Content-Type` | For POST/PUT/PATCH | Request body format | `application/json` |
-| `Accept` | Optional | Response format preference | `application/json` |
-| `X-Correlation-ID` | Recommended | Request tracing ID | `uuid-v4-string` |
-| `X-API-Key` | For service-to-service | Service API key | `sk_live_abc123...` |
-| `User-Agent` | Recommended | Client identifier | `PortfolioWeb/1.0` |
-| `Idempotency-Key` | For POST payments | Idempotency key | `uuid-v4-string` |
+| Header             | Required               | Description                | Example              |
+| ------------------ | ---------------------- | -------------------------- | -------------------- |
+| `Authorization`    | For auth endpoints     | Bearer JWT token           | `Bearer eyJhbGci...` |
+| `Content-Type`     | For POST/PUT/PATCH     | Request body format        | `application/json`   |
+| `Accept`           | Optional               | Response format preference | `application/json`   |
+| `X-Correlation-ID` | Recommended            | Request tracing ID         | `uuid-v4-string`     |
+| `X-API-Key`        | For service-to-service | Service API key            | `sk_live_abc123...`  |
+| `User-Agent`       | Recommended            | Client identifier          | `PortfolioWeb/1.0`   |
+| `Idempotency-Key`  | For POST payments      | Idempotency key            | `uuid-v4-string`     |
 
 ### 2.4 Response Headers
 
-| Header | Description | Example |
-|--------|-------------|---------|
-| `X-Correlation-ID` | Echoes request correlation ID | `uuid-v4-string` |
-| `X-RateLimit-Limit` | Max requests per window | `100` |
-| `X-RateLimit-Remaining` | Remaining requests in window | `85` |
-| `X-RateLimit-Reset` | Window reset timestamp (Unix) | `1718467200` |
-| `Retry-After` | Seconds to wait before retry (429) | `900` |
-| `Deprecation` | API version deprecation notice | `true` |
-| `Sunset` | When deprecated version will be removed | `Sat, 01 Jan 2027 00:00:00 GMT` |
+| Header                  | Description                             | Example                         |
+| ----------------------- | --------------------------------------- | ------------------------------- |
+| `X-Correlation-ID`      | Echoes request correlation ID           | `uuid-v4-string`                |
+| `X-RateLimit-Limit`     | Max requests per window                 | `100`                           |
+| `X-RateLimit-Remaining` | Remaining requests in window            | `85`                            |
+| `X-RateLimit-Reset`     | Window reset timestamp (Unix)           | `1718467200`                    |
+| `Retry-After`           | Seconds to wait before retry (429)      | `900`                           |
+| `Deprecation`           | API version deprecation notice          | `true`                          |
+| `Sunset`                | When deprecated version will be removed | `Sat, 01 Jan 2027 00:00:00 GMT` |
 
 ### 2.5 Pagination
 
@@ -155,12 +155,12 @@ The API platform serves as the **backbone of all data operations** across the po
 }
 ```
 
-| Parameter | Type | Default | Max | Description |
-|-----------|------|---------|-----|-------------|
-| `page` | integer | 1 | Ã¢â‚¬â€ | Page number (1-indexed) |
-| `perPage` | integer | 20 | 100 | Items per page |
-| `sort` | string | `created_at` | Ã¢â‚¬â€ | Sort field |
-| `order` | enum | `desc` | asc/desc | Sort direction |
+| Parameter | Type    | Default      | Max      | Description             |
+| --------- | ------- | ------------ | -------- | ----------------------- |
+| `page`    | integer | 1            | Ã¢â‚¬â€  | Page number (1-indexed) |
+| `perPage` | integer | 20           | 100      | Items per page          |
+| `sort`    | string  | `created_at` | Ã¢â‚¬â€  | Sort field              |
+| `order`   | enum    | `desc`       | asc/desc | Sort direction          |
 
 ### 2.6 Response Envelope
 
@@ -267,12 +267,12 @@ graph TB
     ISR -->|Server Components| PG
     Browser -->|Admin API| CORS
     Admin --> CORS
-    
+
     CORS --> RATE
     RATE --> AUTH
     AUTH --> LOG
     LOG --> VAL
-    
+
     VAL --> CONTENT
     VAL --> LEAD
     VAL --> ANALYTICS
@@ -280,16 +280,16 @@ graph TB
     VAL --> UPLOAD
     VAL --> GITHUB
     VAL --> AUTHAPI
-    
+
     Browser -->|AI Chat| CHAT
     CHAT -->|LLM Calls| EXTERNAL
     CHAT -->|Vector Search| PG
-    
+
     Browser --> NEXTAUTH
     Browser --> CONTACT
     CONTACT --> LEAD
     CONTACT --> EXTERNAL
-    
+
     CONTENT --> PG
     LEAD --> PG
     ANALYTICS --> PG
@@ -347,7 +347,7 @@ graph LR
 ### 3.3 Middleware Execution Order
 
 ```text
-Request Ã¢â€ â€™ 
+Request Ã¢â€ â€™
   1. CORS Middleware (origin validation)
   2. Helmet Middleware (security headers)
   3. Rate Limiter Middleware (tier limits)
@@ -374,26 +374,26 @@ sequenceDiagram
     Client->>Edge: HTTPS Request
     Edge->>Edge: CDN Cache Check
     Edge->>Gateway: Forward Request
-    
+
     Gateway->>Gateway: CORS Check
     Gateway->>Gateway: Rate Limit Check
     Gateway->>Guard: Authenticate
-    
+
     alt Public Endpoint
         Guard-->>Gateway: Skip (anon)
     else Admin Endpoint
         Guard->>Guard: Verify JWT
         Guard-->>Gateway: User Context
     end
-    
+
     Gateway->>Validator: Validate Body/Params
     Validator-->>Gateway: Validated DTO
-    
+
     Gateway->>Handler: Execute
-    
+
     Handler->>DB: Query/Mutation
     DB-->>Handler: Result
-    
+
     Handler-->>Gateway: Response Data
     Gateway-->>Edge: JSON Response
     Edge-->>Client: Response
@@ -405,13 +405,13 @@ sequenceDiagram
 
 ### 4.1 Authentication Methods
 
-| Method | Used For | Token Type | Expiry | Refresh | Status |
-|--------|----------|------------|--------|---------|--------|
-| **JWT Bearer Token** | NestJS Admin API | `access_token` (JWT) | 15 minutes | 7-day refresh token | Ã¢Å“â€¦ Active |
-| **NestJS Passport Session** | Next.js Admin Pages | HTTP-only session cookie | 24 hours / 30 days | Automatic via NestJS Passport | Ã¢Å“â€¦ Active |
-| **API Key** | Service-to-service (AI) | `X-API-Key` header | Fixed (keys rotated quarterly) | Manual rotation | Ã¢Å“â€¦ Active |
-| **Supabase Anon Key** | Public ISR reads | `apikey` header | Permanent (public) | None required | Ã¢Å“â€¦ Active |
-| **OAuth 2.0** | Admin login (Google, GitHub) | Authorization code flow | Per JWT session | Auto-refresh | Ã¢Å“â€¦ Active |
+| Method                      | Used For                     | Token Type               | Expiry                         | Refresh                       | Status         |
+| --------------------------- | ---------------------------- | ------------------------ | ------------------------------ | ----------------------------- | -------------- |
+| **JWT Bearer Token**        | NestJS Admin API             | `access_token` (JWT)     | 15 minutes                     | 7-day refresh token           | Ã¢Å“â€¦ Active |
+| **NestJS Passport Session** | Next.js Admin Pages          | HTTP-only session cookie | 24 hours / 30 days             | Automatic via NestJS Passport | Ã¢Å“â€¦ Active |
+| **API Key**                 | Service-to-service (AI)      | `X-API-Key` header       | Fixed (keys rotated quarterly) | Manual rotation               | Ã¢Å“â€¦ Active |
+| **Supabase Anon Key**       | Public ISR reads             | `apikey` header          | Permanent (public)             | None required                 | Ã¢Å“â€¦ Active |
+| **OAuth 2.0**               | Admin login (Google, GitHub) | Authorization code flow  | Per JWT session                | Auto-refresh                  | Ã¢Å“â€¦ Active |
 
 ### 4.2 JWT Token Structure
 
@@ -483,7 +483,7 @@ async function apiRequest(url: string, options: RequestInit = {}) {
     ...options,
     headers: {
       ...options.headers,
-      'Authorization': `Bearer ${getAccessToken()}`,
+      Authorization: `Bearer ${getAccessToken()}`,
     },
   });
 
@@ -501,7 +501,7 @@ async function apiRequest(url: string, options: RequestInit = {}) {
       // Retry original request
       response = await fetch(url, {
         ...options,
-        headers: { ...options.headers, 'Authorization': `Bearer ${accessToken}` },
+        headers: { ...options.headers, Authorization: `Bearer ${accessToken}` },
       });
     } else {
       // Redirect to login
@@ -541,22 +541,22 @@ SUPABASE_SERVICE_ROLE_KEY=<supabase-service-role-key>
 
 ### 5.1 Role-Based Access Control (RBAC)
 
-| Role | Permissions | Access Scope | Assigned To |
-|------|-------------|-------------|-------------|
-| `admin` | Full CRUD on all resources | All endpoints | Portfolio owner |
-| `editor` | CRUD on content only (no system settings) | Content endpoints | Future use |
-| `viewer` | Read-only access to analytics | Analytics endpoints | Future use |
-| `anon` | Public read + limited insert | Public endpoints | All visitors |
+| Role     | Permissions                               | Access Scope        | Assigned To     |
+| -------- | ----------------------------------------- | ------------------- | --------------- |
+| `admin`  | Full CRUD on all resources                | All endpoints       | Portfolio owner |
+| `editor` | CRUD on content only (no system settings) | Content endpoints   | Future use      |
+| `viewer` | Read-only access to analytics             | Analytics endpoints | Future use      |
+| `anon`   | Public read + limited insert              | Public endpoints    | All visitors    |
 
 ### 5.2 Authorization Enforcement Points
 
-| Layer | Technology | What It Protects | Bypass Risk |
-|-------|-----------|-----------------|-------------|
-| **API Gateway** | NestJS `JwtAuthGuard` | All admin endpoints | Low (token verification) |
-| **API Gateway** | NestJS `RolesGuard` | Role-specific endpoints | Low (role claim in JWT) |
-| **Route Handler** | Custom permission check | Resource-level access | Low (explicit checks) |
-| **Database** | Supabase RLS | Row-level access | Very Low (DB-level) |
-| **Frontend** | Next.js middleware | Route access | Medium (client-side) |
+| Layer             | Technology              | What It Protects        | Bypass Risk              |
+| ----------------- | ----------------------- | ----------------------- | ------------------------ |
+| **API Gateway**   | NestJS `JwtAuthGuard`   | All admin endpoints     | Low (token verification) |
+| **API Gateway**   | NestJS `RolesGuard`     | Role-specific endpoints | Low (role claim in JWT)  |
+| **Route Handler** | Custom permission check | Resource-level access   | Low (explicit checks)    |
+| **Database**      | Supabase RLS            | Row-level access        | Very Low (DB-level)      |
+| **Frontend**      | Next.js middleware      | Route access            | Medium (client-side)     |
 
 ### 5.3 Guard Implementation Pattern
 
@@ -597,29 +597,29 @@ async createProject(@Body() dto: CreateProjectDto) { ... }
 
 ### 5.4 Permission Matrix
 
-| Resource | Action | anon | admin | editor | viewer |
-|----------|--------|------|-------|--------|--------|
-| Sections | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Sections | Read (live) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| Sections | Read (all) | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Sections | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Sections | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Projects | Create | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Projects | Read (public) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| Projects | Read (private) | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Projects | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Projects | Delete | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Leads | Insert | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Leads | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Leads | Update status | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Analytics | Insert events | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Analytics | Read dashboard | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢Å“â€¦ |
-| Media | Upload | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ |
-| Media | Read (public) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| Settings | Read | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| Settings | Update | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| AI Chat | Send message | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
-| AI Chat | View history | Ã¢ÂÅ’ | Ã¢Å“â€¦ | Ã¢ÂÅ’ | Ã¢ÂÅ’ |
+| Resource  | Action         | anon    | admin   | editor  | viewer  |
+| --------- | -------------- | ------- | ------- | ------- | ------- |
+| Sections  | Create         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Sections  | Read (live)    | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Sections  | Read (all)     | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Sections  | Update         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Sections  | Delete         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Projects  | Create         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Projects  | Read (public)  | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Projects  | Read (private) | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Projects  | Update         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Projects  | Delete         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Leads     | Insert         | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Leads     | Read           | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Leads     | Update status  | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Analytics | Insert events  | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Analytics | Read dashboard | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢Å“â€¦ |
+| Media     | Upload         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   |
+| Media     | Read (public)  | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Settings  | Read           | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| Settings  | Update         | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| AI Chat   | Send message   | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
+| AI Chat   | View history   | Ã¢ÂÅ’   | Ã¢Å“â€¦ | Ã¢ÂÅ’   | Ã¢ÂÅ’   |
 
 ---
 
@@ -631,37 +631,37 @@ async createProject(@Body() dto: CreateProjectDto) { ... }
 /api/v{major}/{resource}
 ```
 
-| Component | Method | Value | Description |
-|-----------|--------|-------|-------------|
-| **Prefix** | URL path | `/api/v1/` | Major version in URL path |
-| **Current** | Header | `v1` | Implicit (no prefix = v1) |
-| **Deprecation** | Response header | `Deprecation: true` | Header signals upcoming removal |
-| **Sunset** | Response header | `Sunset: Sat, 01 Jan 2027` | Header signals removal date |
-| **Migration** | Documentation | Changelog per version | Migration guide per breaking change |
+| Component       | Method          | Value                      | Description                         |
+| --------------- | --------------- | -------------------------- | ----------------------------------- |
+| **Prefix**      | URL path        | `/api/v1/`                 | Major version in URL path           |
+| **Current**     | Header          | `v1`                       | Implicit (no prefix = v1)           |
+| **Deprecation** | Response header | `Deprecation: true`        | Header signals upcoming removal     |
+| **Sunset**      | Response header | `Sunset: Sat, 01 Jan 2027` | Header signals removal date         |
+| **Migration**   | Documentation   | Changelog per version      | Migration guide per breaking change |
 
 ### 6.2 Version Lifecycle
 
-| Phase | Duration | Behavior | Developer Communication |
-|-------|----------|----------|------------------------|
-| **Active** | 12+ months | Full support, all features | Documented in current API docs |
-| **Deprecated** | 6 months | `Deprecation: true` header added | Blog post + email notification |
-| **Sunset** | Ã¢â‚¬â€ | Returns `410 Gone` | `Sunset` header + migration guide URL |
-| **Removed** | Ã¢â‚¬â€ | Returns `404 Not Found` | N/A |
+| Phase          | Duration   | Behavior                         | Developer Communication               |
+| -------------- | ---------- | -------------------------------- | ------------------------------------- |
+| **Active**     | 12+ months | Full support, all features       | Documented in current API docs        |
+| **Deprecated** | 6 months   | `Deprecation: true` header added | Blog post + email notification        |
+| **Sunset**     | Ã¢â‚¬â€    | Returns `410 Gone`               | `Sunset` header + migration guide URL |
+| **Removed**    | Ã¢â‚¬â€    | Returns `404 Not Found`          | N/A                                   |
 
 ### 6.3 Breaking Changes Policy
 
-| Change Type | Breaking? | Version Bump | Migration Guide Required |
-|-------------|-----------|-------------|-------------------------|
-| Add endpoint | Ã¢ÂÅ’ | Minor | Ã¢ÂÅ’ |
-| Add optional field to response | Ã¢ÂÅ’ | Minor | Ã¢ÂÅ’ |
-| Add required field to request | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Remove endpoint | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Remove response field | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Rename field | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Change field type | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Change error format | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Change auth method | Ã¢Å“â€¦ | Major | Ã¢Å“â€¦ |
-| Change rate limit (reducing) | Ã¢Å¡Â Ã¯Â¸Â (non-breaking but notice) | Minor | Ã¢ÂÅ’ (but notice given) |
+| Change Type                    | Breaking?                             | Version Bump | Migration Guide Required |
+| ------------------------------ | ------------------------------------- | ------------ | ------------------------ |
+| Add endpoint                   | Ã¢ÂÅ’                                 | Minor        | Ã¢ÂÅ’                    |
+| Add optional field to response | Ã¢ÂÅ’                                 | Minor        | Ã¢ÂÅ’                    |
+| Add required field to request  | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Remove endpoint                | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Remove response field          | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Rename field                   | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Change field type              | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Change error format            | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Change auth method             | Ã¢Å“â€¦                               | Major        | Ã¢Å“â€¦                  |
+| Change rate limit (reducing)   | Ã¢Å¡Â Ã¯Â¸Â (non-breaking but notice) | Minor        | Ã¢ÂÅ’ (but notice given) |
 
 ---
 
@@ -691,26 +691,26 @@ async createProject(@Body() dto: CreateProjectDto) { ... }
 
 ### 7.2 Complete Error Catalog
 
-| HTTP Code | Error Code | Message | Cause | Recovery |
-|-----------|------------|---------|-------|----------|
-| **400** | `VALIDATION_ERROR` | Validation failed for request body | Invalid field format, missing required field, constraint violation | Fix based on `details` array |
-| **400** | `INVALID_REQUEST_BODY` | Request body must be valid JSON | Malformed JSON, unexpected token | Check body syntax |
-| **400** | `INVALID_QUERY_PARAM` | Invalid query parameter | Bad pagination, invalid sort field | Check parameter constraints |
-| **401** | `UNAUTHORIZED` | Missing or invalid authentication | No JWT token, expired token, invalid signature | Refresh token or re-login |
-| **401** | `TOKEN_EXPIRED` | Access token has expired | Token lifetime exceeded | Use refresh token |
-| **401** | `INVALID_API_KEY` | Invalid API key | Wrong key format, revoked key | Check API key configuration |
-| **403** | `FORBIDDEN` | Insufficient permissions | Role doesn't have access to resource | Contact admin |
-| **403** | `IP_BLOCKED` | IP address not allowed | IP outside allowed ranges | Use allowed network |
-| **404** | `NOT_FOUND` | Resource not found | Invalid ID/slug, deleted resource | Check resource identifier |
-| **404** | `ROUTE_NOT_FOUND` | API route does not exist | Wrong URL, wrong version | Check endpoint path |
-| **409** | `CONFLICT` | Resource already exists | Duplicate slug, duplicate email | Use unique value |
-| **409** | `VERSION_CONFLICT` | Resource was modified by another request | Stale `updated_at` check | Re-fetch and retry |
-| **410** | `GONE` | API version is sunset | Deprecated version still in use | Migrate to new version |
-| **422** | `UNPROCESSABLE_ENTITY` | Request body semantically invalid | Logic constraint (e.g., end_date before start_date) | Fix entity logic |
-| **429** | `RATE_LIMIT_EXCEEDED` | Too many requests | Rate limit threshold crossed | Wait `Retry-After` seconds |
-| **500** | `INTERNAL_ERROR` | An unexpected error occurred | Server exception, database error | Retry; contact support if persists |
-| **502** | `BAD_GATEWAY` | Upstream service failed | External API failure (OpenAI, Resend) | Retry with backoff |
-| **503** | `SERVICE_UNAVAILABLE` | Service temporarily unavailable | Maintenance, overload | Retry with exponential backoff |
+| HTTP Code | Error Code             | Message                                  | Cause                                                              | Recovery                           |
+| --------- | ---------------------- | ---------------------------------------- | ------------------------------------------------------------------ | ---------------------------------- |
+| **400**   | `VALIDATION_ERROR`     | Validation failed for request body       | Invalid field format, missing required field, constraint violation | Fix based on `details` array       |
+| **400**   | `INVALID_REQUEST_BODY` | Request body must be valid JSON          | Malformed JSON, unexpected token                                   | Check body syntax                  |
+| **400**   | `INVALID_QUERY_PARAM`  | Invalid query parameter                  | Bad pagination, invalid sort field                                 | Check parameter constraints        |
+| **401**   | `UNAUTHORIZED`         | Missing or invalid authentication        | No JWT token, expired token, invalid signature                     | Refresh token or re-login          |
+| **401**   | `TOKEN_EXPIRED`        | Access token has expired                 | Token lifetime exceeded                                            | Use refresh token                  |
+| **401**   | `INVALID_API_KEY`      | Invalid API key                          | Wrong key format, revoked key                                      | Check API key configuration        |
+| **403**   | `FORBIDDEN`            | Insufficient permissions                 | Role doesn't have access to resource                               | Contact admin                      |
+| **403**   | `IP_BLOCKED`           | IP address not allowed                   | IP outside allowed ranges                                          | Use allowed network                |
+| **404**   | `NOT_FOUND`            | Resource not found                       | Invalid ID/slug, deleted resource                                  | Check resource identifier          |
+| **404**   | `ROUTE_NOT_FOUND`      | API route does not exist                 | Wrong URL, wrong version                                           | Check endpoint path                |
+| **409**   | `CONFLICT`             | Resource already exists                  | Duplicate slug, duplicate email                                    | Use unique value                   |
+| **409**   | `VERSION_CONFLICT`     | Resource was modified by another request | Stale `updated_at` check                                           | Re-fetch and retry                 |
+| **410**   | `GONE`                 | API version is sunset                    | Deprecated version still in use                                    | Migrate to new version             |
+| **422**   | `UNPROCESSABLE_ENTITY` | Request body semantically invalid        | Logic constraint (e.g., end_date before start_date)                | Fix entity logic                   |
+| **429**   | `RATE_LIMIT_EXCEEDED`  | Too many requests                        | Rate limit threshold crossed                                       | Wait `Retry-After` seconds         |
+| **500**   | `INTERNAL_ERROR`       | An unexpected error occurred             | Server exception, database error                                   | Retry; contact support if persists |
+| **502**   | `BAD_GATEWAY`          | Upstream service failed                  | External API failure (OpenAI, Resend)                              | Retry with backoff                 |
+| **503**   | `SERVICE_UNAVAILABLE`  | Service temporarily unavailable          | Maintenance, overload                                              | Retry with exponential backoff     |
 
 ### 7.3 Global Exception Filter (NestJS)
 
@@ -721,9 +721,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    
-    const correlationId = request.headers['x-correlation-id'] 
-      || generateCorrelationId();
+
+    const correlationId = request.headers['x-correlation-id'] || generateCorrelationId();
 
     let status = 500;
     let code = 'INTERNAL_ERROR';
@@ -803,16 +802,16 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
 ### 8.1 Rate Limit Tiers
 
-| Tier | Endpoints | Limit | Window | Penalty | Burst |
-|------|-----------|-------|--------|---------|-------|
-| **Ã°Å¸â€Â´ Strict** | Auth (login, register, refresh) | 5 | 15 minutes | 15 min cooldown | 0 |
-| **Ã°Å¸Å¸Â¡ Medium** | POST /leads, POST /contact | 10 | 15 minutes | 15 min cooldown | 2 |
-| **Ã°Å¸Å¸Â¢ Low** | POST /analytics/events | 100 | 15 minutes | 15 min cooldown | 10 |
-| **Ã°Å¸â€Âµ Default** | All public GET endpoints | 100 | 15 minutes | 15 min cooldown | 20 |
-| **Ã°Å¸Å¸Â£ Admin** | All authenticated admin endpoints | 1000 | 15 minutes | 15 min cooldown | 50 |
-| **Ã¢Å¡Âª AI Chat** | POST /ai/chat | 20 | Per session | Return hourly | 5 |
-| **Ã°Å¸â€Â¸ GitHub** | GET /github/* | 10 | 1 minute | Respect GitHub API limits | 2 |
-| **Ã°Å¸â€Â¹ Webhook** | POST /webhooks/* | 50 | 1 minute | 1 min cooldown | 10 |
+| Tier                 | Endpoints                         | Limit | Window      | Penalty                   | Burst |
+| -------------------- | --------------------------------- | ----- | ----------- | ------------------------- | ----- |
+| **Ã°Å¸â€Â´ Strict**  | Auth (login, register, refresh)   | 5     | 15 minutes  | 15 min cooldown           | 0     |
+| **Ã°Å¸Å¸Â¡ Medium**  | POST /leads, POST /contact        | 10    | 15 minutes  | 15 min cooldown           | 2     |
+| **Ã°Å¸Å¸Â¢ Low**     | POST /analytics/events            | 100   | 15 minutes  | 15 min cooldown           | 10    |
+| **Ã°Å¸â€Âµ Default** | All public GET endpoints          | 100   | 15 minutes  | 15 min cooldown           | 20    |
+| **Ã°Å¸Å¸Â£ Admin**   | All authenticated admin endpoints | 1000  | 15 minutes  | 15 min cooldown           | 50    |
+| **Ã¢Å¡Âª AI Chat**   | POST /ai/chat                     | 20    | Per session | Return hourly             | 5     |
+| **Ã°Å¸â€Â¸ GitHub**  | GET /github/\*                    | 10    | 1 minute    | Respect GitHub API limits | 2     |
+| **Ã°Å¸â€Â¹ Webhook** | POST /webhooks/\*                 | 50    | 1 minute    | 1 min cooldown            | 10    |
 
 ### 8.2 Rate Limit Headers
 
@@ -864,9 +863,10 @@ import { ThrottlerStorageRedisService } from '@nest-lab/throttler-storage-redis'
           // Default: 100 requests / 15 min
           { name: 'default', ttl: 900000, limit: 100 },
         ],
-        storage: process.env.NODE_ENV === 'production'
-          ? new ThrottlerStorageRedisService(process.env.REDIS_URL)
-          : undefined, // In-memory for dev
+        storage:
+          process.env.NODE_ENV === 'production'
+            ? new ThrottlerStorageRedisService(process.env.REDIS_URL)
+            : undefined, // In-memory for dev
       }),
     }),
   ],
@@ -876,25 +876,33 @@ export class AppModule {}
 // Custom tier guards
 @Injectable()
 export class StrictThrottlerGuard extends ThrottlerGuard {
-  protected get limit(): number { return 5; }
-  protected get ttl(): number { return 900000; } // 15 min
+  protected get limit(): number {
+    return 5;
+  }
+  protected get ttl(): number {
+    return 900000;
+  } // 15 min
 }
 
 @Injectable()
 export class MediumThrottlerGuard extends ThrottlerGuard {
-  protected get limit(): number { return 10; }
-  protected get ttl(): number { return 900000; } // 15 min
+  protected get limit(): number {
+    return 10;
+  }
+  protected get ttl(): number {
+    return 900000;
+  } // 15 min
 }
 ```
 
 ### 8.4 Rate Limit Key Strategy
 
-| Key Type | Value | Example | Scope |
-|----------|-------|---------|-------|
-| **IP-based** | Client IP address | `ratelimit:192.168.1.1:leads` | Per visitor |
-| **User-based** | Authenticated user ID | `ratelimit:user-uuid:admin` | Per admin |
-| **Session-based** | Chat session ID | `ratelimit:session-uuid:chat` | Per AI chat session |
-| **API Key-based** | API key prefix | `ratelimit:sk_live:github` | Per service integration |
+| Key Type          | Value                 | Example                       | Scope                   |
+| ----------------- | --------------------- | ----------------------------- | ----------------------- |
+| **IP-based**      | Client IP address     | `ratelimit:192.168.1.1:leads` | Per visitor             |
+| **User-based**    | Authenticated user ID | `ratelimit:user-uuid:admin`   | Per admin               |
+| **Session-based** | Chat session ID       | `ratelimit:session-uuid:chat` | Per AI chat session     |
+| **API Key-based** | API key prefix        | `ratelimit:sk_live:github`    | Per service integration |
 
 ---
 
@@ -902,18 +910,18 @@ export class MediumThrottlerGuard extends ThrottlerGuard {
 
 ### 9.1 OWASP Top 10:2025 Compliance
 
-| Category | Protection | Implementation |
-|----------|-----------|----------------|
-| **A01: Broken Access Control** | JWT auth + RLS + Role guards | 15-min access tokens, Supabase RLS, NestJS RolesGuard |
-| **A02: Cryptographic Failures** | TLS 1.3, bcrypt, secure cookies | HTTPS enforced, bcrypt 12 rounds, httpOnly cookies |
-| **A03: Injection** | Parameterized queries + validation | Supabase client (parameterized), class-validator, Zod |
-| **A04: Insecure Design** | Security-by-default | All admin routes require auth; no default credentials |
-| **A05: Security Misconfiguration** | Security headers + CORS | HSTS, CSP, XFO, X-Content-Type-Options |
-| **A06: Vulnerable Components** | Regular audits + Dependabot | Weekly npm audit, Dependabot PRs |
-| **A07: Auth Failures** | Account lockout + rate limit | 5-attempt lockout, 15-min cooldown |
-| **A08: Data Integrity** | CSRF protection + idempotency | Next.js CSRF tokens, idempotency keys |
-| **A09: Logging Failures** | Structured logging + audit trail | Correlation IDs, 30-day retention |
-| **A10: SSRF** | URL validation + allowlist | Outbound request domain restriction |
+| Category                           | Protection                         | Implementation                                        |
+| ---------------------------------- | ---------------------------------- | ----------------------------------------------------- |
+| **A01: Broken Access Control**     | JWT auth + RLS + Role guards       | 15-min access tokens, Supabase RLS, NestJS RolesGuard |
+| **A02: Cryptographic Failures**    | TLS 1.3, bcrypt, secure cookies    | HTTPS enforced, bcrypt 12 rounds, httpOnly cookies    |
+| **A03: Injection**                 | Parameterized queries + validation | Supabase client (parameterized), class-validator, Zod |
+| **A04: Insecure Design**           | Security-by-default                | All admin routes require auth; no default credentials |
+| **A05: Security Misconfiguration** | Security headers + CORS            | HSTS, CSP, XFO, X-Content-Type-Options                |
+| **A06: Vulnerable Components**     | Regular audits + Dependabot        | Weekly npm audit, Dependabot PRs                      |
+| **A07: Auth Failures**             | Account lockout + rate limit       | 5-attempt lockout, 15-min cooldown                    |
+| **A08: Data Integrity**            | CSRF protection + idempotency      | Next.js CSRF tokens, idempotency keys                 |
+| **A09: Logging Failures**          | Structured logging + audit trail   | Correlation IDs, 30-day retention                     |
+| **A10: SSRF**                      | URL validation + allowlist         | Outbound request domain restriction                   |
 
 ### 9.2 CORS Configuration
 
@@ -950,46 +958,54 @@ app.enableCors({
 
 ```typescript
 // NestJS Helmet configuration
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://app.posthog.com"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      connectSrc: ["'self'", "https://*.supabase.co", "wss://*.supabase.co", "https://app.posthog.com", "https://o450000.ingest.us.sentry.io"],
-      fontSrc: ["'self'", "data:"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'none'"],
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://app.posthog.com'],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        imgSrc: ["'self'", 'data:', 'https:', 'blob:'],
+        connectSrc: [
+          "'self'",
+          'https://*.supabase.co',
+          'wss://*.supabase.co',
+          'https://app.posthog.com',
+          'https://o450000.ingest.us.sentry.io',
+        ],
+        fontSrc: ["'self'", 'data:'],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'none'"],
+      },
     },
-  },
-  crossOriginEmbedderPolicy: false,
-  crossOriginOpenerPolicy: { policy: "same-origin" },
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  dnsPrefetchControl: { allow: false },
-  frameguard: { action: 'deny' },
-  hidePoweredBy: true,
-  hsts: { maxAge: 63072000, includeSubDomains: true, preload: true },
-  ieNoOpen: true,
-  noSniff: true,
-  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
-  xssFilter: false, // CSP handles this
-}));
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: { policy: 'same-origin' },
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    dnsPrefetchControl: { allow: false },
+    frameguard: { action: 'deny' },
+    hidePoweredBy: true,
+    hsts: { maxAge: 63072000, includeSubDomains: true, preload: true },
+    ieNoOpen: true,
+    noSniff: true,
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    xssFilter: false, // CSP handles this
+  }),
+);
 ```
 
 ### 9.4 Input Validation Rules
 
-| Rule | Libraries | Location | Enforcement |
-|------|-----------|----------|-------------|
-| **Schema validation** | `class-validator` + `class-transformer` | NestJS DTOs | Global ValidationPipe |
-| **Type safety** | TypeScript + DTO classes | Compile time | `strict: true` in tsconfig |
-| **XSS sanitization** | `dompurify` | Before storage | Sanitize all HTML content |
-| **Email validation** | Regex (RFC 5321) | Lead creation | `@IsEmail()` decorator |
-| **URL validation** | Regex + `isURL()` | Project URLs | `@IsUrl()` decorator |
-| **SQL injection** | Parameterized queries | Supabase client | Never string concatenation |
-| **File upload validation** | MIME type + size check | Upload endpoint | Checked before write |
-| **IDOR prevention** | User ownership check | Route handlers | Verify user owns resource |
+| Rule                       | Libraries                               | Location        | Enforcement                |
+| -------------------------- | --------------------------------------- | --------------- | -------------------------- |
+| **Schema validation**      | `class-validator` + `class-transformer` | NestJS DTOs     | Global ValidationPipe      |
+| **Type safety**            | TypeScript + DTO classes                | Compile time    | `strict: true` in tsconfig |
+| **XSS sanitization**       | `dompurify`                             | Before storage  | Sanitize all HTML content  |
+| **Email validation**       | Regex (RFC 5321)                        | Lead creation   | `@IsEmail()` decorator     |
+| **URL validation**         | Regex + `isURL()`                       | Project URLs    | `@IsUrl()` decorator       |
+| **SQL injection**          | Parameterized queries                   | Supabase client | Never string concatenation |
+| **File upload validation** | MIME type + size check                  | Upload endpoint | Checked before write       |
+| **IDOR prevention**        | User ownership check                    | Route handlers  | Verify user owns resource  |
 
 ### 9.5 Audit Logging
 
@@ -1001,7 +1017,7 @@ export class AuditInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
     const method = request.method;
-    
+
     // Only log mutations
     if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
       return next.handle();
@@ -1038,7 +1054,7 @@ export class ApiKeyService {
     const rawKey = `sk_live_${crypto.randomBytes(32).toString('hex')}`;
     const hash = crypto.createHash('sha256').update(rawKey).digest('hex');
     const prefix = rawKey.substring(0, 12); // "sk_live_abc1..."
-    
+
     await this.supabase.from('api_keys').insert({
       name,
       key_hash: hash,
@@ -1046,7 +1062,7 @@ export class ApiKeyService {
       permissions: permissions.join(','),
       is_active: true,
     });
-    
+
     return { key: rawKey, prefix };
   }
 
@@ -1071,16 +1087,17 @@ export class ApiKeyService {
 
 **Purpose:** Authenticate admin user with email/password credentials and issue JWT tokens.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/auth/login` |
-| **Authentication** | None |
-| **Authorization** | None |
+| Field               | Value                     |
+| ------------------- | ------------------------- |
+| **Method**          | `POST`                    |
+| **Route**           | `/api/v1/auth/login`      |
+| **Authentication**  | None                      |
+| **Authorization**   | None                      |
 | **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (5/15min) |
-| **Idempotent** | No |
+| **Idempotent**      | No                        |
 
 **Request:**
+
 ```json
 {
   "email": "admin@portfolio.com",
@@ -1089,10 +1106,12 @@ export class ApiKeyService {
 ```
 
 **Validation Rules:**
+
 - `email`: Valid email format, max 255 chars
 - `password`: 8-128 characters, must include uppercase, lowercase, number
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -1124,16 +1143,17 @@ export class ApiKeyService {
 
 **Purpose:** Obtain a new access token using a valid refresh token.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/auth/refresh` |
-| **Authentication** | Refresh token in body |
-| **Authorization** | None |
+| Field               | Value                     |
+| ------------------- | ------------------------- |
+| **Method**          | `POST`                    |
+| **Route**           | `/api/v1/auth/refresh`    |
+| **Authentication**  | Refresh token in body     |
+| **Authorization**   | None                      |
 | **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (5/15min) |
-| **Idempotent** | No |
+| **Idempotent**      | No                        |
 
 **Request:**
+
 ```json
 {
   "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
@@ -1141,6 +1161,7 @@ export class ApiKeyService {
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -1163,16 +1184,17 @@ export class ApiKeyService {
 
 **Purpose:** Create the initial admin account. Only works if no admin exists.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/auth/register` |
-| **Authentication** | None |
-| **Authorization** | None |
+| Field               | Value                     |
+| ------------------- | ------------------------- |
+| **Method**          | `POST`                    |
+| **Route**           | `/api/v1/auth/register`   |
+| **Authentication**  | None                      |
+| **Authorization**   | None                      |
 | **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (5/15min) |
-| **Idempotent** | No |
+| **Idempotent**      | No                        |
 
 **Request:**
+
 ```json
 {
   "email": "admin@portfolio.com",
@@ -1182,10 +1204,12 @@ export class ApiKeyService {
 ```
 
 **Validation Rules:**
+
 - `password`: Must contain uppercase, lowercase, number, special char; 8-128 chars
 - `displayName`: 2-100 characters
 
 **Success Response (201):**
+
 ```json
 {
   "data": {
@@ -1210,16 +1234,17 @@ export class ApiKeyService {
 
 **Purpose:** Invalidate current session and revoke refresh token.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/auth/logout` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                        |
+| ------------------- | ---------------------------- |
+| **Method**          | `POST`                       |
+| **Route**           | `/api/v1/auth/logout`        |
+| **Authentication**  | JWT Bearer Token             |
+| **Authorization**   | `admin`                      |
 | **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
-| **Idempotent** | No |
+| **Idempotent**      | No                           |
 
 **Request:**
+
 ```json
 {
   "refreshToken": "eyJhbGciOiJIUzI1NiIs..."
@@ -1236,15 +1261,16 @@ export class ApiKeyService {
 
 **Purpose:** Send password reset email to admin.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/auth/forgot-password` |
-| **Authentication** | None |
-| **Authorization** | None |
-| **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (3/15min) |
+| Field               | Value                          |
+| ------------------- | ------------------------------ |
+| **Method**          | `POST`                         |
+| **Route**           | `/api/v1/auth/forgot-password` |
+| **Authentication**  | None                           |
+| **Authorization**   | None                           |
+| **Rate Limit Tier** | Ã°Å¸â€Â´ Strict (3/15min)      |
 
 **Request:**
+
 ```json
 {
   "email": "admin@portfolio.com"
@@ -1252,6 +1278,7 @@ export class ApiKeyService {
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -1268,14 +1295,14 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve all visible portfolio sections in display order for rendering the homepage.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/sections` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (read only) |
+| Field               | Value                        |
+| ------------------- | ---------------------------- |
+| **Method**          | `GET`                        |
+| **Route**           | `/api/v1/sections`           |
+| **Authentication**  | None (anon)                  |
+| **Authorization**   | `anon` (read only)           |
 | **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
-| **Cache** | ISR 60s |
+| **Cache**           | ISR 60s                      |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
@@ -1284,6 +1311,7 @@ export class ApiKeyService {
 | `type` | string | Ã¢ÂÅ’ | Ã¢â‚¬â€ | Filter by section type |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -1313,12 +1341,12 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve a specific section by its ID or section_key.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/sections/:idOrKey` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (public only) |
+| Field               | Value                        |
+| ------------------- | ---------------------------- |
+| **Method**          | `GET`                        |
+| **Route**           | `/api/v1/sections/:idOrKey`  |
+| **Authentication**  | None (anon)                  |
+| **Authorization**   | `anon` (public only)         |
 | **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 
 **Path Parameters:**
@@ -1335,15 +1363,16 @@ export class ApiKeyService {
 
 **Purpose:** Create a new portfolio section.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/sections` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `POST`                      |
+| **Route**           | `/api/v1/sections`          |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`, `editor`           |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
+
 ```json
 {
   "sectionKey": "new_section",
@@ -1368,15 +1397,16 @@ export class ApiKeyService {
 
 **Purpose:** Update section properties including visibility, style, ordering, and content.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/sections/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `PATCH`                     |
+| **Route**           | `/api/v1/sections/:id`      |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`, `editor`           |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request (partial update):**
+
 ```json
 {
   "isLive": true,
@@ -1394,15 +1424,16 @@ export class ApiKeyService {
 
 **Purpose:** Batch update section display order.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PUT` |
-| **Route** | `/api/v1/sections/reorder` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `PUT`                       |
+| **Route**           | `/api/v1/sections/reorder`  |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`                     |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
+
 ```json
 {
   "order": [
@@ -1421,12 +1452,12 @@ export class ApiKeyService {
 
 **Purpose:** Delete a section and its associated content.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `DELETE` |
-| **Route** | `/api/v1/sections/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `DELETE`                    |
+| **Route**           | `/api/v1/sections/:id`      |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`                     |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Success Response (204):** No content
@@ -1440,14 +1471,14 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve all public projects with filtering, sorting, and pagination.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/projects` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (public only) |
+| Field               | Value                        |
+| ------------------- | ---------------------------- |
+| **Method**          | `GET`                        |
+| **Route**           | `/api/v1/projects`           |
+| **Authentication**  | None (anon)                  |
+| **Authorization**   | `anon` (public only)         |
 | **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
-| **Cache** | ISR 60s |
+| **Cache**           | ISR 60s                      |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
@@ -1462,6 +1493,7 @@ export class ApiKeyService {
 | `order` | string | Ã¢ÂÅ’ | `asc` | Sort direction |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -1520,14 +1552,14 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve a single project by slug or ID for the detail page.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/projects/:slugOrId` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (public if not private) |
-| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
-| **Cache** | ISR 60s |
+| Field               | Value                          |
+| ------------------- | ------------------------------ |
+| **Method**          | `GET`                          |
+| **Route**           | `/api/v1/projects/:slugOrId`   |
+| **Authentication**  | None (anon)                    |
+| **Authorization**   | `anon` (public if not private) |
+| **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min)   |
+| **Cache**           | ISR 60s                        |
 
 **Path Parameters:**
 | Param | Type | Description |
@@ -1544,15 +1576,16 @@ export class ApiKeyService {
 
 **Purpose:** Create a new project entry.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/projects` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `POST`                      |
+| **Route**           | `/api/v1/projects`          |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`, `editor`           |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
+
 ```json
 {
   "title": "My Awesome Project",
@@ -1576,6 +1609,7 @@ export class ApiKeyService {
 ```
 
 **Validation Rules:**
+
 - `title`: 3-200 characters, required
 - `slug`: Auto-generated from title, must be unique
 - `techStack`: Max 20 items
@@ -1591,12 +1625,12 @@ export class ApiKeyService {
 
 **Purpose:** Update project properties.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/projects/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `PATCH`                     |
+| **Route**           | `/api/v1/projects/:id`      |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`, `editor`           |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Success Response (200):** Updated project object
@@ -1608,12 +1642,12 @@ export class ApiKeyService {
 
 **Purpose:** Soft-delete a project.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `DELETE` |
-| **Route** | `/api/v1/projects/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `DELETE`                    |
+| **Route**           | `/api/v1/projects/:id`      |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`                     |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Success Response (204):** No content
@@ -1625,14 +1659,15 @@ export class ApiKeyService {
 
 **Purpose:** Add a gallery image to a project.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/projects/:id/images` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field              | Value                         |
+| ------------------ | ----------------------------- |
+| **Method**         | `POST`                        |
+| **Route**          | `/api/v1/projects/:id/images` |
+| **Authentication** | JWT Bearer Token              |
+| **Authorization**  | `admin`, `editor`             |
 
 **Request:**
+
 ```json
 {
   "imageUrl": "https://images.supabase.co/project-image.jpg",
@@ -1651,15 +1686,16 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve a full case study for a project.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/case-studies/:projectId` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (public if project not private) |
-| **Cache** | ISR 60s |
+| Field              | Value                                  |
+| ------------------ | -------------------------------------- |
+| **Method**         | `GET`                                  |
+| **Route**          | `/api/v1/case-studies/:projectId`      |
+| **Authentication** | None (anon)                            |
+| **Authorization**  | `anon` (public if project not private) |
+| **Cache**          | ISR 60s                                |
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -1687,14 +1723,15 @@ export class ApiKeyService {
 
 **Purpose:** Create or update a case study for a project.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PUT` |
-| **Route** | `/api/v1/case-studies/:projectId` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                             |
+| ------------------ | --------------------------------- |
+| **Method**         | `PUT`                             |
+| **Route**          | `/api/v1/case-studies/:projectId` |
+| **Authentication** | JWT Bearer Token                  |
+| **Authorization**  | `admin`                           |
 
 **Request:**
+
 ```json
 {
   "challenge": "Detailed problem statement...",
@@ -1717,13 +1754,13 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve published blog posts with filtering and pagination.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/blog` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (published only) |
-| **Cache** | ISR 300s |
+| Field              | Value                   |
+| ------------------ | ----------------------- |
+| **Method**         | `GET`                   |
+| **Route**          | `/api/v1/blog`          |
+| **Authentication** | None (anon)             |
+| **Authorization**  | `anon` (published only) |
+| **Cache**          | ISR 300s                |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
@@ -1735,6 +1772,7 @@ export class ApiKeyService {
 | `sort` | string | Ã¢ÂÅ’ | `published_at` | Sort field |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -1767,13 +1805,13 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve a single blog post by slug or ID with full content.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/blog/:slugOrId` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (published only) |
-| **Cache** | ISR 300s |
+| Field              | Value                    |
+| ------------------ | ------------------------ |
+| **Method**         | `GET`                    |
+| **Route**          | `/api/v1/blog/:slugOrId` |
+| **Authentication** | None (anon)              |
+| **Authorization**  | `anon` (published only)  |
+| **Cache**          | ISR 300s                 |
 
 **Success Response (200):** Full blog post with `content` field (Markdown/MDX)
 **Analytics Event:** `article_viewed`
@@ -1784,14 +1822,15 @@ export class ApiKeyService {
 
 **Purpose:** Create a new blog post.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/blog` |
+| Field              | Value            |
+| ------------------ | ---------------- |
+| **Method**         | `POST`           |
+| **Route**          | `/api/v1/blog`   |
 | **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| **Authorization**  | `admin`          |
 
 **Request:**
+
 ```json
 {
   "title": "Building Scalable APIs with NestJS",
@@ -1808,23 +1847,23 @@ export class ApiKeyService {
 
 ### 14.4 Update Blog Post (Admin)
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/blog/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value              |
+| ------------------ | ------------------ |
+| **Method**         | `PATCH`            |
+| **Route**          | `/api/v1/blog/:id` |
+| **Authentication** | JWT Bearer Token   |
+| **Authorization**  | `admin`            |
 
 ---
 
 ### 14.5 Delete Blog Post (Admin)
 
-| Field | Value |
-|-------|-------|
-| **Method** | `DELETE` |
-| **Route** | `/api/v1/blog/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value              |
+| ------------------ | ------------------ |
+| **Method**         | `DELETE`           |
+| **Route**          | `/api/v1/blog/:id` |
+| **Authentication** | JWT Bearer Token   |
+| **Authorization**  | `admin`            |
 
 ---
 
@@ -1832,14 +1871,15 @@ export class ApiKeyService {
 
 **Purpose:** Toggle blog post published state and trigger ISR revalidation.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/blog/:id/publish` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                      |
+| ------------------ | -------------------------- |
+| **Method**         | `PATCH`                    |
+| **Route**          | `/api/v1/blog/:id/publish` |
+| **Authentication** | JWT Bearer Token           |
+| **Authorization**  | `admin`                    |
 
 **Request:**
+
 ```json
 {
   "published": true
@@ -1856,13 +1896,13 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve all skills grouped by category.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/skills` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` |
-| **Cache** | ISR 60s |
+| Field              | Value            |
+| ------------------ | ---------------- |
+| **Method**         | `GET`            |
+| **Route**          | `/api/v1/skills` |
+| **Authentication** | None (anon)      |
+| **Authorization**  | `anon`           |
+| **Cache**          | ISR 60s          |
 
 **Query Parameters:**
 | Param | Type | Required | Description |
@@ -1870,6 +1910,7 @@ export class ApiKeyService {
 | `category` | string | Ã¢ÂÅ’ | Filter by category |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -1893,15 +1934,16 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve work history timeline.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/experiences` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` |
-| **Cache** | ISR 60s |
+| Field              | Value                 |
+| ------------------ | --------------------- |
+| **Method**         | `GET`                 |
+| **Route**          | `/api/v1/experiences` |
+| **Authentication** | None (anon)           |
+| **Authorization**  | `anon`                |
+| **Cache**          | ISR 60s               |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -1930,15 +1972,16 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve all testimonials for display.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/testimonials` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` |
-| **Cache** | ISR 60s |
+| Field              | Value                  |
+| ------------------ | ---------------------- |
+| **Method**         | `GET`                  |
+| **Route**          | `/api/v1/testimonials` |
+| **Authentication** | None (anon)            |
+| **Authorization**  | `anon`                 |
+| **Cache**          | ISR 60s                |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -1962,34 +2005,34 @@ export class ApiKeyService {
 
 ### 16.2 List Achievements
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/achievements` |
-| **Authentication** | None (anon) |
-| **Cache** | ISR 60s |
+| Field              | Value                  |
+| ------------------ | ---------------------- |
+| **Method**         | `GET`                  |
+| **Route**          | `/api/v1/achievements` |
+| **Authentication** | None (anon)            |
+| **Cache**          | ISR 60s                |
 
 ---
 
 ### 16.3 List Services
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/services` |
-| **Authentication** | None (anon) |
-| **Cache** | ISR 60s |
+| Field              | Value              |
+| ------------------ | ------------------ |
+| **Method**         | `GET`              |
+| **Route**          | `/api/v1/services` |
+| **Authentication** | None (anon)        |
+| **Cache**          | ISR 60s            |
 
 ---
 
 ### 16.4 List Press Features
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/press` |
-| **Authentication** | None (anon) |
-| **Cache** | ISR 60s |
+| Field              | Value           |
+| ------------------ | --------------- |
+| **Method**         | `GET`           |
+| **Route**          | `/api/v1/press` |
+| **Authentication** | None (anon)     |
+| **Cache**          | ISR 60s         |
 
 ---
 
@@ -1999,15 +2042,16 @@ export class ApiKeyService {
 
 **Purpose:** Submit a contact form inquiry. Used by the public contact form. Server-side validation, rate limiting, honeypot, and hCaptcha protection.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/leads` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (insert only) |
+| Field               | Value                      |
+| ------------------- | -------------------------- |
+| **Method**          | `POST`                     |
+| **Route**           | `/api/v1/leads`            |
+| **Authentication**  | None (anon)                |
+| **Authorization**   | `anon` (insert only)       |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â¡ Medium (10/15min) |
 
 **Request:**
+
 ```json
 {
   "name": "John Doe",
@@ -2028,6 +2072,7 @@ export class ApiKeyService {
 ```
 
 **Validation Rules:**
+
 - `name`: 2-100 characters, required
 - `email`: Valid RFC 5321 email format, required
 - `message`: 10-5000 characters, required
@@ -2036,6 +2081,7 @@ export class ApiKeyService {
 - `source`: Must be one of: `contact_form`, `ai_chat`, `referral`, `direct`
 
 **Success Response (201):**
+
 ```json
 {
   "data": {
@@ -2063,12 +2109,12 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve paginated list of all leads for the admin inbox.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/leads` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `GET`                       |
+| **Route**           | `/api/v1/leads`             |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`                     |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Query Parameters:**
@@ -2088,12 +2134,12 @@ export class ApiKeyService {
 
 ### 17.3 Get Lead (Admin)
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/leads/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value               |
+| ------------------ | ------------------- |
+| **Method**         | `GET`               |
+| **Route**          | `/api/v1/leads/:id` |
+| **Authentication** | JWT Bearer Token    |
+| **Authorization**  | `admin`             |
 
 ---
 
@@ -2101,14 +2147,15 @@ export class ApiKeyService {
 
 **Purpose:** Update lead status, priority, or add notes.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/leads/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value               |
+| ------------------ | ------------------- |
+| **Method**         | `PATCH`             |
+| **Route**          | `/api/v1/leads/:id` |
+| **Authentication** | JWT Bearer Token    |
+| **Authorization**  | `admin`             |
 
 **Request:**
+
 ```json
 {
   "status": "replied",
@@ -2125,12 +2172,12 @@ export class ApiKeyService {
 
 **Purpose:** Export leads as CSV file.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/leads/export` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                  |
+| ------------------ | ---------------------- |
+| **Method**         | `GET`                  |
+| **Route**          | `/api/v1/leads/export` |
+| **Authentication** | JWT Bearer Token       |
+| **Authorization**  | `admin`                |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
@@ -2148,14 +2195,15 @@ export class ApiKeyService {
 
 **Purpose:** Add an internal note to a lead.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/leads/:id/notes` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                     |
+| ------------------ | ------------------------- |
+| **Method**         | `POST`                    |
+| **Route**          | `/api/v1/leads/:id/notes` |
+| **Authentication** | JWT Bearer Token          |
+| **Authorization**  | `admin`                   |
 
 **Request:**
+
 ```json
 {
   "content": "Called the client, they want a proposal by Friday."
@@ -2170,15 +2218,16 @@ export class ApiKeyService {
 
 **Purpose:** Record a visitor analytics event. Batched from the client every 30 seconds.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/analytics/events` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` (insert only) |
-| **Rate Limit Tier** | Ã°Å¸Å¸Â¢ Low (100/15min) |
+| Field               | Value                      |
+| ------------------- | -------------------------- |
+| **Method**          | `POST`                     |
+| **Route**           | `/api/v1/analytics/events` |
+| **Authentication**  | None (anon)                |
+| **Authorization**   | `anon` (insert only)       |
+| **Rate Limit Tier** | Ã°Å¸Å¸Â¢ Low (100/15min)   |
 
 **Request:**
+
 ```json
 {
   "eventName": "section_view",
@@ -2196,6 +2245,7 @@ export class ApiKeyService {
 ```
 
 **Validation Rules:**
+
 - `eventName`: Must match known event pattern, required
 - `sessionId`: Max 255 chars
 - `properties`: Max 10KB JSON
@@ -2209,12 +2259,12 @@ export class ApiKeyService {
 
 **Purpose:** Get aggregated analytics data for the admin dashboard.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/analytics/summary` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `GET`                       |
+| **Route**           | `/api/v1/analytics/summary` |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`                     |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Query Parameters:**
@@ -2223,6 +2273,7 @@ export class ApiKeyService {
 | `period` | string | Ã¢ÂÅ’ | `7d` | Period: `24h`, `7d`, `30d`, `90d` |
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -2240,7 +2291,7 @@ export class ApiKeyService {
     ],
     "deviceBreakdown": {
       "desktop": 0.55,
-      "mobile": 0.40,
+      "mobile": 0.4,
       "tablet": 0.05
     },
     "dailyViews": [
@@ -2255,12 +2306,12 @@ export class ApiKeyService {
 
 ### 18.3 Get Visitor Sessions (Admin)
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/analytics/sessions` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                        |
+| ------------------ | ---------------------------- |
+| **Method**         | `GET`                        |
+| **Route**          | `/api/v1/analytics/sessions` |
+| **Authentication** | JWT Bearer Token             |
+| **Authorization**  | `admin`                      |
 
 **Query Parameters:**
 | Param | Type | Required | Default | Description |
@@ -2277,14 +2328,15 @@ export class ApiKeyService {
 
 **Purpose:** Fetch all widget data for the admin dashboard overview.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/admin/dashboard` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                     |
+| ------------------ | ------------------------- |
+| **Method**         | `GET`                     |
+| **Route**          | `/api/v1/admin/dashboard` |
+| **Authentication** | JWT Bearer Token          |
+| **Authorization**  | `admin`                   |
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -2322,14 +2374,15 @@ export class ApiKeyService {
 
 **Purpose:** Retrieve admin action history for auditing.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/admin/activities` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                      |
+| ------------------ | -------------------------- |
+| **Method**         | `GET`                      |
+| **Route**          | `/api/v1/admin/activities` |
+| **Authentication** | JWT Bearer Token           |
+| **Authorization**  | `admin`                    |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -2351,18 +2404,24 @@ export class ApiKeyService {
 
 **Purpose:** Perform batch operations on multiple resources.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/admin/batch` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                 |
+| ------------------ | --------------------- |
+| **Method**         | `POST`                |
+| **Route**          | `/api/v1/admin/batch` |
+| **Authentication** | JWT Bearer Token      |
+| **Authorization**  | `admin`               |
 
 **Request:**
+
 ```json
 {
   "operations": [
-    { "resource": "sections", "action": "update", "ids": ["uuid-1", "uuid-2"], "data": { "isLive": true } },
+    {
+      "resource": "sections",
+      "action": "update",
+      "ids": ["uuid-1", "uuid-2"],
+      "data": { "isLive": true }
+    },
     { "resource": "leads", "action": "update", "ids": ["uuid-3"], "data": { "status": "archived" } }
   ]
 }
@@ -2374,14 +2433,15 @@ export class ApiKeyService {
 
 **Purpose:** Trigger ISR cache revalidation for specified paths.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/admin/revalidate` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                      |
+| ------------------ | -------------------------- |
+| **Method**         | `POST`                     |
+| **Route**          | `/api/v1/admin/revalidate` |
+| **Authentication** | JWT Bearer Token           |
+| **Authorization**  | `admin`                    |
 
 **Request:**
+
 ```json
 {
   "paths": ["/", "/projects", "/blog"]
@@ -2398,16 +2458,17 @@ export class ApiKeyService {
 
 **Purpose:** Send a chat message to the AI assistant and receive a streaming SSE response.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/ai/chat` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `POST`                      |
+| **Route**           | `/api/v1/ai/chat`           |
+| **Authentication**  | None (anon)                 |
+| **Authorization**   | `anon`                      |
 | **Rate Limit Tier** | Ã¢Å¡Âª AI Chat (20/session) |
-| **Protocol** | Server-Sent Events (SSE) |
+| **Protocol**        | Server-Sent Events (SSE)    |
 
 **Request:**
+
 ```json
 {
   "message": "What technologies do you specialize in?",
@@ -2421,11 +2482,13 @@ export class ApiKeyService {
 ```
 
 **Validation Rules:**
+
 - `message`: 1-2000 characters, required
 - `sessionId`: Valid UUID v4
 - `conversationHistory`: Max 20 messages (10 turns)
 
 **Success Response (200):** SSE Stream
+
 ```text
 event: token
 data: {"token": "Based", "index": 0}
@@ -2448,15 +2511,16 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Analyze portfolio content for readability, SEO, tone, and improvement suggestions.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/ai/analyze` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `POST`                      |
+| **Route**           | `/api/v1/ai/analyze`        |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`                     |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:**
+
 ```json
 {
   "content": "I am a full-stack developer with 10 years of experience...",
@@ -2465,6 +2529,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -2511,14 +2576,15 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Generate AI-powered content suggestions for portfolio sections.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/ai/suggest` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                |
+| ------------------ | -------------------- |
+| **Method**         | `POST`               |
+| **Route**          | `/api/v1/ai/suggest` |
+| **Authentication** | JWT Bearer Token     |
+| **Authorization**  | `admin`              |
 
 **Request:**
+
 ```json
 {
   "sectionType": "hero",
@@ -2528,6 +2594,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -2548,16 +2615,17 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Fetch recent GitHub activity (commits, PRs, stars) for the open-source section. Data is cached for 10 minutes.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/github/activity` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` |
-| **Rate Limit Tier** | Ã°Å¸â€Â¸ GitHub (10/min) |
-| **Cache** | Server-side cache, 600s TTL |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `GET`                       |
+| **Route**           | `/api/v1/github/activity`   |
+| **Authentication**  | None (anon)                 |
+| **Authorization**   | `anon`                      |
+| **Rate Limit Tier** | Ã°Å¸â€Â¸ GitHub (10/min)    |
+| **Cache**           | Server-side cache, 600s TTL |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -2582,14 +2650,15 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Fetch pinned repositories with star counts.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/github/repos` |
-| **Authentication** | None (anon) |
-| **Cache** | Server-side cache, 600s TTL |
+| Field              | Value                       |
+| ------------------ | --------------------------- |
+| **Method**         | `GET`                       |
+| **Route**          | `/api/v1/github/repos`      |
+| **Authentication** | None (anon)                 |
+| **Cache**          | Server-side cache, 600s TTL |
 
 **Success Response (200):**
+
 ```json
 {
   "data": [
@@ -2614,14 +2683,15 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Auto-save section content draft every 30 seconds.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/cms/sections/:id/auto-save` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field              | Value                                |
+| ------------------ | ------------------------------------ |
+| **Method**         | `PATCH`                              |
+| **Route**          | `/api/v1/cms/sections/:id/auto-save` |
+| **Authentication** | JWT Bearer Token                     |
+| **Authorization**  | `admin`, `editor`                    |
 
 **Request:**
+
 ```json
 {
   "content": {
@@ -2640,12 +2710,12 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Generate a preview of a section with current draft content.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/cms/sections/:id/preview` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field              | Value                              |
+| ------------------ | ---------------------------------- |
+| **Method**         | `GET`                              |
+| **Route**          | `/api/v1/cms/sections/:id/preview` |
+| **Authentication** | JWT Bearer Token                   |
+| **Authorization**  | `admin`, `editor`                  |
 
 **Query Parameters:**
 | Param | Type | Required | Description |
@@ -2662,15 +2732,16 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Get current availability status for public display.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/availability` |
-| **Authentication** | None (anon) |
-| **Authorization** | `anon` |
-| **Realtime** | Supabase subscription available |
+| Field              | Value                           |
+| ------------------ | ------------------------------- |
+| **Method**         | `GET`                           |
+| **Route**          | `/api/v1/availability`          |
+| **Authentication** | None (anon)                     |
+| **Authorization**  | `anon`                          |
+| **Realtime**       | Supabase subscription available |
 
 **Success Response (200):**
+
 ```json
 {
   "data": {
@@ -2689,14 +2760,15 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Toggle availability status (updates in real-time via Supabase).
 
-| Field | Value |
-|-------|-------|
-| **Method** | `PATCH` |
-| **Route** | `/api/v1/availability` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value                  |
+| ------------------ | ---------------------- |
+| **Method**         | `PATCH`                |
+| **Route**          | `/api/v1/availability` |
+| **Authentication** | JWT Bearer Token       |
+| **Authorization**  | `admin`                |
 
 **Request:**
+
 ```json
 {
   "isAvailable": false,
@@ -2715,12 +2787,12 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Upload an image or document to Supabase Storage with automatic optimization.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/upload` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin`, `editor` |
+| Field               | Value                       |
+| ------------------- | --------------------------- |
+| **Method**          | `POST`                      |
+| **Route**           | `/api/v1/upload`            |
+| **Authentication**  | JWT Bearer Token            |
+| **Authorization**   | `admin`, `editor`           |
 | **Rate Limit Tier** | Ã°Å¸Å¸Â£ Admin (1000/15min) |
 
 **Request:** `multipart/form-data`
@@ -2731,10 +2803,12 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 | `altText` | string | Ã¢ÂÅ’ | Accessibility alt text |
 
 **Validation Rules:**
+
 - Images: Max 5MB, allowed types: `image/png`, `image/jpeg`, `image/webp`, `image/gif`, `image/svg+xml`
 - Documents: Max 10MB, allowed types: `application/pdf`
 
 **Success Response (201):**
+
 ```json
 {
   "data": {
@@ -2760,23 +2834,23 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** List all uploaded media assets.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/media` |
+| Field              | Value            |
+| ------------------ | ---------------- |
+| **Method**         | `GET`            |
+| **Route**          | `/api/v1/media`  |
 | **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| **Authorization**  | `admin`          |
 
 ---
 
 ### 24.3 Delete Media Asset
 
-| Field | Value |
-|-------|-------|
-| **Method** | `DELETE` |
-| **Route** | `/api/v1/media/:id` |
-| **Authentication** | JWT Bearer Token |
-| **Authorization** | `admin` |
+| Field              | Value               |
+| ------------------ | ------------------- |
+| **Method**         | `DELETE`            |
+| **Route**          | `/api/v1/media/:id` |
+| **Authentication** | JWT Bearer Token    |
+| **Authorization**  | `admin`             |
 
 ---
 
@@ -2786,13 +2860,13 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Generic webhook receiver for external service integrations (GitHub, Resend, Telegram).
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/webhooks/:source` |
-| **Authentication** | Webhook secret via `X-Webhook-Secret` header |
-| **Authorization** | Service |
-| **Rate Limit Tier** | Ã°Å¸â€Â¹ Webhook (50/min) |
+| Field               | Value                                        |
+| ------------------- | -------------------------------------------- |
+| **Method**          | `POST`                                       |
+| **Route**           | `/api/v1/webhooks/:source`                   |
+| **Authentication**  | Webhook secret via `X-Webhook-Secret` header |
+| **Authorization**   | Service                                      |
+| **Rate Limit Tier** | Ã°Å¸â€Â¹ Webhook (50/min)                    |
 
 **Path Parameters:**
 | Param | Type | Description |
@@ -2813,6 +2887,7 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 **Purpose:** Receive GitHub webhook events for activity tracking.
 
 **Request:**
+
 ```json
 {
   "ref": "refs/heads/main",
@@ -2833,11 +2908,11 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Receive email delivery status from Resend.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `POST` |
-| **Route** | `/api/v1/webhooks/resend` |
-| **Authentication** | Webhook secret |
+| Field              | Value                     |
+| ------------------ | ------------------------- |
+| **Method**         | `POST`                    |
+| **Route**          | `/api/v1/webhooks/resend` |
+| **Authentication** | Webhook secret            |
 
 **Events:** `email.delivered`, `email.bounced`, `email.complained`
 
@@ -2849,14 +2924,15 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Simple health check for uptime monitoring (Better Uptime, Uptime Robot).
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/health` |
-| **Authentication** | None |
+| Field               | Value                        |
+| ------------------- | ---------------------------- |
+| **Method**          | `GET`                        |
+| **Route**           | `/api/v1/health`             |
+| **Authentication**  | None                         |
 | **Rate Limit Tier** | Ã°Å¸â€Âµ Default (100/15min) |
 
 **Success Response (200):**
+
 ```json
 {
   "status": "ok",
@@ -2877,13 +2953,14 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Detailed readiness probe checking all dependencies.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/ready` |
-| **Authentication** | None |
+| Field              | Value           |
+| ------------------ | --------------- |
+| **Method**         | `GET`           |
+| **Route**          | `/api/v1/ready` |
+| **Authentication** | None            |
 
 **Success Response (200):**
+
 ```json
 {
   "status": "ready",
@@ -2902,11 +2979,11 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 **Purpose:** Prometheus metrics for performance monitoring.
 
-| Field | Value |
-|-------|-------|
-| **Method** | `GET` |
-| **Route** | `/api/v1/metrics` |
-| **Authentication** | API Key |
+| Field              | Value             |
+| ------------------ | ----------------- |
+| **Method**         | `GET`             |
+| **Route**          | `/api/v1/metrics` |
+| **Authentication** | API Key           |
 
 **Success Response (200):** Prometheus text format metrics
 
@@ -2916,133 +2993,133 @@ data: {"code": "RATE_LIMIT_EXCEEDED", "message": "Chat limit reached for this se
 
 ### 27.1 Endpoint Performance Targets
 
-| Endpoint Group | Target p95 | Worst Case p99 | SLA |
-|----------------|-----------|----------------|-----|
-| Public GET (ISR cached) | < 50ms | < 100ms | 99.9% |
-| Admin GET (authenticated) | < 150ms | < 300ms | 99.5% |
-| Admin POST/PATCH (mutations) | < 200ms | < 500ms | 99.5% |
-| Lead submission (POST) | < 500ms | < 2s | 99.5% |
-| Analytics event ingestion | < 100ms | < 500ms | 99.0% |
-| File upload (5MB) | < 3s | < 8s | 99.0% |
-| AI Chat (SSE stream) | < 3s first token | < 6s | 98.0% |
-| Content analysis | < 5s | < 10s | 98.0% |
-| CSV export (1000 leads) | < 3s | < 10s | 99.0% |
-| Health check | < 10ms | < 30ms | 99.99% |
+| Endpoint Group               | Target p95       | Worst Case p99 | SLA    |
+| ---------------------------- | ---------------- | -------------- | ------ |
+| Public GET (ISR cached)      | < 50ms           | < 100ms        | 99.9%  |
+| Admin GET (authenticated)    | < 150ms          | < 300ms        | 99.5%  |
+| Admin POST/PATCH (mutations) | < 200ms          | < 500ms        | 99.5%  |
+| Lead submission (POST)       | < 500ms          | < 2s           | 99.5%  |
+| Analytics event ingestion    | < 100ms          | < 500ms        | 99.0%  |
+| File upload (5MB)            | < 3s             | < 8s           | 99.0%  |
+| AI Chat (SSE stream)         | < 3s first token | < 6s           | 98.0%  |
+| Content analysis             | < 5s             | < 10s          | 98.0%  |
+| CSV export (1000 leads)      | < 3s             | < 10s          | 99.0%  |
+| Health check                 | < 10ms           | < 30ms         | 99.99% |
 
 ### 27.2 API Availability Budgets
 
-| Metric | Budget | Measurement |
-|--------|--------|-------------|
-| API uptime (monthly) | 99.9% | Better Uptime |
-| Error rate (all endpoints) | < 0.1% of requests | Sentry |
-| 5xx error rate | < 0.05% of requests | Sentry |
-| 429 rate limit responses | < 5% of requests (legitimate) | Custom metrics |
-| Cold start p95 (serverless) | < 500ms | Vercel logs |
-| Max request body | 10MB | API gateway |
-| Max concurrent requests | 100 | Auto-scaling |
+| Metric                      | Budget                        | Measurement    |
+| --------------------------- | ----------------------------- | -------------- |
+| API uptime (monthly)        | 99.9%                         | Better Uptime  |
+| Error rate (all endpoints)  | < 0.1% of requests            | Sentry         |
+| 5xx error rate              | < 0.05% of requests           | Sentry         |
+| 429 rate limit responses    | < 5% of requests (legitimate) | Custom metrics |
+| Cold start p95 (serverless) | < 500ms                       | Vercel logs    |
+| Max request body            | 10MB                          | API gateway    |
+| Max concurrent requests     | 100                           | Auto-scaling   |
 
 ### 27.3 Endpoint Count Summary
 
-| API Group | Public Endpoints | Admin Endpoints | Total |
-|-----------|-----------------|-----------------|-------|
-| Auth | 3 | 2 | 5 |
-| Portfolio Content | 2 | 4 | 6 |
-| Projects | 2 | 4 | 6 |
-| Case Studies | 1 | 1 | 2 |
-| Blog | 2 | 4 | 6 |
-| Skills & Experience | 2 | 0 | 2 |
-| Testimonials & Social | 4 | 0 | 4 |
-| Leads | 1 | 5 | 6 |
-| Analytics | 1 | 2 | 3 |
-| Admin | 0 | 4 | 4 |
-| AI | 1 | 2 | 3 |
-| GitHub | 2 | 0 | 2 |
-| CMS | 0 | 2 | 2 |
-| Availability | 1 | 1 | 2 |
-| Media & Upload | 0 | 3 | 3 |
-| Webhooks | 0 | 3 | 3 |
-| Health & Monitoring | 3 | 0 | 3 |
-| **Total** | **25** | **37** | **62** |
+| API Group             | Public Endpoints | Admin Endpoints | Total  |
+| --------------------- | ---------------- | --------------- | ------ |
+| Auth                  | 3                | 2               | 5      |
+| Portfolio Content     | 2                | 4               | 6      |
+| Projects              | 2                | 4               | 6      |
+| Case Studies          | 1                | 1               | 2      |
+| Blog                  | 2                | 4               | 6      |
+| Skills & Experience   | 2                | 0               | 2      |
+| Testimonials & Social | 4                | 0               | 4      |
+| Leads                 | 1                | 5               | 6      |
+| Analytics             | 1                | 2               | 3      |
+| Admin                 | 0                | 4               | 4      |
+| AI                    | 1                | 2               | 3      |
+| GitHub                | 2                | 0               | 2      |
+| CMS                   | 0                | 2               | 2      |
+| Availability          | 1                | 1               | 2      |
+| Media & Upload        | 0                | 3               | 3      |
+| Webhooks              | 0                | 3               | 3      |
+| Health & Monitoring   | 3                | 0               | 3      |
+| **Total**             | **25**           | **37**          | **62** |
 
 ---
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| D-API-001 | NestJS 10 as primary REST API framework | Opinionated structure; built-in guards, interceptors, pipes; TypeScript-native; strong DI | Express (rejected Ã¢â‚¬â€ no structure, manual middleware); Fastify (rejected Ã¢â‚¬â€ smaller ecosystem, less community support) | Mar 2026 | Principal API Architect |
-| D-API-002 | FastAPI for AI microservice (separate from NestJS) | Python-native for LLM/AI libraries; async-first; automatic OpenAPI docs | NestJS for AI (rejected Ã¢â‚¬â€ Python AI ecosystem is richer); single API surface (rejected Ã¢â‚¬â€ mixing REST and AI workloads causes scaling issues) | Mar 2026 | Principal API Architect |
-| D-API-003 | JWT access + refresh token authentication | Stateless auth; no server-side session storage; OWASP-compliant rotation | Session-based auth (rejected Ã¢â‚¬â€ server state, Supabase overhead); API-key-only (rejected Ã¢â‚¬â€ no user binding) | Mar 2026 | Principal API Architect |
-| D-API-004 | SSE streaming for AI chat responses | Real-time token-by-token delivery; native browser EventSource API; no WebSocket overhead | WebSocket (rejected Ã¢â‚¬â€ bidirectional not needed, more complex); polling (rejected Ã¢â‚¬â€ latency, bandwidth waste) | Jun 2026 | Principal API Architect |
-| D-API-005 | 8-tier rate limiting with per-endpoint configuration | Protects free-tier infrastructure; prevents cost abuse on AI endpoints; graduated limits by sensitivity | Global rate limit (rejected Ã¢â‚¬â€ blocks all endpoints equally); no rate limiting (rejected Ã¢â‚¬â€ OWASP non-compliance, abuse risk) | Mar 2026 | Principal API Architect |
-| D-API-006 | Next.js BFF (Backend-for-Frontend) pattern | ISR/SSR data fetching with private API access; no client-side secret exposure; reduced client bundle | Direct client-to-API calls (rejected Ã¢â‚¬â€ exposes internal API structure); pure client-side data fetching (rejected Ã¢â‚¬â€ no SSR/ISR) | Mar 2026 | Principal API Architect |
-| D-API-007 | Versioned API via header (Accept-Version) rather than URL path | Cleaner URL structure; easier client migration; no path breaking on version change | URL versioning (/v1/, /v2/) (rejected Ã¢â‚¬â€ clutters URLs, harder to maintain aliases); no versioning (rejected Ã¢â‚¬â€ breaking changes affect clients) | Jun 2026 | Principal API Architect |
+| ID        | Decision                                                       | Rationale                                                                                               | Alternatives Considered                                                                                                                                    | Date     | Approver                |
+| --------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------- |
+| D-API-001 | NestJS 10 as primary REST API framework                        | Opinionated structure; built-in guards, interceptors, pipes; TypeScript-native; strong DI               | Express (rejected Ã¢â‚¬â€ no structure, manual middleware); Fastify (rejected Ã¢â‚¬â€ smaller ecosystem, less community support)                           | Mar 2026 | Principal API Architect |
+| D-API-002 | FastAPI for AI microservice (separate from NestJS)             | Python-native for LLM/AI libraries; async-first; automatic OpenAPI docs                                 | NestJS for AI (rejected Ã¢â‚¬â€ Python AI ecosystem is richer); single API surface (rejected Ã¢â‚¬â€ mixing REST and AI workloads causes scaling issues)   | Mar 2026 | Principal API Architect |
+| D-API-003 | JWT access + refresh token authentication                      | Stateless auth; no server-side session storage; OWASP-compliant rotation                                | Session-based auth (rejected Ã¢â‚¬â€ server state, Supabase overhead); API-key-only (rejected Ã¢â‚¬â€ no user binding)                                     | Mar 2026 | Principal API Architect |
+| D-API-004 | SSE streaming for AI chat responses                            | Real-time token-by-token delivery; native browser EventSource API; no WebSocket overhead                | WebSocket (rejected Ã¢â‚¬â€ bidirectional not needed, more complex); polling (rejected Ã¢â‚¬â€ latency, bandwidth waste)                                   | Jun 2026 | Principal API Architect |
+| D-API-005 | 8-tier rate limiting with per-endpoint configuration           | Protects free-tier infrastructure; prevents cost abuse on AI endpoints; graduated limits by sensitivity | Global rate limit (rejected Ã¢â‚¬â€ blocks all endpoints equally); no rate limiting (rejected Ã¢â‚¬â€ OWASP non-compliance, abuse risk)                    | Mar 2026 | Principal API Architect |
+| D-API-006 | Next.js BFF (Backend-for-Frontend) pattern                     | ISR/SSR data fetching with private API access; no client-side secret exposure; reduced client bundle    | Direct client-to-API calls (rejected Ã¢â‚¬â€ exposes internal API structure); pure client-side data fetching (rejected Ã¢â‚¬â€ no SSR/ISR)                 | Mar 2026 | Principal API Architect |
+| D-API-007 | Versioned API via header (Accept-Version) rather than URL path | Cleaner URL structure; easier client migration; no path breaking on version change                      | URL versioning (/v1/, /v2/) (rejected Ã¢â‚¬â€ clutters URLs, harder to maintain aliases); no versioning (rejected Ã¢â‚¬â€ breaking changes affect clients) | Jun 2026 | Principal API Architect |
 
 ---
 
 ## 28. API Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | **Enterprise-Grade Rewrite**: Added API Vision & 10 Design Principles; complete API Architecture with 4 Mermaid diagrams; Authentication Strategy with JWT/OAuth/API Key flows; Authorization Strategy with RBAC matrix; Versioning lifecycle; Complete Error Catalog with 18 error codes; Rate Limiting with 8 tiers; Security Standards with OWASP compliance, CORS, Helmet, Audit logging; 62 endpoint specifications across 17 API groups with complete Request/Response schemas, Validation Rules, Error Responses, and Analytics Events per endpoint; OpenAPI-style documentation format; Performance budgets for all endpoint groups; Endpoint count summary | Principal API Architect |
-| 3.0 | Jun 2026 | Added executive summary, API versioning strategy, deprecation policy, complete error catalog, rate limiting tiers | Backend Lead |
-| 2.0 | Jun 2026 | Updated for enterprise monorepo structure | Backend Lead |
-| 1.0 | Mar 2026 | Initial API documentation | Backend Lead |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Author                  |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| 4.0     | Jun 2026 | **Enterprise-Grade Rewrite**: Added API Vision & 10 Design Principles; complete API Architecture with 4 Mermaid diagrams; Authentication Strategy with JWT/OAuth/API Key flows; Authorization Strategy with RBAC matrix; Versioning lifecycle; Complete Error Catalog with 18 error codes; Rate Limiting with 8 tiers; Security Standards with OWASP compliance, CORS, Helmet, Audit logging; 62 endpoint specifications across 17 API groups with complete Request/Response schemas, Validation Rules, Error Responses, and Analytics Events per endpoint; OpenAPI-style documentation format; Performance budgets for all endpoint groups; Endpoint count summary | Principal API Architect |
+| 3.0     | Jun 2026 | Added executive summary, API versioning strategy, deprecation policy, complete error catalog, rate limiting tiers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Backend Lead            |
+| 2.0     | Jun 2026 | Updated for enterprise monorepo structure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Backend Lead            |
+| 1.0     | Mar 2026 | Initial API documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Backend Lead            |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/MASTER-INDEX.md` | Document navigation and dependency graph |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ where APIs fit |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack Ã¢â‚¬â€ NestJS, FastAPI, Next.js |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema Ã¢â‚¬â€ tables queried by APIs |
-| `docs/security/SecurityArchitecture.md` (v3.0) | Security posture Ã¢â‚¬â€ auth, RLS, rate limiting |
-| `docs/security/15-AUTHORIZATION.md` (v3.0) | RBAC model Ã¢â‚¬â€ roles, permissions |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog Ã¢â‚¬â€ F-XXX IDs referenced |
-| `docs/architecture/13-INTEGRATIONS.md` (v3.0) | Third-party integrations Ã¢â‚¬â€ API dependencies |
-| `Ultimate_Portfolio_Plan_2026_v3.docx` | Complete portfolio blueprint Ã¢â‚¬â€ API definitions |
+| Reference                                           | Description                                          |
+| --------------------------------------------------- | ---------------------------------------------------- |
+| `docs/MASTER-INDEX.md`                              | Document navigation and dependency graph             |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ where APIs fit           |
+| `docs/05-architecture/10-TECHSTACK.md` (v5.0)       | Technology stack Ã¢â‚¬â€ NestJS, FastAPI, Next.js    |
+| `docs/09-database/DatabaseArchitecture.md` (v5.0)   | Database schema Ã¢â‚¬â€ tables queried by APIs       |
+| `docs/11-security/SecurityArchitecture.md` (v3.0)   | Security posture Ã¢â‚¬â€ auth, RLS, rate limiting    |
+| `docs/11-security/15-AUTHORIZATION.md` (v3.0)       | RBAC model Ã¢â‚¬â€ roles, permissions                |
+| `docs/01-product/02-FEATURES.md` (v3.0)             | Feature catalog Ã¢â‚¬â€ F-XXX IDs referenced         |
+| `docs/05-architecture/13-INTEGRATIONS.md` (v3.0)    | Third-party integrations Ã¢â‚¬â€ API dependencies    |
+| `Ultimate_Portfolio_Plan_2026_v3.docx`              | Complete portfolio blueprint Ã¢â‚¬â€ API definitions |
 
 ---
 
-
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | Enterprise-grade rewrite - 62 endpoints, auth flows, rate limiting, security | Principal API Architect |
-| 3.0 | Jun 2026 | Added executive summary, versioning, error catalog, rate limiting tiers | Backend Lead |
-| 2.0 | Jun 2026 | Updated for enterprise monorepo structure | Backend Lead |
-| 1.0 | Mar 2026 | Initial API documentation | Backend Lead |
+| Version | Date     | Changes                                                                      | Author                  |
+| ------- | -------- | ---------------------------------------------------------------------------- | ----------------------- |
+| 4.0     | Jun 2026 | Enterprise-grade rewrite - 62 endpoints, auth flows, rate limiting, security | Principal API Architect |
+| 3.0     | Jun 2026 | Added executive summary, versioning, error catalog, rate limiting tiers      | Backend Lead            |
+| 2.0     | Jun 2026 | Updated for enterprise monorepo structure                                    | Backend Lead            |
+| 1.0     | Mar 2026 | Initial API documentation                                                    | Backend Lead            |
 
-*Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade API Architecture*  
-*Supersedes v3.0 (June 2026) and all previous versions*  
-*Next Review Date: September 2026*
+_Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade API Architecture_  
+_Supersedes v3.0 (June 2026) and all previous versions_  
+_Next Review Date: September 2026_
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **RESTful API** | An architectural style for APIs that uses HTTP methods (GET, POST, PUT, DELETE) to perform CRUD operations on resources identified by URLs |
-| **SSE (Server-Sent Events)** | A technology that enables a server to push real-time updates to a client over a single HTTP connection |
-| **JWT (JSON Web Token)** | A compact, URL-safe token format used for transmitting claims between parties as a JSON object, digitally signed |
-| **BFF (Backend-for-Frontend)** | A pattern where a server acts as an intermediary between a client application and backend APIs, aggregating and transforming data |
-| **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that controls which domains can access resources from a different origin |
-| **Rate Limiting** | A technique that controls the number of requests a client can make to an API within a specified time window |
-| **Idempotency** | A property of an API operation where multiple identical requests produce the same result as a single request |
-| **API Versioning** | The practice of managing changes to an API over time to avoid breaking existing clients |
-| **WebSocket** | A communication protocol that provides full-duplex communication channels over a single TCP connection |
-| **OpenAPI/Swagger** | A specification for describing RESTful APIs using a standard JSON or YAML format for documentation and code generation |
-| **DTO (Data Transfer Object)** | An object that carries data between processes, typically used to define API request/response shapes |
-| **Guard (NestJS)** | A NestJS component that implements authorization logic, determining whether a request should be processed |
-| **Interceptor (NestJS)** | A NestJS component that wraps request/response handling for cross-cutting concerns like logging, transformation, caching |
-| **Pipe (NestJS)** | A NestJS component that transforms or validates input data before it reaches a route handler |
-| **Health Check** | An endpoint used to verify that a service is running and responsive, used by monitoring systems |
+| Term                                     | Definition                                                                                                                                 |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **RESTful API**                          | An architectural style for APIs that uses HTTP methods (GET, POST, PUT, DELETE) to perform CRUD operations on resources identified by URLs |
+| **SSE (Server-Sent Events)**             | A technology that enables a server to push real-time updates to a client over a single HTTP connection                                     |
+| **JWT (JSON Web Token)**                 | A compact, URL-safe token format used for transmitting claims between parties as a JSON object, digitally signed                           |
+| **BFF (Backend-for-Frontend)**           | A pattern where a server acts as an intermediary between a client application and backend APIs, aggregating and transforming data          |
+| **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that controls which domains can access resources from a different origin                                      |
+| **Rate Limiting**                        | A technique that controls the number of requests a client can make to an API within a specified time window                                |
+| **Idempotency**                          | A property of an API operation where multiple identical requests produce the same result as a single request                               |
+| **API Versioning**                       | The practice of managing changes to an API over time to avoid breaking existing clients                                                    |
+| **WebSocket**                            | A communication protocol that provides full-duplex communication channels over a single TCP connection                                     |
+| **OpenAPI/Swagger**                      | A specification for describing RESTful APIs using a standard JSON or YAML format for documentation and code generation                     |
+| **DTO (Data Transfer Object)**           | An object that carries data between processes, typically used to define API request/response shapes                                        |
+| **Guard (NestJS)**                       | A NestJS component that implements authorization logic, determining whether a request should be processed                                  |
+| **Interceptor (NestJS)**                 | A NestJS component that wraps request/response handling for cross-cutting concerns like logging, transformation, caching                   |
+| **Pipe (NestJS)**                        | A NestJS component that transforms or validates input data before it reaches a route handler                                               |
+| **Health Check**                         | An endpoint used to verify that a service is running and responsive, used by monitoring systems                                            |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

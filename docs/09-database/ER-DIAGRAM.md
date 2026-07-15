@@ -1,6 +1,6 @@
 # Entity Relationship Diagram (ERD)
 
-> **Note:** This is a standalone ERD reference. The full database schema with ERD is in docs/database/DatabaseSchema.md.
+> **Note:** This is a standalone ERD reference. The full database schema with ERD is in docs/09-database/DatabaseSchema.md.
 
 `mermaid
 erDiagram
@@ -18,8 +18,9 @@ erDiagram
     ChatConversation ||--o{ ChatMessage : contains
 `
 
-See docs/database/DatabaseSchema.md for the complete schema.
+See docs/09-database/DatabaseSchema.md for the complete schema.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

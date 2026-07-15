@@ -12,40 +12,40 @@ Cookies are small text files stored on your device by your web browser when you 
 
 These cookies are necessary for the website to function and cannot be switched off.
 
-| Cookie | Purpose | Duration | Provider |
-|--------|---------|----------|----------|
-| `admin_access_token` | Session authentication for admin dashboard | Session | Portfolio |
-| `refresh_token` | Token refresh for authenticated sessions | 7 days | Portfolio |
-| `csrf-token` | Cross-site request forgery protection | Session | Portfolio |
-| `_csrf` | CSRF token cookie | Session | Portfolio |
+| Cookie               | Purpose                                    | Duration | Provider  |
+| -------------------- | ------------------------------------------ | -------- | --------- |
+| `admin_access_token` | Session authentication for admin dashboard | Session  | Portfolio |
+| `refresh_token`      | Token refresh for authenticated sessions   | 7 days   | Portfolio |
+| `csrf-token`         | Cross-site request forgery protection      | Session  | Portfolio |
+| `_csrf`              | CSRF token cookie                          | Session  | Portfolio |
 
 ### Analytics Cookies
 
 We use PostHog to understand how visitors interact with our website.
 
-| Cookie | Purpose | Duration | Provider |
-|--------|---------|----------|----------|
-| `ph_*` | Product analytics (page views, sessions, interactions) | 26 months | PostHog |
-| `ph_*_posthog` | Session identification and user attribution | 1 year | PostHog |
+| Cookie         | Purpose                                                | Duration  | Provider |
+| -------------- | ------------------------------------------------------ | --------- | -------- |
+| `ph_*`         | Product analytics (page views, sessions, interactions) | 26 months | PostHog  |
+| `ph_*_posthog` | Session identification and user attribution            | 1 year    | PostHog  |
 
 ### Preference Cookies
 
 These cookies remember your settings and preferences.
 
-| Cookie | Purpose | Duration | Provider |
-|--------|---------|----------|----------|
-| `theme` | Stores your light/dark mode preference | 1 year | Portfolio |
-| `cookie-consent` | Records your cookie consent choice | 1 year | Portfolio |
+| Cookie           | Purpose                                | Duration | Provider  |
+| ---------------- | -------------------------------------- | -------- | --------- |
+| `theme`          | Stores your light/dark mode preference | 1 year   | Portfolio |
+| `cookie-consent` | Records your cookie consent choice     | 1 year   | Portfolio |
 
 ## Third-Party Cookies
 
 We may use services that set their own cookies:
 
-| Service | Purpose | More Information |
-|---------|---------|-----------------|
-| Vercel | Hosting and performance analytics | [Vercel Privacy](https://vercel.com/privacy) |
-| PostHog | Product analytics | [PostHog Privacy](https://posthog.com/privacy) |
-| Sentry | Error monitoring (minimal, no tracking) | [Sentry Privacy](https://sentry.com/privacy) |
+| Service | Purpose                                 | More Information                               |
+| ------- | --------------------------------------- | ---------------------------------------------- |
+| Vercel  | Hosting and performance analytics       | [Vercel Privacy](https://vercel.com/privacy)   |
+| PostHog | Product analytics                       | [PostHog Privacy](https://posthog.com/privacy) |
+| Sentry  | Error monitoring (minimal, no tracking) | [Sentry Privacy](https://sentry.com/privacy)   |
 
 ## How to Manage Cookies
 
@@ -104,5 +104,6 @@ For questions about our use of cookies:
 - **Privacy Policy:** [privacy-policy.md](privacy-policy.md)
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

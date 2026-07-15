@@ -12,13 +12,13 @@ This document defines the rotation schedule, method, and runbook for all secrets
 
 ### 1.1 Rotation Principles
 
-| Principle | Description |
-|-----------|-------------|
-| **Regular rotation** | All secrets rotated on a defined schedule |
-| **Emergency rotation** | Immediate rotation on suspected compromise |
-| **Grace period** | Old secret valid for 24h after rotation to prevent downtime |
-| **Audit trail** | All rotations logged with timestamp and operator |
-| **No downtime** | Rotation procedures designed for zero-downtime deployment |
+| Principle              | Description                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| **Regular rotation**   | All secrets rotated on a defined schedule                   |
+| **Emergency rotation** | Immediate rotation on suspected compromise                  |
+| **Grace period**       | Old secret valid for 24h after rotation to prevent downtime |
+| **Audit trail**        | All rotations logged with timestamp and operator            |
+| **No downtime**        | Rotation procedures designed for zero-downtime deployment   |
 
 ---
 
@@ -26,22 +26,24 @@ This document defines the rotation schedule, method, and runbook for all secrets
 
 ### 2.1 Master Rotation Table
 
-| Secret | Current Setup | Rotation Frequency | Grace Period | Rotation Method | Owner |
-|--------|--------------|-------------------|--------------|----------------|-------|
-| **JWT_SECRET** | 64-char random string, HS256 | **90 days** | 24h (old secret valid) | Generate new, deploy, keep old for 24h | Staff DevOps |
-| **JWT_REFRESH_SECRET** | 64-char random string, HS256 | **90 days** | 24h (old secret valid) | Same as JWT_SECRET | Staff DevOps |
-| **DATABASE_URL** | Supabase Postgres connection string | **180 days** | 0h (connection pool drain) | Supabase console rotate, update env | Staff DevOps |
-| **RESEND_API_KEY** | Email API key | **180 days** | 24h (old key valid) | Regenerate in Resend dashboard | Staff DevOps |
-| **SENTRY_DSN** | Error tracking DSN | **365 days** | 0h (immediate switch) | Rotate in Sentry dashboard | Staff DevOps |
-| **SUPABASE_ANON_KEY** | Public anon key | **365 days** | 0h (immediate switch) | Rotate in Supabase dashboard | Staff DevOps |
-| **SUPABASE_SERVICE_ROLE_KEY** | Service role key | **365 days** | 0h (immediate switch) | Rotate in Supabase dashboard | Staff DevOps |
-| **OPENAI_API_KEY** | AI provider key | **90 days** | 24h (old key valid) | Rotate in OpenAI dashboard | Staff DevOps |
-| **ANTHROPIC_API_KEY** | AI provider key | **90 days** | 24h (old key valid) | Rotate in Anthropic dashboard | Staff DevOps |
-| **GITHUB_OAUTH_CLIENT_SECRET** | OAuth app secret | **365 days** | 0h (immediate switch) | Rotate in GitHub OAuth settings | Staff DevOps |
-| **GOOGLE_OAUTH_CLIENT_SECRET** | OAuth app secret | **365 days** | 0h (immediate switch) | Rotate in Google Cloud Console | Staff DevOps |
-| **HCAPTCHA_SECRET_KEY** | Captcha verification key | **365 days** | 0h (immediate switch) | Rotate in hCaptcha dashboard | Staff DevOps |
-| **JWT_SECRET** | NestJS Passport JWT signing key | **90 days** | 24h (old key valid) | Generate new, deploy, keep old for 24h | Staff DevOps |
+| Secret                         | Current Setup                       | Rotation Frequency | Grace Period               | Rotation Method                        | Owner        |
+| ------------------------------ | ----------------------------------- | ------------------ | -------------------------- | -------------------------------------- | ------------ |
+| **JWT_SECRET**                 | 64-char random string, HS256        | **90 days**        | 24h (old secret valid)     | Generate new, deploy, keep old for 24h | Staff DevOps |
+| **JWT_REFRESH_SECRET**         | 64-char random string, HS256        | **90 days**        | 24h (old secret valid)     | Same as JWT_SECRET                     | Staff DevOps |
+| **DATABASE_URL**               | Supabase Postgres connection string | **180 days**       | 0h (connection pool drain) | Supabase console rotate, update env    | Staff DevOps |
+| **RESEND_API_KEY**             | Email API key                       | **180 days**       | 24h (old key valid)        | Regenerate in Resend dashboard         | Staff DevOps |
+| **SENTRY_DSN**                 | Error tracking DSN                  | **365 days**       | 0h (immediate switch)      | Rotate in Sentry dashboard             | Staff DevOps |
+| **SUPABASE_ANON_KEY**          | Public anon key                     | **365 days**       | 0h (immediate switch)      | Rotate in Supabase dashboard           | Staff DevOps |
+| **SUPABASE_SERVICE_ROLE_KEY**  | Service role key                    | **365 days**       | 0h (immediate switch)      | Rotate in Supabase dashboard           | Staff DevOps |
+| **OPENAI_API_KEY**             | AI provider key                     | **90 days**        | 24h (old key valid)        | Rotate in OpenAI dashboard             | Staff DevOps |
+| **ANTHROPIC_API_KEY**          | AI provider key                     | **90 days**        | 24h (old key valid)        | Rotate in Anthropic dashboard          | Staff DevOps |
+| **GITHUB_OAUTH_CLIENT_SECRET** | OAuth app secret                    | **365 days**       | 0h (immediate switch)      | Rotate in GitHub OAuth settings        | Staff DevOps |
+| **GOOGLE_OAUTH_CLIENT_SECRET** | OAuth app secret                    | **365 days**       | 0h (immediate switch)      | Rotate in Google Cloud Console         | Staff DevOps |
+| **HCAPTCHA_SECRET_KEY**        | Captcha verification key            | **365 days**       | 0h (immediate switch)      | Rotate in hCaptcha dashboard           | Staff DevOps |
+| **JWT_SECRET**                 | NestJS Passport JWT signing key     | **90 days**        | 24h (old key valid)        | Generate new, deploy, keep old for 24h | Staff DevOps |
+
 ---
+
 ### 2.2 Rotation Schedule Timeline
 
 ```mermaid
@@ -72,7 +74,7 @@ gantt
 
 **Frequency:** Every 90 days | **Owner:** Staff DevOps | **Duration:** 15 minutes
 
-```text
+````text
 Step 1: Generate new secrets
   openssl rand -base64 48  # 64-char JWT_SECRET
   openssl rand -base64 48  # 64-char JWT_REFRESH_SECRET
@@ -137,7 +139,7 @@ Step 6: Emergency rollback
   - If issues arise, old password is still valid for existing connections
   - Revert DATABASE_URL to old value
   - Redeploy
-```
+````
 
 ### 3.3 RESEND_API_KEY Rotation
 
@@ -306,15 +308,15 @@ Step 3: Verify
 
 If a secret is suspected compromised (leaked on GitHub, exposed in logs, etc.):
 
-| Step | Action | Duration | Responsible |
-|------|--------|----------|-------------|
-| 1 | Identify compromised secret | Immediate | Security Lead |
-| 2 | Rotate secret immediately (no grace period) | 5 min | Staff DevOps |
-| 3 | Revoke old secret in provider dashboard | 5 min | Staff DevOps |
-| 4 | Check for unauthorized access (audit logs) | 30 min | Security Lead |
-| 5 | Notify affected users (if any) | 1 hour | Security Lead |
-| 6 | Document incident | 1 hour | Security Lead |
-| 7 | Determine root cause | 4 hours | Engineering Team |
+| Step | Action                                      | Duration  | Responsible      |
+| ---- | ------------------------------------------- | --------- | ---------------- |
+| 1    | Identify compromised secret                 | Immediate | Security Lead    |
+| 2    | Rotate secret immediately (no grace period) | 5 min     | Staff DevOps     |
+| 3    | Revoke old secret in provider dashboard     | 5 min     | Staff DevOps     |
+| 4    | Check for unauthorized access (audit logs)  | 30 min    | Security Lead    |
+| 5    | Notify affected users (if any)              | 1 hour    | Security Lead    |
+| 6    | Document incident                           | 1 hour    | Security Lead    |
+| 7    | Determine root cause                        | 4 hours   | Engineering Team |
 
 ### 4.2 Emergency Rotation: No Grace Period
 
@@ -335,12 +337,12 @@ Step 6: Check audit logs for unauthorized access
 
 ### 5.1 Annual Rotation Schedule
 
-| Month | Secrets to Rotate |
-|-------|-------------------|
-| **January** | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET |
-| **April** | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET, OPENAI_API_KEY, ANTHROPIC_API_KEY |
-| **July** | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET, DATABASE_URL, RESEND_API_KEY |
-| **October** | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET, OPENAI_API_KEY, ANTHROPIC_API_KEY |
+| Month       | Secrets to Rotate                                                                              |
+| ----------- | ---------------------------------------------------------------------------------------------- |
+| **January** | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET                                                     |
+| **April**   | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET, OPENAI_API_KEY, ANTHROPIC_API_KEY                  |
+| **July**    | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET, DATABASE_URL, RESEND_API_KEY                       |
+| **October** | JWT_SECRET, JWT_REFRESH_SECRET, JWT_SECRET, OPENAI_API_KEY, ANTHROPIC_API_KEY                  |
 | **January** | SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, SENTRY_DSN, GITHUB_OAUTH, GOOGLE_OAUTH, HCAPTCHA |
 
 ---
@@ -365,34 +367,35 @@ Step 6: Check audit logs for unauthorized access
 
 ### 6.2 Rotation History
 
-| Date | Secret | Rotated By | Method | Status |
-|------|--------|------------|--------|--------|
-| 2026-07-15 | JWT_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| Date       | Secret             | Rotated By   | Method    | Status            |
+| ---------- | ------------------ | ------------ | --------- | ----------------- |
+| 2026-07-15 | JWT_SECRET         | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
 | 2026-07-15 | JWT_REFRESH_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
-| 2026-04-15 | JWT_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | JWT_SECRET         | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
 | 2026-04-15 | JWT_REFRESH_SECRET | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
-| 2026-04-15 | OPENAI_API_KEY | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
-| 2026-04-15 | ANTHROPIC_API_KEY | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | OPENAI_API_KEY     | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
+| 2026-04-15 | ANTHROPIC_API_KEY  | Staff DevOps | Scheduled | Ã¢Å“â€¦ Completed |
 
 ---
 
 ## 7. Compliance Mapping
 
-| Standard | Requirement | How Met |
-|----------|-------------|---------|
-| **NIST SP 800-57** | Key management lifecycle | Rotation schedule, generation method, revocation process |
-| **SOC 2 (CC6.1)** | Logical and physical access controls | Regular rotation limits exposure window |
-| **GDPR Art. 32** | Security of processing | Rotation limits breach impact |
-| **OWASP ASVS V2.1.7** | Verify secrets are rotated | Documented schedule and runbooks |
+| Standard              | Requirement                          | How Met                                                  |
+| --------------------- | ------------------------------------ | -------------------------------------------------------- |
+| **NIST SP 800-57**    | Key management lifecycle             | Rotation schedule, generation method, revocation process |
+| **SOC 2 (CC6.1)**     | Logical and physical access controls | Regular rotation limits exposure window                  |
+| **GDPR Art. 32**      | Security of processing               | Rotation limits breach impact                            |
+| **OWASP ASVS V2.1.7** | Verify secrets are rotated           | Documented schedule and runbooks                         |
 
 ---
 
 ## 8. Change Log
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | July 2026 | Security Team | Initial secrets rotation schedule |
+| Version | Date      | Author        | Changes                           |
+| ------- | --------- | ------------- | --------------------------------- |
+| 1.0     | July 2026 | Security Team | Initial secrets rotation schedule |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

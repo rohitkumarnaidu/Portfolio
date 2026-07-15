@@ -3,11 +3,13 @@
 This document tracks all changes to the Portfolio API. Each entry documents what changed, why, and migration impact.
 
 ## Versioning
+
 API versions use the `Accept: application/vnd.portfolio.v{n}+json` header. Current version: `v1`.
 
 ## [v1.0.0] - 2026-06-22
 
 ### Added
+
 - Initial API release with 50+ endpoints
 - Portfolio endpoints (public, read-only):
   - `GET /api/portfolio/sections` Ã¢â‚¬â€ Section configuration
@@ -62,16 +64,19 @@ API versions use the `Accept: application/vnd.portfolio.v{n}+json` header. Curre
   - `GET /api/health/readiness` Ã¢â‚¬â€ Readiness probe
 
 ### Response Format
+
 - Standard envelope: `{ data, meta? }`
 - Error format: `{ status_code, message, error, correlation_id, timestamp }`
 - Pagination: `{ data, meta: { page, limit, total, totalPages } }`
 
 ### Authentication
+
 - Bearer JWT token in `Authorization` header
 - Token obtained via `POST /api/admin/auth/login`
 - Refresh via `POST /api/admin/auth/refresh`
 
 ### Rate Limiting
+
 - Public endpoints: 30 requests/minute
 - Admin endpoints: 60 requests/minute
 - AI endpoints: 10 requests/minute
@@ -81,27 +86,34 @@ API versions use the `Accept: application/vnd.portfolio.v{n}+json` header. Curre
 ## [Unreleased]
 
 ### Added
+
 - N/A
 
 ### Changed
+
 - N/A
 
 ### Deprecated
+
 - N/A
 
 ### Removed
+
 - N/A
 
 ### Fixed
+
 - N/A
 
 ### Security
+
 - N/A
 
 ---
 
-*For the complete API specification, see `docs/api/openapi.json` (OpenAPI 3.1, 111 endpoints).*
+_For the complete API specification, see `docs/10-api/openapi.json` (OpenAPI 3.1, 111 endpoints)._
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -34,5 +34,6 @@ This document outlines the data retention, archiving, and deletion policies for 
 Any contact form submissions or user data collected from public visitors is subject to immediate deletion upon request. General inquiries are retained for a maximum of 1 year.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

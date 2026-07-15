@@ -2,7 +2,7 @@
 
 > **Document:** `AGENT-SECURITY.md` | **Version:** 1.0 | **Last Updated:** July 2026  
 > **Status:** Ã¢Å“â€¦ Active | **Owner:** Chief Security Architect | **Review Cadence:** Quarterly  
-> **Related:** [SecurityArchitecture.md](./SecurityArchitecture.md) | [17-AI_INSTRUCTIONS.md](../ai/17-AI_INSTRUCTIONS.md) | [18-AGENTS.md](../ai/18-AGENTS.md) | [Agent.md](../ai/Agent.md)
+> **Related:** [SecurityArchitecture.md](./SecurityArchitecture.md) | [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md) | [18-AGENTS.md](../08-ai/18-AGENTS.md) | [AGENT.md](../08-ai/AGENT.md)
 
 ---
 
@@ -34,7 +34,8 @@ All agents run inside isolated sandboxes with the following characteristics:
 - **Filesystem Isolation:** Each sandbox has a read-only base filesystem overlay. Writes are allowed only to a temporary scratch space (`/tmp`) that is wiped on container teardown. No persistent local storage.
 - **Resource Limits:** CPU (0.5 vCPU default), memory (256 MB default), execution timeout (30s default per action), and request rate (10 req/min) are enforced via cgroups and the sandbox runtime.
 
-The sandbox architecture is integrated with the agent runtime described in [18-AGENTS.md](../ai/18-AGENTS.md) and inherits the base security controls from [SecurityArchitecture.md](./SecurityArchitecture.md).
+The sandbox architecture is integrated with the agent runtime described in [18-AGENTS.md](../08-ai/18-AGENTS.md) and inherits the base security controls from [SecurityArchitecture.md](./SecurityArchitecture.md).
+
 ### 1.1 Agent Security Model
 
 ```mermaid
@@ -129,16 +130,17 @@ Agent credentials (API keys, database URLs, OAuth tokens) are managed via the pl
 | [AuditLogging.md](./AuditLogging.md)                                 | Immutable audit trail for all agent actions                            |
 | [SecretsManagement.md](./SecretsManagement.md)                       | Vault-backed secrets lifecycle, rotation, and access policies          |
 | [supply-chain-security-policy.md](./supply-chain-security-policy.md) | Package signing, CVE scanning, SLSA provenance for agent packages      |
-| [17-AI_INSTRUCTIONS.md](../ai/17-AI_INSTRUCTIONS.md)                 | AI instruction framework and system prompt architecture                |
-| [18-AGENTS.md](../ai/18-AGENTS.md)                                   | Agent lifecycle, registration, and execution runtime                   |
-| [Agent.md](../ai/Agent.md)                                           | Agent specification, API reference, and developer guide                |
+| [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md)              | AI instruction framework and system prompt architecture                |
+| [18-AGENTS.md](../08-ai/18-AGENTS.md)                                | Agent lifecycle, registration, and execution runtime                   |
+| [AGENT.md](../08-ai/AGENT.md)                                        | Agent specification, API reference, and developer guide                |
 
 ## 8. Change Log
 
-| Version | Date      | Author                   | Changes                                                                 |
-| ------- | --------- | ------------------------ | ----------------------------------------------------------------------- |
+| Version | Date      | Author                   | Changes                                                                       |
+| ------- | --------- | ------------------------ | ----------------------------------------------------------------------------- |
 | 1.0     | July 2026 | Chief Security Architect | Initial release Ã¢â‚¬â€ agent security model, sandboxing, and audit framework |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

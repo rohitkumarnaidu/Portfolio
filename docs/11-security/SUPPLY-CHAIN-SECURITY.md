@@ -12,16 +12,16 @@ This policy governs the management of third-party dependencies across the Portfo
 
 The policy applies to all **8 tracked ecosystems** used by the platform:
 
-| Ecosystem | Scope | Packages Tracked |
-|-----------|-------|-----------------|
-| npm | api, web, shared, ui, config, root | ~1,200+ transitive |
-| pip | ai service | ~50+ transitive |
-| Docker | Base images, production images | 3 images |
-| GitHub Actions | CI/CD workflows | ~20 actions |
-| Cloudflare Workers | Edge functions | ~5 workers |
-| Vercel | Edge functions | ~3 functions |
-| Supabase | Database extensions | ~5 extensions |
-| CDN | Third-party scripts | ~10 scripts |
+| Ecosystem          | Scope                              | Packages Tracked   |
+| ------------------ | ---------------------------------- | ------------------ |
+| npm                | api, web, shared, ui, config, root | ~1,200+ transitive |
+| pip                | ai service                         | ~50+ transitive    |
+| Docker             | Base images, production images     | 3 images           |
+| GitHub Actions     | CI/CD workflows                    | ~20 actions        |
+| Cloudflare Workers | Edge functions                     | ~5 workers         |
+| Vercel             | Edge functions                     | ~3 functions       |
+| Supabase           | Database extensions                | ~5 extensions      |
+| CDN                | Third-party scripts                | ~10 scripts        |
 
 ---
 
@@ -29,28 +29,28 @@ The policy applies to all **8 tracked ecosystems** used by the platform:
 
 ### 2.1 npm Workspaces
 
-| Workspace | Path | Direct Dependencies | Purpose |
-|-----------|------|-------------------|---------|
-| **api** | `apps/api/package.json` | NestJS, Prisma, Passport, JWT, bcrypt, BullMQ | Backend API |
-| **web** | `apps/web/package.json` | Next.js, React, Three.js, GSAP, TanStack Query | Frontend |
-| **ai** | `apps/ai/requirements.txt` | FastAPI, LangChain, OpenAI, Anthropic | AI service |
-| **shared** | `packages/shared/package.json` | Zod, TypeScript types | Shared types |
-| **ui** | `packages/ui/package.json` | React components, shadcn/ui | UI library |
-| **config** | `packages/config/package.json` | ESLint, TypeScript configs | Shared config |
-| **root** | `package.json` | Turborepo, Husky, lint-staged | Monorepo root |
+| Workspace  | Path                           | Direct Dependencies                            | Purpose       |
+| ---------- | ------------------------------ | ---------------------------------------------- | ------------- |
+| **api**    | `apps/api/package.json`        | NestJS, Prisma, Passport, JWT, bcrypt, BullMQ  | Backend API   |
+| **web**    | `apps/web/package.json`        | Next.js, React, Three.js, GSAP, TanStack Query | Frontend      |
+| **ai**     | `apps/ai/requirements.txt`     | FastAPI, LangChain, OpenAI, Anthropic          | AI service    |
+| **shared** | `packages/shared/package.json` | Zod, TypeScript types                          | Shared types  |
+| **ui**     | `packages/ui/package.json`     | React components, shadcn/ui                    | UI library    |
+| **config** | `packages/config/package.json` | ESLint, TypeScript configs                     | Shared config |
+| **root**   | `package.json`                 | Turborepo, Husky, lint-staged                  | Monorepo root |
 
 ### 2.2 Dependency Count by Workspace
 
-| Workspace | Direct Dependencies | Transitive Dependencies | Total |
-|-----------|-------------------|------------------------|-------|
-| api | ~80 | ~400 | ~480 |
-| web | ~100 | ~500 | ~600 |
-| ai | ~30 | ~50 | ~80 |
-| shared | ~5 | ~20 | ~25 |
-| ui | ~20 | ~100 | ~120 |
-| config | ~10 | ~30 | ~40 |
-| root | ~10 | ~50 | ~60 |
-| **Total** | **~255** | **~1,150** | **~1,405** |
+| Workspace | Direct Dependencies | Transitive Dependencies | Total      |
+| --------- | ------------------- | ----------------------- | ---------- |
+| api       | ~80                 | ~400                    | ~480       |
+| web       | ~100                | ~500                    | ~600       |
+| ai        | ~30                 | ~50                     | ~80        |
+| shared    | ~5                  | ~20                     | ~25        |
+| ui        | ~20                 | ~100                    | ~120       |
+| config    | ~10                 | ~30                     | ~40        |
+| root      | ~10                 | ~50                     | ~60        |
+| **Total** | **~255**            | **~1,150**              | **~1,405** |
 
 ---
 
@@ -58,14 +58,14 @@ The policy applies to all **8 tracked ecosystems** used by the platform:
 
 ### 3.1 Scanning Tools
 
-| Tool | Ecosystem | Coverage | Frequency | Action |
-|------|-----------|----------|-----------|--------|
-| **Dependabot** | npm, pip, Docker, GitHub Actions | All direct dependencies | Daily | Auto-PR for security patches |
-| **npm audit** | npm (all workspaces) | All npm packages | Every CI run | Blocking gate (high+) |
-| **pip audit** | pip (ai service) | All pip packages | Every CI run | Blocking gate (high+) |
-| **Trivy** | Docker images | OS packages + app deps | Weekly | Report to security channel |
-| **CodeQL** | All code | Custom query packs | Every PR | Blocking gate |
-| **GitHub Dependabot** | All ecosystems | Version alerts | Daily | Auto-PR + Slack notification |
+| Tool                  | Ecosystem                        | Coverage                | Frequency    | Action                       |
+| --------------------- | -------------------------------- | ----------------------- | ------------ | ---------------------------- |
+| **Dependabot**        | npm, pip, Docker, GitHub Actions | All direct dependencies | Daily        | Auto-PR for security patches |
+| **npm audit**         | npm (all workspaces)             | All npm packages        | Every CI run | Blocking gate (high+)        |
+| **pip audit**         | pip (ai service)                 | All pip packages        | Every CI run | Blocking gate (high+)        |
+| **Trivy**             | Docker images                    | OS packages + app deps  | Weekly       | Report to security channel   |
+| **CodeQL**            | All code                         | Custom query packs      | Every PR     | Blocking gate                |
+| **GitHub Dependabot** | All ecosystems                   | Version alerts          | Daily        | Auto-PR + Slack notification |
 
 ### 3.2 Dependabot Configuration
 
@@ -73,39 +73,39 @@ The policy applies to all **8 tracked ecosystems** used by the platform:
 # .github/dependabot.yml
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
-      time: "06:00"
+      interval: 'daily'
+      time: '06:00'
     open-pull-requests-limit: 10
     labels:
-      - "dependencies"
-      - "security"
+      - 'dependencies'
+      - 'security'
     reviewers:
-      - "security-team"
+      - 'security-team'
     allow:
-      - dependency-type: "direct"
+      - dependency-type: 'direct'
     ignore:
-      - dependency-name: "react"
-        versions: [">=19.0.0"]  # Pin React 18 until migration
+      - dependency-name: 'react'
+        versions: ['>=19.0.0'] # Pin React 18 until migration
 
-  - package-ecosystem: "pip"
-    directory: "/apps/ai"
+  - package-ecosystem: 'pip'
+    directory: '/apps/ai'
     schedule:
-      interval: "daily"
-      time: "06:00"
+      interval: 'daily'
+      time: '06:00'
     open-pull-requests-limit: 5
 
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 ```
 
 ### 3.3 CI Gate Configuration
@@ -131,11 +131,11 @@ updates:
 security-gates:
   npm-audit:
     command: npm audit --audit-level=high
-    action: blocking  # Fails CI if high+ vulnerabilities
+    action: blocking # Fails CI if high+ vulnerabilities
     exceptions:
-      - package: "some-package"
-        reason: "No patch available"
-        expiry: "2026-08-01"
+      - package: 'some-package'
+        reason: 'No patch available'
+        expiry: '2026-08-01'
 
   pip-audit:
     command: pip-audit --desc on --severity high
@@ -148,12 +148,12 @@ security-gates:
 
 ### 3.5 Alert Triage
 
-| Alert Type | Action | SLA | Owner |
-|------------|--------|-----|-------|
-| Critical CVE (CVSS Ã¢â€°Â¥ 9.0) | Emergency patch PR | 24h | Staff DevOps |
-| High CVE (CVSS 7.0-8.9) | Priority patch PR | 72h | Engineering Lead |
-| Medium CVE (CVSS 4.0-6.9) | Scheduled patch | 14 days | Team Lead |
-| Low CVE (CVSS < 4.0) | Next sprint | 30 days | Engineer |
+| Alert Type                      | Action             | SLA     | Owner            |
+| ------------------------------- | ------------------ | ------- | ---------------- |
+| Critical CVE (CVSS Ã¢â€°Â¥ 9.0) | Emergency patch PR | 24h     | Staff DevOps     |
+| High CVE (CVSS 7.0-8.9)         | Priority patch PR  | 72h     | Engineering Lead |
+| Medium CVE (CVSS 4.0-6.9)       | Scheduled patch    | 14 days | Team Lead        |
+| Low CVE (CVSS < 4.0)            | Next sprint        | 30 days | Engineer         |
 
 ---
 
@@ -161,22 +161,22 @@ security-gates:
 
 ### 4.1 Update Schedule
 
-| Update Type | Definition | Cadence | SLA | Process |
-|-------------|-----------|---------|-----|---------|
-| **Security Patch** | Fix for known CVE | Within 7 days (critical), 14 days (high) | See SLA | Auto-merge Dependabot PR after CI passes |
-| **Minor Update** | New features, non-breaking | Within 30 days | 30 days | Manual review + CI |
-| **Major Update** | Breaking changes, major version bump | Within 90 days | 90 days | Breaking change assessment |
-| **Dev Dependency** | Dev-only packages | Within 90 days | 90 days | Lower priority |
-| **Docker Base Image** | OS-level packages | Within 14 days (security) | 14 days | Rebuild + deploy |
+| Update Type           | Definition                           | Cadence                                  | SLA     | Process                                  |
+| --------------------- | ------------------------------------ | ---------------------------------------- | ------- | ---------------------------------------- |
+| **Security Patch**    | Fix for known CVE                    | Within 7 days (critical), 14 days (high) | See SLA | Auto-merge Dependabot PR after CI passes |
+| **Minor Update**      | New features, non-breaking           | Within 30 days                           | 30 days | Manual review + CI                       |
+| **Major Update**      | Breaking changes, major version bump | Within 90 days                           | 90 days | Breaking change assessment               |
+| **Dev Dependency**    | Dev-only packages                    | Within 90 days                           | 90 days | Lower priority                           |
+| **Docker Base Image** | OS-level packages                    | Within 14 days (security)                | 14 days | Rebuild + deploy                         |
 
 ### 4.2 Update SLA by Severity
 
-| Update Type | SLA | Auto-Merge | Review Required |
-|-------------|-----|------------|----------------|
-| Security patch (critical) | 7 days | Ã¢Å“â€¦ (after CI passes) | Post-merge review |
-| Security patch (high) | 14 days | Ã¢Å“â€¦ (after CI passes) | Post-merge review |
-| Minor update | 30 days | Ã¢ÂÅ’ | Manual review |
-| Major update | 90 days | Ã¢ÂÅ’ | Breaking change assessment |
+| Update Type               | SLA     | Auto-Merge                | Review Required            |
+| ------------------------- | ------- | ------------------------- | -------------------------- |
+| Security patch (critical) | 7 days  | Ã¢Å“â€¦ (after CI passes) | Post-merge review          |
+| Security patch (high)     | 14 days | Ã¢Å“â€¦ (after CI passes) | Post-merge review          |
+| Minor update              | 30 days | Ã¢ÂÅ’                     | Manual review              |
+| Major update              | 90 days | Ã¢ÂÅ’                     | Breaking change assessment |
 
 ### 4.3 Dependency Graph
 
@@ -185,7 +185,7 @@ graph TD
     subgraph "Root (Turborepo)"
         ROOT["package.json<br/>Turborepo, Husky"]
     end
-    
+
     subgraph "npm Workspaces"
         API["apps/api<br/>NestJS, Prisma, Passport"]
         WEB["apps/web<br/>Next.js, React, Three.js"]
@@ -193,16 +193,16 @@ graph TD
         UI["packages/ui<br/>shadcn/ui components"]
         CONFIG["packages/config<br/>ESLint, TS config"]
     end
-    
+
     subgraph "Python"
         AI["apps/ai<br/>FastAPI, LangChain"]
     end
-    
+
     subgraph "Infrastructure"
         DOCKER["Docker<br/>node:20-alpine<br/>python:3.12-slim"]
         GHA["GitHub Actions<br/>20+ actions"]
     end
-    
+
     ROOT --> API
     ROOT --> WEB
     ROOT --> SHARED
@@ -215,12 +215,12 @@ graph TD
 
 ### 4.4 Key Dependencies by Risk Tier
 
-| Tier | Criteria | Examples | Count |
-|------|----------|---------|-------|
-| **Ã°Å¸â€Â´ Critical** | Auth, crypto, database, network | bcrypt, jsonwebtoken, Prisma, Supabase SDK | ~15 |
-| **Ã°Å¸Å¸Â¡ High** | Data processing, file handling, rendering | DOMPurify, Sharp, Three.js | ~30 |
-| **Ã°Å¸Å¸Â  Medium** | Utility, logging, formatting | Pino, Zod, class-validator | ~50 |
-| **Ã°Å¸Å¸Â¢ Low** | Dev tools, linting, testing | ESLint, Jest, Prettier | ~160 |
+| Tier                  | Criteria                                  | Examples                                   | Count |
+| --------------------- | ----------------------------------------- | ------------------------------------------ | ----- |
+| **Ã°Å¸â€Â´ Critical** | Auth, crypto, database, network           | bcrypt, jsonwebtoken, Prisma, Supabase SDK | ~15   |
+| **Ã°Å¸Å¸Â¡ High**     | Data processing, file handling, rendering | DOMPurify, Sharp, Three.js                 | ~30   |
+| **Ã°Å¸Å¸Â  Medium**   | Utility, logging, formatting              | Pino, Zod, class-validator                 | ~50   |
+| **Ã°Å¸Å¸Â¢ Low**      | Dev tools, linting, testing               | ESLint, Jest, Prettier                     | ~160  |
 
 ### 4.5 Update Process
 
@@ -247,12 +247,12 @@ graph TD
 
 ### 4.6 Update Prioritization Matrix
 
-| Factor | Weight | High Priority | Low Priority |
-|--------|--------|---------------|--------------|
-| CVE Severity | 40% | Critical/High | Low/None |
-| Dependency Type | 25% | Runtime (dependencies) | Dev (devDependencies) |
-| Usage Depth | 20% | Core auth/crypto/db | Utility/formatting |
-| Update Complexity | 15% | Patch/minor bump | Major version bump |
+| Factor            | Weight | High Priority          | Low Priority          |
+| ----------------- | ------ | ---------------------- | --------------------- |
+| CVE Severity      | 40%    | Critical/High          | Low/None              |
+| Dependency Type   | 25%    | Runtime (dependencies) | Dev (devDependencies) |
+| Usage Depth       | 20%    | Core auth/crypto/db    | Utility/formatting    |
+| Update Complexity | 15%    | Patch/minor bump       | Major version bump    |
 
 ---
 
@@ -262,28 +262,28 @@ graph TD
 
 When a major version update is proposed, the following assessment is required:
 
-| Step | Action | Owner | Duration |
-|------|--------|-------|----------|
-| 1 | Review changelog and breaking changes | Engineer | 1 day |
-| 2 | Identify affected code paths | Engineer | 1 day |
-| 3 | Create migration branch | Engineer | 1 hour |
-| 4 | Update usage across all workspaces | Engineer | 2-5 days |
-| 5 | Run full test suite | CI | 30 min |
-| 6 | Run typecheck across all workspaces | CI | 10 min |
-| 7 | Deploy to staging | DevOps | 1 hour |
-| 8 | Staged rollout (10% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100%) | DevOps | 3 days |
-| 9 | Monitor for regressions | QA | 7 days |
-| 10 | Close update ticket | Engineer | Ã¢â‚¬â€ |
+| Step | Action                                          | Owner    | Duration |
+| ---- | ----------------------------------------------- | -------- | -------- |
+| 1    | Review changelog and breaking changes           | Engineer | 1 day    |
+| 2    | Identify affected code paths                    | Engineer | 1 day    |
+| 3    | Create migration branch                         | Engineer | 1 hour   |
+| 4    | Update usage across all workspaces              | Engineer | 2-5 days |
+| 5    | Run full test suite                             | CI       | 30 min   |
+| 6    | Run typecheck across all workspaces             | CI       | 10 min   |
+| 7    | Deploy to staging                               | DevOps   | 1 hour   |
+| 8    | Staged rollout (10% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100%) | DevOps   | 3 days   |
+| 9    | Monitor for regressions                         | QA       | 7 days   |
+| 10   | Close update ticket                             | Engineer | Ã¢â‚¬â€  |
 
 ### 5.2 Breaking Change Decision Matrix
 
-| Factor | Proceed with Update | Delay Update | Block Update |
-|--------|-------------------|--------------|--------------|
-| **Security fix** | Always | Never | Never |
-| **API compatibility** | Breaking changes documented | Breaking changes undocumented | No migration path |
-| **Test coverage** | > 80% affected code | 50-80% affected code | < 50% affected code |
-| **Deprecation notice** | Ã¢â€°Â¥ 6 months notice | < 6 months notice | No notice |
-| **Alternative available** | No better alternative | Comparable alternative | Better alternative exists |
+| Factor                    | Proceed with Update         | Delay Update                  | Block Update              |
+| ------------------------- | --------------------------- | ----------------------------- | ------------------------- |
+| **Security fix**          | Always                      | Never                         | Never                     |
+| **API compatibility**     | Breaking changes documented | Breaking changes undocumented | No migration path         |
+| **Test coverage**         | > 80% affected code         | 50-80% affected code          | < 50% affected code       |
+| **Deprecation notice**    | Ã¢â€°Â¥ 6 months notice     | < 6 months notice             | No notice                 |
+| **Alternative available** | No better alternative       | Comparable alternative        | Better alternative exists |
 
 ### 5.3 Breaking Change Workflow
 
@@ -304,16 +304,16 @@ graph TD
 
 ### 5.4 Breaking Change Checklist
 
-| Item | Description | Owner |
-|------|-------------|-------|
-| Changelog reviewed | Read CHANGELOG.md or GitHub release notes | Engineer |
-| Migration guide followed | Follow official migration guide | Engineer |
-| All usages updated | Grep for all affected imports/APIs | Engineer |
+| Item                      | Description                                 | Owner    |
+| ------------------------- | ------------------------------------------- | -------- |
+| Changelog reviewed        | Read CHANGELOG.md or GitHub release notes   | Engineer |
+| Migration guide followed  | Follow official migration guide             | Engineer |
+| All usages updated        | Grep for all affected imports/APIs          | Engineer |
 | TypeScript types verified | `tsc --noEmit` passes across all workspaces | Engineer |
-| Full test suite passes | `npm test` across all workspaces | CI |
-| E2E tests pass | Playwright tests | CI |
-| Staged rollout completed | 10% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100% traffic | DevOps |
-| Rollback plan documented | Steps to revert the update | Engineer |
+| Full test suite passes    | `npm test` across all workspaces            | CI       |
+| E2E tests pass            | Playwright tests                            | CI       |
+| Staged rollout completed  | 10% Ã¢â€ â€™ 50% Ã¢â€ â€™ 100% traffic      | DevOps   |
+| Rollback plan documented  | Steps to revert the update                  | Engineer |
 
 ---
 
@@ -321,25 +321,25 @@ graph TD
 
 ### 6.1 Current State: SLSA Level 1
 
-| SLSA Requirement | Status | Evidence |
-|-----------------|--------|----------|
-| **L1: Provenance available** | Ã¢Å“â€¦ | npm registry provenance, GitHub Actions build logs |
-| **L2: Signed provenance** | Ã¢ÂÅ’ | Not yet implemented |
-| **L2: Hosted build platform** | Ã¢Å“â€¦ | GitHub Actions |
-| **L3: Hardened build platform** | Ã¢ÂÅ’ | No SLSA3 builder |
-| **L3: Non-falsifiable provenance** | Ã¢ÂÅ’ | Not yet implemented |
-| **L4: Two-person review** | Ã¢Å¡Â Ã¯Â¸Â Partial | PR review required, not enforced for all |
-| **L4: Hermetic builds** | Ã¢ÂÅ’ | Not yet implemented |
+| SLSA Requirement                   | Status              | Evidence                                           |
+| ---------------------------------- | ------------------- | -------------------------------------------------- |
+| **L1: Provenance available**       | Ã¢Å“â€¦             | npm registry provenance, GitHub Actions build logs |
+| **L2: Signed provenance**          | Ã¢ÂÅ’               | Not yet implemented                                |
+| **L2: Hosted build platform**      | Ã¢Å“â€¦             | GitHub Actions                                     |
+| **L3: Hardened build platform**    | Ã¢ÂÅ’               | No SLSA3 builder                                   |
+| **L3: Non-falsifiable provenance** | Ã¢ÂÅ’               | Not yet implemented                                |
+| **L4: Two-person review**          | Ã¢Å¡Â Ã¯Â¸Â Partial | PR review required, not enforced for all           |
+| **L4: Hermetic builds**            | Ã¢ÂÅ’               | Not yet implemented                                |
 
 ### 6.2 SLSA Roadmap
 
-| Quarter | Target | Actions Required |
-|---------|--------|-----------------|
-| Q3 2026 | **L2** | Implement signed provenance via GitHub attestations |
-| Q4 2026 | **L2** | Verify all build artifacts have provenance |
+| Quarter | Target | Actions Required                                                        |
+| ------- | ------ | ----------------------------------------------------------------------- |
+| Q3 2026 | **L2** | Implement signed provenance via GitHub attestations                     |
+| Q4 2026 | **L2** | Verify all build artifacts have provenance                              |
 | Q1 2027 | **L3** | Migrate to SLSA3 builder (e.g., `slsa-framework/slsa-github-generator`) |
-| Q2 2027 | **L3** | Implement non-falsifiable provenance storage |
-| Q3 2027 | **L4** | Enforce two-person review for all production releases |
+| Q2 2027 | **L3** | Implement non-falsifiable provenance storage                            |
+| Q3 2027 | **L4** | Enforce two-person review for all production releases                   |
 
 ---
 
@@ -347,34 +347,34 @@ graph TD
 
 ### 7.1 Prohibited Categories
 
-| Category | Rationale | Examples |
-|----------|-----------|----------|
-| **Unmaintained packages** | No updates for > 2 years, known CVEs unpatched | left-pad, unmaintained forks |
-| **Packages with known CVEs** | Any package with open CVE Ã¢â€°Â¥ 7.0 | Check via npm audit |
-| **Telemetry-heavy packages** | Excessive data collection without consent | Sentry (allowed, configured), analytics SDKs |
-| **Packages with malicious history** | Known typosquatting, dependency confusion | Check via npm security advisories |
-| **GPL-licensed (copyleft)** | License incompatibility with MIT project | GPLv3, AGPLv3 |
-| **Unnecessary large dependencies** | > 10MB for trivial functionality | moment.js (use date-fns) |
+| Category                            | Rationale                                      | Examples                                     |
+| ----------------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| **Unmaintained packages**           | No updates for > 2 years, known CVEs unpatched | left-pad, unmaintained forks                 |
+| **Packages with known CVEs**        | Any package with open CVE Ã¢â€°Â¥ 7.0          | Check via npm audit                          |
+| **Telemetry-heavy packages**        | Excessive data collection without consent      | Sentry (allowed, configured), analytics SDKs |
+| **Packages with malicious history** | Known typosquatting, dependency confusion      | Check via npm security advisories            |
+| **GPL-licensed (copyleft)**         | License incompatibility with MIT project       | GPLv3, AGPLv3                                |
+| **Unnecessary large dependencies**  | > 10MB for trivial functionality               | moment.js (use date-fns)                     |
 
 ### 7.2 Dependency Approval Process
 
-| Risk Level | Approval Required | Review Type |
-|------------|------------------|-------------|
-| New direct dependency | Security Lead | Security review + license check |
-| New transitive dependency | Engineer | Automated scan |
-| Major version bump | Engineering Lead | Breaking change assessment |
-| Deprecated dependency replacement | Security Lead | Migration plan review |
+| Risk Level                        | Approval Required | Review Type                     |
+| --------------------------------- | ----------------- | ------------------------------- |
+| New direct dependency             | Security Lead     | Security review + license check |
+| New transitive dependency         | Engineer          | Automated scan                  |
+| Major version bump                | Engineering Lead  | Breaking change assessment      |
+| Deprecated dependency replacement | Security Lead     | Migration plan review           |
 
 ### 7.3 Dependency Vetting Checklist
 
-| Check | Description | Tool |
-|-------|-------------|------|
-| License compatibility | Verify MIT, Apache-2.0, BSD, ISC | `license-checker` |
-| Maintenance status | Last publish < 2 years | npm registry |
-| Download count | > 10,000/week | npm registry |
-| Security history | No known CVEs in last 2 years | npm audit |
-| Bundle size | < 500KB (unless justified) | bundlephobia.com |
-| Author reputation | Known publisher, GitHub stars > 100 | GitHub |
+| Check                 | Description                         | Tool              |
+| --------------------- | ----------------------------------- | ----------------- |
+| License compatibility | Verify MIT, Apache-2.0, BSD, ISC    | `license-checker` |
+| Maintenance status    | Last publish < 2 years              | npm registry      |
+| Download count        | > 10,000/week                       | npm registry      |
+| Security history      | No known CVEs in last 2 years       | npm audit         |
+| Bundle size           | < 500KB (unless justified)          | bundlephobia.com  |
+| Author reputation     | Known publisher, GitHub stars > 100 | GitHub            |
 
 ---
 
@@ -389,23 +389,23 @@ on:
   release:
     types: [published]
   schedule:
-    - cron: '0 6 * * 1'  # Weekly
+    - cron: '0 6 * * 1' # Weekly
 
 jobs:
   sbom:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Generate npm SBOM
         run: |
           npm sbom --workspaces > sbom-npm.json
-      
+
       - name: Generate pip SBOM
         run: |
           pip install cyclonedx-bom
           cyclonedx-py -i apps/ai/requirements.txt -o sbom-pip.json
-      
+
       - name: Upload SBOM
         uses: actions/upload-artifact@v4
         with:
@@ -415,11 +415,11 @@ jobs:
 
 ### 8.2 SBOM Retention
 
-| Environment | Retention | Format | Storage |
-|-------------|-----------|--------|---------|
-| Production releases | Indefinite | CycloneDX JSON | GitHub Releases |
-| Staging builds | 90 days | CycloneDX JSON | Build artifacts |
-| Development | Not retained | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
+| Environment         | Retention    | Format         | Storage         |
+| ------------------- | ------------ | -------------- | --------------- |
+| Production releases | Indefinite   | CycloneDX JSON | GitHub Releases |
+| Staging builds      | 90 days      | CycloneDX JSON | Build artifacts |
+| Development         | Not retained | Ã¢â‚¬â€        | Ã¢â‚¬â€         |
 
 ### 8.3 Changelog Requirements
 
@@ -429,6 +429,7 @@ All dependency updates must be documented in the project changelog:
 ## [1.2.0] - 2026-07-15
 
 ### Dependency Updates
+
 - Updated `next` from 14.2.0 to 14.2.5 (security: CVE-2026-1234)
 - Updated `@prisma/client` from 5.10.0 to 5.12.0 (minor)
 - Updated `bcrypt` from 5.1.0 to 5.1.1 (patch)
@@ -440,18 +441,19 @@ All dependency updates must be documented in the project changelog:
 
 ## 9. Policy Review
 
-| Review Cycle | Next Review | Owner |
-|-------------|-------------|-------|
-| Quarterly | October 2026 | Staff DevOps |
+| Review Cycle | Next Review  | Owner        |
+| ------------ | ------------ | ------------ |
+| Quarterly    | October 2026 | Staff DevOps |
 
 ---
 
 ## 10. Change Log
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0 | July 2026 | Security Team | Initial supply chain security policy |
+| Version | Date      | Author        | Changes                              |
+| ------- | --------- | ------------- | ------------------------------------ |
+| 1.0     | July 2026 | Security Team | Initial supply chain security policy |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

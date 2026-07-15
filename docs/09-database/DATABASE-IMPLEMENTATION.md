@@ -31,23 +31,23 @@ DATABASE-IMPLEMENTATION.md is the tactical execution guide for provisioning and 
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| DB-001 | Supabase PostgreSQL 15 with pgvector 0.7 over self-hosted or managed alternatives | Supabase provides managed PostgreSQL + pgvector + storage + auth + realtime in a single service; eliminates multi-provider integration overhead | AWS RDS (no pgvector, separate auth), Neon (serverless but no pgvector), self-hosted Postgres (operational overhead) | 2026-06-01 | Tech Lead |
-| DB-002 | Zod over raw TypeScript types or Prisma for schema validation | Zod provides runtime validation + type inference from a single source; nullable vs optional conventions catch null/undefined bugs at the API boundary | Prisma (heavy ORM, migration lock-in, less flexible validation), raw TypeScript types (no runtime validation), Joi/Yup (no TypeScript inference) | 2026-06-01 | Tech Lead |
-| DB-003 | 37 tables in 6 schema groups over flat table structure | Schema groups separate concerns (CMS, portfolio, admin, AI, analytics, system); enables independent migration streams and clearer access patterns | Single schema (name collisions, mixed permissions), microservice per schema (overhead for small project), document store (no relational integrity) | 2026-06-01 | Tech Lead |
-| DB-004 | pg_dump nightly + WAL archiving with 7-day PITR over application-level backups | Database-level backup captures all data, indexes, sequences, and functions atomically; PITR allows recovery to any point within 7 days | Application-level backup (misses schema, indexes; inconsistent across tables), EBS snapshots (platform-specific, not portable) | 2026-06-01 | Tech Lead |
-| DB-005 | Trigger-based audit logging over application-level logging | Trigger-based audit cannot be bypassed by the application — every mutation is captured regardless of how the data changes (direct SQL, admin panel, API, migration) | Application-level (bypassable via direct DB access, migration scripts), PostgreSQL audit extension (additional extension, configuration overhead) | 2026-06-01 | Tech Lead |
+| ID     | Decision                                                                          | Rationale                                                                                                                                                           | Alternatives Considered                                                                                                                            | Date       | Approver  |
+| ------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------- |
+| DB-001 | Supabase PostgreSQL 15 with pgvector 0.7 over self-hosted or managed alternatives | Supabase provides managed PostgreSQL + pgvector + storage + auth + realtime in a single service; eliminates multi-provider integration overhead                     | AWS RDS (no pgvector, separate auth), Neon (serverless but no pgvector), self-hosted Postgres (operational overhead)                               | 2026-06-01 | Tech Lead |
+| DB-002 | Zod over raw TypeScript types or Prisma for schema validation                     | Zod provides runtime validation + type inference from a single source; nullable vs optional conventions catch null/undefined bugs at the API boundary               | Prisma (heavy ORM, migration lock-in, less flexible validation), raw TypeScript types (no runtime validation), Joi/Yup (no TypeScript inference)   | 2026-06-01 | Tech Lead |
+| DB-003 | 37 tables in 6 schema groups over flat table structure                            | Schema groups separate concerns (CMS, portfolio, admin, AI, analytics, system); enables independent migration streams and clearer access patterns                   | Single schema (name collisions, mixed permissions), microservice per schema (overhead for small project), document store (no relational integrity) | 2026-06-01 | Tech Lead |
+| DB-004 | pg_dump nightly + WAL archiving with 7-day PITR over application-level backups    | Database-level backup captures all data, indexes, sequences, and functions atomically; PITR allows recovery to any point within 7 days                              | Application-level backup (misses schema, indexes; inconsistent across tables), EBS snapshots (platform-specific, not portable)                     | 2026-06-01 | Tech Lead |
+| DB-005 | Trigger-based audit logging over application-level logging                        | Trigger-based audit cannot be bypassed by the application — every mutation is captured regardless of how the data changes (direct SQL, admin panel, API, migration) | Application-level (bypassable via direct DB access, migration scripts), PostgreSQL audit extension (additional extension, configuration overhead)  | 2026-06-01 | Tech Lead |
 
 ## Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| DB-R01 | Migration conflicts when multiple developers work on schema changes | Medium | High | Supabase CLI with versioned migration files; CI pipeline runs `supabase db push --dry-run` on every PR; lock file prevents concurrent migrations |
-| DB-R02 | pgvector index rebuild takes too long on large document_chunks table (>10K rows) | Low | Medium | IVFFlat index with 100 lists (faster build than HNSW); schedule REINDEX during off-peak; monitor index build time |
-| DB-R03 | RLS policy misconfiguration exposes sensitive data | Low | Critical | RLS must be enabled on all 37 tables (verified by CI); penetration testing before production; regular policy audit |
-| DB-R04 | Database connection pool exhaustion under load spikes | Medium | Medium | Supabase pooler handles connection management; NestJS connection pool of 10 + max overflow of 5; monitor connection count via Supabase dashboard |
-| DB-R05 | Storage bucket public access misconfigured exposes user-uploaded files | Low | High | All buckets default to private; signed URLs for authenticated access; RLS policies on storage objects; quarterly storage access audit |
+| ID     | Risk                                                                             | Likelihood | Impact   | Mitigation                                                                                                                                       |
+| ------ | -------------------------------------------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| DB-R01 | Migration conflicts when multiple developers work on schema changes              | Medium     | High     | Supabase CLI with versioned migration files; CI pipeline runs `supabase db push --dry-run` on every PR; lock file prevents concurrent migrations |
+| DB-R02 | pgvector index rebuild takes too long on large document_chunks table (>10K rows) | Low        | Medium   | IVFFlat index with 100 lists (faster build than HNSW); schedule REINDEX during off-peak; monitor index build time                                |
+| DB-R03 | RLS policy misconfiguration exposes sensitive data                               | Low        | Critical | RLS must be enabled on all 37 tables (verified by CI); penetration testing before production; regular policy audit                               |
+| DB-R04 | Database connection pool exhaustion under load spikes                            | Medium     | Medium   | Supabase pooler handles connection management; NestJS connection pool of 10 + max overflow of 5; monitor connection count via Supabase dashboard |
+| DB-R05 | Storage bucket public access misconfigured exposes user-uploaded files           | Low        | High     | All buckets default to private; signed URLs for authenticated access; RLS policies on storage objects; quarterly storage access audit            |
 
 ## Architecture Overview
 
@@ -83,33 +83,34 @@ graph TB
 
 ### Implementation Principles
 
-| Principle | Description | Enforcement |
-|-----------|-------------|-------------|
-| Migrations as Code | All schema changes version-controlled SQL | Supabase CLI in supabase/migrations/ |
-| Idempotent Deployments | Same result every run | IF NOT EXISTS / IF EXISTS on all DDL |
-| Least Privilege | Minimum necessary access | RLS on every table, anon vs service_role |
-| Defense in Depth | Validation at DB + API + Client | 3-layer validation matrix |
-| Audit by Default | Every mutation traceable | created_at + updated_at triggers + audit |
-| Free-Tier Conscious | Respect 500MB / 15 connections | Index budget, data lifecycle, query optimization |
+| Principle              | Description                               | Enforcement                                      |
+| ---------------------- | ----------------------------------------- | ------------------------------------------------ |
+| Migrations as Code     | All schema changes version-controlled SQL | Supabase CLI in supabase/migrations/             |
+| Idempotent Deployments | Same result every run                     | IF NOT EXISTS / IF EXISTS on all DDL             |
+| Least Privilege        | Minimum necessary access                  | RLS on every table, anon vs service_role         |
+| Defense in Depth       | Validation at DB + API + Client           | 3-layer validation matrix                        |
+| Audit by Default       | Every mutation traceable                  | created_at + updated_at triggers + audit         |
+| Free-Tier Conscious    | Respect 500MB / 15 connections            | Index budget, data lifecycle, query optimization |
 
 ### Environment Strategy
 
-| Env | Database Host | Connection | Used By |
-|-----|--------------|------------|---------|
-| Dev | localhost:54322 | Docker Supabase | Local dev, unit tests |
-| Staging | db.xxx.supabase.co | Supabase staging | Integration tests |
-| Prod | db.xxx.supabase.co | Supabase production | Live site, admin |
+| Env     | Database Host      | Connection          | Used By               |
+| ------- | ------------------ | ------------------- | --------------------- |
+| Dev     | localhost:54322    | Docker Supabase     | Local dev, unit tests |
+| Staging | db.xxx.supabase.co | Supabase staging    | Integration tests     |
+| Prod    | db.xxx.supabase.co | Supabase production | Live site, admin      |
 
 ### Connection Pooling
 
-| Setting | Dev | Staging | Prod |
-|---------|-----|---------|------|
-| Pooler | None | PgBouncer | PgBouncer |
-| Max Connections | 10 | 15 | 15 |
-| Statement Timeout | 30s | 10s | 10s |
-| SSL Mode | prefer | require | require |
+| Setting           | Dev    | Staging   | Prod      |
+| ----------------- | ------ | --------- | --------- |
+| Pooler            | None   | PgBouncer | PgBouncer |
+| Max Connections   | 10     | 15        | 15        |
+| Statement Timeout | 30s    | 10s       | 10s       |
+| SSL Mode          | prefer | require   | require   |
 
 ---
+
 ## 1. Migration Plan
 
 ### 1.1 Migration Philosophy
@@ -186,7 +187,7 @@ supabase gen types typescript --local > types.ts
 name: Database CI/CD
 on:
   push:
-    paths: ["supabase/migrations/**"]
+    paths: ['supabase/migrations/**']
     branches: [main, develop]
 jobs:
   validate:
@@ -764,20 +765,20 @@ All 37 tables use UUID primary keys auto-indexed by PostgreSQL. No additional PK
 
 Unique constraints (UNIQUE) auto-create B-tree indexes:
 
-| Column | Table | Type |
-|--------|-------|------|
-| email | users | TEXT |
-| name | roles | TEXT |
-| (resource, action) | permissions | COMPOSITE |
-| slug | projects | TEXT |
-| slug | blog_posts | TEXT |
-| slug | case_studies | TEXT |
-| section_key | sections | TEXT |
-| key | system_settings | TEXT |
-| key | feature_flags | TEXT |
-| name | post_tags | TEXT |
-| slug | post_tags | TEXT |
-| slug | experiences | TEXT |
+| Column             | Table           | Type      |
+| ------------------ | --------------- | --------- |
+| email              | users           | TEXT      |
+| name               | roles           | TEXT      |
+| (resource, action) | permissions     | COMPOSITE |
+| slug               | projects        | TEXT      |
+| slug               | blog_posts      | TEXT      |
+| slug               | case_studies    | TEXT      |
+| section_key        | sections        | TEXT      |
+| key                | system_settings | TEXT      |
+| key                | feature_flags   | TEXT      |
+| name               | post_tags       | TEXT      |
+| slug               | post_tags       | TEXT      |
+| slug               | experiences     | TEXT      |
 
 ### 3.3 Foreign Key Indexes
 
@@ -845,21 +846,21 @@ CREATE INDEX IF NOT EXISTS idx_document_chunks_embedding ON document_chunks USIN
 
 ### 3.5 Index Maintenance
 
-| Frequency | Task | Command |
-|-----------|------|---------|
-| Weekly | Reindex bloated indexes | REINDEX INDEX CONCURRENTLY name; |
-| Monthly | Analyze table statistics | ANALYZE table_name; |
-| Quarterly | Full vacuum | VACUUM FULL ANALYZE; |
-| On release | Rebuild after bulk import | REINDEX DATABASE CONCURRENTLY; |
+| Frequency  | Task                      | Command                          |
+| ---------- | ------------------------- | -------------------------------- |
+| Weekly     | Reindex bloated indexes   | REINDEX INDEX CONCURRENTLY name; |
+| Monthly    | Analyze table statistics  | ANALYZE table_name;              |
+| Quarterly  | Full vacuum               | VACUUM FULL ANALYZE;             |
+| On release | Rebuild after bulk import | REINDEX DATABASE CONCURRENTLY;   |
 
 ### 3.6 Index Size Estimates
 
-| Index | Est. Size (10K rows) | Est. Size (100K rows) | Criticality |
-|-------|---------------------|----------------------|-------------|
-| idx_projects_search | 2 MB | 20 MB | Medium |
-| idx_blog_posts_search | 1.5 MB | 15 MB | Medium |
-| idx_document_chunks_embedding | 10 MB | 100 MB | High |
-| Simple B-tree indexes | 0.3 MB each | 3 MB each | Low |
+| Index                         | Est. Size (10K rows) | Est. Size (100K rows) | Criticality |
+| ----------------------------- | -------------------- | --------------------- | ----------- |
+| idx_projects_search           | 2 MB                 | 20 MB                 | Medium      |
+| idx_blog_posts_search         | 1.5 MB               | 15 MB                 | Medium      |
+| idx_document_chunks_embedding | 10 MB                | 100 MB                | High        |
+| Simple B-tree indexes         | 0.3 MB each          | 3 MB each             | Low         |
 
 ---
 
@@ -910,6 +911,7 @@ ALTER TABLE availability_status ENABLE ROW LEVEL SECURITY;
 ### 4.2 Public Access (anon) Policies
 
 Tables exposed to unauthenticated visitors:
+
 - sections (SELECT only where is_live = true)
 - projects (SELECT only where is_private = false)
 - project_images (SELECT via public projects)
@@ -1006,13 +1008,13 @@ CREATE EXTENSION IF NOT EXISTS moddatetime;                     -- Auto-update u
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;             -- Query performance monitoring
 ```
 
-| Extension | Version | Purpose | Schema | Notes |
-|-----------|---------|---------|--------|-------|
-| vector | 0.8+ | Embedding storage | extensions | 1536-dim OpenAI, ivfflat index |
-| pgcrypto | 1.3 | UUID gen + hashing | public | Built-in, no install needed for gen_random_uuid |
-| pg_trgm | 1.6 | Fuzzy text search | public | GIN/GIST index support |
-| moddatetime | 1.0 | Auto-updated_at | public | Trigger function |
-| pg_stat_statements | 1.10 | Query monitoring | pg_catalog | Track slow queries |
+| Extension          | Version | Purpose            | Schema     | Notes                                           |
+| ------------------ | ------- | ------------------ | ---------- | ----------------------------------------------- |
+| vector             | 0.8+    | Embedding storage  | extensions | 1536-dim OpenAI, ivfflat index                  |
+| pgcrypto           | 1.3     | UUID gen + hashing | public     | Built-in, no install needed for gen_random_uuid |
+| pg_trgm            | 1.6     | Fuzzy text search  | public     | GIN/GIST index support                          |
+| moddatetime        | 1.0     | Auto-updated_at    | public     | Trigger function                                |
+| pg_stat_statements | 1.10    | Query monitoring   | pg_catalog | Track slow queries                              |
 
 ---
 
@@ -1021,6 +1023,7 @@ CREATE EXTENSION IF NOT EXISTS pg_stat_statements;             -- Query performa
 ### 6.1 Automatic updated_at Triggers
 
 Tables with updated_at columns use moddatetime:
+
 - users, sections, projects, blog_posts, services, case_studies, leads, system_settings, api_keys, feature_flags, availability_status, chat_conversations
 
 ```sql
@@ -1110,10 +1113,10 @@ CREATE TRIGGER system_settings_audit AFTER UPDATE OR DELETE ON system_settings
 
 ### 6.3 Trigger Maintenance
 
-| Trigger | Table | Event | Purpose | Performance Impact |
-|---------|-------|-------|---------|-------------------|
-| moddatetime (12x) | Various | BEFORE UPDATE | Updated_at timestamps | Negligible |
-| audit (4x) | leads, projects, blog_posts, system_settings | AFTER UPDATE/DELETE | Change logging | ~2ms per write |
+| Trigger           | Table                                        | Event               | Purpose               | Performance Impact |
+| ----------------- | -------------------------------------------- | ------------------- | --------------------- | ------------------ |
+| moddatetime (12x) | Various                                      | BEFORE UPDATE       | Updated_at timestamps | Negligible         |
+| audit (4x)        | leads, projects, blog_posts, system_settings | AFTER UPDATE/DELETE | Change logging        | ~2ms per write     |
 
 ---
 
@@ -1121,10 +1124,10 @@ CREATE TRIGGER system_settings_audit AFTER UPDATE OR DELETE ON system_settings
 
 ### 7.1 Seed Strategy
 
-| File | Scope | Environment | Freshness |
-|------|-------|-------------|-----------|
-| supabase/seed.sql | Full demo data | Development | Every supabase db reset |
-| supabase/migrations/017_seed_data.sql | Minimal defaults | All envs | Once on migration |
+| File                                  | Scope            | Environment | Freshness               |
+| ------------------------------------- | ---------------- | ----------- | ----------------------- |
+| supabase/seed.sql                     | Full demo data   | Development | Every supabase db reset |
+| supabase/migrations/017_seed_data.sql | Minimal defaults | All envs    | Once on migration       |
 
 ### 7.2 Minimal Seed (Migration 017)
 
@@ -1164,6 +1167,7 @@ ON CONFLICT DO NOTHING;
 ### 7.3 Dev Seed (supabase/seed.sql)
 
 The dev seed file (12KB) adds:
+
 - 2 demo admin users (bcrypt-hashed)
 - 8 demo projects with cover images and tech stacks
 - 12 skills across 4 categories with proficiency levels
@@ -1189,16 +1193,17 @@ psql $DATABASE_URL -f supabase/seed.sql
 ```
 
 ---
+
 ## 8. Backup and Disaster Recovery
 
 ### 8.1 Supabase Backup Capabilities
 
-| Tier | Daily Backups | Retention | PITR Window | Storage |
-|------|--------------|-----------|-------------|---------|
-| Free | Yes | 7 days | None | 500 MB |
-| Pro | Yes | 7 days | None | 8 GB |
-| Team | Yes | 14 days | 1 hour | 16 GB |
-| Enterprise | Yes | 30 days | 1 min | Custom |
+| Tier       | Daily Backups | Retention | PITR Window | Storage |
+| ---------- | ------------- | --------- | ----------- | ------- |
+| Free       | Yes           | 7 days    | None        | 500 MB  |
+| Pro        | Yes           | 7 days    | None        | 8 GB    |
+| Team       | Yes           | 14 days   | 1 hour      | 16 GB   |
+| Enterprise | Yes           | 30 days   | 1 min       | Custom  |
 
 ### 8.2 Manual Backup Commands
 
@@ -1218,12 +1223,12 @@ pg_restore --no-owner --no-acl --dburl=$DATABASE_URL backup_file.dump
 
 ### 8.3 Disaster Recovery Plan
 
-| Scenario | RTO | RPO | Recovery Action |
-|----------|-----|-----|-----------------|
-| Accidental data loss | 1 hour | 24 hours | Restore from Supabase daily backup |
-| Schema corruption | 2 hours | 1 hour | Rollback to previous migration version |
-| Full region outage | 4 hours | 1 hour | Deploy to new Supabase project |
-| Accidental table drop | 30 min | 24 hours | pg_restore from latest dump |
+| Scenario              | RTO     | RPO      | Recovery Action                        |
+| --------------------- | ------- | -------- | -------------------------------------- |
+| Accidental data loss  | 1 hour  | 24 hours | Restore from Supabase daily backup     |
+| Schema corruption     | 2 hours | 1 hour   | Rollback to previous migration version |
+| Full region outage    | 4 hours | 1 hour   | Deploy to new Supabase project         |
+| Accidental table drop | 30 min  | 24 hours | pg_restore from latest dump            |
 
 ### 8.4 Recovery SOP
 
@@ -1236,6 +1241,7 @@ pg_restore --no-owner --no-acl --dburl=$DATABASE_URL backup_file.dump
 7. **Post-mortem** - Document root cause, update runbook
 
 ---
+
 ## 9. Monitoring
 
 ### 9.1 Health Check Queries
@@ -1272,13 +1278,13 @@ LIMIT 20;
 
 ### 9.2 Supabase Dashboard Monitoring
 
-| Metric | Location | Warning Threshold | Critical Threshold |
-|--------|----------|-------------------|-------------------|
-| DB Size | Database > Reports | >80% quota | >95% quota |
-| Active Connections | Database > Reports | >10 | >14 (of 15) |
-| Avg Query Time | Database > Reports | >100ms | >500ms |
-| Storage | Storage > Reports | >80% quota | >95% quota |
-| Edge Function Errors | Logs > Explorer | >1% error rate | >5% error rate |
+| Metric               | Location           | Warning Threshold | Critical Threshold |
+| -------------------- | ------------------ | ----------------- | ------------------ |
+| DB Size              | Database > Reports | >80% quota        | >95% quota         |
+| Active Connections   | Database > Reports | >10               | >14 (of 15)        |
+| Avg Query Time       | Database > Reports | >100ms            | >500ms             |
+| Storage              | Storage > Reports  | >80% quota        | >95% quota         |
+| Edge Function Errors | Logs > Explorer    | >1% error rate    | >5% error rate     |
 
 ### 9.3 Alerting Setup
 
@@ -1296,17 +1302,18 @@ AND query_start > NOW() - INTERVAL '1 hour';
 ```
 
 ---
+
 ## 10. Performance
 
 ### 10.1 Connection Pooling
 
 Supabase free tier allows 15 max connections. Use PgBouncer (built-in) in transaction mode:
 
-| Client | Connection String | Pool Mode | Max Clients |
-|--------|-------------------|-----------|-------------|
-| NestJS (direct) | postgresql://user:pass@db.xxxx.supabase.co:6543/postgres | Transaction | 15 |
-| NestJS (pooled) | postgresql://user:pass@db.xxxx.supabase.co:6543/pgbouncer | Transaction | 200+ |
-| Prisma/ORM | postgresql://user:pass@db.xxxx.supabase.co:6543/pgbouncer | Transaction | 200+ |
+| Client          | Connection String                                         | Pool Mode   | Max Clients |
+| --------------- | --------------------------------------------------------- | ----------- | ----------- |
+| NestJS (direct) | postgresql://user:pass@db.xxxx.supabase.co:6543/postgres  | Transaction | 15          |
+| NestJS (pooled) | postgresql://user:pass@db.xxxx.supabase.co:6543/pgbouncer | Transaction | 200+        |
+| Prisma/ORM      | postgresql://user:pass@db.xxxx.supabase.co:6543/pgbouncer | Transaction | 200+        |
 
 ### 10.2 NestJS Connection Configuration
 
@@ -1327,38 +1334,39 @@ const dbConfig = {
 
 ### 10.3 Query Optimization Guidelines
 
-| Rule | Description | Example |
-|------|-------------|---------|
-| 1 | Use EXISTS instead of COUNT for existence | EXISTS(SELECT 1 FROM ...) |
-| 2 | Avoid SELECT * | SELECT id, title, slug |
-| 3 | Use LIMIT with pagination | LIMIT 20 OFFSET 0 |
-| 4 | Index WHERE and JOIN columns | Covered in Section 3 |
-| 5 | Use materialized views for dashboards | CREATE MATERIALIZED VIEW ... |
-| 6 | Avoid JSONB operations in WHERE | Use generated columns instead |
-| 7 | Use prepared statements | $1, $2 parameters |
+| Rule | Description                               | Example                       |
+| ---- | ----------------------------------------- | ----------------------------- |
+| 1    | Use EXISTS instead of COUNT for existence | EXISTS(SELECT 1 FROM ...)     |
+| 2    | Avoid SELECT \*                           | SELECT id, title, slug        |
+| 3    | Use LIMIT with pagination                 | LIMIT 20 OFFSET 0             |
+| 4    | Index WHERE and JOIN columns              | Covered in Section 3          |
+| 5    | Use materialized views for dashboards     | CREATE MATERIALIZED VIEW ...  |
+| 6    | Avoid JSONB operations in WHERE           | Use generated columns instead |
+| 7    | Use prepared statements                   | $1, $2 parameters             |
 
 ### 10.4 Caching Strategy
 
-| Layer | Tool | TTL | Cacheable Data |
-|------|------|-----|---------------|
-| Application | NestJS in-memory | 5 min | Section config, skills, testimonials |
-| CDN | Cloudflare/Vercel Edge | 10 min | Public API responses (projects, blog) |
-| Database | pg_stat_statements | N/A | Query plan cache |
+| Layer       | Tool                   | TTL    | Cacheable Data                        |
+| ----------- | ---------------------- | ------ | ------------------------------------- |
+| Application | NestJS in-memory       | 5 min  | Section config, skills, testimonials  |
+| CDN         | Cloudflare/Vercel Edge | 10 min | Public API responses (projects, blog) |
+| Database    | pg_stat_statements     | N/A    | Query plan cache                      |
 
 ### 10.5 Migration Performance
 
-| Migration | Est. Execution Time | Transaction Safety | Risk |
-|-----------|-------------------|-------------------|------|
-| 001-011 (DDL) | 5-10 seconds | Yes (single tx) | Low |
-| 012 (Extensions) | 2-5 seconds | Yes | Low |
-| 013 (Indexes) | 30-120 seconds | No (CONCURRENTLY) | Medium |
-| 014-015 (RLS) | 5 seconds | Yes | Low |
-| 016 (Triggers) | 2 seconds | Yes | Low |
-| 017 (Seed) | 1 second | Yes | Low |
+| Migration        | Est. Execution Time | Transaction Safety | Risk   |
+| ---------------- | ------------------- | ------------------ | ------ |
+| 001-011 (DDL)    | 5-10 seconds        | Yes (single tx)    | Low    |
+| 012 (Extensions) | 2-5 seconds         | Yes                | Low    |
+| 013 (Indexes)    | 30-120 seconds      | No (CONCURRENTLY)  | Medium |
+| 014-015 (RLS)    | 5 seconds           | Yes                | Low    |
+| 016 (Triggers)   | 2 seconds           | Yes                | Low    |
+| 017 (Seed)       | 1 second            | Yes                | Low    |
 
 Index creation uses CONCURRENTLY to avoid locking production tables.
 
 ---
+
 ## 11. Production Rollout Checklist
 
 ### 11.1 Pre-Migration Checklist
@@ -1373,16 +1381,16 @@ Index creation uses CONCURRENTLY to avoid locking production tables.
 
 ### 11.2 Migration Execution
 
-| Step | Command | Duration | Verification |
-|------|---------|----------|-------------|
-| 1 | supabase db push --version 012 | 5s | Extensions active |
-| 2 | supabase db push --version 011 | 10s | 37 tables created |
-| 3 | supabase db push --version 013 | 2 min | Indexes created |
-| 4 | supabase db push --version 014 | 3s | RLS enabled |
-| 5 | supabase db push --version 015 | 3s | Policies applied |
-| 6 | supabase db push --version 016 | 2s | Triggers active |
-| 7 | supabase db push --version 017 | 1s | Seed data inserted |
-| 8 | Run 999_verify.sql | 2s | All checks pass |
+| Step | Command                        | Duration | Verification       |
+| ---- | ------------------------------ | -------- | ------------------ |
+| 1    | supabase db push --version 012 | 5s       | Extensions active  |
+| 2    | supabase db push --version 011 | 10s      | 37 tables created  |
+| 3    | supabase db push --version 013 | 2 min    | Indexes created    |
+| 4    | supabase db push --version 014 | 3s       | RLS enabled        |
+| 5    | supabase db push --version 015 | 3s       | Policies applied   |
+| 6    | supabase db push --version 016 | 2s       | Triggers active    |
+| 7    | supabase db push --version 017 | 1s       | Seed data inserted |
+| 8    | Run 999_verify.sql             | 2s       | All checks pass    |
 
 ```bash
 # Execute migration steps sequentially
@@ -1427,56 +1435,56 @@ pg_restore --no-owner --no-acl --dburl="$PRODUCTION_URL" pre_migration_backup.du
 
 ### 11.5 Post-Launch Monitoring (48 hours)
 
-| Check | Frequency | Expected | Escalate If |
-|------|-----------|----------|-------------|
-| Query error rate | Every 15 min | <0.1% | >1% |
-| Avg query latency | Every 15 min | <50ms | >200ms |
-| Connection count | Every 15 min | <5 | >12 |
-| DB size growth | Daily | <50MB | >200MB |
-| Failed RLS checks | Every hour | 0 | >10 |
-| Backup success | Daily | Success | Failure |
+| Check             | Frequency    | Expected | Escalate If |
+| ----------------- | ------------ | -------- | ----------- |
+| Query error rate  | Every 15 min | <0.1%    | >1%         |
+| Avg query latency | Every 15 min | <50ms    | >200ms      |
+| Connection count  | Every 15 min | <5       | >12         |
+| DB size growth    | Daily        | <50MB    | >200MB      |
+| Failed RLS checks | Every hour   | 0        | >10         |
+| Backup success    | Daily        | Success  | Failure     |
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **RLS** | Row-Level Security — PostgreSQL feature that restricts row visibility and mutation based on a policy expression evaluated per-query; enforced at the database level, cannot be bypassed by the application |
-| **pgvector** | PostgreSQL extension that adds vector data type and similarity search operators (cosine, L2, inner product); used for storing and querying AI embeddings |
-| **PITR** | Point-In-Time Recovery — ability to restore a database to any moment within a retention window using WAL archive; Supabase provides 7-day PITR |
-| **WAL** | Write-Ahead Log — PostgreSQL's transaction log that records every change; enables replication, PITR, and standby databases |
-| **IVFFlat** | Inverted File with Flat Compression — approximate nearest neighbor index that partitions vectors into inverted lists for faster k-NN search at the cost of some recall |
-| **Zod** | TypeScript-first schema declaration and validation library that infers TypeScript types from runtime validators; ensures data integrity at the API boundary |
-| **Trigger Function** | PostgreSQL function that executes automatically on INSERT, UPDATE, or DELETE of a specified table; used for updated_at timestamps and audit logging |
-| **Storage Bucket** | Supabase storage container for file uploads with configurable public/private access, MIME type restrictions, and file size limits |
-| **Service Role** | Supabase special role that bypasses RLS policies — used for server-to-server communication (NestJS API, FastAPI AI service); key must be kept secret |
-| **Seed Data** | Pre-populated database content for development and staging environments (default roles, sections, feature flags, sample projects) |
-| **Supabase CLI** | Command-line tool for local development, migration management, database push/pull, and type generation from database schema |
-| **pg_dump** | PostgreSQL native backup utility that outputs a portable SQL or custom-format dump file; used for nightly backups and pre-migration snapshots |
-| **Connection Pooling** | Technique that reuses database connections to avoid the overhead of establishing a new TCP connection per request; Supabase provides built-in PgBouncer |
-| **Migration Stream** | Ordered set of versioned SQL migration files; each migration represents a discrete schema change that is applied sequentially and logged in the `_supabase_migrations` table |
-| **Nullable vs Optional** | Zod convention: `nullable()` allows the field to be null in the database; `optional()` allows the field to be absent in the application — distinct concerns that prevent null/undefined confusion |
+| Term                     | Definition                                                                                                                                                                                                 |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **RLS**                  | Row-Level Security — PostgreSQL feature that restricts row visibility and mutation based on a policy expression evaluated per-query; enforced at the database level, cannot be bypassed by the application |
+| **pgvector**             | PostgreSQL extension that adds vector data type and similarity search operators (cosine, L2, inner product); used for storing and querying AI embeddings                                                   |
+| **PITR**                 | Point-In-Time Recovery — ability to restore a database to any moment within a retention window using WAL archive; Supabase provides 7-day PITR                                                             |
+| **WAL**                  | Write-Ahead Log — PostgreSQL's transaction log that records every change; enables replication, PITR, and standby databases                                                                                 |
+| **IVFFlat**              | Inverted File with Flat Compression — approximate nearest neighbor index that partitions vectors into inverted lists for faster k-NN search at the cost of some recall                                     |
+| **Zod**                  | TypeScript-first schema declaration and validation library that infers TypeScript types from runtime validators; ensures data integrity at the API boundary                                                |
+| **Trigger Function**     | PostgreSQL function that executes automatically on INSERT, UPDATE, or DELETE of a specified table; used for updated_at timestamps and audit logging                                                        |
+| **Storage Bucket**       | Supabase storage container for file uploads with configurable public/private access, MIME type restrictions, and file size limits                                                                          |
+| **Service Role**         | Supabase special role that bypasses RLS policies — used for server-to-server communication (NestJS API, FastAPI AI service); key must be kept secret                                                       |
+| **Seed Data**            | Pre-populated database content for development and staging environments (default roles, sections, feature flags, sample projects)                                                                          |
+| **Supabase CLI**         | Command-line tool for local development, migration management, database push/pull, and type generation from database schema                                                                                |
+| **pg_dump**              | PostgreSQL native backup utility that outputs a portable SQL or custom-format dump file; used for nightly backups and pre-migration snapshots                                                              |
+| **Connection Pooling**   | Technique that reuses database connections to avoid the overhead of establishing a new TCP connection per request; Supabase provides built-in PgBouncer                                                    |
+| **Migration Stream**     | Ordered set of versioned SQL migration files; each migration represents a discrete schema change that is applied sequentially and logged in the `_supabase_migrations` table                               |
+| **Nullable vs Optional** | Zod convention: `nullable()` allows the field to be null in the database; `optional()` allows the field to be absent in the application — distinct concerns that prevent null/undefined confusion          |
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.1 | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), Change Log | Tech Lead |
-| 1.0 | Jun 2026 | Initial database implementation guide — 10 sections covering migration plan, schema, indexes, RLS, backups, validation, audit logging, seed data, testing, disaster recovery, production rollout | Tech Lead |
+| Version | Date     | Changes                                                                                                                                                                                          | Author    |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------- |
+| 1.1     | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), Change Log                                                                                    | Tech Lead |
+| 1.0     | Jun 2026 | Initial database implementation guide — 10 sections covering migration plan, schema, indexes, RLS, backups, validation, audit logging, seed data, testing, disaster recovery, production rollout | Tech Lead |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference           | Description                                            |
+| ------------------- | ------------------------------------------------------ |
 | See MASTER-INDEX.md | Full document dependency graph and cross-reference map |
 
 ---
 
 ## Cross-References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference            | Description                                            |
+| -------------------- | ------------------------------------------------------ |
 | docs/MASTER-INDEX.md | Full document dependency graph and cross-reference map |
