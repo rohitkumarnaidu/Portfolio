@@ -1,7 +1,7 @@
 # Python dependencies for FastAPI backend
 fastapi==0.115.0
 uvicorn[standard]==0.32.0
-python-multipart==0.0.17
+python-multipart==0.0.32
 pydantic==2.9.2
 pydantic-settings==2.6.1
 python-jose[cryptography]==3.3.0
