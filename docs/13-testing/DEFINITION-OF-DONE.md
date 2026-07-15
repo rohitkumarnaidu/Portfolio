@@ -52,7 +52,7 @@ flowchart TD
 ## 3. Universal Requirements (All Work Types)
 
 - [ ] Code is peer-reviewed and approved by at least 1 domain expert. Architecture changes require 2 approvals.
-- [ ] All code conforms to [Coding Standards](../docs/governance/CodingStandards.md) and passes static analysis (`npm run lint`, `npm run typecheck`).
+- [ ] All code conforms to [Coding Standards](../docs/23-governance/CodingStandards.md) and passes static analysis (`npm run lint`, `npm run typecheck`).
 - [ ] No new technical debt has been introduced without explicit documentation in the project backlog.
 - [ ] All automated CI checks pass (lint, typecheck, unit tests, integration tests, security scan).
 - [ ] Branch is up to date with `main` and has no merge conflicts.

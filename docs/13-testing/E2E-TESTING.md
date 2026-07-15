@@ -28,9 +28,9 @@ End-to-End testing simulates real user scenarios across the entire stack of the 
 
 ### 2.3 Browser Matrix
 
-| Browser  | Status     | Scope               | Run Frequency      |
-| -------- | ---------- | ------------------- | ------------------ |
-| Chromium | Ã¢Å“â€¦ Active  | All E2E tests       | Every PR + nightly |
+| Browser  | Status            | Scope               | Run Frequency      |
+| -------- | ----------------- | ------------------- | ------------------ |
+| Chromium | Ã¢Å“â€¦ Active    | All E2E tests       | Every PR + nightly |
 | Firefox  | Ã°Å¸â€â€ž Planned | Critical paths only | Nightly            |
 | WebKit   | Ã°Å¸â€â€ž Planned | Critical paths only | Nightly            |
 
@@ -240,5 +240,6 @@ Given the highly visual nature of the portfolio (Framer Motion, React Three Fibe
 | Visual regression   | Key pages only        | ~20%    | Screenshot comparison count               |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

@@ -4,6 +4,8 @@
 > **Status:** Ã¢Å“â€¦ Active | **Owner:** QA Lead | **Review Cadence:** Monthly
 > **Classification:** Enterprise Architecture | **Testing Stack:** 8 tools | **Test Levels:** 8
 
+> **Note:** This document covers test strategy. For detailed testing architecture, see [TESTING-ARCHITECTURE.md](./TESTING-ARCHITECTURE.md).
+
 ---
 
 ## Table of Contents
@@ -64,6 +66,7 @@ Flaky tests erode trust and slow development. Every test must produce the same r
 - **CI retries for E2E only.** Playwright may retry flaky browser tests (max 2 retries in CI). Unit and integration tests must pass on the first try Ã¢â‚¬â€ retries mask real problems.
 
 **Flaky test protocol:**
+
 1. When a flaky test is identified, file a P1 bug with the test name and failure pattern.
 2. The test is quarantined (skipped with a `TODO` comment referencing the bug).
 3. The root cause is fixed within one sprint.
@@ -88,13 +91,13 @@ Coverage percentages are useful indicators of untested code, but they are not go
 
 ### 1.6 Summary Table
 
-| # | Principle | Description | Enforcement |
-|---|-----------|-------------|-------------|
-| P1 | First-class tests | Tests reviewed like production code, mandatory for PRs | Code review checklist |
-| P2 | Trophy model | Invest most in integration tests | Test distribution targets |
-| P3 | Deterministic | No flaky tests, no shared state, no network in units | CI pass/fail, flaky tracker |
-| P4 | CI on every PR | Full suite runs, failures block merge | GitHub branch protection |
-| P5 | Coverage as guide | Behavior over numbers, meaningful assertions | Coverage reports, not gates |
+| #   | Principle         | Description                                            | Enforcement                 |
+| --- | ----------------- | ------------------------------------------------------ | --------------------------- |
+| P1  | First-class tests | Tests reviewed like production code, mandatory for PRs | Code review checklist       |
+| P2  | Trophy model      | Invest most in integration tests                       | Test distribution targets   |
+| P3  | Deterministic     | No flaky tests, no shared state, no network in units   | CI pass/fail, flaky tracker |
+| P4  | CI on every PR    | Full suite runs, failures block merge                  | GitHub branch protection    |
+| P5  | Coverage as guide | Behavior over numbers, meaningful assertions           | Coverage reports, not gates |
 
 ---
 
@@ -133,34 +136,34 @@ graph LR
 
 This is an honest assessment of where the project stands today, based on the actual test files in the repository.
 
-| Dimension | Current State |
-|-----------|---------------|
-| **Total test files (API)** | 3 service specs + 1 e2e spec |
-| **Total test files (Web)** | 2 unit tests + 2 Playwright specs |
+| Dimension                   | Current State                                            |
+| --------------------------- | -------------------------------------------------------- |
+| **Total test files (API)**  | 3 service specs + 1 e2e spec                             |
+| **Total test files (Web)**  | 2 unit tests + 2 Playwright specs                        |
 | **API services with tests** | 3 / 27 (`auth.service`, `blog.service`, `leads.service`) |
-| **Test DB setup** | Ad-hoc via `DATABASE_URL` check (`hasDb` flag) |
-| **CI test execution** | `continue-on-error: true` for web tests |
-| **Coverage thresholds** | None configured |
-| **Visual regression** | 0% |
-| **Performance tests** | 0% |
-| **a11y tests** | 1 Playwright spec (basic) |
+| **Test DB setup**           | Ad-hoc via `DATABASE_URL` check (`hasDb` flag)           |
+| **CI test execution**       | `continue-on-error: true` for web tests                  |
+| **Coverage thresholds**     | None configured                                          |
+| **Visual regression**       | 0%                                                       |
+| **Performance tests**       | 0%                                                       |
+| **a11y tests**              | 1 Playwright spec (basic)                                |
 
 **The gap is significant but expected for a project transitioning from rapid prototyping to production readiness. This plan closes that gap over 6 weeks.**
 
 ### 2.2 Target Coverage by Layer
 
-| Layer | Technology | Target Coverage | Current Coverage | Priority |
-|-------|-----------|----------------|-----------------|----------|
-| **Static Analysis** | TypeScript strict, ESLint | 100% codebase | ~100% (ts strict) | Ã¢Å“â€¦ Done |
-| **Unit (API)** | Jest + ts-jest | 80% line, 70% branch | ~5% | Ã°Å¸â€Â´ Week 2 |
-| **Unit (Web)** | Vitest + Testing Library | 80% line, 70% branch | ~3% | Ã°Å¸â€Â´ Week 3 |
-| **Integration** | Jest + Supertest | 60% line | ~15% (e2e covers some) | Ã°Å¸Å¸Â¡ Week 2 |
-| **E2E (Web)** | Playwright | 40% critical paths | ~5% | Ã°Å¸Å¸Â¡ Week 4 |
-| **E2E (API)** | Jest + Supertest | 30% critical paths | ~15% | Ã°Å¸Å¸Â¡ Week 2 |
-| **Visual Regression** | Playwright Screenshot | Key pages (10+ screens) | 0% | Ã°Å¸â€Âµ Week 5 |
-| **Accessibility** | axe-core + Playwright | WCAG 2.2 AA, all pages | ~5% | Ã°Å¸â€Âµ Week 5 |
-| **Performance** | k6 / Lighthouse CI | Budget compliance | 0% | Ã°Å¸Å¸Â£ Week 6 |
-| **Security** | CodeQL, npm audit | All critical/high | Partial | Ã°Å¸Å¸Â£ Quarter 3 |
+| Layer                 | Technology                | Target Coverage         | Current Coverage       | Priority           |
+| --------------------- | ------------------------- | ----------------------- | ---------------------- | ------------------ |
+| **Static Analysis**   | TypeScript strict, ESLint | 100% codebase           | ~100% (ts strict)      | Ã¢Å“â€¦ Done       |
+| **Unit (API)**        | Jest + ts-jest            | 80% line, 70% branch    | ~5%                    | Ã°Å¸â€Â´ Week 2    |
+| **Unit (Web)**        | Vitest + Testing Library  | 80% line, 70% branch    | ~3%                    | Ã°Å¸â€Â´ Week 3    |
+| **Integration**       | Jest + Supertest          | 60% line                | ~15% (e2e covers some) | Ã°Å¸Å¸Â¡ Week 2    |
+| **E2E (Web)**         | Playwright                | 40% critical paths      | ~5%                    | Ã°Å¸Å¸Â¡ Week 4    |
+| **E2E (API)**         | Jest + Supertest          | 30% critical paths      | ~15%                   | Ã°Å¸Å¸Â¡ Week 2    |
+| **Visual Regression** | Playwright Screenshot     | Key pages (10+ screens) | 0%                     | Ã°Å¸â€Âµ Week 5    |
+| **Accessibility**     | axe-core + Playwright     | WCAG 2.2 AA, all pages  | ~5%                    | Ã°Å¸â€Âµ Week 5    |
+| **Performance**       | k6 / Lighthouse CI        | Budget compliance       | 0%                     | Ã°Å¸Å¸Â£ Week 6    |
+| **Security**          | CodeQL, npm audit         | All critical/high       | Partial                | Ã°Å¸Å¸Â£ Quarter 3 |
 
 > **Legend:** Ã¢Å“â€¦ Done | Ã°Å¸â€Â´ Immediate (Week 1-2) | Ã°Å¸Å¸Â¡ Short-term (Week 3-4) | Ã°Å¸â€Âµ Medium-term (Week 5-6) | Ã°Å¸Å¸Â£ Future (Quarter 3)
 
@@ -168,19 +171,19 @@ This is an honest assessment of where the project stands today, based on the act
 
 The ideal distribution of tests across layers for a full-stack application of this size:
 
-| Layer | Target Count | Current Count | Ratio |
-|-------|-------------|---------------|-------|
-| Static analysis | N/A (tool-enforced) | N/A | Ã¢â‚¬â€ |
-| Unit (API services) | 150+ | ~50 (3 files) | 3% |
-| Unit (Web utilities) | 50+ | ~0 | 0% |
-| Unit (Web hooks) | 80+ | ~20 | 25% |
-| Component tests | 80+ | ~0 | 0% |
-| Integration (API) | 100+ | ~40 (e2e spec) | 40% |
-| E2E (Playwright) | 25+ | ~8 (2 files) | 32% |
-| Visual regression | 15+ | 0 | 0% |
-| a11y | 10+ | ~4 | 40% |
-| Performance | 5+ | 0 | 0% |
-| **Total** | **500+** | **~120** | **24%** |
+| Layer                | Target Count        | Current Count  | Ratio   |
+| -------------------- | ------------------- | -------------- | ------- |
+| Static analysis      | N/A (tool-enforced) | N/A            | Ã¢â‚¬â€ |
+| Unit (API services)  | 150+                | ~50 (3 files)  | 3%      |
+| Unit (Web utilities) | 50+                 | ~0             | 0%      |
+| Unit (Web hooks)     | 80+                 | ~20            | 25%     |
+| Component tests      | 80+                 | ~0             | 0%      |
+| Integration (API)    | 100+                | ~40 (e2e spec) | 40%     |
+| E2E (Playwright)     | 25+                 | ~8 (2 files)   | 32%     |
+| Visual regression    | 15+                 | 0              | 0%      |
+| a11y                 | 10+                 | ~4             | 40%     |
+| Performance          | 5+                  | 0              | 0%      |
+| **Total**            | **500+**            | **~120**       | **24%** |
 
 ### 2.4 Coverage Evolution Roadmap
 
@@ -204,6 +207,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 **Location:** Pre-commit hook (husky + lint-staged) + CI
 
 **Checked automatically:**
+
 - Type errors (strict mode: `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `strictNullChecks`)
 - Unused imports and variables (`noUnusedLocals`, `noUnusedParameters`)
 - Code style and formatting (Prettier + ESLint)
@@ -211,6 +215,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Accessibility lint rules (`jsx-a11y`) for React components
 
 **What does NOT need a separate test:**
+
 - Anything that TypeScript catches at compile time (wrong types, missing properties, null checks)
 
 ### 3.2 Unit Tests Ã¢â‚¬â€ API Services
@@ -222,6 +227,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 #### What to test in each service:
 
 **CRUD operations (every entity):**
+
 - `create()` with valid data returns the created entity
 - `create()` with invalid/missing data throws appropriate error
 - `create()` enforces unique constraints
@@ -235,6 +241,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - `remove()` throws `NotFoundException` for nonexistent IDs
 
 **Business logic (entity-specific):**
+
 - Auth service: password hashing, token generation, token refresh, role verification
 - Blog service: published/unpublished filtering, slug generation, category filtering
 - Leads service: spam detection, rate limiting, status transitions
@@ -246,6 +253,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Feature flags: evaluation logic, user targeting, rollout percentages
 
 **Cross-cutting concerns:**
+
 - Caching decorators work correctly (cache hit returns cached data, cache miss calls service)
 - Audit logging fires on mutation endpoints
 - Rate limiting doesn't block legitimate requests
@@ -253,19 +261,19 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Services to test (ordered by priority):
 
-| Priority | Service | File | Tests Needed |
-|----------|---------|------|-------------|
-| P0 | `auth.service.ts` | Ã¢Å“â€¦ Exists | ~15 tests (token, hashing, refresh, roles) |
-| P0 | `leads.service.ts` | Ã¢Å“â€¦ Exists | ~10 tests (CRUD + spam + status) |
-| P0 | `projects.service.ts` | Ã¢ÂÅ’ Missing | ~12 tests (CRUD + filter + pagination) |
-| P0 | `blog.service.ts` | Ã¢Å“â€¦ Exists | ~12 tests (CRUD + published + categories) |
-| P1 | `skills.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + category) |
-| P1 | `sections.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + ordering) |
-| P1 | `testimonials.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + featured) |
-| P1 | `experiences.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD + ordering) |
-| P1 | `services.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD) |
-| P1 | `faqs.service.ts` | Ã¢ÂÅ’ Missing | ~8 tests (CRUD) |
-| P2 | Remaining 17 services | Ã¢ÂÅ’ Missing | ~4-8 tests each (basic CRUD) |
+| Priority | Service                   | File           | Tests Needed                               |
+| -------- | ------------------------- | -------------- | ------------------------------------------ |
+| P0       | `auth.service.ts`         | Ã¢Å“â€¦ Exists | ~15 tests (token, hashing, refresh, roles) |
+| P0       | `leads.service.ts`        | Ã¢Å“â€¦ Exists | ~10 tests (CRUD + spam + status)           |
+| P0       | `projects.service.ts`     | Ã¢ÂÅ’ Missing  | ~12 tests (CRUD + filter + pagination)     |
+| P0       | `blog.service.ts`         | Ã¢Å“â€¦ Exists | ~12 tests (CRUD + published + categories)  |
+| P1       | `skills.service.ts`       | Ã¢ÂÅ’ Missing  | ~8 tests (CRUD + category)                 |
+| P1       | `sections.service.ts`     | Ã¢ÂÅ’ Missing  | ~8 tests (CRUD + ordering)                 |
+| P1       | `testimonials.service.ts` | Ã¢ÂÅ’ Missing  | ~8 tests (CRUD + featured)                 |
+| P1       | `experiences.service.ts`  | Ã¢ÂÅ’ Missing  | ~8 tests (CRUD + ordering)                 |
+| P1       | `services.service.ts`     | Ã¢ÂÅ’ Missing  | ~8 tests (CRUD)                            |
+| P1       | `faqs.service.ts`         | Ã¢ÂÅ’ Missing  | ~8 tests (CRUD)                            |
+| P2       | Remaining 17 services     | Ã¢ÂÅ’ Missing  | ~4-8 tests each (basic CRUD)               |
 
 ### 3.3 Unit Tests Ã¢â‚¬â€ Web Utilities
 
@@ -274,6 +282,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 **Scope:** Pure utility functions, data transformations, formatters
 
 **What to test:**
+
 - **Date formatting:** `formatDate()`, `timeAgo()`, `formatDuration()` Ã¢â‚¬â€ locale, edge cases, invalid inputs
 - **String utilities:** `slugify()`, `truncate()`, `capitalize()` Ã¢â‚¬â€ special characters, Unicode, empty strings
 - **Number formatting:** `formatNumber()`, `formatCurrency()` Ã¢â‚¬â€ large numbers, decimals, edge cases
@@ -289,24 +298,24 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Every hook needs 3 test cases:
 
-| State | What to Test | Example |
-|-------|-------------|---------|
-| **Loading** | Returns `isLoading: true` initially, data is undefined | `renderHook(() => useProjects())` Ã¢â€ â€™ `result.current.isLoading === true` |
-| **Success** | Returns data after fetch resolves | Mock fetch Ã¢â€ â€™ `waitFor(() => expect(result.current.isSuccess).toBe(true))` |
-| **Error** | Returns error after fetch rejects | Mock fetch error Ã¢â€ â€™ `waitFor(() => expect(result.current.isError).toBe(true))` |
+| State       | What to Test                                           | Example                                                                              |
+| ----------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| **Loading** | Returns `isLoading: true` initially, data is undefined | `renderHook(() => useProjects())` Ã¢â€ â€™ `result.current.isLoading === true`       |
+| **Success** | Returns data after fetch resolves                      | Mock fetch Ã¢â€ â€™ `waitFor(() => expect(result.current.isSuccess).toBe(true))`     |
+| **Error**   | Returns error after fetch rejects                      | Mock fetch error Ã¢â€ â€™ `waitFor(() => expect(result.current.isError).toBe(true))` |
 
 #### Hooks to test (27 total):
 
-| Priority | Hook | Tests Needed | Has Tests? |
-|----------|------|-------------|------------|
-| P0 | `useProjects` | 3 (loading, success, error) | Ã¢Å“â€¦ |
-| P0 | `useBlogPosts` | 3 | Ã¢Å“â€¦ |
-| P0 | `useAuth` | 6 (login, register, logout, refresh, profile, error) | Ã¢ÂÅ’ |
-| P0 | `useLeads` | 3 | Ã¢ÂÅ’ |
-| P1 | `useSkills`, `useSections`, `useTestimonials` | 3 each | Ã¢ÂÅ’ |
-| P1 | `useExperiences`, `useServices`, `useFAQs` | 3 each | Ã¢ÂÅ’ |
-| P1 | `useCaseStudies`, `useMedia`, `useChat` | 3 each | Ã¢ÂÅ’ |
-| P2 | Remaining 16 hooks | 3 each | Ã¢ÂÅ’ |
+| Priority | Hook                                          | Tests Needed                                         | Has Tests? |
+| -------- | --------------------------------------------- | ---------------------------------------------------- | ---------- |
+| P0       | `useProjects`                                 | 3 (loading, success, error)                          | Ã¢Å“â€¦    |
+| P0       | `useBlogPosts`                                | 3                                                    | Ã¢Å“â€¦    |
+| P0       | `useAuth`                                     | 6 (login, register, logout, refresh, profile, error) | Ã¢ÂÅ’      |
+| P0       | `useLeads`                                    | 3                                                    | Ã¢ÂÅ’      |
+| P1       | `useSkills`, `useSections`, `useTestimonials` | 3 each                                               | Ã¢ÂÅ’      |
+| P1       | `useExperiences`, `useServices`, `useFAQs`    | 3 each                                               | Ã¢ÂÅ’      |
+| P1       | `useCaseStudies`, `useMedia`, `useChat`       | 3 each                                               | Ã¢ÂÅ’      |
+| P2       | Remaining 16 hooks                            | 3 each                                               | Ã¢ÂÅ’      |
 
 > **Note:** The existing `hooks.test.tsx` tests `useProjects` and `useBlogPosts` with loading, success, and error states. These serve as the template for all remaining hooks.
 
@@ -319,6 +328,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 #### What to test for each component:
 
 **Render states:**
+
 - Default render (no props, empty data)
 - With data (variants, different states)
 - Loading/skeleton state
@@ -327,6 +337,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Edge cases (very long text, missing optional props)
 
 **Interactions:**
+
 - Click handlers fire correctly
 - Form submission works
 - Keyboard navigation (Tab, Enter, Escape)
@@ -334,6 +345,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - State changes after interaction (open/close, selected/unselected)
 
 **Accessibility (basic):**
+
 - Roles are correct (`button`, `navigation`, `dialog`, `list`)
 - Labels are present and meaningful
 - ARIA attributes are correct
@@ -341,31 +353,31 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Top 10 UI components to test first:
 
-| Priority | Component | Tests Needed | Key Concerns |
-|----------|-----------|-------------|--------------|
-| P0 | `Button` | 5 | Variants, disabled, loading, click, keyboard |
-| P0 | `Card` | 4 | Render, with children, with image, without image |
-| P0 | `Input` | 5 | Value, placeholder, disabled, error state, onChange |
-| P0 | `Navbar` | 4 | Desktop render, mobile menu, active link, keyboard nav |
-| P1 | `Footer` | 3 | Render, links render, responsive |
-| P1 | `ThemeToggle` | 3 | Click toggles, initial state, persists |
-| P1 | `Tooltip` | 4 | Show on hover, hide on leave, keyboard focus, positioning |
-| P1 | `CopyButton` | 3 | Click copies, tooltip shows "Copied!", fallback |
-| P1 | `FileDropZone` | 4 | Drag over, file selected, error state, accessibility |
-| P1 | `BottomSheet` | 4 | Open/close, backdrop click, escape key, content render |
+| Priority | Component      | Tests Needed | Key Concerns                                              |
+| -------- | -------------- | ------------ | --------------------------------------------------------- |
+| P0       | `Button`       | 5            | Variants, disabled, loading, click, keyboard              |
+| P0       | `Card`         | 4            | Render, with children, with image, without image          |
+| P0       | `Input`        | 5            | Value, placeholder, disabled, error state, onChange       |
+| P0       | `Navbar`       | 4            | Desktop render, mobile menu, active link, keyboard nav    |
+| P1       | `Footer`       | 3            | Render, links render, responsive                          |
+| P1       | `ThemeToggle`  | 3            | Click toggles, initial state, persists                    |
+| P1       | `Tooltip`      | 4            | Show on hover, hide on leave, keyboard focus, positioning |
+| P1       | `CopyButton`   | 3            | Click copies, tooltip shows "Copied!", fallback           |
+| P1       | `FileDropZone` | 4            | Drag over, file selected, error state, accessibility      |
+| P1       | `BottomSheet`  | 4            | Open/close, backdrop click, escape key, content render    |
 
 #### Section components (next tier):
 
-| Component | Tests Needed | Key Concerns |
-|-----------|-------------|--------------|
-| `Hero` | 3 | Render with content, without content, responsive |
-| `About` | 2 | Render, with/without image |
-| `Skills` | 3 | Category grouping, progress bars, animation triggers |
-| `Projects` | 3 | Grid render, filter buttons, empty state |
-| `Experience` | 3 | Timeline render, ordering, date formatting |
-| `Testimonials` | 3 | Carousel, featured first, empty state |
-| `Contact` | 4 | Form render, validation, submission, success state |
-| `BlogPreview` | 3 | Cards render, with/without images, tags |
+| Component      | Tests Needed | Key Concerns                                         |
+| -------------- | ------------ | ---------------------------------------------------- |
+| `Hero`         | 3            | Render with content, without content, responsive     |
+| `About`        | 2            | Render, with/without image                           |
+| `Skills`       | 3            | Category grouping, progress bars, animation triggers |
+| `Projects`     | 3            | Grid render, filter buttons, empty state             |
+| `Experience`   | 3            | Timeline render, ordering, date formatting           |
+| `Testimonials` | 3            | Carousel, featured first, empty state                |
+| `Contact`      | 4            | Form render, validation, submission, success state   |
+| `BlogPreview`  | 3            | Cards render, with/without images, tags              |
 
 ### 3.6 Integration Tests Ã¢â‚¬â€ API Controllers + Services + DB
 
@@ -376,6 +388,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 #### What to test:
 
 **Public Portfolio Endpoints (`/api/portfolio/*`):**
+
 - `GET /api/portfolio/sections` returns sections ordered correctly
 - `GET /api/portfolio/skills?category=Frontend` filters by category
 - `GET /api/portfolio/projects?featured=true&page=1&per_page=6` respects pagination + filter
@@ -388,6 +401,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - `GET /api/portfolio/availability-status` returns current status
 
 **Protected Admin Endpoints (`/api/admin/*`):**
+
 - `GET /api/admin/*` returns 401 without token
 - `GET /api/admin/*` returns 403 with viewer role for mutation endpoints
 - `POST /api/admin/projects` creates a project with valid data (admin role)
@@ -399,6 +413,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - `GET /api/admin/analytics/overview` returns aggregated data
 
 **Middleware & Cross-cutting:**
+
 - Rate limiting headers present on all responses
 - CORS headers match configured origin
 - Content-Type `application/json` on all API responses
@@ -416,6 +431,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 #### Critical journeys to cover:
 
 **Public Ã¢â‚¬â€ Homepage:**
+
 - Homepage loads with all sections visible
 - Navigation links work (scroll to section or navigate)
 - Projects section loads and displays cards
@@ -424,6 +440,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Responsive layout at mobile, tablet, desktop breakpoints
 
 **Public Ã¢â‚¬â€ Blog:**
+
 - Blog listing page loads with pagination
 - Single blog post loads with content
 - Category filtering works
@@ -431,6 +448,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Related posts section shows
 
 **Public Ã¢â‚¬â€ Projects:**
+
 - Project listing loads with filters
 - Single project detail loads
 - Project images/gallery works
@@ -438,6 +456,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Links to live site / source code
 
 **Admin Ã¢â‚¬â€ Auth:**
+
 - Login page renders
 - Valid credentials allow login
 - Invalid credentials show error
@@ -445,6 +464,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Logout clears session
 
 **Admin Ã¢â‚¬â€ CRUD:**
+
 - Projects list loads with pagination
 - Create project form submits successfully
 - Edit project form pre-fills data
@@ -453,6 +473,7 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 - Media upload flow works
 
 **Admin Ã¢â‚¬â€ Dashboard:**
+
 - Dashboard loads analytics data
 - Recent activity feed shows
 - Quick actions work
@@ -465,17 +486,17 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Screenshots to capture:
 
-| Page | Desktop (1280px) | Tablet (768px) | Mobile (375px) |
-|------|:---:|:---:|:---:|
-| Homepage (full) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| Homepage (above fold) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| Blog listing | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| Blog detail (article) | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢â‚¬â€ |
-| Project detail | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢â‚¬â€ |
-| Admin dashboard | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢â‚¬â€ |
-| Admin project form | Ã¢Å“â€¦ | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
-| Contact form | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
-| 404 page | Ã¢Å“â€¦ | Ã¢Å“â€¦ | Ã¢Å“â€¦ |
+| Page                  | Desktop (1280px) | Tablet (768px) | Mobile (375px) |
+| --------------------- | :--------------: | :------------: | :------------: |
+| Homepage (full)       |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢Å“â€¦     |
+| Homepage (above fold) |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢Å“â€¦     |
+| Blog listing          |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢Å“â€¦     |
+| Blog detail (article) |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢â‚¬â€     |
+| Project detail        |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢â‚¬â€     |
+| Admin dashboard       |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢â‚¬â€     |
+| Admin project form    |     Ã¢Å“â€¦      |    Ã¢â‚¬â€     |    Ã¢â‚¬â€     |
+| Contact form          |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢Å“â€¦     |
+| 404 page              |     Ã¢Å“â€¦      |    Ã¢Å“â€¦     |    Ã¢Å“â€¦     |
 
 **Threshold:** 0.1% pixel difference tolerance for intentional changes. Any change >0.1% must be reviewed and approved.
 
@@ -486,17 +507,17 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Scan all unique page templates:
 
-| Page Template | Impact | WCAG Criteria |
-|--------------|--------|---------------|
-| Homepage | High | All applicable |
-| Blog listing | High | All applicable |
-| Blog detail | High | All applicable |
-| Project detail | High | All applicable |
-| Project listing | Medium | All applicable |
-| Admin login | High | All applicable |
-| Admin dashboard | Medium | All applicable |
+| Page Template     | Impact | WCAG Criteria         |
+| ----------------- | ------ | --------------------- |
+| Homepage          | High   | All applicable        |
+| Blog listing      | High   | All applicable        |
+| Blog detail       | High   | All applicable        |
+| Project detail    | High   | All applicable        |
+| Project listing   | Medium | All applicable        |
+| Admin login       | High   | All applicable        |
+| Admin dashboard   | Medium | All applicable        |
 | Admin forms (all) | Medium | Forms, labels, errors |
-| 404 page | Low | All applicable |
+| 404 page          | Low    | All applicable        |
 
 ### 3.10 Performance Tests
 
@@ -505,41 +526,41 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 
 #### Lighthouse budgets (CI gate):
 
-| Metric | Budget | Current (approx) |
-|--------|--------|-----------------|
-| Performance score | Ã¢â€°Â¥ 90 | ? |
-| First Contentful Paint (FCP) | Ã¢â€°Â¤ 1.5s | ? |
-| Largest Contentful Paint (LCP) | Ã¢â€°Â¤ 2.0s | ? |
-| Cumulative Layout Shift (CLS) | Ã¢â€°Â¤ 0.05 | ? |
-| Interaction to Next Paint (INP) | Ã¢â€°Â¤ 100ms | ? |
-| Total Blocking Time (TBT) | Ã¢â€°Â¤ 200ms | ? |
-| Accessibility score | Ã¢â€°Â¥ 95 | ? |
-| Best Practices score | Ã¢â€°Â¥ 95 | ? |
-| SEO score | Ã¢â€°Â¥ 95 | ? |
+| Metric                          | Budget        | Current (approx) |
+| ------------------------------- | ------------- | ---------------- |
+| Performance score               | Ã¢â€°Â¥ 90    | ?                |
+| First Contentful Paint (FCP)    | Ã¢â€°Â¤ 1.5s  | ?                |
+| Largest Contentful Paint (LCP)  | Ã¢â€°Â¤ 2.0s  | ?                |
+| Cumulative Layout Shift (CLS)   | Ã¢â€°Â¤ 0.05  | ?                |
+| Interaction to Next Paint (INP) | Ã¢â€°Â¤ 100ms | ?                |
+| Total Blocking Time (TBT)       | Ã¢â€°Â¤ 200ms | ?                |
+| Accessibility score             | Ã¢â€°Â¥ 95    | ?                |
+| Best Practices score            | Ã¢â€°Â¥ 95    | ?                |
+| SEO score                       | Ã¢â€°Â¥ 95    | ?                |
 
 #### k6 load test scenarios (future):
 
-| Scenario | Virtual Users | Duration | Target |
-|----------|--------------|----------|--------|
-| Portfolio read (heavy) | 100 | 5 min | p95 < 500ms |
-| Admin operations | 20 | 3 min | p95 < 1s |
-| Auth (login + refresh) | 50 | 3 min | p95 < 1s |
-| Contact form submission | 30 | 3 min | p95 < 2s |
-| Spike test | 200 | 1 min | No 5xx errors |
+| Scenario                | Virtual Users | Duration | Target        |
+| ----------------------- | ------------- | -------- | ------------- |
+| Portfolio read (heavy)  | 100           | 5 min    | p95 < 500ms   |
+| Admin operations        | 20            | 3 min    | p95 < 1s      |
+| Auth (login + refresh)  | 50            | 3 min    | p95 < 1s      |
+| Contact form submission | 30            | 3 min    | p95 < 2s      |
+| Spike test              | 200           | 1 min    | No 5xx errors |
 
 ### 3.11 Security Tests
 
 **Tool:** CodeQL (GitHub), `npm audit`, `socket.dev`
 
-| Check | Frequency | Action on Failure |
-|-------|-----------|-------------------|
-| CodeQL analysis | Every PR | Block merge |
-| `npm audit` (critical) | Every PR | Block merge |
-| `npm audit` (high) | Every PR | Block merge (triage within 24h) |
-| `npm audit` (moderate) | Weekly | Review and prioritize |
-| Dependabot alerts | Continuous | Auto-PR for critical patches |
-| Container scan (Trivy) | Every build | Block deployment |
-| Secret scanning | Every push (pre-commit) | Block commit |
+| Check                  | Frequency               | Action on Failure               |
+| ---------------------- | ----------------------- | ------------------------------- |
+| CodeQL analysis        | Every PR                | Block merge                     |
+| `npm audit` (critical) | Every PR                | Block merge                     |
+| `npm audit` (high)     | Every PR                | Block merge (triage within 24h) |
+| `npm audit` (moderate) | Weekly                  | Review and prioritize           |
+| Dependabot alerts      | Continuous              | Auto-PR for critical patches    |
+| Container scan (Trivy) | Every build             | Block deployment                |
+| Secret scanning        | Every push (pre-commit) | Block commit                    |
 
 ---
 
@@ -548,28 +569,25 @@ The goal is sustainable coverage growth. Rushing to 90% in one sprint would prod
 ### 4.1 API Unit Tests
 
 **Stack:**
+
 - **Runtime:** Jest 29+ + `ts-jest` 29+
 - **Test runner:** Jest CLI
 - **Mocking:** Manual mocks (`__mocks__` directories), `jest.fn()`, `jest.spyOn()`
 - **Assertions:** Jest built-in matchers + `jest-extended` (optional)
 
 **Configuration** (`apps/api/jest.config.ts`):
+
 ```typescript
 const config: Config = {
   moduleFileExtensions: ['js', 'json', 'ts'],
   rootDir: 'src',
   testRegex: '.*\\.spec\\.ts$',
   transform: { '^.+\\.(t|j)s$': 'ts-jest' },
-  collectCoverageFrom: [
-    '**/*.(t|j)s',
-    '!**/*.module.ts',
-    '!main.ts',
-    '!**/dto/**',
-  ],
+  collectCoverageFrom: ['**/*.(t|j)s', '!**/*.module.ts', '!main.ts', '!**/dto/**'],
   coverageDirectory: '../coverage',
   coverageThreshold: {
     global: {
-      lines: 40,    // Start: raise to 60 (W2), 70 (W4), 80 (W6)
+      lines: 40, // Start: raise to 60 (W2), 70 (W4), 80 (W6)
       branches: 30, // Start: raise to 50 (W2), 60 (W4), 70 (W6)
       functions: 40,
       statements: 40,
@@ -585,6 +603,7 @@ const config: Config = {
 ```
 
 **Mock patterns for services:**
+
 ```typescript
 // PrismaService is mocked at the module level
 const mockPrismaService = {
@@ -615,6 +634,7 @@ const mockCacheService = {
 ### 4.2 Web Unit Tests
 
 **Stack:**
+
 - **Runtime:** Vitest 1+
 - **Renderer:** `jsdom` (for DOM API emulation)
 - **Component testing:** `@testing-library/react` 14+
@@ -622,6 +642,7 @@ const mockCacheService = {
 - **Assertions:** `@testing-library/jest-dom` (custom DOM matchers)
 
 **Configuration** (`apps/web/vitest.config.ts` Ã¢â‚¬â€ already set up):
+
 ```typescript
 export default defineConfig({
   plugins: [react()],
@@ -652,6 +673,7 @@ export default defineConfig({
 ```
 
 **Setup file** (`apps/web/src/test/setup.tsx` Ã¢â‚¬â€ already configured with):
+
 - Mocked `next/navigation` (useRouter, usePathname, useSearchParams)
 - Mocked `next/link`
 - Mocked `next/image`
@@ -660,6 +682,7 @@ export default defineConfig({
 - Mocked `localStorage`
 
 **Additional setup needed:**
+
 - Mock `next/headers` (for server components)
 - Mock ResizeObserver (for chart/visualization components)
 - Mock `requestAnimationFrame` / `cancelAnimationFrame`
@@ -668,12 +691,14 @@ export default defineConfig({
 ### 4.3 E2E Tests
 
 **Stack:**
+
 - **Runtime:** Playwright 1.40+
 - **Browser:** Chromium (primary), Firefox (secondary Ã¢â‚¬â€ add in Week 4)
 - **Assertions:** `@playwright/test` built-in
 - **Accessibility:** `@axe-core/playwright`
 
 **Configuration** (`apps/web/playwright.config.ts` Ã¢â‚¬â€ already set up):
+
 ```typescript
 export default defineConfig({
   testDir: './e2e',
@@ -686,7 +711,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',  // Add: helps debug flaky E2E
+    video: 'retain-on-failure', // Add: helps debug flaky E2E
   },
   projects: [
     {
@@ -694,7 +719,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'firefox',            // Add in Week 4
+      name: 'firefox', // Add in Week 4
       use: { ...devices['Desktop Firefox'] },
     },
   ],
@@ -712,12 +737,14 @@ export default defineConfig({
 **Current problem:** The e2e tests use a conditional check `const hasDb = !!process.env.DATABASE_URL` and skip DB-dependent tests when no database is available. This means the bulk of meaningful tests only run in environments with a database configured.
 
 **Target state:** A dedicated test database that is:
+
 1. Provisioned in CI via a Postgres service container
 2. Migrated on every test run (`prisma migrate deploy` or `prisma db push`)
 3. Seeded with deterministic test data before the test suite runs
 4. Truncated/cleaned up between test runs
 
 **CI database configuration:**
+
 ```yaml
 services:
   postgres:
@@ -736,6 +763,7 @@ services:
 ```
 
 Environment variables for the test job:
+
 ```
 DATABASE_URL: postgresql://test:test@localhost:5432/portfolio_test
 ```
@@ -785,14 +813,14 @@ A dedicated seed script for the test environment at `apps/api/prisma/test-seed.t
 
 The current CI workflow (`.github/workflows/ci.yml`) has several gaps:
 
-| Issue | Current Behavior | Target Behavior |
-|-------|-----------------|-----------------|
-| Test DB | No database available | Postgres service container |
-| Web test failures | `continue-on-error: true` | Block on failure (after stabilization) |
-| Coverage | Not collected | Coverage reports uploaded as artifacts |
-| E2E tests | Not in CI (no web test job) | Playwright runs in CI |
-| Test isolation | No database Ã¢â‚¬â€ tests skip | Dedicated test DB with seed data |
-| `test` task in Turbo | Missing from `turbo.json` | Add `test` task with dependency chain |
+| Issue                | Current Behavior               | Target Behavior                        |
+| -------------------- | ------------------------------ | -------------------------------------- |
+| Test DB              | No database available          | Postgres service container             |
+| Web test failures    | `continue-on-error: true`      | Block on failure (after stabilization) |
+| Coverage             | Not collected                  | Coverage reports uploaded as artifacts |
+| E2E tests            | Not in CI (no web test job)    | Playwright runs in CI                  |
+| Test isolation       | No database Ã¢â‚¬â€ tests skip | Dedicated test DB with seed data       |
+| `test` task in Turbo | Missing from `turbo.json`      | Add `test` task with dependency chain  |
 
 ### 5.2 Target CI Pipeline
 
@@ -1013,21 +1041,21 @@ flowchart LR
 
 ### 6.1 File Naming Conventions
 
-| Test Type | Pattern | Location | Example |
-|-----------|---------|----------|---------|
-| API service unit | `*.service.spec.ts` | Alongside source file | `skills.service.spec.ts` |
-| API controller unit | `*.controller.spec.ts` | Alongside source file | `projects.controller.spec.ts` |
-| API integration | `*.e2e-spec.ts` or `*.int-spec.ts` | `apps/api/test/` | `app.e2e-spec.ts` |
-| Web component | `*.test.tsx` | `src/test/__tests__/` | `Button.test.tsx` |
-| Web hook | `hooks.test.tsx` | `src/test/__tests__/` | `hooks.test.tsx` |
-| Web utility | `*.test.ts` | `src/test/__tests__/` | `formatDate.test.ts` |
-| Playwright E2E | `*.spec.ts` | `apps/web/e2e/` | `homepage.spec.ts` |
-| Playwright visual | `visual/*.spec.ts` | `apps/web/e2e/visual/` | `homepage-visual.spec.ts` |
-| Playwright a11y | `accessibility.spec.ts` | `apps/web/e2e/` | `accessibility.spec.ts` |
-| Performance (k6) | `*.k6.ts` | `tests/performance/` | `portfolio-load.k6.ts` |
-| Test factories | `*.factory.ts` | `apps/api/test/factories/` | `project.factory.ts` |
-| Test helpers | `*.helper.ts` | `apps/api/test/helpers/` | `auth.helper.ts` |
-| Test setup | `setup.tsx` | `apps/web/src/test/` | `setup.tsx` |
+| Test Type           | Pattern                            | Location                   | Example                       |
+| ------------------- | ---------------------------------- | -------------------------- | ----------------------------- |
+| API service unit    | `*.service.spec.ts`                | Alongside source file      | `skills.service.spec.ts`      |
+| API controller unit | `*.controller.spec.ts`             | Alongside source file      | `projects.controller.spec.ts` |
+| API integration     | `*.e2e-spec.ts` or `*.int-spec.ts` | `apps/api/test/`           | `app.e2e-spec.ts`             |
+| Web component       | `*.test.tsx`                       | `src/test/__tests__/`      | `Button.test.tsx`             |
+| Web hook            | `hooks.test.tsx`                   | `src/test/__tests__/`      | `hooks.test.tsx`              |
+| Web utility         | `*.test.ts`                        | `src/test/__tests__/`      | `formatDate.test.ts`          |
+| Playwright E2E      | `*.spec.ts`                        | `apps/web/e2e/`            | `homepage.spec.ts`            |
+| Playwright visual   | `visual/*.spec.ts`                 | `apps/web/e2e/visual/`     | `homepage-visual.spec.ts`     |
+| Playwright a11y     | `accessibility.spec.ts`            | `apps/web/e2e/`            | `accessibility.spec.ts`       |
+| Performance (k6)    | `*.k6.ts`                          | `tests/performance/`       | `portfolio-load.k6.ts`        |
+| Test factories      | `*.factory.ts`                     | `apps/api/test/factories/` | `project.factory.ts`          |
+| Test helpers        | `*.helper.ts`                      | `apps/api/test/helpers/`   | `auth.helper.ts`              |
+| Test setup          | `setup.tsx`                        | `apps/web/src/test/`       | `setup.tsx`                   |
 
 ### 6.2 Describe Block Naming
 
@@ -1075,6 +1103,7 @@ Test names should read as **sentences** that describe the scenario and expected 
 ### 6.4 Test File Structure
 
 **API service test structure:**
+
 ```typescript
 import { Test, TestingModule } from '@nestjs/testing';
 import { SkillsService } from './skills.service';
@@ -1110,6 +1139,7 @@ describe('SkillsService', () => {
 ```
 
 **Web component test structure:**
+
 ```typescript
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -1130,13 +1160,13 @@ describe('Button', () => {
 
 ### 7.1 Core Principles
 
-| Principle | Rationale | Practice |
-|-----------|-----------|----------|
-| **Mock at your boundary** | Mock the layer between your code and the external dependency | Mock `PrismaService` methods, not `pg.Pool` queries |
-| **Never mock what you don't own** | Third-party libraries should be tested as integrated, not mocked (except for their transport layer) | Don't mock `bcrypt` Ã¢â‚¬â€ test that password comparison works. Mock the HTTP call to external APIs |
-| **Fakes > mocks > stubs** | Prefer lightweight fakes (in-memory DB) over mocks when possible | Use factories for test data, not mocked return values |
-| **Verify behavior, not implementation** | Test that the right data is returned/action is taken, not that a specific mock method was called with specific args | Assert on service output, not on `prisma.create` call count |
-| **Keep mocks close to tests** | Shared mocks create coupling. Mock setup should be in the test file or a co-located helper | Per-file mock setup, shared in `test/helpers/` only when truly reusable |
+| Principle                               | Rationale                                                                                                           | Practice                                                                                             |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Mock at your boundary**               | Mock the layer between your code and the external dependency                                                        | Mock `PrismaService` methods, not `pg.Pool` queries                                                  |
+| **Never mock what you don't own**       | Third-party libraries should be tested as integrated, not mocked (except for their transport layer)                 | Don't mock `bcrypt` Ã¢â‚¬â€ test that password comparison works. Mock the HTTP call to external APIs |
+| **Fakes > mocks > stubs**               | Prefer lightweight fakes (in-memory DB) over mocks when possible                                                    | Use factories for test data, not mocked return values                                                |
+| **Verify behavior, not implementation** | Test that the right data is returned/action is taken, not that a specific mock method was called with specific args | Assert on service output, not on `prisma.create` call count                                          |
+| **Keep mocks close to tests**           | Shared mocks create coupling. Mock setup should be in the test file or a co-located helper                          | Per-file mock setup, shared in `test/helpers/` only when truly reusable                              |
 
 ### 7.2 Prisma Mocking Strategy
 
@@ -1158,6 +1188,7 @@ prisma.project.findUnique.mockResolvedValue(null); // not found
 ```
 
 **For NestJS providers, create a custom provider:**
+
 ```typescript
 {
   provide: PrismaService,
@@ -1193,6 +1224,7 @@ mockFetch.mockResolvedValueOnce({
 ```
 
 **Playwright E2E:** No mocking of API calls Ã¢â‚¬â€ test the full stack. For specific scenarios (error pages, loading states):
+
 - Use Playwright's `page.route()` to intercept and mock specific API responses
 - Use server-side test data seeding to set up known states
 
@@ -1200,38 +1232,39 @@ mockFetch.mockResolvedValueOnce({
 
 Currently configured in `apps/web/src/test/setup.tsx`:
 
-| Browser API | Mock Implementation |
-|-------------|-------------------|
-| `window.matchMedia` | Returns `{ matches: false, addListener, removeListener, ... }` |
-| `IntersectionObserver` | No-op class with `observe`, `unobserve`, `disconnect` |
-| `localStorage` | In-memory store with `getItem`, `setItem`, `removeItem`, `clear` |
-| `ResizeObserver` | **Needed:** Mock class with observe/unobserve/disconnect |
-| `requestAnimationFrame` | **Needed:** Use `vi.useFakeTimers` or mock with immediate callback |
-| `scrollTo` / `scrollIntoView` | **Needed:** No-op mocks |
-| `HTMLCanvasElement.getContext` | **Needed:** Return a minimal canvas mock for Three.js components |
+| Browser API                    | Mock Implementation                                                |
+| ------------------------------ | ------------------------------------------------------------------ |
+| `window.matchMedia`            | Returns `{ matches: false, addListener, removeListener, ... }`     |
+| `IntersectionObserver`         | No-op class with `observe`, `unobserve`, `disconnect`              |
+| `localStorage`                 | In-memory store with `getItem`, `setItem`, `removeItem`, `clear`   |
+| `ResizeObserver`               | **Needed:** Mock class with observe/unobserve/disconnect           |
+| `requestAnimationFrame`        | **Needed:** Use `vi.useFakeTimers` or mock with immediate callback |
+| `scrollTo` / `scrollIntoView`  | **Needed:** No-op mocks                                            |
+| `HTMLCanvasElement.getContext` | **Needed:** Return a minimal canvas mock for Three.js components   |
 
 ### 7.5 Next.js Mocking Strategy
 
 Currently configured:
 
-| Module | Mock |
-|--------|------|
+| Module            | Mock                                                                     |
+| ----------------- | ------------------------------------------------------------------------ |
 | `next/navigation` | `useRouter` Ã¢â€ â€™ push/replace/prefetch/back/forward/refresh/pathname |
-| `next/link` | Renders `<a>` tag with href |
-| `next/image` | Renders `<img>` tag with src/alt |
+| `next/link`       | Renders `<a>` tag with href                                              |
+| `next/image`      | Renders `<img>` tag with src/alt                                         |
 
 **Needed additions:**
+
 - `next/headers` Ã¢â€ â€™ `cookies()`, `headers()` for server components
 - `next/server` Ã¢â€ â€™ `NextRequest`, `NextResponse` for API route handlers
 
 ### 7.6 What NOT to Mock
 
-| Item | Reason |
-|------|--------|
-| Zod schemas | These ARE the validation logic Ã¢â‚¬â€ test them with real data |
-| NestJS pipes/guards | Test them in integration with Supertest |
-| Prisma schema types | Generated code Ã¢â‚¬â€ TypeScript validates usage |
-| Node.js built-in modules | Only mock when they cause side effects (e.g., `fs.writeFile`) |
+| Item                       | Reason                                                               |
+| -------------------------- | -------------------------------------------------------------------- |
+| Zod schemas                | These ARE the validation logic Ã¢â‚¬â€ test them with real data      |
+| NestJS pipes/guards        | Test them in integration with Supertest                              |
+| Prisma schema types        | Generated code Ã¢â‚¬â€ TypeScript validates usage                    |
+| Node.js built-in modules   | Only mock when they cause side effects (e.g., `fs.writeFile`)        |
 | Third-party auth providers | Integration test against test credentials, don't mock the OAuth flow |
 
 ---
@@ -1282,24 +1315,24 @@ export function createTestProject(overrides?: Partial<ProjectInput>) {
 
 **Factories to create:**
 
-| Entity | Priority | Unique Fields | Relations |
-|--------|----------|---------------|-----------|
-| `project.factory.ts` | P0 | slug | Ã¢â‚¬â€ |
-| `blog-post.factory.ts` | P0 | slug, title | categories |
-| `user.factory.ts` | P0 | email | roles |
-| `lead.factory.ts` | P0 | email | Ã¢â‚¬â€ |
-| `skill.factory.ts` | P1 | name | category |
-| `section.factory.ts` | P1 | name, slug | Ã¢â‚¬â€ |
-| `testimonial.factory.ts` | P1 | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
-| `experience.factory.ts` | P1 | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
-| `service.factory.ts` | P1 | name | Ã¢â‚¬â€ |
-| `faq.factory.ts` | P1 | Ã¢â‚¬â€ | Ã¢â‚¬â€ |
-| `case-study.factory.ts` | P1 | slug | Ã¢â‚¬â€ |
-| `media.factory.ts` | P2 | filename | Ã¢â‚¬â€ |
-| `notification.factory.ts` | P2 | Ã¢â‚¬â€ | user |
-| `chat-message.factory.ts` | P2 | Ã¢â‚¬â€ | conversation |
-| `api-key.factory.ts` | P2 | key_hash | user |
-| `feature-flag.factory.ts` | P2 | key | Ã¢â‚¬â€ |
+| Entity                    | Priority | Unique Fields | Relations    |
+| ------------------------- | -------- | ------------- | ------------ |
+| `project.factory.ts`      | P0       | slug          | Ã¢â‚¬â€      |
+| `blog-post.factory.ts`    | P0       | slug, title   | categories   |
+| `user.factory.ts`         | P0       | email         | roles        |
+| `lead.factory.ts`         | P0       | email         | Ã¢â‚¬â€      |
+| `skill.factory.ts`        | P1       | name          | category     |
+| `section.factory.ts`      | P1       | name, slug    | Ã¢â‚¬â€      |
+| `testimonial.factory.ts`  | P1       | Ã¢â‚¬â€       | Ã¢â‚¬â€      |
+| `experience.factory.ts`   | P1       | Ã¢â‚¬â€       | Ã¢â‚¬â€      |
+| `service.factory.ts`      | P1       | name          | Ã¢â‚¬â€      |
+| `faq.factory.ts`          | P1       | Ã¢â‚¬â€       | Ã¢â‚¬â€      |
+| `case-study.factory.ts`   | P1       | slug          | Ã¢â‚¬â€      |
+| `media.factory.ts`        | P2       | filename      | Ã¢â‚¬â€      |
+| `notification.factory.ts` | P2       | Ã¢â‚¬â€       | user         |
+| `chat-message.factory.ts` | P2       | Ã¢â‚¬â€       | conversation |
+| `api-key.factory.ts`      | P2       | key_hash      | user         |
+| `feature-flag.factory.ts` | P2       | key           | Ã¢â‚¬â€      |
 
 ### 8.2 Seed Scripts
 
@@ -1364,6 +1397,7 @@ export async function seedTestData(prisma: PrismaClient) {
 ### 8.3 Data Cleanup Strategy
 
 **Between test runs (integration tests):**
+
 ```typescript
 afterAll(async () => {
   // Clean up all test data (uses raw SQL for speed)
@@ -1373,9 +1407,7 @@ afterAll(async () => {
 
   for (const { tablename } of tablenames) {
     if (tablename !== '_prisma_migrations') {
-      await prisma.client.$executeRawUnsafe(
-        `TRUNCATE TABLE "${tablename}" CASCADE;`
-      );
+      await prisma.client.$executeRawUnsafe(`TRUNCATE TABLE "${tablename}" CASCADE;`);
     }
   }
 });
@@ -1388,12 +1420,12 @@ Each E2E test that modifies data uses a unique identifier (e.g., `e2e-test-${Dat
 
 All test-created data should be clearly identifiable:
 
-| Field | Pattern | Example |
-|-------|---------|---------|
-| Title/Name | `[TEST] <descriptive name>` | `[TEST] Featured Project for E2E` |
-| Email | `test-<purpose>-<timestamp>@test.com` | `test-admin-1712345678@test.com` |
-| Slug | `test-<entity>-<purpose>` | `test-project-featured` |
-| Other text | Include `[E2E]` or `[TEST]` prefix | `[E2E] This is a test lead message` |
+| Field      | Pattern                               | Example                             |
+| ---------- | ------------------------------------- | ----------------------------------- |
+| Title/Name | `[TEST] <descriptive name>`           | `[TEST] Featured Project for E2E`   |
+| Email      | `test-<purpose>-<timestamp>@test.com` | `test-admin-1712345678@test.com`    |
+| Slug       | `test-<entity>-<purpose>`             | `test-project-featured`             |
+| Other text | Include `[E2E]` or `[TEST]` prefix    | `[E2E] This is a test lead message` |
 
 This makes test data easy to identify and clean up in shared environments.
 
@@ -1405,26 +1437,26 @@ This makes test data easy to identify and clean up in shared environments.
 
 The following conditions must be met before a PR can be merged:
 
-| Gate | Condition | Enforced By | Grace Period |
-|------|-----------|-------------|-------------|
-| **Static analysis** | ESLint zero errors, TypeScript strict pass | GitHub branch protection | None |
-| **Unit tests** | All passing, coverage thresholds met | CI job | None |
-| **Integration tests** | All passing | CI job | None |
-| **E2E tests** | All passing | CI job | Until E2E stabilization (Week 4) |
-| **Code review** | At least 1 approval | GitHub branch protection | None |
-| **No pending dependencies** | `npm audit` high/critical zero | CI job | None |
+| Gate                        | Condition                                  | Enforced By              | Grace Period                     |
+| --------------------------- | ------------------------------------------ | ------------------------ | -------------------------------- |
+| **Static analysis**         | ESLint zero errors, TypeScript strict pass | GitHub branch protection | None                             |
+| **Unit tests**              | All passing, coverage thresholds met       | CI job                   | None                             |
+| **Integration tests**       | All passing                                | CI job                   | None                             |
+| **E2E tests**               | All passing                                | CI job                   | Until E2E stabilization (Week 4) |
+| **Code review**             | At least 1 approval                        | GitHub branch protection | None                             |
+| **No pending dependencies** | `npm audit` high/critical zero             | CI job                   | None                             |
 
 ### 9.2 Coverage Thresholds (Ramped)
 
 Coverage thresholds start reasonable and increase quarterly:
 
-| Quarter | Lines | Branches | Functions | Notes |
-|---------|-------|----------|-----------|-------|
-| **Q3 2026 (Week 1-2)** | 40% | 30% | 40% | Minimum baseline |
-| **Q3 2026 (Week 3-4)** | 55% | 45% | 55% | After service + component tests |
-| **Q3 2026 (Week 5-6)** | 70% | 60% | 70% | After expanded coverage |
-| **Q4 2026** | 80% | 70% | 80% | Stable target |
-| **Q1 2027** | 90% | 80% | 90% | Stretch target |
+| Quarter                | Lines | Branches | Functions | Notes                           |
+| ---------------------- | ----- | -------- | --------- | ------------------------------- |
+| **Q3 2026 (Week 1-2)** | 40%   | 30%      | 40%       | Minimum baseline                |
+| **Q3 2026 (Week 3-4)** | 55%   | 45%      | 55%       | After service + component tests |
+| **Q3 2026 (Week 5-6)** | 70%   | 60%      | 70%       | After expanded coverage         |
+| **Q4 2026**            | 80%   | 70%      | 80%       | Stable target                   |
+| **Q1 2027**            | 90%   | 80%      | 90%       | Stretch target                  |
 
 **Coverage change gate:** A PR that decreases overall coverage by more than 5 percentage points is blocked, even if still above the threshold.
 
@@ -1438,31 +1470,31 @@ For every PR that introduces new files or significantly modifies existing files:
 
 ### 9.4 Weekly Reports
 
-| Report | Owner | Audience | Content |
-|--------|-------|----------|---------|
-| **Flaky test report** | QA Lead | Engineering team | List of flaky tests, failure rate, root cause, owner, ETA for fix |
-| **Slowest tests report** | QA Lead | Engineering team | Top 20 slowest tests, optimization opportunities, execution time trends |
-| **Coverage trend** | QA Lead | Engineering leads | Coverage % by module, week-over-week change, modules below threshold |
-| **Test debt analysis** | QA Lead | Engineering leads | Untested services/components, test quality issues, automation opportunities |
+| Report                   | Owner   | Audience          | Content                                                                     |
+| ------------------------ | ------- | ----------------- | --------------------------------------------------------------------------- |
+| **Flaky test report**    | QA Lead | Engineering team  | List of flaky tests, failure rate, root cause, owner, ETA for fix           |
+| **Slowest tests report** | QA Lead | Engineering team  | Top 20 slowest tests, optimization opportunities, execution time trends     |
+| **Coverage trend**       | QA Lead | Engineering leads | Coverage % by module, week-over-week change, modules below threshold        |
+| **Test debt analysis**   | QA Lead | Engineering leads | Untested services/components, test quality issues, automation opportunities |
 
 ### 9.5 Monthly Review
 
-| Agenda Item | Participants | Duration |
-|-------------|-------------|----------|
-| Coverage trend review | QA Lead + Engineering leads | 15 min |
-| Flaky test retrospective | QA Lead + Engineering team | 15 min |
-| Test infrastructure health | QA Lead + DevOps | 10 min |
-| Roadmap progress | QA Lead + Product + Engineering | 10 min |
-| Action items for next month | All | 10 min |
+| Agenda Item                 | Participants                    | Duration |
+| --------------------------- | ------------------------------- | -------- |
+| Coverage trend review       | QA Lead + Engineering leads     | 15 min   |
+| Flaky test retrospective    | QA Lead + Engineering team      | 15 min   |
+| Test infrastructure health  | QA Lead + DevOps                | 10 min   |
+| Roadmap progress            | QA Lead + Product + Engineering | 10 min   |
+| Action items for next month | All                             | 10 min   |
 
 ### 9.6 Test Debt Classification
 
-| Class | Definition | Action | Example |
-|-------|-----------|--------|---------|
-| **P0 Ã¢â‚¬â€ Critical** | No tests for a critical path used in every deploy | Must fix before next release | Auth flow, contact form, project CRUD |
-| **P1 Ã¢â‚¬â€ High** | No tests for core business logic | Fix within 1 sprint | Blog service, skill service, section ordering |
-| **P2 Ã¢â‚¬â€ Medium** | No tests for secondary features | Fix within 2 sprints | Achievements, press features, guest appearances |
-| **P3 Ã¢â‚¬â€ Low** | No tests for edge cases, admin-only features | Fix when touching the code | Feature flags, system settings, API keys |
+| Class                   | Definition                                        | Action                       | Example                                         |
+| ----------------------- | ------------------------------------------------- | ---------------------------- | ----------------------------------------------- |
+| **P0 Ã¢â‚¬â€ Critical** | No tests for a critical path used in every deploy | Must fix before next release | Auth flow, contact form, project CRUD           |
+| **P1 Ã¢â‚¬â€ High**     | No tests for core business logic                  | Fix within 1 sprint          | Blog service, skill service, section ordering   |
+| **P2 Ã¢â‚¬â€ Medium**   | No tests for secondary features                   | Fix within 2 sprints         | Achievements, press features, guest appearances |
+| **P3 Ã¢â‚¬â€ Low**      | No tests for edge cases, admin-only features      | Fix when touching the code   | Feature flags, system settings, API keys        |
 
 ---
 
@@ -1470,30 +1502,31 @@ For every PR that introduces new files or significantly modifies existing files:
 
 ### 10.1 Exact Tool Versions
 
-| Tool | Version Range | Purpose | Configuration File |
-|------|--------------|---------|-------------------|
-| **Node.js** | 22.x | Runtime | `.nvmrc`, CI config |
-| **TypeScript** | 5.x | Static analysis | `tsconfig.json` |
-| **ESLint** | 8.x / 9.x | Linting | `.eslintrc.js` |
-| **Prettier** | 3.x | Formatting | `.prettierrc` |
-| **Jest** | 29.x | API testing (unit + integration) | `apps/api/jest.config.ts` |
-| **ts-jest** | 29.x | TypeScript transform for Jest | `apps/api/jest.config.ts` |
-| **Vitest** | 1.x | Web testing (unit + component) | `apps/web/vitest.config.ts` |
-| **@testing-library/react** | 14.x | React component testing | `apps/web/package.json` |
-| **@testing-library/user-event** | 14.x | User interaction simulation | `apps/web/package.json` |
-| **@testing-library/jest-dom** | 6.x | Custom DOM matchers | `apps/web/src/test/setup.tsx` |
-| **Playwright** | 1.40+ | E2E testing | `apps/web/playwright.config.ts` |
-| **@axe-core/playwright** | 4.x | Accessibility testing | `apps/web/package.json` |
-| **jest-mock-extended** | 3.x | Deep mocking for Prisma | `apps/api/package.json` |
-| **@faker-js/faker** | 8.x | Test data generation | `apps/api/package.json` |
-| **supertest** | 6.x | HTTP assertion for NestJS | `apps/api/package.json` |
-| **Lighthouse CI** | 11.x | Performance budgets | CI config |
-| **k6** | 0.50+ | Load testing | `tests/performance/` |
-| **CodeQL** | Latest | Security analysis | `.github/workflows/codeql.yml` |
+| Tool                            | Version Range | Purpose                          | Configuration File              |
+| ------------------------------- | ------------- | -------------------------------- | ------------------------------- |
+| **Node.js**                     | 22.x          | Runtime                          | `.nvmrc`, CI config             |
+| **TypeScript**                  | 5.x           | Static analysis                  | `tsconfig.json`                 |
+| **ESLint**                      | 8.x / 9.x     | Linting                          | `.eslintrc.js`                  |
+| **Prettier**                    | 3.x           | Formatting                       | `.prettierrc`                   |
+| **Jest**                        | 29.x          | API testing (unit + integration) | `apps/api/jest.config.ts`       |
+| **ts-jest**                     | 29.x          | TypeScript transform for Jest    | `apps/api/jest.config.ts`       |
+| **Vitest**                      | 1.x           | Web testing (unit + component)   | `apps/web/vitest.config.ts`     |
+| **@testing-library/react**      | 14.x          | React component testing          | `apps/web/package.json`         |
+| **@testing-library/user-event** | 14.x          | User interaction simulation      | `apps/web/package.json`         |
+| **@testing-library/jest-dom**   | 6.x           | Custom DOM matchers              | `apps/web/src/test/setup.tsx`   |
+| **Playwright**                  | 1.40+         | E2E testing                      | `apps/web/playwright.config.ts` |
+| **@axe-core/playwright**        | 4.x           | Accessibility testing            | `apps/web/package.json`         |
+| **jest-mock-extended**          | 3.x           | Deep mocking for Prisma          | `apps/api/package.json`         |
+| **@faker-js/faker**             | 8.x           | Test data generation             | `apps/api/package.json`         |
+| **supertest**                   | 6.x           | HTTP assertion for NestJS        | `apps/api/package.json`         |
+| **Lighthouse CI**               | 11.x          | Performance budgets              | CI config                       |
+| **k6**                          | 0.50+         | Load testing                     | `tests/performance/`            |
+| **CodeQL**                      | Latest        | Security analysis                | `.github/workflows/codeql.yml`  |
 
 ### 10.2 Package.json Scripts
 
 **API** (`apps/api/package.json`):
+
 ```json
 {
   "scripts": {
@@ -1513,6 +1546,7 @@ For every PR that introduces new files or significantly modifies existing files:
 ```
 
 **Web** (`apps/web/package.json`):
+
 ```json
 {
   "scripts": {
@@ -1530,26 +1564,27 @@ For every PR that introduces new files or significantly modifies existing files:
 
 ### 10.3 Local Test Commands Cheat Sheet
 
-| Scenario | Command | Notes |
-|----------|---------|-------|
-| Run all API tests | `cd apps/api && npm test` | Unit + integration |
-| Run all API tests (watch) | `cd apps/api && npm run test:watch` | Best for TDD |
-| Run single API test file | `cd apps/api && npm test -- src/modules/skills/skills.service.spec.ts` | Exact path |
-| Run API tests matching name | `cd apps/api && npm test -- -t "creates a skill"` | Pattern match |
-| Run API coverage | `cd apps/api && npm run test:coverage` | HTML report in `coverage/` |
-| Run all web tests | `cd apps/web && npm test` | Vitest runner |
-| Run web tests (watch) | `cd apps/web && npm run test:watch` | Best for TDD |
-| Run single web test file | `cd apps/web && npm test -- src/test/__tests__/Button.test.tsx` | Exact path |
-| Run web component coverage | `cd apps/web && npm run test:coverage` | V8 coverage |
-| Run E2E tests | `cd apps/web && npm run test:e2e` | Must have dev server running |
-| Run E2E (headed) | `cd apps/web && npx playwright test --headed` | See browser |
-| Run E2E (debug) | `cd apps/web && npx playwright test --debug` | Step through |
-| Run E2E single file | `cd apps/web && npx playwright test e2e/homepage.spec.ts` | |
-| Run all (root) | `npm run test` | Workspace-aware via Turbo |
+| Scenario                    | Command                                                                | Notes                        |
+| --------------------------- | ---------------------------------------------------------------------- | ---------------------------- |
+| Run all API tests           | `cd apps/api && npm test`                                              | Unit + integration           |
+| Run all API tests (watch)   | `cd apps/api && npm run test:watch`                                    | Best for TDD                 |
+| Run single API test file    | `cd apps/api && npm test -- src/modules/skills/skills.service.spec.ts` | Exact path                   |
+| Run API tests matching name | `cd apps/api && npm test -- -t "creates a skill"`                      | Pattern match                |
+| Run API coverage            | `cd apps/api && npm run test:coverage`                                 | HTML report in `coverage/`   |
+| Run all web tests           | `cd apps/web && npm test`                                              | Vitest runner                |
+| Run web tests (watch)       | `cd apps/web && npm run test:watch`                                    | Best for TDD                 |
+| Run single web test file    | `cd apps/web && npm test -- src/test/__tests__/Button.test.tsx`        | Exact path                   |
+| Run web component coverage  | `cd apps/web && npm run test:coverage`                                 | V8 coverage                  |
+| Run E2E tests               | `cd apps/web && npm run test:e2e`                                      | Must have dev server running |
+| Run E2E (headed)            | `cd apps/web && npx playwright test --headed`                          | See browser                  |
+| Run E2E (debug)             | `cd apps/web && npx playwright test --debug`                           | Step through                 |
+| Run E2E single file         | `cd apps/web && npx playwright test e2e/homepage.spec.ts`              |                              |
+| Run all (root)              | `npm run test`                                                         | Workspace-aware via Turbo    |
 
 ### 10.4 Debugging Tests
 
 **Jest (API) debugging:**
+
 ```bash
 # Node inspector
 cd apps/api && node --inspect-brk node_modules/.bin/jest --runInBand
@@ -1565,6 +1600,7 @@ it.only('should find the bug', async () => { ... });
 ```
 
 **Vitest (Web) debugging:**
+
 ```bash
 # Vitest UI (interactive debugger)
 cd apps/web && npx vitest --ui
@@ -1577,6 +1613,7 @@ cd apps/web && npm run test:verbose
 ```
 
 **Playwright debugging:**
+
 ```bash
 # Playwright Inspector (Pause on each step)
 cd apps/web && npx playwright test --debug
@@ -1594,6 +1631,7 @@ cd apps/web && npx playwright test --headed --slowmo=1000
 ### 10.5 VS Code Configuration
 
 `.vscode/settings.json`:
+
 ```json
 {
   "testing.automaticallyOpenPeekView": "failure",
@@ -1613,6 +1651,7 @@ cd apps/web && npx playwright test --headed --slowmo=1000
 ```
 
 Recommended VS Code extensions:
+
 - **Vitest** (Zixuan Chen) Ã¢â‚¬â€ Run/debug Vitest tests in-editor
 - **Jest** (Orta) Ã¢â‚¬â€ Run/debug Jest tests in-editor
 - **Playwright Test for VSCode** (Microsoft) Ã¢â‚¬â€ Run/debug Playwright tests
@@ -1627,20 +1666,21 @@ Recommended VS Code extensions:
 
 **Goal:** Make tests run reliably in CI with a test database and quality gates.
 
-| Task | Owner | Outcome | Dependencies |
-|------|-------|---------|-------------|
-| Add Postgres service container to CI | DevOps | Tests have a real database | CI config access |
-| Remove `continue-on-error: true` for web tests | DevOps | Web tests block merge | Test DB setup |
-| Add `test` task to `turbo.json` | Backend | Turbo orchestration works | Ã¢â‚¬â€ |
-| Set up test database migration in CI | Backend | DB is migrated before tests | Postgres service |
-| Configure Jest coverage thresholds (40%/30%) | Backend | Coverage gates in CI | Ã¢â‚¬â€ |
-| Configure Vitest coverage thresholds (40%/30%) | Frontend | Coverage gates in CI | Ã¢â‚¬â€ |
-| Add coverage artifact upload to CI | DevOps | Reports available on PR | Ã¢â‚¬â€ |
-| Create `test/factories/` directory with 3 factories | Backend | Project, User, BlogPost factories | Ã¢â‚¬â€ |
-| Create `test/test-seed.ts` | Backend | Deterministic test data | Factories |
-| Add `@faker-js/faker` and `jest-mock-extended` | Backend | Mocking + data generation | Ã¢â‚¬â€ |
+| Task                                                | Owner    | Outcome                           | Dependencies     |
+| --------------------------------------------------- | -------- | --------------------------------- | ---------------- |
+| Add Postgres service container to CI                | DevOps   | Tests have a real database        | CI config access |
+| Remove `continue-on-error: true` for web tests      | DevOps   | Web tests block merge             | Test DB setup    |
+| Add `test` task to `turbo.json`                     | Backend  | Turbo orchestration works         | Ã¢â‚¬â€          |
+| Set up test database migration in CI                | Backend  | DB is migrated before tests       | Postgres service |
+| Configure Jest coverage thresholds (40%/30%)        | Backend  | Coverage gates in CI              | Ã¢â‚¬â€          |
+| Configure Vitest coverage thresholds (40%/30%)      | Frontend | Coverage gates in CI              | Ã¢â‚¬â€          |
+| Add coverage artifact upload to CI                  | DevOps   | Reports available on PR           | Ã¢â‚¬â€          |
+| Create `test/factories/` directory with 3 factories | Backend  | Project, User, BlogPost factories | Ã¢â‚¬â€          |
+| Create `test/test-seed.ts`                          | Backend  | Deterministic test data           | Factories        |
+| Add `@faker-js/faker` and `jest-mock-extended`      | Backend  | Mocking + data generation         | Ã¢â‚¬â€          |
 
 **Definition of done:**
+
 - CI pipeline runs with Postgres service container
 - Unit tests for API and web pass in CI
 - Coverage reports are uploaded as artifacts
@@ -1653,22 +1693,23 @@ Recommended VS Code extensions:
 
 **Goal:** Achieve 40%+ line coverage on the API by testing all P0 and P1 services.
 
-| Task | Owner | Outcome | Dependencies |
-|------|-------|---------|-------------|
-| Write `projects.service.spec.ts` (12 tests) | Backend | CRUD + filter + pagination | Factories |
-| Write `sections.service.spec.ts` (8 tests) | Backend | CRUD + ordering + filters | Factories |
-| Write `skills.service.spec.ts` (8 tests) | Backend | CRUD + category grouping | Factories |
-| Write `testimonials.service.spec.ts` (8 tests) | Backend | CRUD + featured filter | Factories |
-| Write `experiences.service.spec.ts` (8 tests) | Backend | CRUD + date ordering | Factories |
-| Write `services.service.spec.ts` (8 tests) | Backend | CRUD | Factories |
-| Write `faqs.service.spec.ts` (8 tests) | Backend | CRUD | Factories |
-| Write `case-studies.service.spec.ts` (8 tests) | Backend | CRUD + slug lookup | Factories |
-| Expand `auth.service.spec.ts` | Backend | Complete auth coverage | Ã¢â‚¬â€ |
-| Expand `leads.service.spec.ts` | Backend | Rate limiting + spam detection | Ã¢â‚¬â€ |
-| Write `media.service.spec.ts` (8 tests) | Backend | File validation + upload | Factories |
-| Write `chat.service.spec.ts` (8 tests) | Backend | Message sending + history | Factories |
+| Task                                           | Owner   | Outcome                        | Dependencies |
+| ---------------------------------------------- | ------- | ------------------------------ | ------------ |
+| Write `projects.service.spec.ts` (12 tests)    | Backend | CRUD + filter + pagination     | Factories    |
+| Write `sections.service.spec.ts` (8 tests)     | Backend | CRUD + ordering + filters      | Factories    |
+| Write `skills.service.spec.ts` (8 tests)       | Backend | CRUD + category grouping       | Factories    |
+| Write `testimonials.service.spec.ts` (8 tests) | Backend | CRUD + featured filter         | Factories    |
+| Write `experiences.service.spec.ts` (8 tests)  | Backend | CRUD + date ordering           | Factories    |
+| Write `services.service.spec.ts` (8 tests)     | Backend | CRUD                           | Factories    |
+| Write `faqs.service.spec.ts` (8 tests)         | Backend | CRUD                           | Factories    |
+| Write `case-studies.service.spec.ts` (8 tests) | Backend | CRUD + slug lookup             | Factories    |
+| Expand `auth.service.spec.ts`                  | Backend | Complete auth coverage         | Ã¢â‚¬â€      |
+| Expand `leads.service.spec.ts`                 | Backend | Rate limiting + spam detection | Ã¢â‚¬â€      |
+| Write `media.service.spec.ts` (8 tests)        | Backend | File validation + upload       | Factories    |
+| Write `chat.service.spec.ts` (8 tests)         | Backend | Message sending + history      | Factories    |
 
 **Definition of done:**
+
 - 12+ service test files (up from 3)
 - ~100+ new service tests
 - API line coverage Ã¢â€°Â¥ 40%
@@ -1680,24 +1721,25 @@ Recommended VS Code extensions:
 
 **Goal:** Achieve 55%+ line coverage on the web app by testing UI components and hooks.
 
-| Task | Owner | Outcome | Dependencies |
-|------|-------|---------|-------------|
-| Write `Button.test.tsx` (5 tests) | Frontend | Variants, disabled, loading, click, keyboard | Setup |
-| Write `Card.test.tsx` (4 tests) | Frontend | Render, children, with/without image | Setup |
-| Write `Input.test.tsx` (5 tests) | Frontend | Value, placeholder, disabled, error, onChange | Setup |
-| Write `Navbar.test.tsx` (4 tests) | Frontend | Render, mobile, active, keyboard | Setup |
-| Write `Footer.test.tsx` (3 tests) | Frontend | Render, links, responsive | Setup |
-| Write `ThemeToggle.test.tsx` (3 tests) | Frontend | Toggle, initial, persistence | Setup |
-| Write `Tooltip.test.tsx` (4 tests) | Frontend | Hover, leave, focus, position | Setup |
-| Write `CopyButton.test.tsx` (3 tests) | Frontend | Copy, feedback, fallback | Setup |
-| Write `Contact.test.tsx` (4 tests) | Frontend | Form, validation, submit, success | Setup |
-| Write `BlogPreview.test.tsx` (3 tests) | Frontend | Cards, images, tags | Setup |
-| Write `Hero.test.tsx` (3 tests) | Frontend | Content, no content, responsive | Setup |
-| Write hooks tests for 10 untested hooks | Frontend | Loading/success/error for each | Ã¢â‚¬â€ |
-| Add ResizeObserver mock to setup | Frontend | Fix component rendering | Ã¢â‚¬â€ |
-| Add Three.js canvas mock to setup | Frontend | Fix 3D component tests | Ã¢â‚¬â€ |
+| Task                                    | Owner    | Outcome                                       | Dependencies |
+| --------------------------------------- | -------- | --------------------------------------------- | ------------ |
+| Write `Button.test.tsx` (5 tests)       | Frontend | Variants, disabled, loading, click, keyboard  | Setup        |
+| Write `Card.test.tsx` (4 tests)         | Frontend | Render, children, with/without image          | Setup        |
+| Write `Input.test.tsx` (5 tests)        | Frontend | Value, placeholder, disabled, error, onChange | Setup        |
+| Write `Navbar.test.tsx` (4 tests)       | Frontend | Render, mobile, active, keyboard              | Setup        |
+| Write `Footer.test.tsx` (3 tests)       | Frontend | Render, links, responsive                     | Setup        |
+| Write `ThemeToggle.test.tsx` (3 tests)  | Frontend | Toggle, initial, persistence                  | Setup        |
+| Write `Tooltip.test.tsx` (4 tests)      | Frontend | Hover, leave, focus, position                 | Setup        |
+| Write `CopyButton.test.tsx` (3 tests)   | Frontend | Copy, feedback, fallback                      | Setup        |
+| Write `Contact.test.tsx` (4 tests)      | Frontend | Form, validation, submit, success             | Setup        |
+| Write `BlogPreview.test.tsx` (3 tests)  | Frontend | Cards, images, tags                           | Setup        |
+| Write `Hero.test.tsx` (3 tests)         | Frontend | Content, no content, responsive               | Setup        |
+| Write hooks tests for 10 untested hooks | Frontend | Loading/success/error for each                | Ã¢â‚¬â€      |
+| Add ResizeObserver mock to setup        | Frontend | Fix component rendering                       | Ã¢â‚¬â€      |
+| Add Three.js canvas mock to setup       | Frontend | Fix 3D component tests                        | Ã¢â‚¬â€      |
 
 **Definition of done:**
+
 - 12+ component test files
 - 10+ hook files tested (loading/success/error each)
 - Web line coverage Ã¢â€°Â¥ 55%
@@ -1709,21 +1751,22 @@ Recommended VS Code extensions:
 
 **Goal:** Reliable E2E coverage for all critical user journeys.
 
-| Task | Owner | Outcome | Dependencies |
-|------|-------|---------|-------------|
-| Write `login.spec.ts` | Frontend | Login/register/logout flows | Test DB |
-| Write `admin-projects.spec.ts` | Frontend | Admin project CRUD | Test DB |
-| Write `admin-blog.spec.ts` | Frontend | Admin blog post CRUD | Test DB |
-| Write `contact-form.spec.ts` | Frontend | Contact form submit + validation | Test DB |
-| Write `blog-listing.spec.ts` | Frontend | Blog pagination + filters | Test DB |
-| Write `project-listing.spec.ts` | Frontend | Project grid + filters | Test DB |
-| Write `responsive.spec.ts` | Frontend | Mobile/tablet/desktop layouts | Week 3 tests |
-| Add Firefox to Playwright projects | Frontend | Cross-browser coverage | Week 3 tests |
-| Set up E2E GitHub Actions job | DevOps | E2E runs in CI | Test DB |
-| Configure E2E artifact upload | DevOps | Reports available on PR | Ã¢â‚¬â€ |
-| Write integration tests for admin endpoints | Backend | 20+ API contract tests | Test DB |
+| Task                                        | Owner    | Outcome                          | Dependencies |
+| ------------------------------------------- | -------- | -------------------------------- | ------------ |
+| Write `login.spec.ts`                       | Frontend | Login/register/logout flows      | Test DB      |
+| Write `admin-projects.spec.ts`              | Frontend | Admin project CRUD               | Test DB      |
+| Write `admin-blog.spec.ts`                  | Frontend | Admin blog post CRUD             | Test DB      |
+| Write `contact-form.spec.ts`                | Frontend | Contact form submit + validation | Test DB      |
+| Write `blog-listing.spec.ts`                | Frontend | Blog pagination + filters        | Test DB      |
+| Write `project-listing.spec.ts`             | Frontend | Project grid + filters           | Test DB      |
+| Write `responsive.spec.ts`                  | Frontend | Mobile/tablet/desktop layouts    | Week 3 tests |
+| Add Firefox to Playwright projects          | Frontend | Cross-browser coverage           | Week 3 tests |
+| Set up E2E GitHub Actions job               | DevOps   | E2E runs in CI                   | Test DB      |
+| Configure E2E artifact upload               | DevOps   | Reports available on PR          | Ã¢â‚¬â€      |
+| Write integration tests for admin endpoints | Backend  | 20+ API contract tests           | Test DB      |
 
 **Definition of done:**
+
 - 6+ new E2E spec files (up from 2)
 - Admin CRUD flows fully covered
 - E2E runs in CI and blocks merge
@@ -1736,18 +1779,19 @@ Recommended VS Code extensions:
 
 **Goal:** Accessibility scanning on all page templates + pixel-level visual diffing.
 
-| Task | Owner | Outcome | Dependencies |
-|------|-------|---------|-------------|
-| Extend `accessibility.spec.ts` (all page templates) | Frontend | Full a11y coverage | E2E infra |
-| Add `@axe-core/playwright` as dependency | Frontend | Tool available | Ã¢â‚¬â€ |
-| Configure axe rules (WCAG 2.2 AA) | Frontend | Rule set matches requirements | Ã¢â‚¬â€ |
-| Write visual regression tests (10 screens) | Frontend | Baseline screenshots | E2E infra |
-| Set up visual diff threshold (0.1%) | Frontend | Tolerable change limit | Ã¢â‚¬â€ |
-| Add a11y CI to GitHub Actions | DevOps | a11y blocks PRs | E2E infra |
-| Create visual regression review process | QA Lead | Process documented | Ã¢â‚¬â€ |
-| Fix WCAG AA violations found by scanning | Frontend | 0 violations baseline | Scanning |
+| Task                                                | Owner    | Outcome                       | Dependencies |
+| --------------------------------------------------- | -------- | ----------------------------- | ------------ |
+| Extend `accessibility.spec.ts` (all page templates) | Frontend | Full a11y coverage            | E2E infra    |
+| Add `@axe-core/playwright` as dependency            | Frontend | Tool available                | Ã¢â‚¬â€      |
+| Configure axe rules (WCAG 2.2 AA)                   | Frontend | Rule set matches requirements | Ã¢â‚¬â€      |
+| Write visual regression tests (10 screens)          | Frontend | Baseline screenshots          | E2E infra    |
+| Set up visual diff threshold (0.1%)                 | Frontend | Tolerable change limit        | Ã¢â‚¬â€      |
+| Add a11y CI to GitHub Actions                       | DevOps   | a11y blocks PRs               | E2E infra    |
+| Create visual regression review process             | QA Lead  | Process documented            | Ã¢â‚¬â€      |
+| Fix WCAG AA violations found by scanning            | Frontend | 0 violations baseline         | Scanning     |
 
 **Definition of done:**
+
 - All 8+ page templates scanned for a11y
 - 0 WCAG 2.2 AA violations on critical pages
 - 10+ baseline screenshots captured
@@ -1760,19 +1804,20 @@ Recommended VS Code extensions:
 
 **Goal:** Performance budgets enforced in CI, remaining services covered, test debt tracked.
 
-| Task | Owner | Outcome | Dependencies |
-|------|-------|---------|-------------|
-| Add Lighthouse CI to pipeline | DevOps | Performance budgets enforced | CI access |
-| Configure Lighthouse budgets | Frontend | Budgets match targets | Baseline data |
-| Write remaining 10 service tests | Backend | All 27 services tested | Factories |
-| Write remaining 10 component tests | Frontend | All P1 components tested | Ã¢â‚¬â€ |
-| Write remaining 12 hooks tests | Frontend | All 27 hooks tested | Ã¢â‚¬â€ |
-| Set up flaky test tracker | QA Lead | Dashboard for flaky rate | Ã¢â‚¬â€ |
-| Write test debt backlog | QA Lead | All gaps documented | Ã¢â‚¬â€ |
-| Run full test suite Ã¢â€ â€™ measure < 10 min | DevOps | Performance target met | Optimization |
-| Document all test commands in CONTRIBUTING.md | QA Lead | Onboarding ready | Ã¢â‚¬â€ |
+| Task                                          | Owner    | Outcome                      | Dependencies  |
+| --------------------------------------------- | -------- | ---------------------------- | ------------- |
+| Add Lighthouse CI to pipeline                 | DevOps   | Performance budgets enforced | CI access     |
+| Configure Lighthouse budgets                  | Frontend | Budgets match targets        | Baseline data |
+| Write remaining 10 service tests              | Backend  | All 27 services tested       | Factories     |
+| Write remaining 10 component tests            | Frontend | All P1 components tested     | Ã¢â‚¬â€       |
+| Write remaining 12 hooks tests                | Frontend | All 27 hooks tested          | Ã¢â‚¬â€       |
+| Set up flaky test tracker                     | QA Lead  | Dashboard for flaky rate     | Ã¢â‚¬â€       |
+| Write test debt backlog                       | QA Lead  | All gaps documented          | Ã¢â‚¬â€       |
+| Run full test suite Ã¢â€ â€™ measure < 10 min | DevOps   | Performance target met       | Optimization  |
+| Document all test commands in CONTRIBUTING.md | QA Lead  | Onboarding ready             | Ã¢â‚¬â€       |
 
 **Definition of done:**
+
 - Lighthouse CI in pipeline with budgets
 - All 27 API services have tests
 - All 27 web hooks have tests
@@ -1785,16 +1830,16 @@ Recommended VS Code extensions:
 
 ### 11.7 Quarter 3 & Beyond
 
-| Initiative | Target | Timeline |
-|-----------|--------|----------|
-| Coverage threshold increase (70% lines) | Hard gate | Q3 2026 (post Week 6) |
-| Mutation testing with Stryker | Additional quality signal | Q3 2026 |
-| k6 load testing | Performance regression detection | Q3 2026 |
-| Security scanning (OWASP ZAP) | Full DAST coverage | Q3 2026 |
-| Storybook integration for visual testing | Improved component visual tests | Q4 2026 |
-| AI-generated test suggestions | Developer productivity | Q4 2026 |
-| Self-healing flaky tests (AI-assisted) | Test maintenance reduction | Q1 2027 |
-| Visual diff per PR (auto-review) | Zero manual visual review | Q1 2027 |
+| Initiative                               | Target                           | Timeline              |
+| ---------------------------------------- | -------------------------------- | --------------------- |
+| Coverage threshold increase (70% lines)  | Hard gate                        | Q3 2026 (post Week 6) |
+| Mutation testing with Stryker            | Additional quality signal        | Q3 2026               |
+| k6 load testing                          | Performance regression detection | Q3 2026               |
+| Security scanning (OWASP ZAP)            | Full DAST coverage               | Q3 2026               |
+| Storybook integration for visual testing | Improved component visual tests  | Q4 2026               |
+| AI-generated test suggestions            | Developer productivity           | Q4 2026               |
+| Self-healing flaky tests (AI-assisted)   | Test maintenance reduction       | Q1 2027               |
+| Visual diff per PR (auto-review)         | Zero manual visual review        | Q1 2027               |
 
 ---
 
@@ -1802,23 +1847,23 @@ Recommended VS Code extensions:
 
 ### A.1 API Test Files (Current)
 
-| File | Type | Tests | Status |
-|------|------|-------|--------|
-| `src/modules/auth/auth.service.spec.ts` | Unit | ~15 | Ã¢Å“â€¦ Existing |
-| `src/modules/blog/blog.service.spec.ts` | Unit | ~8 | Ã¢Å“â€¦ Existing |
-| `src/modules/leads/leads.service.spec.ts` | Unit | ~10 | Ã¢Å“â€¦ Existing |
-| `test/app.e2e-spec.ts` | Integration/E2E | ~40 | Ã¢Å“â€¦ Existing |
-| **Total** | | **~73** | |
+| File                                      | Type            | Tests   | Status           |
+| ----------------------------------------- | --------------- | ------- | ---------------- |
+| `src/modules/auth/auth.service.spec.ts`   | Unit            | ~15     | Ã¢Å“â€¦ Existing |
+| `src/modules/blog/blog.service.spec.ts`   | Unit            | ~8      | Ã¢Å“â€¦ Existing |
+| `src/modules/leads/leads.service.spec.ts` | Unit            | ~10     | Ã¢Å“â€¦ Existing |
+| `test/app.e2e-spec.ts`                    | Integration/E2E | ~40     | Ã¢Å“â€¦ Existing |
+| **Total**                                 |                 | **~73** |                  |
 
 ### A.2 Web Test Files (Current)
 
-| File | Type | Tests | Status |
-|------|------|-------|--------|
-| `src/test/__tests__/hooks.test.tsx` | Hook unit | ~8 | Ã¢Å“â€¦ Existing |
-| `src/test/__tests__/api.test.ts` | API client unit | ~6 | Ã¢Å“â€¦ Existing |
-| `e2e/homepage.spec.ts` | E2E | ~4 | Ã¢Å“â€¦ Existing |
-| `e2e/accessibility.spec.ts` | E2E/a11y | ~4 | Ã¢Å“â€¦ Existing |
-| **Total** | | **~22** | |
+| File                                | Type            | Tests   | Status           |
+| ----------------------------------- | --------------- | ------- | ---------------- |
+| `src/test/__tests__/hooks.test.tsx` | Hook unit       | ~8      | Ã¢Å“â€¦ Existing |
+| `src/test/__tests__/api.test.ts`    | API client unit | ~6      | Ã¢Å“â€¦ Existing |
+| `e2e/homepage.spec.ts`              | E2E             | ~4      | Ã¢Å“â€¦ Existing |
+| `e2e/accessibility.spec.ts`         | E2E/a11y        | ~4      | Ã¢Å“â€¦ Existing |
+| **Total**                           |                 | **~22** |                  |
 
 ### A.3 Untested API Services (27 total, 24 untested)
 
@@ -1865,44 +1910,49 @@ See section [5.2 Target CI Pipeline](#52-target-ci-pipeline) for the full CI con
 
 ## Appendix C: Glossary
 
-| Term | Definition |
-|------|-----------|
-| **Static Analysis** | Analysis of code without executing it (TypeScript, ESLint) |
-| **Unit Test** | Tests a single unit of code in isolation (function, method) |
-| **Integration Test** | Tests multiple units working together (service + DB, controller + service) |
-| **E2E Test** | Tests a complete user workflow in a browser or via API |
-| **Visual Regression** | Pixel-level comparison of screenshots to detect UI changes |
-| **Flaky Test** | A test that passes and fails non-deterministically |
-| **Coverage** | Percentage of code lines/branches executed during tests |
-| **Mutation Testing** | Tests the quality of tests by introducing code mutations and checking if tests catch them |
-| **Test Debt** | The accumulated cost of missing or inadequate tests |
-| **Quality Gate** | A condition that must be met before code can proceed to the next stage |
-| **Service Container** | A Docker container providing a dependency (e.g., Postgres) in CI |
-| **Factory** | A function that generates test data with sensible defaults |
-| **Seed** | A script that populates the database with predetermined test data |
+| Term                  | Definition                                                                                |
+| --------------------- | ----------------------------------------------------------------------------------------- |
+| **Static Analysis**   | Analysis of code without executing it (TypeScript, ESLint)                                |
+| **Unit Test**         | Tests a single unit of code in isolation (function, method)                               |
+| **Integration Test**  | Tests multiple units working together (service + DB, controller + service)                |
+| **E2E Test**          | Tests a complete user workflow in a browser or via API                                    |
+| **Visual Regression** | Pixel-level comparison of screenshots to detect UI changes                                |
+| **Flaky Test**        | A test that passes and fails non-deterministically                                        |
+| **Coverage**          | Percentage of code lines/branches executed during tests                                   |
+| **Mutation Testing**  | Tests the quality of tests by introducing code mutations and checking if tests catch them |
+| **Test Debt**         | The accumulated cost of missing or inadequate tests                                       |
+| **Quality Gate**      | A condition that must be met before code can proceed to the next stage                    |
+| **Service Container** | A Docker container providing a dependency (e.g., Postgres) in CI                          |
+| **Factory**           | A function that generates test data with sensible defaults                                |
+| **Seed**              | A script that populates the database with predetermined test data                         |
 
 ---
 
 ## Appendix D: References
 
-| Document | Purpose |
-|----------|---------|
-| `docs/quality/TestingArchitecture.md` | Enterprise testing architecture (aspirational) |
-| `docs/quality/30-QA.md` | QA process, release gates, bug severity |
-| `docs/operations/25-CICD.md` | CI/CD pipeline configuration |
-| `docs/architecture/SystemArchitecture.md` | System architecture for test context |
-| `docs/quality/PerformanceArchitecture.md` | Performance testing strategy |
-| `docs/quality/AccessibilityArchitecture.md` | Accessibility testing strategy |
-| `CONTRIBUTING.md` | Developer onboarding and test commands |
-| `apps/api/jest.config.ts` | Jest configuration |
-| `apps/web/vitest.config.ts` | Vitest configuration |
-| `apps/web/playwright.config.ts` | Playwright configuration |
-| `.github/workflows/ci.yml` | CI workflow definition |
+| Document                                       | Purpose                                        |
+| ---------------------------------------------- | ---------------------------------------------- |
+| `docs/35-quality/TestingArchitecture.md`       | Enterprise testing architecture (aspirational) |
+| `docs/35-quality/30-QA.md`                     | QA process, release gates, bug severity        |
+| `docs/21-operations/25-CICD.md`                | CI/CD pipeline configuration                   |
+| `docs/05-architecture/SystemArchitecture.md`   | System architecture for test context           |
+| `docs/35-quality/PerformanceArchitecture.md`   | Performance testing strategy                   |
+| `docs/35-quality/AccessibilityArchitecture.md` | Accessibility testing strategy                 |
+| `CONTRIBUTING.md`                              | Developer onboarding and test commands         |
+| `apps/api/jest.config.ts`                      | Jest configuration                             |
+| `apps/web/vitest.config.ts`                    | Vitest configuration                           |
+| `apps/web/playwright.config.ts`                | Playwright configuration                       |
+| `.github/workflows/ci.yml`                     | CI workflow definition                         |
 
 ---
 
-*This document is a living strategy guide. It should be reviewed monthly by the QA Lead and updated as the testing infrastructure evolves. All dates and targets are ambitious but achievable Ã¢â‚¬â€ adjust based on actual velocity, not aspiration.*
+_This document is a living strategy guide. It should be reviewed monthly by the QA Lead and updated as the testing infrastructure evolves. All dates and targets are ambitious but achievable Ã¢â‚¬â€ adjust based on actual velocity, not aspiration._
 
 ## Cross-References
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
+
+- [TESTING-ARCHITECTURE.md](./TESTING-ARCHITECTURE.md) — Canonical testing architecture document
+- [QA-OVERVIEW.md](./QA-OVERVIEW.md) — QA processes, release gates, bug severity
+- [TESTING-IMPLEMENTATION.md](./TESTING-IMPLEMENTATION.md) — Implementation-level test patterns
+- [TEST-PLAN.md](./TEST-PLAN.md) — Master test plan template
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

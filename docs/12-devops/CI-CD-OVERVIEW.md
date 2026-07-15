@@ -57,10 +57,10 @@ flowchart TB
 
     Push --> Lint & TypeCheck & Build & Test & Mermaid
     PR --> Lint & TypeCheck & Build & Test & Mermaid
-    
+
     Lint & TypeCheck & Build & Test & Mermaid -->|All Pass| Vercel & Railway & DB
     Lint & TypeCheck & Build & Test & Mermaid -->|Any Fail| Fail["Ã¢ÂÅ’ Blocked - Fix Required"]
-    
+
     Vercel & Railway & DB --> Health & Smoke & CacheWarm
     Health & Smoke & CacheWarm -->|All Pass| Success["Ã¢Å“â€¦ Deploy Complete"]
     Health & Smoke & CacheWarm -->|Any Fail| Rollback["Ã°Å¸â€â€ž Auto-Rollback"]
@@ -73,7 +73,7 @@ gantt
     title CI/CD Pipeline Timeline (~8 min)
     dateFormat HH:mm
     axisFormat %M:%S
-    
+
     section Quality (3.5 min)
     npm ci           :00:00, 90s
     Lint             :00:00, 20s
@@ -118,16 +118,16 @@ jobs:
   quality:
     name: Quality Gates
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-      
+
       - name: Restore cached dependencies
         uses: actions/cache@v4
         id: npm-cache
@@ -135,23 +135,23 @@ jobs:
           path: node_modules
           key: npm-${{ hashFiles('package-lock.json') }}
           restore-keys: npm-
-      
+
       - name: Install dependencies
         if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci
-      
+
       - name: ESLint
         run: npx turbo run lint
-        
+
       - name: TypeScript Check
         run: npx turbo run typecheck
-      
+
       - name: Build
         run: npx turbo run build
-      
+
       - name: Tests
         run: npx turbo run test
-      
+
       - name: Validate Mermaid Diagrams
         run: |
           npm install --no-save jsdom dompurify mermaid 2>&1 | tail -1
@@ -162,10 +162,10 @@ jobs:
     needs: quality
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
@@ -173,7 +173,7 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod'
-      
+
       - name: Verify Deploy
         run: |
           sleep 10
@@ -184,18 +184,18 @@ jobs:
     needs: quality
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Railway CLI
         run: npm install -g @railway/cli
-      
+
       - name: Deploy to Railway
         run: railway up --environment production
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-      
+
       - name: Verify Health
         run: |
           sleep 15
@@ -206,15 +206,15 @@ jobs:
     needs: quality
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Supabase CLI
         uses: supabase/setup-cli@v1
         with:
           version: latest
-      
+
       - name: Run Migrations
         run: supabase db push --linked
         env:
@@ -223,12 +223,12 @@ jobs:
 
 ### 3.2 Workflow Matrix
 
-| Job | Runs On | Needs | Condition | Timeout |
-|-----|---------|-------|-----------|---------|
-| `quality` | PR + push to main/develop | Ã¢â‚¬â€ | Always | 15 min |
-| `deploy-vercel` | Push to `main` only | `quality` | `github.ref == 'refs/heads/main'` | 10 min |
-| `deploy-railway` | Push to `main` only | `quality` | `github.ref == 'refs/heads/main'` | 10 min |
-| `migrate-db` | Push to `main` only | `quality` | `github.ref == 'refs/heads/main'` | 5 min |
+| Job              | Runs On                   | Needs     | Condition                         | Timeout |
+| ---------------- | ------------------------- | --------- | --------------------------------- | ------- |
+| `quality`        | PR + push to main/develop | Ã¢â‚¬â€   | Always                            | 15 min  |
+| `deploy-vercel`  | Push to `main` only       | `quality` | `github.ref == 'refs/heads/main'` | 10 min  |
+| `deploy-railway` | Push to `main` only       | `quality` | `github.ref == 'refs/heads/main'` | 10 min  |
+| `migrate-db`     | Push to `main` only       | `quality` | `github.ref == 'refs/heads/main'` | 5 min   |
 
 ---
 
@@ -236,16 +236,16 @@ jobs:
 
 ### 4.1 Gate Definitions
 
-| Gate | Tool | Failure Action | Severity |
-|------|------|---------------|----------|
-| **Lint** | ESLint | Block PR merge | Ã°Å¸â€Â´ Critical |
-| **TypeScript** | `tsc --noEmit` | Block PR merge | Ã°Å¸â€Â´ Critical |
-| **Build** | Turborepo | Block PR merge | Ã°Å¸â€Â´ Critical |
-| **Tests** | Jest | Block PR merge | Ã°Å¸â€Â´ Critical |
-| **Mermaid Diagrams** | Custom script | Block PR merge | Ã°Å¸Å¸Â¡ Warning |
-| **Dependency Audit** | `npm audit` | Block PR merge (high/critical) | Ã°Å¸â€Â´ Critical |
-| **Bundle Size** | `@next/bundle-analyzer` | Warning only | Ã°Å¸Å¸Â¢ Info |
-| **Performance Budget** | Lighthouse CI | Warning only | Ã°Å¸Å¸Â¢ Info |
+| Gate                   | Tool                    | Failure Action                 | Severity          |
+| ---------------------- | ----------------------- | ------------------------------ | ----------------- |
+| **Lint**               | ESLint                  | Block PR merge                 | Ã°Å¸â€Â´ Critical |
+| **TypeScript**         | `tsc --noEmit`          | Block PR merge                 | Ã°Å¸â€Â´ Critical |
+| **Build**              | Turborepo               | Block PR merge                 | Ã°Å¸â€Â´ Critical |
+| **Tests**              | Jest                    | Block PR merge                 | Ã°Å¸â€Â´ Critical |
+| **Mermaid Diagrams**   | Custom script           | Block PR merge                 | Ã°Å¸Å¸Â¡ Warning  |
+| **Dependency Audit**   | `npm audit`             | Block PR merge (high/critical) | Ã°Å¸â€Â´ Critical |
+| **Bundle Size**        | `@next/bundle-analyzer` | Warning only                   | Ã°Å¸Å¸Â¢ Info     |
+| **Performance Budget** | Lighthouse CI           | Warning only                   | Ã°Å¸Å¸Â¢ Info     |
 
 ### 4.2 Gate Pass/Fail Criteria
 
@@ -285,7 +285,7 @@ deploy-vercel:
         vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
         vercel-args: '--prod'
-    
+
     # Verify deployment
     - run: |
         curl -sI https://portfolioowner.com | grep -q "200\|301\|302"
@@ -302,7 +302,7 @@ deploy-railway:
     - run: railway up --environment production
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-    
+
     # Verify deployment
     - run: |
         curl -s https://ai.portfolioowner.com/api/health | grep -q '"healthy"'
@@ -328,15 +328,15 @@ migrate-db:
 
 ### 6.1 GitHub Secrets
 
-| Secret Name | Used By | Rotation | Required |
-|-------------|---------|----------|----------|
-| `VERCEL_TOKEN` | Vercel deploy job | 90 days | Ã¢Å“â€¦ |
-| `VERCEL_ORG_ID` | Vercel deploy job | Static | Ã¢Å“â€¦ |
-| `VERCEL_PROJECT_ID` | Vercel deploy job | Static | Ã¢Å“â€¦ |
-| `RAILWAY_TOKEN` | Railway deploy job | 90 days | Ã¢Å“â€¦ |
-| `SUPABASE_ACCESS_TOKEN` | DB migration job | 90 days | Ã¢Å“â€¦ |
-| `TURBO_TEAM` | All jobs (caching) | Static | Optional |
-| `TURBO_TOKEN` | All jobs (caching) | 90 days | Optional |
+| Secret Name             | Used By            | Rotation | Required |
+| ----------------------- | ------------------ | -------- | -------- |
+| `VERCEL_TOKEN`          | Vercel deploy job  | 90 days  | Ã¢Å“â€¦  |
+| `VERCEL_ORG_ID`         | Vercel deploy job  | Static   | Ã¢Å“â€¦  |
+| `VERCEL_PROJECT_ID`     | Vercel deploy job  | Static   | Ã¢Å“â€¦  |
+| `RAILWAY_TOKEN`         | Railway deploy job | 90 days  | Ã¢Å“â€¦  |
+| `SUPABASE_ACCESS_TOKEN` | DB migration job   | 90 days  | Ã¢Å“â€¦  |
+| `TURBO_TEAM`            | All jobs (caching) | Static   | Optional |
+| `TURBO_TOKEN`           | All jobs (caching) | 90 days  | Optional |
 
 ### 6.2 Environment-Specific Secrets
 
@@ -367,108 +367,109 @@ SUPABASE_SERVICE_ROLE_KEY= # Production value
 
 ### 7.1 Troubleshooting Common Failures
 
-| Failure | Symptom | Likely Cause | Fix |
-|---------|---------|--------------|-----|
-| `npm ci` fails | `npm ERR!` | Lockfile out of date | Run `npm install` locally; commit new lockfile |
-| ESLint fail | `error X is defined but never used` | Lint violation | Fix code or update `.eslintrc` |
-| TypeScript fail | `Type 'X' is not assignable` | Type mismatch | Fix type definitions |
-| Build fail | `Module not found: Can't resolve 'X'` | Missing dependency | `npm install X` or add to `package.json` |
-| Test fail | `Expected X to equal Y` | Code change broke test | Fix code or update test assertion |
-| Mermaid fail | `Parse error on line N` | Diagram syntax error | Fix diagram in `.md` file |
-| Deploy fail | `Error: No token provided` | Expired secret | Rotate Vercel/Railway token |
-| Health check fail | `Connection refused` | Service not started | Check deploy logs; restart |
+| Failure           | Symptom                               | Likely Cause           | Fix                                            |
+| ----------------- | ------------------------------------- | ---------------------- | ---------------------------------------------- |
+| `npm ci` fails    | `npm ERR!`                            | Lockfile out of date   | Run `npm install` locally; commit new lockfile |
+| ESLint fail       | `error X is defined but never used`   | Lint violation         | Fix code or update `.eslintrc`                 |
+| TypeScript fail   | `Type 'X' is not assignable`          | Type mismatch          | Fix type definitions                           |
+| Build fail        | `Module not found: Can't resolve 'X'` | Missing dependency     | `npm install X` or add to `package.json`       |
+| Test fail         | `Expected X to equal Y`               | Code change broke test | Fix code or update test assertion              |
+| Mermaid fail      | `Parse error on line N`               | Diagram syntax error   | Fix diagram in `.md` file                      |
+| Deploy fail       | `Error: No token provided`            | Expired secret         | Rotate Vercel/Railway token                    |
+| Health check fail | `Connection refused`                  | Service not started    | Check deploy logs; restart                     |
 
 ### 7.2 Pipeline Optimization History
 
-| Date | Change | Impact |
-|------|--------|--------|
-| Jun 2026 | Added Mermaid validation gate | +10s pipeline |
-| Jun 2026 | Parallelized lint, typecheck, test | -2 min (from 10Ã¢â€ â€™8 min) |
-| Jun 2026 | Added npm caching | -1 min (from 11Ã¢â€ â€™10 min) |
-| Apr 2026 | Switched to `npm ci` | Deterministic installs |
-| Mar 2026 | Initial GitHub Actions setup | Baseline: 15 min |
+| Date     | Change                             | Impact                         |
+| -------- | ---------------------------------- | ------------------------------ |
+| Jun 2026 | Added Mermaid validation gate      | +10s pipeline                  |
+| Jun 2026 | Parallelized lint, typecheck, test | -2 min (from 10Ã¢â€ â€™8 min)  |
+| Jun 2026 | Added npm caching                  | -1 min (from 11Ã¢â€ â€™10 min) |
+| Apr 2026 | Switched to `npm ci`               | Deterministic installs         |
+| Mar 2026 | Initial GitHub Actions setup       | Baseline: 15 min               |
 
 ---
 
 ## 8. CI/CD Security
 
-| Control | Implementation | Verification |
-|---------|---------------|-------------|
-| **Dependency scanning** | `npm audit` in CI gate | Blocks on high/critical vulns |
-| **Secret scanning** | GitHub secret scanning on push | Blocks credentials in code |
-| **Branch protection** | Require CI pass + review | GitHub branch settings |
-| **Workflow approval** | Deploy jobs require `main` branch | `if: github.ref == 'refs/heads/main'` |
-| **Least privilege tokens** | Scoped tokens per service | Token only has deploy permission |
-| **Audit trail** | All workflow runs logged | GitHub Actions history |
+| Control                    | Implementation                    | Verification                          |
+| -------------------------- | --------------------------------- | ------------------------------------- |
+| **Dependency scanning**    | `npm audit` in CI gate            | Blocks on high/critical vulns         |
+| **Secret scanning**        | GitHub secret scanning on push    | Blocks credentials in code            |
+| **Branch protection**      | Require CI pass + review          | GitHub branch settings                |
+| **Workflow approval**      | Deploy jobs require `main` branch | `if: github.ref == 'refs/heads/main'` |
+| **Least privilege tokens** | Scoped tokens per service         | Token only has deploy permission      |
+| **Audit trail**            | All workflow runs logged          | GitHub Actions history                |
 
 ---
 
 ## 10. Decision Log
 
-| Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
-|-------------|------|----------|-----------|------------------------|---------|
-| D-CICD-001 | Jun 2026 | GitHub Actions as single CI/CD platform | Zero-cost for public repo, native GitHub integration, large action ecosystem | CircleCI, GitLab CI rejected Ã¢â‚¬â€ additional cost and context switching | Adopted |
-| D-CICD-002 | Jun 2026 | 3-stage pipeline (Quality Ã¢â€ â€™ Deploy Ã¢â€ â€™ Verify) with sequential deploy | Ensures quality gates block deployment; verification catches runtime issues | Fully parallel rejected Ã¢â‚¬â€ deploy before quality check creates risk | Adopted |
-| D-CICD-003 | Jun 2026 | Separate deploy jobs for Vercel, Railway, and DB migrations | Independent failure domains; DB migration failure doesn't block frontend | Single monolithic deploy job rejected Ã¢â‚¬â€ failure in one blocks all | Adopted |
-| D-CICD-004 | Jun 2026 | TurboRepo with remote caching for build optimization | Dramatically reduces build times for monorepo | Independent per-package builds rejected Ã¢â‚¬â€ no shared cache benefit | Adopted |
-| D-CICD-005 | Jun 2026 | Mermaid diagram validation in CI pipeline | Prevents broken diagrams from reaching production | Manual diagram review rejected Ã¢â‚¬â€ error-prone and time-consuming | Adopted |
+| Decision ID | Date     | Decision                                                                          | Rationale                                                                    | Alternatives Considered                                                    | Outcome |
+| ----------- | -------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------- |
+| D-CICD-001  | Jun 2026 | GitHub Actions as single CI/CD platform                                           | Zero-cost for public repo, native GitHub integration, large action ecosystem | CircleCI, GitLab CI rejected Ã¢â‚¬â€ additional cost and context switching | Adopted |
+| D-CICD-002  | Jun 2026 | 3-stage pipeline (Quality Ã¢â€ â€™ Deploy Ã¢â€ â€™ Verify) with sequential deploy | Ensures quality gates block deployment; verification catches runtime issues  | Fully parallel rejected Ã¢â‚¬â€ deploy before quality check creates risk   | Adopted |
+| D-CICD-003  | Jun 2026 | Separate deploy jobs for Vercel, Railway, and DB migrations                       | Independent failure domains; DB migration failure doesn't block frontend     | Single monolithic deploy job rejected Ã¢â‚¬â€ failure in one blocks all    | Adopted |
+| D-CICD-004  | Jun 2026 | TurboRepo with remote caching for build optimization                              | Dramatically reduces build times for monorepo                                | Independent per-package builds rejected Ã¢â‚¬â€ no shared cache benefit    | Adopted |
+| D-CICD-005  | Jun 2026 | Mermaid diagram validation in CI pipeline                                         | Prevents broken diagrams from reaching production                            | Manual diagram review rejected Ã¢â‚¬â€ error-prone and time-consuming      | Adopted |
 
 ## 11. Risk Register
 
-| Risk ID | Risk Description | Probability | Impact | Severity | Mitigation Strategy | Contingency | Owner |
-|---------|-----------------|-------------|--------|----------|---------------------|-------------|-------|
-| R-CICD-001 | Build time degrades beyond 10-minute threshold as codebase grows | Medium | Medium | Medium | Parallel job optimization, Turborepo caching, incremental builds | Split pipeline into separate frontend/backend workflows | DevOps Lead |
-| R-CICD-002 | GitHub Actions runner outage blocks deployments | Low | High | High | Self-hosted runner as backup, deploy procedure documentation | Manual deploy via Vercel CLI and Railway dashboard | DevOps Lead |
-| R-CICD-003 | Database migration conflicts when multiple developers push simultaneously | Low | High | Medium | Sequential deployment queue, migration naming convention with timestamps | Manual rollback and re-run of failed migration | Backend Lead |
-| R-CICD-004 | Flaky tests cause false negatives in quality gate | Medium | Medium | Medium | Retry mechanism for flaky tests, weekly flaky test review | Mark non-critical flaky tests as allowed to fail, fix within sprint | QA Lead |
-| R-CICD-005 | Secret rotation breaks CI workflows silently | Low | Medium | Low | Secret expiry tracking, pre-flight secret validation in CI | Manual secret update via GitHub UI, notification to team | DevOps Lead |
+| Risk ID    | Risk Description                                                          | Probability | Impact | Severity | Mitigation Strategy                                                      | Contingency                                                         | Owner        |
+| ---------- | ------------------------------------------------------------------------- | ----------- | ------ | -------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------- | ------------ |
+| R-CICD-001 | Build time degrades beyond 10-minute threshold as codebase grows          | Medium      | Medium | Medium   | Parallel job optimization, Turborepo caching, incremental builds         | Split pipeline into separate frontend/backend workflows             | DevOps Lead  |
+| R-CICD-002 | GitHub Actions runner outage blocks deployments                           | Low         | High   | High     | Self-hosted runner as backup, deploy procedure documentation             | Manual deploy via Vercel CLI and Railway dashboard                  | DevOps Lead  |
+| R-CICD-003 | Database migration conflicts when multiple developers push simultaneously | Low         | High   | Medium   | Sequential deployment queue, migration naming convention with timestamps | Manual rollback and re-run of failed migration                      | Backend Lead |
+| R-CICD-004 | Flaky tests cause false negatives in quality gate                         | Medium      | Medium | Medium   | Retry mechanism for flaky tests, weekly flaky test review                | Mark non-critical flaky tests as allowed to fail, fix within sprint | QA Lead      |
+| R-CICD-005 | Secret rotation breaks CI workflows silently                              | Low         | Medium | Low      | Secret expiry tracking, pre-flight secret validation in CI               | Manual secret update via GitHub UI, notification to team            | DevOps Lead  |
 
 ## 12. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | **Enterprise-Grade Rewrite**: Added 9 sections Ã¢â‚¬â€ Executive Summary (pipeline metrics), Pipeline Architecture (Mermaid flow + Gantt chart), CI Workflow Configuration (complete YAML with caching, 4 jobs), Quality Gates (8 gates with pass/fail criteria), CD Configuration (Vercel/Railway/DB deploy specs), Secrets Management (GitHub secrets + env vars), Pipeline Maintenance (troubleshooting table + optimization history), CI/CD Security (6 controls), Pipeline Metrics (8 KPIs). | DevOps Lead |
-| 3.0 | Jun 2026 | Added executive summary, change log | DevOps Lead |
-| 2.0 | Jun 2026 | Updated for enterprise structure; added Mermaid diagram | DevOps Lead |
-| 1.0 | Mar 2026 | Initial CI/CD documentation | DevOps Lead |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Author      |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 4.0     | Jun 2026 | **Enterprise-Grade Rewrite**: Added 9 sections Ã¢â‚¬â€ Executive Summary (pipeline metrics), Pipeline Architecture (Mermaid flow + Gantt chart), CI Workflow Configuration (complete YAML with caching, 4 jobs), Quality Gates (8 gates with pass/fail criteria), CD Configuration (Vercel/Railway/DB deploy specs), Secrets Management (GitHub secrets + env vars), Pipeline Maintenance (troubleshooting table + optimization history), CI/CD Security (6 controls), Pipeline Metrics (8 KPIs). | DevOps Lead |
+| 3.0     | Jun 2026 | Added executive summary, change log                                                                                                                                                                                                                                                                                                                                                                                                                                                               | DevOps Lead |
+| 2.0     | Jun 2026 | Updated for enterprise structure; added Mermaid diagram                                                                                                                                                                                                                                                                                                                                                                                                                                           | DevOps Lead |
+| 1.0     | Mar 2026 | Initial CI/CD documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | DevOps Lead |
 
 ---
 
 ## 13. Glossary
 
-| Term | Definition |
-|------|------------|
-| **Quality Gate** | A set of automated checks (lint, typecheck, build, test, Mermaid validation) that must pass before a deployment proceeds |
-| **CI/CD** | Continuous Integration and Continuous Deployment Ã¢â‚¬â€ automated pipeline that builds, tests, and deploys code changes |
-| **GitHub Actions** | GitHub's built-in CI/CD platform that automates software workflows with YAML-based configuration |
-| **Turborepo Remote Caching** | A cloud-based build cache that shares build artifacts across team members and CI runners to reduce build times |
-| **Mermaid Validation** | An automated check that verifies Mermaid diagram syntax is valid and renders correctly |
-| **Secrets Management** | The practice of storing sensitive credentials (API keys, tokens, passwords) in encrypted storage rather than in source code |
-| **Zero-Downtime Deployment** | A deployment strategy that ensures the application remains available throughout the update process |
-| **GitHub Environments** | A GitHub Actions feature that provides protection rules, secrets, and deployment tracking for specific deployment targets |
-| **Change Failure Rate** | The percentage of deployments that result in degraded service or require remediation (target: < 5%) |
-| **Time to Recovery** | The time required to restore service after a production incident (target: < 1 hour) |
-| **Deploy Frequency** | How often deployments occur (target: daily) |
-| **Mean Time to Detect (MTTD)** | The average time between a failure occurring and the team becoming aware of it |
+| Term                           | Definition                                                                                                                  |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| **Quality Gate**               | A set of automated checks (lint, typecheck, build, test, Mermaid validation) that must pass before a deployment proceeds    |
+| **CI/CD**                      | Continuous Integration and Continuous Deployment Ã¢â‚¬â€ automated pipeline that builds, tests, and deploys code changes    |
+| **GitHub Actions**             | GitHub's built-in CI/CD platform that automates software workflows with YAML-based configuration                            |
+| **Turborepo Remote Caching**   | A cloud-based build cache that shares build artifacts across team members and CI runners to reduce build times              |
+| **Mermaid Validation**         | An automated check that verifies Mermaid diagram syntax is valid and renders correctly                                      |
+| **Secrets Management**         | The practice of storing sensitive credentials (API keys, tokens, passwords) in encrypted storage rather than in source code |
+| **Zero-Downtime Deployment**   | A deployment strategy that ensures the application remains available throughout the update process                          |
+| **GitHub Environments**        | A GitHub Actions feature that provides protection rules, secrets, and deployment tracking for specific deployment targets   |
+| **Change Failure Rate**        | The percentage of deployments that result in degraded service or require remediation (target: < 5%)                         |
+| **Time to Recovery**           | The time required to restore service after a production incident (target: < 1 hour)                                         |
+| **Deploy Frequency**           | How often deployments occur (target: daily)                                                                                 |
+| **Mean Time to Detect (MTTD)** | The average time between a failure occurring and the team becoming aware of it                                              |
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ Ã‚Â§9 Deployment Architecture, CI/CD pipeline topology |
-| `docs/operations/DevOpsArchitecture.md` (v5.0) | DevOps Ã¢â‚¬â€ build system, toolchain, development workflow |
-| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment Ã¢â‚¬â€ environment matrix, zero-downtime, rollback |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security Ã¢â‚¬â€ CI/CD security gates, secret management |
-| `.github/workflows/ci.yml` | Actual workflow file (source of truth) |
-| `scripts/validate-mermaid.js` | Mermaid diagram validation script |
-| `package.json` | Scripts and dependencies |
+| Reference                                           | Description                                                                        |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `docs/05-architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ Ã‚Â§9 Deployment Architecture, CI/CD pipeline topology |
+| `docs/21-operations/DevOpsArchitecture.md` (v5.0)   | DevOps Ã¢â‚¬â€ build system, toolchain, development workflow                       |
+| `docs/21-operations/DeploymentGuide.md` (v5.0)      | Deployment Ã¢â‚¬â€ environment matrix, zero-downtime, rollback                     |
+| `docs/11-security/SecurityArchitecture.md` (v5.0)   | Security Ã¢â‚¬â€ CI/CD security gates, secret management                           |
+| `.github/workflows/ci.yml`                          | Actual workflow file (source of truth)                                             |
+| `scripts/validate-mermaid.js`                       | Mermaid diagram validation script                                                  |
+| `package.json`                                      | Scripts and dependencies                                                           |
 
 ---
 
-*Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade CI/CD*  
-*Supersedes v3.0 (June 2026) and all previous versions*  
-*Next Review Date: September 2026*
+_Document Version: 4.0 Ã¢â‚¬â€ Enterprise-Grade CI/CD_  
+_Supersedes v3.0 (June 2026) and all previous versions_  
+_Next Review Date: September 2026_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

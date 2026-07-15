@@ -2,7 +2,7 @@
 
 > **Document:** `ci-cd-pipeline-strategy.md` | **Version:** 1.0 | **Last Updated:** July 2026
 > **Status:** Draft | **Owner:** DevOps Lead | **Review Cadence:** Quarterly
-> **Related:** [Environment Strategy](./environment-matrix.md) | [Container Strategy](./container-strategy.md) | [DORA Metrics](../operations/dora-metrics.md) | [Deployment Guide](../operations/DeploymentGuide.md)
+> **Related:** [Environment Strategy](./environment-matrix.md) | [Container Strategy](./container-strategy.md) | [DORA Metrics](../21-operations/dora-metrics.md) | [Deployment Guide](../21-operations/DeploymentGuide.md)
 
 ---
 
@@ -38,14 +38,14 @@ The CI/CD pipeline is the backbone of our delivery process. Every code change tr
 
 ### 1.2 Developer Experience Goals
 
-| Goal | Target | Measurement |
-|------|--------|-------------|
-| Pipeline duration (CI) | < 8 minutes | Workflow run time |
-| Pipeline duration (PR) | < 15 minutes | Workflow run time |
-| First feedback (lint) | < 30 seconds | Time to lint job completion |
-| Deployment frequency | Multiple times daily | Deploys per day |
-| Change failure rate | < 5% | Deployments requiring remediation |
-| Mean time to recovery | < 1 hour | Time from incident to fix in production |
+| Goal                   | Target               | Measurement                             |
+| ---------------------- | -------------------- | --------------------------------------- |
+| Pipeline duration (CI) | < 8 minutes          | Workflow run time                       |
+| Pipeline duration (PR) | < 15 minutes         | Workflow run time                       |
+| First feedback (lint)  | < 30 seconds         | Time to lint job completion             |
+| Deployment frequency   | Multiple times daily | Deploys per day                         |
+| Change failure rate    | < 5%                 | Deployments requiring remediation       |
+| Mean time to recovery  | < 1 hour             | Time from incident to fix in production |
 
 ---
 
@@ -55,30 +55,30 @@ The CI/CD pipeline is the backbone of our delivery process. Every code change tr
 
 The project currently has three CI/CD workflow definitions:
 
-| Workflow | Location | Trigger | Stages | Issues |
-|----------|----------|---------|--------|--------|
-| `ci.yml` | `.github/workflows/ci.yml` | Push to main/master/develop + tags `v*` | Lint, typecheck, test (ci.yml line 28-33), build, Prisma validate, Docker build & push (API + Web) | Tests run with `continue-on-error: true` for web; no coverage thresholds; no Postgres service container |
-| `pr.yml` | `.github/workflows/pr.yml` | PR to main/master/develop | Lint, typecheck, test (with `continue-on-error: true` for web), build, Prisma validate + migrate (dry-run) | No E2E tests; no bundle analysis; tests allowed to fail for web |
-| `ci.yml` | `infrastructure/ci/ci.yml` | Push to main/develop + PR to main | Lint, typecheck, build, deploy to Vercel | **Orphaned** Ã¢â‚¬â€ uses `amondnet/vercel-action@v25`, legacy Node 20, outdated path references (frontend/.next) |
+| Workflow | Location                   | Trigger                                 | Stages                                                                                                     | Issues                                                                                                            |
+| -------- | -------------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `ci.yml` | `.github/workflows/ci.yml` | Push to main/master/develop + tags `v*` | Lint, typecheck, test (ci.yml line 28-33), build, Prisma validate, Docker build & push (API + Web)         | Tests run with `continue-on-error: true` for web; no coverage thresholds; no Postgres service container           |
+| `pr.yml` | `.github/workflows/pr.yml` | PR to main/master/develop               | Lint, typecheck, test (with `continue-on-error: true` for web), build, Prisma validate + migrate (dry-run) | No E2E tests; no bundle analysis; tests allowed to fail for web                                                   |
+| `ci.yml` | `infrastructure/ci/ci.yml` | Push to main/develop + PR to main       | Lint, typecheck, build, deploy to Vercel                                                                   | **Orphaned** Ã¢â‚¬â€ uses `amondnet/vercel-action@v25`, legacy Node 20, outdated path references (frontend/.next) |
 
 ### 2.2 Gap Analysis
 
-| Capability | Current State | Target State | Gap |
-|------------|--------------|--------------|-----|
-| **Lint** | Ã¢Å“â€¦ Present in all workflows | ESLint with `--max-warnings=0` | No `--max-warnings=0` enforced |
-| **Typecheck** | Ã¢Å“â€¦ Present in all workflows | `tsc --noEmit` with strict mode | No strict mode flag |
-| **Unit tests** | Ã¢Å¡Â Ã¯Â¸Â Partial Ã¢â‚¬â€ run but allowed to fail for web | Must pass, coverage threshold 40%+ | `continue-on-error: true` for web; no coverage enforcement |
-| **Integration tests** | Ã¢ÂÅ’ Not run in CI | Jest/Supertest against test DB | Missing |
-| **E2E tests** | Ã¢ÂÅ’ Not run in CI | Playwright against preview deployment | Missing entirely |
-| **Coverage reporting** | Ã¢ÂÅ’ Not collected | Published to PR comments | Missing |
-| **Build** | Ã¢Å“â€¦ Present in all workflows | Turbo build with cache | Uses per-workspace build (not turbo `--filter`) |
-| **Docker build** | Ã¢Å“â€¦ Present in `ci.yml` only | multi-arch with buildx caching | Only on push to main/tags, not on PR |
-| **Security scan** | Ã¢ÂÅ’ Not present | CodeQL + npm audit + Trivy | Missing entirely |
-| **Bundle analysis** | Ã¢ÂÅ’ Not present | @next/bundle-analyzer on PR | Missing |
-| **Deploy to Vercel** | Ã¢Å¡Â Ã¯Â¸Â Legacy workflow only | Vercel CLI with environment promotion | Old `amondnet/vercel-action` in orphaned workflow |
-| **Postgres service** | Ã¢ÂÅ’ Not configured | GitHub Actions service container | Missing |
-| **Dependabot** | Ã¢ÂÅ’ Not configured | Auto-create PRs for vulnerable deps | Missing |
-| **CodeQL** | Ã¢ÂÅ’ Not configured | GitHub CodeQL analysis on push | Missing |
+| Capability             | Current State                                               | Target State                          | Gap                                                        |
+| ---------------------- | ----------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------- |
+| **Lint**               | Ã¢Å“â€¦ Present in all workflows                            | ESLint with `--max-warnings=0`        | No `--max-warnings=0` enforced                             |
+| **Typecheck**          | Ã¢Å“â€¦ Present in all workflows                            | `tsc --noEmit` with strict mode       | No strict mode flag                                        |
+| **Unit tests**         | Ã¢Å¡Â Ã¯Â¸Â Partial Ã¢â‚¬â€ run but allowed to fail for web | Must pass, coverage threshold 40%+    | `continue-on-error: true` for web; no coverage enforcement |
+| **Integration tests**  | Ã¢ÂÅ’ Not run in CI                                         | Jest/Supertest against test DB        | Missing                                                    |
+| **E2E tests**          | Ã¢ÂÅ’ Not run in CI                                         | Playwright against preview deployment | Missing entirely                                           |
+| **Coverage reporting** | Ã¢ÂÅ’ Not collected                                         | Published to PR comments              | Missing                                                    |
+| **Build**              | Ã¢Å“â€¦ Present in all workflows                            | Turbo build with cache                | Uses per-workspace build (not turbo `--filter`)            |
+| **Docker build**       | Ã¢Å“â€¦ Present in `ci.yml` only                            | multi-arch with buildx caching        | Only on push to main/tags, not on PR                       |
+| **Security scan**      | Ã¢ÂÅ’ Not present                                           | CodeQL + npm audit + Trivy            | Missing entirely                                           |
+| **Bundle analysis**    | Ã¢ÂÅ’ Not present                                           | @next/bundle-analyzer on PR           | Missing                                                    |
+| **Deploy to Vercel**   | Ã¢Å¡Â Ã¯Â¸Â Legacy workflow only                            | Vercel CLI with environment promotion | Old `amondnet/vercel-action` in orphaned workflow          |
+| **Postgres service**   | Ã¢ÂÅ’ Not configured                                        | GitHub Actions service container      | Missing                                                    |
+| **Dependabot**         | Ã¢ÂÅ’ Not configured                                        | Auto-create PRs for vulnerable deps   | Missing                                                    |
+| **CodeQL**             | Ã¢ÂÅ’ Not configured                                        | GitHub CodeQL analysis on push        | Missing                                                    |
 
 ### 2.3 Pipeline Inventory
 
@@ -96,10 +96,10 @@ infrastructure/
 
 ### 2.4 Test Configuration Summary
 
-| App | Framework | Has Tests? | Coverage Tool | E2E Framework |
-|-----|-----------|------------|--------------|---------------|
-| `apps/api` | Jest 30 + Supertest | Yes (incl. e2e tests) | Jest `--coverage` | Jest e2e config |
-| `apps/web` | Vitest 4 | Yes (unit + component) | Vitest `--coverage` | Playwright |
+| App        | Framework           | Has Tests?             | Coverage Tool       | E2E Framework   |
+| ---------- | ------------------- | ---------------------- | ------------------- | --------------- |
+| `apps/api` | Jest 30 + Supertest | Yes (incl. e2e tests)  | Jest `--coverage`   | Jest e2e config |
+| `apps/web` | Vitest 4            | Yes (unit + component) | Vitest `--coverage` | Playwright      |
 
 ---
 
@@ -220,11 +220,11 @@ flowchart TB
 
 The target architecture uses three GitHub Actions workflow files:
 
-| Workflow | File | Trigger | Scope |
-|----------|------|---------|-------|
-| **CI** | `.github/workflows/ci.yml` | Push to `main`, `develop` + tags `v*` | Quality gates Ã¢â€ â€™ Docker build/push Ã¢â€ â€™ Security scan |
-| **PR** | `.github/workflows/pr.yml` | Pull requests to `main`, `develop` | Full suite + E2E + Bundle analysis + Coverage comment |
-| **Deploy** | `.github/workflows/deploy.yml` | Push to `main` (after CI passes) + manual workflow_dispatch | Vercel deploy + Post-deploy smoke tests |
+| Workflow   | File                           | Trigger                                                     | Scope                                                           |
+| ---------- | ------------------------------ | ----------------------------------------------------------- | --------------------------------------------------------------- |
+| **CI**     | `.github/workflows/ci.yml`     | Push to `main`, `develop` + tags `v*`                       | Quality gates Ã¢â€ â€™ Docker build/push Ã¢â€ â€™ Security scan |
+| **PR**     | `.github/workflows/pr.yml`     | Pull requests to `main`, `develop`                          | Full suite + E2E + Bundle analysis + Coverage comment           |
+| **Deploy** | `.github/workflows/deploy.yml` | Push to `main` (after CI passes) + manual workflow_dispatch | Vercel deploy + Post-deploy smoke tests                         |
 
 ### 3.4 Dependency Graph
 
@@ -248,18 +248,18 @@ Deploy Workflow:
 
 ### 4.1 Stage Matrix
 
-| Stage | Tool | Est. Time | Fail Criteria | Caching Strategy |
-|-------|------|-----------|--------------|-------------------|
-| Lint | ESLint (with `--max-warnings=0`) | 1 min | Any lint error or warning | ESLint cache file |
-| Typecheck | `tsc --noEmit` (strict mode) | 2 min | Any type error | `tsBuildInfoFile` incremental |
-| Unit Test | Jest (api) / Vitest (web) | 3 min | Any test failure; coverage < 40% global | Jest/Vitest cache |
-| Integration Test | Jest + Supertest | 5 min | Any test failure | Postgres service container |
-| Build | Turborepo | 5 min | Any build failure | Turborepo remote caching |
-| E2E (PR only) | Playwright | 8 min | Any test failure | Playwright browser cache |
-| Docker Build | Docker buildx | 3 min | Build failure | GitHub Actions cache (type=gha) |
-| Security Scan | npm audit + CodeQL | 2 min | Critical or high vulnerabilities | CodeQL database cache |
-| Bundle Analysis | `@next/bundle-analyzer` | 1 min | Bundle size budget exceeded | Next.js build cache |
-| Deploy | Vercel CLI | 3 min | Deploy failure | N/A |
+| Stage            | Tool                             | Est. Time | Fail Criteria                           | Caching Strategy                |
+| ---------------- | -------------------------------- | --------- | --------------------------------------- | ------------------------------- |
+| Lint             | ESLint (with `--max-warnings=0`) | 1 min     | Any lint error or warning               | ESLint cache file               |
+| Typecheck        | `tsc --noEmit` (strict mode)     | 2 min     | Any type error                          | `tsBuildInfoFile` incremental   |
+| Unit Test        | Jest (api) / Vitest (web)        | 3 min     | Any test failure; coverage < 40% global | Jest/Vitest cache               |
+| Integration Test | Jest + Supertest                 | 5 min     | Any test failure                        | Postgres service container      |
+| Build            | Turborepo                        | 5 min     | Any build failure                       | Turborepo remote caching        |
+| E2E (PR only)    | Playwright                       | 8 min     | Any test failure                        | Playwright browser cache        |
+| Docker Build     | Docker buildx                    | 3 min     | Build failure                           | GitHub Actions cache (type=gha) |
+| Security Scan    | npm audit + CodeQL               | 2 min     | Critical or high vulnerabilities        | CodeQL database cache           |
+| Bundle Analysis  | `@next/bundle-analyzer`          | 1 min     | Bundle size budget exceeded             | Next.js build cache             |
+| Deploy           | Vercel CLI                       | 3 min     | Deploy failure                          | N/A                             |
 
 ### 4.2 Detailed Stage Specifications
 
@@ -442,13 +442,13 @@ Rollback: vercel rollback $DEPLOY_URL (manual trigger)
 
 ### 5.1 Environment Matrix
 
-| Environment | Provisioning | Database | Deploy Trigger | URL |
-|-------------|-------------|----------|---------------|-----|
-| **Development** | Local machine | Local Postgres (Docker) | Manual | `localhost:3000` |
-| **CI** | Ephemeral GHA runner | Postgres service container | git push | N/A (runner) |
-| **Preview** | Vercel preview | Ephemeral (CI Postgres) | PR opened/synchronized | `pr-<number>.vercel.app` |
-| **Staging** | Vercel staging | Supabase staging DB | Merge to `main` | `staging.portfolio.dev` |
-| **Production** | Vercel production | Supabase production DB | Release tag | `portfolio.dev` |
+| Environment     | Provisioning         | Database                   | Deploy Trigger         | URL                      |
+| --------------- | -------------------- | -------------------------- | ---------------------- | ------------------------ |
+| **Development** | Local machine        | Local Postgres (Docker)    | Manual                 | `localhost:3000`         |
+| **CI**          | Ephemeral GHA runner | Postgres service container | git push               | N/A (runner)             |
+| **Preview**     | Vercel preview       | Ephemeral (CI Postgres)    | PR opened/synchronized | `pr-<number>.vercel.app` |
+| **Staging**     | Vercel staging       | Supabase staging DB        | Merge to `main`        | `staging.portfolio.dev`  |
+| **Production**  | Vercel production    | Supabase production DB     | Release tag            | `portfolio.dev`          |
 
 ### 5.2 Development Environment
 
@@ -511,7 +511,7 @@ Environment variables:
   - Inherited from Vercel project (development overrides)
   - NEXT_PUBLIC_API_URL Ã¢â€ â€™ staging API
 
-Database: 
+Database:
   - Ephemeral database for E2E tests (spun up in CI)
   - Staging database for preview (shared, read-only for preview)
 
@@ -556,7 +556,7 @@ Database: Supabase production project
   - Zero-downtime migration strategy
   - Point-in-time recovery enabled
 
-Monitoring: 
+Monitoring:
   - Sentry for error tracking
   - OpenTelemetry for traces
   - Custom dashboards for business metrics
@@ -588,56 +588,56 @@ Compliance:
 
 ### 6.2 Quality Gate: Feature Branch Ã¢â€ â€™ PR
 
-| Gate | Requirement | Enforcement |
-|------|-------------|-------------|
-| Pre-commit | Husky + lint-staged pass | Local git hook |
-| Branch name | `feature/*`, `fix/*`, `chore/*` | GitHub branch rules |
-| Commit messages | Conventional Commits | Commitlint (optional) |
+| Gate            | Requirement                     | Enforcement           |
+| --------------- | ------------------------------- | --------------------- |
+| Pre-commit      | Husky + lint-staged pass        | Local git hook        |
+| Branch name     | `feature/*`, `fix/*`, `chore/*` | GitHub branch rules   |
+| Commit messages | Conventional Commits            | Commitlint (optional) |
 
 ### 6.3 Quality Gate: PR Ã¢â€ â€™ Main
 
-| Gate | Requirement | Blocking |
-|------|-------------|----------|
-| CI passing | All stages green (lint, typecheck, test, build) | Ã¢Å“â€¦ Yes |
-| Coverage | >= 40% global, no decrease from base | Ã¢Å“â€¦ Yes |
-| E2E tests | All Playwright tests pass | Ã¢Å“â€¦ Yes |
-| Bundle analysis | No budget exceeded | Ã¢Å¡Â Ã¯Â¸Â Warning (configurable to block) |
-| Security scan | No critical/high vulns | Ã¢Å“â€¦ Yes |
-| Code review | At least 1 approval | Ã¢Å“â€¦ Yes |
-| Branch up to date | Must be rebased on latest main | Ã¢Å“â€¦ Yes |
-| Commit signing | All commits signed | Ã¢Å¡Â Ã¯Â¸Â Recommended |
+| Gate              | Requirement                                     | Blocking                                    |
+| ----------------- | ----------------------------------------------- | ------------------------------------------- |
+| CI passing        | All stages green (lint, typecheck, test, build) | Ã¢Å“â€¦ Yes                                 |
+| Coverage          | >= 40% global, no decrease from base            | Ã¢Å“â€¦ Yes                                 |
+| E2E tests         | All Playwright tests pass                       | Ã¢Å“â€¦ Yes                                 |
+| Bundle analysis   | No budget exceeded                              | Ã¢Å¡Â Ã¯Â¸Â Warning (configurable to block) |
+| Security scan     | No critical/high vulns                          | Ã¢Å“â€¦ Yes                                 |
+| Code review       | At least 1 approval                             | Ã¢Å“â€¦ Yes                                 |
+| Branch up to date | Must be rebased on latest main                  | Ã¢Å“â€¦ Yes                                 |
+| Commit signing    | All commits signed                              | Ã¢Å¡Â Ã¯Â¸Â Recommended                     |
 
 ### 6.4 Quality Gate: Main Ã¢â€ â€™ Staging
 
-| Step | Action | Automation |
-|------|--------|------------|
-| 1 | CI passes on main | Automatic (GitHub Actions) |
-| 2 | Auto-deploy to Vercel staging | Automatic (deploy workflow) |
-| 3 | Health check passes | Automatic (curl endpoint) |
-| 4 | Smoke tests pass | Automatic (2-min suite) |
-| 5 | Database migration applied | Automatic (Supabase CLI) |
-| 6 | Cache warmed | Automatic (ISR revalidation) |
+| Step | Action                        | Automation                   |
+| ---- | ----------------------------- | ---------------------------- |
+| 1    | CI passes on main             | Automatic (GitHub Actions)   |
+| 2    | Auto-deploy to Vercel staging | Automatic (deploy workflow)  |
+| 3    | Health check passes           | Automatic (curl endpoint)    |
+| 4    | Smoke tests pass              | Automatic (2-min suite)      |
+| 5    | Database migration applied    | Automatic (Supabase CLI)     |
+| 6    | Cache warmed                  | Automatic (ISR revalidation) |
 
 ### 6.5 Quality Gate: Staging Ã¢â€ â€™ Production
 
-| Step | Action | Who |
-|------|--------|-----|
-| 1 | Staging verification complete | CI (auto) |
-| 2 | Release candidate tagged (`v*`) | Developer (manual) |
-| 3 | Release notes generated | CI (auto from commits) |
-| 4 | Manual approval | DevOps Lead or Tech Lead |
-| 5 | Production deploy | Vercel (auto after approval) |
-| 6 | Post-deploy smoke tests | CI (auto) |
-| 7 | Rollback if smoke tests fail | CI (auto) |
+| Step | Action                          | Who                          |
+| ---- | ------------------------------- | ---------------------------- |
+| 1    | Staging verification complete   | CI (auto)                    |
+| 2    | Release candidate tagged (`v*`) | Developer (manual)           |
+| 3    | Release notes generated         | CI (auto from commits)       |
+| 4    | Manual approval                 | DevOps Lead or Tech Lead     |
+| 5    | Production deploy               | Vercel (auto after approval) |
+| 6    | Post-deploy smoke tests         | CI (auto)                    |
+| 7    | Rollback if smoke tests fail    | CI (auto)                    |
 
 ### 6.6 Rollback Strategy
 
-| Scenario | Action | Time |
-|----------|--------|------|
-| Smoke test failure | Auto-rollback via Vercel CLI | < 2 min |
-| Elevated error rate (5 min) | Auto-rollback via Sentry + GitHub API | < 5 min |
-| Manual incident | `vercel rollback` or GitHub workflow | < 1 min |
-| Bad database migration | Manual restore from backup | < 15 min |
+| Scenario                    | Action                                | Time     |
+| --------------------------- | ------------------------------------- | -------- |
+| Smoke test failure          | Auto-rollback via Vercel CLI          | < 2 min  |
+| Elevated error rate (5 min) | Auto-rollback via Sentry + GitHub API | < 5 min  |
+| Manual incident             | `vercel rollback` or GitHub workflow  | < 1 min  |
+| Bad database migration      | Manual restore from backup            | < 15 min |
 
 **Rollback procedure:**
 
@@ -655,15 +655,15 @@ gh workflow run rollback.yml --ref main
 
 ### 7.1 Security Controls Overview
 
-| Control | Stage | Tool | Automation | Blocking |
-|---------|-------|------|------------|----------|
-| Dependency scanning | Post-install | `npm audit --audit-level=high` | CI on every push | Blocks on critical/high |
-| Static analysis | Post-build | CodeQL (`javascript-typescript`) | CI on every push | Blocks on error-level alerts |
-| Container scanning | Post-Docker-build | Trivy (GitHub container scan) | CI on main push | Blocks on critical CVEs |
-| Secret detection | Pre-commit | GitHub secret scanning | On every push | Blocks on credential patterns |
-| Dependabot | Scheduled | Dependabot alerts + auto-PR | Daily | Auto-creates PR for vulnerable deps |
-| SBOM generation | Post-build | `npm sbom` / CycloneDX | CI on release tag | Non-blocking |
-| Supply chain attestation | Post-build | Sigstore/cosign (future) | CI on release tag | Future |
+| Control                  | Stage             | Tool                             | Automation        | Blocking                            |
+| ------------------------ | ----------------- | -------------------------------- | ----------------- | ----------------------------------- |
+| Dependency scanning      | Post-install      | `npm audit --audit-level=high`   | CI on every push  | Blocks on critical/high             |
+| Static analysis          | Post-build        | CodeQL (`javascript-typescript`) | CI on every push  | Blocks on error-level alerts        |
+| Container scanning       | Post-Docker-build | Trivy (GitHub container scan)    | CI on main push   | Blocks on critical CVEs             |
+| Secret detection         | Pre-commit        | GitHub secret scanning           | On every push     | Blocks on credential patterns       |
+| Dependabot               | Scheduled         | Dependabot alerts + auto-PR      | Daily             | Auto-creates PR for vulnerable deps |
+| SBOM generation          | Post-build        | `npm sbom` / CycloneDX           | CI on release tag | Non-blocking                        |
+| Supply chain attestation | Post-build        | Sigstore/cosign (future)         | CI on release tag | Future                              |
 
 ### 7.2 npm Audit Configuration
 
@@ -676,6 +676,7 @@ gh workflow run rollback.yml --ref main
 ```
 
 **Exception process:** If a high/critical vulnerability cannot be immediately resolved:
+
 1. Create a GitHub issue documenting the vulnerability
 2. Add `npm audit --audit-level=high --json | jq '.vulnerabilities | length'` as a non-blocking warning
 3. Document the exception in the SecurityExceptions register
@@ -695,6 +696,7 @@ gh workflow run rollback.yml --ref main
 ```
 
 **Scope:** All JavaScript and TypeScript code in the repository, excluding:
+
 - `node_modules/`
 - Generated code (Prisma client in `generated/`)
 - Build output (`dist/`, `.next/`)
@@ -749,16 +751,16 @@ updates:
 
 ### 7.6 Secrets Management
 
-| Secret | Storage | Rotation | Access Scope |
-|--------|---------|----------|-------------|
-| `VERCEL_TOKEN` | GitHub Actions secret | 90 days | Deploy workflow |
-| `VERCEL_ORG_ID` | GitHub Actions secret | Static | Deploy workflow |
-| `VERCEL_PROJECT_ID` | GitHub Actions secret | Static | Deploy workflow |
-| `DOCKER_USERNAME` | GitHub Actions secret | Static | Docker build |
-| `DOCKER_PASSWORD` | GitHub Actions secret | 90 days | Docker build |
-| `SENTRY_AUTH_TOKEN` | GitHub Actions secret | 90 days | Build workflow |
-| `TURBO_TOKEN` | GitHub Actions secret | 90 days | All workflows (cache) |
-| `TURBO_TEAM` | GitHub Actions secret | Static | All workflows (cache) |
+| Secret              | Storage               | Rotation | Access Scope          |
+| ------------------- | --------------------- | -------- | --------------------- |
+| `VERCEL_TOKEN`      | GitHub Actions secret | 90 days  | Deploy workflow       |
+| `VERCEL_ORG_ID`     | GitHub Actions secret | Static   | Deploy workflow       |
+| `VERCEL_PROJECT_ID` | GitHub Actions secret | Static   | Deploy workflow       |
+| `DOCKER_USERNAME`   | GitHub Actions secret | Static   | Docker build          |
+| `DOCKER_PASSWORD`   | GitHub Actions secret | 90 days  | Docker build          |
+| `SENTRY_AUTH_TOKEN` | GitHub Actions secret | 90 days  | Build workflow        |
+| `TURBO_TOKEN`       | GitHub Actions secret | 90 days  | All workflows (cache) |
+| `TURBO_TEAM`        | GitHub Actions secret | Static   | All workflows (cache) |
 
 **Principle:** Tokens are scoped to the minimum permissions required. No production secrets are exposed to CI Ã¢â‚¬â€ the Vercel deploy step uses a project-scoped deploy token, not a user token.
 
@@ -768,17 +770,17 @@ updates:
 
 ### 8.1 Pipeline Observability
 
-| Metric | Source | Collection | Dashboard |
-|--------|--------|------------|-----------|
-| Pipeline duration | GitHub Actions API | Per-workflow run | Grafana / GitHub Insights |
-| Stage duration | GitHub Actions API | Per-job run | Grafana / GitHub Insights |
-| Pass/fail rate | GitHub Actions API | Per-workflow | GitHub Actions Insights |
-| Flaky test rate | CI artifact (JUnit XML) | Per-test run | Custom dashboard |
-| Coverage percentage | Jest/Vitest output | Per-push | PR comment + artifact |
-| Deployment frequency | Vercel API / GitHub deployments | Per-deploy | DORA metrics dashboard |
-| Change failure rate | Sentry / PagerDuty | Post-deploy | DORA metrics dashboard |
-| Lead time for change | GitHub API (commit Ã¢â€ â€™ deploy) | Per-deploy | DORA metrics dashboard |
-| MTTR | Incident management tool | Per-incident | DORA metrics dashboard |
+| Metric               | Source                              | Collection       | Dashboard                 |
+| -------------------- | ----------------------------------- | ---------------- | ------------------------- |
+| Pipeline duration    | GitHub Actions API                  | Per-workflow run | Grafana / GitHub Insights |
+| Stage duration       | GitHub Actions API                  | Per-job run      | Grafana / GitHub Insights |
+| Pass/fail rate       | GitHub Actions API                  | Per-workflow     | GitHub Actions Insights   |
+| Flaky test rate      | CI artifact (JUnit XML)             | Per-test run     | Custom dashboard          |
+| Coverage percentage  | Jest/Vitest output                  | Per-push         | PR comment + artifact     |
+| Deployment frequency | Vercel API / GitHub deployments     | Per-deploy       | DORA metrics dashboard    |
+| Change failure rate  | Sentry / PagerDuty                  | Post-deploy      | DORA metrics dashboard    |
+| Lead time for change | GitHub API (commit Ã¢â€ â€™ deploy) | Per-deploy       | DORA metrics dashboard    |
+| MTTR                 | Incident management tool            | Per-incident     | DORA metrics dashboard    |
 
 ### 8.2 CI Artifacts
 
@@ -839,12 +841,12 @@ The pipeline posts automated comments to PRs with:
 
 ### 8.4 DORA Metrics Tracking
 
-| Metric | Definition | Target | Measurement |
-|--------|-----------|--------|-------------|
-| **Deployment Frequency** | Number of deployments to production per day | Multiple per day | Count of successful Vercel production deploys / day |
-| **Lead Time for Change** | Time from commit to production | < 1 hour | GitHub: time from merge commit to deploy completion |
-| **Mean Time to Recovery (MTTR)** | Time to restore service after incident | < 1 hour | PagerDuty / incident response: time from alert to fix |
-| **Change Failure Rate** | % of deploys causing degraded service | < 5% | Deployments with Sentry alert / total deploys * 100 |
+| Metric                           | Definition                                  | Target           | Measurement                                           |
+| -------------------------------- | ------------------------------------------- | ---------------- | ----------------------------------------------------- |
+| **Deployment Frequency**         | Number of deployments to production per day | Multiple per day | Count of successful Vercel production deploys / day   |
+| **Lead Time for Change**         | Time from commit to production              | < 1 hour         | GitHub: time from merge commit to deploy completion   |
+| **Mean Time to Recovery (MTTR)** | Time to restore service after incident      | < 1 hour         | PagerDuty / incident response: time from alert to fix |
+| **Change Failure Rate**          | % of deploys causing degraded service       | < 5%             | Deployments with Sentry alert / total deploys \* 100  |
 
 **Implementation:** DORA metrics are computed weekly via a scheduled workflow that queries the GitHub API and Vercel API, posting results to a Slack channel and a Grafana dashboard.
 
@@ -856,7 +858,7 @@ A scheduled workflow runs weekly to compare build times against a 14-day rolling
 name: Pipeline Performance Review
 on:
   schedule:
-    - cron: '0 9 * * 1'  # Monday 9 AM
+    - cron: '0 9 * * 1' # Monday 9 AM
 
 jobs:
   analyze:
@@ -876,25 +878,25 @@ jobs:
 
 ### 9.1 Migration Phases
 
-| Phase | Tasks | Duration | Risk |
-|-------|-------|----------|------|
-| **Phase 1: Foundation** | Move CI workflow, fix lint/typecheck deps, add test enforcement | 2 days | Low |
-| **Phase 2: Testing** | Add Postgres service, integration tests, coverage thresholds | 3 days | Medium |
-| **Phase 3: Security** | Add CodeQL, npm audit, Dependabot config, secret scanning | 2 days | Low |
-| **Phase 4: Advanced** | Add E2E tests, bundle analysis, PR comments, performance tracking | 3 days | Medium |
-| **Phase 5: Polish** | Archive legacy workflows, DORA metrics, documentation finalization | 1 day | Low |
+| Phase                   | Tasks                                                              | Duration | Risk   |
+| ----------------------- | ------------------------------------------------------------------ | -------- | ------ |
+| **Phase 1: Foundation** | Move CI workflow, fix lint/typecheck deps, add test enforcement    | 2 days   | Low    |
+| **Phase 2: Testing**    | Add Postgres service, integration tests, coverage thresholds       | 3 days   | Medium |
+| **Phase 3: Security**   | Add CodeQL, npm audit, Dependabot config, secret scanning          | 2 days   | Low    |
+| **Phase 4: Advanced**   | Add E2E tests, bundle analysis, PR comments, performance tracking  | 3 days   | Medium |
+| **Phase 5: Polish**     | Archive legacy workflows, DORA metrics, documentation finalization | 1 day    | Low    |
 
 ### 9.2 Phase 1 Ã¢â‚¬â€ Foundation (Days 1-2)
 
 **Tasks:**
 
-| # | Task | Details | Verification |
-|---|------|---------|-------------|
-| 1.1 | Remove `dependsOn: ["^build"]` from `lint` and `typecheck` in `turbo.json` | Allows lint and typecheck to run independently, enabling fail-fast | `npm run lint` completes without triggering build |
-| 1.2 | Consolidate CI workflow into `.github/workflows/ci.yml` | Move logic from `infrastructure/ci/ci.yml` into the active workflows | All existing functionality preserved |
-| 1.3 | Remove `continue-on-error: true` from test steps | Tests must now fail the pipeline instead of being informational | A deliberately broken test fails the workflow |
-| 1.4 | Add `--max-warnings=0` to lint commands | No warnings allowed | ESLint warning causes workflow failure |
-| 1.5 | Standardize Node version to 22 across all workflows | Ensures consistency between local and CI environments | All workflows use `node-version: 22` |
+| #   | Task                                                                       | Details                                                              | Verification                                      |
+| --- | -------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------- |
+| 1.1 | Remove `dependsOn: ["^build"]` from `lint` and `typecheck` in `turbo.json` | Allows lint and typecheck to run independently, enabling fail-fast   | `npm run lint` completes without triggering build |
+| 1.2 | Consolidate CI workflow into `.github/workflows/ci.yml`                    | Move logic from `infrastructure/ci/ci.yml` into the active workflows | All existing functionality preserved              |
+| 1.3 | Remove `continue-on-error: true` from test steps                           | Tests must now fail the pipeline instead of being informational      | A deliberately broken test fails the workflow     |
+| 1.4 | Add `--max-warnings=0` to lint commands                                    | No warnings allowed                                                  | ESLint warning causes workflow failure            |
+| 1.5 | Standardize Node version to 22 across all workflows                        | Ensures consistency between local and CI environments                | All workflows use `node-version: 22`              |
 
 **Workflow changes:**
 
@@ -909,14 +911,14 @@ jobs:
 
 **Tasks:**
 
-| # | Task | Details | Verification |
-|---|------|---------|-------------|
-| 2.1 | Add Postgres service container to CI workflows | 16-alpine image with health check, exposed on port 5432 | Integration test connects to service container |
-| 2.2 | Add Prisma migration step to CI (before tests) | `npx prisma migrate deploy` against service container DB | Migrations run without error |
-| 2.3 | Add integration test target to `apps/api` | `npm run test:integration` script using Supertest | Integration tests pass against real Postgres |
-| 2.4 | Add coverage thresholds (40% global minimum) | Jest/Vitest config with `coverageThreshold` | Code with < 40% coverage fails CI |
-| 2.5 | Add `test` task to `turbo.json` | Enables `turbo run test` for directed graph | `turbo run test` executes all test suites |
-| 2.6 | Add coverage artifact upload | Upload `coverage/` and `lcov.info` to CI artifacts | Coverage reports available in workflow run |
+| #   | Task                                           | Details                                                  | Verification                                   |
+| --- | ---------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------- |
+| 2.1 | Add Postgres service container to CI workflows | 16-alpine image with health check, exposed on port 5432  | Integration test connects to service container |
+| 2.2 | Add Prisma migration step to CI (before tests) | `npx prisma migrate deploy` against service container DB | Migrations run without error                   |
+| 2.3 | Add integration test target to `apps/api`      | `npm run test:integration` script using Supertest        | Integration tests pass against real Postgres   |
+| 2.4 | Add coverage thresholds (40% global minimum)   | Jest/Vitest config with `coverageThreshold`              | Code with < 40% coverage fails CI              |
+| 2.5 | Add `test` task to `turbo.json`                | Enables `turbo run test` for directed graph              | `turbo run test` executes all test suites      |
+| 2.6 | Add coverage artifact upload                   | Upload `coverage/` and `lcov.info` to CI artifacts       | Coverage reports available in workflow run     |
 
 **Workflow additions (`.github/workflows/ci.yml`):**
 
@@ -954,13 +956,13 @@ steps:
 
 **Tasks:**
 
-| # | Task | Details | Verification |
-|---|------|---------|-------------|
-| 3.1 | Add CodeQL workflow | `.github/workflows/codeql.yml` scanning on push + schedule | CodeQL results appear in Security tab |
-| 3.2 | Add `npm audit` step to CI workflows | Runs after `npm ci`, blocks on high/critical | Deliberately vulnerable dependency fails CI |
-| 3.3 | Create Dependabot config | `.github/dependabot.yml` for npm, Docker, GitHub Actions | Dependabot PRs created for outdated deps |
-| 3.4 | Add Trivy scan to Docker build jobs | Scan image before pushing to registry | Trivy results in CI artifacts |
-| 3.5 | Verify GitHub secret scanning | Enabled in repo settings | Test commit with fake secret shows alert |
+| #   | Task                                 | Details                                                    | Verification                                |
+| --- | ------------------------------------ | ---------------------------------------------------------- | ------------------------------------------- |
+| 3.1 | Add CodeQL workflow                  | `.github/workflows/codeql.yml` scanning on push + schedule | CodeQL results appear in Security tab       |
+| 3.2 | Add `npm audit` step to CI workflows | Runs after `npm ci`, blocks on high/critical               | Deliberately vulnerable dependency fails CI |
+| 3.3 | Create Dependabot config             | `.github/dependabot.yml` for npm, Docker, GitHub Actions   | Dependabot PRs created for outdated deps    |
+| 3.4 | Add Trivy scan to Docker build jobs  | Scan image before pushing to registry                      | Trivy results in CI artifacts               |
+| 3.5 | Verify GitHub secret scanning        | Enabled in repo settings                                   | Test commit with fake secret shows alert    |
 
 **New file: `.github/workflows/codeql.yml`**
 
@@ -973,7 +975,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 6 * * 3'  # Weekly on Wednesday
+    - cron: '0 6 * * 3' # Weekly on Wednesday
 
 jobs:
   analyze:
@@ -1002,13 +1004,13 @@ jobs:
 
 **Tasks:**
 
-| # | Task | Details | Verification |
-|---|------|---------|-------------|
-| 4.1 | Add Playwright E2E tests to PR workflow | Runs against preview deployment or local server | E2E tests pass in CI |
-| 4.2 | Add bundle analysis step to PR workflow | `ANALYZE=true next build` with budget thresholds | Bundle report uploaded as artifact |
-| 4.3 | Add automated PR comment with coverage summary | Using `github-script` to post coverage data | Coverage summary appears on PR |
-| 4.4 | Add bundle size diff comment to PR | Compare against base branch | Bundle diff appears on PR |
-| 4.5 | Create Deploy workflow | `.github/workflows/deploy.yml` for Vercel deployment | Deploy succeeds on merge to main |
+| #   | Task                                           | Details                                              | Verification                       |
+| --- | ---------------------------------------------- | ---------------------------------------------------- | ---------------------------------- |
+| 4.1 | Add Playwright E2E tests to PR workflow        | Runs against preview deployment or local server      | E2E tests pass in CI               |
+| 4.2 | Add bundle analysis step to PR workflow        | `ANALYZE=true next build` with budget thresholds     | Bundle report uploaded as artifact |
+| 4.3 | Add automated PR comment with coverage summary | Using `github-script` to post coverage data          | Coverage summary appears on PR     |
+| 4.4 | Add bundle size diff comment to PR             | Compare against base branch                          | Bundle diff appears on PR          |
+| 4.5 | Create Deploy workflow                         | `.github/workflows/deploy.yml` for Vercel deployment | Deploy succeeds on merge to main   |
 
 **New file: `.github/workflows/deploy.yml`**
 
@@ -1031,7 +1033,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      
+
       - name: Deploy to Vercel
         run: npx vercel --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
@@ -1048,25 +1050,25 @@ jobs:
 
 **Tasks:**
 
-| # | Task | Details | Verification |
-|---|------|---------|-------------|
-| 5.1 | Archive `infrastructure/ci/ci.yml` | Move to `infrastructure/ci/archived/` with README note | Legacy workflow not triggered |
-| 5.2 | Add DORA metrics tracking workflow | Weekly aggregation of deploy frequency, lead time, etc. | Metrics dashboard populated |
-| 5.3 | Add Turborepo remote caching configuration | Set `TURBO_TOKEN` and `TURBO_TEAM` in all workflows | Cache hit on second workflow run |
-| 5.4 | Update pipeline documentation | Reflect changes in `docs/operations/25-CICD.md` and this document | Docs match workflow YAML |
-| 5.5 | Add pipeline health dashboard | Grafana or GitHub Pages dashboard showing pipeline metrics | Dashboard renders with live data |
+| #   | Task                                       | Details                                                              | Verification                     |
+| --- | ------------------------------------------ | -------------------------------------------------------------------- | -------------------------------- |
+| 5.1 | Archive `infrastructure/ci/ci.yml`         | Move to `infrastructure/ci/archived/` with README note               | Legacy workflow not triggered    |
+| 5.2 | Add DORA metrics tracking workflow         | Weekly aggregation of deploy frequency, lead time, etc.              | Metrics dashboard populated      |
+| 5.3 | Add Turborepo remote caching configuration | Set `TURBO_TOKEN` and `TURBO_TEAM` in all workflows                  | Cache hit on second workflow run |
+| 5.4 | Update pipeline documentation              | Reflect changes in `docs/21-operations/25-CICD.md` and this document | Docs match workflow YAML         |
+| 5.5 | Add pipeline health dashboard              | Grafana or GitHub Pages dashboard showing pipeline metrics           | Dashboard renders with live data |
 
 ### 9.7 Rollback Plan
 
 If a migration phase introduces issues:
 
-| Phase | Rollback Action | Impact |
-|-------|----------------|--------|
-| Phase 1 | Revert turbo.json changes; restore continue-on-error | Build order reverts; tests non-blocking again |
-| Phase 2 | Remove Postgres service from workflows; lower coverage threshold | Integration tests skip; coverage unenforced |
-| Phase 3 | Remove CodeQL workflow; remove npm audit step | Security scanning stops; no automated vulnerability detection |
-| Phase 4 | Remove E2E and bundle analysis steps from PR workflow | PR checks faster but less comprehensive |
-| Phase 5 | Restore infrastructure/ci/ci.yml; remove DORA tracking | Returns to original state |
+| Phase   | Rollback Action                                                  | Impact                                                        |
+| ------- | ---------------------------------------------------------------- | ------------------------------------------------------------- |
+| Phase 1 | Revert turbo.json changes; restore continue-on-error             | Build order reverts; tests non-blocking again                 |
+| Phase 2 | Remove Postgres service from workflows; lower coverage threshold | Integration tests skip; coverage unenforced                   |
+| Phase 3 | Remove CodeQL workflow; remove npm audit step                    | Security scanning stops; no automated vulnerability detection |
+| Phase 4 | Remove E2E and bundle analysis steps from PR workflow            | PR checks faster but less comprehensive                       |
+| Phase 5 | Restore infrastructure/ci/ci.yml; remove DORA tracking           | Returns to original state                                     |
 
 Each phase is designed to be independently rollback-able. No phase depends on a previous phase to maintain existing functionality.
 
@@ -1074,14 +1076,14 @@ Each phase is designed to be independently rollback-able. No phase depends on a 
 
 ## Appendix A: Workflow File Inventory
 
-| File | Status | Purpose |
-|------|--------|---------|
-| `.github/workflows/ci.yml` | Ã¢Å“â€¦ Active | Push-based CI (lint Ã¢â€ â€™ typecheck Ã¢â€ â€™ test Ã¢â€ â€™ build Ã¢â€ â€™ Docker) |
-| `.github/workflows/pr.yml` | Ã¢Å“â€¦ Active | PR validation (lint Ã¢â€ â€™ typecheck Ã¢â€ â€™ test Ã¢â€ â€™ build) |
-| `.github/workflows/deploy.yml` | Ã°Å¸â€â€ž Planned | Deploy to Vercel on merge to main |
-| `.github/workflows/codeql.yml` | Ã°Å¸â€â€ž Planned | CodeQL security analysis |
-| `.github/dependabot.yml` | Ã°Å¸â€â€ž Planned | Automated dependency updates |
-| `infrastructure/ci/ci.yml` | Ã°Å¸â€”â€žÃ¯Â¸Â Legacy (to archive) | Orphaned workflow from previous iteration |
+| File                           | Status                              | Purpose                                                                              |
+| ------------------------------ | ----------------------------------- | ------------------------------------------------------------------------------------ |
+| `.github/workflows/ci.yml`     | Ã¢Å“â€¦ Active                      | Push-based CI (lint Ã¢â€ â€™ typecheck Ã¢â€ â€™ test Ã¢â€ â€™ build Ã¢â€ â€™ Docker) |
+| `.github/workflows/pr.yml`     | Ã¢Å“â€¦ Active                      | PR validation (lint Ã¢â€ â€™ typecheck Ã¢â€ â€™ test Ã¢â€ â€™ build)                 |
+| `.github/workflows/deploy.yml` | Ã°Å¸â€â€ž Planned                   | Deploy to Vercel on merge to main                                                    |
+| `.github/workflows/codeql.yml` | Ã°Å¸â€â€ž Planned                   | CodeQL security analysis                                                             |
+| `.github/dependabot.yml`       | Ã°Å¸â€â€ž Planned                   | Automated dependency updates                                                         |
+| `infrastructure/ci/ci.yml`     | Ã°Å¸â€”â€žÃ¯Â¸Â Legacy (to archive) | Orphaned workflow from previous iteration                                            |
 
 ## Appendix B: Turbo.json Task Configuration
 
@@ -1122,21 +1124,22 @@ Current `turbo.json` with recommended changes:
 
 ## Appendix C: Key Decisions
 
-| ID | Decision | Rationale |
-|----|----------|-----------|
-| D-001 | Sequential quality gates with dependency chain | Fail-fast principle: no point testing code with type errors |
-| D-002 | E2E tests on PR only, not push | E2E tests take 8 min Ã¢â‚¬â€ too expensive for every push but essential for PR validation |
-| D-003 | Postgres service container instead of external test DB | Ephemeral containers are faster, cheaper, and more isolated than shared databases |
-| D-004 | 40% coverage threshold (starting) | Low enough to not block current work, high enough to prevent total neglect; ratchet up quarterly |
-| D-005 | Vercel for deployment (not self-hosted) | Existing infrastructure, preview deployments for every PR, no server management |
-| D-006 | Archive legacy workflow, not migrate | `infrastructure/ci/ci.yml` uses outdated patterns (Node 20, amondnet/vercel-action, frontend/.next path) Ã¢â‚¬â€ cleaner to replace |
+| ID    | Decision                                               | Rationale                                                                                                                           |
+| ----- | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- |
+| D-001 | Sequential quality gates with dependency chain         | Fail-fast principle: no point testing code with type errors                                                                         |
+| D-002 | E2E tests on PR only, not push                         | E2E tests take 8 min Ã¢â‚¬â€ too expensive for every push but essential for PR validation                                           |
+| D-003 | Postgres service container instead of external test DB | Ephemeral containers are faster, cheaper, and more isolated than shared databases                                                   |
+| D-004 | 40% coverage threshold (starting)                      | Low enough to not block current work, high enough to prevent total neglect; ratchet up quarterly                                    |
+| D-005 | Vercel for deployment (not self-hosted)                | Existing infrastructure, preview deployments for every PR, no server management                                                     |
+| D-006 | Archive legacy workflow, not migrate                   | `infrastructure/ci/ci.yml` uses outdated patterns (Node 20, amondnet/vercel-action, frontend/.next path) Ã¢â‚¬â€ cleaner to replace |
 
 ---
 
-*Document Version: 1.0 Ã¢â‚¬â€ CI/CD Pipeline Strategy*  
-*Next Review Date: October 2026*  
-*Author: DevOps Lead*
+_Document Version: 1.0 Ã¢â‚¬â€ CI/CD Pipeline Strategy_  
+_Next Review Date: October 2026_  
+_Author: DevOps Lead_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

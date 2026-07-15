@@ -229,5 +229,6 @@ A release is considered "Done" when ALL of the following are true:
 | Performance regression undetected | Low        | High   | Lighthouse CI on every PR, k6 weekly                       |
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

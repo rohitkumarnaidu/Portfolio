@@ -2,7 +2,7 @@
 
 > **Document:** `InfrastructureAsCode.md` | **Version:** 2.0 | **Last Updated:** July 2026  
 > **Status:** Ã¢Å“â€¦ Active | **Owner:** Engineering Lead | **Review Cadence:** Quarterly  
-> **Related:** [EnvironmentStrategy.md](./EnvironmentStrategy.md) | `docs/devops/container-strategy.md` | `docs/devops/environment-matrix.md`
+> **Related:** [EnvironmentStrategy.md](./EnvironmentStrategy.md) | `docs/12-devops/container-strategy.md` | `docs/12-devops/environment-matrix.md`
 
 ---
 
@@ -12,13 +12,13 @@ Infrastructure as Code ensures every piece of infrastructure Ã¢â‚¬â€ 
 
 ## 2. IaC Philosophy
 
-| Principle | Practice |
-|-----------|----------|
-| **Everything in Git** | Every config file, pipeline definition, and schema lives in the monorepo |
-| **Reproducible** | Any environment can be recreated from scratch using committed IaC |
-| **Immutable deployments** | Infrastructure is replaced, not modified in-place |
-| **Least privilege** | Provisioned resources have minimum required permissions |
-| **Secret-free code** | No secrets in configuration files; always injected at deploy time |
+| Principle                 | Practice                                                                 |
+| ------------------------- | ------------------------------------------------------------------------ |
+| **Everything in Git**     | Every config file, pipeline definition, and schema lives in the monorepo |
+| **Reproducible**          | Any environment can be recreated from scratch using committed IaC        |
+| **Immutable deployments** | Infrastructure is replaced, not modified in-place                        |
+| **Least privilege**       | Provisioned resources have minimum required permissions                  |
+| **Secret-free code**      | No secrets in configuration files; always injected at deploy time        |
 
 ## 3. Current IaC Scope
 
@@ -27,6 +27,7 @@ Infrastructure as Code ensures every piece of infrastructure Ã¢â‚¬â€ 
 **File:** `infrastructure/docker/docker-compose.yml`
 
 Defines the full local development stack:
+
 - `api` Ã¢â‚¬â€ NestJS on port 3001 (mapped to 4000)
 - `web` Ã¢â‚¬â€ Next.js on port 3000
 - `ai` Ã¢â‚¬â€ FastAPI on port 8000
@@ -37,13 +38,14 @@ Defines the full local development stack:
 
 ### 3.2 Dockerfiles (Container Images)
 
-| Service | File | Base Image | Strategy |
-|---------|------|------------|----------|
-| API | `apps/api/Dockerfile` | `node:22-alpine` | Multi-stage (build Ã¢â€ â€™ prod deps) |
-| Web | `apps/web/Dockerfile` | `node:22-alpine` | Multi-stage (standalone output) |
-| AI | `apps/ai/Dockerfile` | `python:3.12-slim` | Multi-stage |
+| Service | File                  | Base Image         | Strategy                               |
+| ------- | --------------------- | ------------------ | -------------------------------------- |
+| API     | `apps/api/Dockerfile` | `node:22-alpine`   | Multi-stage (build Ã¢â€ â€™ prod deps) |
+| Web     | `apps/web/Dockerfile` | `node:22-alpine`   | Multi-stage (standalone output)        |
+| AI      | `apps/ai/Dockerfile`  | `python:3.12-slim` | Multi-stage                            |
 
 **Best practices enforced:**
+
 - Multi-stage builds for minimal image size (API ~250MB, Web ~300MB, AI ~500MB)
 - Non-root user execution
 - Health check endpoints
@@ -55,13 +57,14 @@ Defines the full local development stack:
 
 **Directory:** `.github/workflows/`
 
-| Workflow | File | Trigger |
-|----------|------|---------|
-| CI (Quality + Test) | `ci.yml` | PR and push to `main` |
-| Docker Build & Push | `docker.yml` | Push to `main`, tags `v*` |
-| Deploy (Vercel) | Vercel integration (separate from workflows) | Push to `main` |
+| Workflow            | File                                         | Trigger                   |
+| ------------------- | -------------------------------------------- | ------------------------- |
+| CI (Quality + Test) | `ci.yml`                                     | PR and push to `main`     |
+| Docker Build & Push | `docker.yml`                                 | Push to `main`, tags `v*` |
+| Deploy (Vercel)     | Vercel integration (separate from workflows) | Push to `main`            |
 
 **Pipeline stages defined in code:**
+
 1. `quality` Ã¢â‚¬â€ lint + typecheck + test (api + web)
 2. `prisma-validate` Ã¢â‚¬â€ Prisma schema validation
 3. `docker-api` / `docker-web` Ã¢â‚¬â€ build + push to ghcr.io (depends on quality + prisma-validate)
@@ -71,6 +74,7 @@ Defines the full local development stack:
 **File:** `vercel.json` (root or per-app)
 
 Defines:
+
 - Route rewrites and redirects
 - Headers (CORS, security, COOP/COEP for Sandbox)
 - Caching behavior (Cache-Control policies)
@@ -84,6 +88,7 @@ Defines:
 **File:** `apps/api/prisma/schema.prisma`
 
 The complete database schema as code:
+
 - Tables, enums, relations, indexes
 - Custom SQL functions (pgvector similarity search)
 - Row Level Security (RLS) policies as raw SQL migrations
@@ -93,23 +98,23 @@ The complete database schema as code:
 
 ### 4.1 How Configuration Is Managed
 
-| Resource | Tool | Where Defined |
-|----------|------|--------------|
-| Local dev environment | Docker Compose | `infrastructure/docker/docker-compose.yml` |
-| Local env vars | `.env` files | `config/.env` (gitignored template at `.env.example`) |
-| CI secrets | GitHub Secrets | GitHub repo settings |
-| Vercel deploy vars | Vercel dashboard + CLI | Per-project env var section |
-| Supabase config | Supabase dashboard + CLI | Per-project settings |
-| Database schema | Prisma | `apps/api/prisma/schema.prisma` |
+| Resource              | Tool                     | Where Defined                                         |
+| --------------------- | ------------------------ | ----------------------------------------------------- |
+| Local dev environment | Docker Compose           | `infrastructure/docker/docker-compose.yml`            |
+| Local env vars        | `.env` files             | `config/.env` (gitignored template at `.env.example`) |
+| CI secrets            | GitHub Secrets           | GitHub repo settings                                  |
+| Vercel deploy vars    | Vercel dashboard + CLI   | Per-project env var section                           |
+| Supabase config       | Supabase dashboard + CLI | Per-project settings                                  |
+| Database schema       | Prisma                   | `apps/api/prisma/schema.prisma`                       |
 
 ### 4.2 Configuration Drift Management
 
-| Risk | Detection Method | Remediation |
-|------|-----------------|-------------|
-| Env var mismatch | Compare .env.example vs actual env lists | Run `vc env list` and diff against template |
-| DB schema drift | `prisma validate` + `prisma migrate diff` | Run `prisma migrate deploy` |
-| Docker image drift | Compare local vs CI builds | Rebuild from `docker-compose.yml` |
-| Pipeline config drift | Review `.github/workflows/` for stale jobs | Update workflows in PR |
+| Risk                  | Detection Method                           | Remediation                                 |
+| --------------------- | ------------------------------------------ | ------------------------------------------- |
+| Env var mismatch      | Compare .env.example vs actual env lists   | Run `vc env list` and diff against template |
+| DB schema drift       | `prisma validate` + `prisma migrate diff`  | Run `prisma migrate deploy`                 |
+| Docker image drift    | Compare local vs CI builds                 | Rebuild from `docker-compose.yml`           |
+| Pipeline config drift | Review `.github/workflows/` for stale jobs | Update workflows in PR                      |
 
 **Monthly drift audit:** First week of each month, run automated comparison scripts between documented config and actual config. Document any drift in GitHub Issue.
 
@@ -117,20 +122,20 @@ The complete database schema as code:
 
 ### Short-term (Q3 2026)
 
-| Goal | Status |
-|------|--------|
-| Migrate env vars from Vercel dashboard to `vc env` CLI commands committed to repo | Planned |
-| Add `docker-compose.ci.yml` for consistent CI database setup | Not started |
-| Document all Supabase project settings in code (SQL scripts) | Not started |
+| Goal                                                                              | Status      |
+| --------------------------------------------------------------------------------- | ----------- |
+| Migrate env vars from Vercel dashboard to `vc env` CLI commands committed to repo | Planned     |
+| Add `docker-compose.ci.yml` for consistent CI database setup                      | Not started |
+| Document all Supabase project settings in code (SQL scripts)                      | Not started |
 
 ### Medium-term (Q4 2026 Ã¢â‚¬â€œ Q1 2027)
 
-| Goal | Tool | Scope |
-|------|------|-------|
-| Cloud infrastructure provisioning | Terraform (or Pulumi) | Supabase projects, Vercel projects, DNS |
-| Container orchestration | Kubernetes (or Nomad) | API + AI services for scaling |
-| Config packaging | Helm charts | K8s config for all stateless services |
-| Secret management | HashiCorp Vault (or Doppler) | Centralized, audited secret injection |
+| Goal                              | Tool                         | Scope                                   |
+| --------------------------------- | ---------------------------- | --------------------------------------- |
+| Cloud infrastructure provisioning | Terraform (or Pulumi)        | Supabase projects, Vercel projects, DNS |
+| Container orchestration           | Kubernetes (or Nomad)        | API + AI services for scaling           |
+| Config packaging                  | Helm charts                  | K8s config for all stateless services   |
+| Secret management                 | HashiCorp Vault (or Doppler) | Centralized, audited secret injection   |
 
 ### Long-term Vision
 
@@ -164,13 +169,13 @@ The complete database schema as code:
 
 ### 6.2 Secret Storage by Type
 
-| Secret Type | Storage | Rotation |
-|-------------|---------|----------|
-| API keys (OpenAI, Anthropic, Resend) | GitHub Secrets + Vercel env vars | 90 days |
-| Database URLs | GitHub Secrets + Vercel env vars | On credential change |
-| JWT signing keys | GitHub Secrets+ Vercel env vars | 90 days |
-| OAuth client secrets | GitHub Secrets + Vercel env vars | On provider change |
-| Supabase service keys | GitHub Secrets + Vercel env vars | 90 days |
+| Secret Type                          | Storage                          | Rotation             |
+| ------------------------------------ | -------------------------------- | -------------------- |
+| API keys (OpenAI, Anthropic, Resend) | GitHub Secrets + Vercel env vars | 90 days              |
+| Database URLs                        | GitHub Secrets + Vercel env vars | On credential change |
+| JWT signing keys                     | GitHub Secrets+ Vercel env vars  | 90 days              |
+| OAuth client secrets                 | GitHub Secrets + Vercel env vars | On provider change   |
+| Supabase service keys                | GitHub Secrets + Vercel env vars | 90 days              |
 
 ### 6.3 Secret Injection Flow
 
@@ -265,5 +270,6 @@ sequenceDiagram
 ```
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

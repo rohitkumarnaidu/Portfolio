@@ -19,13 +19,13 @@ The Portfolio platform currently uses **Vercel's default deployment model**: eve
 
 **Limitations of the current approach:**
 
-| Issue | Impact |
-|-------|--------|
-| No zero-downtime guarantee | Brief 503 during deployment cutover |
-| No traffic splitting | Cannot canary-roll new versions |
-| Rollback = redeploy old version | 3Ã¢â‚¬â€œ5 minute rollback window |
-| No pre-production validation on live infra | Bugs discovered post-deploy |
-| Database migrations risk downtime | Schema changes may lock tables |
+| Issue                                      | Impact                              |
+| ------------------------------------------ | ----------------------------------- |
+| No zero-downtime guarantee                 | Brief 503 during deployment cutover |
+| No traffic splitting                       | Cannot canary-roll new versions     |
+| Rollback = redeploy old version            | 3Ã¢â‚¬â€œ5 minute rollback window   |
+| No pre-production validation on live infra | Bugs discovered post-deploy         |
+| Database migrations risk downtime          | Schema changes may lock tables      |
 
 ### 1.2 Why Blue/Green?
 
@@ -91,15 +91,15 @@ graph TB
 
 ### 2.2 Environment Definitions
 
-| Property | Blue | Green |
-|----------|------|-------|
-| **Role** | Current production | Staged replacement |
-| **Traffic** | 100% live traffic | 0% (verification only) |
-| **Vercel Project** | `portfolio-prod-blue` | `portfolio-prod-green` |
-| **Domain** | `portfolio.dev` | `green.portfolio.dev` |
-| **Database** | Read/write access | Read/write access (same primary) |
-| **AI Service** | Production instance | Production instance (shared) |
-| **Redis** | Production instance | Production instance (shared) |
+| Property           | Blue                  | Green                            |
+| ------------------ | --------------------- | -------------------------------- |
+| **Role**           | Current production    | Staged replacement               |
+| **Traffic**        | 100% live traffic     | 0% (verification only)           |
+| **Vercel Project** | `portfolio-prod-blue` | `portfolio-prod-green`           |
+| **Domain**         | `portfolio.dev`       | `green.portfolio.dev`            |
+| **Database**       | Read/write access     | Read/write access (same primary) |
+| **AI Service**     | Production instance   | Production instance (shared)     |
+| **Redis**          | Production instance   | Production instance (shared)     |
 
 ### 2.3 Database Strategy
 
@@ -111,7 +111,7 @@ Green Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Primary DB (read/writ
        Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Read Replica (read-heavy verification queries)
 ```
 
-**Critical rule:** Green runs database migrations *before* traffic switch, but only backward-compatible migrations are allowed (see Ã‚Â§6).
+**Critical rule:** Green runs database migrations _before_ traffic switch, but only backward-compatible migrations are allowed (see Ã‚Â§6).
 
 ---
 
@@ -205,14 +205,14 @@ Green Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Primary DB (read/writ
 
 ### 4.2 Switch Timing
 
-| Step | Duration | Cumulative |
-|------|----------|------------|
-| CI pipeline | ~8 min | ~8 min |
-| Deploy Green | ~3 min | ~11 min |
-| Verification | ~10 min | ~21 min |
-| Traffic switch | <30 sec | ~21.5 min |
-| Post-switch monitoring | 15 min | ~36.5 min |
-| **Total (no issues)** | **~37 min** | |
+| Step                   | Duration    | Cumulative |
+| ---------------------- | ----------- | ---------- |
+| CI pipeline            | ~8 min      | ~8 min     |
+| Deploy Green           | ~3 min      | ~11 min    |
+| Verification           | ~10 min     | ~21 min    |
+| Traffic switch         | <30 sec     | ~21.5 min  |
+| Post-switch monitoring | 15 min      | ~36.5 min  |
+| **Total (no issues)**  | **~37 min** |            |
 
 ### 4.3 Key Properties
 
@@ -229,13 +229,13 @@ Green Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€“Âº Primary DB (read/writ
 
 Vercel does not natively support blue/green deployments. We implement it using **two Vercel projects** and **Cloudflare load balancing**:
 
-| Resource | Blue | Green |
-|----------|------|-------|
-| Vercel Project | `portfolio-prod-blue` | `portfolio-prod-green` |
-| Production Domain | `blue.portfolio.dev` | `green.portfolio.dev` |
-| Vercel Environment | Production | Production |
-| Build Command | `npm run build` | `npm run build` |
-| Output Dir | `.next` | `.next` |
+| Resource           | Blue                  | Green                  |
+| ------------------ | --------------------- | ---------------------- |
+| Vercel Project     | `portfolio-prod-blue` | `portfolio-prod-green` |
+| Production Domain  | `blue.portfolio.dev`  | `green.portfolio.dev`  |
+| Vercel Environment | Production            | Production             |
+| Build Command      | `npm run build`       | `npm run build`        |
+| Output Dir         | `.next`               | `.next`                |
 
 ### 5.2 Cloudflare Configuration
 
@@ -277,13 +277,13 @@ vercel list --scope portfolio --project portfolio-prod-green
 
 **All database migrations must be backward-compatible.** This means the schema at any point must work with both the old (Blue) and new (Green) application code.
 
-| Ã¢Å“â€¦ Allowed | Ã¢ÂÅ’ Not Allowed |
-|-----------|---------------|
-| Adding a nullable column | Dropping a column |
-| Adding a table | Renaming a column |
-| Creating an index | Adding a NOT NULL column without default |
-| Adding an enum value | Removing an enum value |
-| Expanding a column type | Contracting a column type |
+| Ã¢Å“â€¦ Allowed          | Ã¢ÂÅ’ Not Allowed                        |
+| ------------------------ | ---------------------------------------- |
+| Adding a nullable column | Dropping a column                        |
+| Adding a table           | Renaming a column                        |
+| Creating an index        | Adding a NOT NULL column without default |
+| Adding an enum value     | Removing an enum value                   |
+| Expanding a column type  | Contracting a column type                |
 
 ### 6.2 Expand-Contract Pattern
 
@@ -339,11 +339,11 @@ psql "$DATABASE_REPLICA_URL" -c "SELECT now() - pg_last_xact_replay_timestamp() 
 
 Use the existing `FeatureFlagService` (defined in `apps/api/src/modules/feature-flags/`) to gate functionality that should only activate after a successful switch:
 
-| Flag | Purpose | Auto-enabled on switch |
-|------|---------|----------------------|
-| `blue-green-migration-complete` | Gates new code paths that depend on migration | Yes |
-| `new-homepage-layout` | Experimental layout in new build | Manual |
-| `ai-chat-v2` | Updated AI chat implementation | Manual |
+| Flag                            | Purpose                                       | Auto-enabled on switch |
+| ------------------------------- | --------------------------------------------- | ---------------------- |
+| `blue-green-migration-complete` | Gates new code paths that depend on migration | Yes                    |
+| `new-homepage-layout`           | Experimental layout in new build              | Manual                 |
+| `ai-chat-v2`                    | Updated AI chat implementation                | Manual                 |
 
 ### 7.2 Automated Flag Toggle
 
@@ -412,13 +412,13 @@ Phase 4: Post-Switch Verification
 
 ### 8.2 Canary Metric Thresholds
 
-| Metric | Warning | Fail | Action |
-|--------|---------|------|--------|
-| Error rate increase | >0.5% | >2% | Abort switch |
-| P95 latency increase | >500ms | >1000ms | Abort switch |
-| 5xx rate | >1% | >5% | Abort switch |
-| Throughput drop | >10% | >25% | Abort switch |
-| Active users | Drop >5% | Drop >15% | Abort switch |
+| Metric               | Warning  | Fail      | Action       |
+| -------------------- | -------- | --------- | ------------ |
+| Error rate increase  | >0.5%    | >2%       | Abort switch |
+| P95 latency increase | >500ms   | >1000ms   | Abort switch |
+| 5xx rate             | >1%      | >5%       | Abort switch |
+| Throughput drop      | >10%     | >25%      | Abort switch |
+| Active users         | Drop >5% | Drop >15% | Abort switch |
 
 ---
 
@@ -426,13 +426,13 @@ Phase 4: Post-Switch Verification
 
 ### 9.1 When to Roll Back
 
-| Trigger | Action |
-|---------|--------|
-| Error rate increase > 2% during canary | Stop canary, do not switch |
-| Error rate increase > 2% after switch | Roll back immediately |
-| Database migration failure | Stop deployment, fix migration |
-| Security vulnerability discovered | Roll back immediately |
-| Critical feature broken in smoke tests | Do not switch |
+| Trigger                                | Action                         |
+| -------------------------------------- | ------------------------------ |
+| Error rate increase > 2% during canary | Stop canary, do not switch     |
+| Error rate increase > 2% after switch  | Roll back immediately          |
+| Database migration failure             | Stop deployment, fix migration |
+| Security vulnerability discovered      | Roll back immediately          |
+| Critical feature broken in smoke tests | Do not switch                  |
 
 ### 9.2 Rollback Steps
 
@@ -455,20 +455,20 @@ curl https://portfolio.dev/api/health/readiness
 
 ### 9.3 Rollback Timing
 
-| Step | Duration |
-|------|----------|
-| Cloudflare LB update | <30 seconds |
-| DB migration revert | 1Ã¢â‚¬â€œ5 minutes |
-| Health verification | 1 minute |
-| **Total rollback time** | **<6 minutes** |
+| Step                    | Duration           |
+| ----------------------- | ------------------ |
+| Cloudflare LB update    | <30 seconds        |
+| DB migration revert     | 1Ã¢â‚¬â€œ5 minutes |
+| Health verification     | 1 minute           |
+| **Total rollback time** | **<6 minutes**     |
 
 ### 9.4 Blue Retention Policy
 
-| Duration | Retention |
-|----------|-----------|
-| 0Ã¢â‚¬â€œ24 hours | Full environment running |
+| Duration           | Retention                                     |
+| ------------------ | --------------------------------------------- |
+| 0Ã¢â‚¬â€œ24 hours  | Full environment running                      |
 | 24Ã¢â‚¬â€œ72 hours | Environment paused, container images retained |
-| 72+ hours | Environment destroyed, images in registry |
+| 72+ hours          | Environment destroyed, images in registry     |
 
 ---
 
@@ -500,24 +500,24 @@ During the traffic switch, the on-call engineer monitors the following:
 
 ### 10.2 Key Metrics
 
-| Metric | Source | Expected | Action Threshold |
-|--------|--------|----------|------------------|
-| Error rate (5xx) | Vercel Analytics | <0.1% | >2% |
-| API response time (P95) | Sentry Performance | <200ms | >1000ms |
-| Requests per second | Cloudflare Analytics | Baseline Ã‚Â±10% | >25% drop |
-| Active WebSocket connections | Railway | Baseline Ã‚Â±5% | >15% drop |
-| Database CPU | Supabase Dashboard | <60% | >80% |
-| Database connection count | Supabase Dashboard | <50 | >80 |
-| Memory usage (Green) | Vercel Dashboard | <512MB | >1GB |
+| Metric                       | Source               | Expected         | Action Threshold |
+| ---------------------------- | -------------------- | ---------------- | ---------------- |
+| Error rate (5xx)             | Vercel Analytics     | <0.1%            | >2%              |
+| API response time (P95)      | Sentry Performance   | <200ms           | >1000ms          |
+| Requests per second          | Cloudflare Analytics | Baseline Ã‚Â±10% | >25% drop        |
+| Active WebSocket connections | Railway              | Baseline Ã‚Â±5%  | >15% drop        |
+| Database CPU                 | Supabase Dashboard   | <60%             | >80%             |
+| Database connection count    | Supabase Dashboard   | <50              | >80              |
+| Memory usage (Green)         | Vercel Dashboard     | <512MB           | >1GB             |
 
 ### 10.3 Alert Rules During Switch
 
-| Condition | Action |
-|-----------|--------|
-| Error rate > 2% for 30 seconds | Auto-abort switch, roll back |
-| P95 latency > 1s for 60 seconds | Notify on-call |
-| Database CPU > 80% for 120 seconds | Notify on-call |
-| Any health check fails | Auto-abort switch |
+| Condition                          | Action                       |
+| ---------------------------------- | ---------------------------- |
+| Error rate > 2% for 30 seconds     | Auto-abort switch, roll back |
+| P95 latency > 1s for 60 seconds    | Notify on-call               |
+| Database CPU > 80% for 120 seconds | Notify on-call               |
+| Any health check fails             | Auto-abort switch            |
 
 ---
 
@@ -580,31 +580,32 @@ curl -s https://portfolio.dev/api/health/readiness | jq .
 
 ## 12. Risk Analysis
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Database migration incompatible | Low | Critical | Expand-contract pattern, automated compatibility checks |
-| Traffic switch partial failure | Low | High | Automated rollback on failed health check |
-| Green environment misconfigured | Medium | Medium | Infrastructure-as-code, environment parity |
-| Canary metrics misleading | Low | Low | 5-minute canary window, multiple metric thresholds |
-| Cloudflare LB propagation delay | Low | Low | 120s TTL, verify propagation before Green drain |
+| Risk                            | Likelihood | Impact   | Mitigation                                              |
+| ------------------------------- | ---------- | -------- | ------------------------------------------------------- |
+| Database migration incompatible | Low        | Critical | Expand-contract pattern, automated compatibility checks |
+| Traffic switch partial failure  | Low        | High     | Automated rollback on failed health check               |
+| Green environment misconfigured | Medium     | Medium   | Infrastructure-as-code, environment parity              |
+| Canary metrics misleading       | Low        | Low      | 5-minute canary window, multiple metric thresholds      |
+| Cloudflare LB propagation delay | Low        | Low      | 120s TTL, verify propagation before Green drain         |
 
 ---
 
 ## 13. Phased Rollout Plan
 
-| Phase | Scope | Timeline |
-|-------|-------|----------|
-| **Phase 1** | Manual blue/green with Cloudflare LB | Month 1 |
-| **Phase 2** | Automated pipeline integration | Month 2 |
-| **Phase 3** | Canary releases with automatic rollback | Month 3 |
-| **Phase 4** | Multi-region blue/green | Month 6 |
+| Phase       | Scope                                   | Timeline |
+| ----------- | --------------------------------------- | -------- |
+| **Phase 1** | Manual blue/green with Cloudflare LB    | Month 1  |
+| **Phase 2** | Automated pipeline integration          | Month 2  |
+| **Phase 3** | Canary releases with automatic rollback | Month 3  |
+| **Phase 4** | Multi-region blue/green                 | Month 6  |
 
 ---
 
-*Document Version: 1.0 Ã¢â‚¬â€ Blue/Green Deployment Strategy*
-*Last Updated: July 2026*
-*Next Review Date: October 2026*
+_Document Version: 1.0 Ã¢â‚¬â€ Blue/Green Deployment Strategy_
+_Last Updated: July 2026_
+_Next Review Date: October 2026_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

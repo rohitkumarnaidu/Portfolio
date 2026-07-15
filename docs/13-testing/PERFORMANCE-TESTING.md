@@ -9,12 +9,12 @@ The Ultimate Portfolio must deliver a premium, high-performance experience. Web 
 
 ## 2. Performance Budgets
 
-| Metric                       | Target            | Measurement Tool      | CI Enforcement |
-| ---------------------------- | ----------------- | --------------------- | -------------- |
+| Metric                       | Target            | Measurement Tool      | CI Enforcement      |
+| ---------------------------- | ----------------- | --------------------- | ------------------- |
 | LCP                          | < 2.5s            | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
 | FID / INP                    | < 100ms / < 200ms | Lighthouse CI + RUM   | Ã¢Å“â€¦ Fail build  |
 | CLS                          | < 0.1             | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
-| TTFB                         | < 200ms           | Lighthouse CI         | Ã¢Å¡Â Ã¯Â¸Â Warning     |
+| TTFB                         | < 200ms           | Lighthouse CI         | Ã¢Å¡Â Ã¯Â¸Â Warning |
 | First Contentful Paint       | < 1.8s            | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
 | Time to Interactive          | < 3.5s            | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
 | Lighthouse Performance       | >= 90             | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
@@ -22,7 +22,7 @@ The Ultimate Portfolio must deliver a premium, high-performance experience. Web 
 | Lighthouse Best Practices    | >= 90             | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
 | Lighthouse SEO               | >= 95             | Lighthouse CI         | Ã¢Å“â€¦ Fail build  |
 | Bundle size (critical route) | < 150KB gzipped   | @next/bundle-analyzer | Ã¢Å“â€¦ Fail build  |
-| API P95 latency              | < 150ms           | k6                    | Ã¢Å¡Â Ã¯Â¸Â Warning     |
+| API P95 latency              | < 150ms           | k6                    | Ã¢Å¡Â Ã¯Â¸Â Warning |
 | AI TTFT                      | < 1.0s            | k6                    | Ã¢Å“â€¦ Fail build  |
 
 ## 3. Frontend Performance (Web Ã¢â‚¬â€ Next.js)
@@ -228,5 +228,6 @@ sequenceDiagram
 5. **Documentation:** Root cause and fix recorded in PR description.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

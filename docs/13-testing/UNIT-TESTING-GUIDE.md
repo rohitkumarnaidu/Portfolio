@@ -99,7 +99,10 @@ describe('SectionsService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         SectionsService,
-        { provide: PrismaService, useValue: { section: { findMany: jest.fn(), findUnique: jest.fn() } } },
+        {
+          provide: PrismaService,
+          useValue: { section: { findMany: jest.fn(), findUnique: jest.fn() } },
+        },
       ],
     }).compile();
     service = module.get(SectionsService);
@@ -187,7 +190,9 @@ describe('useDebounce', () => {
     });
     rerender({ value: 'world' });
     expect(result.current).toBe('hello'); // not debounced yet
-    act(() => { vi.advanceTimersByTime(500); });
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
     expect(result.current).toBe('world');
     vi.useRealTimers();
   });
@@ -196,14 +201,14 @@ describe('useDebounce', () => {
 
 ## 4. Mocking Strategies
 
-| Scenario | API (Jest) | Web (Vitest) |
-|----------|-----------|-------------|
-| Module mock | `jest.mock('module-name')` | `vi.mock('module-name')` |
-| Function spy | `jest.spyOn(obj, 'method')` | `vi.spyOn(obj, 'method')` |
-| Timer mock | `jest.useFakeTimers()` | `vi.useFakeTimers()` |
-| Fetch mock | Not needed (supertest) | MSW handlers or `vi.fn()` |
-| Router mock | N/A | `vi.mock('next/navigation')` |
-| 3D canvas mock | N/A | `vi.mock('@react-three/fiber')` |
+| Scenario       | API (Jest)                  | Web (Vitest)                    |
+| -------------- | --------------------------- | ------------------------------- |
+| Module mock    | `jest.mock('module-name')`  | `vi.mock('module-name')`        |
+| Function spy   | `jest.spyOn(obj, 'method')` | `vi.spyOn(obj, 'method')`       |
+| Timer mock     | `jest.useFakeTimers()`      | `vi.useFakeTimers()`            |
+| Fetch mock     | Not needed (supertest)      | MSW handlers or `vi.fn()`       |
+| Router mock    | N/A                         | `vi.mock('next/navigation')`    |
+| 3D canvas mock | N/A                         | `vi.mock('@react-three/fiber')` |
 
 ## 5. Running Tests
 
@@ -221,21 +226,22 @@ npm test -- src/hooks/useDebounce.test.ts  # Single file
 
 ## 6. Coverage Enforcement
 
-| Layer | Lines | Branches | Functions | Statements |
-|-------|-------|----------|-----------|------------|
-| API Services | 80% | 75% | 85% | 80% |
-| API Controllers | 50% | 40% | 50% | 50% |
-| Web Components | 60% | 50% | 60% | 60% |
-| Web Hooks | 80% | 75% | 85% | 80% |
-| Web Utilities | 90% | 85% | 95% | 90% |
-| Shared packages | 95% | 90% | 95% | 95% |
+| Layer           | Lines | Branches | Functions | Statements |
+| --------------- | ----- | -------- | --------- | ---------- |
+| API Services    | 80%   | 75%      | 85%       | 80%        |
+| API Controllers | 50%   | 40%      | 50%       | 50%        |
+| Web Components  | 60%   | 50%      | 60%       | 60%        |
+| Web Hooks       | 80%   | 75%      | 85%       | 80%        |
+| Web Utilities   | 90%   | 85%      | 95%       | 90%        |
+| Shared packages | 95%   | 90%      | 95%       | 95%        |
 
 Coverage is enforced in CI via `coverage.thresholds` in Jest/Vitest config. The pipeline fails if any threshold is not met.
 
 ---
 
-*Document Version: 1.0 | Last Updated: July 2026*
+_Document Version: 1.0 | Last Updated: July 2026_
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system

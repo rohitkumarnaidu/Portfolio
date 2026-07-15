@@ -118,8 +118,8 @@ A review may be triggered earlier if:
 
 ### 7.3 Current Evaluation Schedule
 
-| Dependency     | Last Reviewed | Next Review | Status  |
-| -------------- | ------------- | ----------- | ------- |
+| Dependency     | Last Reviewed | Next Review | Status       |
+| -------------- | ------------- | ----------- | ------------ |
 | Zustand        | 2026-07       | 2027-01     | Ã¢Å“â€¦ Pass |
 | TanStack Query | 2026-07       | 2027-01     | Ã¢Å“â€¦ Pass |
 | Zod            | 2026-07       | 2027-07     | Ã¢Å“â€¦ Pass |
@@ -151,5 +151,6 @@ For AI model and prompt evaluation, additional criteria apply:
 Poorly rated responses are anonymized, reviewed weekly, and added to the Golden Dataset.
 
 ## Cross-References
+
 - [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
 - [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
