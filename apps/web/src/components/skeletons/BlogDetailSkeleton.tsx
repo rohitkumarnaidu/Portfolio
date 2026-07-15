@@ -7,7 +7,11 @@ export function BlogDetailSkeleton() {
         <div className="h-6 w-1/2 bg-surface-elevated rounded" />
         <div className="space-y-3">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-4 w-full bg-surface-elevated rounded" style={{ width: `${70 + Math.random() * 30}%` }} />
+            <div
+              key={i}
+              className="h-4 w-full bg-surface-elevated rounded"
+              style={{ width: `${70 + Math.random() * 30}%` }}
+            />
           ))}
         </div>
       </div>

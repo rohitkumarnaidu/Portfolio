@@ -60,11 +60,7 @@ export const BottomSheet = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end">
-      <div
-        className="absolute inset-0 bg-black/40"
-        onClick={onClose}
-        aria-hidden="true"
-      />
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} aria-hidden="true" />
       <div
         ref={panelRef}
         role="dialog"
@@ -74,7 +70,7 @@ export const BottomSheet = ({
           'relative w-full bg-surface-primary rounded-t-xl shadow-xl',
           'flex flex-col',
           reducedMotion ? '' : 'transition-transform duration-300 ease-out',
-          className
+          className,
         )}
         style={{
           height: `${height}vh`,
@@ -88,9 +84,7 @@ export const BottomSheet = ({
             <div className="w-10 h-1.5 rounded-full bg-border-accent" />
           </div>
         )}
-        <div className="flex-1 overflow-y-auto px-4 pb-4">
-          {children}
-        </div>
+        <div className="flex-1 overflow-y-auto px-4 pb-4">{children}</div>
       </div>
     </div>
   );

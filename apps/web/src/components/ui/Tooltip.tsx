@@ -66,7 +66,7 @@ export const Tooltip = ({
             'shadow-lg pointer-events-none',
             reducedMotion ? 'opacity-100' : 'animate-fade-in',
             positionClasses[side],
-            className
+            className,
           )}
           style={reducedMotion ? undefined : { animationDuration: '100ms' }}
         >

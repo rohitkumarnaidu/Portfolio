@@ -39,7 +39,7 @@ export const FileDropZone = ({
 
       return valid.slice(0, maxFiles);
     },
-    [accept, maxFiles, maxSizeMB]
+    [accept, maxFiles, maxSizeMB],
   );
 
   const handleDrop = useCallback(
@@ -57,7 +57,7 @@ export const FileDropZone = ({
 
       setTimeout(() => setDropState('idle'), 1000);
     },
-    [validateFiles, onFiles]
+    [validateFiles, onFiles],
   );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -91,7 +91,7 @@ export const FileDropZone = ({
       }
       e.target.value = '';
     },
-    [validateFiles, onFiles]
+    [validateFiles, onFiles],
   );
 
   const stateStyles = {
@@ -110,12 +110,14 @@ export const FileDropZone = ({
       onDragOver={handleDragOver}
       onDragEnter={handleDragEnter}
       onDragLeave={handleDragLeave}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleClick(); }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') handleClick();
+      }}
       className={cn(
         'border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors',
         'hover:border-accent-500 focus-visible:ring-2 focus-visible:ring-accent-500',
         stateStyles[dropState],
-        className
+        className,
       )}
       aria-label={label}
     >
@@ -130,14 +132,22 @@ export const FileDropZone = ({
         tabIndex={-1}
       />
 
-      <svg className="w-8 h-8 mx-auto mb-2 text-text-tertiary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+      <svg
+        className="w-8 h-8 mx-auto mb-2 text-text-tertiary"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={1.5}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
+        />
       </svg>
 
       <p className="text-sm text-text-secondary">{label}</p>
-      {accept && (
-        <p className="text-xs text-text-tertiary mt-1">Accepted: {accept}</p>
-      )}
+      {accept && <p className="text-xs text-text-tertiary mt-1">Accepted: {accept}</p>}
       <p className="text-xs text-text-tertiary">Max {maxSizeMB}MB per file</p>
     </div>
   );
