@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { ReadingListItemsService } from '../../modules/reading-list-items/reading-list-items.service';
+import type { ReadingListItemsService } from '../../modules/reading-list-items/reading-list-items.service';
 
 @ApiTags('Portfolio - Reading List Items')
 @Controller('portfolio/reading-list-items')

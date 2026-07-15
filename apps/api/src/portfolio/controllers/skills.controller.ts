@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { SkillsService } from '../../modules/skills/skills.service';
+import type { SkillsService } from '../../modules/skills/skills.service';
 
 @ApiTags('Portfolio - Skills')
 @Controller('portfolio/skills')

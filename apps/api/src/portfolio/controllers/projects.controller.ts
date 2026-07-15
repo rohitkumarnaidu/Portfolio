@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiNotFoundResponse } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { ProjectsService } from '../../modules/projects/projects.service';
+import type { ProjectsService } from '../../modules/projects/projects.service';
 
 @ApiTags('Portfolio - Projects')
 @Controller('portfolio/projects')
@@ -15,8 +15,18 @@ export class PortfolioProjectsController {
   @ApiQuery({ name: 'featured', required: false })
   @ApiQuery({ name: 'page', required: false })
   @ApiQuery({ name: 'perPage', required: false })
-  async findAll(@Query('category') category?: string, @Query('featured') featured?: string, @Query('page') page?: string, @Query('perPage') perPage?: string) {
-    return this.projects.findAll({ category, featured: featured === 'true', page: page ? +page : 1, perPage: perPage ? +perPage : 20 });
+  async findAll(
+    @Query('category') category?: string,
+    @Query('featured') featured?: string,
+    @Query('page') page?: string,
+    @Query('perPage') perPage?: string,
+  ) {
+    return this.projects.findAll({
+      category,
+      featured: featured === 'true',
+      page: page ? +page : 1,
+      perPage: perPage ? +perPage : 20,
+    });
   }
 
   @Get(':slugOrId')

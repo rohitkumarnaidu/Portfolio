@@ -17,7 +17,13 @@ import { ReadingListItemsModule } from '../modules/reading-list-items/reading-li
 import { AvailabilityStatusModule } from '../modules/availability-status/availability-status.module';
 import { FeatureFlagsModule } from '../modules/feature-flags/feature-flags.module';
 import { ChatModule } from '../modules/chat/chat.module';
+import { EventsModule } from '../modules/events/events.module';
+import { SearchModule } from '../modules/search/search.module';
+import { MediaModule } from '../modules/media/media.module';
+import { SystemSettingsModule } from '../modules/system-settings/system-settings.module';
 import { PortfolioSectionsController } from './controllers/sections.controller';
+import { PortfolioSearchController } from './controllers/search.controller';
+import { PortfolioEventsController } from './controllers/events.controller';
 import { PortfolioProjectsController } from './controllers/projects.controller';
 import { PortfolioSkillsController } from './controllers/skills.controller';
 import { PortfolioExperiencesController } from './controllers/experiences.controller';
@@ -35,26 +41,57 @@ import { PortfolioReadingListItemsController } from './controllers/reading-list-
 import { PortfolioAvailabilityStatusController } from './controllers/availability-status.controller';
 import { PortfolioFeatureFlagsController } from './controllers/feature-flags.controller';
 import { PortfolioChatController } from './controllers/chat.controller';
+import { PortfolioMediaController } from './controllers/media.controller';
+import { PortfolioSystemSettingsController } from './controllers/system-settings.controller';
 
 @Module({
   imports: [
-    SectionsModule, ProjectsModule, SkillsModule, ExperiencesModule,
-    BlogModule, TestimonialsModule, ServicesModule, FaqsModule,
-    LeadsModule, AnalyticsModule,
-    CaseStudiesModule, AchievementsModule, PressFeaturesModule,
-    GuestAppearancesModule, ReadingListItemsModule, AvailabilityStatusModule,
-    FeatureFlagsModule, ChatModule,
+    SectionsModule,
+    ProjectsModule,
+    SkillsModule,
+    ExperiencesModule,
+    BlogModule,
+    TestimonialsModule,
+    ServicesModule,
+    FaqsModule,
+    LeadsModule,
+    AnalyticsModule,
+    CaseStudiesModule,
+    AchievementsModule,
+    PressFeaturesModule,
+    GuestAppearancesModule,
+    ReadingListItemsModule,
+    AvailabilityStatusModule,
+    FeatureFlagsModule,
+    ChatModule,
+    EventsModule,
+    SearchModule,
+    MediaModule,
+    SystemSettingsModule,
   ],
   controllers: [
-    PortfolioSectionsController, PortfolioProjectsController,
-    PortfolioSkillsController, PortfolioExperiencesController,
-    PortfolioBlogController, PortfolioTestimonialsController,
-    PortfolioServicesController, PortfolioFaqsController,
-    PortfolioLeadsController, PortfolioAnalyticsController,
-    PortfolioCaseStudiesController, PortfolioAchievementsController,
-    PortfolioPressFeaturesController, PortfolioGuestAppearancesController,
-    PortfolioReadingListItemsController, PortfolioAvailabilityStatusController,
-    PortfolioFeatureFlagsController, PortfolioChatController,
+    PortfolioSectionsController,
+    PortfolioProjectsController,
+    PortfolioSearchController,
+    PortfolioEventsController,
+    PortfolioSkillsController,
+    PortfolioExperiencesController,
+    PortfolioBlogController,
+    PortfolioTestimonialsController,
+    PortfolioServicesController,
+    PortfolioFaqsController,
+    PortfolioLeadsController,
+    PortfolioAnalyticsController,
+    PortfolioCaseStudiesController,
+    PortfolioAchievementsController,
+    PortfolioPressFeaturesController,
+    PortfolioGuestAppearancesController,
+    PortfolioReadingListItemsController,
+    PortfolioAvailabilityStatusController,
+    PortfolioFeatureFlagsController,
+    PortfolioChatController,
+    PortfolioMediaController,
+    PortfolioSystemSettingsController,
   ],
 })
 export class PortfolioModule {}

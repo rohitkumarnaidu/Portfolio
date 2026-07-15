@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { TestimonialsService } from '../../modules/testimonials/testimonials.service';
+import type { TestimonialsService } from '../../modules/testimonials/testimonials.service';
 
 @ApiTags('Portfolio - Testimonials')
 @Controller('portfolio/testimonials')

@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiNotFoundResponse } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import { SectionsService } from '../../modules/sections/sections.service';
+import type { SectionsService } from '../../modules/sections/sections.service';
 
 @ApiTags('Portfolio - Sections')
 @Controller('portfolio/sections')
