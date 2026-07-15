@@ -28,7 +28,10 @@ import { FeatureFlagsModule } from '../modules/feature-flags/feature-flags.modul
 import { NotificationsModule } from '../modules/notifications/notifications.module';
 import { ChatModule } from '../modules/chat/chat.module';
 import { SandboxModule } from '../modules/sandbox/sandbox.module';
+import { EventsModule } from '../modules/events/events.module';
+import { WebhooksModule } from '../modules/webhooks/webhooks.module';
 import { AdminAuthController } from './controllers/auth.controller';
+import { AdminEventsController } from './controllers/events.controller';
 import { AdminDashboardController } from './controllers/dashboard.controller';
 import { AdminSandboxController } from './controllers/sandbox.controller';
 import { AdminSectionsController } from './controllers/sections.controller';
@@ -57,35 +60,72 @@ import { AdminNotificationsController } from './controllers/notifications.contro
 import { AdminChatController } from './controllers/chat.controller';
 import { AdminExportController } from './controllers/export.controller';
 import { AdminCleanupController } from './controllers/cleanup.controller';
+import { AdminSearchController } from './controllers/search.controller';
 
 @Module({
   imports: [
-    AuthModule, SectionsModule, ProjectsModule, SkillsModule,
-    ExperiencesModule, BlogModule, TestimonialsModule,
-    ServicesModule, FaqsModule, LeadsModule, AnalyticsModule,
-    ActivitiesModule, UsersModule, MediaModule,
-    CaseStudiesModule, AchievementsModule, PressFeaturesModule,
-    GuestAppearancesModule, ReadingListItemsModule, AvailabilityStatusModule,
-    SystemSettingsModule, ApiKeysModule, FeatureFlagsModule,
-    NotificationsModule, ChatModule,
+    AuthModule,
+    SectionsModule,
+    ProjectsModule,
+    SkillsModule,
+    ExperiencesModule,
+    BlogModule,
+    TestimonialsModule,
+    ServicesModule,
+    FaqsModule,
+    LeadsModule,
+    AnalyticsModule,
+    ActivitiesModule,
+    UsersModule,
+    MediaModule,
+    CaseStudiesModule,
+    AchievementsModule,
+    PressFeaturesModule,
+    GuestAppearancesModule,
+    ReadingListItemsModule,
+    AvailabilityStatusModule,
+    SystemSettingsModule,
+    ApiKeysModule,
+    FeatureFlagsModule,
+    NotificationsModule,
+    ChatModule,
     SandboxModule,
+    EventsModule,
+    WebhooksModule,
   ],
   controllers: [
-    AdminAuthController, AdminDashboardController, AdminSandboxController, AdminSectionsController,
-    AdminProjectsController, AdminSkillsController, AdminExperiencesController,
-    AdminBlogController, AdminTestimonialsController, AdminServicesController,
-    AdminFaqsController, AdminLeadsController, AdminAnalyticsController,
-    AdminActivitiesController, AdminUsersController, AdminMediaController,
-    AdminCaseStudiesController, AdminAchievementsController,
-    AdminPressFeaturesController, AdminGuestAppearancesController,
-    AdminReadingListItemsController, AdminAvailabilityStatusController,
-    AdminSystemSettingsController, AdminApiKeysController,
-    AdminFeatureFlagsController, AdminNotificationsController,
-    AdminChatController, AdminExportController, AdminCleanupController,
+    AdminAuthController,
+    AdminDashboardController,
+    AdminSandboxController,
+    AdminSectionsController,
+    AdminEventsController,
+    AdminProjectsController,
+    AdminSkillsController,
+    AdminExperiencesController,
+    AdminBlogController,
+    AdminTestimonialsController,
+    AdminServicesController,
+    AdminFaqsController,
+    AdminLeadsController,
+    AdminAnalyticsController,
+    AdminActivitiesController,
+    AdminUsersController,
+    AdminMediaController,
+    AdminCaseStudiesController,
+    AdminAchievementsController,
+    AdminPressFeaturesController,
+    AdminGuestAppearancesController,
+    AdminReadingListItemsController,
+    AdminAvailabilityStatusController,
+    AdminSystemSettingsController,
+    AdminApiKeysController,
+    AdminFeatureFlagsController,
+    AdminNotificationsController,
+    AdminChatController,
+    AdminExportController,
+    AdminCleanupController,
+    AdminSearchController,
   ],
-  providers: [
-    CsvService,
-    { provide: APP_INTERCEPTOR, useClass: AuditInterceptor },
-  ],
+  providers: [CsvService, { provide: APP_INTERCEPTOR, useClass: AuditInterceptor }],
 })
 export class AdminModule {}
