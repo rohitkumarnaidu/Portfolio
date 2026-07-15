@@ -10,9 +10,15 @@ const mockLocalStorage = (() => {
   let store: Record<string, string> = {};
   return {
     getItem: vi.fn((key: string) => store[key] || null),
-    setItem: vi.fn((key: string, value: string) => { store[key] = value; }),
-    removeItem: vi.fn((key: string) => { delete store[key]; }),
-    clear: vi.fn(() => { store = {}; }),
+    setItem: vi.fn((key: string, value: string) => {
+      store[key] = value;
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key];
+    }),
+    clear: vi.fn(() => {
+      store = {};
+    }),
     length: 0,
   };
 })();
@@ -39,7 +45,19 @@ beforeEach(() => {
 describe('useProjects hook', () => {
   it('returns projects data on success', async () => {
     const mockProjects = [
-      { id: '1', title: 'Project A', slug: 'project-a', tech_stack: ['React'], is_featured: true, is_private: false, display_order: 0, content: {}, metrics: {}, created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
+      {
+        id: '1',
+        title: 'Project A',
+        slug: 'project-a',
+        tech_stack: ['React'],
+        is_featured: true,
+        is_private: false,
+        display_order: 0,
+        content: {},
+        metrics: {},
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
+      },
     ];
 
     mockFetch.mockResolvedValueOnce({
@@ -69,7 +87,21 @@ describe('useProjects hook', () => {
 describe('useBlogPosts hook', () => {
   it('returns blog posts data', async () => {
     const mockPosts = [
-      { id: '1', title: 'Post 1', slug: 'post-1', content: 'Content', excerpt: 'Excerpt', category: 'tech', tags: [], read_time: 5, is_published: true, is_featured: false, author: 'Admin', created_at: '2024-01-01T00:00:00Z', updated_at: '2024-01-01T00:00:00Z' },
+      {
+        id: '1',
+        title: 'Post 1',
+        slug: 'post-1',
+        content: 'Content',
+        excerpt: 'Excerpt',
+        category: 'tech',
+        tags: [],
+        read_time: 5,
+        is_published: true,
+        is_featured: false,
+        author: 'Admin',
+        created_at: '2024-01-01T00:00:00Z',
+        updated_at: '2024-01-01T00:00:00Z',
+      },
     ];
 
     mockFetch.mockResolvedValueOnce({
@@ -83,5 +115,32 @@ describe('useBlogPosts hook', () => {
 
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toEqual(mockPosts);
+  });
+});
+
+describe('useInView hook', () => {
+  it('returns ref and inView state', async () => {
+    const { useInView } = await import('@/hooks/useInView');
+    const { result } = renderHook(() => useInView());
+
+    expect(result.current.ref).toBeDefined();
+    expect(result.current.ref.current).toBeNull();
+    expect(result.current.inView).toBe(false);
+  });
+
+  it('accepts custom threshold', async () => {
+    const { useInView } = await import('@/hooks/useInView');
+    const { result } = renderHook(() => useInView(0.5));
+
+    expect(result.current.inView).toBe(false);
+  });
+});
+
+describe('useReducedMotion hook', () => {
+  it('returns false by default (motion not reduced)', async () => {
+    const { useReducedMotion } = await import('@/hooks/useReducedMotion');
+    const { result } = renderHook(() => useReducedMotion());
+
+    expect(result.current).toBe(false);
   });
 });
