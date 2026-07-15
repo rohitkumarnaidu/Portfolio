@@ -13,7 +13,8 @@ export function useMediaAssets(params?: { page?: number; per_page?: number }) {
 export function useUploadMediaAsset() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ file, altText }: { file: File; altText?: string }) => uploadMediaAsset(file, altText),
+    mutationFn: ({ file, altText }: { file: File; altText?: string }) =>
+      uploadMediaAsset(file, altText),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['mediaAssets'] });
     },

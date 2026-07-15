@@ -26,8 +26,7 @@ export function useUpdateFAQ() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<FAQ> }) =>
-      updateFAQ(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<FAQ> }) => updateFAQ(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['faqs'] });
     },

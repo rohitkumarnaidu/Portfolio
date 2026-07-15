@@ -8,9 +8,12 @@ import {
   markAllNotificationsRead,
   deleteNotification,
 } from '@/lib/api';
-import type { Notification } from '@/lib/api';
-
-export function useNotifications(params?: { page?: number; perPage?: number; isRead?: boolean; type?: string }) {
+export function useNotifications(params?: {
+  page?: number;
+  perPage?: number;
+  isRead?: boolean;
+  type?: string;
+}) {
   return useQuery({
     queryKey: ['notifications', params],
     queryFn: () => getNotifications(params),
