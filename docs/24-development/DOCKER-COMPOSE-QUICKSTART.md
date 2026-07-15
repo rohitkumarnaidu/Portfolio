@@ -7,12 +7,12 @@
 
 ## 1. Prerequisites
 
-| Tool | Minimum Version | Check |
-|------|----------------|-------|
-| Docker Desktop | Latest | `docker --version` |
-| Docker Compose | v2+ | `docker compose version` |
-| Git Bash or PowerShell | — | `pwsh --version` or `bash --version` |
-| RAM | 8 GB+ free | Docker + 3 services needs ~4 GB |
+| Tool                   | Minimum Version | Check                                |
+| ---------------------- | --------------- | ------------------------------------ |
+| Docker Desktop         | Latest          | `docker --version`                   |
+| Docker Compose         | v2+             | `docker compose version`             |
+| Git Bash or PowerShell | —               | `pwsh --version` or `bash --version` |
+| RAM                    | 8 GB+ free      | Docker + 3 services needs ~4 GB      |
 
 **Windows users:** Ensure WSL 2 is configured for Docker Desktop (Settings → Resources → WSL Integration). Use PowerShell or Git Bash for commands below.
 
@@ -32,6 +32,7 @@ docker compose -f infrastructure/docker/docker-compose.yml logs -f
 ```
 
 Services are ready when you see:
+
 - **Web:** `▲ Next.js ... Ready in XXXms` — takes ~30s first time
 - **API:** `Nest application successfully started` — takes ~20s
 - **AI:** `Uvicorn running on http://0.0.0.0:8000` — takes ~5s
@@ -57,11 +58,11 @@ docker compose -f infrastructure/docker/docker-compose.yml down
 
 ### Service Overview
 
-| Service | Internal Port | Host Port (default) | Health Check | Purpose |
-|---------|--------------|---------------------|-------------|---------|
-| **web** | 3000 | **3000** | `GET /health` | Next.js frontend |
-| **api** | 3001 | **4000** | `GET /api/health/liveness` | NestJS REST API |
-| **ai** | 8000 | **8000** | `GET /api/health` | FastAPI AI service |
+| Service | Internal Port | Host Port (default) | Health Check               | Purpose            |
+| ------- | ------------- | ------------------- | -------------------------- | ------------------ |
+| **web** | 3000          | **3000**            | `GET /health`              | Next.js frontend   |
+| **api** | 3001          | **4000**            | `GET /api/health/liveness` | NestJS REST API    |
+| **ai**  | 8000          | **8000**            | `GET /api/health`          | FastAPI AI service |
 
 **Note:** The API's host port is **4000** (mapped from internal 3001) to avoid conflict with the web service. The web service connects to the API via `NEXT_PUBLIC_API_URL=http://localhost:4000`.
 
@@ -74,18 +75,19 @@ web ──depends-on──▶ api ──(calls)──▶ ai
 ```
 
 **Not included in Docker Compose:**
+
 - **Redis** — Redis is required for caching and queues; see the architecture docs for details. The `CacheService` and BullMQ queues depend on Redis.
 - **pgvector** — the `content_embeddings` table uses pgvector, but it must be enabled separately in your PostgreSQL instance. Run `CREATE EXTENSION IF NOT EXISTS vector;`.
 
 ### Default URLs
 
-| Service | Local URL |
-|---------|-----------|
-| Web (Next.js) | http://localhost:3000 |
-| API (NestJS) | http://localhost:4000 |
-| API Swagger | http://localhost:4000/api/docs |
-| AI (FastAPI) | http://localhost:8000 |
-| AI Docs | http://localhost:8000/docs (if `DEBUG=true`) |
+| Service       | Local URL                                    |
+| ------------- | -------------------------------------------- |
+| Web (Next.js) | http://localhost:3000                        |
+| API (NestJS)  | http://localhost:4000                        |
+| API Swagger   | http://localhost:4000/api/docs               |
+| AI (FastAPI)  | http://localhost:8000                        |
+| AI Docs       | http://localhost:8000/docs (if `DEBUG=true`) |
 
 ---
 
@@ -178,12 +180,12 @@ The `.env` file is loaded by Docker Compose automatically (referenced in the `en
 
 ### Required Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:54322/postgres` | PostgreSQL connection string |
-| `JWT_SECRET` | `dev-jwt-secret-change-in-production-min-32-chars!!` | JWT signing secret |
-| `CORS_ORIGIN` | `http://localhost:3000` | Allowed CORS origin |
-| `OPENAI_API_KEY` | _(empty)_ | **Required for AI chat to work** |
+| Variable         | Default                                                   | Description                      |
+| ---------------- | --------------------------------------------------------- | -------------------------------- |
+| `DATABASE_URL`   | `postgresql://postgres:postgres@localhost:54322/postgres` | PostgreSQL connection string     |
+| `JWT_SECRET`     | `dev-jwt-secret-change-in-production-min-32-chars!!`      | JWT signing secret               |
+| `CORS_ORIGIN`    | `http://localhost:3000`                                   | Allowed CORS origin              |
+| `OPENAI_API_KEY` | _(empty)_                                                 | **Required for AI chat to work** |
 
 ### Port Overrides
 
@@ -196,19 +198,20 @@ AI_PORT=8000            # Default
 ```
 
 The docker-compose.yml reads these with defaults:
+
 ```yaml
 ports:
-  - "${WEB_PORT:-3000}:3000"
-  - "${API_PORT:-4000}:3001"
-  - "${AI_PORT:-8000}:8000"
+  - '${WEB_PORT:-3000}:3000'
+  - '${API_PORT:-4000}:3001'
+  - '${AI_PORT:-8000}:8000'
 ```
 
 ### Service-Specific Variables
 
-| Variable | Service | Description |
-|----------|---------|-------------|
-| `NEXT_PUBLIC_API_URL` | web | API URL for client-side fetch (default: `http://localhost:4000`) |
-| `NEXT_PUBLIC_SITE_URL` | web | Site URL (default: `http://localhost:3000`) |
+| Variable               | Service | Description                                                      |
+| ---------------------- | ------- | ---------------------------------------------------------------- |
+| `NEXT_PUBLIC_API_URL`  | web     | API URL for client-side fetch (default: `http://localhost:4000`) |
+| `NEXT_PUBLIC_SITE_URL` | web     | Site URL (default: `http://localhost:3000`)                      |
 
 ---
 
@@ -227,16 +230,16 @@ This volume persists PostgreSQL data across container restarts.
 
 ### What Persists
 
-| Data | Location | Persists across `down`? |
-|------|----------|----------------------|
-| PostgreSQL data | Docker volume `supabase-data` | Yes |
-| Chat messages | PostgreSQL (chat_messages table) | Yes |
-| Conversations | PostgreSQL (chat_conversations table) | Yes |
-| Content embeddings | PostgreSQL (content_embeddings table) | Yes |
-| Node modules | Anonymous volume (`/app/node_modules`) | Only if volume is not removed |
-| Next.js build cache | Anonymous volume (`/app/.next`) | Only if volume is not removed |
-| NestJS build output | Anonymous volume (`/app/dist`) | Only if volume is not removed |
-| Redis data | N/A (not in Docker Compose) | N/A |
+| Data                | Location                               | Persists across `down`?       |
+| ------------------- | -------------------------------------- | ----------------------------- |
+| PostgreSQL data     | Docker volume `supabase-data`          | Yes                           |
+| Chat messages       | PostgreSQL (chat_messages table)       | Yes                           |
+| Conversations       | PostgreSQL (chat_conversations table)  | Yes                           |
+| Content embeddings  | PostgreSQL (content_embeddings table)  | Yes                           |
+| Node modules        | Anonymous volume (`/app/node_modules`) | Only if volume is not removed |
+| Next.js build cache | Anonymous volume (`/app/.next`)        | Only if volume is not removed |
+| NestJS build output | Anonymous volume (`/app/dist`)         | Only if volume is not removed |
+| Redis data          | N/A (not in Docker Compose)            | N/A                           |
 
 ### Reset Everything
 
@@ -274,6 +277,7 @@ docker compose -f infrastructure/docker/docker-compose.yml logs web | head -20
 ```
 
 **Common causes:**
+
 - Missing `.env` variables (copy from `.env.example`)
 - Port already in use (change port in `.env`)
 - Out of disk space (`docker system prune` to free space)
@@ -283,6 +287,7 @@ docker compose -f infrastructure/docker/docker-compose.yml logs web | head -20
 The first `docker compose up -d` is slow because all services build from scratch. Subsequent builds are faster due to Docker layer caching.
 
 **Speed tips:**
+
 - Use BuildKit caching: Docker Compose v2 uses BuildKit by default
 - Add `cache_from` in build config (already configured for web and api referencing `ghcr.io`)
 - Only build what you need: `docker compose build api` instead of `docker compose build`
@@ -310,14 +315,14 @@ healthcheck:
 
 ### Differences from Native Development
 
-| Aspect | Docker | Native (npm run dev) |
-|--------|--------|---------------------|
-| API URL | http://localhost:4000 | http://localhost:3001 |
-| Setup time | ~2 min (build) | ~30 sec (no build) |
-| Hot reload | Slower (volume mount) | Instant |
-| Data persistence | Via Docker volumes | Local PostgreSQL |
-| Isolation | Complete (containers) | Depends on local setup |
-| Debugging | Harder (inside container) | Easier (direct access) |
+| Aspect           | Docker                    | Native (npm run dev)   |
+| ---------------- | ------------------------- | ---------------------- |
+| API URL          | http://localhost:4000     | http://localhost:3001  |
+| Setup time       | ~2 min (build)            | ~30 sec (no build)     |
+| Hot reload       | Slower (volume mount)     | Instant                |
+| Data persistence | Via Docker volumes        | Local PostgreSQL       |
+| Isolation        | Complete (containers)     | Depends on local setup |
+| Debugging        | Harder (inside container) | Easier (direct access) |
 
 ---
 
@@ -344,5 +349,6 @@ Host              Container            Service
 The API service connects to PostgreSQL using the `DATABASE_URL` in `.env`. By default, this points to a Supabase-hosted database (not a Docker container). To use a local Postgres in Docker, add a `postgres` service to `docker-compose.yml` and point `DATABASE_URL` to it.
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

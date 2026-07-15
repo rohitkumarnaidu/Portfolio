@@ -8,11 +8,11 @@
 
 ## 1. Release Types and Cadence
 
-| Type | Frequency | Trigger | Risk | Deploy Target |
-|------|-----------|---------|------|---------------|
-| **Standard** | Multiple times daily | PR merge to `main` | Low | Vercel (auto) |
-| **Scheduled** | Weekly (Tue 14:00 UTC) | Tagged release | Medium | ghcr.io + Vercel |
-| **Emergency (hotfix)** | As needed | `hotfix/*` branch | High | Vercel (expedited) |
+| Type                   | Frequency              | Trigger            | Risk   | Deploy Target      |
+| ---------------------- | ---------------------- | ------------------ | ------ | ------------------ |
+| **Standard**           | Multiple times daily   | PR merge to `main` | Low    | Vercel (auto)      |
+| **Scheduled**          | Weekly (Tue 14:00 UTC) | Tagged release     | Medium | ghcr.io + Vercel   |
+| **Emergency (hotfix)** | As needed              | `hotfix/*` branch  | High   | Vercel (expedited) |
 
 See [HotfixProcess.md](./HOTFIX-PROCESS.md) for the emergency branch.
 
@@ -68,13 +68,13 @@ Scheduled releases produce Docker images and require manual approval.
 
 ### Release Candidate Criteria
 
-| Criterion | Requirement |
-|-----------|-------------|
-| All tests pass | Unit, integration, e2e, load — 100% green |
-| No P0/P1 bugs | Zero open blocker or critical issues |
-| Code review complete | All included PRs approved |
-| Documentation updated | CHANGELOG.md, API docs, migration guides |
-| Rollback plan documented | Steps verified on staging |
+| Criterion                | Requirement                               |
+| ------------------------ | ----------------------------------------- |
+| All tests pass           | Unit, integration, e2e, load — 100% green |
+| No P0/P1 bugs            | Zero open blocker or critical issues      |
+| Code review complete     | All included PRs approved                 |
+| Documentation updated    | CHANGELOG.md, API docs, migration guides  |
+| Rollback plan documented | Steps verified on staging                 |
 
 ### Approval
 
@@ -115,15 +115,15 @@ Every release is announced in the `#releases` Slack channel with the following f
 
 For the 30 minutes following any production deployment:
 
-| Check | Tool | Frequency |
-|-------|------|-----------|
-| Smoke test all critical user flows | Custom smoke test suite | Immediate |
-| Monitor API error rates | Sentry | Real-time |
-| Monitor p95 latency | Vercel Analytics | Real-time |
-| Monitor Core Web Vitals | Vercel Analytics | Real-time |
-| Check for new Sentry issues | Sentry | Continuous |
-| Verify AI service responses | Health check + sample query | Every 5 min |
-| Verify database connectivity | Prisma health probe | Every 5 min |
+| Check                              | Tool                        | Frequency   |
+| ---------------------------------- | --------------------------- | ----------- |
+| Smoke test all critical user flows | Custom smoke test suite     | Immediate   |
+| Monitor API error rates            | Sentry                      | Real-time   |
+| Monitor p95 latency                | Vercel Analytics            | Real-time   |
+| Monitor Core Web Vitals            | Vercel Analytics            | Real-time   |
+| Check for new Sentry issues        | Sentry                      | Continuous  |
+| Verify AI service responses        | Health check + sample query | Every 5 min |
+| Verify database connectivity       | Prisma health probe         | Every 5 min |
 
 If any threshold in the [rollback criteria](../21-operations/RELEASE-MANAGEMENT.md#6-rollback-criteria) is breached, trigger the rollback process immediately.
 
@@ -138,5 +138,6 @@ For scheduled releases, reference the PRODUCTION-GO-LIVE-CHECKLIST.md in additio
 The checklist covers code freeze, database migrations, security review, performance audit, smoke tests, and post-release monitoring — all of which must be completed before the production promotion step.
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

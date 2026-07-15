@@ -35,15 +35,15 @@ Use the same name for the same concept everywhere. If the database calls it `sec
 
 ## 2. TypeScript / JavaScript
 
-| Construct | Convention | Example |
-|-----------|------------|---------|
-| Variables | `camelCase` | `const projectSlug = ...` |
-| Functions | `camelCase` | `function findAll(...)` |
-| Classes | `PascalCase` | `class SkillsService` |
-| Types / Interfaces | `PascalCase` | `type ProjectId`, `interface CreateSkillDto` |
-| Constants (module-level) | `UPPER_SNAKE_CASE` | `const CACHE_KEY = 'skills'` |
-| Enums | `PascalCase` enum, `PascalCase` members | `enum UserRole { Admin, Editor, Viewer }` |
-| File names | `kebab-case` | `skills.service.ts`, `current-user.decorator.ts` |
+| Construct                | Convention                              | Example                                          |
+| ------------------------ | --------------------------------------- | ------------------------------------------------ |
+| Variables                | `camelCase`                             | `const projectSlug = ...`                        |
+| Functions                | `camelCase`                             | `function findAll(...)`                          |
+| Classes                  | `PascalCase`                            | `class SkillsService`                            |
+| Types / Interfaces       | `PascalCase`                            | `type ProjectId`, `interface CreateSkillDto`     |
+| Constants (module-level) | `UPPER_SNAKE_CASE`                      | `const CACHE_KEY = 'skills'`                     |
+| Enums                    | `PascalCase` enum, `PascalCase` members | `enum UserRole { Admin, Editor, Viewer }`        |
+| File names               | `kebab-case`                            | `skills.service.ts`, `current-user.decorator.ts` |
 
 ### Branded Types
 
@@ -79,18 +79,18 @@ type Result<T> =
 
 Every NestJS artifact in `apps/api/src/` uses a standard suffix:
 
-| Artifact | Suffix | Example |
-|----------|--------|---------|
-| Service | `.service.ts` | `skills.service.ts` |
-| Controller | `.controller.ts` | `skills.controller.ts` |
-| Module | `.module.ts` | `skills.module.ts` |
-| Guard | `.guard.ts` | `jwt-auth.guard.ts` |
-| Decorator | `.decorator.ts` | `current-user.decorator.ts` |
-| Filter | `.filter.ts` | `global-exception.filter.ts` |
-| Interceptor | `.interceptor.ts` | `response-envelope.interceptor.ts` |
-| Pipe | `.pipe.ts` | `validation.pipe.ts` |
-| Strategy (Passport) | `.strategy.ts` | `jwt.strategy.ts`, `google.strategy.ts` |
-| DTO | `.dto.ts` | `create-skill.dto.ts` |
+| Artifact            | Suffix            | Example                                 |
+| ------------------- | ----------------- | --------------------------------------- |
+| Service             | `.service.ts`     | `skills.service.ts`                     |
+| Controller          | `.controller.ts`  | `skills.controller.ts`                  |
+| Module              | `.module.ts`      | `skills.module.ts`                      |
+| Guard               | `.guard.ts`       | `jwt-auth.guard.ts`                     |
+| Decorator           | `.decorator.ts`   | `current-user.decorator.ts`             |
+| Filter              | `.filter.ts`      | `global-exception.filter.ts`            |
+| Interceptor         | `.interceptor.ts` | `response-envelope.interceptor.ts`      |
+| Pipe                | `.pipe.ts`        | `validation.pipe.ts`                    |
+| Strategy (Passport) | `.strategy.ts`    | `jwt.strategy.ts`, `google.strategy.ts` |
+| DTO                 | `.dto.ts`         | `create-skill.dto.ts`                   |
 
 ### Class Naming
 
@@ -128,17 +128,17 @@ Files use the pattern `create-<entity>.dto.ts`, `update-<entity>.dto.ts`.
 
 ### Method Naming in Services
 
-| Operation | Method Name |
-|-----------|-------------|
-| List all (with optional filters) | `findAll(opts?)` |
-| Single by ID | `findById(id: string)` |
-| Single by slug or ID | `findBySlugOrId(slugOrId: string)` |
-| Create | `create(dto: CreateDto)` |
-| Update | `update(id: string, dto: UpdateDto)` |
-| Delete | `delete(id: string)` |
-| Toggle boolean field | `toggle<Field>(id: string)` |
-| Bulk delete | `bulkDelete(ids: string[])` |
-| Bulk update | `bulkUpdate(ids: string[], data: ...)` |
+| Operation                        | Method Name                            |
+| -------------------------------- | -------------------------------------- |
+| List all (with optional filters) | `findAll(opts?)`                       |
+| Single by ID                     | `findById(id: string)`                 |
+| Single by slug or ID             | `findBySlugOrId(slugOrId: string)`     |
+| Create                           | `create(dto: CreateDto)`               |
+| Update                           | `update(id: string, dto: UpdateDto)`   |
+| Delete                           | `delete(id: string)`                   |
+| Toggle boolean field             | `toggle<Field>(id: string)`            |
+| Bulk delete                      | `bulkDelete(ids: string[])`            |
+| Bulk update                      | `bulkUpdate(ids: string[], data: ...)` |
 
 ### Module Directory Structure
 
@@ -158,15 +158,15 @@ modules/<entity>/
 
 ### App Router File Conventions
 
-| Convention | File Name | Purpose |
-|------------|-----------|---------|
-| Page | `page.tsx` | Route UI (default export) |
-| Layout | `layout.tsx` | Shared wrapper for route segment |
-| Loading | `loading.tsx` | Suspense fallback |
-| Error | `error.tsx` | Error boundary (`'use client'`) |
-| Not Found | `not-found.tsx` | 404 page |
-| Template | `template.tsx` | Re-instantiated layout wrapper |
-| Route Handler | `route.ts` | API route within app directory |
+| Convention    | File Name       | Purpose                          |
+| ------------- | --------------- | -------------------------------- |
+| Page          | `page.tsx`      | Route UI (default export)        |
+| Layout        | `layout.tsx`    | Shared wrapper for route segment |
+| Loading       | `loading.tsx`   | Suspense fallback                |
+| Error         | `error.tsx`     | Error boundary (`'use client'`)  |
+| Not Found     | `not-found.tsx` | 404 page                         |
+| Template      | `template.tsx`  | Re-instantiated layout wrapper   |
+| Route Handler | `route.ts`      | API route within app directory   |
 
 ### Directory Naming
 
@@ -326,25 +326,25 @@ enum UserRole {
 
 ### HTTP Methods
 
-| Method | Action | Portfolio | Admin |
-|--------|--------|-----------|-------|
-| `GET` | List | `GET /api/portfolio/skills` | `GET /api/admin/skills` |
-| `GET` | Single | `GET /api/portfolio/skills/:id` | `GET /api/admin/skills/:id` |
-| `POST` | Create | — | `POST /api/admin/skills` |
-| `PATCH` | Update | — | `PATCH /api/admin/skills/:id` |
-| `DELETE` | Delete | — | `DELETE /api/admin/skills/:id` |
+| Method   | Action | Portfolio                       | Admin                          |
+| -------- | ------ | ------------------------------- | ------------------------------ |
+| `GET`    | List   | `GET /api/portfolio/skills`     | `GET /api/admin/skills`        |
+| `GET`    | Single | `GET /api/portfolio/skills/:id` | `GET /api/admin/skills/:id`    |
+| `POST`   | Create | —                               | `POST /api/admin/skills`       |
+| `PATCH`  | Update | —                               | `PATCH /api/admin/skills/:id`  |
+| `DELETE` | Delete | —                               | `DELETE /api/admin/skills/:id` |
 
 ### Special Actions
 
 Non-CRUD actions use a verb after the entity:
 
-| Endpoint | Convention |
-|----------|-----------|
+| Endpoint       | Convention                                    |
+| -------------- | --------------------------------------------- |
 | Toggle feature | `PATCH /api/admin/skills/:id/toggle-featured` |
-| Bulk delete | `POST /api/admin/skills/bulk-delete` |
-| Bulk update | `PATCH /api/admin/skills/bulk-update` |
-| Export | `GET /api/admin/export/skills` |
-| Restore | `PATCH /api/admin/skills/:id/restore` |
+| Bulk delete    | `POST /api/admin/skills/bulk-delete`          |
+| Bulk update    | `PATCH /api/admin/skills/bulk-update`         |
+| Export         | `GET /api/admin/export/skills`                |
+| Restore        | `PATCH /api/admin/skills/:id/restore`         |
 
 ### Controller Route Prefixes
 
@@ -370,15 +370,15 @@ export class AdminSkillsController { ... }
 
 ### Prefix Conventions
 
-| Domain | Prefix | Examples |
-|--------|--------|----------|
-| Database | `DATABASE_` | `DATABASE_URL` |
-| Authentication | `AUTH_` | `AUTH_JWT_SECRET`, `AUTH_GOOGLE_CLIENT_ID` |
-| API configuration | `API_` | `API_PORT`, `API_PREFIX` |
-| Next.js public | `NEXT_PUBLIC_` | `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL` |
-| Redis / Cache | `REDIS_` | `REDIS_HOST`, `REDIS_PORT` |
-| External services | `<SERVICE>_` | `SENTRY_DSN`, `RESEND_API_KEY` |
-| CORS | `CORS_` | `CORS_ORIGIN` |
+| Domain            | Prefix         | Examples                                      |
+| ----------------- | -------------- | --------------------------------------------- |
+| Database          | `DATABASE_`    | `DATABASE_URL`                                |
+| Authentication    | `AUTH_`        | `AUTH_JWT_SECRET`, `AUTH_GOOGLE_CLIENT_ID`    |
+| API configuration | `API_`         | `API_PORT`, `API_PREFIX`                      |
+| Next.js public    | `NEXT_PUBLIC_` | `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_SITE_URL` |
+| Redis / Cache     | `REDIS_`       | `REDIS_HOST`, `REDIS_PORT`                    |
+| External services | `<SERVICE>_`   | `SENTRY_DSN`, `RESEND_API_KEY`                |
+| CORS              | `CORS_`        | `CORS_ORIGIN`                                 |
 
 ---
 
@@ -390,14 +390,14 @@ export class AdminSkillsController { ... }
 <type>/<short-description>
 ```
 
-| Type | Usage | Example |
-|------|-------|---------|
-| `feat/` | New feature | `feat/add-dark-mode` |
-| `fix/` | Bug fix | `fix/login-validation` |
-| `chore/` | Maintenance | `chore/update-deps` |
-| `refactor/` | Code restructuring | `refactor/module-pattern` |
-| `docs/` | Documentation | `docs/code-review-standards` |
-| `test/` | Test additions | `test/skills-service` |
+| Type        | Usage              | Example                      |
+| ----------- | ------------------ | ---------------------------- |
+| `feat/`     | New feature        | `feat/add-dark-mode`         |
+| `fix/`      | Bug fix            | `fix/login-validation`       |
+| `chore/`    | Maintenance        | `chore/update-deps`          |
+| `refactor/` | Code restructuring | `refactor/module-pattern`    |
+| `docs/`     | Documentation      | `docs/code-review-standards` |
+| `test/`     | Test additions     | `test/skills-service`        |
 
 Use kebab-case for the description. Be concise but descriptive.
 
@@ -551,26 +551,26 @@ All API responses follow `{ data, meta? }`:
 
 ## Appendix: Quick Reference
 
-| What | Convention | Example |
-|------|------------|---------|
-| Variable | `camelCase` | `projectSlug` |
-| Function | `camelCase` | `findAll()` |
-| Class | `PascalCase` | `SkillsService` |
-| Type/Interface | `PascalCase` | `ProjectId`, `CreateSkillDto` |
-| Constant | `UPPER_SNAKE` | `CACHE_KEY`, `BCRYPT_ROUNDS` |
-| File name | `kebab-case` | `skills.service.ts` |
-| Component file | `.tsx` | `Button.tsx` |
-| NestJS file suffix | `.service.ts` | `skills.service.ts` |
-| Route directory | `kebab-case` | `case-studies/` |
-| Prisma model | Singular PascalCase + `@@map` | `model User { @@map("users") }` |
-| Prisma field | `camelCase` + `@map` | `displayName @map("display_name")` |
-| API endpoint | `kebab-case` | `/api/admin/skills/toggle-featured` |
-| Env var | `UPPER_SNAKE` | `DATABASE_URL` |
-| Git branch | `type/kebab-case` | `feat/add-dark-mode` |
-| DTO class | `PascalCase` + `Dto` suffix | `CreateSkillDto` |
-| Hook | `use` prefix + `camelCase` | `useSkills()` |
-| Props type | `ComponentName` + `Props` | `CardProps` |
-| CSS class | `kebab-case` | `hero-section` |
+| What               | Convention                    | Example                             |
+| ------------------ | ----------------------------- | ----------------------------------- |
+| Variable           | `camelCase`                   | `projectSlug`                       |
+| Function           | `camelCase`                   | `findAll()`                         |
+| Class              | `PascalCase`                  | `SkillsService`                     |
+| Type/Interface     | `PascalCase`                  | `ProjectId`, `CreateSkillDto`       |
+| Constant           | `UPPER_SNAKE`                 | `CACHE_KEY`, `BCRYPT_ROUNDS`        |
+| File name          | `kebab-case`                  | `skills.service.ts`                 |
+| Component file     | `.tsx`                        | `Button.tsx`                        |
+| NestJS file suffix | `.service.ts`                 | `skills.service.ts`                 |
+| Route directory    | `kebab-case`                  | `case-studies/`                     |
+| Prisma model       | Singular PascalCase + `@@map` | `model User { @@map("users") }`     |
+| Prisma field       | `camelCase` + `@map`          | `displayName @map("display_name")`  |
+| API endpoint       | `kebab-case`                  | `/api/admin/skills/toggle-featured` |
+| Env var            | `UPPER_SNAKE`                 | `DATABASE_URL`                      |
+| Git branch         | `type/kebab-case`             | `feat/add-dark-mode`                |
+| DTO class          | `PascalCase` + `Dto` suffix   | `CreateSkillDto`                    |
+| Hook               | `use` prefix + `camelCase`    | `useSkills()`                       |
+| Props type         | `ComponentName` + `Props`     | `CardProps`                         |
+| CSS class          | `kebab-case`                  | `hero-section`                      |
 
 ## 13. Naming Decision Tree
 
@@ -595,5 +595,6 @@ flowchart TD
 ```
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -8,16 +8,17 @@
 
 ### Prerequisites
 
-| Tool | Version | Check Command |
-|------|---------|---------------|
-| Node.js | >= 18 | `node --version` |
-| npm | >= 10 | `npm --version` |
-| Docker | Latest | `docker --version` |
-| Docker Compose | v2+ | `docker compose version` |
-| Git | Latest | `git --version` |
-| IDE | VSCode / WebStorm | — |
+| Tool           | Version           | Check Command            |
+| -------------- | ----------------- | ------------------------ |
+| Node.js        | >= 18             | `node --version`         |
+| npm            | >= 10             | `npm --version`          |
+| Docker         | Latest            | `docker --version`       |
+| Docker Compose | v2+               | `docker compose version` |
+| Git            | Latest            | `git --version`          |
+| IDE            | VSCode / WebStorm | —                        |
 
 **Recommended VSCode extensions:**
+
 - ESLint (`dbaeumer.vscode-eslint`)
 - Prettier (`esbenp.prettier-vscode`)
 - Prisma (`Prisma.prisma`)
@@ -28,16 +29,16 @@
 
 Before Day 1, ensure you have access to:
 
-| Service | Purpose | Request From |
-|---------|---------|-------------|
-| GitHub | Source code, CI/CD, PRs | Team lead |
-| Vercel | Web deployment, preview deployments | Team lead |
-| Supabase | PostgreSQL database, storage, auth | Team lead |
-| Sentry | Error tracking, APM, profiling | Team lead |
-| PostHog | Product analytics, feature flags | Team lead |
-| Resend | Transactional email service | Team lead |
-| OpenAI | AI chat, embeddings | Team lead |
-| Redis Cloud (Upstash/Redis) | Caching, BullMQ queues, sessions | Team lead |
+| Service                     | Purpose                             | Request From |
+| --------------------------- | ----------------------------------- | ------------ |
+| GitHub                      | Source code, CI/CD, PRs             | Team lead    |
+| Vercel                      | Web deployment, preview deployments | Team lead    |
+| Supabase                    | PostgreSQL database, storage, auth  | Team lead    |
+| Sentry                      | Error tracking, APM, profiling      | Team lead    |
+| PostHog                     | Product analytics, feature flags    | Team lead    |
+| Resend                      | Transactional email service         | Team lead    |
+| OpenAI                      | AI chat, embeddings                 | Team lead    |
+| Redis Cloud (Upstash/Redis) | Caching, BullMQ queues, sessions    | Team lead    |
 
 ---
 
@@ -74,61 +75,61 @@ Then edit `config/.env`. Below is what each variable group does:
 
 **Database (required for local API to start):**
 
-| Variable | Description | Default (Dev) |
-|----------|-------------|----------------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:54322/postgres` |
-| `SUPABASE_URL` | Supabase project URL | Local Supabase or prod URL |
-| `SUPABASE_ANON_KEY` | Public anon key | From Supabase dashboard |
-| `SUPABASE_SERVICE_ROLE_KEY` | Admin key (bypasses RLS) | From Supabase dashboard |
+| Variable                    | Description                  | Default (Dev)                                             |
+| --------------------------- | ---------------------------- | --------------------------------------------------------- |
+| `DATABASE_URL`              | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:54322/postgres` |
+| `SUPABASE_URL`              | Supabase project URL         | Local Supabase or prod URL                                |
+| `SUPABASE_ANON_KEY`         | Public anon key              | From Supabase dashboard                                   |
+| `SUPABASE_SERVICE_ROLE_KEY` | Admin key (bypasses RLS)     | From Supabase dashboard                                   |
 
 **Authentication (required):**
 
-| Variable | Description |
-|----------|-------------|
-| `JWT_SECRET` | JWT signing secret. Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
-| `JWT_SECRET` | NestJS Passport JWT signing secret (same generator) |
-| `NEXTAUTH_URL` | Frontend URL for OAuth callbacks (`http://localhost:3000`) |
+| Variable       | Description                                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
+| `JWT_SECRET`   | JWT signing secret. Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `JWT_SECRET`   | NestJS Passport JWT signing secret (same generator)                                                           |
+| `NEXTAUTH_URL` | Frontend URL for OAuth callbacks (`http://localhost:3000`)                                                    |
 
 **AI Service (optional for local dev):**
 
-| Variable | Description |
-|----------|-------------|
+| Variable         | Description                             |
+| ---------------- | --------------------------------------- |
 | `OPENAI_API_KEY` | Required for AI chat/embedding features |
 
 **Redis (required for caching + BullMQ queues):**
 
-| Variable | Description |
-|----------|-------------|
+| Variable    | Description                                                |
+| ----------- | ---------------------------------------------------------- |
 | `REDIS_URL` | Redis connection string. Default: `redis://localhost:6379` |
 
 **Monitoring (optional, safe to leave as-is in dev):**
 
-| Variable | Description |
-|----------|-------------|
-| `SENTRY_DSN` | Sentry backend error tracking |
+| Variable                 | Description                    |
+| ------------------------ | ------------------------------ |
+| `SENTRY_DSN`             | Sentry backend error tracking  |
 | `NEXT_PUBLIC_SENTRY_DSN` | Sentry frontend error tracking |
 
 **Analytics (optional in dev):**
 
-| Variable | Description |
-|----------|-------------|
-| `NEXT_PUBLIC_POSTHOG_KEY` | PostHog project key |
+| Variable                   | Description            |
+| -------------------------- | ---------------------- |
+| `NEXT_PUBLIC_POSTHOG_KEY`  | PostHog project key    |
 | `NEXT_PUBLIC_POSTHOG_HOST` | PostHog ingestion host |
 
 **Email (optional in dev):**
 
-| Variable | Description |
-|----------|-------------|
-| `RESEND_API_KEY` | Resend API key for transactional email |
-| `EMAIL_FROM` | Sender address |
-| `ADMIN_NOTIFICATION_EMAIL` | Where admin notifications go |
+| Variable                   | Description                            |
+| -------------------------- | -------------------------------------- |
+| `RESEND_API_KEY`           | Resend API key for transactional email |
+| `EMAIL_FROM`               | Sender address                         |
+| `ADMIN_NOTIFICATION_EMAIL` | Where admin notifications go           |
 
 **Security (optional, sensible dev defaults exist):**
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `LOCKOUT_THRESHOLD` | Failed login attempts before lockout | `5` |
-| `LOCKOUT_DURATION_MS` | Lockout duration in ms | `900000` (15 min) |
+| Variable              | Description                          | Default           |
+| --------------------- | ------------------------------------ | ----------------- |
+| `LOCKOUT_THRESHOLD`   | Failed login attempts before lockout | `5`               |
+| `LOCKOUT_DURATION_MS` | Lockout duration in ms               | `900000` (15 min) |
 
 ### 3. Database Setup
 
@@ -203,13 +204,13 @@ npm run dev:ai
 
 Open each of these URLs in your browser:
 
-| Service | URL | Expected Result |
-|---------|-----|----------------|
-| **Web** | http://localhost:3000 | Portfolio homepage loads |
-| **API Health** | http://localhost:3001/api/health/liveness | `{ "status": "ok" }` |
-| **API Health (detailed)** | http://localhost:3001/api/health | JSON with DB, Redis, queue status |
-| **Swagger Docs** | http://localhost:3001/api/docs | Swagger UI with all endpoints |
-| **AI Service** | http://localhost:8000/docs | FastAPI Swagger UI |
+| Service                   | URL                                       | Expected Result                   |
+| ------------------------- | ----------------------------------------- | --------------------------------- |
+| **Web**                   | http://localhost:3000                     | Portfolio homepage loads          |
+| **API Health**            | http://localhost:3001/api/health/liveness | `{ "status": "ok" }`              |
+| **API Health (detailed)** | http://localhost:3001/api/health          | JSON with DB, Redis, queue status |
+| **Swagger Docs**          | http://localhost:3001/api/docs            | Swagger UI with all endpoints     |
+| **AI Service**            | http://localhost:8000/docs                | FastAPI Swagger UI                |
 
 **API verification commands:**
 
@@ -327,6 +328,7 @@ src/admin/controllers/               # Layer 3: Authenticated CRUD delivery
 **Rule:** When adding or modifying an entity, you almost always touch all three layers. The service is written once; the two controller layers expose different surfaces of it.
 
 Both `PortfolioModule` and `AdminModule` import the same `modules/*` and inject the shared service. Routes are globally prefixed with `api`, yielding:
+
 - `GET /api/portfolio/<entity>` (public, cached)
 - `GET|POST|PATCH|DELETE /api/admin/<entity>` (authenticated, RBAC, audited)
 
@@ -366,7 +368,7 @@ import { ProjectSchema, type Project } from '@portfolio/shared';
 @Injectable()
 export class ProjectsService {
   constructor(private prisma: PrismaService) {}
-  
+
   async findAll() {
     return this.prisma.client.project.findMany();
     // Or use per-model getter: this.prisma.project.findMany()
@@ -378,13 +380,13 @@ The Prisma client is generated to `apps/api/generated/prisma` — a custom path 
 
 #### 5. Auth Model
 
-| Aspect | Detail |
-|--------|--------|
-| Token type | JWT access tokens (15min) + Redis-backed refresh tokens (7d TTL) |
-| OAuth providers | Google, GitHub — handled entirely by NestJS (not Supabase Auth) |
+| Aspect            | Detail                                                            |
+| ----------------- | ----------------------------------------------------------------- |
+| Token type        | JWT access tokens (15min) + Redis-backed refresh tokens (7d TTL)  |
+| OAuth providers   | Google, GitHub — handled entirely by NestJS (not Supabase Auth)   |
 | Role-based access | `admin` / `editor` / `viewer` — enforced via `@Roles()` decorator |
-| Public endpoints | Portfolio controllers — no auth required |
-| Key files | `src/modules/auth/` (guards, strategies, decorators) |
+| Public endpoints  | Portfolio controllers — no auth required                          |
+| Key files         | `src/modules/auth/` (guards, strategies, decorators)              |
 
 #### 6. Frontend Data Flow
 
@@ -490,14 +492,14 @@ test(api): add unit tests for lead service
 
 Format: `<type>(<scope>): <short description>`
 
-| Type | When to Use |
-|------|-------------|
-| `feat` | A new feature |
-| `fix` | A bug fix |
-| `docs` | Documentation changes |
+| Type       | When to Use                             |
+| ---------- | --------------------------------------- |
+| `feat`     | A new feature                           |
+| `fix`      | A bug fix                               |
+| `docs`     | Documentation changes                   |
 | `refactor` | Code change that neither fixes nor adds |
-| `chore` | Build, deps, CI, tooling |
-| `test` | Adding or fixing tests |
+| `chore`    | Build, deps, CI, tooling                |
+| `test`     | Adding or fixing tests                  |
 
 #### Pre-commit Hooks
 
@@ -511,20 +513,20 @@ If any hook fails, the commit is aborted. Fix the issues and try again.
 
 ### Coding Standards
 
-This project follows the **[AI Engineering Constitution](docs/governance/32-SKILL.md)** — the supreme governing document with 24 sections covering all aspects of development. Key highlights:
+This project follows the **[AI Engineering Constitution](docs/23-governance/32-SKILL.md)** — the supreme governing document with 24 sections covering all aspects of development. Key highlights:
 
-| Standard | Requirement |
-|----------|-------------|
-| TypeScript | Strict mode enabled — no implicit `any` |
-| `any` types | **Forbidden** — use `unknown` and narrow with type guards |
-| React components | **React Server Components by default** — add `'use client'` only when needed |
-| Imports | Use path aliases (`@/` for web, no barrel exports) |
-| Naming | `PascalCase` for components/types, `camelCase` for functions/variables, `kebab-case` for files |
-| API endpoints | Follow RESTful conventions, use `{ data, meta? }` envelope |
-| Database | Prisma via `PrismaService`, always run `prisma:generate` after schema edits |
-| Testing | Unit tests for services, E2E for critical flows |
-| Security | Validate all input, sanitize HTML, never trust user data |
-| Documentation | Update docs when behavior changes |
+| Standard         | Requirement                                                                                    |
+| ---------------- | ---------------------------------------------------------------------------------------------- |
+| TypeScript       | Strict mode enabled — no implicit `any`                                                        |
+| `any` types      | **Forbidden** — use `unknown` and narrow with type guards                                      |
+| React components | **React Server Components by default** — add `'use client'` only when needed                   |
+| Imports          | Use path aliases (`@/` for web, no barrel exports)                                             |
+| Naming           | `PascalCase` for components/types, `camelCase` for functions/variables, `kebab-case` for files |
+| API endpoints    | Follow RESTful conventions, use `{ data, meta? }` envelope                                     |
+| Database         | Prisma via `PrismaService`, always run `prisma:generate` after schema edits                    |
+| Testing          | Unit tests for services, E2E for critical flows                                                |
+| Security         | Validate all input, sanitize HTML, never trust user data                                       |
+| Documentation    | Update docs when behavior changes                                                              |
 
 ### PR Process
 
@@ -572,7 +574,7 @@ All checks must pass before merging.
 
 - At least one approval required
 - Address all reviewer comments
-- Use the review checklist from the Constitution (`docs/governance/32-SKILL.md`)
+- Use the review checklist from the Constitution (`docs/23-governance/32-SKILL.md`)
 - After addressing feedback, re-request review
 
 #### Step 6: Merge
@@ -710,19 +712,19 @@ The FastAPI docs are only enabled in debug mode:
 
 ## Where to Get Help
 
-| Resource | Location |
-|----------|----------|
-| **Documentation Index** | [`docs/MASTER-INDEX.md`](../MASTER-INDEX.md) — All 196+ docs organized by category |
-| **AI Engineering Constitution** | [`docs/governance/32-SKILL.md`](../governance/32-SKILL.md) — Supreme governing document |
-| **System Architecture** | [`docs/architecture/SystemArchitecture.md`](../architecture/SystemArchitecture.md) |
-| **API Standards** | [`docs/api/44-API-STANDARDS.md`](../api/44-API-STANDARDS.md) |
-| **Testing Architecture** | [`docs/quality/TestingArchitecture.md`](../quality/TestingArchitecture.md) |
-| **Deployment Guide** | [`docs/operations/DeploymentGuide.md`](../operations/DeploymentGuide.md) |
-| **Security Architecture** | [`docs/security/SecurityArchitecture.md`](../security/SecurityArchitecture.md) |
-| **Coding Standards** | [`docs/governance/CodingStandards.md`](../governance/CodingStandards.md) |
-| **Architecture Decision Records** | [`docs/adr/`](../adr/) — 14 ADRs covering technology choices |
-| **CI/CD Pipeline** | [`docs/operations/53-CI-CD-PIPELINE.md`](../operations/53-CI-CD-PIPELINE.md) |
-| **Runbooks** | [`docs/runbooks/`](../runbooks/) — Incident response, backup, recovery |
+| Resource                          | Location                                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------------------ |
+| **Documentation Index**           | [`docs/MASTER-INDEX.md`](../MASTER-INDEX.md) — All 196+ docs organized by category         |
+| **AI Engineering Constitution**   | [`docs/23-governance/32-SKILL.md`](../governance/32-SKILL.md) — Supreme governing document |
+| **System Architecture**           | [`docs/05-architecture/SystemArchitecture.md`](../05-architecture/SystemArchitecture.md)   |
+| **API Standards**                 | [`docs/10-api/44-API-STANDARDS.md`](../10-api/44-API-STANDARDS.md)                         |
+| **Testing Architecture**          | [`docs/35-quality/TestingArchitecture.md`](../35-quality/TestingArchitecture.md)           |
+| **Deployment Guide**              | [`docs/21-operations/DeploymentGuide.md`](../21-operations/DeploymentGuide.md)             |
+| **Security Architecture**         | [`docs/11-security/SecurityArchitecture.md`](../11-security/SecurityArchitecture.md)       |
+| **Coding Standards**              | [`docs/23-governance/CodingStandards.md`](../governance/CodingStandards.md)                |
+| **Architecture Decision Records** | [`docs/27-decisions/`](../adr/) — 14 ADRs covering technology choices                      |
+| **CI/CD Pipeline**                | [`docs/21-operations/53-CI-CD-PIPELINE.md`](../21-operations/53-CI-CD-PIPELINE.md)         |
+| **Runbooks**                      | [`docs/30-runbooks/`](../runbooks/) — Incident response, backup, recovery                  |
 
 ### Team Communication
 
@@ -734,18 +736,19 @@ The FastAPI docs are only enabled in debug mode:
 
 ```
 docs/MASTER-INDEX.md
-  → docs/architecture/SystemArchitecture.md
-  → docs/api/44-API-STANDARDS.md
-  → docs/database/DatabaseArchitecture.md
-  → docs/operations/DevOpsArchitecture.md
-  → docs/quality/TestingArchitecture.md
-  → docs/governance/32-SKILL.md (Constitution)
+  → docs/05-architecture/SystemArchitecture.md
+  → docs/10-api/44-API-STANDARDS.md
+  → docs/09-database/DatabaseArchitecture.md
+  → docs/21-operations/DevOpsArchitecture.md
+  → docs/35-quality/TestingArchitecture.md
+  → docs/23-governance/32-SKILL.md (Constitution)
 ```
 
 ---
 
-*Last updated: July 2026 — See `docs/MASTER-INDEX.md` for the latest document inventory.*
+_Last updated: July 2026 — See `docs/MASTER-INDEX.md` for the latest document inventory._
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

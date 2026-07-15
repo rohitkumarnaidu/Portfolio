@@ -93,11 +93,11 @@ sequenceDiagram
 
 ## 3. Review SLA
 
-| Severity | SLA | Example |
-|----------|-----|---------|
-| **SEV** (production outage, security vulnerability) | **4 hours** | Auth bypass, XSS in public output, broken portfolio rendering |
-| **Normal** (feature, refactor, bugfix) | **24 hours** | New admin CRUD, test additions, UI polish |
-| **Large** (>500 lines changed, multi-module) | **48 hours** | New module, database migration, API redesign |
+| Severity                                            | SLA          | Example                                                       |
+| --------------------------------------------------- | ------------ | ------------------------------------------------------------- |
+| **SEV** (production outage, security vulnerability) | **4 hours**  | Auth bypass, XSS in public output, broken portfolio rendering |
+| **Normal** (feature, refactor, bugfix)              | **24 hours** | New admin CRUD, test additions, UI polish                     |
+| **Large** (>500 lines changed, multi-module)        | **48 hours** | New module, database migration, API redesign                  |
 
 If the reviewer cannot meet the SLA, they must communicate with the author and reassign or delay with explicit agreement.
 
@@ -183,18 +183,18 @@ Reviewers evaluate every PR against these dimensions, in priority order:
 
 All code must follow the patterns established in the codebase. Key non-negotiables:
 
-| Concern | Standard | Enforcement |
-|---------|----------|-------------|
-| **API Structure** | Three-layer: `module/` (service + DTOs) → `portfolio/controllers/` → `admin/controllers/` | Lint + review |
-| **Data Fetching (Web)** | TanStack React Query hooks in `lib/hooks/` | Review |
-| **Validation** | Zod schemas in `packages/shared` + `class-validator` DTOs in API | TypeScript + review |
-| **Database** | Prisma ORM via `PrismaService`; snake_case table names via `@@map` | Review |
-| **API Envelope** | `{ data, meta? }` for all responses | Review |
-| **Auth** | JWT + Passport; `JwtAuthGuard` + `RolesGuard` on admin controllers | Review |
-| **Caching** | `@CacheTTL()` on portfolio (read-only) endpoints; cache invalidation on mutations | Review |
-| **Mutations** | `@Audit({action, resource})` on all admin mutations | Review |
-| **Frontend** | Server components by default; `'use client'` only for interactivity | Review |
-| **Types** | Strict TypeScript, no `any`, branded IDs (`UserId`, `ProjectId`), interfaces over types | Lint + review |
+| Concern                 | Standard                                                                                  | Enforcement         |
+| ----------------------- | ----------------------------------------------------------------------------------------- | ------------------- |
+| **API Structure**       | Three-layer: `module/` (service + DTOs) → `portfolio/controllers/` → `admin/controllers/` | Lint + review       |
+| **Data Fetching (Web)** | TanStack React Query hooks in `lib/hooks/`                                                | Review              |
+| **Validation**          | Zod schemas in `packages/shared` + `class-validator` DTOs in API                          | TypeScript + review |
+| **Database**            | Prisma ORM via `PrismaService`; snake_case table names via `@@map`                        | Review              |
+| **API Envelope**        | `{ data, meta? }` for all responses                                                       | Review              |
+| **Auth**                | JWT + Passport; `JwtAuthGuard` + `RolesGuard` on admin controllers                        | Review              |
+| **Caching**             | `@CacheTTL()` on portfolio (read-only) endpoints; cache invalidation on mutations         | Review              |
+| **Mutations**           | `@Audit({action, resource})` on all admin mutations                                       | Review              |
+| **Frontend**            | Server components by default; `'use client'` only for interactivity                       | Review              |
+| **Types**               | Strict TypeScript, no `any`, branded IDs (`UserId`, `ProjectId`), interfaces over types   | Lint + review       |
 
 ---
 
@@ -316,6 +316,7 @@ The code is correct, well-structured, and meets all standards. No changes needed
 ### Comments (Comment)
 
 Non-blocking observations, style suggestions, or questions. The author may address them in a follow-up PR or resolve with explanation. Use phrases like:
+
 - "Consider extracting this logic into a helper."
 - "Nit: the variable name `x` could be more descriptive."
 - "This works as-is, but you might look at how `ProjectsService` handles this case."
@@ -323,6 +324,7 @@ Non-blocking observations, style suggestions, or questions. The author may addre
 ### Request Changes (Request Changes)
 
 Blocking issues that must be resolved before merge. Use this for:
+
 - Logic errors or incorrect behavior
 - Missing security controls (auth, validation, sanitization)
 - Test gaps for critical paths
@@ -332,11 +334,13 @@ Blocking issues that must be resolved before merge. Use this for:
 ### Examples
 
 **Good review comment:**
+
 > The `bulkDelete` method in `skills.service.ts` deletes all matching records, but doesn't check whether any of the IDs exist. If all provided IDs are invalid, the caller gets `{ deleted: 0, failed: 5 }` with no indication that nothing happened. Consider a) validating existence first, or b) adding a check and returning `NotFoundException` if none match.
 
 Why it's good: Specific file and method, describes the problem, offers two concrete solutions, and doesn't assume the author's preferred approach.
 
 **Bad review comment:**
+
 > This won't work.
 
 Why it's bad: No specificity, no explanation of why it won't work, no suggested fix, not actionable.
@@ -355,5 +359,6 @@ When the author and reviewer cannot reach consensus:
 **Guiding principle:** Perfect is the enemy of good. Not every PR must be flawless — it must be correct, secure, and maintainable. Reviewers should distinguish between "this could be better" (non-blocking) and "this is wrong" (blocking).
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

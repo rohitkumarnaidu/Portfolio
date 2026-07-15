@@ -21,7 +21,7 @@ Yes, the project is licensed under MIT — see the `LICENSE` file in the reposit
 
 ### How do I set up the project locally?
 
-See `docs/onboarding/developer-onboarding.md` for a complete setup guide.
+See `docs/33-onboarding/developer-onboarding.md` for a complete setup guide.
 
 ### How do I run tests?
 
@@ -94,9 +94,10 @@ Run `npm run prisma:generate` from `apps/api/`.
 ## More Help
 
 - [CONTRIBUTING.md](/CONTRIBUTING.md) - Contribution guide
-- [Developer Onboarding](docs/onboarding/developer-onboarding.md)
+- [Developer Onboarding](docs/33-onboarding/developer-onboarding.md)
 - [Documentation Index](docs/MASTER-INDEX.md)
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -35,13 +35,13 @@ The schema spans 25+ models including `User`, `Session`, `BlogPost`, `Project`, 
 
 **Adopt Prisma ORM** with PostgreSQL via `@prisma/adapter-pg`.
 
-| Component | Choice |
-|-----------|--------|
-| ORM | Prisma (`prisma-client`) |
-| Database | PostgreSQL (via `datasource db`) |
-| Adapter | `@prisma/adapter-pg` over `pg.Pool` |
-| Client output | `apps/api/generated/prisma` (custom path) |
-| Schema location | `apps/api/prisma/schema.prisma` |
+| Component       | Choice                                    |
+| --------------- | ----------------------------------------- |
+| ORM             | Prisma (`prisma-client`)                  |
+| Database        | PostgreSQL (via `datasource db`)          |
+| Adapter         | `@prisma/adapter-pg` over `pg.Pool`       |
+| Client output   | `apps/api/generated/prisma` (custom path) |
+| Schema location | `apps/api/prisma/schema.prisma`           |
 
 The `PrismaService` wrapper (`apps/api/src/common/database/prisma.service.ts`) instantiates a `PrismaClient` with the pg adapter, exposes per-model getters (e.g., `this.prisma.blogPost`), and provides raw query escape hatches via `$queryRaw` and `$executeRaw`.
 
@@ -49,13 +49,13 @@ The `PrismaService` wrapper (`apps/api/src/common/database/prisma.service.ts`) i
 
 ## 3. Alternatives Considered
 
-| Alternative | Why Not Chosen |
-|-------------|----------------|
-| **TypeORM** | Heavier decorator-based API; slower migration generation; less ergonomic for complex queries; historical issues with NestJS integration stability. |
-| **Sequelize** | Imperative model definitions (no schema file); weaker TypeScript inference; verbose association setup for 25+ models. |
-| **Drizzle ORM** | Excellent type-safety but newer ecosystem; fewer NestJS examples; no built-in migration tooling comparable to Prisma Migrate at time of evaluation. |
-| **Knex.js** | Query builder only — no schema introspection, no type-safe models, no migration lifecycle management; requires manual type generation. |
-| **Raw SQL (pg)** | Maximum control but zero type safety; no migrations; no schema introspection; unacceptable productivity loss across 25+ models. |
+| Alternative      | Why Not Chosen                                                                                                                                      |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **TypeORM**      | Heavier decorator-based API; slower migration generation; less ergonomic for complex queries; historical issues with NestJS integration stability.  |
+| **Sequelize**    | Imperative model definitions (no schema file); weaker TypeScript inference; verbose association setup for 25+ models.                               |
+| **Drizzle ORM**  | Excellent type-safety but newer ecosystem; fewer NestJS examples; no built-in migration tooling comparable to Prisma Migrate at time of evaluation. |
+| **Knex.js**      | Query builder only — no schema introspection, no type-safe models, no migration lifecycle management; requires manual type generation.              |
+| **Raw SQL (pg)** | Maximum control but zero type safety; no migrations; no schema introspection; unacceptable productivity loss across 25+ models.                     |
 
 #### Architecture Comparison
 
@@ -130,13 +130,13 @@ this.client = new PrismaClient({ adapter });
 
 ### Migration workflow
 
-| Step | Command | When |
-|------|---------|------|
-| Edit schema | Edit `prisma/schema.prisma` | During development |
-| Generate client | `npm run prisma:generate` | After every schema edit |
-| Create migration | `npm run prisma:migrate:dev` | Before committing schema changes |
-| Validate | `npm run prisma:validate` | CI (`prisma-validate` job) |
-| Deploy | `npm run prisma:migrate:deploy` | Production deployment |
+| Step             | Command                         | When                             |
+| ---------------- | ------------------------------- | -------------------------------- |
+| Edit schema      | Edit `prisma/schema.prisma`     | During development               |
+| Generate client  | `npm run prisma:generate`       | After every schema edit          |
+| Create migration | `npm run prisma:migrate:dev`    | Before committing schema changes |
+| Validate         | `npm run prisma:validate`       | CI (`prisma-validate` job)       |
+| Deploy           | `npm run prisma:migrate:deploy` | Production deployment            |
 
 ### Per-model access pattern
 
@@ -195,13 +195,14 @@ prisma-validate:
 
 ## 6. References
 
-- [Database Architecture](../database/DatabaseArchitecture.md) — overall database design and connection strategy
-- [Database Schema](../database/DatabaseSchema.md) — detailed model relationships and indexes
+- [Database Architecture](../09-database/DatabaseArchitecture.md) — overall database design and connection strategy
+- [Database Schema](../09-database/DatabaseSchema.md) — detailed model relationships and indexes
 - `apps/api/prisma/schema.prisma` — the schema file (source of truth, 626 lines)
 - `apps/api/src/common/database/prisma.service.ts` — PrismaService implementation
 - `.github/workflows/ci.yml` — CI pipeline with prisma-validate job
 - `turbo.json` — Turborepo task dependency graph (build depends on ^build)
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

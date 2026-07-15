@@ -240,5 +240,6 @@ We follow **Semantic Versioning** (SemVer): `MAJOR.MINOR.PATCH`
 - **Size check:** Fails CI if PR exceeds 400 lines changed.
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

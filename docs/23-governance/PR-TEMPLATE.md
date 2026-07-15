@@ -1,9 +1,10 @@
 # Pull Request Template — FAANG Enterprise Standard
 
 > **Document:** `PRTemplate.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** ✅ Active | **Owner:** Principal DevOps Engineer | **Review Cadence:** Quarterly  
+> **Status:** ✅ Active | **Owner:** Principal DevOps Engineer | **Review Cadence:** Quarterly
 
 ## 1. Executive Summary
+
 This document defines the strict Pull Request template required for all merges into `main`. It enforces FAANG-level rigor for testing, documentation, and architecture adherence.
 
 ```mermaid
@@ -25,11 +26,15 @@ flowchart TD
 
 ```markdown
 ## Description
+
 <!-- Describe the changes introduced by this pull request. Link to Jira/Linear tickets. -->
+
 Fixes # (issue)
 
 ## Type of Change
+
 <!-- Check all that apply -->
+
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
 - [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
@@ -38,8 +43,10 @@ Fixes # (issue)
 - [ ] 🛡️ Security patch
 
 ## FAANG Enterprise Checklist
+
 <!-- All items must be checked off before merge -->
-- [ ] My code follows the [Coding Standards](../docs/governance/CodingStandards.md) and [Component Standards](../docs/design/ComponentStandards.md).
+
+- [ ] My code follows the [Coding Standards](../docs/23-governance/CodingStandards.md) and [Component Standards](../docs/04-design/ComponentStandards.md).
 - [ ] I have performed a self-review of my own code.
 - [ ] I have added comprehensive unit tests for all new business logic.
 - [ ] E2E Playwright tests pass locally.
@@ -50,12 +57,15 @@ Fixes # (issue)
 - [ ] Zod schemas have been updated to reflect any API contract changes.
 
 ## Screenshots / Screen Recordings
+
 <!-- If applicable, add screenshots or recordings to show UI changes. -->
 
 ## Notes for Reviewers
+
 <!-- Any specific areas you want reviewers to focus on? -->
 ```
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

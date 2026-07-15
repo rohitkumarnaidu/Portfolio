@@ -1,6 +1,6 @@
 # 📜 Constitution Ratification Ceremony — Printable Materials
 
-> **Document:** `docs/ceremony/MATERIALS.md` | **Version:** 1.1 | **Last Updated:** June 2026  
+> **Document:** `docs/23-governance/MATERIALS.md` | **Version:** 1.1 | **Last Updated:** June 2026  
 > **Status:** ✅ Active | **Owner:** Chief Architect | **Review Cadence:** One-time event  
 > **Classification:** Internal — Engineering Team  
 > **Ceremony Date:** June 24, 2026 | **Print Before:** June 23, 2026  
@@ -23,15 +23,15 @@
 
 ## 1. Directions for Printing
 
-| Sheet | Pages | Copies | Paper Size | Print On |
-|-------|-------|--------|------------|----------|
-| Leadership Signatures (§2) | 1 | 1 | A4 / Letter | Regular paper |
-| Team Signatures (§3) | 1 | 1 | A4 / Letter | Regular paper |
-| Witness Signatures (§4) | 1 | 1 | A4 / Letter | Regular paper |
-| Reservation Log (§5) | 1 | 1 | A4 / Letter | Regular paper |
-| Oath Cards (§6) | 1 | 1 per attendee | A6 (¼ page) | Cardstock recommended |
-| Voting Scorecard (§7) | 1 | 1 per attendee | A5 (½ page) | Regular paper |
-| Attendee Prep Card (§8) | 1 | 1 per attendee | A5 (½ page) | Regular paper |
+| Sheet                      | Pages | Copies         | Paper Size  | Print On              |
+| -------------------------- | ----- | -------------- | ----------- | --------------------- |
+| Leadership Signatures (§2) | 1     | 1              | A4 / Letter | Regular paper         |
+| Team Signatures (§3)       | 1     | 1              | A4 / Letter | Regular paper         |
+| Witness Signatures (§4)    | 1     | 1              | A4 / Letter | Regular paper         |
+| Reservation Log (§5)       | 1     | 1              | A4 / Letter | Regular paper         |
+| Oath Cards (§6)            | 1     | 1 per attendee | A6 (¼ page) | Cardstock recommended |
+| Voting Scorecard (§7)      | 1     | 1 per attendee | A5 (½ page) | Regular paper         |
+| Attendee Prep Card (§8)    | 1     | 1 per attendee | A5 (½ page) | Regular paper         |
 
 **Total pages to print:** ~15 (for 10 attendees)
 
@@ -303,7 +303,7 @@ ______________________________________________________________
 │            Wednesday, June 24, 2026 · 10:00 AM IST          │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
-│  ☐ Read Executive Summary (docs/governance/32-SKILL.md §1)            │
+│  ☐ Read Executive Summary (docs/23-governance/32-SKILL.md §1)            │
 │  ☐ Read your assigned section(s) in full                   │
 │  ☐ Prepare 2-3 questions/comments                           │
 │  ☐ Review Forbidden Practices (§21)                        │
@@ -333,20 +333,21 @@ ______________________________________________________________
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 16, 2026 | **Initial ceremony materials** — Created printable signature sheets (leadership, team, witnesses), reservation log, Engineer's Oath card, voting scorecard, and attendee prep card. 8 printable sheets, designed for A4/Letter printing. | Chief Architect |
+| Version | Date         | Changes                                                                                                                                                                                                                                  | Author          |
+| ------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| 1.0     | Jun 16, 2026 | **Initial ceremony materials** — Created printable signature sheets (leadership, team, witnesses), reservation log, Engineer's Oath card, voting scorecard, and attendee prep card. 8 printable sheets, designed for A4/Letter printing. | Chief Architect |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/ceremony/AGENDA.md` | Ceremony agenda with timeline and reading assignments |
-| `docs/governance/33-RATIFICATION.md` | Ratification process and governance framework |
-| `docs/governance/32-SKILL.md` | The AI Engineering Constitution |
+| Reference                               | Description                                           |
+| --------------------------------------- | ----------------------------------------------------- |
+| `docs/23-governance/AGENDA.md`          | Ceremony agenda with timeline and reading assignments |
+| `docs/23-governance/33-RATIFICATION.md` | Ratification process and governance framework         |
+| `docs/23-governance/32-SKILL.md`        | The AI Engineering Constitution                       |
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

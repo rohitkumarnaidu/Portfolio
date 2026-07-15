@@ -18,29 +18,29 @@ This single number captures both depth of engagement (are users exploring?) and 
 
 ## 2. Top 10 KPI Dashboard
 
-| # | KPI | Definition | Current | Target | Data Source | Frequency | Owner |
-|---|-----|-----------|---------|--------|-------------|-----------|-------|
-| 1 | **Visitor-to-Lead Conversion** | Contact form submissions ÷ unique visitors × 100 | 1.8% | 2.5% | PostHog | Weekly | Product Lead |
-| 2 | **AI Chat Engagement** | Avg conversation turns per active AI session | 3.2 | 4.0+ | AI Service analytics | Daily | AI Lead |
-| 3 | **System Uptime** | % time all three services (web, api, ai) are operational | 99.95% | 99.99% | Vercel + Sentry | Daily | Engineering Lead |
-| 4 | **Deploy Frequency** | Production deployments per week | 8 | 10+ | GitHub Insights | Weekly | Engineering Lead |
-| 5 | **Lead Time for Change** | Time from first commit to production | 6h | < 24h | GitHub API | Weekly | Engineering Lead |
-| 6 | **Core Web Vitals Pass Rate** | % of pages passing LCP + CLS + INP thresholds | 82% | 95% | Sentry | Weekly | Engineering Lead |
-| 7 | **Bounce Rate** | Single-page sessions ÷ total sessions | 34% | < 30% | Vercel Analytics | Weekly | Product Lead |
-| 8 | **AI User Satisfaction** | % of AI responses rated helpful/accurate | 76% | 85% | AI Service (feedback) | Monthly | AI Lead |
-| 9 | **Resume Downloads / 1K Visitors** | Resume downloads per 1,000 unique visitors | 12 | 20 | PostHog | Monthly | Product Lead |
-| 10 | **Content Velocity** | Time to publish a project via admin dashboard | 4min | < 3min | API audit log | Monthly | Engineering Lead |
+| #   | KPI                                | Definition                                               | Current | Target | Data Source           | Frequency | Owner            |
+| --- | ---------------------------------- | -------------------------------------------------------- | ------- | ------ | --------------------- | --------- | ---------------- |
+| 1   | **Visitor-to-Lead Conversion**     | Contact form submissions ÷ unique visitors × 100         | 1.8%    | 2.5%   | PostHog               | Weekly    | Product Lead     |
+| 2   | **AI Chat Engagement**             | Avg conversation turns per active AI session             | 3.2     | 4.0+   | AI Service analytics  | Daily     | AI Lead          |
+| 3   | **System Uptime**                  | % time all three services (web, api, ai) are operational | 99.95%  | 99.99% | Vercel + Sentry       | Daily     | Engineering Lead |
+| 4   | **Deploy Frequency**               | Production deployments per week                          | 8       | 10+    | GitHub Insights       | Weekly    | Engineering Lead |
+| 5   | **Lead Time for Change**           | Time from first commit to production                     | 6h      | < 24h  | GitHub API            | Weekly    | Engineering Lead |
+| 6   | **Core Web Vitals Pass Rate**      | % of pages passing LCP + CLS + INP thresholds            | 82%     | 95%    | Sentry                | Weekly    | Engineering Lead |
+| 7   | **Bounce Rate**                    | Single-page sessions ÷ total sessions                    | 34%     | < 30%  | Vercel Analytics      | Weekly    | Product Lead     |
+| 8   | **AI User Satisfaction**           | % of AI responses rated helpful/accurate                 | 76%     | 85%    | AI Service (feedback) | Monthly   | AI Lead          |
+| 9   | **Resume Downloads / 1K Visitors** | Resume downloads per 1,000 unique visitors               | 12      | 20     | PostHog               | Monthly   | Product Lead     |
+| 10  | **Content Velocity**               | Time to publish a project via admin dashboard            | 4min    | < 3min | API audit log         | Monthly   | Engineering Lead |
 
 ## 3. KPI Ownership
 
 Every KPI has a named owner responsible for tracking, reporting, and driving improvement:
 
-| Owner | KPIs |
-|-------|------|
-| **Product Lead** | Visitor-to-Lead Conversion, Bounce Rate, Resume Downloads, Pages/Session, Contact Completion Rate |
-| **Engineering Lead** | System Uptime, Deploy Frequency, Lead Time, Core Web Vitals, MTTR, Change Failure Rate |
-| **AI Lead** | AI Chat Engagement, AI User Satisfaction, AI Cost per Conversation, Vector Search Latency |
-| **Design Lead** | 3D Interaction Rate, Average Session Duration, Feature Adoption Rate |
+| Owner                | KPIs                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------- |
+| **Product Lead**     | Visitor-to-Lead Conversion, Bounce Rate, Resume Downloads, Pages/Session, Contact Completion Rate |
+| **Engineering Lead** | System Uptime, Deploy Frequency, Lead Time, Core Web Vitals, MTTR, Change Failure Rate            |
+| **AI Lead**          | AI Chat Engagement, AI User Satisfaction, AI Cost per Conversation, Vector Search Latency         |
+| **Design Lead**      | 3D Interaction Rate, Average Session Duration, Feature Adoption Rate                              |
 
 ## 4. Leading vs. Lagging Indicators
 
@@ -48,42 +48,42 @@ Every KPI has a named owner responsible for tracking, reporting, and driving imp
 
 These are actionable metrics the team can move day-to-day:
 
-| Leading Indicator | Predicts |
-|------------------|----------|
-| Deploy frequency | Lead time for change, team velocity |
-| Core Web Vitals pass rate | Bounce rate, user satisfaction |
-| AI chat turns per session | AI satisfaction score, conversion |
-| Feature adoption rate (new features) | Visitor-to-lead conversion |
-| Error rate (API) | Uptime, user churn |
+| Leading Indicator                    | Predicts                            |
+| ------------------------------------ | ----------------------------------- |
+| Deploy frequency                     | Lead time for change, team velocity |
+| Core Web Vitals pass rate            | Bounce rate, user satisfaction      |
+| AI chat turns per session            | AI satisfaction score, conversion   |
+| Feature adoption rate (new features) | Visitor-to-lead conversion          |
+| Error rate (API)                     | Uptime, user churn                  |
 
 ### Lagging Indicators (measure past outcomes)
 
-| Lagging Indicator | Reflects |
-|------------------|----------|
-| Visitor-to-Lead Conversion | Overall product-market fit |
-| System Uptime (99.99%) | Infrastructure reliability |
-| Monthly Active Visitors | Marketing + SEO effectiveness |
-| AI User Satisfaction | AI response quality + model choice |
-| Inbound project inquiries | Portfolio effectiveness as a tool |
+| Lagging Indicator          | Reflects                           |
+| -------------------------- | ---------------------------------- |
+| Visitor-to-Lead Conversion | Overall product-market fit         |
+| System Uptime (99.99%)     | Infrastructure reliability         |
+| Monthly Active Visitors    | Marketing + SEO effectiveness      |
+| AI User Satisfaction       | AI response quality + model choice |
+| Inbound project inquiries  | Portfolio effectiveness as a tool  |
 
 ## 5. KPI Review Schedule
 
-| Frequency | Meeting | Agenda |
-|-----------|---------|--------|
-| **Daily (standup)** | Engineering standup | Deploy frequency, error rates, incidents |
-| **Weekly (Mon)** | Engineering metrics review | DORA metrics, performance, alerts from prior week |
-| **Monthly (1st Wed)** | Product & business review | Full KPI dashboard, leading indicators, goal check |
-| **Quarterly** | OKR review | North Star progress, KPI target reset, strategic pivots |
+| Frequency             | Meeting                    | Agenda                                                  |
+| --------------------- | -------------------------- | ------------------------------------------------------- |
+| **Daily (standup)**   | Engineering standup        | Deploy frequency, error rates, incidents                |
+| **Weekly (Mon)**      | Engineering metrics review | DORA metrics, performance, alerts from prior week       |
+| **Monthly (1st Wed)** | Product & business review  | Full KPI dashboard, leading indicators, goal check      |
+| **Quarterly**         | OKR review                 | North Star progress, KPI target reset, strategic pivots |
 
 ## 6. KPI Dashboard Location
 
-| Dashboard | Tool | URL | Updates |
-|-----------|------|-----|---------|
-| **Executive KPI Dashboard** | PostHog | PostHog dashboard (pinned) | Real-time |
-| **Engineering DORA Dashboard** | GitHub Insights | `Insights > Pulse` | Weekly |
-| **Performance Dashboard** | Sentry | Sentry Performance | Real-time |
-| **AI Cost Dashboard** | Custom (planned Grafana) | TBD | Daily |
-| **Traffic & SEO Dashboard** | Vercel Analytics | Vercel dashboard | Real-time |
+| Dashboard                      | Tool                     | URL                        | Updates   |
+| ------------------------------ | ------------------------ | -------------------------- | --------- |
+| **Executive KPI Dashboard**    | PostHog                  | PostHog dashboard (pinned) | Real-time |
+| **Engineering DORA Dashboard** | GitHub Insights          | `Insights > Pulse`         | Weekly    |
+| **Performance Dashboard**      | Sentry                   | Sentry Performance         | Real-time |
+| **AI Cost Dashboard**          | Custom (planned Grafana) | TBD                        | Daily     |
+| **Traffic & SEO Dashboard**    | Vercel Analytics         | Vercel dashboard           | Real-time |
 
 ## 7. KPI Target Setting Process
 
@@ -97,11 +97,11 @@ These are actionable metrics the team can move day-to-day:
 
 Each KPI is scored monthly:
 
-| Status | Color | Meaning |
-|--------|-------|---------|
-| On Track | 🟢 Green | Within 10% of target |
-| At Risk | 🟡 Yellow | 10–25% below target |
-| Critical | 🔴 Red | > 25% below target |
+| Status   | Color     | Meaning              |
+| -------- | --------- | -------------------- |
+| On Track | 🟢 Green  | Within 10% of target |
+| At Risk  | 🟡 Yellow | 10–25% below target  |
+| Critical | 🔴 Red    | > 25% below target   |
 
 A dashboard with > 2 red KPIs triggers a **KPI Recovery Plan** — a focused sprint to address the underlying issues.
 
@@ -138,6 +138,6 @@ graph LR
 ```
 
 ## Cross-References
-- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system
 
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system

@@ -11,6 +11,7 @@
 The on-call schedule ensures **24/7 coverage** for production incidents across the Portfolio platform (Web, API, AI, Database). Every incident must have a human responder within the SLA timeframes defined in the severity criteria.
 
 **Coverage scope:**
+
 - **Web** — Next.js frontend (Vercel-hosted)
 - **API** — NestJS backend (Vercel-hosted)
 - **AI** — FastAPI assistant service (Railway-hosted)
@@ -23,12 +24,12 @@ The on-call schedule ensures **24/7 coverage** for production incidents across t
 
 ### 2.1 Roles
 
-| Role | Count | Rotation | Responsibility |
-|------|-------|----------|----------------|
-| **Primary on-call** | 1 person | 1 week (Mon–Mon) | First responder for all alerts. Acknowledge, triage, mitigate. |
-| **Secondary on-call** | 1 person | 1 week (Mon–Mon, offset) | Backup responder. Handles alerts if primary misses SLA. Steps in during primary's out-of-office. |
-| **Engineering Manager** | 1 person | Always available | Escalation point for complex incidents. Authorizes emergency changes. |
-| **CTO** | 1 person | Always available | Final escalation. Authorizes disaster recovery, breach disclosure, customer communication. |
+| Role                    | Count    | Rotation                 | Responsibility                                                                                   |
+| ----------------------- | -------- | ------------------------ | ------------------------------------------------------------------------------------------------ |
+| **Primary on-call**     | 1 person | 1 week (Mon–Mon)         | First responder for all alerts. Acknowledge, triage, mitigate.                                   |
+| **Secondary on-call**   | 1 person | 1 week (Mon–Mon, offset) | Backup responder. Handles alerts if primary misses SLA. Steps in during primary's out-of-office. |
+| **Engineering Manager** | 1 person | Always available         | Escalation point for complex incidents. Authorizes emergency changes.                            |
+| **CTO**                 | 1 person | Always available         | Final escalation. Authorizes disaster recovery, breach disclosure, customer communication.       |
 
 ### 2.2 Escalation Ladder
 
@@ -52,13 +53,13 @@ CTO ─── Final decision ───► DR activation, breach disclosure, cust
 
 The on-call pool consists of 4–6 rotating engineers from the DevOps, Backend, and Infrastructure teams. Each engineer completes a shadow week before taking primary rotation.
 
-| Engineer | Role | Primary Skills |
-|----------|------|----------------|
-| TBD | DevOps Lead | Full stack, infra, DB |
-| TBD | Backend Engineer | API, auth, AI service |
-| TBD | Platform Engineer | Vercel, Railway, Cloudflare |
-| TBD | SRE | Monitoring, perf, incident management |
-| TBD (shadow) | Staff Engineer | Architecture, escalations |
+| Engineer     | Role              | Primary Skills                        |
+| ------------ | ----------------- | ------------------------------------- |
+| TBD          | DevOps Lead       | Full stack, infra, DB                 |
+| TBD          | Backend Engineer  | API, auth, AI service                 |
+| TBD          | Platform Engineer | Vercel, Railway, Cloudflare           |
+| TBD          | SRE               | Monitoring, perf, incident management |
+| TBD (shadow) | Staff Engineer    | Architecture, escalations             |
 
 ---
 
@@ -66,28 +67,28 @@ The on-call pool consists of 4–6 rotating engineers from the DevOps, Backend, 
 
 Shifts run **Monday 09:00 UTC → Monday 09:00 UTC**. Handoff occurs at shift start.
 
-| Week | Dates | Primary | Secondary |
-|------|-------|---------|-----------|
-| W1 | Jun 29 – Jul 6 | TBD | TBD |
-| W2 | Jul 6 – Jul 13 | TBD | TBD |
-| W3 | Jul 13 – Jul 20 | TBD | TBD |
-| W4 | Jul 20 – Jul 27 | TBD | TBD |
-| W5 | Jul 27 – Aug 3 | TBD | TBD |
-| W6 | Aug 3 – Aug 10 | TBD | TBD |
-| W7 | Aug 10 – Aug 17 | TBD | TBD |
-| W8 | Aug 17 – Aug 24 | TBD | TBD |
-| W9 | Aug 24 – Aug 31 | TBD | TBD |
-| W10 | Aug 31 – Sep 7 | TBD | TBD |
-| W11 | Sep 7 – Sep 14 | TBD | TBD |
-| W12 | Sep 14 – Sep 21 | TBD | TBD |
-| W13 | Sep 21 – Sep 28 | TBD | TBD |
+| Week | Dates           | Primary | Secondary |
+| ---- | --------------- | ------- | --------- |
+| W1   | Jun 29 – Jul 6  | TBD     | TBD       |
+| W2   | Jul 6 – Jul 13  | TBD     | TBD       |
+| W3   | Jul 13 – Jul 20 | TBD     | TBD       |
+| W4   | Jul 20 – Jul 27 | TBD     | TBD       |
+| W5   | Jul 27 – Aug 3  | TBD     | TBD       |
+| W6   | Aug 3 – Aug 10  | TBD     | TBD       |
+| W7   | Aug 10 – Aug 17 | TBD     | TBD       |
+| W8   | Aug 17 – Aug 24 | TBD     | TBD       |
+| W9   | Aug 24 – Aug 31 | TBD     | TBD       |
+| W10  | Aug 31 – Sep 7  | TBD     | TBD       |
+| W11  | Sep 7 – Sep 14  | TBD     | TBD       |
+| W12  | Sep 14 – Sep 21 | TBD     | TBD       |
+| W13  | Sep 21 – Sep 28 | TBD     | TBD       |
 
 ### 3.1 Holiday & Exception Calendar
 
-| Date | Holiday | Coverage Note |
-|------|---------|---------------|
+| Date  | Holiday             | Coverage Note                                    |
+| ----- | ------------------- | ------------------------------------------------ |
 | Jul 4 | US Independence Day | Secondary becomes primary for US-based engineers |
-| Sep 7 | Labor Day (US) | Swap rotation if needed |
+| Sep 7 | Labor Day (US)      | Swap rotation if needed                          |
 
 ---
 
@@ -95,12 +96,12 @@ Shifts run **Monday 09:00 UTC → Monday 09:00 UTC**. Handoff occurs at shift st
 
 ### 4.1 Alert Response SLAs
 
-| Severity | Acknowledge Time | First Update | Fix SLA |
-|----------|-----------------|--------------|---------|
-| SEV-1 (Critical) | 5 minutes | 15 minutes | 4 hours |
-| SEV-2 (High) | 15 minutes | 30 minutes | 8 hours |
-| SEV-3 (Medium) | 1 hour | 2 hours | 48 hours |
-| SEV-4 (Low) | 4 hours | Next business day | Next sprint |
+| Severity         | Acknowledge Time | First Update      | Fix SLA     |
+| ---------------- | ---------------- | ----------------- | ----------- |
+| SEV-1 (Critical) | 5 minutes        | 15 minutes        | 4 hours     |
+| SEV-2 (High)     | 15 minutes       | 30 minutes        | 8 hours     |
+| SEV-3 (Medium)   | 1 hour           | 2 hours           | 48 hours    |
+| SEV-4 (Low)      | 4 hours          | Next business day | Next sprint |
 
 ### 4.2 Primary On-Call Duties
 
@@ -136,6 +137,7 @@ Shifts run **Monday 09:00 UTC → Monday 09:00 UTC**. Handoff occurs at shift st
 A lightweight status check between outgoing and incoming on-call engineers:
 
 **Checklist:**
+
 - [ ] Any active incidents? Share status, timeline, and next steps.
 - [ ] Any ongoing investigations? Share context and open questions.
 - [ ] Any maintenance windows or planned changes during incoming shift?
@@ -143,6 +145,7 @@ A lightweight status check between outgoing and incoming on-call engineers:
 - [ ] Handoff acknowledged in #ops-handoff channel.
 
 **Handoff template (post in #ops-handoff):**
+
 ```
 ========== ON-CALL HANDOFF ==========
 From: @primary-outgoing
@@ -169,41 +172,41 @@ Occurs at the beginning of the new on-call rotation. Includes everything from da
 
 ## 6. Communication Channels
 
-| Channel | Purpose | Primary/Secondary |
-|---------|---------|-------------------|
-| `#ops-alerts` | Automated alert notifications from monitoring tools | All alerts |
-| `#ops-incident` | Active incident coordination and timeline | Per-incident thread |
-| `#ops-escalation` | Escalation notifications when SLA is missed | Missed-ACK alerts |
-| `#ops-handoff` | Daily and weekly handoff summaries | Shift transitions |
-| `#ops-maintenance` | Scheduled maintenance announcements | Planned changes |
-| Phone tree | Emergency contact for SEV-1 after-hours | Private list |
+| Channel            | Purpose                                             | Primary/Secondary   |
+| ------------------ | --------------------------------------------------- | ------------------- |
+| `#ops-alerts`      | Automated alert notifications from monitoring tools | All alerts          |
+| `#ops-incident`    | Active incident coordination and timeline           | Per-incident thread |
+| `#ops-escalation`  | Escalation notifications when SLA is missed         | Missed-ACK alerts   |
+| `#ops-handoff`     | Daily and weekly handoff summaries                  | Shift transitions   |
+| `#ops-maintenance` | Scheduled maintenance announcements                 | Planned changes     |
+| Phone tree         | Emergency contact for SEV-1 after-hours             | Private list        |
 
 ### 6.1 Phone Tree (For SEV-1 After-Hours Only)
 
 Used when Slack alerts are not acknowledged within 5 minutes. Maintained in 1Password as "On-Call Phone Tree."
 
-| Order | Role | Contact Method |
-|-------|------|----------------|
-| 1 | Primary on-call | Phone call + SMS |
-| 2 | Secondary on-call | Phone call + SMS |
-| 3 | Engineering Manager | Phone call |
-| 4 | CTO | Phone call |
+| Order | Role                | Contact Method   |
+| ----- | ------------------- | ---------------- |
+| 1     | Primary on-call     | Phone call + SMS |
+| 2     | Secondary on-call   | Phone call + SMS |
+| 3     | Engineering Manager | Phone call       |
+| 4     | CTO                 | Phone call       |
 
 ---
 
 ## 7. Tools
 
-| Tool | Purpose | Access |
-|------|---------|--------|
-| **PagerDuty** | Primary alerting, on-call schedule management, escalation policies | All on-call engineers |
-| **Slack** | Alert notifications, incident channels, handoff communication | All team members |
-| **Sentry** | Error tracking, performance monitoring, alert rules | All engineers |
-| **Better Uptime** | External health checking, status page | DevOps team |
-| **Vercel Dashboard** | Deployment management, logs, analytics | All engineers |
-| **Railway Dashboard** | AI service management, logs | Platform team |
-| **Supabase Dashboard** | Database monitoring, query performance, backups | DevOps team |
-| **Cloudflare Dashboard** | DNS, CDN, WAF, DDoS protection | DevOps team |
-| **1Password** | Credential storage, phone tree, runbook secrets | All team members |
+| Tool                     | Purpose                                                            | Access                |
+| ------------------------ | ------------------------------------------------------------------ | --------------------- |
+| **PagerDuty**            | Primary alerting, on-call schedule management, escalation policies | All on-call engineers |
+| **Slack**                | Alert notifications, incident channels, handoff communication      | All team members      |
+| **Sentry**               | Error tracking, performance monitoring, alert rules                | All engineers         |
+| **Better Uptime**        | External health checking, status page                              | DevOps team           |
+| **Vercel Dashboard**     | Deployment management, logs, analytics                             | All engineers         |
+| **Railway Dashboard**    | AI service management, logs                                        | Platform team         |
+| **Supabase Dashboard**   | Database monitoring, query performance, backups                    | DevOps team           |
+| **Cloudflare Dashboard** | DNS, CDN, WAF, DDoS protection                                     | DevOps team           |
+| **1Password**            | Credential storage, phone tree, runbook secrets                    | All team members      |
 
 ### 7.1 PagerDuty Configuration
 
@@ -233,6 +236,7 @@ Used when Slack alerts are not acknowledged within 5 minutes. Maintained in 1Pas
 ### 8.3 Out-of-Office Coverage
 
 If the primary on-call has planned PTO:
+
 1. Notify the DevOps Lead at least 1 week in advance.
 2. The secondary on-call becomes primary for that week.
 3. A volunteer from the pool becomes secondary.
@@ -246,24 +250,24 @@ If the primary on-call has planned PTO:
 
 Every engineer must complete a shadow rotation before taking primary on-call:
 
-| Day | Activity |
-|-----|----------|
-| Mon | Platform walkthrough: dashboards, tools, access |
-| Tue | Runbook review: service restart, database failover, rollback |
-| Wed | Simulated incident: guided SEV-2 drill with mentor |
-| Thu | Real incident shadow: observe primary, assist with triage |
+| Day | Activity                                                        |
+| --- | --------------------------------------------------------------- |
+| Mon | Platform walkthrough: dashboards, tools, access                 |
+| Tue | Runbook review: service restart, database failover, rollback    |
+| Wed | Simulated incident: guided SEV-2 drill with mentor              |
+| Thu | Real incident shadow: observe primary, assist with triage       |
 | Fri | Simulated incident: independent SEV-3 drill, reviewed by mentor |
 
 ### 9.2 Simulation Drills
 
 Quarterly tabletop exercises covering failure scenarios:
 
-| Drill | Scenario | Frequency |
-|-------|----------|-----------|
-| DB Failover | Primary database unreachable, promote standby | Quarterly |
-| Auth Outage | OAuth provider down, fallback to backup IdP | Quarterly |
-| AI Service Down | OpenAI API returning 5xx, degrade gracefully | Semi-annual |
-| Full DR | Complete region failure, activate DR plan | Annual |
+| Drill           | Scenario                                        | Frequency   |
+| --------------- | ----------------------------------------------- | ----------- |
+| DB Failover     | Primary database unreachable, promote standby   | Quarterly   |
+| Auth Outage     | OAuth provider down, fallback to backup IdP     | Quarterly   |
+| AI Service Down | OpenAI API returning 5xx, degrade gracefully    | Semi-annual |
+| Full DR         | Complete region failure, activate DR plan       | Annual      |
 | Security Breach | Unauthorized access detected, containment drill | Semi-annual |
 
 ### 9.3 Runbook Review
@@ -289,6 +293,7 @@ After each rotation, the outgoing primary completes a brief survey:
 ### 10.2 Quarterly Review
 
 The DevOps Lead reviews on-call metrics quarterly:
+
 - Average time to acknowledge (by severity)
 - Average time to resolve (by severity)
 - Missed SLA incidents
@@ -298,9 +303,9 @@ The DevOps Lead reviews on-call metrics quarterly:
 
 ---
 
-*Document Version: 1.0 — On-Call Schedule*
-*Last Updated: July 2026*
-*Next Review Date: October 2026*
+_Document Version: 1.0 — On-Call Schedule_
+_Last Updated: July 2026_
+_Next Review Date: October 2026_
 
 ---
 
@@ -340,6 +345,6 @@ sequenceDiagram
 ```
 
 ## Cross-References
-- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system
 
+- [MASTER-INDEX.md](../MASTER-INDEX.md) � Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) � Cross-reference system

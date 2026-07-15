@@ -5,12 +5,13 @@
 > **Classification:** Enterprise Security
 
 ## 1. Executive Summary
+
 The Enterprise Risk Register is a living document used to identify, evaluate, and track potential security and operational risks for the Ultimate Portfolio project. Risks are strictly evaluated based on FAANG threat-modeling matrices, resulting in automated alerting and mandated mitigation paths.
 
 ## 2. Risk Matrix Reference
 
 | Likelihood \ Impact | Low (1) | Medium (2) | High (3) | Critical (4) |
-|---------------------|---------|------------|----------|--------------|
+| ------------------- | ------- | ---------- | -------- | ------------ |
 | **High (3)**        | Medium  | High       | Critical | Critical     |
 | **Medium (2)**      | Low     | Medium     | High     | Critical     |
 | **Low (1)**         | Low     | Low        | Medium   | High         |
@@ -18,6 +19,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 ## 3. Registered Risks
 
 ### SEC-RSK-001: Compromise of Admin Credentials
+
 - **Description:** An attacker gains access to the Admin dashboard through phishing, brute force, or credential reuse.
 - **Likelihood:** Medium
 - **Impact:** Critical (Full control over portfolio content and configurations)
@@ -27,6 +29,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 - **Status:** Active / Monitored
 
 ### SEC-RSK-002: AI Prompt Injection
+
 - **Description:** Malicious users exploit the interactive AI chatbot to leak system instructions, hallucinatory responses, or attempt to extract non-public data.
 - **Likelihood:** High
 - **Impact:** Medium (Reputational damage, mostly isolated to the chat interface)
@@ -36,6 +39,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 - **Status:** Mitigated / Ongoing Tuning
 
 ### SEC-RSK-003: Exposure of Environment Variables / Secrets
+
 - **Description:** API keys (Supabase, OpenAI, AWS) are accidentally committed to version control or leaked through application errors.
 - **Likelihood:** Low
 - **Impact:** Critical (Full system compromise, significant financial cost)
@@ -45,6 +49,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 - **Status:** Mitigated
 
 ### SEC-RSK-004: Volumetric DDoS Attack
+
 - **Description:** The Next.js frontend or NestJS API is targeted by a Distributed Denial of Service attack, rendering the portfolio inaccessible.
 - **Likelihood:** Medium
 - **Impact:** High (Loss of availability)
@@ -54,6 +59,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 - **Status:** Active
 
 ### SEC-RSK-005: Supabase Data Breach via Misconfigured RLS
+
 - **Description:** Row Level Security (RLS) policies in PostgreSQL are misconfigured, allowing public users to read draft posts or admin data.
 - **Likelihood:** Low
 - **Impact:** High (Confidentiality breach)
@@ -63,6 +69,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 - **Status:** Active
 
 ### SEC-RSK-006: Supply Chain Attack via NPM Dependencies
+
 - **Description:** A compromised third-party NPM package (frontend or backend) executes malicious code during build or runtime.
 - **Likelihood:** Medium
 - **Impact:** High
@@ -72,6 +79,7 @@ The Enterprise Risk Register is a living document used to identify, evaluate, an
 - **Status:** Monitored
 
 ## 4. Review Cycle
+
 This Risk Register must be reviewed and updated quarterly, or immediately following any significant architectural change or security incident.
 
 ---
@@ -107,6 +115,6 @@ flowchart TD
 ```
 
 ## Cross-References
-- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
 
+- [MASTER-INDEX.md](../MASTER-INDEX.md) ï¿½ Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) ï¿½ Cross-reference system

@@ -156,17 +156,17 @@ All commits follow the [Conventional Commits](https://www.conventionalcommits.or
 type(scope): description
 ```
 
-| Type | Scope examples | Description |
-|------|----------------|-------------|
-| `feat` | `blog`, `auth`, `projects` | A new feature or user-facing change |
-| `fix` | `auth`, `api`, `ui` | A bug fix |
-| `chore` | `deps`, `build`, `ci` | Maintenance, no production code change |
-| `docs` | `api`, `readme`, `architecture` | Documentation only |
-| `refactor` | `prisma`, `hooks`, `state` | Code restructuring, no behavior change |
-| `style` | `css`, `tailwind` | Formatting, styling (not logic) |
-| `test` | `blog`, `auth` | Adding or updating tests |
-| `perf` | `api`, `queries` | Performance improvement |
-| `ci` | `docker`, `github-actions` | CI/CD configuration |
+| Type       | Scope examples                  | Description                            |
+| ---------- | ------------------------------- | -------------------------------------- |
+| `feat`     | `blog`, `auth`, `projects`      | A new feature or user-facing change    |
+| `fix`      | `auth`, `api`, `ui`             | A bug fix                              |
+| `chore`    | `deps`, `build`, `ci`           | Maintenance, no production code change |
+| `docs`     | `api`, `readme`, `architecture` | Documentation only                     |
+| `refactor` | `prisma`, `hooks`, `state`      | Code restructuring, no behavior change |
+| `style`    | `css`, `tailwind`               | Formatting, styling (not logic)        |
+| `test`     | `blog`, `auth`                  | Adding or updating tests               |
+| `perf`     | `api`, `queries`                | Performance improvement                |
+| `ci`       | `docker`, `github-actions`      | CI/CD configuration                    |
 
 ### Examples
 
@@ -295,15 +295,15 @@ sequenceDiagram
 
 ## 7. Git Rules
 
-| Rule | Enforcement |
-|------|-------------|
-| **No direct pushes to main** | Branch protection rule (GitHub) |
-| **PR requires 1 approval** | Branch protection rule (GitHub) |
-| **PR must pass all CI checks** | Required status checks in branch protection |
-| **Branch must be up to date with main** | "Require branches to be up to date" enabled |
-| **Squash merge only** | "Allow squash merging" selected, rebase/merge disabled |
-| **Delete branch after merge** | "Automatically delete head branches" enabled |
-| **Signed tags for releases** | Manual enforcement via CI (tags matching `v*` trigger docker builds) |
+| Rule                                    | Enforcement                                                          |
+| --------------------------------------- | -------------------------------------------------------------------- |
+| **No direct pushes to main**            | Branch protection rule (GitHub)                                      |
+| **PR requires 1 approval**              | Branch protection rule (GitHub)                                      |
+| **PR must pass all CI checks**          | Required status checks in branch protection                          |
+| **Branch must be up to date with main** | "Require branches to be up to date" enabled                          |
+| **Squash merge only**                   | "Allow squash merging" selected, rebase/merge disabled               |
+| **Delete branch after merge**           | "Automatically delete head branches" enabled                         |
+| **Signed tags for releases**            | Manual enforcement via CI (tags matching `v*` trigger docker builds) |
 
 ### Why squash merge?
 
@@ -431,5 +431,6 @@ git pull
 ```
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

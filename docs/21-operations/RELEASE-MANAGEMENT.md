@@ -2,7 +2,7 @@
 
 > **Document:** `ReleaseManagement.md` | **Version:** 1.1 | **Last Updated:** July 2026  
 > **Status:** âœ… Active | **Owner:** Engineering Lead | **Review Cadence:** Quarterly  
-> **Related:** [EnvironmentStrategy.md](./EnvironmentStrategy.md) | [MetricsStrategy.md](./MetricsStrategy.md) | `docs/devops/environment-matrix.md`
+> **Related:** [EnvironmentStrategy.md](./EnvironmentStrategy.md) | [MetricsStrategy.md](./MetricsStrategy.md) | `docs/12-devops/environment-matrix.md`
 
 ---
 
@@ -12,11 +12,11 @@ Release management governs how code moves from development to production. Our ph
 
 ## 2. Release Cadence
 
-| Type | Frequency | Trigger | Risk |
-|------|-----------|---------|------|
-| **Standard** | Multiple times daily | Any PR merge to `main` | Low |
-| **Scheduled** | Weekly (Tue 14:00 UTC) | Tagged release for major features | Medium |
-| **Emergency (hotfix)** | As needed | `hotfix/*` branch from `main` | High |
+| Type                   | Frequency              | Trigger                           | Risk   |
+| ---------------------- | ---------------------- | --------------------------------- | ------ |
+| **Standard**           | Multiple times daily   | Any PR merge to `main`            | Low    |
+| **Scheduled**          | Weekly (Tue 14:00 UTC) | Tagged release for major features | Medium |
+| **Emergency (hotfix)** | As needed              | `hotfix/*` branch from `main`     | High   |
 
 ### 2.1 Standard Releases
 
@@ -38,14 +38,15 @@ For urgent production issues (SEV-1 / SEV-2). Bypasses normal queue but still re
 
 ## 3. Version Numbering
 
-| Artifact | Scheme | Example |
-|----------|--------|---------|
-| API (NestJS) | SemVer (`MAJOR.MINOR.PATCH`) | `2.1.0` |
-| Deployment tag | Date-based (`vYYYY.MM.DD-N`) | `v2026.07.11-1` |
-| Docker images | Git commit SHA | `ghcr.io/portfolio/api:a1b2c3d` |
-| Frontend | No version; commit hash as identifier | `a1b2c3d` |
+| Artifact       | Scheme                                | Example                         |
+| -------------- | ------------------------------------- | ------------------------------- |
+| API (NestJS)   | SemVer (`MAJOR.MINOR.PATCH`)          | `2.1.0`                         |
+| Deployment tag | Date-based (`vYYYY.MM.DD-N`)          | `v2026.07.11-1`                 |
+| Docker images  | Git commit SHA                        | `ghcr.io/portfolio/api:a1b2c3d` |
+| Frontend       | No version; commit hash as identifier | `a1b2c3d`                       |
 
 API SemVer rules:
+
 - **MAJOR**: Breaking API contract change (new endpoint version)
 - **MINOR**: Non-breaking new feature or endpoint addition
 - **PATCH**: Bug fix, performance improvement, refactor (no contract change)
@@ -102,15 +103,16 @@ Every release (standard or scheduled) must satisfy:
 
 A release is rolled back immediately if any of these conditions are met within the 30-minute monitoring window:
 
-| Condition | Threshold | Action |
-|-----------|-----------|--------|
-| API error rate | > 1% of requests returning 5xx | Revert to previous deploy |
-| p95 API latency | > 2 seconds | Revert to previous deploy |
-| SEV-1 or SEV-2 incident | Any incident caused by the release | Revert + post-mortem |
-| Core Web Vitals regression | LCP > 4.0s or CLS > 0.25 | Revert to previous deploy |
-| AI service errors | > 5% failure rate | Roll back AI deployment |
+| Condition                  | Threshold                          | Action                    |
+| -------------------------- | ---------------------------------- | ------------------------- |
+| API error rate             | > 1% of requests returning 5xx     | Revert to previous deploy |
+| p95 API latency            | > 2 seconds                        | Revert to previous deploy |
+| SEV-1 or SEV-2 incident    | Any incident caused by the release | Revert + post-mortem      |
+| Core Web Vitals regression | LCP > 4.0s or CLS > 0.25           | Revert to previous deploy |
+| AI service errors          | > 5% failure rate                  | Roll back AI deployment   |
 
 **Rollback procedure:**
+
 1. `git revert HEAD` (or `git revert <merge-commit>`)
 2. Push reverted branch to `main`
 3. Vercel auto-deploys the revert
@@ -123,12 +125,13 @@ A release is rolled back immediately if any of these conditions are met within t
 
 We use feature flags to decouple deployment from release:
 
-| Tool | Scope | Use Case |
-|------|-------|----------|
-| Vercel Edge Config | Frontend flags | UI gating, A/B tests |
-| Environment variables | Backend flags | API feature toggles |
+| Tool                  | Scope          | Use Case             |
+| --------------------- | -------------- | -------------------- |
+| Vercel Edge Config    | Frontend flags | UI gating, A/B tests |
+| Environment variables | Backend flags  | API feature toggles  |
 
 **Flag lifecycle:**
+
 1. Create flag (default `false`)
 2. Merge + deploy (feature hidden)
 3. Enable for testing (by user ID or IP)
@@ -138,14 +141,15 @@ We use feature flags to decouple deployment from release:
 
 ## 8. Communication
 
-| Channel | Purpose | Notifications |
-|---------|---------|---------------|
-| `#deploys` (Slack) | All production deployments | CI/CD pipeline webhook |
-| `#alerts` (Slack) | Anomalies, rollbacks, incidents | Monitoring tools |
-| GitHub Releases | Tagged release notes | Automated from changelog |
-| Email (stakeholders) | Scheduled release windows | Manual (weekly) |
+| Channel              | Purpose                         | Notifications            |
+| -------------------- | ------------------------------- | ------------------------ |
+| `#deploys` (Slack)   | All production deployments      | CI/CD pipeline webhook   |
+| `#alerts` (Slack)    | Anomalies, rollbacks, incidents | Monitoring tools         |
+| GitHub Releases      | Tagged release notes            | Automated from changelog |
+| Email (stakeholders) | Scheduled release windows       | Manual (weekly)          |
 
 **Deploy notification format (in #deploys):**
+
 ```
 ðŸš€ Deploy <service>@<tag> to production
   Author: @user
@@ -158,6 +162,7 @@ We use feature flags to decouple deployment from release:
 ## 9. Deployment Freeze Periods
 
 Deployments are frozen during:
+
 - **Major holiday weeks** (Dec 24â€“Jan 2): Only security patches
 - **Conference presentations** (24h before talk): No changes
 - **During active SEV-1 incident**: No deploys until resolved
@@ -216,6 +221,6 @@ flowchart TD
 ```
 
 ## Cross-References
-- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
 
+- [MASTER-INDEX.md](../MASTER-INDEX.md) ï¿½ Documentation master index
+- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) ï¿½ Cross-reference system

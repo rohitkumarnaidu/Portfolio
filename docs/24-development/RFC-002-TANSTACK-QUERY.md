@@ -35,14 +35,14 @@ The frontend manages 25+ entity types (BlogPost, Project, Skill, Section, User, 
 
 **Adopt TanStack React Query v5** as the primary client-state management layer.
 
-| Component | Choice |
-|-----------|--------|
-| Library | `@tanstack/react-query` v5 |
-| Devtools | `@tanstack/react-query-devtools` |
-| Default stale time | 5 minutes |
-| Default garbage collection | 30 minutes |
-| Retry policy | 2 retries, exponential backoff |
-| Refetch behavior | On reconnect; disabled on window focus |
+| Component                  | Choice                                 |
+| -------------------------- | -------------------------------------- |
+| Library                    | `@tanstack/react-query` v5             |
+| Devtools                   | `@tanstack/react-query-devtools`       |
+| Default stale time         | 5 minutes                              |
+| Default garbage collection | 30 minutes                             |
+| Retry policy               | 2 retries, exponential backoff         |
+| Refetch behavior           | On reconnect; disabled on window focus |
 
 The `QueryProvider` component wraps the application root and applies these defaults globally. A `PublicQueryProvider` alias is exported for the public portfolio layout; the admin dashboard uses the same provider with identical configuration.
 
@@ -50,13 +50,13 @@ The `QueryProvider` component wraps the application root and applies these defau
 
 ## 3. Alternatives Considered
 
-| Alternative | Why Not Chosen |
-|-------------|----------------|
-| **SWR** | Lighter (3 KB) but fewer features: no first-class mutation API, no devtools, weaker cache invalidation patterns. Needs separate state for mutations. |
-| **Zustand** | Client state only — no server-state caching, no automatic background refetching, no retry logic. Would require manually building all cache/invalidation infrastructure. |
-| **Redux Toolkit Query** | Heavier bundle (~12 KB), steeper boilerplate (slices, reducers), over-engineered for an app that doesn't use Redux. RTK Query is great but the rest of Redux is unused. |
-| **Apollo Client** | GraphQL-only. The API is REST (NestJS with global `{ data, meta }` envelope). Would require a BFF layer or GraphQL gateway. |
-| **Plain fetch + useState** | No caching, no deduplication, no retry, no background refetching. Every component re-fetches on mount. Every mutation requires manual state management. |
+| Alternative                | Why Not Chosen                                                                                                                                                          |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **SWR**                    | Lighter (3 KB) but fewer features: no first-class mutation API, no devtools, weaker cache invalidation patterns. Needs separate state for mutations.                    |
+| **Zustand**                | Client state only — no server-state caching, no automatic background refetching, no retry logic. Would require manually building all cache/invalidation infrastructure. |
+| **Redux Toolkit Query**    | Heavier bundle (~12 KB), steeper boilerplate (slices, reducers), over-engineered for an app that doesn't use Redux. RTK Query is great but the rest of Redux is unused. |
+| **Apollo Client**          | GraphQL-only. The API is REST (NestJS with global `{ data, meta }` envelope). Would require a BFF layer or GraphQL gateway.                                             |
+| **Plain fetch + useState** | No caching, no deduplication, no retry, no background refetching. Every component re-fetches on mount. Every mutation requires manual state management.                 |
 
 #### Decision Tree
 
@@ -140,8 +140,8 @@ flowchart LR
 new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000,    // 5 minutes
-      gcTime: 30 * 60 * 1000,      // 30 minutes
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 30 * 60 * 1000, // 30 minutes
       retry: 2,
       refetchOnWindowFocus: false,
       refetchOnReconnect: true,
@@ -186,39 +186,40 @@ All 27+ hook files follow this exact pattern: mutations call `invalidateQueries`
 
 ### Covered entities (27 hook files)
 
-| File | Exports |
-|------|---------|
-| `useAuth.ts` | `useLogin`, `useRefreshToken` |
-| `useProjects.ts` | `useProjects`, `useProject`, `useCreateProject`, `useUpdateProject`, `useDeleteProject` |
-| `useBlogPosts.ts` | `useBlogPosts`, `useCreateBlogPost`, `useUpdateBlogPost`, `useDeleteBlogPost` |
-| `useSections.ts` | `useSections`, `useSection`, `useCreateSection`, `useUpdateSection`, `useDeleteSection`, `useReorderSections` |
-| `useSkills.ts` | `useSkills`, `useCreateSkill`, `useUpdateSkill`, `useDeleteSkill` |
-| `useExperiences.ts` | `useExperiences`, `useCreateExperience`, `useUpdateExperience`, `useDeleteExperience` |
-| `useTestimonials.ts` | `useTestimonials`, `useCreateTestimonial`, `useUpdateTestimonial`, `useDeleteTestimonial` |
-| `useServices.ts` | `useAdminServices`, `useCreateAdminService`, `useUpdateAdminService`, `useDeleteAdminService` |
-| `useFAQs.ts` | `useFAQs`, `useCreateFAQ`, `useUpdateFAQ`, `useDeleteFAQ` |
-| `useLeads.ts` | `useLeads`, `useLead`, `useUpdateLead` |
-| `useAnalytics.ts` | `useAnalyticsSummary`, `useAnalyticsSessions` |
-| `useActivities.ts` | `useActivities`, `useActivity` |
-| `useMedia.ts` | `useMediaAssets`, `useUploadMediaAsset`, `useDeleteMediaAsset` |
-| `useCaseStudies.ts` | `useCaseStudies`, `useCaseStudy`, `useCaseStudyWithProject` |
-| `useAchievements.ts` | `useAdminAchievements`, `useCreateAchievement`, `useUpdateAchievement`, `useDeleteAchievement`, `useBulkDeleteAchievements` |
-| `usePressFeatures.ts` | `useAdminPressFeatures`, `useCreatePressFeature`, `useUpdatePressFeature`, `useDeletePressFeature`, `useBulkDeletePressFeatures` |
-| `useSettings.ts` | `useSettings`, `useSetting`, `useUpsertSetting`, `useDeleteSetting` |
+| File                     | Exports                                                                                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `useAuth.ts`             | `useLogin`, `useRefreshToken`                                                                                                                   |
+| `useProjects.ts`         | `useProjects`, `useProject`, `useCreateProject`, `useUpdateProject`, `useDeleteProject`                                                         |
+| `useBlogPosts.ts`        | `useBlogPosts`, `useCreateBlogPost`, `useUpdateBlogPost`, `useDeleteBlogPost`                                                                   |
+| `useSections.ts`         | `useSections`, `useSection`, `useCreateSection`, `useUpdateSection`, `useDeleteSection`, `useReorderSections`                                   |
+| `useSkills.ts`           | `useSkills`, `useCreateSkill`, `useUpdateSkill`, `useDeleteSkill`                                                                               |
+| `useExperiences.ts`      | `useExperiences`, `useCreateExperience`, `useUpdateExperience`, `useDeleteExperience`                                                           |
+| `useTestimonials.ts`     | `useTestimonials`, `useCreateTestimonial`, `useUpdateTestimonial`, `useDeleteTestimonial`                                                       |
+| `useServices.ts`         | `useAdminServices`, `useCreateAdminService`, `useUpdateAdminService`, `useDeleteAdminService`                                                   |
+| `useFAQs.ts`             | `useFAQs`, `useCreateFAQ`, `useUpdateFAQ`, `useDeleteFAQ`                                                                                       |
+| `useLeads.ts`            | `useLeads`, `useLead`, `useUpdateLead`                                                                                                          |
+| `useAnalytics.ts`        | `useAnalyticsSummary`, `useAnalyticsSessions`                                                                                                   |
+| `useActivities.ts`       | `useActivities`, `useActivity`                                                                                                                  |
+| `useMedia.ts`            | `useMediaAssets`, `useUploadMediaAsset`, `useDeleteMediaAsset`                                                                                  |
+| `useCaseStudies.ts`      | `useCaseStudies`, `useCaseStudy`, `useCaseStudyWithProject`                                                                                     |
+| `useAchievements.ts`     | `useAdminAchievements`, `useCreateAchievement`, `useUpdateAchievement`, `useDeleteAchievement`, `useBulkDeleteAchievements`                     |
+| `usePressFeatures.ts`    | `useAdminPressFeatures`, `useCreatePressFeature`, `useUpdatePressFeature`, `useDeletePressFeature`, `useBulkDeletePressFeatures`                |
+| `useSettings.ts`         | `useSettings`, `useSetting`, `useUpsertSetting`, `useDeleteSetting`                                                                             |
 | `useGuestAppearances.ts` | `useAdminGuestAppearances`, `useCreateGuestAppearance`, `useUpdateGuestAppearance`, `useDeleteGuestAppearance`, `useBulkDeleteGuestAppearances` |
-| `useReadingList.ts` | `useAdminReadingListItems`, `useCreateReadingListItem`, `useUpdateReadingListItem`, `useDeleteReadingListItem`, `useBulkDeleteReadingListItems` |
-| `useAvailability.ts` | `useAdminAvailabilityStatus`, `useUpdateAvailabilityStatus` |
-| `useUsers.ts` | `useUsers`, `useUser`, `useCreateUser`, `useUpdateUser`, `useUpdateUserRole`, `useUnlockUser`, `useDeleteUser` |
-| `useNotifications.ts` | `useNotifications`, `useUnreadNotificationCount`, `useMarkNotificationRead`, `useMarkAllNotificationsRead`, `useDeleteNotification` |
-| `useApiKeys.ts` | `useApiKeys`, `useApiKey`, `useCreateApiKey`, `useRevokeApiKey`, `useDeleteApiKey` |
-| `useFeatureFlags.ts` | `useFeatureFlags`, `useFeatureFlag`, `useCreateFeatureFlag`, `useUpdateFeatureFlag`, `useDeleteFeatureFlag` |
-| `useChatAdmin.ts` | `useChatConversations`, `useChatConversationMessages`, `useDeleteChatConversation` |
-| `useChat.ts` | Chat-specific hooks |
-| `usePublicData.ts` | Public portfolio data hooks |
+| `useReadingList.ts`      | `useAdminReadingListItems`, `useCreateReadingListItem`, `useUpdateReadingListItem`, `useDeleteReadingListItem`, `useBulkDeleteReadingListItems` |
+| `useAvailability.ts`     | `useAdminAvailabilityStatus`, `useUpdateAvailabilityStatus`                                                                                     |
+| `useUsers.ts`            | `useUsers`, `useUser`, `useCreateUser`, `useUpdateUser`, `useUpdateUserRole`, `useUnlockUser`, `useDeleteUser`                                  |
+| `useNotifications.ts`    | `useNotifications`, `useUnreadNotificationCount`, `useMarkNotificationRead`, `useMarkAllNotificationsRead`, `useDeleteNotification`             |
+| `useApiKeys.ts`          | `useApiKeys`, `useApiKey`, `useCreateApiKey`, `useRevokeApiKey`, `useDeleteApiKey`                                                              |
+| `useFeatureFlags.ts`     | `useFeatureFlags`, `useFeatureFlag`, `useCreateFeatureFlag`, `useUpdateFeatureFlag`, `useDeleteFeatureFlag`                                     |
+| `useChatAdmin.ts`        | `useChatConversations`, `useChatConversationMessages`, `useDeleteChatConversation`                                                              |
+| `useChat.ts`             | Chat-specific hooks                                                                                                                             |
+| `usePublicData.ts`       | Public portfolio data hooks                                                                                                                     |
 
 ### API layer integration
 
 All hooks call through `src/lib/api.ts`, a typed fetch wrapper that:
+
 - Unwraps the API's `{ data, meta }` envelope
 - Throws `ApiError` on non-2xx responses
 - Attaches the bearer token from `localStorage('admin_access_token')`
@@ -232,7 +233,7 @@ Separate `QueryProvider` instances are used for the public portfolio and admin d
 
 ## 6. References
 
-- [Frontend Architecture](../design/FrontendArchitecture.md) — overall frontend architecture and data flow
+- [Frontend Architecture](../04-design/FrontendArchitecture.md) — overall frontend architecture and data flow
 - `apps/web/src/lib/query-provider.tsx` — QueryProvider implementation (31 lines)
 - `apps/web/src/lib/use-api-query.ts` — Typed useQuery wrapper (13 lines)
 - `apps/web/src/lib/hooks/index.ts` — Hook re-exports (25 lines)
@@ -241,5 +242,6 @@ Separate `QueryProvider` instances are used for the public portfolio and admin d
 - `turbo.json` — Turborepo build dependency graph
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

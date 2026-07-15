@@ -160,5 +160,6 @@ Imports must be grouped and ordered as follows (enforced by ESLint `import/order
 - **PRs:** Must pass CI, be reviewed, and be up to date with `main` before merge.
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -12,6 +12,7 @@
 **Error:** `engine "node" is incompatible with this module` or cryptic build failures
 
 **Solution:**
+
 ```bash
 node --version   # Must be >= 18
 nvm install 22   # Or use nvm-windows to manage versions
@@ -24,12 +25,12 @@ The monorepo specifies `"node": ">=18"` in the root `package.json`. Using Node 2
 
 **Symptoms:**
 
-| Error | Likely Cause |
-|-------|-------------|
-| `ERESOLVE unable to resolve dependency tree` | Dependency conflicts in workspaces |
-| `ECONNRESET` / `ETIMEDOUT` | Network issues, proxy, registry down |
-| `EPERM` / `EACCES` | Permission issues (Windows: run as admin; Mac/Linux: don't use sudo) |
-| `code EINTEGRITY` | Corrupted npm cache |
+| Error                                        | Likely Cause                                                         |
+| -------------------------------------------- | -------------------------------------------------------------------- |
+| `ERESOLVE unable to resolve dependency tree` | Dependency conflicts in workspaces                                   |
+| `ECONNRESET` / `ETIMEDOUT`                   | Network issues, proxy, registry down                                 |
+| `EPERM` / `EACCES`                           | Permission issues (Windows: run as admin; Mac/Linux: don't use sudo) |
+| `code EINTEGRITY`                            | Corrupted npm cache                                                  |
 
 **Solutions (in order):**
 
@@ -92,13 +93,13 @@ Always run `npm run prisma:generate` after pulling schema changes or switching b
 
 One of these errors means a port is already in use:
 
-| Error | Port | Service |
-|-------|------|---------|
-| `EADDRINUSE :::3000` | 3000 | Next.js web |
-| `EADDRINUSE :::3001` (or 4000) | 3001/4000 | NestJS API |
-| `address already in use :::8000` | 8000 | FastAPI AI |
-| `port already allocated 5432` | 5432 | PostgreSQL |
-| `Could not connect to Redis at 127.0.0.1:6379` | 6379 | Redis |
+| Error                                          | Port      | Service     |
+| ---------------------------------------------- | --------- | ----------- |
+| `EADDRINUSE :::3000`                           | 3000      | Next.js web |
+| `EADDRINUSE :::3001` (or 4000)                 | 3001/4000 | NestJS API  |
+| `address already in use :::8000`               | 8000      | FastAPI AI  |
+| `port already allocated 5432`                  | 5432      | PostgreSQL  |
+| `Could not connect to Redis at 127.0.0.1:6379` | 6379      | Redis       |
 
 **Solutions:**
 
@@ -194,11 +195,11 @@ npx prisma db seed
 
 **Typical seed errors:**
 
-| Error | Fix |
-|-------|-----|
-| `Unique constraint failed` | Truncate tables first, or use `upsert` instead of `create` |
-| `Foreign key constraint fails` | Check insertion order — parent tables first |
-| `Column "X" is of type Y but expression is of type Z` | Check Prisma schema type vs seed data type |
+| Error                                                 | Fix                                                        |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| `Unique constraint failed`                            | Truncate tables first, or use `upsert` instead of `create` |
+| `Foreign key constraint fails`                        | Check insertion order — parent tables first                |
+| `Column "X" is of type Y but expression is of type Z` | Check Prisma schema type vs seed data type                 |
 
 ---
 
@@ -218,6 +219,7 @@ npx prisma db seed
 ```
 
 **Test with curl:**
+
 ```powershell
 # Get token
 $token = (curl -s -X POST http://localhost:3001/api/auth/login -H "Content-Type: application/json" -d '{\"email\":\"...\",\"password\":\"...\"}' | ConvertFrom-Json).data.accessToken
@@ -241,6 +243,7 @@ curl -H "Authorization: Bearer $token" http://localhost:3001/api/admin/chat/conv
 ```
 
 **Fix:** Update your role via Prisma Studio:
+
 ```powershell
 npx prisma studio    # Navigate to Users table, update your role
 ```
@@ -258,6 +261,7 @@ npx prisma studio    # Navigate to Users table, update your role
 **Causes:** Request origin not whitelisted in the API's CORS configuration
 
 **Solutions:**
+
 ```
 □ Check CORS_ORIGIN env variable in config/.env
   - Development: NEXT_PUBLIC_API_URL should be a relative path ("/api")
@@ -269,6 +273,7 @@ npx prisma studio    # Navigate to Users table, update your role
 ### 3.5 500 Internal Server Error
 
 **Diagnostic steps:**
+
 ```
 □ Check terminal running the API — stack trace is printed there
 □ Check Sentry (if DSN is configured) — go to your Sentry dashboard
@@ -277,6 +282,7 @@ npx prisma studio    # Navigate to Users table, update your role
 ```
 
 **Common 500 causes:**
+
 - Prisma query error (check your query matches schema)
 - Missing environment variable (check config/.env against .env.example)
 - Type error in service code (Prisma type mismatch)
@@ -290,6 +296,7 @@ npx prisma studio    # Navigate to Users table, update your role
 **Cause:** Workspace packages not built.
 
 **Solution:**
+
 ```powershell
 # Build from root — this builds shared, ui, and config packages
 npm run build
@@ -305,12 +312,14 @@ This is required because `@portfolio/shared` is a TypeScript source package that
 **Symptoms:** Blank 3D scene, `WEBGL NOT SUPPORTED`, `THREE.WebGLRenderer: Error`, canvas showing nothing
 
 **Causes:**
+
 - Browser GPU process crashed
 - WebGL 2.0 not supported
 - Outdated graphics drivers
 - Hardware acceleration disabled
 
 **Solutions:**
+
 ```
 □ Check browser WebGL support: visit https://get.webgl.org/
 □ Check console for GPU process errors
@@ -325,6 +334,7 @@ This is required because `@portfolio/shared` is a TypeScript source package that
 **Symptoms:** Unstyled HTML, missing Tailwind classes, layout broken
 
 **Solutions:**
+
 ```powershell
 # 1. Clear Next.js cache
 Remove-Item -Recurse -Force apps/web/.next -ErrorAction SilentlyContinue
@@ -340,6 +350,7 @@ docker compose up -d web
 ### 4.4 TanStack Query Devtools Not Showing
 
 Press the **Toggle Devtools** button (bottom-left corner, looks like a bug icon). If it's not there, check that:
+
 - You're in development mode
 - `NEXT_PUBLIC_DEBUG=true` is set in your environment
 
@@ -350,6 +361,7 @@ Press the **Toggle Devtools** button (bottom-left corner, looks like a bug icon)
 **Causes:** Strict TypeScript configuration catching type issues
 
 **Solutions:**
+
 ```powershell
 # Check type errors
 npx tsc --noEmit
@@ -367,6 +379,7 @@ npx tsc --noEmit
 **Cause:** The Next.js proxy isn't configured properly. In development, Next.js proxies `/api/...` requests to the NestJS API.
 
 **Solutions:**
+
 ```
 □ Check NEXT_PUBLIC_API_URL in config/.env
   - Client-side: should be relative (omit or use "/api")
@@ -398,6 +411,7 @@ npx tsc --noEmit
 **Causes:** Model inference time, network latency, API rate limiting
 
 **Solutions:**
+
 ```
 □ Check if streaming is working (Accept: text/event-stream)
 □ Verify no rate limiting on the AI provider (check response headers)
@@ -423,6 +437,7 @@ grep ANTHROPIC_API_KEY config/.env
 ```
 
 **Common issues:**
+
 - Key is expired — regenerate in OpenAI dashboard
 - Key is from wrong organization — check OpenAI org ID
 - Key has no credits — check billing in OpenAI dashboard
@@ -434,15 +449,16 @@ grep ANTHROPIC_API_KEY config/.env
 
 **Causes:**
 
-| Cause | Check |
-|-------|-------|
-| pgvector extension not enabled | `SELECT * FROM pg_extension WHERE extname='vector'` |
+| Cause                            | Check                                                                                         |
+| -------------------------------- | --------------------------------------------------------------------------------------------- |
+| pgvector extension not enabled   | `SELECT * FROM pg_extension WHERE extname='vector'`                                           |
 | content_embeddings table missing | `SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_name='content_embeddings')` |
-| No content ingested | `SELECT COUNT(*) FROM content_embeddings` |
-| Embedding API key missing | Check `OPENAI_API_KEY` |
-| Redis down (for cache) | `redis-cli ping` — expects PONG |
+| No content ingested              | `SELECT COUNT(*) FROM content_embeddings`                                                     |
+| Embedding API key missing        | Check `OPENAI_API_KEY`                                                                        |
+| Redis down (for cache)           | `redis-cli ping` — expects PONG                                                               |
 
 **Fixes:**
+
 ```sql
 -- Enable pgvector
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -464,6 +480,7 @@ SELECT * FROM content_embeddings LIMIT 1;
 **Symptom:** `POST /api/agent/code` returns 404 or empty response
 
 **Check:**
+
 ```
 □ Is the agent router mounted? → Look at main.py: app.include_router(agent.router, prefix="/api/agent")
 □ Is the request correct?      → Requires file_content + instruction in JSON body
@@ -479,6 +496,7 @@ SELECT * FROM content_embeddings LIMIT 1;
 **Symptoms:** `docker compose up -d` succeeds but container exits immediately, or stays in "starting" state
 
 **Diagnostic:**
+
 ```bash
 # Check all containers status
 docker compose -f infrastructure/docker/docker-compose.yml ps
@@ -490,6 +508,7 @@ docker compose -f infrastructure/docker/docker-compose.yml logs ai
 ```
 
 **Common causes:**
+
 - Port mapping conflict (change `WEB_PORT`, `API_PORT`, `AI_PORT` in `.env`)
 - Missing `.env` file (copy from `config/.env.example`)
 - Node modules not installed in container (check volume mounts)
@@ -500,13 +519,14 @@ docker compose -f infrastructure/docker/docker-compose.yml logs ai
 
 **Health check endpoints:**
 
-| Service | Health Check |
-|---------|-------------|
-| Web | `http://localhost:3000/health` |
-| API | `http://localhost:3001/api/health/liveness` |
-| AI | `http://localhost:8000/api/health` |
+| Service | Health Check                                |
+| ------- | ------------------------------------------- |
+| Web     | `http://localhost:3000/health`              |
+| API     | `http://localhost:3001/api/health/liveness` |
+| AI      | `http://localhost:8000/api/health`          |
 
 **Fixes:**
+
 - **Web:** The health check uses `wget` inside the container. If it fails, the web app isn't serving on port 3000. Check startup logs.
 - **API:** Same as web. Check NestJS compilation errors.
 - **AI:** The `/api/health` endpoint returns `{"status": "ok", "database": "unknown", "llm_provider": "unknown"}`. If it's not responding, the FastAPI app failed to start.
@@ -516,6 +536,7 @@ docker compose -f infrastructure/docker/docker-compose.yml logs ai
 **Symptoms:** Changes to source code aren't reflected in the container, or container has stale code.
 
 **Fix:**
+
 ```powershell
 # Rebuild the container (clears cached layers)
 docker compose -f infrastructure/docker/docker-compose.yml build --no-cache web
@@ -530,6 +551,7 @@ docker compose -f infrastructure/docker/docker-compose.yml build --no-cache web
 ### 6.4 Postgres in Docker
 
 **Connection string for local Docker Postgres:**
+
 ```
 postgresql://postgres:postgres@localhost:54322/postgres
 ```
@@ -547,6 +569,7 @@ This is the default in `config/.env.example`. Port mapping: `54322:5432` (Docker
 **Causes:** Lint-staged runs ESLint + Prettier on staged files. Any warning or error fails the commit.
 
 **Solutions:**
+
 ```bash
 # Fix lint errors
 npm run lint
@@ -559,23 +582,25 @@ git commit --no-verify -m "message"
 ```
 
 **If husky isn't running at all:**
+
 ```bash
 npx husky install
 ```
 
 ### 7.2 Lint-Staged Specific Failures
 
-| Error | Fix |
-|-------|-----|
-| `Prettier: File has been modified since last commit` | Stage the file again: `git add <file>` |
-| `ESLint: X errors, Y warnings` | Run `npx eslint --fix <file>` on the failing files |
-| `Unknown command: "lint-staged"` | `npm install` (lint-staged is a dev dependency) |
+| Error                                                | Fix                                                |
+| ---------------------------------------------------- | -------------------------------------------------- |
+| `Prettier: File has been modified since last commit` | Stage the file again: `git add <file>`             |
+| `ESLint: X errors, Y warnings`                       | Run `npx eslint --fix <file>` on the failing files |
+| `Unknown command: "lint-staged"`                     | `npm install` (lint-staged is a dev dependency)    |
 
 ### 7.3 Merge Conflicts in package-lock.json
 
 **Symptom:** `package-lock.json` has conflict markers (`<<<<<<<`, `=======`, `>>>>>>>`)
 
 **Solution:**
+
 ```bash
 # Don't manually edit package-lock.json!
 # Regenerate it instead:
@@ -584,6 +609,7 @@ npm install                                # Regenerate
 ```
 
 Or if both sides have incompatible changes:
+
 ```bash
 git checkout --ours package-lock.json
 npm install          # Regenerates with our changes + merges dependency updates
@@ -594,6 +620,7 @@ npm install          # Regenerates with our changes + merges dependency updates
 Prisma migration files are timestamped and WILL conflict during git merges.
 
 **Fix:**
+
 ```bash
 # 1. Accept one side's migration
 git checkout --ours apps/api/prisma/migrations/<migration-folder>
@@ -647,5 +674,6 @@ If this guide doesn't solve your issue:
    - Recent changes (git log --oneline -5)
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
