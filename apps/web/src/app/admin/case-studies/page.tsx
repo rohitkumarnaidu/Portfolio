@@ -19,8 +19,13 @@ interface CSForm {
 }
 
 const emptyForm: CSForm = {
-  projectId: '', challenge: '', approach: '', solution: '', impact: '',
-  architectureDiagrams: '', codeSnippets: '',
+  projectId: '',
+  challenge: '',
+  approach: '',
+  solution: '',
+  impact: '',
+  architectureDiagrams: '',
+  codeSnippets: '',
 };
 
 export default function AdminCaseStudiesPage() {
@@ -34,7 +39,11 @@ export default function AdminCaseStudiesPage() {
   const [deleteTarget, setDeleteTarget] = useState<CaseStudy | null>(null);
   const [saving, setSaving] = useState(false);
 
-  const resetForm = () => { setForm(emptyForm); setEditingId(null); setShowForm(false); };
+  const resetForm = () => {
+    setForm(emptyForm);
+    setEditingId(null);
+    setShowForm(false);
+  };
 
   const handleEdit = (cs: CaseStudy) => {
     setForm({
@@ -94,7 +103,13 @@ export default function AdminCaseStudiesPage() {
           <h1 className="font-display text-h2 text-text-primary">Case Studies</h1>
           <p className="text-body-sm text-text-secondary mt-1">Deep-dive project analyses</p>
         </div>
-        <Button onClick={() => { resetForm(); setShowForm(true); }} disabled={showForm}>
+        <Button
+          onClick={() => {
+            resetForm();
+            setShowForm(true);
+          }}
+          disabled={showForm}
+        >
           New Case Study
         </Button>
       </div>
@@ -106,39 +121,47 @@ export default function AdminCaseStudiesPage() {
               <label className="block text-sm font-medium text-text-primary mb-1">Project *</label>
               <select
                 value={form.projectId}
-                onChange={e => setForm(f => ({ ...f, projectId: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, projectId: e.target.value }))}
                 className="w-full rounded-xl bg-surface-primary border border-border-primary px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-500"
                 required
               >
                 <option value="">Select a project...</option>
-                {projects?.map(p => (
-                  <option key={p.id} value={p.id}>{p.title}</option>
+                {projects?.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.title}
+                  </option>
                 ))}
               </select>
             </div>
-            {(['challenge', 'approach', 'solution', 'impact'] as const).map(field => (
+            {(['challenge', 'approach', 'solution', 'impact'] as const).map((field) => (
               <div key={field}>
-                <label className="block text-sm font-medium text-text-primary mb-1 capitalize">{field}</label>
+                <label className="block text-sm font-medium text-text-primary mb-1 capitalize">
+                  {field}
+                </label>
                 <textarea
                   value={form[field]}
-                  onChange={e => setForm(f => ({ ...f, [field]: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, [field]: e.target.value }))}
                   className="w-full rounded-xl bg-surface-primary border border-border-primary px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-500 min-h-[80px]"
                 />
               </div>
             ))}
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-1">Architecture Diagrams (one URL per line)</label>
+              <label className="block text-sm font-medium text-text-primary mb-1">
+                Architecture Diagrams (one URL per line)
+              </label>
               <textarea
                 value={form.architectureDiagrams}
-                onChange={e => setForm(f => ({ ...f, architectureDiagrams: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, architectureDiagrams: e.target.value }))}
                 className="w-full rounded-xl bg-surface-primary border border-border-primary px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-500 min-h-[60px]"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-text-primary mb-1">Code Snippets (one URL per line)</label>
+              <label className="block text-sm font-medium text-text-primary mb-1">
+                Code Snippets (one URL per line)
+              </label>
               <textarea
                 value={form.codeSnippets}
-                onChange={e => setForm(f => ({ ...f, codeSnippets: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, codeSnippets: e.target.value }))}
                 className="w-full rounded-xl bg-surface-primary border border-border-primary px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-500 min-h-[60px]"
               />
             </div>
@@ -146,7 +169,9 @@ export default function AdminCaseStudiesPage() {
               <Button type="submit" disabled={!form.projectId || saving}>
                 {saving ? 'Saving...' : editingId ? 'Update' : 'Create'}
               </Button>
-              <Button variant="secondary" type="button" onClick={resetForm}>Cancel</Button>
+              <Button variant="secondary" type="button" onClick={resetForm}>
+                Cancel
+              </Button>
             </div>
           </form>
         </Card>
@@ -164,19 +189,25 @@ export default function AdminCaseStudiesPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {caseStudies.map(cs => {
-            const project = projects?.find(p => p.id === cs.projectId);
+          {caseStudies.map((cs) => {
+            const project = projects?.find((p) => p.id === cs.projectId);
             return (
               <Card key={cs.id} padding="md" className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-text-primary">{project?.title || 'Unknown Project'}</p>
+                  <p className="font-medium text-text-primary">
+                    {project?.title || 'Unknown Project'}
+                  </p>
                   <p className="text-sm text-text-tertiary mt-0.5">
                     {cs.challenge ? `${cs.challenge.slice(0, 80)}...` : 'No challenge description'}
                   </p>
                 </div>
                 <div className="flex gap-2 shrink-0">
-                  <Button variant="secondary" size="sm" onClick={() => handleEdit(cs)}>Edit</Button>
-                  <Button variant="secondary" size="sm" onClick={() => setDeleteTarget(cs)}>Delete</Button>
+                  <Button variant="secondary" size="sm" onClick={() => handleEdit(cs)}>
+                    Edit
+                  </Button>
+                  <Button variant="secondary" size="sm" onClick={() => setDeleteTarget(cs)}>
+                    Delete
+                  </Button>
                 </div>
               </Card>
             );
@@ -188,10 +219,13 @@ export default function AdminCaseStudiesPage() {
         <div className="p-6 space-y-4">
           <h3 className="text-lg font-display text-text-primary">Delete Case Study</h3>
           <p className="text-sm text-text-secondary">
-            Are you sure you want to delete the case study for &quot;{deleteTarget && projects?.find(p => p.id === deleteTarget.projectId)?.title}&quot;?
+            Are you sure you want to delete the case study for &quot;
+            {deleteTarget && projects?.find((p) => p.id === deleteTarget.projectId)?.title}&quot;?
           </p>
           <div className="flex gap-3 justify-end">
-            <Button variant="secondary" onClick={() => setDeleteTarget(null)}>Cancel</Button>
+            <Button variant="secondary" onClick={() => setDeleteTarget(null)}>
+              Cancel
+            </Button>
             <Button onClick={confirmDelete}>Delete</Button>
           </div>
         </div>
