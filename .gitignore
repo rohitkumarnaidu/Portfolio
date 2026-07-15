@@ -57,6 +57,7 @@ venv/
 apps/web/.next/
 apps/web/out/
 apps/api/dist/
+apps/api/generated/
 
 # Python
 apps/ai/__pycache__/
