@@ -1,20 +1,37 @@
-import { Controller, Get, Post, Delete, Param, Query, UseGuards, UseInterceptors, UploadedFile, HttpCode, HttpStatus, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Query,
+  UseGuards,
+  UseInterceptors,
+  UploadedFile,
+  HttpCode,
+  HttpStatus,
+  Req,
+} from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname, join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import { MediaService } from '../../modules/media/media.service';
+import type { MediaService } from '../../modules/media/media.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
 import { Audit } from '../../common/decorators/audit.decorator';
-import { CreateMediaDto } from '../../modules/media/dto';
+import type { CreateMediaDto } from '../../modules/media/dto';
 import type { Request } from 'express';
 import multer from 'multer';
 
 const storage = multer.diskStorage({
   destination: join(process.cwd(), 'uploads'),
-  filename: (_req: any, file: { originalname: string }, cb: (err: Error | null, name: string) => void) => {
+  filename: (
+    _req: unknown,
+    file: { originalname: string },
+    cb: (err: Error | null, name: string) => void,
+  ) => {
     const ext = extname(file.originalname);
     cb(null, `${uuidv4()}${ext}`);
   },
@@ -38,7 +55,11 @@ export class AdminMediaController {
     @Query('perPage') perPage?: string,
     @Query('mimeType') mimeType?: string,
   ) {
-    return this.media.findAll({ page: page ? +page : undefined, perPage: perPage ? +perPage : undefined, mimeType });
+    return this.media.findAll({
+      page: page ? +page : undefined,
+      perPage: perPage ? +perPage : undefined,
+      mimeType,
+    });
   }
 
   @Get(':id')
@@ -53,10 +74,11 @@ export class AdminMediaController {
   @Audit({ action: 'upload', resource: 'media' })
   @ApiOperation({ summary: 'Upload a file' })
   @ApiConsumes('multipart/form-data')
-  @UseInterceptors(
-    FileInterceptor('file', { storage }),
-  )
-  async upload(@UploadedFile() file: Express.Multer.File, @Req() req: Request & { user?: { id: string } }) {
+  @UseInterceptors(FileInterceptor('file', { storage }))
+  async upload(
+    @UploadedFile() file: Express.Multer.File,
+    @Req() req: Request & { user?: { id: string } },
+  ) {
     const dto: CreateMediaDto = {
       fileName: file.originalname,
       filePath: file.path,
