@@ -1,8 +1,24 @@
-import type { Section, Project, Skill, Lead, Experience, Testimonial, BlogPost, Service, FAQ } from '@portfolio/shared';
+import type {
+  Section,
+  Project,
+  Skill,
+  Lead,
+  Experience,
+  Testimonial,
+  BlogPost,
+  Service,
+  FAQ,
+} from '@portfolio/shared';
+import { CACHE_TAGS } from './cache-tags';
 
-const API_BASE = typeof window === 'undefined'
-  ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api`
-  : '/api';
+const API_BASE =
+  typeof window === 'undefined'
+    ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api`
+    : '/api';
+
+interface FetchOptions extends RequestInit {
+  next?: { tags?: string[]; revalidate?: number };
+}
 
 // ── Error Types ─────────────────────────────────────────────
 
@@ -38,7 +54,7 @@ function getAuthToken(): string | null {
 
 async function request<T>(
   endpoint: string,
-  options: RequestInit = {},
+  options: FetchOptions = {},
   useServerBase = false,
 ): Promise<T> {
   const base = useServerBase
@@ -56,6 +72,7 @@ async function request<T>(
 
   const res = await fetch(url, {
     ...options,
+    credentials: 'include',
     headers: {
       ...headers,
       ...(options.headers as Record<string, string> | undefined),
@@ -92,7 +109,9 @@ export async function getSections(is_live?: boolean, type?: string) {
   if (is_live !== undefined) params.set('is_live', String(is_live));
   if (type) params.set('type', type);
   const qs = params.toString();
-  return request<Section[]>(`/sections${qs ? `?${qs}` : ''}`);
+  return request<Section[]>(`/sections${qs ? `?${qs}` : ''}`, {
+    next: { tags: [CACHE_TAGS.SECTIONS] },
+  });
 }
 
 export async function getSection(idOrKey: string) {
@@ -121,7 +140,9 @@ export async function getProjects(params?: {
   if (params?.sort) searchParams.set('sort', params.sort);
   if (params?.order) searchParams.set('order', params.order);
   const qs = searchParams.toString();
-  return request<Project[]>(`/projects${qs ? `?${qs}` : ''}`);
+  return request<Project[]>(`/projects${qs ? `?${qs}` : ''}`, {
+    next: { tags: [CACHE_TAGS.PROJECTS] },
+  });
 }
 
 export async function getProject(slugOrId: string) {
@@ -131,7 +152,9 @@ export async function getProject(slugOrId: string) {
 // ── Skills ──────────────────────────────────────────────────
 
 export async function getSkills(category?: string) {
-  return request<Skill[]>(`/skills${category ? `?category=${encodeURIComponent(category)}` : ''}`);
+  return request<Skill[]>(`/skills${category ? `?category=${encodeURIComponent(category)}` : ''}`, {
+    next: { tags: [CACHE_TAGS.SKILLS] },
+  });
 }
 
 // ── Auth ───────────────────────────────────────────────────
@@ -159,7 +182,15 @@ export async function login(email: string, password: string) {
 export async function refreshToken(token: string) {
   return request<LoginResponse>('/auth/refresh', {
     method: 'POST',
+    credentials: 'include',
     body: JSON.stringify({ refresh_token: token }),
+  });
+}
+
+export async function logout() {
+  return request<void>('/auth/logout', {
+    method: 'POST',
+    credentials: 'include',
   });
 }
 
@@ -170,7 +201,9 @@ export async function getProfile() {
 // ── Experiences ─────────────────────────────────────────────
 
 export async function getExperiences() {
-  return request<Experience[]>('/experiences');
+  return request<Experience[]>('/experiences', {
+    next: { tags: [CACHE_TAGS.EXPERIENCES] },
+  });
 }
 
 export async function createExperience(data: Partial<Experience>) {
@@ -188,7 +221,9 @@ export async function deleteExperience(id: string) {
 // ── Testimonials ────────────────────────────────────────────
 
 export async function getTestimonials() {
-  return request<Testimonial[]>('/testimonials');
+  return request<Testimonial[]>('/testimonials', {
+    next: { tags: [CACHE_TAGS.TESTIMONIALS] },
+  });
 }
 
 export async function createTestimonial(data: Partial<Testimonial>) {
@@ -196,7 +231,10 @@ export async function createTestimonial(data: Partial<Testimonial>) {
 }
 
 export async function updateTestimonial(id: string, data: Partial<Testimonial>) {
-  return request<Testimonial>(`/testimonials/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<Testimonial>(`/testimonials/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deleteTestimonial(id: string) {
@@ -206,23 +244,51 @@ export async function deleteTestimonial(id: string) {
 // ── Admin: Blog Posts ───────────────────────────────────────
 
 export async function getBlogPosts() {
-  return request<BlogPost[]>('/blog');
+  return request<BlogPost[]>('/admin/blog', {
+    next: { tags: [CACHE_TAGS.BLOG] },
+  });
 }
 
 export async function getBlogPost(slugOrId: string) {
-  return request<BlogPost>(`/blog/${slugOrId}`);
+  return request<BlogPost>(`/admin/blog/${slugOrId}`, {
+    next: { tags: [CACHE_TAGS.BLOG] },
+  });
 }
 
 export async function createBlogPost(data: Partial<BlogPost>) {
-  return request<BlogPost>('/blog', { method: 'POST', body: JSON.stringify(data) });
+  return request<BlogPost>('/admin/blog', { method: 'POST', body: JSON.stringify(data) });
 }
 
 export async function updateBlogPost(id: string, data: Partial<BlogPost>) {
-  return request<BlogPost>(`/blog/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<BlogPost>(`/admin/blog/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
 }
 
 export async function deleteBlogPost(id: string) {
-  return request<void>(`/blog/${id}`, { method: 'DELETE' });
+  return request<void>(`/admin/blog/${id}`, { method: 'DELETE' });
+}
+
+// ── Admin: Blog Tags ────────────────────────────────────────
+
+export interface BlogTag {
+  name: string;
+  postCount: number;
+}
+
+export async function getBlogTags() {
+  return request<BlogTag[]>('/admin/blog/tags');
+}
+
+export async function addBlogTag(postId: string, tag: string) {
+  return request<string[]>(`/admin/blog/${postId}/tags`, {
+    method: 'POST',
+    body: JSON.stringify({ tag }),
+  });
+}
+
+export async function removeBlogTag(postId: string, tag: string) {
+  return request<string[]>(`/admin/blog/${postId}/tags/${encodeURIComponent(tag)}`, {
+    method: 'DELETE',
+  });
 }
 
 // ── Admin: Services ─────────────────────────────────────────
@@ -341,6 +407,7 @@ export async function uploadMediaAsset(file: File, altText?: string) {
   const url = `${API_BASE}/media`;
   const res = await fetch(url, {
     method: 'POST',
+    credentials: 'include',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
     body: formData,
   });
@@ -375,7 +442,9 @@ export interface CaseStudy {
 
 export async function getCaseStudies(projectId?: string) {
   const qs = projectId ? `?projectId=${encodeURIComponent(projectId)}` : '';
-  return request<CaseStudy[]>(`/case-studies${qs}`);
+  return request<CaseStudy[]>(`/case-studies${qs}`, {
+    next: { tags: [CACHE_TAGS.CASE_STUDIES] },
+  });
 }
 
 export async function getCaseStudy(id: string) {
@@ -466,7 +535,11 @@ export async function deleteSkill(id: string) {
 // ── Admin: Leads ────────────────────────────────────────────
 
 export async function getLeads(params?: {
-  page?: number; per_page?: number; status?: string; source?: string; search?: string;
+  page?: number;
+  per_page?: number;
+  status?: string;
+  source?: string;
+  search?: string;
 }) {
   const sp = new URLSearchParams();
   if (params?.page) sp.set('page', String(params.page));
@@ -521,12 +594,18 @@ export async function getAnalyticsSummary(period?: string) {
   return request<AnalyticsSummary>(`/analytics/summary${qs}`);
 }
 
-export async function getAnalyticsSessions(params?: { page?: number; per_page?: number; from?: string }) {
+export async function getAnalyticsSessions(params?: {
+  page?: number;
+  per_page?: number;
+  from?: string;
+}) {
   const sp = new URLSearchParams();
   if (params?.page) sp.set('page', String(params.page));
   if (params?.per_page) sp.set('per_page', String(params.per_page));
   if (params?.from) sp.set('from', params.from);
-  return request<AnalyticsSession[]>(`/analytics/sessions${sp.toString() ? `?${sp.toString()}` : ''}`);
+  return request<AnalyticsSession[]>(
+    `/analytics/sessions${sp.toString() ? `?${sp.toString()}` : ''}`,
+  );
 }
 
 // ── Admin: Achievements ─────────────────────────────────────
@@ -561,11 +640,17 @@ export async function getAchievement(id: string) {
 }
 
 export async function createAchievement(data: Partial<Achievement>) {
-  return request<Achievement>('/admin/achievements', { method: 'POST', body: JSON.stringify(data) });
+  return request<Achievement>('/admin/achievements', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function updateAchievement(id: string, data: Partial<Achievement>) {
-  return request<Achievement>(`/admin/achievements/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<Achievement>(`/admin/achievements/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deleteAchievement(id: string) {
@@ -573,7 +658,7 @@ export async function deleteAchievement(id: string) {
 }
 
 export async function bulkDeleteAchievements(ids: string[]) {
-  await Promise.all(ids.map(id => deleteAchievement(id)));
+  await Promise.all(ids.map((id) => deleteAchievement(id)));
 }
 
 // ── Admin: Press Features ───────────────────────────────────
@@ -604,11 +689,17 @@ export async function getPressFeature(id: string) {
 }
 
 export async function createPressFeature(data: Partial<PressFeature>) {
-  return request<PressFeature>('/admin/press-features', { method: 'POST', body: JSON.stringify(data) });
+  return request<PressFeature>('/admin/press-features', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function updatePressFeature(id: string, data: Partial<PressFeature>) {
-  return request<PressFeature>(`/admin/press-features/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<PressFeature>(`/admin/press-features/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deletePressFeature(id: string) {
@@ -616,7 +707,7 @@ export async function deletePressFeature(id: string) {
 }
 
 export async function bulkDeletePressFeatures(ids: string[]) {
-  await Promise.all(ids.map(id => deletePressFeature(id)));
+  await Promise.all(ids.map((id) => deletePressFeature(id)));
 }
 
 // ── Admin: System Settings ──────────────────────────────────
@@ -641,7 +732,10 @@ export async function getSetting(key: string) {
 }
 
 export async function upsertSetting(key: string, data: Partial<SystemSetting>) {
-  return request<SystemSetting>(`/admin/system-settings/${key}`, { method: 'POST', body: JSON.stringify(data) });
+  return request<SystemSetting>(`/admin/system-settings/${key}`, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deleteSetting(key: string) {
@@ -714,25 +808,30 @@ export async function getAdminAvailabilityStatus() {
 }
 
 export async function updateAvailabilityStatus(data: Partial<AvailabilityStatus>) {
-  return request<AvailabilityStatus>('/admin/availability-status', { method: 'PATCH', body: JSON.stringify(data) });
+  return request<AvailabilityStatus>('/admin/availability-status', {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 // ── Admin: Guest Appearances CRUD ────────────────────────────────
-
-export async function getAdminGuestAppearances() {
-  return request<GuestAppearance[]>('/admin/guest-appearances');
-}
 
 export async function getGuestAppearance(id: string) {
   return request<GuestAppearance>(`/admin/guest-appearances/${id}`);
 }
 
 export async function createGuestAppearance(data: Partial<GuestAppearance>) {
-  return request<GuestAppearance>('/admin/guest-appearances', { method: 'POST', body: JSON.stringify(data) });
+  return request<GuestAppearance>('/admin/guest-appearances', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function updateGuestAppearance(id: string, data: Partial<GuestAppearance>) {
-  return request<GuestAppearance>(`/admin/guest-appearances/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<GuestAppearance>(`/admin/guest-appearances/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deleteGuestAppearance(id: string) {
@@ -740,7 +839,7 @@ export async function deleteGuestAppearance(id: string) {
 }
 
 export async function bulkDeleteGuestAppearances(ids: string[]) {
-  await Promise.all(ids.map(id => deleteGuestAppearance(id)));
+  await Promise.all(ids.map((id) => deleteGuestAppearance(id)));
 }
 
 // ── Admin: Reading List Items CRUD ───────────────────────────────
@@ -757,11 +856,17 @@ export async function getReadingListItem(id: string) {
 }
 
 export async function createReadingListItem(data: Partial<ReadingListItem>) {
-  return request<ReadingListItem>('/admin/reading-list-items', { method: 'POST', body: JSON.stringify(data) });
+  return request<ReadingListItem>('/admin/reading-list-items', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function updateReadingListItem(id: string, data: Partial<ReadingListItem>) {
-  return request<ReadingListItem>(`/admin/reading-list-items/${id}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<ReadingListItem>(`/admin/reading-list-items/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deleteReadingListItem(id: string) {
@@ -769,7 +874,7 @@ export async function deleteReadingListItem(id: string) {
 }
 
 export async function bulkDeleteReadingListItems(ids: string[]) {
-  await Promise.all(ids.map(id => deleteReadingListItem(id)));
+  await Promise.all(ids.map((id) => deleteReadingListItem(id)));
 }
 
 // ── Admin: Users ─────────────────────────────────────────────────
@@ -784,7 +889,12 @@ export interface User {
   createdAt: string;
 }
 
-export async function getUsers(params?: { page?: number; perPage?: number; search?: string; role?: string }) {
+export async function getUsers(params?: {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  role?: string;
+}) {
   const sp = new URLSearchParams();
   if (params?.page) sp.set('page', String(params.page));
   if (params?.perPage) sp.set('perPage', String(params.perPage));
@@ -798,7 +908,12 @@ export async function getUser(id: string) {
   return request<User>(`/admin/users/${id}`);
 }
 
-export async function createUser(data: { email: string; displayName: string; password?: string; role?: string }) {
+export async function createUser(data: {
+  email: string;
+  displayName: string;
+  password?: string;
+  role?: string;
+}) {
   return request<User>('/admin/users', { method: 'POST', body: JSON.stringify(data) });
 }
 
@@ -807,7 +922,10 @@ export async function updateUser(id: string, data: Partial<User>) {
 }
 
 export async function updateUserRole(id: string, role: string) {
-  return request<User>(`/admin/users/${id}/role`, { method: 'PATCH', body: JSON.stringify({ role }) });
+  return request<User>(`/admin/users/${id}/role`, {
+    method: 'PATCH',
+    body: JSON.stringify({ role }),
+  });
 }
 
 export async function unlockUser(id: string) {
@@ -830,7 +948,12 @@ export interface Notification {
   createdAt: string;
 }
 
-export async function getNotifications(params?: { page?: number; perPage?: number; isRead?: boolean; type?: string }) {
+export async function getNotifications(params?: {
+  page?: number;
+  perPage?: number;
+  isRead?: boolean;
+  type?: string;
+}) {
   const sp = new URLSearchParams();
   if (params?.page) sp.set('page', String(params.page));
   if (params?.perPage) sp.set('perPage', String(params.perPage));
@@ -881,7 +1004,10 @@ export async function getApiKey(id: string) {
 }
 
 export async function createApiKey(data: { name: string; permissions?: string }) {
-  return request<{ apiKey: ApiKey; rawKey: string }>('/admin/api-keys', { method: 'POST', body: JSON.stringify(data) });
+  return request<{ apiKey: ApiKey; rawKey: string }>('/admin/api-keys', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function revokeApiKey(id: string) {
@@ -914,11 +1040,17 @@ export async function getFeatureFlag(key: string) {
 }
 
 export async function createFeatureFlag(data: Partial<FeatureFlag>) {
-  return request<FeatureFlag>('/admin/feature-flags', { method: 'POST', body: JSON.stringify(data) });
+  return request<FeatureFlag>('/admin/feature-flags', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function updateFeatureFlag(key: string, data: Partial<FeatureFlag>) {
-  return request<FeatureFlag>(`/admin/feature-flags/${key}`, { method: 'PATCH', body: JSON.stringify(data) });
+  return request<FeatureFlag>(`/admin/feature-flags/${key}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 export async function deleteFeatureFlag(key: string) {
@@ -943,7 +1075,10 @@ export async function getChatConversations(params?: { page?: number; perPage?: n
   return request<ChatConversation[]>(`/admin/chat/conversations${qs ? `?${qs}` : ''}`);
 }
 
-export async function getChatConversationMessages(id: string, params?: { page?: number; perPage?: number }) {
+export async function getChatConversationMessages(
+  id: string,
+  params?: { page?: number; perPage?: number },
+) {
   const sp = new URLSearchParams();
   if (params?.page) sp.set('page', String(params.page));
   if (params?.perPage) sp.set('perPage', String(params.perPage));

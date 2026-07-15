@@ -15,7 +15,8 @@ export const sections: Section[] = [
     style_config: {},
     content: {
       title: 'Full-stack developer crafting enterprise-grade digital experiences',
-      subtitle: 'I build full-stack web applications with React, Next.js, NestJS, and TypeScript. Focused on performance, accessibility, and clean architecture.',
+      subtitle:
+        'I build full-stack web applications with React, Next.js, NestJS, and TypeScript. Focused on performance, accessibility, and clean architecture.',
       primary_cta: 'View My Work',
       secondary_cta: 'Get in Touch',
       status: 'Available for new opportunities',
@@ -115,7 +116,7 @@ export const sections: Section[] = [
     style_config: {},
     content: {
       title: 'Featured Work',
-      subtitle: 'A selection of projects I\'ve built',
+      subtitle: "A selection of projects I've built",
     },
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-06-01T00:00:00Z',
@@ -210,7 +211,7 @@ export const sections: Section[] = [
     style_config: {},
     content: {
       title: 'Get in Touch',
-      subtitle: 'Have a project in mind? Let\'s talk about it.',
+      subtitle: "Have a project in mind? Let's talk about it.",
     },
     created_at: '2026-01-01T00:00:00Z',
     updated_at: '2026-06-01T00:00:00Z',

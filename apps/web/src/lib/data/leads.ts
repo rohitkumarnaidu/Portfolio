@@ -8,7 +8,8 @@ export const leads: Lead[] = [
     phone: '+1-555-0101',
     company: 'TechCorp Inc.',
     subject: 'Project Inquiry — E-commerce Platform',
-    message: 'Hi, I came across your portfolio and was impressed by your work on e-commerce platforms. We are looking for a full-stack developer to help us rebuild our online store. Would you be available for a call this week?',
+    message:
+      'Hi, I came across your portfolio and was impressed by your work on e-commerce platforms. We are looking for a full-stack developer to help us rebuild our online store. Would you be available for a call this week?',
     source: 'contact_form',
     status: 'new',
     priority: 'high',
@@ -22,7 +23,8 @@ export const leads: Lead[] = [
     email: 'michael@startupxyz.io',
     company: 'StartupXYZ',
     subject: 'Freelance Opportunity',
-    message: 'We need a React developer for a 3-month contract building an internal dashboard. Your experience with Next.js and TypeScript seems like a great fit. Let me know if you are interested.',
+    message:
+      'We need a React developer for a 3-month contract building an internal dashboard. Your experience with Next.js and TypeScript seems like a great fit. Let me know if you are interested.',
     source: 'contact_form',
     status: 'new',
     priority: 'normal',
@@ -37,7 +39,8 @@ export const leads: Lead[] = [
     phone: '+1-555-0202',
     company: 'Design Studio Co.',
     subject: 'Partnership Opportunity',
-    message: 'We are a design agency looking for a technical partner to handle development for our clients. Would love to discuss a potential retainer arrangement.',
+    message:
+      'We are a design agency looking for a technical partner to handle development for our clients. Would love to discuss a potential retainer arrangement.',
     source: 'contact_form',
     status: 'read',
     priority: 'high',
@@ -51,7 +54,8 @@ export const leads: Lead[] = [
     email: 'david@enterprise-solutions.com',
     company: 'Enterprise Solutions Ltd',
     subject: 'Full-Time Position',
-    message: 'We are hiring a Senior Full-Stack Engineer and your profile matches what we are looking for. Would you be open to discussing a full-time role?',
+    message:
+      'We are hiring a Senior Full-Stack Engineer and your profile matches what we are looking for. Would you be open to discussing a full-time role?',
     source: 'contact_form',
     status: 'replied',
     priority: 'normal',
@@ -66,7 +70,8 @@ export const leads: Lead[] = [
     phone: '+1-555-0303',
     company: 'Global Nonprofit',
     subject: 'Pro Bono / Discounted Work',
-    message: 'We are a nonprofit working on educational technology for underserved communities. We have a limited budget but would love to discuss if you offer any discounted rates for nonprofit work.',
+    message:
+      'We are a nonprofit working on educational technology for underserved communities. We have a limited budget but would love to discuss if you offer any discounted rates for nonprofit work.',
     source: 'contact_form',
     status: 'new',
     priority: 'low',

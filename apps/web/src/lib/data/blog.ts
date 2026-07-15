@@ -16,7 +16,8 @@ export const blogPosts: BlogPost[] = [
     id: 'post-1',
     slug: 'building-accessible-react-components',
     title: 'Building Accessible React Components: A Practical Guide',
-    excerpt: 'Learn how to create React components that are fully accessible, from semantic HTML patterns to keyboard navigation and ARIA attributes.',
+    excerpt:
+      'Learn how to create React components that are fully accessible, from semantic HTML patterns to keyboard navigation and ARIA attributes.',
     content: `Accessibility is not an afterthought — it's a fundamental aspect of web development that ensures your applications can be used by everyone, regardless of their abilities.
 
 In this guide, I'll walk through practical patterns for building accessible React components that follow WCAG 2.2 AA standards.
@@ -48,7 +49,8 @@ Use a combination of automated tools (axe-core, Lighthouse) and manual testing (
     id: 'post-2',
     slug: 'next-js-14-performance-optimization',
     title: 'Next.js 14 Performance: From 60 to 95+ Lighthouse Score',
-    excerpt: 'A deep dive into ISR, streaming, Server Components, and bundle optimization techniques that dramatically improved our Core Web Vitals.',
+    excerpt:
+      'A deep dive into ISR, streaming, Server Components, and bundle optimization techniques that dramatically improved our Core Web Vitals.',
     content: `Performance optimization in Next.js 14 requires understanding the rendering strategies available and choosing the right one for each page.
 
 ## The Rendering Spectrum
@@ -77,7 +79,8 @@ Core Web Vitals (LCP, FID, CLS) are the metrics that matter for user experience 
     id: 'post-3',
     slug: 'enterprise-typescript-patterns',
     title: 'Enterprise TypeScript Patterns: Beyond the Basics',
-    excerpt: 'Advanced TypeScript patterns for large-scale applications: branded types, discriminated unions, builder patterns, and type-safe API clients.',
+    excerpt:
+      'Advanced TypeScript patterns for large-scale applications: branded types, discriminated unions, builder patterns, and type-safe API clients.',
     content: `As TypeScript applications grow, basic types aren't enough. You need patterns that scale with your codebase.
 
 ## Branded Types for Type Safety
@@ -104,7 +107,8 @@ Define your API layer with typed request and response schemas. Use Zod for runti
     id: 'post-4',
     slug: 'docker-compose-for-development',
     title: 'Docker Compose for Local Development: A Complete Setup',
-    excerpt: 'How to set up a production-like local development environment using Docker Compose with hot reloading, database seeding, and service orchestration.',
+    excerpt:
+      'How to set up a production-like local development environment using Docker Compose with hot reloading, database seeding, and service orchestration.',
     content: `Docker Compose provides a consistent development environment that mirrors production, eliminating "it works on my machine" problems.
 
 ## Service Architecture
@@ -131,7 +135,8 @@ Services communicate over an internal Docker network. Use service names as hostn
     id: 'post-5',
     slug: 'testing-react-hooks',
     title: 'Testing React Hooks: From Unit to Integration',
-    excerpt: 'Comprehensive guide to testing React hooks including custom hooks, state changes, side effects, and integration with components using React Testing Library.',
+    excerpt:
+      'Comprehensive guide to testing React hooks including custom hooks, state changes, side effects, and integration with components using React Testing Library.',
     content: `Testing React hooks requires understanding what the hook does and choosing the right testing strategy.
 
 ## Unit Testing Pure Logic
@@ -162,7 +167,8 @@ Use waitFor and findBy* queries for asynchronous behavior. Test loading states, 
     id: 'post-6',
     slug: 'css-grid-modern-layouts',
     title: 'CSS Grid for Modern Layouts: Beyond the Basics',
-    excerpt: 'Master CSS Grid with advanced patterns for responsive layouts, overlapping elements, and complex magazine-style designs without framework dependencies.',
+    excerpt:
+      'Master CSS Grid with advanced patterns for responsive layouts, overlapping elements, and complex magazine-style designs without framework dependencies.',
     content: `CSS Grid has revolutionized web layout. But most developers only scratch the surface.
 
 ## Grid Template Areas for Page Layout

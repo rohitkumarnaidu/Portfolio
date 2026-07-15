@@ -5,7 +5,8 @@ export const projects: Project[] = [
     id: 'proj-1',
     title: 'E-Commerce Platform',
     slug: 'ecommerce-platform',
-    description: 'A full-featured e-commerce platform with real-time inventory management, payment processing, and admin dashboard. Built for scalability handling 10k+ concurrent users.',
+    description:
+      'A full-featured e-commerce platform with real-time inventory management, payment processing, and admin dashboard. Built for scalability handling 10k+ concurrent users.',
     category: 'web',
     tech_stack: ['Next.js', 'TypeScript', 'Stripe', 'PostgreSQL', 'Redis', 'Docker'],
     is_featured: true,
@@ -22,7 +23,8 @@ export const projects: Project[] = [
     id: 'proj-2',
     title: 'AI Chat Assistant',
     slug: 'ai-chat-assistant',
-    description: 'Real-time AI chat application with streaming responses, conversation history, and RAG-powered knowledge base. Supports multiple LLM providers with automatic fallback.',
+    description:
+      'Real-time AI chat application with streaming responses, conversation history, and RAG-powered knowledge base. Supports multiple LLM providers with automatic fallback.',
     category: 'ai',
     tech_stack: ['Next.js', 'FastAPI', 'OpenAI', 'pgvector', 'WebSocket', 'Redis'],
     is_featured: true,
@@ -39,7 +41,8 @@ export const projects: Project[] = [
     id: 'proj-3',
     title: 'DevOps Pipeline Automation',
     slug: 'devops-pipeline',
-    description: 'Automated CI/CD pipeline with multi-environment deployment, blue-green strategy, rollback automation, and infrastructure-as-code using Terraform and Kubernetes.',
+    description:
+      'Automated CI/CD pipeline with multi-environment deployment, blue-green strategy, rollback automation, and infrastructure-as-code using Terraform and Kubernetes.',
     category: 'devops',
     tech_stack: ['Terraform', 'Kubernetes', 'Docker', 'GitHub Actions', 'AWS', 'Helm'],
     is_featured: true,
@@ -55,7 +58,8 @@ export const projects: Project[] = [
     id: 'proj-4',
     title: 'Healthcare Dashboard',
     slug: 'healthcare-dashboard',
-    description: 'Real-time patient monitoring dashboard with HIPAA-compliant data handling, role-based access, and interactive medical charts. Used across 3 hospital networks.',
+    description:
+      'Real-time patient monitoring dashboard with HIPAA-compliant data handling, role-based access, and interactive medical charts. Used across 3 hospital networks.',
     category: 'web',
     tech_stack: ['React', 'NestJS', 'PostgreSQL', 'D3.js', 'WebSocket', 'Docker'],
     is_featured: false,
@@ -70,7 +74,8 @@ export const projects: Project[] = [
     id: 'proj-5',
     title: 'Mobile Fitness App',
     slug: 'mobile-fitness-app',
-    description: 'Cross-platform mobile fitness app with workout tracking, nutrition planning, and social features. 50k+ downloads across iOS and Android.',
+    description:
+      'Cross-platform mobile fitness app with workout tracking, nutrition planning, and social features. 50k+ downloads across iOS and Android.',
     category: 'mobile',
     tech_stack: ['React Native', 'TypeScript', 'Supabase', 'Expo', 'Stripe'],
     is_featured: false,
@@ -87,7 +92,8 @@ export const projects: Project[] = [
     id: 'proj-6',
     title: 'Design System Library',
     slug: 'design-system',
-    description: 'Enterprise design system with 40+ accessible components, theme engine, documentation site, and automated visual regression testing. Used by 5 product teams.',
+    description:
+      'Enterprise design system with 40+ accessible components, theme engine, documentation site, and automated visual regression testing. Used by 5 product teams.',
     category: 'design',
     tech_stack: ['React', 'TypeScript', 'Storybook', 'Tailwind CSS', 'Radix UI', 'Chromatic'],
     is_featured: true,

@@ -20,7 +20,8 @@ export const experience: ExperienceItem[] = [
     location: 'San Francisco, CA',
     startDate: '2023-03',
     endDate: 'Present',
-    description: 'Leading the development of enterprise SaaS platform serving 50k+ users. Architecting microservices migration and establishing frontend standards across 4 product teams.',
+    description:
+      'Leading the development of enterprise SaaS platform serving 50k+ users. Architecting microservices migration and establishing frontend standards across 4 product teams.',
     achievements: [
       'Reduced page load times by 60% through ISR and code splitting strategies',
       'Architected migration from monolith to 12 microservices with zero downtime',
@@ -37,7 +38,8 @@ export const experience: ExperienceItem[] = [
     location: 'Remote',
     startDate: '2021-01',
     endDate: '2023-02',
-    description: 'Built and scaled an AI-powered analytics platform from MVP to 10k+ users. Worked directly with founders to define technical roadmap.',
+    description:
+      'Built and scaled an AI-powered analytics platform from MVP to 10k+ users. Worked directly with founders to define technical roadmap.',
     achievements: [
       'Built real-time analytics dashboard processing 1M+ events/day',
       'Implemented RAG-based AI assistant reducing support tickets by 40%',
@@ -53,7 +55,8 @@ export const experience: ExperienceItem[] = [
     location: 'New York, NY',
     startDate: '2019-03',
     endDate: '2020-12',
-    description: 'Developed responsive web applications for diverse clients including healthcare, e-commerce, and fintech sectors.',
+    description:
+      'Developed responsive web applications for diverse clients including healthcare, e-commerce, and fintech sectors.',
     achievements: [
       'Delivered 15+ client projects on time and within budget',
       'Built reusable component library reducing development time by 30%',
@@ -68,7 +71,8 @@ export const experience: ExperienceItem[] = [
     location: 'Boston, MA',
     startDate: '2017-06',
     endDate: '2019-02',
-    description: 'Started career building and maintaining WordPress sites, transitioned to modern React development. Learned fundamentals of clean code and version control.',
+    description:
+      'Started career building and maintaining WordPress sites, transitioned to modern React development. Learned fundamentals of clean code and version control.',
     achievements: [
       'Converted legacy jQuery applications to modern React reducing bugs by 70%',
       'Implemented automated testing increasing code coverage from 20% to 85%',
