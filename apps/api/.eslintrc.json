@@ -1,0 +1,12 @@
+{
+  "extends": ["../../packages/config/eslint-preset.js"],
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["*.spec.ts", "*.test.ts", "**/__tests__/**"],
+      "rules": {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ]
+}
