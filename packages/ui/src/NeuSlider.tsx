@@ -27,7 +27,7 @@ export const NeuSlider = ({
   const [internalValue, setInternalValue] = useState(value ?? min);
   const trackRef = useRef<HTMLDivElement>(null);
   const isVertical = orientation === 'vertical';
-  const currentValue = onChange ? value ?? min : internalValue;
+  const currentValue = onChange ? (value ?? min) : internalValue;
   const percentage = ((currentValue - min) / (max - min)) * 100;
 
   const updateValue = useCallback(
@@ -51,7 +51,7 @@ export const NeuSlider = ({
       onChange?.(final);
       if (!onChange) setInternalValue(final);
     },
-    [min, max, step, onChange, isVertical]
+    [min, max, step, onChange, isVertical],
   );
 
   const handlePointerDown = useCallback(
@@ -69,7 +69,7 @@ export const NeuSlider = ({
       document.addEventListener('pointermove', handleMove);
       document.addEventListener('pointerup', handleUp);
     },
-    [updateValue]
+    [updateValue],
   );
 
   const handleKeyDown = useCallback(
@@ -103,7 +103,7 @@ export const NeuSlider = ({
       onChange?.(newValue);
       if (!onChange) setInternalValue(newValue);
     },
-    [currentValue, min, max, step, onChange]
+    [currentValue, min, max, step, onChange],
   );
 
   return (
@@ -111,12 +111,10 @@ export const NeuSlider = ({
       className={cn(
         'inline-flex gap-3',
         isVertical ? 'flex-row items-center' : 'flex-col',
-        className
+        className,
       )}
     >
-      {label && (
-        <span className="text-body-sm text-text-secondary">{label}</span>
-      )}
+      {label && <span className="text-body-sm text-text-secondary">{label}</span>}
 
       <div
         ref={trackRef}
@@ -132,7 +130,7 @@ export const NeuSlider = ({
         className={cn(
           'relative rounded-full bg-surface-elevated neu-pressed',
           'focus-visible:shadow-accent-focus focus-visible:outline-none',
-          isVertical ? 'w-2 h-40' : 'h-2 w-40'
+          isVertical ? 'w-2 h-40' : 'h-2 w-40',
         )}
       >
         <div
@@ -148,7 +146,7 @@ export const NeuSlider = ({
           className={cn(
             'absolute rounded-full bg-surface-secondary neu-raised',
             'w-5 h-5 -translate-x-1/2 -translate-y-1/2 pointer-events-none',
-            isVertical ? 'left-1/2' : 'top-1/2'
+            isVertical ? 'left-1/2' : 'top-1/2',
           )}
           style={
             isVertical

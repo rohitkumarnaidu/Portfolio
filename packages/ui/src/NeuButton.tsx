@@ -17,7 +17,7 @@ const sizeClasses = {
 };
 
 export const NeuButton = ({
-  _variant = 'soft',
+  variant: _variant = 'soft',
   size = 'md',
   className,
   disabled,
@@ -32,7 +32,7 @@ export const NeuButton = ({
         'focus-visible:shadow-accent-focus focus-visible:outline-none',
         'disabled:opacity-40 disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100',
         sizeClasses[size],
-        className
+        className,
       )}
       disabled={disabled}
       {...props}

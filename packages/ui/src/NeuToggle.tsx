@@ -35,7 +35,7 @@ export const NeuToggle = ({
         handleToggle();
       }
     },
-    [handleToggle]
+    [handleToggle],
   );
 
   return (
@@ -44,7 +44,7 @@ export const NeuToggle = ({
         'inline-flex items-center gap-3',
         disabled && 'opacity-40 cursor-not-allowed',
         !disabled && 'cursor-pointer',
-        className
+        className,
       )}
     >
       <div
@@ -57,20 +57,18 @@ export const NeuToggle = ({
           'relative inline-flex h-6 w-11 shrink-0 rounded-full neu-pressed transition-colors duration-fast',
           isChecked && 'bg-accent-500',
           !isChecked && 'bg-surface-elevated',
-          'focus-visible:shadow-accent-focus focus-visible:outline-none'
+          'focus-visible:shadow-accent-focus focus-visible:outline-none',
         )}
       >
         <span
           className={cn(
             'absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-surface-secondary neu-raised transition-transform duration-fast',
-            isChecked && 'translate-x-5'
+            isChecked && 'translate-x-5',
           )}
           aria-hidden="true"
         />
       </div>
-      {label && (
-        <span className="text-body-sm text-text-primary select-none">{label}</span>
-      )}
+      {label && <span className="text-body-sm text-text-primary select-none">{label}</span>}
     </label>
   );
 };

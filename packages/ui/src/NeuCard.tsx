@@ -25,7 +25,7 @@ export const NeuCard = ({
         elevation === 'flat' ? 'neu-flat' : 'neu-raised',
         variant === 'hard' && elevation === 'raised' && 'neu-raised-hard',
         hoverable && 'neu-transition hover:neu-raised-hover cursor-pointer',
-        className
+        className,
       )}
       {...props}
     >
