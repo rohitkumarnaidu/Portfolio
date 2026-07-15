@@ -206,36 +206,36 @@ Client                      NestJS Gateway              Redis              Postg
 
 #### Client → Server Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `JOIN_ROOM` | `{ documentId, documentType }` | Request to join a collaboration room |
-| `LEAVE_ROOM` | `{ documentId }` | Leave a collaboration room |
-| `OPERATION` | `{ ops: Step[], version, documentId }` | Submit operational transforms |
-| `CURSOR_UPDATE` | `{ position: { anchor, head }, selection: { from, to }, documentId }` | Broadcast cursor position |
-| `REQUEST_SAVE` | `{ documentId }` | Request a forced save of current state |
-| `COMMENT_ADD` | `{ documentId, selection, text }` | Add a comment on a text selection |
-| `COMMENT_RESOLVE` | `{ documentId, commentId }` | Mark a comment as resolved |
-| `HEARTBEAT` | `{ timestamp }` | Connection keepalive (every 30s) |
-| `RECONNECT` | `{ documentId, lastVersion, sessionId }` | Reconnect after disconnect |
+| Event             | Payload                                                               | Description                            |
+| ----------------- | --------------------------------------------------------------------- | -------------------------------------- |
+| `JOIN_ROOM`       | `{ documentId, documentType }`                                        | Request to join a collaboration room   |
+| `LEAVE_ROOM`      | `{ documentId }`                                                      | Leave a collaboration room             |
+| `OPERATION`       | `{ ops: Step[], version, documentId }`                                | Submit operational transforms          |
+| `CURSOR_UPDATE`   | `{ position: { anchor, head }, selection: { from, to }, documentId }` | Broadcast cursor position              |
+| `REQUEST_SAVE`    | `{ documentId }`                                                      | Request a forced save of current state |
+| `COMMENT_ADD`     | `{ documentId, selection, text }`                                     | Add a comment on a text selection      |
+| `COMMENT_RESOLVE` | `{ documentId, commentId }`                                           | Mark a comment as resolved             |
+| `HEARTBEAT`       | `{ timestamp }`                                                       | Connection keepalive (every 30s)       |
+| `RECONNECT`       | `{ documentId, lastVersion, sessionId }`                              | Reconnect after disconnect             |
 
 #### Server → Client Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `ROOM_JOINED` | `{ document, version, activeUsers, recentOps }` | Room join confirmation with initial state |
-| `ROOM_LEFT` | `{ documentId }` | Room leave confirmation |
-| `OPERATION` | `{ ops, version, userId }` | Transformed operations from other users |
-| `ACK` | `{ version }` | Acknowledgment of submitted operation |
-| `SAVE_ACK` | `{ documentId, savedAt }` | Save confirmation |
-| `CURSOR_UPDATE` | `{ userId, userName, avatarUrl, position, selection }` | Cursor position from other user |
-| `USER_JOINED` | `{ userId, userName, avatarUrl, role }` | A user joined the room |
-| `USER_LEFT` | `{ userId, userName }` | A user left the room |
-| `COMMENT_ADDED` | `{ commentId, userId, selection, text }` | New comment added |
-| `COMMENT_RESOLVED` | `{ commentId, userId }` | Comment resolved |
-| `VERSION_MISMATCH` | `{ serverVersion, clientVersion }` | Client version is behind; trigger full sync |
-| `ERROR` | `{ code, message }` | Error notification |
-| `PONG` | `{ timestamp }` | Heartbeat response |
-| `FORCE_SAVE` | `{ documentId }` | Server requests client to save (idle timeout) |
+| Event              | Payload                                                | Description                                   |
+| ------------------ | ------------------------------------------------------ | --------------------------------------------- |
+| `ROOM_JOINED`      | `{ document, version, activeUsers, recentOps }`        | Room join confirmation with initial state     |
+| `ROOM_LEFT`        | `{ documentId }`                                       | Room leave confirmation                       |
+| `OPERATION`        | `{ ops, version, userId }`                             | Transformed operations from other users       |
+| `ACK`              | `{ version }`                                          | Acknowledgment of submitted operation         |
+| `SAVE_ACK`         | `{ documentId, savedAt }`                              | Save confirmation                             |
+| `CURSOR_UPDATE`    | `{ userId, userName, avatarUrl, position, selection }` | Cursor position from other user               |
+| `USER_JOINED`      | `{ userId, userName, avatarUrl, role }`                | A user joined the room                        |
+| `USER_LEFT`        | `{ userId, userName }`                                 | A user left the room                          |
+| `COMMENT_ADDED`    | `{ commentId, userId, selection, text }`               | New comment added                             |
+| `COMMENT_RESOLVED` | `{ commentId, userId }`                                | Comment resolved                              |
+| `VERSION_MISMATCH` | `{ serverVersion, clientVersion }`                     | Client version is behind; trigger full sync   |
+| `ERROR`            | `{ code, message }`                                    | Error notification                            |
+| `PONG`             | `{ timestamp }`                                        | Heartbeat response                            |
+| `FORCE_SAVE`       | `{ documentId }`                                       | Server requests client to save (idle timeout) |
 
 ---
 
@@ -245,14 +245,14 @@ Client                      NestJS Gateway              Redis              Postg
 
 The system uses a **client-server OT** model (not peer-to-peer) with the server as the authority:
 
-| Characteristic | Design Choice | Rationale |
-|----------------|---------------|-----------|
-| OT Model | Client-Server | Server is single source of truth; simplifies conflict resolution |
-| OT Type | JSON OT (ProseMirror native) | Tiptap/ProseMirror's document model produces JSON operations natively |
-| Versioning | Monotonic per-document version | Every operation increments the document version |
-| Acknowledgment | Server ACK before next op | Prevents client from getting ahead of server state |
-| Retry | Exponential backoff (3 max) | Handles transient network failures |
-| Snapshot Interval | Every 25 operations or 5 minutes | Provides recovery points for late-joining clients |
+| Characteristic    | Design Choice                    | Rationale                                                             |
+| ----------------- | -------------------------------- | --------------------------------------------------------------------- |
+| OT Model          | Client-Server                    | Server is single source of truth; simplifies conflict resolution      |
+| OT Type           | JSON OT (ProseMirror native)     | Tiptap/ProseMirror's document model produces JSON operations natively |
+| Versioning        | Monotonic per-document version   | Every operation increments the document version                       |
+| Acknowledgment    | Server ACK before next op        | Prevents client from getting ahead of server state                    |
+| Retry             | Exponential backoff (3 max)      | Handles transient network failures                                    |
+| Snapshot Interval | Every 25 operations or 5 minutes | Provides recovery points for late-joining clients                     |
 
 ### 5.2 OT Operation Format (ProseMirror Step)
 
@@ -337,12 +337,12 @@ Op 51 → Op 52 → ... → Op 100 → Snapshot v100
 
 Each user's cursor position and text selection are broadcast to the room at a throttled rate:
 
-| Setting | Value | Rationale |
-|---------|-------|-----------|
-| Broadcast throttle | 50ms (20 updates/sec) | Smooth cursor movement without network flood |
-| Debounce on idle | 500ms | Stop broadcasting when user pauses typing |
-| Max users tracked | 20 per document | Practical limit for CMS editing |
-| Cursor retention | 30s after disconnect | Show "disconnected" state before removing cursor |
+| Setting            | Value                 | Rationale                                        |
+| ------------------ | --------------------- | ------------------------------------------------ |
+| Broadcast throttle | 50ms (20 updates/sec) | Smooth cursor movement without network flood     |
+| Debounce on idle   | 500ms                 | Stop broadcasting when user pauses typing        |
+| Max users tracked  | 20 per document       | Practical limit for CMS editing                  |
+| Cursor retention   | 30s after disconnect  | Show "disconnected" state before removing cursor |
 
 ### 6.2 User Presence States
 
@@ -355,13 +355,13 @@ State Machine:
                           AWAY (tab hidden for > 5 min)
 ```
 
-| State | Visual | Description |
-|-------|--------|-------------|
-| ONLINE | Green dot | Connected and actively editing |
-| IDLE | Yellow dot | Connected but no activity for 2 min |
-| AWAY | Gray dot | Tab hidden or system idle (>5 min) |
+| State        | Visual                    | Description                            |
+| ------------ | ------------------------- | -------------------------------------- |
+| ONLINE       | Green dot                 | Connected and actively editing         |
+| IDLE         | Yellow dot                | Connected but no activity for 2 min    |
+| AWAY         | Gray dot                  | Tab hidden or system idle (>5 min)     |
 | DISCONNECTED | Red dot (faded after 30s) | Connection lost, waiting for reconnect |
-| OFFLINE | No indicator | Not connected |
+| OFFLINE      | No indicator              | Not connected                          |
 
 ### 6.3 Avatar System
 
@@ -479,7 +479,7 @@ Phase 1: ──→ Add `document_operations` table
 
 Phase 2: ──→ Add `current_version` and `is_currently_edited` to BlogPost
               Add `current_version` to Section
-              
+
 Phase 3: ──→ Add TTL indexes on `collaboration_sessions.leftAt`
               Add cleanup job for stale sessions (>24h)
               Add archive job for old operations (>90 days)
@@ -539,12 +539,7 @@ class CollaborationClient {
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 10;
 
-  constructor(config: {
-    documentId: string;
-    userId: string;
-    token: string;
-    wsEndpoint?: string;
-  }) {
+  constructor(config: { documentId: string; userId: string; token: string; wsEndpoint?: string }) {
     this.documentId = config.documentId;
     this.userId = config.userId;
     this.token = config.token;
@@ -552,31 +547,53 @@ class CollaborationClient {
   }
 
   // Connect to collaboration room
-  async connect(documentType: string): Promise<void> { /* ... */ }
+  async connect(documentType: string): Promise<void> {
+    /* ... */
+  }
 
   // Disconnect from room
-  disconnect(): void { /* ... */ }
+  disconnect(): void {
+    /* ... */
+  }
 
   // Submit an operation
-  submitOperation(ops: Step[], version: number): void { /* ... */ }
+  submitOperation(ops: Step[], version: number): void {
+    /* ... */
+  }
 
   // Update cursor position
-  updateCursor(position: { anchor: number; head: number }): void { /* ... */ }
+  updateCursor(position: { anchor: number; head: number }): void {
+    /* ... */
+  }
 
   // Add a comment
-  addComment(selection: { from: number; to: number }, text: string): void { /* ... */ }
+  addComment(selection: { from: number; to: number }, text: string): void {
+    /* ... */
+  }
 
   // Listen for events
-  onOperation(callback: (op: RemoteOperation) => void): void { /* ... */ }
-  onCursorUpdate(callback: (cursor: RemoteCursor) => void): void { /* ... */ }
-  onUserJoined(callback: (user: RoomUser) => void): void { /* ... */ }
-  onUserLeft(callback: (userId: string) => void): void { /* ... */ }
+  onOperation(callback: (op: RemoteOperation) => void): void {
+    /* ... */
+  }
+  onCursorUpdate(callback: (cursor: RemoteCursor) => void): void {
+    /* ... */
+  }
+  onUserJoined(callback: (user: RoomUser) => void): void {
+    /* ... */
+  }
+  onUserLeft(callback: (userId: string) => void): void {
+    /* ... */
+  }
 
   // Reconnect handler
-  private handleReconnect(): void { /* ... */ }
+  private handleReconnect(): void {
+    /* ... */
+  }
 
   // Heartbeat
-  private startHeartbeat(): void { /* ... */ }
+  private startHeartbeat(): void {
+    /* ... */
+  }
 }
 ```
 
@@ -649,12 +666,12 @@ WebSocket Gateway                  BullMQ                        PostgreSQL
 
 ### 9.2 Snapshot Schedule
 
-| Trigger | Action | Frequency |
-|---------|--------|-----------|
-| Every 25 operations | Create snapshot | ~25 ops / burst |
-| Every 5 minutes of editing | Create snapshot | Time-based |
-| On last user leave | Create final snapshot | Session end |
-| On explicit save | Create snapshot | User action |
+| Trigger                    | Action                | Frequency       |
+| -------------------------- | --------------------- | --------------- |
+| Every 25 operations        | Create snapshot       | ~25 ops / burst |
+| Every 5 minutes of editing | Create snapshot       | Time-based      |
+| On last user leave         | Create final snapshot | Session end     |
+| On explicit save           | Create snapshot       | User action     |
 
 ### 9.3 Document Loading
 
@@ -674,15 +691,15 @@ This avoids loading the entire operation history for each new client.
 
 The collaboration system emits real-time notifications for these events:
 
-| Event | Channel | Recipients | Message |
-|-------|---------|------------|---------|
-| User joined document | Room broadcast | All users in room | "Alice started editing" |
-| User left document | Room broadcast | All users in room | "Alice left" |
-| Comment added | Room broadcast + DM | Room users + @mentioned users | "Bob commented on 'My Blog Post'" |
-| Comment resolved | Room broadcast | All users in room | "Alice resolved Bob's comment" |
-| Document saved | Room broadcast | All users in room | "Document saved (v42)" |
-| Document published | Admin notification | All admin users | "Charlie published 'My Blog Post'" |
-| Conflict detected | DM to affected user | Conflicting users | "Conflict resolved by server" |
+| Event                | Channel             | Recipients                    | Message                            |
+| -------------------- | ------------------- | ----------------------------- | ---------------------------------- |
+| User joined document | Room broadcast      | All users in room             | "Alice started editing"            |
+| User left document   | Room broadcast      | All users in room             | "Alice left"                       |
+| Comment added        | Room broadcast + DM | Room users + @mentioned users | "Bob commented on 'My Blog Post'"  |
+| Comment resolved     | Room broadcast      | All users in room             | "Alice resolved Bob's comment"     |
+| Document saved       | Room broadcast      | All users in room             | "Document saved (v42)"             |
+| Document published   | Admin notification  | All admin users               | "Charlie published 'My Blog Post'" |
+| Conflict detected    | DM to affected user | Conflicting users             | "Conflict resolved by server"      |
 
 ### 10.2 Notification Infrastructure
 
@@ -714,13 +731,13 @@ Notifications reuse the existing `Notification` model (`apps/api/prisma/schema.p
 
 ### 11.1 Authentication & Authorization
 
-| Layer | Mechanism | Implementation |
-|-------|-----------|----------------|
-| WebSocket connection | JWT token in `auth` handshake param | `socket.handshake.auth.token` validated by `JwtAuthGuard` |
-| Room access | Document-level permission check | Check user role against document access level |
-| Read-only viewers | `viewer` role assigned to room with read-only flag | `Socket#emit` only cursor events, never operations |
-| Rate limiting | Per-socket operation rate limiter | Max 20 ops/sec; excess triggers `ERROR` event |
-| Reconnection | Session token + reconnect handshake | Re-validate JWT on reconnect |
+| Layer                | Mechanism                                          | Implementation                                            |
+| -------------------- | -------------------------------------------------- | --------------------------------------------------------- |
+| WebSocket connection | JWT token in `auth` handshake param                | `socket.handshake.auth.token` validated by `JwtAuthGuard` |
+| Room access          | Document-level permission check                    | Check user role against document access level             |
+| Read-only viewers    | `viewer` role assigned to room with read-only flag | `Socket#emit` only cursor events, never operations        |
+| Rate limiting        | Per-socket operation rate limiter                  | Max 20 ops/sec; excess triggers `ERROR` event             |
+| Reconnection         | Session token + reconnect handshake                | Re-validate JWT on reconnect                              |
 
 ### 11.2 Input Validation
 
@@ -742,13 +759,13 @@ To prevent excessive merge conflicts, a soft locking mechanism is used:
 
 ### 11.4 Data Retention
 
-| Data | Retention | Cleanup |
-|------|-----------|---------|
-| Document operations | 90 days | Cron job archives to cold storage |
-| Collaboration snapshots | 365 days | Oldest kept weekly, monthly, yearly |
-| Collaboration comments | Indefinite | Kept as part of document history |
-| Collaboration sessions | 24h after last activity | Cron cleanup of `leftAt` rows |
-| Active session presence | Real-time, Redis-backed | TTL of 60s on Redis keys |
+| Data                    | Retention               | Cleanup                             |
+| ----------------------- | ----------------------- | ----------------------------------- |
+| Document operations     | 90 days                 | Cron job archives to cold storage   |
+| Collaboration snapshots | 365 days                | Oldest kept weekly, monthly, yearly |
+| Collaboration comments  | Indefinite              | Kept as part of document history    |
+| Collaboration sessions  | 24h after last activity | Cron cleanup of `leftAt` rows       |
+| Active session presence | Real-time, Redis-backed | TTL of 60s on Redis keys            |
 
 ---
 
@@ -756,26 +773,26 @@ To prevent excessive merge conflicts, a soft locking mechanism is used:
 
 ### 12.1 Scaling Strategy
 
-| Scale Level | Concurrent Editors per Document | Approach |
-|-------------|-------------------------------|----------|
-| Level 1 | 2–5 | Single gateway instance, in-memory OT buffer |
-| Level 2 | 5–20 | Redis-backed OT buffer, horizontal gateway scaling |
-| Level 3 | 20–50 | Sharded document rooms across gateway instances |
-| Level 4 | 50+ | Dedicated collaboration service (migrate from gateway) |
+| Scale Level | Concurrent Editors per Document | Approach                                               |
+| ----------- | ------------------------------- | ------------------------------------------------------ |
+| Level 1     | 2–5                             | Single gateway instance, in-memory OT buffer           |
+| Level 2     | 5–20                            | Redis-backed OT buffer, horizontal gateway scaling     |
+| Level 3     | 20–50                           | Sharded document rooms across gateway instances        |
+| Level 4     | 50+                             | Dedicated collaboration service (migrate from gateway) |
 
 ### 12.2 Performance Budget
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Operation broadcast latency | < 30ms P95 (within same region) | Server timing + client-side measurement |
-| Operation transformation latency | < 5ms P95 | NestJS OT engine timing |
-| Document load time (first join) | < 2s for 100KB document | Client-side timing |
-| Cursor update broadcast latency | < 50ms P95 | Server broadcast timing |
-| WebSocket connection time | < 500ms | Client-side timing |
-| Maximum concurrent WebSocket connections | 500 per instance | Load test |
-| Redis memory per active document | ~2 KB per user + ~50 KB per doc | Redis INFO memory |
-| BullMQ persist queue backlog | < 1000 jobs | BullMQ dashboard |
-| API overhead with collab active | < 10% increased response time | Sentry tracing |
+| Metric                                   | Target                          | Measurement                             |
+| ---------------------------------------- | ------------------------------- | --------------------------------------- |
+| Operation broadcast latency              | < 30ms P95 (within same region) | Server timing + client-side measurement |
+| Operation transformation latency         | < 5ms P95                       | NestJS OT engine timing                 |
+| Document load time (first join)          | < 2s for 100KB document         | Client-side timing                      |
+| Cursor update broadcast latency          | < 50ms P95                      | Server broadcast timing                 |
+| WebSocket connection time                | < 500ms                         | Client-side timing                      |
+| Maximum concurrent WebSocket connections | 500 per instance                | Load test                               |
+| Redis memory per active document         | ~2 KB per user + ~50 KB per doc | Redis INFO memory                       |
+| BullMQ persist queue backlog             | < 1000 jobs                     | BullMQ dashboard                        |
+| API overhead with collab active          | < 10% increased response time   | Sentry tracing                          |
 
 ### 12.3 Impact on Existing Stack
 
@@ -792,14 +809,14 @@ To prevent excessive merge conflicts, a soft locking mechanism is used:
 
 **Dependencies:** BullMQ operational, Redis available, Tiptap integrated (already done)
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Create collaboration Prisma models | 1 day | Backend | Migration + seed |
-| Build WebSocket Gateway with auth | 3 days | Backend | `CollaborationGateway` |
-| Implement OT engine (ProseMirror wrapper) | 3 days | Backend | OT service |
-| Build presence tracking system | 2 days | Backend | Presence service |
-| Create BullMQ persistence queue | 2 days | Backend | Queue + worker |
-| Write WebSocket event protocol | 1 day | All | Protocol spec + types |
+| Task                                      | Est. Effort | Owner   | Deliverable            |
+| ----------------------------------------- | ----------- | ------- | ---------------------- |
+| Create collaboration Prisma models        | 1 day       | Backend | Migration + seed       |
+| Build WebSocket Gateway with auth         | 3 days      | Backend | `CollaborationGateway` |
+| Implement OT engine (ProseMirror wrapper) | 3 days      | Backend | OT service             |
+| Build presence tracking system            | 2 days      | Backend | Presence service       |
+| Create BullMQ persistence queue           | 2 days      | Backend | Queue + worker         |
+| Write WebSocket event protocol            | 1 day       | All     | Protocol spec + types  |
 
 **Phase 1 Gate:** Two browser tabs can connect, authenticate, and exchange cursor positions.
 
@@ -807,16 +824,16 @@ To prevent excessive merge conflicts, a soft locking mechanism is used:
 
 **Dependencies:** Phase 1 complete, admin blog editor refactored
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Build Tiptap Collaboration Extension | 3 days | Frontend | Extension |
-| Build Collaboration Client SDK | 3 days | Frontend | `client.ts` |
-| Build Cursor Overlay component | 2 days | Frontend | `CursorOverlay.tsx` |
-| Build User Presence Bar | 2 days | Frontend | `PresenceBar.tsx` |
-| Integrate with admin blog editor | 2 days | Frontend | Editor integration |
-| Handle offline/reconnect flow | 2 days | Frontend | Reconnection logic |
-| Write snapshot/load logic | 2 days | Backend | Snapshot service |
-| Write integration tests | 3 days | QA | Playwright tests |
+| Task                                 | Est. Effort | Owner    | Deliverable         |
+| ------------------------------------ | ----------- | -------- | ------------------- |
+| Build Tiptap Collaboration Extension | 3 days      | Frontend | Extension           |
+| Build Collaboration Client SDK       | 3 days      | Frontend | `client.ts`         |
+| Build Cursor Overlay component       | 2 days      | Frontend | `CursorOverlay.tsx` |
+| Build User Presence Bar              | 2 days      | Frontend | `PresenceBar.tsx`   |
+| Integrate with admin blog editor     | 2 days      | Frontend | Editor integration  |
+| Handle offline/reconnect flow        | 2 days      | Frontend | Reconnection logic  |
+| Write snapshot/load logic            | 2 days      | Backend  | Snapshot service    |
+| Write integration tests              | 3 days      | QA       | Playwright tests    |
 
 **Phase 2 Gate:** Two users can edit the same blog post simultaneously with live cursor presence. Operations are persisted and recoverable on refresh.
 
@@ -824,13 +841,13 @@ To prevent excessive merge conflicts, a soft locking mechanism is used:
 
 **Dependencies:** Phase 2 complete, Notification model usable
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Build inline comment system | 3 days | Frontend | Comment UI |
-| Build comment API endpoints | 2 days | Backend | Comment CRUD |
-| Integrate real-time notifications | 2 days | Both | Notification pipeline |
-| Build comment notification preferences | 1 day | Frontend | Notification settings |
-| Write E2E tests for comments | 2 days | QA | Test suite |
+| Task                                   | Est. Effort | Owner    | Deliverable           |
+| -------------------------------------- | ----------- | -------- | --------------------- |
+| Build inline comment system            | 3 days      | Frontend | Comment UI            |
+| Build comment API endpoints            | 2 days      | Backend  | Comment CRUD          |
+| Integrate real-time notifications      | 2 days      | Both     | Notification pipeline |
+| Build comment notification preferences | 1 day       | Frontend | Notification settings |
+| Write E2E tests for comments           | 2 days      | QA       | Test suite            |
 
 **Phase 3 Gate:** Inline commenting with real-time delivery works end-to-end. Notifications appear in admin notification center.
 
@@ -838,15 +855,15 @@ To prevent excessive merge conflicts, a soft locking mechanism is used:
 
 **Dependencies:** Phase 3 complete, sufficient usage data
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Load test with 20 concurrent editors | 2 days | Infrastructure | Load test report |
-| Implement Redis adapter for gateway scaling | 2 days | Backend | Horizontal scaling |
-| Add rate limiting and abuse prevention | 1 day | Backend | Rate limits |
-| Add admin monitoring dashboard for collab | 2 days | Frontend | Dashboard |
-| Security audit | 2 days | Security | Audit report |
-| Documentation finalization | 1 day | All | Updated docs |
-| Production rollout (10% → 50% → 100%) | 2 days | DevOps | Gradual rollout |
+| Task                                        | Est. Effort | Owner          | Deliverable        |
+| ------------------------------------------- | ----------- | -------------- | ------------------ |
+| Load test with 20 concurrent editors        | 2 days      | Infrastructure | Load test report   |
+| Implement Redis adapter for gateway scaling | 2 days      | Backend        | Horizontal scaling |
+| Add rate limiting and abuse prevention      | 1 day       | Backend        | Rate limits        |
+| Add admin monitoring dashboard for collab   | 2 days      | Frontend       | Dashboard          |
+| Security audit                              | 2 days      | Security       | Audit report       |
+| Documentation finalization                  | 1 day       | All            | Updated docs       |
+| Production rollout (10% → 50% → 100%)       | 2 days      | DevOps         | Gradual rollout    |
 
 **Phase 4 Gate:** Production rollout complete. Zero data loss in 30 days of operation. P95 operation latency < 30ms.
 
@@ -865,39 +882,39 @@ The `DocumentOperation` table serves as an append-only operation log that enable
 
 ### 14.2 Emergency Procedures
 
-| Scenario | Recovery Action | RTO |
-|----------|----------------|-----|
-| Corrupted document state | Load latest snapshot + replay ops from that version | < 5 min |
-| OT engine crash mid-operation | Ops are BullMQ-queued; replay on restart | < 30s |
-| WebSocket gateway crash | Redis-backed presence restores state; clients reconnect | < 10s |
-| Redis failure | Fall back to in-memory buffer; DB-backed presence | Immediate |
-| Database failure | Cached snapshots in Redis; writes queued in BullMQ | < 60s |
+| Scenario                      | Recovery Action                                         | RTO       |
+| ----------------------------- | ------------------------------------------------------- | --------- |
+| Corrupted document state      | Load latest snapshot + replay ops from that version     | < 5 min   |
+| OT engine crash mid-operation | Ops are BullMQ-queued; replay on restart                | < 30s     |
+| WebSocket gateway crash       | Redis-backed presence restores state; clients reconnect | < 10s     |
+| Redis failure                 | Fall back to in-memory buffer; DB-backed presence       | Immediate |
+| Database failure              | Cached snapshots in Redis; writes queued in BullMQ      | < 60s     |
 
 ---
 
 ## 15. Decision Log
 
-| ID | Decision | Rationale |
-|----|----------|-----------|
-| RC-D001 | Client-server OT (not peer-to-peer) | Server as authority simplifies conflict resolution; client-server model is well-supported by ProseMirror |
-| RC-D002 | BullMQ for persistence (not direct DB writes) | Prevents WebSocket event loop blocking; enables backpressure handling |
-| RC-D003 | Socket.IO (not raw WebSocket) | Transport fallback, room management, and Redis adapter built-in; NestJS first-class support |
-| RC-D004 | 50-op history buffer before snapshot | Balances memory usage with recovery speed; 50 ops is typically < 1 minute of collaborative editing |
-| RC-D005 | Paragraph-level soft locking | Prevents excessive merge conflicts without blocking collaboration |
-| RC-D006 | Operations retained for 90 days | Matches existing analytics data retention policy; sufficient for conflict audit |
-| RC-D007 | Snapshots every 25 ops or 5 minutes | Predictable storage cost; snapshot load time < 2s for typical blog post |
+| ID      | Decision                                      | Rationale                                                                                                |
+| ------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| RC-D001 | Client-server OT (not peer-to-peer)           | Server as authority simplifies conflict resolution; client-server model is well-supported by ProseMirror |
+| RC-D002 | BullMQ for persistence (not direct DB writes) | Prevents WebSocket event loop blocking; enables backpressure handling                                    |
+| RC-D003 | Socket.IO (not raw WebSocket)                 | Transport fallback, room management, and Redis adapter built-in; NestJS first-class support              |
+| RC-D004 | 50-op history buffer before snapshot          | Balances memory usage with recovery speed; 50 ops is typically < 1 minute of collaborative editing       |
+| RC-D005 | Paragraph-level soft locking                  | Prevents excessive merge conflicts without blocking collaboration                                        |
+| RC-D006 | Operations retained for 90 days               | Matches existing analytics data retention policy; sufficient for conflict audit                          |
+| RC-D007 | Snapshots every 25 ops or 5 minutes           | Predictable storage cost; snapshot load time < 2s for typical blog post                                  |
 
 ---
 
 ## 16. Open Questions
 
-| Question | Status | Owner | Target Resolution |
-|----------|--------|-------|-------------------|
-| Should collaboration extend to Section content (portfolio sections, not just blog)? | Pending | Product | Phase 2 |
-| What is the max supported concurrent editors per document? | TBD | Engineering | Phase 4 load test |
-| Should we support rich media collaboration (images, embeds)? | Pending | Product | Phase 3 |
-| How do we handle anonymous/guest editors? | TBD | Security | Phase 2 |
-| What is the storage cost of 90 days of operations? | TBD | Infrastructure | Phase 1 |
+| Question                                                                            | Status  | Owner          | Target Resolution |
+| ----------------------------------------------------------------------------------- | ------- | -------------- | ----------------- |
+| Should collaboration extend to Section content (portfolio sections, not just blog)? | Pending | Product        | Phase 2           |
+| What is the max supported concurrent editors per document?                          | TBD     | Engineering    | Phase 4 load test |
+| Should we support rich media collaboration (images, embeds)?                        | Pending | Product        | Phase 3           |
+| How do we handle anonymous/guest editors?                                           | TBD     | Security       | Phase 2           |
+| What is the storage cost of 90 days of operations?                                  | TBD     | Infrastructure | Phase 1           |
 
 ---
 
@@ -905,31 +922,31 @@ The `DocumentOperation` table serves as an append-only operation log that enable
 
 ### Internal Documents
 
-| Document | Path | Relevance |
-|----------|------|-----------|
-| Innovation Backlog | `docs/25-roadmap/INNOVATION-BACKLOG.md` | IB-05 (Real-time Collaboration for Blog CMS) |
-| Tiptap ADR | `docs/adr/ADR-008-tiptap-editor.md` | Tiptap ProseMirror foundation for collaboration |
-| BullMQ ADR | `docs/adr/ADR-017-bullmq-queue.md` | Persistence queue infrastructure |
-| JWT ADR | `docs/adr/ADR-011-jwt-auth.md` | WebSocket authentication mechanism |
-| Auth Architecture | `docs/security/15-AUTHORIZATION.md` | Role-based access for collaboration |
-| Notification Model | `apps/api/prisma/schema.prisma:458-472` | Real-time notification storage |
-| Admin Architecture | `docs/design/AdminArchitecture.md` | Admin panel integration points |
-| CMS Architecture | `docs/20-cms/CMS-ARCHITECTURE.md` | CMS content model and workflows |
-| Frontend Architecture | `docs/07-frontend/FRONTEND-ARCHITECTURE.md` | Frontend integration patterns |
-| Security Architecture | `docs/security/SecurityArchitecture.md` | Overall security model |
-| Scalability Strategy | `docs/15-performance/SCALABILITY-STRATEGY.md` | Horizontal scaling for WebSocket gateways |
-| DevOps Architecture | `docs/operations/DevOpsArchitecture.md` | Infrastructure for WebSocket deployment |
-| SOC 2 Readiness | `docs/36-enterprise/SOC2-READINESS.md` | SOC 2 control mapping for real-time features |
+| Document              | Path                                          | Relevance                                       |
+| --------------------- | --------------------------------------------- | ----------------------------------------------- |
+| Innovation Backlog    | `docs/25-roadmap/INNOVATION-BACKLOG.md`       | IB-05 (Real-time Collaboration for Blog CMS)    |
+| Tiptap ADR            | `docs/27-decisions/ADR-008-tiptap-editor.md`  | Tiptap ProseMirror foundation for collaboration |
+| BullMQ ADR            | `docs/27-decisions/ADR-017-bullmq-queue.md`   | Persistence queue infrastructure                |
+| JWT ADR               | `docs/27-decisions/ADR-011-jwt-auth.md`       | WebSocket authentication mechanism              |
+| Auth Architecture     | `docs/11-security/15-AUTHORIZATION.md`        | Role-based access for collaboration             |
+| Notification Model    | `apps/api/prisma/schema.prisma:458-472`       | Real-time notification storage                  |
+| Admin Architecture    | `docs/04-design/AdminArchitecture.md`         | Admin panel integration points                  |
+| CMS Architecture      | `docs/20-cms/CMS-ARCHITECTURE.md`             | CMS content model and workflows                 |
+| Frontend Architecture | `docs/07-frontend/FRONTEND-ARCHITECTURE.md`   | Frontend integration patterns                   |
+| Security Architecture | `docs/11-security/SecurityArchitecture.md`    | Overall security model                          |
+| Scalability Strategy  | `docs/15-performance/SCALABILITY-STRATEGY.md` | Horizontal scaling for WebSocket gateways       |
+| DevOps Architecture   | `docs/21-operations/DevOpsArchitecture.md`    | Infrastructure for WebSocket deployment         |
+| SOC 2 Readiness       | `docs/36-enterprise/SOC2-READINESS.md`        | SOC 2 control mapping for real-time features    |
 
 ### ADR References
 
-| ADR | Title | Relevance |
-|-----|-------|-----------|
-| ADR-008 | Tiptap Editor | ProseMirror OT foundation |
-| ADR-011 | JWT Auth | WebSocket auth mechanism |
-| ADR-017 | BullMQ Queue | Persistence async processing |
+| ADR     | Title                 | Relevance                       |
+| ------- | --------------------- | ------------------------------- |
+| ADR-008 | Tiptap Editor         | ProseMirror OT foundation       |
+| ADR-011 | JWT Auth              | WebSocket auth mechanism        |
+| ADR-017 | BullMQ Queue          | Persistence async processing    |
 | ADR-016 | Sentry Error Tracking | Error monitoring for collab ops |
-| ADR-003 | NestJS API | Gat eway platform (Socket.IO) |
+| ADR-003 | NestJS API            | Gat eway platform (Socket.IO)   |
 
 ### External References
 
@@ -942,10 +959,10 @@ The `DocumentOperation` table serves as an append-only operation log that enable
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jul 2026 | Initial design specification — Real-Time Collaboration Platform | Lead Platform Engineer |
+| Version | Date     | Changes                                                         | Author                 |
+| ------- | -------- | --------------------------------------------------------------- | ---------------------- |
+| 1.0     | Jul 2026 | Initial design specification — Real-Time Collaboration Platform | Lead Platform Engineer |
 
 ---
 
-*End of Document — Real-Time Collaboration Platform v1.0*
+_End of Document — Real-Time Collaboration Platform v1.0_

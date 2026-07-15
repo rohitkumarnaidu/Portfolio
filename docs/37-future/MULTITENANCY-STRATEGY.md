@@ -37,34 +37,34 @@ Design and specify a multi-tenancy strategy that:
 
 ### 3.1 Candidate Models
 
-| Dimension | Database-per-Tenant | Schema-per-Tenant | Row-Level (Discriminator Column) |
-|-----------|---------------------|-------------------|----------------------------------|
-| **Description** | Each tenant gets a separate PostgreSQL database | Each tenant gets a separate schema within shared DB | All tenants share tables; `tenant_id` column differentiates rows |
-| **Isolation** | Strongest — full database boundary | Strong — schema boundary within same DB | Weakest — row-level filtering via RLS |
-| **Complexity** | High — connection pooling, migrations across N DBs | Medium — dynamic schema creation, migrations per schema | Low — single schema, `WHERE tenant_id = ?` |
-| **Backup/Restore** | Per-database — simple | Per-schema — tool-dependent | Per-row complex; full-DB restore affects all tenants |
-| **Connection Pooling** | N pools × pool size connections | 1 pool (schema switching via `SET search_path`) | 1 pool, simple |
-| **Migration Strategy** | Run migrations N times (one per DB) | Run migrations per schema | Single migration; all tenants migrate together |
-| **Cross-tenant reporting** | Difficult (union across DBs) | Difficult (union across schemas) | Easy (`WHERE tenant_id IN (...)` |
-| **Hardware utilization** | Lower (reserved connections per DB) | Higher (shared connection pool) | Highest (single pool utilization) |
-| **Cost at scale** | Highest (N DBs × compute) | Medium (shared compute, N schemas) | Lowest (single DB, single compute) |
-| **Supabase compatibility** | ✅ Supported (multiple projects) | ⚠️ Partial (custom schema config) | ✅ Native (RLS policies) |
-| **Tenant data export** | Easy (pg_dump per DB) | Medium (pg_dump per schema) | Complex (filtered export) |
-| **Regulatory compliance** | Best (physical separation) | Good (logical separation) | Requires RLS audit |
+| Dimension                  | Database-per-Tenant                                | Schema-per-Tenant                                       | Row-Level (Discriminator Column)                                 |
+| -------------------------- | -------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------- |
+| **Description**            | Each tenant gets a separate PostgreSQL database    | Each tenant gets a separate schema within shared DB     | All tenants share tables; `tenant_id` column differentiates rows |
+| **Isolation**              | Strongest — full database boundary                 | Strong — schema boundary within same DB                 | Weakest — row-level filtering via RLS                            |
+| **Complexity**             | High — connection pooling, migrations across N DBs | Medium — dynamic schema creation, migrations per schema | Low — single schema, `WHERE tenant_id = ?`                       |
+| **Backup/Restore**         | Per-database — simple                              | Per-schema — tool-dependent                             | Per-row complex; full-DB restore affects all tenants             |
+| **Connection Pooling**     | N pools × pool size connections                    | 1 pool (schema switching via `SET search_path`)         | 1 pool, simple                                                   |
+| **Migration Strategy**     | Run migrations N times (one per DB)                | Run migrations per schema                               | Single migration; all tenants migrate together                   |
+| **Cross-tenant reporting** | Difficult (union across DBs)                       | Difficult (union across schemas)                        | Easy (`WHERE tenant_id IN (...)`                                 |
+| **Hardware utilization**   | Lower (reserved connections per DB)                | Higher (shared connection pool)                         | Highest (single pool utilization)                                |
+| **Cost at scale**          | Highest (N DBs × compute)                          | Medium (shared compute, N schemas)                      | Lowest (single DB, single compute)                               |
+| **Supabase compatibility** | ✅ Supported (multiple projects)                   | ⚠️ Partial (custom schema config)                       | ✅ Native (RLS policies)                                         |
+| **Tenant data export**     | Easy (pg_dump per DB)                              | Medium (pg_dump per schema)                             | Complex (filtered export)                                        |
+| **Regulatory compliance**  | Best (physical separation)                         | Good (logical separation)                               | Requires RLS audit                                               |
 
 ### 3.2 Scoring
 
-| Criterion | Weight | DB-per-Tenant | Schema-per-Tenant | Row-Level |
-|-----------|--------|---------------|-------------------|-----------|
-| Data isolation | 20% | 10 | 8 | 4 |
-| Operational complexity | 15% | 3 | 5 | 9 |
-| Infrastructure cost | 15% | 3 | 6 | 9 |
-| Migration difficulty | 15% | 4 | 5 | 9 |
-| Regulatory compliance | 10% | 10 | 7 | 4 |
-| Scalability | 10% | 6 | 7 | 8 |
-| Developer experience | 10% | 4 | 5 | 9 |
-| Supabase alignment | 5% | 8 | 5 | 9 |
-| **Total** | **100%** | **5.80** | **5.95** | **7.50** |
+| Criterion              | Weight   | DB-per-Tenant | Schema-per-Tenant | Row-Level |
+| ---------------------- | -------- | ------------- | ----------------- | --------- |
+| Data isolation         | 20%      | 10            | 8                 | 4         |
+| Operational complexity | 15%      | 3             | 5                 | 9         |
+| Infrastructure cost    | 15%      | 3             | 6                 | 9         |
+| Migration difficulty   | 15%      | 4             | 5                 | 9         |
+| Regulatory compliance  | 10%      | 10            | 7                 | 4         |
+| Scalability            | 10%      | 6             | 7                 | 8         |
+| Developer experience   | 10%      | 4             | 5                 | 9         |
+| Supabase alignment     | 5%       | 8             | 5                 | 9         |
+| **Total**              | **100%** | **5.80**      | **5.95**          | **7.50**  |
 
 ### 3.3 Recommendation: Hybrid Model
 
@@ -89,13 +89,13 @@ model Tenant {
   description   String?
   logoUrl       String?  @map("logo_url")
   faviconUrl    String?  @map("favicon_url")
-  
+
   // Domain
   subdomain     String   @unique     // e.g., "alice" → alice.portfolio.app
   customDomain  String?  @unique     // e.g., "alice.dev"
   domainVerified Boolean @default(false) @map("domain_verified")
   domainConfig   Json     @default("{}") @map("domain_config")
-  
+
   // Plan & Billing
   plan          String   @default("free")    // "free" | "pro" | "enterprise"
   billingStatus String   @default("active")  // "active" | "past_due" | "canceled" | "suspended"
@@ -104,26 +104,26 @@ model Tenant {
   billingEmail  String?  @map("billing_email")
   trialEndsAt   DateTime? @map("trial_ends_at")
   subscriptionEndsAt DateTime? @map("subscription_ends_at")
-  
+
   // Configuration
   featureOverrides Json  @default("{}") @map("feature_overrides")
   isolationModel  String  @default("row")  // "row" | "schema" | "database"
   schemaName     String?  @map("schema_name")  // for schema-level isolation
   databaseId     String?  @map("database_id")  // for database-level isolation
-  
+
   // Limits
   maxProjects    Int      @default(10) @map("max_projects")
   maxBlogPosts   Int      @default(20) @map("max_blog_posts")
   maxStorageMB   Int      @default(500) @map("max_storage_mb")
   maxMonthlyVisitors Int @default(10000) @map("max_monthly_visitors")
   allowedFeatures String[] @map("allowed_features")
-  
+
   // Metadata
   isActive       Boolean  @default(true) @map("is_active")
   activatedAt    DateTime? @map("activated_at")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
-  
+
   // Relations
   tenantUsers    TenantUser[]
   sections       TenantSection[]
@@ -143,14 +143,14 @@ model TenantUser {
   tenantId  String   @map("tenant_id")
   userId    String   @map("user_id")
   role      String   @default("owner")  // "owner" | "admin" | "editor" | "viewer"
-  
+
   invitedAt   DateTime? @map("invited_at")
   joinedAt    DateTime? @map("joined_at")
   invitedBy   String?   @map("invited_by")
   permissions String[]  @default([])
-  
+
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  
+
   @@unique([tenantId, userId])
   @@index([tenantId])
   @@index([userId])
@@ -168,7 +168,7 @@ model TenantSection {
   contentOverride Json   @default("{}") @map("content_override")
 
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  
+
   @@unique([tenantId, sectionKey])
   @@index([tenantId])
   @@map("tenant_sections")
@@ -185,9 +185,9 @@ model TenantThemeConfig {
   animationLevel String  @default("moderate") @map("animation_level")
   // Full Circadian theme override
   themeConfig   Json     @default("{}") @map("theme_config")
-  
+
   tenant Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  
+
   @@map("tenant_theme_configs")
 }
 
@@ -354,18 +354,18 @@ User → Login → JWT issued (user.id, user.role, tenantId)
 ```typescript
 // Current
 interface JwtPayload {
-  sub: string;       // user.id
+  sub: string; // user.id
   email: string;
-  role: string;      // 'admin' | 'editor' | 'viewer'
+  role: string; // 'admin' | 'editor' | 'viewer'
 }
 
 // Multi-tenant
 interface JwtPayload {
-  sub: string;       // user.id
+  sub: string; // user.id
   email: string;
-  role: string;      // global role
-  tid: string;       // tenant.id  (current active tenant)
-  trole: string;     // tenant role ('owner' | 'admin' | 'editor' | 'viewer')
+  role: string; // global role
+  tid: string; // tenant.id  (current active tenant)
+  trole: string; // tenant role ('owner' | 'admin' | 'editor' | 'viewer')
   permissions: string[];
 }
 ```
@@ -388,17 +388,17 @@ export class TenantContextMiddleware implements NestMiddleware {
       const host = req.headers.host;
       const subdomain = host.split('.')[0];
       const tenant = await this.prisma.tenant.findUnique({
-        where: { subdomain }
+        where: { subdomain },
       });
       req.tenantId = tenant?.id || '__default__';
     }
-    
+
     // Set PostgreSQL session variable for RLS
     await this.prisma.$executeRawUnsafe(
       `SELECT set_config('app.current_tenant_id', $1, true)`,
-      req.tenantId
+      req.tenantId,
     );
-    
+
     next();
   }
 }
@@ -489,20 +489,20 @@ Tenant adds custom domain
 
 ### 7.1 Plan Structure
 
-| Feature | Free | Pro ($12/mo) | Enterprise ($49/mo) |
-|---------|------|-------------|-------------------|
-| Projects | 3 | 20 | Unlimited |
-| Blog posts | 5 | 50 | Unlimited |
-| Storage | 100 MB | 1 GB | 10 GB |
-| Monthly visitors | 1,000 | 10,000 | 100,000 |
-| Custom domain | ❌ | ✅ (1) | ✅ (unlimited) |
-| AI chat | ❌ | ✅ (500 msg/mo) | ✅ (unlimited) |
-| Analytics | Basic | Advanced | Full + export |
-| 3D scene | Template | Customizable | Full control |
-| Team members | 1 (owner) | 3 | 10 |
-| Support | Community | Email (48h) | Priority (4h) |
-| Isolation | Row-level | Row-level | Schema-level |
-| API access | ❌ | Read-only | Full |
+| Feature          | Free      | Pro ($12/mo)    | Enterprise ($49/mo) |
+| ---------------- | --------- | --------------- | ------------------- |
+| Projects         | 3         | 20              | Unlimited           |
+| Blog posts       | 5         | 50              | Unlimited           |
+| Storage          | 100 MB    | 1 GB            | 10 GB               |
+| Monthly visitors | 1,000     | 10,000          | 100,000             |
+| Custom domain    | ❌        | ✅ (1)          | ✅ (unlimited)      |
+| AI chat          | ❌        | ✅ (500 msg/mo) | ✅ (unlimited)      |
+| Analytics        | Basic     | Advanced        | Full + export       |
+| 3D scene         | Template  | Customizable    | Full control        |
+| Team members     | 1 (owner) | 3               | 10                  |
+| Support          | Community | Email (48h)     | Priority (4h)       |
+| Isolation        | Row-level | Row-level       | Schema-level        |
+| API access       | ❌        | Read-only       | Full                |
 
 ### 7.2 Billing Provider Integration
 
@@ -609,15 +609,15 @@ Tenant admins see a filtered admin interface showing only their tenant's data:
 
 ### 8.3 Super Admin Tools
 
-| Tool | Purpose | Route |
-|------|---------|-------|
-| Tenant list | Browse, search, filter all tenants | `/admin/tenants` |
-| Tenant detail | Full view of tenant config | `/admin/tenants/:id` |
-| Tenant impersonation | Log in as any tenant for support | `/admin/tenants/:id/impersonate` |
-| Plan management | CRUD subscription plans | `/admin/plans` |
-| Feature flag management | Global flag overrides per tenant | `/admin/features` |
-| System usage dashboard | Aggregate metrics across tenants | `/admin/system` |
-| Billing overview | Revenue, churn, MRR | `/admin/billing` |
+| Tool                    | Purpose                            | Route                            |
+| ----------------------- | ---------------------------------- | -------------------------------- |
+| Tenant list             | Browse, search, filter all tenants | `/admin/tenants`                 |
+| Tenant detail           | Full view of tenant config         | `/admin/tenants/:id`             |
+| Tenant impersonation    | Log in as any tenant for support   | `/admin/tenants/:id/impersonate` |
+| Plan management         | CRUD subscription plans            | `/admin/plans`                   |
+| Feature flag management | Global flag overrides per tenant   | `/admin/features`                |
+| System usage dashboard  | Aggregate metrics across tenants   | `/admin/system`                  |
+| Billing overview        | Revenue, churn, MRR                | `/admin/billing`                 |
 
 ---
 
@@ -677,32 +677,32 @@ Tenant admins see a filtered admin interface showing only their tenant's data:
 
 ### 10.1 Current Single-Tenant Costs
 
-| Resource | Provider | Monthly Cost |
-|----------|----------|-------------|
-| Frontend hosting | Vercel Pro | $20 |
-| Database (Supabase Pro) | Supabase | $25 |
-| AI Service (placeholder) | Render/Hetzer | ~$7 |
-| Domain | Namecheap | ~$1 |
-| Sentry | Sentry | Free tier |
-| **Total** | | **~$53/mo** |
+| Resource                 | Provider      | Monthly Cost |
+| ------------------------ | ------------- | ------------ |
+| Frontend hosting         | Vercel Pro    | $20          |
+| Database (Supabase Pro)  | Supabase      | $25          |
+| AI Service (placeholder) | Render/Hetzer | ~$7          |
+| Domain                   | Namecheap     | ~$1          |
+| Sentry                   | Sentry        | Free tier    |
+| **Total**                |               | **~$53/mo**  |
 
 ### 10.2 Multi-Tenant Projected Costs
 
-| Tenants | DB Strategy | DB Cost | Vercel Cost | AI Cost | Total | Revenue (est.) | Margin |
-|---------|------------|---------|-------------|---------|-------|----------------|--------|
-| 10 | Shared (row-level) | $25 (Supabase Pro) | $20 | $7 | $52 | $0 (all free) | $0 |
-| 50 | Shared (row-level) | $50 (Supabase Team) | $20 | $20 | $90 | $300 (5 Pro × $12) | $210 |
-| 100 | Shared (row-level) | $100 (Supabase Large) | $50 | $50 | $200 | $1,200 (20 Pro × $12) | $1,000 |
-| 500 | Shared + Schema | $300 (managed PG) | $200 | $200 | $700 | $7,800 (50 Pro + 5 Enterprise) | $7,100 |
-| 1,000 | Schema + DB-per-tenant | $800 (managed PG cluster) | $500 | $500 | $1,800 | $18,000 (100 Pro + 10 Enterprise) | $16,200 |
+| Tenants | DB Strategy            | DB Cost                   | Vercel Cost | AI Cost | Total  | Revenue (est.)                    | Margin  |
+| ------- | ---------------------- | ------------------------- | ----------- | ------- | ------ | --------------------------------- | ------- |
+| 10      | Shared (row-level)     | $25 (Supabase Pro)        | $20         | $7      | $52    | $0 (all free)                     | $0      |
+| 50      | Shared (row-level)     | $50 (Supabase Team)       | $20         | $20     | $90    | $300 (5 Pro × $12)                | $210    |
+| 100     | Shared (row-level)     | $100 (Supabase Large)     | $50         | $50     | $200   | $1,200 (20 Pro × $12)             | $1,000  |
+| 500     | Shared + Schema        | $300 (managed PG)         | $200        | $200    | $700   | $7,800 (50 Pro + 5 Enterprise)    | $7,100  |
+| 1,000   | Schema + DB-per-tenant | $800 (managed PG cluster) | $500        | $500    | $1,800 | $18,000 (100 Pro + 10 Enterprise) | $16,200 |
 
 ### 10.3 Marginal Cost Per Tenant
 
-| Tier | Marginal Cost/Tenant | Revenue/Tenant | Margin/Tenant |
-|------|---------------------|----------------|---------------|
-| Free | ~$0.10 | $0 | -$0.10 |
-| Pro | ~$0.50 | $12 | $11.50 |
-| Enterprise | ~$3.00 | $49 | $46.00 |
+| Tier       | Marginal Cost/Tenant | Revenue/Tenant | Margin/Tenant |
+| ---------- | -------------------- | -------------- | ------------- |
+| Free       | ~$0.10               | $0             | -$0.10        |
+| Pro        | ~$0.50               | $12            | $11.50        |
+| Enterprise | ~$3.00               | $49            | $46.00        |
 
 **Key insight:** The free tier must be tightly resource-constrained to prevent cost bleed. Pro and Enterprise tiers are highly profitable at scale. At 1,000 tenants with a 10% Pro conversion rate and 1% Enterprise conversion rate, projected MRR is ~$18,000.
 
@@ -731,12 +731,12 @@ Database isolation:
 
 ### 11.2 Cache Strategy
 
-| Cache Layer | Key | TTL | Invalidation |
-|-------------|-----|-----|--------------|
-| Vercel Edge | tenant:${tenantId}:config | 5 min | On tenant update |
-| Next.js ISR | tenant:${tenantId}:page:${path} | 10 min (stale-while-revalidate) | On content publish |
-| API response | tenant:${tenantId}:api:${route} | 1 min | Cache tag invalidation |
-| Database query | tenant:${tenantId}:db:${queryHash} | 30s | On write to tenant's rows |
+| Cache Layer    | Key                                | TTL                             | Invalidation              |
+| -------------- | ---------------------------------- | ------------------------------- | ------------------------- |
+| Vercel Edge    | tenant:${tenantId}:config          | 5 min                           | On tenant update          |
+| Next.js ISR    | tenant:${tenantId}:page:${path}    | 10 min (stale-while-revalidate) | On content publish        |
+| API response   | tenant:${tenantId}:api:${route}    | 1 min                           | Cache tag invalidation    |
+| Database query | tenant:${tenantId}:db:${queryHash} | 30s                             | On write to tenant's rows |
 
 ### 11.3 Rate Limiting Per Tenant
 
@@ -752,8 +752,8 @@ export class TenantThrottlerGuard extends ThrottlerGuard {
 
 // Per-plan rate limits
 const PLAN_LIMITS = {
-  free: { ttl: 60_000, limit: 30 },      // 30 req/min
-  pro: { ttl: 60_000, limit: 120 },       // 120 req/min
+  free: { ttl: 60_000, limit: 30 }, // 30 req/min
+  pro: { ttl: 60_000, limit: 120 }, // 120 req/min
   enterprise: { ttl: 60_000, limit: 600 }, // 600 req/min
 };
 ```
@@ -762,16 +762,16 @@ const PLAN_LIMITS = {
 
 ## 12. Security Considerations
 
-| Concern | Mitigation |
-|---------|------------|
-| Cross-tenant data access | RLS policies prevent tenants from reading other tenants' data; tested via automated security suite |
-| Tenant enumeration | Subdomain `/api/tenants/slug` returns 404 for non-existent slugs; no user enumeration |
-| Domain verification bypass | Strict TXT record verification; random 32-char tokens; daily re-verification |
-| Plan abuse (free → pro features) | Feature gating enforced server-side, not client-side; plan check on every mutation |
-| Tenant suspension | Suspended tenants get 403 on all API routes; frontend shows suspended page |
-| Data deletion on cancel | 30-day grace period (soft-delete); permanent deletion after 30 days |
-| Impersonation audit | Super-admin impersonation is logged with full audit trail; auto-expires after 1 hour |
-| SCIM / SSO | Enterprise tier supports SAML/OIDC SSO |
+| Concern                          | Mitigation                                                                                         |
+| -------------------------------- | -------------------------------------------------------------------------------------------------- |
+| Cross-tenant data access         | RLS policies prevent tenants from reading other tenants' data; tested via automated security suite |
+| Tenant enumeration               | Subdomain `/api/tenants/slug` returns 404 for non-existent slugs; no user enumeration              |
+| Domain verification bypass       | Strict TXT record verification; random 32-char tokens; daily re-verification                       |
+| Plan abuse (free → pro features) | Feature gating enforced server-side, not client-side; plan check on every mutation                 |
+| Tenant suspension                | Suspended tenants get 403 on all API routes; frontend shows suspended page                         |
+| Data deletion on cancel          | 30-day grace period (soft-delete); permanent deletion after 30 days                                |
+| Impersonation audit              | Super-admin impersonation is logged with full audit trail; auto-expires after 1 hour               |
+| SCIM / SSO                       | Enterprise tier supports SAML/OIDC SSO                                                             |
 
 ---
 
@@ -779,61 +779,61 @@ const PLAN_LIMITS = {
 
 ### Phase 0: Foundation (Weeks 1-4)
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Design+implement Tenant table + migration | 2 days | Backend | Migration |
-| Add tenant_id to all content models | 3 days | Backend | Migration + backfill |
-| Create TenantUser model and service | 2 days | Backend | Tenant management |
-| Implement TenantContextMiddleware | 2 days | Backend | Middleware |
-| Create RLS policies for all tables | 2 days | Backend | SQL policies |
-| Create default tenant record | 1 day | Backend | Seed script |
-| Update JWT payload to include tenant | 1 day | Backend | JWT update |
-| Write tenant-aware API tests | 3 days | QA | Test suite |
+| Task                                      | Est. Effort | Owner   | Deliverable          |
+| ----------------------------------------- | ----------- | ------- | -------------------- |
+| Design+implement Tenant table + migration | 2 days      | Backend | Migration            |
+| Add tenant_id to all content models       | 3 days      | Backend | Migration + backfill |
+| Create TenantUser model and service       | 2 days      | Backend | Tenant management    |
+| Implement TenantContextMiddleware         | 2 days      | Backend | Middleware           |
+| Create RLS policies for all tables        | 2 days      | Backend | SQL policies         |
+| Create default tenant record              | 1 day       | Backend | Seed script          |
+| Update JWT payload to include tenant      | 1 day       | Backend | JWT update           |
+| Write tenant-aware API tests              | 3 days      | QA      | Test suite           |
 
 **Phase 0 Gate:** Multi-tenant infrastructure deployed. Two test tenants with isolated data. All tests passing.
 
 ### Phase 1: Tenant Onboarding (Weeks 5-8)
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Build tenant signup flow | 3 days | Frontend | Signup wizard |
-| Build tenant setup wizard | 4 days | Frontend | Setup flow |
-| Build custom domain management | 3 days | Both | Domain UI + API |
-| Implement subdomain routing on Vercel Edge | 2 days | Infrastructure | Edge middleware |
-| Build theme customization UI | 3 days | Frontend | Theme editor |
-| Build first project/blog import tool | 3 days | Both | Import flow |
-| Build tenant admin dashboard | 4 days | Frontend | Tenant admin |
-| Add tenant onboarding emails | 2 days | Backend | Email templates |
+| Task                                       | Est. Effort | Owner          | Deliverable     |
+| ------------------------------------------ | ----------- | -------------- | --------------- |
+| Build tenant signup flow                   | 3 days      | Frontend       | Signup wizard   |
+| Build tenant setup wizard                  | 4 days      | Frontend       | Setup flow      |
+| Build custom domain management             | 3 days      | Both           | Domain UI + API |
+| Implement subdomain routing on Vercel Edge | 2 days      | Infrastructure | Edge middleware |
+| Build theme customization UI               | 3 days      | Frontend       | Theme editor    |
+| Build first project/blog import tool       | 3 days      | Both           | Import flow     |
+| Build tenant admin dashboard               | 4 days      | Frontend       | Tenant admin    |
+| Add tenant onboarding emails               | 2 days      | Backend        | Email templates |
 
 **Phase 1 Gate:** Self-service tenant onboarding works end-to-end. 5 beta tenants onboarded successfully.
 
 ### Phase 2: Billing (Weeks 9-12)
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Integrate Stripe checkout | 3 days | Backend | Stripe integration |
-| Build plan management API | 2 days | Backend | Plan CRUD |
-| Implement usage tracking | 3 days | Backend | Usage counters |
-| Build billing portal UI | 3 days | Frontend | Subscription mgmt |
-| Implement plan-based feature gates | 2 days | Both | Feature gating |
-| Build trial flow (30-day) | 2 days | Both | Trial management |
-| Create billing webhook handler | 2 days | Backend | Webhook endpoint |
-| Add payment failure handling | 2 days | Backend | Grace period logic |
+| Task                               | Est. Effort | Owner    | Deliverable        |
+| ---------------------------------- | ----------- | -------- | ------------------ |
+| Integrate Stripe checkout          | 3 days      | Backend  | Stripe integration |
+| Build plan management API          | 2 days      | Backend  | Plan CRUD          |
+| Implement usage tracking           | 3 days      | Backend  | Usage counters     |
+| Build billing portal UI            | 3 days      | Frontend | Subscription mgmt  |
+| Implement plan-based feature gates | 2 days      | Both     | Feature gating     |
+| Build trial flow (30-day)          | 2 days      | Both     | Trial management   |
+| Create billing webhook handler     | 2 days      | Backend  | Webhook endpoint   |
+| Add payment failure handling       | 2 days      | Backend  | Grace period logic |
 
 **Phase 2 Gate:** Billing operational. 3 paying tenants (friends/family). Trial → Pro conversion working.
 
 ### Phase 3: Scale (Weeks 13-20)
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Performance test at 100 tenants | 3 days | Infrastructure | Test report |
-| Implement caching for tenant configs | 2 days | Backend | Cache layer |
-| Build super-admin console | 4 days | Frontend | Admin tools |
-| Build tenant analytics dashboard | 3 days | Frontend | Analytics |
-| Implement schema-per-tenant isolation | 5 days | Backend | Schema isolation |
-| Build tenant data export tool | 3 days | Backend | Export |
-| Implement team management (invite flow) | 3 days | Both | Teams |
-| Load test at 500 tenants | 3 days | Infrastructure | Load test |
+| Task                                    | Est. Effort | Owner          | Deliverable      |
+| --------------------------------------- | ----------- | -------------- | ---------------- |
+| Performance test at 100 tenants         | 3 days      | Infrastructure | Test report      |
+| Implement caching for tenant configs    | 2 days      | Backend        | Cache layer      |
+| Build super-admin console               | 4 days      | Frontend       | Admin tools      |
+| Build tenant analytics dashboard        | 3 days      | Frontend       | Analytics        |
+| Implement schema-per-tenant isolation   | 5 days      | Backend        | Schema isolation |
+| Build tenant data export tool           | 3 days      | Backend        | Export           |
+| Implement team management (invite flow) | 3 days      | Both           | Teams            |
+| Load test at 500 tenants                | 3 days      | Infrastructure | Load test        |
 
 **Phase 3 Gate:** Platform stable at 100+ tenants. Performance within budget. Schema isolation working for Enterprise tier.
 
@@ -841,15 +841,15 @@ const PLAN_LIMITS = {
 
 ## 14. Risk Assessment
 
-| Risk | Probability | Impact | Mitigation |
-|------|------------|--------|------------|
-| RLS performance degradation at scale | Medium | High | Index on tenant_id; query analysis at 100 tenants; schema upgrade path |
-| Tenant data accidentally exposed | Low | Critical | Automated cross-tenant data access tests in CI; quarterly security audit |
-| Free tier cost bleed (too many free users) | Medium | Medium | Tight resource limits; email verification; automated suspension of inactive tenants |
-| Vercel edge function cold starts | Medium | Medium | Pre-warm endpoints;KV caching for tenant lookups |
-| Custom domain SSL provisioning delays | Medium | Low | Set expectations (72h max); automated status checking |
-| Migration complexity for existing content | Low | Medium | Default tenant preserves all existing data; zero-downtime backfill |
-| Stripe webhook failures | Low | Medium | Retry queue; manual reconciliation dashboard |
+| Risk                                       | Probability | Impact   | Mitigation                                                                          |
+| ------------------------------------------ | ----------- | -------- | ----------------------------------------------------------------------------------- |
+| RLS performance degradation at scale       | Medium      | High     | Index on tenant_id; query analysis at 100 tenants; schema upgrade path              |
+| Tenant data accidentally exposed           | Low         | Critical | Automated cross-tenant data access tests in CI; quarterly security audit            |
+| Free tier cost bleed (too many free users) | Medium      | Medium   | Tight resource limits; email verification; automated suspension of inactive tenants |
+| Vercel edge function cold starts           | Medium      | Medium   | Pre-warm endpoints;KV caching for tenant lookups                                    |
+| Custom domain SSL provisioning delays      | Medium      | Low      | Set expectations (72h max); automated status checking                               |
+| Migration complexity for existing content  | Low         | Medium   | Default tenant preserves all existing data; zero-downtime backfill                  |
+| Stripe webhook failures                    | Low         | Medium   | Retry queue; manual reconciliation dashboard                                        |
 
 ---
 
@@ -857,36 +857,36 @@ const PLAN_LIMITS = {
 
 ### Internal Documents
 
-| Document | Path | Relevance |
-|----------|------|-----------|
-| Innovation Backlog | `docs/25-roadmap/INNOVATION-BACKLOG.md` | IB-22 (Portfolio-as-a-Platform), IB-17 (Headless CMS) |
-| Mobile Native Strategy | `docs/37-future/MOBILE-NATIVE-STRATEGY.md` | Phase 3 consumer app is multi-tenant |
-| AI Personalization Engine | `docs/37-future/AI-PERSONALIZATION-ENGINE.md` | Per-tenant AI personalization |
-| Database Architecture | `docs/database/DatabaseArchitecture.md` | Current single-tenant DB design |
-| Security Architecture | `docs/security/SecurityArchitecture.md` | RLS and auth model |
-| Auth Architecture | `docs/security/15-AUTHORIZATION.md` | Role-based access patterns |
-| Data Classification | `docs/security/data-classification.md` | Tenant data classification |
-| Scalability Strategy | `docs/15-performance/SCALABILITY-STRATEGY.md` | Database scaling patterns |
-| Admin Architecture | `docs/design/AdminArchitecture.md` | Admin panel extension |
-| API Contracts | `docs/api/APIContracts.md` | API envelope for tenant-aware endpoints |
-| Feature Flag Guide | `docs/backend/feature-flag-guide.md` | Plan-based feature gating |
-| SOC 2 Readiness | `docs/36-enterprise/SOC2-READINESS.md` | SOC 2 controls for tenant isolation |
-| Compliance Matrix | `docs/36-enterprise/COMPLIANCE-MATRIX.md` | Regulatory compliance per tenant |
-| DevOps Architecture | `docs/operations/DevOpsArchitecture.md` | Infrastructure scaling |
-| Product Roadmap | `docs/25-roadmap/PRODUCT-ROADMAP.md` | PL-02 Public API vision |
-| Component Library | `docs/design/ComponentLibrary.md` | Tenant-themeable components |
-| Brand Guidelines | `docs/design/BrandGuidelines.md` | Per-tenant branding |
+| Document                  | Path                                          | Relevance                                             |
+| ------------------------- | --------------------------------------------- | ----------------------------------------------------- |
+| Innovation Backlog        | `docs/25-roadmap/INNOVATION-BACKLOG.md`       | IB-22 (Portfolio-as-a-Platform), IB-17 (Headless CMS) |
+| Mobile Native Strategy    | `docs/37-future/MOBILE-NATIVE-STRATEGY.md`    | Phase 3 consumer app is multi-tenant                  |
+| AI Personalization Engine | `docs/37-future/AI-PERSONALIZATION-ENGINE.md` | Per-tenant AI personalization                         |
+| Database Architecture     | `docs/09-database/DatabaseArchitecture.md`    | Current single-tenant DB design                       |
+| Security Architecture     | `docs/11-security/SecurityArchitecture.md`    | RLS and auth model                                    |
+| Auth Architecture         | `docs/11-security/15-AUTHORIZATION.md`        | Role-based access patterns                            |
+| Data Classification       | `docs/11-security/data-classification.md`     | Tenant data classification                            |
+| Scalability Strategy      | `docs/15-performance/SCALABILITY-STRATEGY.md` | Database scaling patterns                             |
+| Admin Architecture        | `docs/04-design/AdminArchitecture.md`         | Admin panel extension                                 |
+| API Contracts             | `docs/10-api/APIContracts.md`                 | API envelope for tenant-aware endpoints               |
+| Feature Flag Guide        | `docs/06-backend/feature-flag-guide.md`       | Plan-based feature gating                             |
+| SOC 2 Readiness           | `docs/36-enterprise/SOC2-READINESS.md`        | SOC 2 controls for tenant isolation                   |
+| Compliance Matrix         | `docs/36-enterprise/COMPLIANCE-MATRIX.md`     | Regulatory compliance per tenant                      |
+| DevOps Architecture       | `docs/21-operations/DevOpsArchitecture.md`    | Infrastructure scaling                                |
+| Product Roadmap           | `docs/25-roadmap/PRODUCT-ROADMAP.md`          | PL-02 Public API vision                               |
+| Component Library         | `docs/04-design/ComponentLibrary.md`          | Tenant-themeable components                           |
+| Brand Guidelines          | `docs/04-design/BrandGuidelines.md`           | Per-tenant branding                                   |
 
 ### ADR References
 
-| ADR | Title | Relevance |
-|-----|-------|-----------|
-| ADR-001 | Turborepo Monorepo | Multi-tenant package structure |
-| ADR-003 | NestJS API | Middleware pattern for tenant context |
-| ADR-004 | Supabase Database | RLS policies and tenant isolation |
-| ADR-011 | JWT Auth | Tenant claims in JWT |
-| ADR-012 | Vercel Deployment | Subdomain routing and edge functions |
-| ADR-014 | Zod Validation | Tenant schema validation |
+| ADR     | Title              | Relevance                             |
+| ------- | ------------------ | ------------------------------------- |
+| ADR-001 | Turborepo Monorepo | Multi-tenant package structure        |
+| ADR-003 | NestJS API         | Middleware pattern for tenant context |
+| ADR-004 | Supabase Database  | RLS policies and tenant isolation     |
+| ADR-011 | JWT Auth           | Tenant claims in JWT                  |
+| ADR-012 | Vercel Deployment  | Subdomain routing and edge functions  |
+| ADR-014 | Zod Validation     | Tenant schema validation              |
 
 ### External References
 
@@ -900,35 +900,35 @@ const PLAN_LIMITS = {
 
 ## 16. Decision Log
 
-| ID | Decision | Rationale |
-|----|----------|-----------|
-| MT-D001 | Hybrid isolation model (row → schema → DB) | Start simple with RLS; upgrade path for compliance/scale |
-| MT-D002 | `__default__` tenant for existing data | Zero-migration path for original portfolio; no breaking changes |
-| MT-D003 | Vercel Edge + KV for tenant routing | Sub-10ms routing; no additional infrastructure; integrates with existing Vercel setup |
-| MT-D004 | Stripe for billing (primary) | Best DX; webhooks-first design; supports complex pricing |
-| MT-D005 | Supabase RLS for Phase 1 isolation | Already using Supabase; RLS is battle-tested; no additional DB infrastructure |
-| MT-D006 | Tenant context in JWT (not session/DB lookup) | Zero-latency tenant resolution; stateless; compatible with existing auth flow |
+| ID      | Decision                                      | Rationale                                                                             |
+| ------- | --------------------------------------------- | ------------------------------------------------------------------------------------- |
+| MT-D001 | Hybrid isolation model (row → schema → DB)    | Start simple with RLS; upgrade path for compliance/scale                              |
+| MT-D002 | `__default__` tenant for existing data        | Zero-migration path for original portfolio; no breaking changes                       |
+| MT-D003 | Vercel Edge + KV for tenant routing           | Sub-10ms routing; no additional infrastructure; integrates with existing Vercel setup |
+| MT-D004 | Stripe for billing (primary)                  | Best DX; webhooks-first design; supports complex pricing                              |
+| MT-D005 | Supabase RLS for Phase 1 isolation            | Already using Supabase; RLS is battle-tested; no additional DB infrastructure         |
+| MT-D006 | Tenant context in JWT (not session/DB lookup) | Zero-latency tenant resolution; stateless; compatible with existing auth flow         |
 
 ---
 
 ## 17. Open Questions
 
-| Question | Status | Owner | Target Resolution |
-|----------|--------|-------|-------------------|
-| What is the Supabase connection pool limit for 100+ concurrent tenants? | TBD | Infrastructure | Phase 1 |
-| Should tenants share the Vercel deployment or get separate ones? | TBD | Architecture | Phase 1 |
-| What is the cost of per-tenant storage (Supabase Storage)? | TBD | Infrastructure | Phase 1 |
-| How do we handle GDPR data residency for EU tenants? | TBD | Legal | Phase 2 |
-| Should we support tenant-specific model deployments (AI)? | TBD | Product | Phase 3 |
+| Question                                                                | Status | Owner          | Target Resolution |
+| ----------------------------------------------------------------------- | ------ | -------------- | ----------------- |
+| What is the Supabase connection pool limit for 100+ concurrent tenants? | TBD    | Infrastructure | Phase 1           |
+| Should tenants share the Vercel deployment or get separate ones?        | TBD    | Architecture   | Phase 1           |
+| What is the cost of per-tenant storage (Supabase Storage)?              | TBD    | Infrastructure | Phase 1           |
+| How do we handle GDPR data residency for EU tenants?                    | TBD    | Legal          | Phase 2           |
+| Should we support tenant-specific model deployments (AI)?               | TBD    | Product        | Phase 3           |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jul 2026 | Initial design specification — Multi-Tenancy Strategy | CTO / Platform Architecture Lead |
+| Version | Date     | Changes                                               | Author                           |
+| ------- | -------- | ----------------------------------------------------- | -------------------------------- |
+| 1.0     | Jul 2026 | Initial design specification — Multi-Tenancy Strategy | CTO / Platform Architecture Lead |
 
 ---
 
-*End of Document — Multi-Tenancy Strategy v1.0*
+_End of Document — Multi-Tenancy Strategy v1.0_

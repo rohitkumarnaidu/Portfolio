@@ -39,42 +39,42 @@ Together, the two documents form the **complete admin dashboard specification**.
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| ADM-001 | Enterprise Experience Layer as separate document extending, not replacing, AdminDashboardArchitecture.md | Preserves existing widget/API/data-flow spec while adding product experience layer; avoids merge conflicts and maintains backward compatibility | Full rewrite (risk of losing existing spec details), inline additions (bloated single document) | 2026-06-01 | Chief Architect |
-| ADM-002 | ASCII state diagrams over Mermaid for user flows | ASCII diagrams render reliably in any markdown viewer, can be copied into PR descriptions, email, and docs without rendering engine | Mermaid (requires renderer, fails in some editors), images (not text-searchable, cannot diff) | 2026-06-01 | Chief Architect |
-| ADM-003 | Slide-over panel pattern for lead/modal detail views over full-page navigation | Slide-over preserves context (user stays on the table/list), faster than full navigation, works well for quick review/action patterns | Full-page navigation (loses context, slower), modal dialog (limited space for rich content), side-by-side split (too complex for mobile) | 2026-06-01 | Chief Architect |
-| ADM-004 | Real-time notifications via Supabase Realtime subscriptions over polling | Subscriptions are instant (<100ms), zero polling overhead, scale to zero cost when idle, and integrate with existing Supabase setup | Polling at 30s intervals (wasteful, up to 30s delay), WebSocket direct (infrastructure overhead), Server-Sent Events (additional service needed) | 2026-06-01 | Chief Architect |
-| ADM-005 | Command palette (⌘K) global search over dedicated search page | Command palette is always accessible via keyboard shortcut, follows established UX pattern (VS Code, Linear, GitHub), and allows cross-module search without navigation | Dedicated search page (requires navigation, disrupts flow), per-module search bar (inconsistent, no cross-module results), Algolia/SiteSearch (external dependency, cost) | 2026-06-01 | Chief Architect |
+| ID      | Decision                                                                                                 | Rationale                                                                                                                                                               | Alternatives Considered                                                                                                                                                   | Date       | Approver        |
+| ------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- |
+| ADM-001 | Enterprise Experience Layer as separate document extending, not replacing, AdminDashboardArchitecture.md | Preserves existing widget/API/data-flow spec while adding product experience layer; avoids merge conflicts and maintains backward compatibility                         | Full rewrite (risk of losing existing spec details), inline additions (bloated single document)                                                                           | 2026-06-01 | Chief Architect |
+| ADM-002 | ASCII state diagrams over Mermaid for user flows                                                         | ASCII diagrams render reliably in any markdown viewer, can be copied into PR descriptions, email, and docs without rendering engine                                     | Mermaid (requires renderer, fails in some editors), images (not text-searchable, cannot diff)                                                                             | 2026-06-01 | Chief Architect |
+| ADM-003 | Slide-over panel pattern for lead/modal detail views over full-page navigation                           | Slide-over preserves context (user stays on the table/list), faster than full navigation, works well for quick review/action patterns                                   | Full-page navigation (loses context, slower), modal dialog (limited space for rich content), side-by-side split (too complex for mobile)                                  | 2026-06-01 | Chief Architect |
+| ADM-004 | Real-time notifications via Supabase Realtime subscriptions over polling                                 | Subscriptions are instant (<100ms), zero polling overhead, scale to zero cost when idle, and integrate with existing Supabase setup                                     | Polling at 30s intervals (wasteful, up to 30s delay), WebSocket direct (infrastructure overhead), Server-Sent Events (additional service needed)                          | 2026-06-01 | Chief Architect |
+| ADM-005 | Command palette (⌘K) global search over dedicated search page                                            | Command palette is always accessible via keyboard shortcut, follows established UX pattern (VS Code, Linear, GitHub), and allows cross-module search without navigation | Dedicated search page (requires navigation, disrupts flow), per-module search bar (inconsistent, no cross-module results), Algolia/SiteSearch (external dependency, cost) | 2026-06-01 | Chief Architect |
 
 ## Risk Register
 
-| ID | Risk | Likelihood | Impact | Mitigation |
-|----|------|------------|--------|------------|
-| ADM-R01 | Document drift between this Experience Layer and the foundational AdminDashboardArchitecture.md | Medium | Medium | Cross-reference map (§0) explicitly maps every section; quarterly alignment review scheduled |
-| ADM-R02 | Supabase Realtime subscription limits exceeded with 10+ concurrent admin users | Low | Medium | Use channel-based subscriptions (one per module, not one per user); implement reconnection backoff; monitor subscription count |
-| ADM-R03 | Mobile admin experience degraded on small screens due to feature density | Medium | High | Three breakpoint system (§9) with BottomTabBar, BottomSheet, and reduced data density; test on 375px viewport |
-| ADM-R04 | AI agent hallucination in admin write operations | Low | Critical | All write operations require explicit admin confirmation before execution; audit log captures every AI-initiated mutation |
-| ADM-R05 | Notification fatigue from 65+ event types overwhelming admin | Medium | Low | Notification preferences (§5.4) allow per-event-type subscription; quiet hours; grouped notifications; digest mode for low-priority events |
+| ID      | Risk                                                                                            | Likelihood | Impact   | Mitigation                                                                                                                                 |
+| ------- | ----------------------------------------------------------------------------------------------- | ---------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| ADM-R01 | Document drift between this Experience Layer and the foundational AdminDashboardArchitecture.md | Medium     | Medium   | Cross-reference map (§0) explicitly maps every section; quarterly alignment review scheduled                                               |
+| ADM-R02 | Supabase Realtime subscription limits exceeded with 10+ concurrent admin users                  | Low        | Medium   | Use channel-based subscriptions (one per module, not one per user); implement reconnection backoff; monitor subscription count             |
+| ADM-R03 | Mobile admin experience degraded on small screens due to feature density                        | Medium     | High     | Three breakpoint system (§9) with BottomTabBar, BottomSheet, and reduced data density; test on 375px viewport                              |
+| ADM-R04 | AI agent hallucination in admin write operations                                                | Low        | Critical | All write operations require explicit admin confirmation before execution; audit log captures every AI-initiated mutation                  |
+| ADM-R05 | Notification fatigue from 65+ event types overwhelming admin                                    | Medium     | Low      | Notification preferences (§5.4) allow per-event-type subscription; quiet hours; grouped notifications; digest mode for low-priority events |
 
 ---
 
 ## Cross-Reference Map
 
-| This Doc Section | Extends AdminDashboardArchitecture.md Section | Content Type |
-|---|---|---|
-| §1 User Flows | All dashboard sections | Flow diagrams per module |
-| §2 Feature Flows | All dashboard sections | Step-by-step task flows |
-| §3 UI States | §2–§12 dashboard sections | State specifications per widget |
-| §4 Multi-Step Experiences | §1, §8, §11, §14 | Wizard/onboarding flows |
-| §5 Notification System | §12 Notification Dashboard | Full notification catalog |
-| §6 Search Experience | (new) | Global search across modules |
-| §7 AI Agent Experiences | §11 CMS, §6 Leads | AI interactions in admin |
-| §8 Collaboration Features | §14–§15 | Sharing, comments, activity |
-| §9 Responsive Behavior | §3.3–§3.4 | Breakpoint-specific layouts |
-| §10 Enterprise Screens | §15–§16 | Audit, system status, logs |
-| §11 Integration Architecture | §4, §7, §10 | Integration point specs |
-| §12 Cross-Doc References | All | Alignment to 60+ docs |
+| This Doc Section             | Extends AdminDashboardArchitecture.md Section | Content Type                    |
+| ---------------------------- | --------------------------------------------- | ------------------------------- |
+| §1 User Flows                | All dashboard sections                        | Flow diagrams per module        |
+| §2 Feature Flows             | All dashboard sections                        | Step-by-step task flows         |
+| §3 UI States                 | §2–§12 dashboard sections                     | State specifications per widget |
+| §4 Multi-Step Experiences    | §1, §8, §11, §14                              | Wizard/onboarding flows         |
+| §5 Notification System       | §12 Notification Dashboard                    | Full notification catalog       |
+| §6 Search Experience         | (new)                                         | Global search across modules    |
+| §7 AI Agent Experiences      | §11 CMS, §6 Leads                             | AI interactions in admin        |
+| §8 Collaboration Features    | §14–§15                                       | Sharing, comments, activity     |
+| §9 Responsive Behavior       | §3.3–§3.4                                     | Breakpoint-specific layouts     |
+| §10 Enterprise Screens       | §15–§16                                       | Audit, system status, logs      |
+| §11 Integration Architecture | §4, §7, §10                                   | Integration point specs         |
+| §12 Cross-Doc References     | All                                           | Alignment to 60+ docs           |
 
 ## 1. User Flows Per Module
 
@@ -135,20 +135,20 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 
 #### Decision Points
 
-| Decision | Criteria |
-|----------|----------|
-| Already authenticated? | Valid NextAuth session cookie |
-| Next action? | Based on attention indicators -- unread leads badge, stale content warning |
-| Valid credentials? | Google OAuth or email/password match, not rate-limited |
+| Decision               | Criteria                                                                   |
+| ---------------------- | -------------------------------------------------------------------------- |
+| Already authenticated? | Valid NextAuth session cookie                                              |
+| Next action?           | Based on attention indicators -- unread leads badge, stale content warning |
+| Valid credentials?     | Google OAuth or email/password match, not rate-limited                     |
 
 #### Failure Paths
 
-| Path | Cause | Recovery |
-|------|-------|----------|
-| Stats load failure | API error or timeout | Show skeleton -> retry button -> stale cache fallback |
-| Real-time data slow | >3s delay | Show cached data + "Last updated X ago" |
-| Session expired | Idle >24h | Auto-redirect to login, preserve intended URL |
-| Availability toggle fail | Network error | Optimistic update -> revert on error -> show error toast |
+| Path                     | Cause                | Recovery                                                 |
+| ------------------------ | -------------------- | -------------------------------------------------------- |
+| Stats load failure       | API error or timeout | Show skeleton -> retry button -> stale cache fallback    |
+| Real-time data slow      | >3s delay            | Show cached data + "Last updated X ago"                  |
+| Session expired          | Idle >24h            | Auto-redirect to login, preserve intended URL            |
+| Availability toggle fail | Network error        | Optimistic update -> revert on error -> show error toast |
 
 ---
 
@@ -211,12 +211,12 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 
 #### Analytics User Tasks
 
-| Task | Steps | Avg Time | Frequency |
-|------|-------|----------|-----------|
-| Quick traffic check | Open -> view stat cards -> glance at chart | 15s | Daily |
-| Weekly performance review | Open -> set 7d -> review all charts -> export | 3min | Weekly |
-| Deep dive on metric | Open -> click chart point -> read detail -> compare | 2min | Weekly |
-| Export report | Open -> set range -> click export -> download | 30s | Monthly |
+| Task                      | Steps                                               | Avg Time | Frequency |
+| ------------------------- | --------------------------------------------------- | -------- | --------- |
+| Quick traffic check       | Open -> view stat cards -> glance at chart          | 15s      | Daily     |
+| Weekly performance review | Open -> set 7d -> review all charts -> export       | 3min     | Weekly    |
+| Deep dive on metric       | Open -> click chart point -> read detail -> compare | 2min     | Weekly    |
+| Export report             | Open -> set range -> click export -> download       | 30s      | Monthly   |
 
 ---
 
@@ -368,14 +368,14 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 
 #### CMS Task Times
 
-| Task | Avg Time | Frequency |
-|------|----------|-----------|
-| Toggle section visibility | 5s | As needed |
-| Add new project | 3min | Weekly |
-| Edit blog post | 5min | Weekly |
-| Change section style | 30s | Rarely |
-| Reorder sections | 1min | Rarely |
-| Bulk visibility update | 10s | As needed |
+| Task                      | Avg Time | Frequency |
+| ------------------------- | -------- | --------- |
+| Toggle section visibility | 5s       | As needed |
+| Add new project           | 3min     | Weekly    |
+| Edit blog post            | 5min     | Weekly    |
+| Change section style      | 30s      | Rarely    |
+| Reorder sections          | 1min     | Rarely    |
+| Bulk visibility update    | 10s      | As needed |
 
 ---
 
@@ -569,18 +569,18 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 
 #### Permission Matrix (3-Tier)
 
-| Resource | Admin | Editor | Viewer |
-|----------|-------|--------|--------|
-| Dashboard Overview | Read | Read | Read |
-| Analytics | Read + Export | Read + Export | Read |
-| Leads | Read + Write + Export | Read + Write | Read |
-| CMS Content | CRUD + Publish | Create + Edit | Read |
-| CMS Sections | CRUD + Toggle | Read | Read |
-| Monitoring | Read | Read | Read |
-| Settings | Full | Read | None |
-| Permissions | Manage | None | None |
-| Audit Logs | Read + Export | Read | None |
-| Notifications | Configure | Read | Read |
+| Resource           | Admin                 | Editor        | Viewer |
+| ------------------ | --------------------- | ------------- | ------ |
+| Dashboard Overview | Read                  | Read          | Read   |
+| Analytics          | Read + Export         | Read + Export | Read   |
+| Leads              | Read + Write + Export | Read + Write  | Read   |
+| CMS Content        | CRUD + Publish        | Create + Edit | Read   |
+| CMS Sections       | CRUD + Toggle         | Read          | Read   |
+| Monitoring         | Read                  | Read          | Read   |
+| Settings           | Full                  | Read          | None   |
+| Permissions        | Manage                | None          | None   |
+| Audit Logs         | Read + Export         | Read          | None   |
+| Notifications      | Configure             | Read          | Read   |
 
 ---
 
@@ -630,15 +630,15 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 
 #### Audit Action Types
 
-| Category | Actions | Retention |
-|----------|---------|-----------|
-| Authentication | LOGIN, LOGOUT, LOGIN_FAILED, PASSWORD_CHANGE | 2 years |
-| Content | SECTION_CREATE, SECTION_UPDATE, SECTION_DELETE, SECTION_TOGGLE | 2 years |
-| Leads | LEAD_VIEW, LEAD_STATUS_CHANGE, LEAD_NOTE_ADD, LEAD_EXPORT | 2 years |
-| Settings | SETTINGS_UPDATE, AVAILABILITY_CHANGE | 2 years |
-| Permissions | ROLE_CREATE, ROLE_UPDATE, ROLE_DELETE, USER_INVITE, USER_REMOVE | 2 years |
-| System | EXPORT_TRIGGERED, IMPORT_COMPLETED, INTEGRATION_CHANGE | 2 years |
-| Security | FAILED_LOGIN, SUSPICIOUS_ACCESS, RATE_LIMIT_HIT | 2 years |
+| Category       | Actions                                                         | Retention |
+| -------------- | --------------------------------------------------------------- | --------- |
+| Authentication | LOGIN, LOGOUT, LOGIN_FAILED, PASSWORD_CHANGE                    | 2 years   |
+| Content        | SECTION_CREATE, SECTION_UPDATE, SECTION_DELETE, SECTION_TOGGLE  | 2 years   |
+| Leads          | LEAD_VIEW, LEAD_STATUS_CHANGE, LEAD_NOTE_ADD, LEAD_EXPORT       | 2 years   |
+| Settings       | SETTINGS_UPDATE, AVAILABILITY_CHANGE                            | 2 years   |
+| Permissions    | ROLE_CREATE, ROLE_UPDATE, ROLE_DELETE, USER_INVITE, USER_REMOVE | 2 years   |
+| System         | EXPORT_TRIGGERED, IMPORT_COMPLETED, INTEGRATION_CHANGE          | 2 years   |
+| Security       | FAILED_LOGIN, SUSPICIOUS_ACCESS, RATE_LIMIT_HIT                 | 2 years   |
 
 ---
 
@@ -686,7 +686,6 @@ Each flow describes how an admin user completes a goal within a specific dashboa
 |  o END                                                              |
 +--------------------------------------------------------------------------+
 ```
-
 
 ---
 
@@ -749,19 +748,19 @@ Step 5: POST-PUBLISH
 
 #### Content Creation States
 
-| State | UI Pattern | Description |
-|-------|------------|-------------|
-| FORM_LOADING | Skeleton form | Fields greyed out, image placeholder pulsing |
-| FORM_READY | Editable form | All fields enabled, save buttons active |
-| SAVING | Spinner on save button | Fields disabled, "Saving..." text |
-| SAVE_SUCCESS | Green toast | "Draft saved" or "Published" with undo option |
-| SAVE_ERROR | Red toast | "Save failed. Retry?" with retry button |
-| VALIDATION_ERROR | Inline field errors | Red borders on invalid fields, error messages |
-| UPLOADING | Progress bar on image | "Uploading... 60%" with cancel option |
-| UPLOAD_SUCCESS | Thumbnail shown | Preview of uploaded image |
-| UPLOAD_ERROR | Error state on image zone | "Upload failed. Try again." |
-| AI_SUGGESTING | Pulsing suggestion area | "AI is analyzing your content..." |
-| AI_SUGGESTIONS_READY | Highlighted suggestions | Accept/Edit/Reject buttons per suggestion |
+| State                | UI Pattern                | Description                                   |
+| -------------------- | ------------------------- | --------------------------------------------- |
+| FORM_LOADING         | Skeleton form             | Fields greyed out, image placeholder pulsing  |
+| FORM_READY           | Editable form             | All fields enabled, save buttons active       |
+| SAVING               | Spinner on save button    | Fields disabled, "Saving..." text             |
+| SAVE_SUCCESS         | Green toast               | "Draft saved" or "Published" with undo option |
+| SAVE_ERROR           | Red toast                 | "Save failed. Retry?" with retry button       |
+| VALIDATION_ERROR     | Inline field errors       | Red borders on invalid fields, error messages |
+| UPLOADING            | Progress bar on image     | "Uploading... 60%" with cancel option         |
+| UPLOAD_SUCCESS       | Thumbnail shown           | Preview of uploaded image                     |
+| UPLOAD_ERROR         | Error state on image zone | "Upload failed. Try again."                   |
+| AI_SUGGESTING        | Pulsing suggestion area   | "AI is analyzing your content..."             |
+| AI_SUGGESTIONS_READY | Highlighted suggestions   | Accept/Edit/Reject buttons per suggestion     |
 
 ---
 
@@ -778,17 +777,17 @@ Step 1: NOTIFICATION
             . In-app toast: "New lead from [Name]"
             . Email: auto-reply sent to lead
             . Telegram: "[Name] - [Email] - [Message preview]"
-  
+
 Step 2: DISCOVERY
   Admin -> opens /admin/leads
   Admin -> sees new lead at top of table (status=new, highlighted row)
   Admin -> clicks row -> slide-over panel opens
-  
+
 Step 3: EVALUATION
   Admin -> reviews full message, source info, UTM data
   Admin -> sees lead quality score (0.0 - 1.0) if AI scoring enabled
   Admin -> reads previous notes if returning lead
-  
+
 Step 4: ACTION
   Admin -> chooses action:
     +-- Reply via email --> Default email client opens
@@ -802,7 +801,7 @@ Step 4: ACTION
     |                     --> Lead moves to appropriate filter group
     |
     +-- No action --> Close panel, lead stays "new"
-  
+
 Step 5: FOLLOW-UP (if applicable)
   Admin -> may set reminder (future: calendar integration)
   Admin -> may log conversation in notes
@@ -819,7 +818,7 @@ Step 1: OPEN AI ASSISTANT
   Admin -> clicks AI assistant button in admin sidebar or header
   System -> opens chat panel (slide-over or modal)
   State -> panel slides in with welcome message
-  
+
 Step 2: FORMULATE QUERY
   Admin -> types or speaks a command, e.g.:
            . "Show me leads from this week"
@@ -827,7 +826,7 @@ Step 2: FORMULATE QUERY
            . "What's the most visited page this month?"
            . "Create a new project card for my Todo App"
            . "Draft a response to John's inquiry about rates"
-  
+
 Step 3: SYSTEM PROCESSING
   System -> authenticates admin (JWT from session)
   System -> routes to Admin Agent (NestJS -> FastAPI)
@@ -835,7 +834,7 @@ Step 3: SYSTEM PROCESSING
             +-- READ query --> Fetch data from relevant source
             +-- WRITE query --> Validate -> Execute -> Audit log
             +-- AMBIGUOUS --> Ask clarifying question
-  
+
 Step 4: RESPONSE
   System -> returns response with:
             . Natural language answer
@@ -845,7 +844,7 @@ Step 4: RESPONSE
   Admin -> reviews response:
            +-- SATISFIED --> Continue conversation or close
            +-- UNSATISFIED --> Refine query or escalate to manual
-  
+
 Step 5: ACTION EXECUTION (if write query)
   System -> confirms action before executing:
             "I'll update your availability to 'Busy until June 22'. Confirm?"
@@ -858,15 +857,15 @@ Step 5: ACTION EXECUTION (if write query)
 
 #### Admin Agent Guardrails
 
-| Guardrail | Behavior |
-|-----------|----------|
-| Authentication | All admin AI requests require valid JWT |
-| Read-only by default | Agent can read any data; write requires explicit confirmation |
-| No auto-mutations | Agent cannot auto-trigger mutations without admin confirmation |
-| Audit logging | Every mutation executed via AI is logged to admin_activities |
-| Rate limit | 30 requests per session, 100 per day |
-| Sensitive data | Agent never exposes passwords, API keys, or security settings |
-| Escalation | If agent cannot fulfill request, offers manual navigation path |
+| Guardrail            | Behavior                                                       |
+| -------------------- | -------------------------------------------------------------- |
+| Authentication       | All admin AI requests require valid JWT                        |
+| Read-only by default | Agent can read any data; write requires explicit confirmation  |
+| No auto-mutations    | Agent cannot auto-trigger mutations without admin confirmation |
+| Audit logging        | Every mutation executed via AI is logged to admin_activities   |
+| Rate limit           | 30 requests per session, 100 per day                           |
+| Sensitive data       | Agent never exposes passwords, API keys, or security settings  |
+| Escalation           | If agent cannot fulfill request, offers manual navigation path |
 
 ---
 
@@ -881,7 +880,7 @@ Step 1: ACCESS KNOWLEDGE
             . Total chunks indexed
             . Last updated
             . Coverage gaps (suggested topics)
-  
+
 Step 2: ADD KNOWLEDGE
   Admin -> chooses input method:
     +-- Text form --> Enter Q&A pair:
@@ -898,12 +897,12 @@ Step 2: ADD KNOWLEDGE
     +-- URL import --> Paste URL (LinkedIn, GitHub, blog)
                         --> Scrape -> chunk -> embed
                         --> Review -> Confirm
-  
+
 Step 3: VERIFY
   Admin -> reviews extracted knowledge chunks
   Admin -> edits or deletes inaccurate chunks
   Admin -> marks "Verified" for chunks ready for AI use
-  
+
 Step 4: PUBLISH
   Admin -> clicks "Update Knowledge Base"
   System -> rebuilds vector index with new chunks
@@ -945,14 +944,14 @@ Step 4: PUBLISH
 
 #### Lifecycle Rules
 
-| Transition | Trigger | Side Effects |
-|------------|---------|--------------|
-| Draft -> Preview | Admin clicks Preview | JWT token generated, 1-hour expiry |
-| Draft -> Scheduled | Admin sets publish_at | Background job created |
-| Draft -> Published | Admin clicks Publish | ISR revalidation, notification sent |
-| Scheduled -> Published | Cron job at publish_at | Same as Draft -> Published |
-| Published -> Archived | Admin clicks Archive | Section hidden but content preserved |
-| Archived -> Published | Admin clicks Restore | Section re-listed in original position |
+| Transition             | Trigger                | Side Effects                           |
+| ---------------------- | ---------------------- | -------------------------------------- |
+| Draft -> Preview       | Admin clicks Preview   | JWT token generated, 1-hour expiry     |
+| Draft -> Scheduled     | Admin sets publish_at  | Background job created                 |
+| Draft -> Published     | Admin clicks Publish   | ISR revalidation, notification sent    |
+| Scheduled -> Published | Cron job at publish_at | Same as Draft -> Published             |
+| Published -> Archived  | Admin clicks Archive   | Section hidden but content preserved   |
+| Archived -> Published  | Admin clicks Restore   | Section re-listed in original position |
 
 ---
 
@@ -1024,100 +1023,100 @@ Every widget across every dashboard has exactly 6 possible states. This section 
 
 ### 3.1 State Taxonomy
 
-| State | Trigger | Duration | UI Pattern | Accessibility |
-|-------|---------|----------|------------|---------------|
-| **Loaded** | Data received | Until action | Normal render | Announce "Content loaded" |
-| **Empty** | Zero results | Until data exists | Illustration + message + CTA | Announce "No data" |
-| **Loading** | Fetch initiated | <2s expected | Skeleton/pulse | aria-busy="true" |
-| **Error** | Request failed | Until retry | Error card + retry | role="alert" |
-| **Offline** | Network down | Until reconnect | Offline banner | role="alert" |
-| **Realtime** | Live update | Momentary | Flash/green indicator | aria-live="polite" |
+| State        | Trigger         | Duration          | UI Pattern                   | Accessibility             |
+| ------------ | --------------- | ----------------- | ---------------------------- | ------------------------- |
+| **Loaded**   | Data received   | Until action      | Normal render                | Announce "Content loaded" |
+| **Empty**    | Zero results    | Until data exists | Illustration + message + CTA | Announce "No data"        |
+| **Loading**  | Fetch initiated | <2s expected      | Skeleton/pulse               | aria-busy="true"          |
+| **Error**    | Request failed  | Until retry       | Error card + retry           | role="alert"              |
+| **Offline**  | Network down    | Until reconnect   | Offline banner               | role="alert"              |
+| **Realtime** | Live update     | Momentary         | Flash/green indicator        | aria-live="polite"        |
 
 ### 3.2 Overview Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline | Realtime |
-|--------|--------|-------|---------|-------|---------|----------|
-| Visitor Count Today | Number with % change | "0 visitors today" | Pulse skeleton | "Failed to load" + retry | Banner + "offline" | Auto-increments |
-| Leads This Week | Number with trend | "0 leads this week" | Pulse skeleton | "Failed to load" + retry | Banner | Badge pulse on new |
-| Active Sections | X of 25 badge | "0 sections live" | Pulse skeleton | "Failed to load" + retry | Cached count | Toggle updates instantly |
-| Site Uptime | % with status | "No monitoring data" | Pulse skeleton | "Uptime check failed" | Stale badge | N/A |
-| Recent Leads Table | 5 rows | "No leads yet" + illustration | 5 skeleton rows | Error card + retry | Cached table | New row slides in |
-| Visitor Chart (7d) | Line chart | Empty chart + "No data" | Animated bars | "Chart unavailable" | Greyed out | N/A |
-| Quick Actions | 4 buttons | N/A | N/A | N/A | Disabled | N/A |
-| Build Status | Pass/Fail badge | "No CI data" | Spinning | "CI check failed" | Cached status | N/A |
+| Widget              | Loaded               | Empty                         | Loading         | Error                    | Offline            | Realtime                 |
+| ------------------- | -------------------- | ----------------------------- | --------------- | ------------------------ | ------------------ | ------------------------ |
+| Visitor Count Today | Number with % change | "0 visitors today"            | Pulse skeleton  | "Failed to load" + retry | Banner + "offline" | Auto-increments          |
+| Leads This Week     | Number with trend    | "0 leads this week"           | Pulse skeleton  | "Failed to load" + retry | Banner             | Badge pulse on new       |
+| Active Sections     | X of 25 badge        | "0 sections live"             | Pulse skeleton  | "Failed to load" + retry | Cached count       | Toggle updates instantly |
+| Site Uptime         | % with status        | "No monitoring data"          | Pulse skeleton  | "Uptime check failed"    | Stale badge        | N/A                      |
+| Recent Leads Table  | 5 rows               | "No leads yet" + illustration | 5 skeleton rows | Error card + retry       | Cached table       | New row slides in        |
+| Visitor Chart (7d)  | Line chart           | Empty chart + "No data"       | Animated bars   | "Chart unavailable"      | Greyed out         | N/A                      |
+| Quick Actions       | 4 buttons            | N/A                           | N/A             | N/A                      | Disabled           | N/A                      |
+| Build Status        | Pass/Fail badge      | "No CI data"                  | Spinning        | "CI check failed"        | Cached status      | N/A                      |
 
 ### 3.3 Analytics Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline |
-|--------|--------|-------|---------|-------|---------|
-| Stat Cards (4) | Numbers with delta | "0" + "No data yet" | Skeleton bars | "Data unavailable" | Cached values |
-| Visitors Chart | Interactive line chart | "No data for this period" | X-axis + animated line | "Chart error" + retry | Cached chart |
-| Device Breakdown (pie) | Colored pie chart | "No device data" | Ring skeleton | "Cannot load" + retry | Last known chart |
-| Top Pages (bar) | Top 10 bars | "No page data" | Bar skeletons | "Failed to load" | Cached bars |
-| Geographic Map | World heatmap | "No location data" | Globe skeleton | "Map error" | Greyed out |
-| Top Referrers | Ordered list | "No referral data" | List skeletons | "Referrer data error" | Cached list |
-| Export Buttons | Active | Disabled | "Exporting..." spinner | "Export failed" | Disabled |
+| Widget                 | Loaded                 | Empty                     | Loading                | Error                 | Offline          |
+| ---------------------- | ---------------------- | ------------------------- | ---------------------- | --------------------- | ---------------- |
+| Stat Cards (4)         | Numbers with delta     | "0" + "No data yet"       | Skeleton bars          | "Data unavailable"    | Cached values    |
+| Visitors Chart         | Interactive line chart | "No data for this period" | X-axis + animated line | "Chart error" + retry | Cached chart     |
+| Device Breakdown (pie) | Colored pie chart      | "No device data"          | Ring skeleton          | "Cannot load" + retry | Last known chart |
+| Top Pages (bar)        | Top 10 bars            | "No page data"            | Bar skeletons          | "Failed to load"      | Cached bars      |
+| Geographic Map         | World heatmap          | "No location data"        | Globe skeleton         | "Map error"           | Greyed out       |
+| Top Referrers          | Ordered list           | "No referral data"        | List skeletons         | "Referrer data error" | Cached list      |
+| Export Buttons         | Active                 | Disabled                  | "Exporting..." spinner | "Export failed"       | Disabled         |
 
 ### 3.4 Leads Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline | Realtime |
-|--------|--------|-------|---------|-------|---------|----------|
-| Stat Bar | 5 status counts | All zeros | Pulse counters | "Status data error" | Cached counts | Count changes animate |
-| Leads Table | Data rows | "No leads matching filters" + CTA | 8 skeleton rows | Error card + retry | Cached rows | New row highlights |
-| Lead Detail Panel | Full info | N/A | Skeleton panel | "Cannot load lead" | N/A | Status updates live |
-| Notes Section | Saved notes | "No notes yet" placeholder | Loading spinner | "Cannot load notes" | Disabled | Auto-save indicator |
+| Widget            | Loaded          | Empty                             | Loading         | Error               | Offline       | Realtime              |
+| ----------------- | --------------- | --------------------------------- | --------------- | ------------------- | ------------- | --------------------- |
+| Stat Bar          | 5 status counts | All zeros                         | Pulse counters  | "Status data error" | Cached counts | Count changes animate |
+| Leads Table       | Data rows       | "No leads matching filters" + CTA | 8 skeleton rows | Error card + retry  | Cached rows   | New row highlights    |
+| Lead Detail Panel | Full info       | N/A                               | Skeleton panel  | "Cannot load lead"  | N/A           | Status updates live   |
+| Notes Section     | Saved notes     | "No notes yet" placeholder        | Loading spinner | "Cannot load notes" | Disabled      | Auto-save indicator   |
 
 ### 3.5 CMS Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline | Realtime |
-|--------|--------|-------|---------|-------|---------|----------|
-| Section Manager Table | All 25 rows with status | "No sections configured" | 25 skeleton rows | "Cannot load sections" | Cached section list | Toggle updates live |
-| Content Items List | Section items | "No items yet" + Add CTA | 5 skeleton cards | "Cannot load items" | Cached items | New item appears |
-| Upload Form | Editable form | N/A | Field skeletons | "Form error" + retry | Save disabled | Auto-save indicator |
-| Image Uploader | Image preview | Drop zone illustration | Progress bar | "Upload failed" + retry | Disabled | N/A |
-| Style Picker | Visual thumbnails | "No styles available" | Grid of placeholders | "Cannot load styles" | Text-only fallback | N/A |
+| Widget                | Loaded                  | Empty                    | Loading              | Error                   | Offline             | Realtime            |
+| --------------------- | ----------------------- | ------------------------ | -------------------- | ----------------------- | ------------------- | ------------------- |
+| Section Manager Table | All 25 rows with status | "No sections configured" | 25 skeleton rows     | "Cannot load sections"  | Cached section list | Toggle updates live |
+| Content Items List    | Section items           | "No items yet" + Add CTA | 5 skeleton cards     | "Cannot load items"     | Cached items        | New item appears    |
+| Upload Form           | Editable form           | N/A                      | Field skeletons      | "Form error" + retry    | Save disabled       | Auto-save indicator |
+| Image Uploader        | Image preview           | Drop zone illustration   | Progress bar         | "Upload failed" + retry | Disabled            | N/A                 |
+| Style Picker          | Visual thumbnails       | "No styles available"    | Grid of placeholders | "Cannot load styles"    | Text-only fallback  | N/A                 |
 
 ### 3.6 Monitoring Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline | Realtime |
-|--------|--------|-------|---------|-------|---------|----------|
-| Infrastructure Health | 4 service cards with green/red | "No services configured" | Pulse cards | "Health check failed" | "Offline" badges | Status changes animate |
-| Error Tracking | Error count + list | "No errors in period" | Skeleton chart | "Sentry unavailable" | Cached count | New error banner |
-| Uptime History | 30-day graph | "No uptime data" | Skeleton graph | "Uptime API error" | Last known graph | N/A |
-| Sub-dashboards | Specialized views | Empty per sub-dashboard | Per-dashboard skeleton | Per-dashboard error | Offline indicator | N/A |
+| Widget                | Loaded                         | Empty                    | Loading                | Error                 | Offline           | Realtime               |
+| --------------------- | ------------------------------ | ------------------------ | ---------------------- | --------------------- | ----------------- | ---------------------- |
+| Infrastructure Health | 4 service cards with green/red | "No services configured" | Pulse cards            | "Health check failed" | "Offline" badges  | Status changes animate |
+| Error Tracking        | Error count + list             | "No errors in period"    | Skeleton chart         | "Sentry unavailable"  | Cached count      | New error banner       |
+| Uptime History        | 30-day graph                   | "No uptime data"         | Skeleton graph         | "Uptime API error"    | Last known graph  | N/A                    |
+| Sub-dashboards        | Specialized views              | Empty per sub-dashboard  | Per-dashboard skeleton | Per-dashboard error   | Offline indicator | N/A                    |
 
 ### 3.7 Settings Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline |
-|--------|--------|-------|---------|-------|---------|
-| Profile Form | Pre-filled values | N/A | Field skeletons | "Cannot load profile" | Disabled |
-| Notification Preferences | All toggles with states | "No notification types" | Toggle skeletons | "Cannot load preferences" | Disabled |
-| Availability Editor | Current status + schedule | "No schedule set" + Create CTA | Skeleton form | "Cannot load availability" | Toggle disabled |
-| Integration Cards | Connected services | "No integrations" + Add CTA | 3 skeleton cards | "Cannot load integrations" | Service status unknown |
+| Widget                   | Loaded                    | Empty                          | Loading          | Error                      | Offline                |
+| ------------------------ | ------------------------- | ------------------------------ | ---------------- | -------------------------- | ---------------------- |
+| Profile Form             | Pre-filled values         | N/A                            | Field skeletons  | "Cannot load profile"      | Disabled               |
+| Notification Preferences | All toggles with states   | "No notification types"        | Toggle skeletons | "Cannot load preferences"  | Disabled               |
+| Availability Editor      | Current status + schedule | "No schedule set" + Create CTA | Skeleton form    | "Cannot load availability" | Toggle disabled        |
+| Integration Cards        | Connected services        | "No integrations" + Add CTA    | 3 skeleton cards | "Cannot load integrations" | Service status unknown |
 
 ### 3.8 Permissions Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error |
-|--------|--------|-------|---------|-------|
-| Roles Table | Defined roles | "No roles created" + Create | Skeleton rows | "Cannot load roles" |
-| Users Table | Active users | "No users invited" + Invite | Skeleton rows | "Cannot load users" |
-| Permission Checklist | Enabled/disabled perms | N/A | Checkbox skeletons | "Cannot load permissions" |
+| Widget               | Loaded                 | Empty                       | Loading            | Error                     |
+| -------------------- | ---------------------- | --------------------------- | ------------------ | ------------------------- |
+| Roles Table          | Defined roles          | "No roles created" + Create | Skeleton rows      | "Cannot load roles"       |
+| Users Table          | Active users           | "No users invited" + Invite | Skeleton rows      | "Cannot load users"       |
+| Permission Checklist | Enabled/disabled perms | N/A                         | Checkbox skeletons | "Cannot load permissions" |
 
 ### 3.9 Audit Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline |
-|--------|--------|-------|---------|-------|---------|
-| Audit Timeline | Event rows | "No audit events in period" | 10 skeleton rows | "Cannot load audit log" | Cached entries |
-| Filter Bar | Active filters | No filters applied | Filter skeletons | "Filters unavailable" | Disabled |
-| Detail Panel | Full entry info | N/A | Panel skeleton | "Cannot load entry detail" | N/A |
+| Widget         | Loaded          | Empty                       | Loading          | Error                      | Offline        |
+| -------------- | --------------- | --------------------------- | ---------------- | -------------------------- | -------------- |
+| Audit Timeline | Event rows      | "No audit events in period" | 10 skeleton rows | "Cannot load audit log"    | Cached entries |
+| Filter Bar     | Active filters  | No filters applied          | Filter skeletons | "Filters unavailable"      | Disabled       |
+| Detail Panel   | Full entry info | N/A                         | Panel skeleton   | "Cannot load entry detail" | N/A            |
 
 ### 3.10 Notifications Dashboard States
 
-| Widget | Loaded | Empty | Loading | Error | Offline | Realtime |
-|--------|--------|-------|---------|-------|---------|----------|
-| Notification Feed | Notifications list | "No notifications yet" + illustration | 10 skeleton items | "Cannot load notifications" | Cached items | New item slides in |
-| Toast Alerts | Dismissible toast | N/A | N/A | Error toast | "You're offline" | Slides in from right |
-| Badge Count | Number | 0 (hidden) | N/A | N/A | N/A | Increments |
+| Widget            | Loaded             | Empty                                 | Loading           | Error                       | Offline          | Realtime             |
+| ----------------- | ------------------ | ------------------------------------- | ----------------- | --------------------------- | ---------------- | -------------------- |
+| Notification Feed | Notifications list | "No notifications yet" + illustration | 10 skeleton items | "Cannot load notifications" | Cached items     | New item slides in   |
+| Toast Alerts      | Dismissible toast  | N/A                                   | N/A               | Error toast                 | "You're offline" | Slides in from right |
+| Badge Count       | Number             | 0 (hidden)                            | N/A               | N/A                         | N/A              | Increments           |
 
 ---
 
@@ -1196,7 +1195,6 @@ Wizards, onboarding flows, and setup experiences that guide the admin through mu
 |                                                                    |
 +-------------------------------------------------------------------+
 ```
-
 
 ### 4.2 Content Setup Wizard
 
@@ -1360,85 +1358,85 @@ Step 4: VERIFY -> Connection status, Data sync, API usage -> Done
 
 ### 5.2 Notification Channels
 
-| Channel | Delivery | Controls | Frequency Cap |
-|---------|----------|----------|---------------|
-| **In-App** | Toast + feed badge | On/off per event type | Unlimited |
-| **Email** | Resend HTML email | Daily digest or instant | 20/day instant |
-| **Telegram** | Bot API message | On/off per severity | 100/day |
-| **Push** | PWA service worker | On/off (browser permission) | 50/day |
+| Channel      | Delivery           | Controls                    | Frequency Cap  |
+| ------------ | ------------------ | --------------------------- | -------------- |
+| **In-App**   | Toast + feed badge | On/off per event type       | Unlimited      |
+| **Email**    | Resend HTML email  | Daily digest or instant     | 20/day instant |
+| **Telegram** | Bot API message    | On/off per severity         | 100/day        |
+| **Push**     | PWA service worker | On/off (browser permission) | 50/day         |
 
 ### 5.3 Notification Catalog (Full)
 
 #### Lead Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-001 | New lead submitted | In-app + Telegram + Email | High | "New lead from {name} ({email})" |
-| N-002 | Lead status changed | In-app | Normal | "Lead {name} moved to {status}" |
-| N-003 | Lead replied | In-app | Normal | "Replied to {name}" |
-| N-004 | Lead high-value detected | Telegram | High | "High-value lead: {name} from {company}" |
+| ID    | Event                    | Default Channel           | Priority | Template                                 |
+| ----- | ------------------------ | ------------------------- | -------- | ---------------------------------------- |
+| N-001 | New lead submitted       | In-app + Telegram + Email | High     | "New lead from {name} ({email})"         |
+| N-002 | Lead status changed      | In-app                    | Normal   | "Lead {name} moved to {status}"          |
+| N-003 | Lead replied             | In-app                    | Normal   | "Replied to {name}"                      |
+| N-004 | Lead high-value detected | Telegram                  | High     | "High-value lead: {name} from {company}" |
 
 #### Content Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-010 | Content published | In-app | Normal | "Published {type}: {title}" |
-| N-011 | Content saved as draft | In-app | Normal | "Saved draft: {title}" |
-| N-012 | Schedule publish triggered | In-app | Normal | "Scheduled publish: {title}" |
-| N-013 | Section auto-published | In-app | Normal | "{section} auto-published" |
-| N-014 | Content archived | In-app | Low | "Archived: {title}" |
-| N-015 | Content stale warning | In-app | Medium | "Warning: {type} '{title}' is 90+ days old" |
+| ID    | Event                      | Default Channel | Priority | Template                                    |
+| ----- | -------------------------- | --------------- | -------- | ------------------------------------------- |
+| N-010 | Content published          | In-app          | Normal   | "Published {type}: {title}"                 |
+| N-011 | Content saved as draft     | In-app          | Normal   | "Saved draft: {title}"                      |
+| N-012 | Schedule publish triggered | In-app          | Normal   | "Scheduled publish: {title}"                |
+| N-013 | Section auto-published     | In-app          | Normal   | "{section} auto-published"                  |
+| N-014 | Content archived           | In-app          | Low      | "Archived: {title}"                         |
+| N-015 | Content stale warning      | In-app          | Medium   | "Warning: {type} '{title}' is 90+ days old" |
 
 #### Analytics Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-020 | Daily traffic spike | Telegram | Medium | "Traffic spike: +{percent}% visitors today" |
-| N-021 | Weekly digest ready | Email | Normal | "Your weekly portfolio digest" |
-| N-022 | Monthly report ready | Email | Low | "Monthly portfolio report - {month}" |
-| N-023 | Traffic milestone | In-app + Telegram | Medium | "{count} total visitors milestone!" |
-| N-024 | Lead conversion milestone | In-app | Normal | "{count} leads milestone!" |
+| ID    | Event                     | Default Channel   | Priority | Template                                    |
+| ----- | ------------------------- | ----------------- | -------- | ------------------------------------------- |
+| N-020 | Daily traffic spike       | Telegram          | Medium   | "Traffic spike: +{percent}% visitors today" |
+| N-021 | Weekly digest ready       | Email             | Normal   | "Your weekly portfolio digest"              |
+| N-022 | Monthly report ready      | Email             | Low      | "Monthly portfolio report - {month}"        |
+| N-023 | Traffic milestone         | In-app + Telegram | Medium   | "{count} total visitors milestone!"         |
+| N-024 | Lead conversion milestone | In-app            | Normal   | "{count} leads milestone!"                  |
 
 #### Monitoring Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-030 | Service down | Telegram + Email | Critical | "{service} is DOWN - {details}" |
-| N-031 | Service recovered | Telegram | Medium | "{service} recovered after {duration}" |
-| N-032 | Error rate spike | Telegram + Email | Medium | "Error rate {rate}% above threshold" |
-| N-033 | Performance degradation | In-app + Telegram | Medium | "{metric} degraded: {value}" |
-| N-034 | SSL cert expiring | Telegram + Email | Critical | "SSL cert expires in {days} days" |
-| N-035 | Storage limit warning | In-app | Medium | "Storage at {percent}%" |
+| ID    | Event                   | Default Channel   | Priority | Template                               |
+| ----- | ----------------------- | ----------------- | -------- | -------------------------------------- |
+| N-030 | Service down            | Telegram + Email  | Critical | "{service} is DOWN - {details}"        |
+| N-031 | Service recovered       | Telegram          | Medium   | "{service} recovered after {duration}" |
+| N-032 | Error rate spike        | Telegram + Email  | Medium   | "Error rate {rate}% above threshold"   |
+| N-033 | Performance degradation | In-app + Telegram | Medium   | "{metric} degraded: {value}"           |
+| N-034 | SSL cert expiring       | Telegram + Email  | Critical | "SSL cert expires in {days} days"      |
+| N-035 | Storage limit warning   | In-app            | Medium   | "Storage at {percent}%"                |
 
 #### Security Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-040 | Failed login attempt | In-app | Medium | "Failed login from {ip}" |
-| N-041 | Account locked | Telegram + Email | Critical | "Account locked - {attempts} attempts" |
-| N-042 | Suspicious access | Telegram + Email | Critical | "Suspicious admin access from {ip}" |
-| N-043 | New admin login (new device) | Telegram | Medium | "New login from {device}" |
-| N-044 | Rate limit triggered | In-app | Low | "Rate limit hit on {endpoint}" |
+| ID    | Event                        | Default Channel  | Priority | Template                               |
+| ----- | ---------------------------- | ---------------- | -------- | -------------------------------------- |
+| N-040 | Failed login attempt         | In-app           | Medium   | "Failed login from {ip}"               |
+| N-041 | Account locked               | Telegram + Email | Critical | "Account locked - {attempts} attempts" |
+| N-042 | Suspicious access            | Telegram + Email | Critical | "Suspicious admin access from {ip}"    |
+| N-043 | New admin login (new device) | Telegram         | Medium   | "New login from {device}"              |
+| N-044 | Rate limit triggered         | In-app           | Low      | "Rate limit hit on {endpoint}"         |
 
 #### AI Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-050 | AI cost threshold reached | In-app | Medium | "AI costs reached ${amount} this month" |
-| N-051 | AI error rate high | In-app | Medium | "AI error rate {rate}% above threshold" |
-| N-052 | Knowledge base updated | In-app | Low | "Knowledge base updated with {count} chunks" |
-| N-053 | AI suggested content | In-app | Low | "AI suggests updating {type} '{title}'" |
+| ID    | Event                     | Default Channel | Priority | Template                                     |
+| ----- | ------------------------- | --------------- | -------- | -------------------------------------------- |
+| N-050 | AI cost threshold reached | In-app          | Medium   | "AI costs reached ${amount} this month"      |
+| N-051 | AI error rate high        | In-app          | Medium   | "AI error rate {rate}% above threshold"      |
+| N-052 | Knowledge base updated    | In-app          | Low      | "Knowledge base updated with {count} chunks" |
+| N-053 | AI suggested content      | In-app          | Low      | "AI suggests updating {type} '{title}'"      |
 
 #### System Events
 
-| ID | Event | Default Channel | Priority | Template |
-|----|-------|----------------|----------|----------|
-| N-060 | Build failed | Telegram | Critical | "Build failed on {branch}" |
-| N-061 | Build succeeded | In-app | Normal | "Build passed on {branch}" |
-| N-062 | Deployment complete | In-app | Normal | "Deployed to {environment}" |
-| N-063 | Integration disconnected | In-app + Telegram | Medium | "{integration} disconnected" |
-| N-064 | Backup completed | In-app | Low | "Database backup completed ({size})" |
-| N-065 | New version available | In-app | Low | "Update available: v{version}" |
+| ID    | Event                    | Default Channel   | Priority | Template                             |
+| ----- | ------------------------ | ----------------- | -------- | ------------------------------------ |
+| N-060 | Build failed             | Telegram          | Critical | "Build failed on {branch}"           |
+| N-061 | Build succeeded          | In-app            | Normal   | "Build passed on {branch}"           |
+| N-062 | Deployment complete      | In-app            | Normal   | "Deployed to {environment}"          |
+| N-063 | Integration disconnected | In-app + Telegram | Medium   | "{integration} disconnected"         |
+| N-064 | Backup completed         | In-app            | Low      | "Database backup completed ({size})" |
+| N-065 | New version available    | In-app            | Low      | "Update available: v{version}"       |
 
 ### 5.4 Notification Preferences
 
@@ -1469,36 +1467,36 @@ Step 4: VERIFY -> Connection status, Data sync, API usage -> Done
 
 ### 5.5 Notification Delivery Rules
 
-| Rule | Description |
-|------|-------------|
-| Deduplication | Same event type for same resource within 5 minutes -> grouped |
-| Cooldown | Per-rule cooldown prevents alert storms |
+| Rule                | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| Deduplication       | Same event type for same resource within 5 minutes -> grouped           |
+| Cooldown            | Per-rule cooldown prevents alert storms                                 |
 | Priority Escalation | If high-priority alert unacknowledged for 15min -> escalate to Telegram |
-| Quiet Hours | Only critical alerts delivered during set hours |
-| Digest Mode | Non-critical events batched into daily/weekly digest emails |
-| Throttle | Max 1 Telegram/minute, max 5 emails/hour, unlimited in-app |
+| Quiet Hours         | Only critical alerts delivered during set hours                         |
+| Digest Mode         | Non-critical events batched into daily/weekly digest emails             |
+| Throttle            | Max 1 Telegram/minute, max 5 emails/hour, unlimited in-app              |
 
 ### 5.6 Notification Templates
 
 ```typescript
 interface NotificationTemplate {
   id: string;
-  event_id: string;         // e.g., "N-001"
+  event_id: string; // e.g., "N-001"
   channel: 'in-app' | 'email' | 'telegram';
-  title_template: string;   // "New lead from {{name}}"
-  body_template: string;    // "{{name}} ({{email}}) sent: {{message_preview}}"
-  icon: string;             // emoji or icon name
+  title_template: string; // "New lead from {{name}}"
+  body_template: string; // "{{name}} ({{email}}) sent: {{message_preview}}"
+  icon: string; // emoji or icon name
   action_url_template: string; // "/admin/leads/{{lead_id}}"
-  variables: string[];      // ["name", "email", "message_preview", "lead_id"]
+  variables: string[]; // ["name", "email", "message_preview", "lead_id"]
 }
 ```
 
-| Event | Subject | Preview |
-|-------|---------|---------|
-| Daily Digest | Your Portfolio Daily Digest - {date} | {visitors} visitors, {leads} leads |
-| New Lead | New lead from {name} | {company} - {message_preview} |
-| Service Down | {service} is DOWN | Automatic alert from Better Uptime |
-| Weekly Report | Weekly Portfolio Report - Week {W} | {visitors} visitors, {conversion_rate}% |
+| Event         | Subject                              | Preview                                 |
+| ------------- | ------------------------------------ | --------------------------------------- |
+| Daily Digest  | Your Portfolio Daily Digest - {date} | {visitors} visitors, {leads} leads      |
+| New Lead      | New lead from {name}                 | {company} - {message_preview}           |
+| Service Down  | {service} is DOWN                    | Automatic alert from Better Uptime      |
+| Weekly Report | Weekly Portfolio Report - Week {W}   | {visitors} visitors, {conversion_rate}% |
 
 ---
 
@@ -1539,37 +1537,37 @@ interface NotificationTemplate {
 
 ### 6.2 Search Index Strategy
 
-| Index | Source | Fields | Update Method | Refresh |
-|-------|--------|--------|--------------|---------|
-| Content | Supabase | title, description, tags, section_key | On write | Real-time |
-| Leads | Supabase | name, email, company, message | On write | Real-time |
-| Pages | Route manifest | page title, breadcrumb, path | On deploy | Static |
-| Settings | Settings schema | setting name, category, description | Config | On load |
-| Sections | Supabase | section_label, section_key, style_preset | On write | Real-time |
+| Index    | Source          | Fields                                   | Update Method | Refresh   |
+| -------- | --------------- | ---------------------------------------- | ------------- | --------- |
+| Content  | Supabase        | title, description, tags, section_key    | On write      | Real-time |
+| Leads    | Supabase        | name, email, company, message            | On write      | Real-time |
+| Pages    | Route manifest  | page title, breadcrumb, path             | On deploy     | Static    |
+| Settings | Settings schema | setting name, category, description      | Config        | On load   |
+| Sections | Supabase        | section_label, section_key, style_preset | On write      | Real-time |
 
 ### 6.3 Search UI Components
 
-| Component | Behavior |
-|-----------|----------|
-| Search Trigger | Fixed in header, Cmd+K shortcut, click to focus |
-| Search Modal | Centered modal with backdrop blur, full-screen on mobile |
-| Search Input | Auto-focused, debounced (300ms), clears on Esc |
-| Results List | Grouped by type, infinite scroll, keyboard navigable |
-| Result Item | Icon + title + breadcrumb + action (navigate or execute) |
-| No Results | "No results for '{query}'" + suggestion to browse |
-| Loading State | Skeleton result items while fetching |
-| Recent Searches | Last 5 persisted in localStorage |
+| Component       | Behavior                                                 |
+| --------------- | -------------------------------------------------------- |
+| Search Trigger  | Fixed in header, Cmd+K shortcut, click to focus          |
+| Search Modal    | Centered modal with backdrop blur, full-screen on mobile |
+| Search Input    | Auto-focused, debounced (300ms), clears on Esc           |
+| Results List    | Grouped by type, infinite scroll, keyboard navigable     |
+| Result Item     | Icon + title + breadcrumb + action (navigate or execute) |
+| No Results      | "No results for '{query}'" + suggestion to browse        |
+| Loading State   | Skeleton result items while fetching                     |
+| Recent Searches | Last 5 persisted in localStorage                         |
 
 ### 6.4 Search Result Types
 
-| Type | Icon | Action on Select | Source |
-|------|------|-----------------|--------|
-| Content | Page | Navigate to CMS editor | Supabase |
-| Lead | Person | Navigate to lead detail | Supabase |
-| Page | Monitor | Navigate to admin page | Route map |
-| Setting | Settings | Navigate to settings section | Settings map |
-| Section | List | Navigate to section in CMS | Supabase |
-| Quick Action | Zap | Execute action (toggle, export) | Actions registry |
+| Type         | Icon     | Action on Select                | Source           |
+| ------------ | -------- | ------------------------------- | ---------------- |
+| Content      | Page     | Navigate to CMS editor          | Supabase         |
+| Lead         | Person   | Navigate to lead detail         | Supabase         |
+| Page         | Monitor  | Navigate to admin page          | Route map        |
+| Setting      | Settings | Navigate to settings section    | Settings map     |
+| Section      | List     | Navigate to section in CMS      | Supabase         |
+| Quick Action | Zap      | Execute action (toggle, export) | Actions registry |
 
 ### 6.5 Advanced Filters
 
@@ -1580,7 +1578,7 @@ Modifiers:
   type:page        - Filter to pages only
   status:live      - Show only live sections
   status:hidden    - Show only hidden sections
-  
+
 Examples:
   "react type:content"      -> Search content about React
   "john type:lead"          -> Search leads with "john"
@@ -1589,13 +1587,13 @@ Examples:
 
 ### 6.6 Search Analytics
 
-| Metric | Tracked By | Purpose |
-|--------|-----------|---------|
-| Search queries per session | PostHog | Feature adoption |
-| Top search terms | PostHog | Content gap analysis |
-| Zero-result queries | PostHog | Missing content/features |
-| Click-through rate | PostHog | Search result quality |
-| Average search time | PostHog | Search UX efficiency |
+| Metric                     | Tracked By | Purpose                  |
+| -------------------------- | ---------- | ------------------------ |
+| Search queries per session | PostHog    | Feature adoption         |
+| Top search terms           | PostHog    | Content gap analysis     |
+| Zero-result queries        | PostHog    | Missing content/features |
+| Click-through rate         | PostHog    | Search result quality    |
+| Average search time        | PostHog    | Search UX efficiency     |
 
 ---
 
@@ -1632,16 +1630,16 @@ The admin AI assistant is accessible from any admin page via a floating button i
 
 #### AI Assistant Capabilities in Admin
 
-| Capability | Description | Example |
-|------------|-------------|---------|
-| Query Data | Read any dashboard data via natural language | "How many visitors this month?" |
-| Content Management | Create, update, publish content | "Create a new project card" |
-| Lead Management | Read, filter, respond to leads | "Show high priority leads" |
-| Analytics Insights | Generate insights from analytics | "What's the trend for page views?" |
-| System Status | Check monitoring and health | "Is everything running OK?" |
-| Navigation | Navigate to any admin page | "Take me to monitoring" |
-| Recommendations | Suggest improvements | "What should I update?" |
-| Summarization | Summarize data sets | "Summarize this week's activity" |
+| Capability         | Description                                  | Example                            |
+| ------------------ | -------------------------------------------- | ---------------------------------- |
+| Query Data         | Read any dashboard data via natural language | "How many visitors this month?"    |
+| Content Management | Create, update, publish content              | "Create a new project card"        |
+| Lead Management    | Read, filter, respond to leads               | "Show high priority leads"         |
+| Analytics Insights | Generate insights from analytics             | "What's the trend for page views?" |
+| System Status      | Check monitoring and health                  | "Is everything running OK?"        |
+| Navigation         | Navigate to any admin page                   | "Take me to monitoring"            |
+| Recommendations    | Suggest improvements                         | "What should I update?"            |
+| Summarization      | Summarize data sets                          | "Summarize this week's activity"   |
 
 ### 7.2 AI Content Recommendations
 
@@ -1738,34 +1736,34 @@ WEEKLY DIGEST (generated automatically every Monday):
 
 ### 7.5 AI Collaboration Patterns
 
-| Pattern | Description | When Used |
-|---------|-------------|-----------|
-| Suggest + Confirm | AI proposes action, admin confirms | Content updates, availability changes |
-| Read + Summarize | AI reads data and provides summary | Lead review, analytics check |
-| Auto + Notify | AI performs action and notifies admin | Auto-publishing, stale content archive |
-| Defer + Escalate | AI defers to admin for complex decisions | Lead qualification edge cases |
-| Learn + Adapt | AI learns from admin corrections | Recommendation quality improvement |
+| Pattern           | Description                              | When Used                              |
+| ----------------- | ---------------------------------------- | -------------------------------------- |
+| Suggest + Confirm | AI proposes action, admin confirms       | Content updates, availability changes  |
+| Read + Summarize  | AI reads data and provides summary       | Lead review, analytics check           |
+| Auto + Notify     | AI performs action and notifies admin    | Auto-publishing, stale content archive |
+| Defer + Escalate  | AI defers to admin for complex decisions | Lead qualification edge cases          |
+| Learn + Adapt     | AI learns from admin corrections         | Recommendation quality improvement     |
 
 ### 7.6 AI Memory & Context
 
-| Context | Scope | Retention |
-|---------|-------|-----------|
-| Current page | Current admin page | Session |
-| Recent actions | Last 5 admin actions | Session |
-| Admin preferences | Notification/display settings | Persistent |
-| Correction history | Previous AI corrections | Persistent |
-| Query patterns | Common admin queries | 30 days |
+| Context            | Scope                         | Retention  |
+| ------------------ | ----------------------------- | ---------- |
+| Current page       | Current admin page            | Session    |
+| Recent actions     | Last 5 admin actions          | Session    |
+| Admin preferences  | Notification/display settings | Persistent |
+| Correction history | Previous AI corrections       | Persistent |
+| Query patterns     | Common admin queries          | 30 days    |
 
 ### 7.7 AI Actions & Automation
 
-| Automation | Trigger | Action | Admin Notification |
-|------------|---------|--------|-------------------|
-| Content stale check | Daily cron | Identify content >90d old | In-app notification |
-| Lead auto-response | New lead with common question | Send template reply | Notification of reply |
-| Performance summary | Weekly cron | Generate analytics summary | Weekly digest email |
-| Knowledge base sync | Content published | Re-index content chunks | None (background) |
-| Section auto-publish | Content count meets min_items | Set is_live = true | In-app notification |
-| Backup reminder | Weekly cron | Check last backup date | Notification if >7d |
+| Automation           | Trigger                       | Action                     | Admin Notification    |
+| -------------------- | ----------------------------- | -------------------------- | --------------------- |
+| Content stale check  | Daily cron                    | Identify content >90d old  | In-app notification   |
+| Lead auto-response   | New lead with common question | Send template reply        | Notification of reply |
+| Performance summary  | Weekly cron                   | Generate analytics summary | Weekly digest email   |
+| Knowledge base sync  | Content published             | Re-index content chunks    | None (background)     |
+| Section auto-publish | Content count meets min_items | Set is_live = true         | In-app notification   |
+| Backup reminder      | Weekly cron                   | Check last backup date     | Notification if >7d   |
 
 ---
 
@@ -1798,12 +1796,12 @@ WEEKLY DIGEST (generated automatically every Monday):
 
 Comments are internal admin notes attached to any resource.
 
-| Resource | Comment Location | Example |
-|----------|-----------------|---------|
-| Lead | Detail panel notes section | "Follow up next week about budget" |
-| Content | Editor sidebar notes | "Needs client approval before publishing" |
-| Section | Section manager notes | "Redesign this section layout next sprint" |
-| Analytics | Chart annotation | "Spike from Product Hunt launch" |
+| Resource  | Comment Location           | Example                                    |
+| --------- | -------------------------- | ------------------------------------------ |
+| Lead      | Detail panel notes section | "Follow up next week about budget"         |
+| Content   | Editor sidebar notes       | "Needs client approval before publishing"  |
+| Section   | Section manager notes      | "Redesign this section layout next sprint" |
+| Analytics | Chart annotation           | "Spike from Product Hunt launch"           |
 
 ### 8.3 Activity Feed
 
@@ -1833,53 +1831,53 @@ A real-time global activity feed showing all actions across the admin system.
 
 #### Activity Event Types
 
-| Type | Color | Icon | Examples |
-|------|-------|------|----------|
-| Content | Blue | FileText | Published, saved, archived |
-| Lead | Green | UserPlus | New, status change, replied |
-| System | Yellow | Settings | Build, deploy, integration |
-| Settings | Orange | Sliders | Toggle, update, configure |
-| Security | Red | Shield | Login, logout, permission |
+| Type     | Color  | Icon     | Examples                    |
+| -------- | ------ | -------- | --------------------------- |
+| Content  | Blue   | FileText | Published, saved, archived  |
+| Lead     | Green  | UserPlus | New, status change, replied |
+| System   | Yellow | Settings | Build, deploy, integration  |
+| Settings | Orange | Sliders  | Toggle, update, configure   |
+| Security | Red    | Shield   | Login, logout, permission   |
 
 ### 8.4 Multi-User Collaboration Model
 
 For future multi-admin scenarios:
 
-| Role | Create Content | Publish | Manage Users | View Analytics |
-|------|---------------|---------|--------------|----------------|
-| Owner | Yes | Yes | Yes | Yes |
-| Editor | Yes | Yes | No | Yes |
-| Contributor | Yes (drafts) | No | No | Yes |
-| Viewer | No | No | No | Yes (read-only) |
+| Role        | Create Content | Publish | Manage Users | View Analytics  |
+| ----------- | -------------- | ------- | ------------ | --------------- |
+| Owner       | Yes            | Yes     | Yes          | Yes             |
+| Editor      | Yes            | Yes     | No           | Yes             |
+| Contributor | Yes (drafts)   | No      | No           | Yes             |
+| Viewer      | No             | No      | No           | Yes (read-only) |
 
 #### Collaboration Workflows
 
-| Workflow | Steps | Roles Involved |
-|----------|-------|---------------|
-| Content Review | Contributor creates draft -> Editor reviews -> Owner publishes | Contributor, Editor, Owner |
-| Lead Handoff | Lead auto-assigned -> Editor qualifies -> Owner responds | Editor, Owner |
-| Permission Change | Owner creates role -> Assigns users -> Audit logged | Owner |
-| Scheduled Publishing | Editor schedules -> System publishes at time | Editor, System |
+| Workflow             | Steps                                                          | Roles Involved             |
+| -------------------- | -------------------------------------------------------------- | -------------------------- |
+| Content Review       | Contributor creates draft -> Editor reviews -> Owner publishes | Contributor, Editor, Owner |
+| Lead Handoff         | Lead auto-assigned -> Editor qualifies -> Owner responds       | Editor, Owner              |
+| Permission Change    | Owner creates role -> Assigns users -> Audit logged            | Owner                      |
+| Scheduled Publishing | Editor schedules -> System publishes at time                   | Editor, System             |
 
 ### 8.5 Audit Trail with User Context
 
 ```typescript
 interface AuditEntry {
   id: string;
-  timestamp: string;          // ISO 8601
-  admin_id: string;            // User who performed action
-  admin_name: string;          // Display name
-  admin_role: string;          // Role at time of action
-  action: string;              // e.g., "content.publish"
-  resource_type: string;       // e.g., "project", "lead", "section"
-  resource_id: string;         // UUID of affected resource
-  resource_name: string;       // Human-readable name
-  before_state: JSON | null;   // Previous state (for mutations)
-  after_state: JSON | null;    // New state (for mutations)
-  ip_address: string;          // Source IP
-  user_agent: string;          // Browser/Device info
-  session_id: string;          // Session identifier
-  metadata: JSON;              // Extra context (e.g., "via_ai": true)
+  timestamp: string; // ISO 8601
+  admin_id: string; // User who performed action
+  admin_name: string; // Display name
+  admin_role: string; // Role at time of action
+  action: string; // e.g., "content.publish"
+  resource_type: string; // e.g., "project", "lead", "section"
+  resource_id: string; // UUID of affected resource
+  resource_name: string; // Human-readable name
+  before_state: JSON | null; // Previous state (for mutations)
+  after_state: JSON | null; // New state (for mutations)
+  ip_address: string; // Source IP
+  user_agent: string; // Browser/Device info
+  session_id: string; // Session identifier
+  metadata: JSON; // Extra context (e.g., "via_ai": true)
 }
 ```
 
@@ -1889,11 +1887,11 @@ interface AuditEntry {
 
 ### 9.1 Breakpoint System
 
-| Breakpoint | Width | Target | Layout Pattern |
-|------------|-------|--------|---------------|
-| Desktop | >1024px | Desktop/laptop | Full sidebar + multi-column |
-| Tablet | 768-1024px | iPad, tablet | Collapsed sidebar + 2-column |
-| Mobile | <768px | Phone | Bottom tab bar + single column |
+| Breakpoint | Width      | Target         | Layout Pattern                 |
+| ---------- | ---------- | -------------- | ------------------------------ |
+| Desktop    | >1024px    | Desktop/laptop | Full sidebar + multi-column    |
+| Tablet     | 768-1024px | iPad, tablet   | Collapsed sidebar + 2-column   |
+| Mobile     | <768px     | Phone          | Bottom tab bar + single column |
 
 ### 9.2 Desktop Layout (>1024px)
 
@@ -1973,41 +1971,40 @@ interface AuditEntry {
 
 ### 9.5 Mobile-Specific Interaction Patterns
 
-| Pattern | Desktop Behavior | Mobile Behavior |
-|---------|-----------------|----------------|
-| Navigation | Collapsible sidebar | Bottom tab bar (5 icons) |
-| Tables | Full-width with sort/filter | Card layout, swipe to reveal actions |
-| Charts | Interactive with tooltips | Simplified, scrollable |
-| Panels | Right-side panel | Bottom sheet (Vaul) |
-| Search | Modal (centered) | Full-screen overlay |
-| Filters | Inline filter bar | Bottom sheet with checkboxes |
-| Actions | Horizontal button bar | Contextual action bar at bottom |
-| Upload | Drag zone | Tap to select from gallery |
-| Notifications | Right panel slide-over | Full-screen page |
-| Modals | Centered dialog | Bottom sheet |
+| Pattern       | Desktop Behavior            | Mobile Behavior                      |
+| ------------- | --------------------------- | ------------------------------------ |
+| Navigation    | Collapsible sidebar         | Bottom tab bar (5 icons)             |
+| Tables        | Full-width with sort/filter | Card layout, swipe to reveal actions |
+| Charts        | Interactive with tooltips   | Simplified, scrollable               |
+| Panels        | Right-side panel            | Bottom sheet (Vaul)                  |
+| Search        | Modal (centered)            | Full-screen overlay                  |
+| Filters       | Inline filter bar           | Bottom sheet with checkboxes         |
+| Actions       | Horizontal button bar       | Contextual action bar at bottom      |
+| Upload        | Drag zone                   | Tap to select from gallery           |
+| Notifications | Right panel slide-over      | Full-screen page                     |
+| Modals        | Centered dialog             | Bottom sheet                         |
 
 #### Mobile Gestures
 
-| Gesture | Action | Element |
-|---------|--------|---------|
-| Swipe left | Reveal actions (edit, delete) | Table rows |
-| Swipe right | Go back | Any detail page |
-| Pull down | Refresh data | Any data list |
-| Tap and hold | Context menu | Cards, list items |
-| Pinch | Zoom chart | Chart widgets |
-| Long press | Select multiple | Table rows |
+| Gesture      | Action                        | Element           |
+| ------------ | ----------------------------- | ----------------- |
+| Swipe left   | Reveal actions (edit, delete) | Table rows        |
+| Swipe right  | Go back                       | Any detail page   |
+| Pull down    | Refresh data                  | Any data list     |
+| Tap and hold | Context menu                  | Cards, list items |
+| Pinch        | Zoom chart                    | Chart widgets     |
+| Long press   | Select multiple               | Table rows        |
 
 ### 9.6 Touch Optimization
 
-| Target | Minimum Size | Spacing | Visual Feedback |
-|--------|-------------|---------|-----------------|
-| Buttons | 44x44px | 8px between | Ripple/bounce on tap |
-| Table rows | 48px height | 4px between | Highlight on tap |
-| Filter chips | 36px height | 8px between | Scale on selection |
-| Tab bar items | Full width/5 | 0px | Active indicator |
-| Toggle switches | 40x24px | 12px label gap | Smooth transition |
-| Slider handles | 44x44px | N/A | Scale on drag |
-
+| Target          | Minimum Size | Spacing        | Visual Feedback      |
+| --------------- | ------------ | -------------- | -------------------- |
+| Buttons         | 44x44px      | 8px between    | Ripple/bounce on tap |
+| Table rows      | 48px height  | 4px between    | Highlight on tap     |
+| Filter chips    | 36px height  | 8px between    | Scale on selection   |
+| Tab bar items   | Full width/5 | 0px            | Active indicator     |
+| Toggle switches | 40x24px      | 12px label gap | Smooth transition    |
+| Slider handles  | 44x44px      | N/A            | Scale on drag        |
 
 ---
 
@@ -2213,7 +2210,7 @@ interface AuditEntry {
 
 ### 10.7 SLA Dashboard
 
-```
+````
 +------------------------------------------------------------------+
 |  SERVICE LEVEL AGREEMENTS                              [Monthly] |
 +------------------------------------------------------------------+
@@ -2286,124 +2283,124 @@ interface IntegrationConfig {
   created_at: string;
   updated_at: string;
 }
-```
+````
 
 ### 11.4 Realtime Subscription Model
 
-| Subscription | Channel | Events | Client |
-|-------------|---------|--------|--------|
-| Section visibility | sections:is_live | UPDATE | Admin + Portfolio |
-| Lead updates | leads:* | INSERT, UPDATE | Admin only |
-| Availability | availability_status:* | INSERT, UPDATE | Admin + Portfolio |
-| Content changes | {content_table}:* | INSERT, UPDATE, DELETE | Admin + Portfolio |
-| System notifications | notifications:* | INSERT | Admin only |
+| Subscription         | Channel                | Events                 | Client            |
+| -------------------- | ---------------------- | ---------------------- | ----------------- |
+| Section visibility   | sections:is_live       | UPDATE                 | Admin + Portfolio |
+| Lead updates         | leads:\*               | INSERT, UPDATE         | Admin only        |
+| Availability         | availability_status:\* | INSERT, UPDATE         | Admin + Portfolio |
+| Content changes      | {content_table}:\*     | INSERT, UPDATE, DELETE | Admin + Portfolio |
+| System notifications | notifications:\*       | INSERT                 | Admin only        |
 
 ---
 
 ## 12. Cross-Document References
 
-| Reference | Description | Alignment |
-|-----------|-------------|-----------|
-| AdminDashboardArchitecture.md (v1.2) | Foundation -- widget specs, API, data flows | Extended |
-| ProductRequirements.md (19) | Admin Dashboard Requirements | Aligned |
-| 02-FEATURES.md (v3.0) | F-400 (Admin), F-600 (CMS) feature IDs | Aligned |
-| 03-USER-STORIES.md (v3.0) | E2-E5 Admin stories | Aligned |
-| UserFlows.md (8) | P7 Admin Journey | Extended |
-| DesignSystem.md (v5.0) | Admin-specific patterns (15) | Aligned |
-| DesignSystem.md (v5.0) | Admin component catalog | Referenced |
-| DesignSystemExtended.md | Extended design tokens | Aligned |
-| ComponentLibrary.md | Admin components | Aligned |
-| FrontendArchitecture.md | Admin frontend patterns | Aligned |
-| BackendArchitecture.md | NestJS admin module structure | Aligned |
-| 08f-DATABASE-IMPLEMENTATION.md | Admin DB schema | Aligned |
-| 08g-AI-ASSISTANT-ARCHITECTURE.md | AI agent architecture | Extended |
-| 08h-AI-ASSISTANT-IMPLEMENTATION.md | AI implementation details | Extended |
-| SystemArchitecture.md (v5.0) | System architecture - admin service | Aligned |
-| DatabaseArchitecture.md (v5.0) | Admin DB tables reference | Aligned |
-| 12-API.md (v5.0) | Admin endpoints | Aligned |
-| SecurityArchitecture.md (v5.0) | Security for admin | Aligned |
-| 15-AUTHORIZATION.md (v5.0) | JWT, RBAC, permission model | Aligned |
-| 16-COMPLIANCE.md (v5.0) | Compliance gates for admin | Extended (10.4) |
-| 18-AGENTS.md (v5.0) | Admin Agent AI specification | Extended (7) |
-| AnalyticsArchitecture.md (v5.0) | Analytics dashboard widgets | Extended (1.2, 3.3) |
-| 21-MONITORING.md (v5.0) | Monitoring dashboards | Extended (1.5, 3.6) |
-| 22-OBSERVABILITY.md (v5.0) | Admin observability metrics | Extended (10.5) |
-| 34-IMPLEMENTATION_PLAN.md (v5.0) | Phase 9: Admin Dashboard (12 days) | Referenced |
-| ErrorHandling.md (v1.0) | Admin error codes | Aligned |
-| 46-EVENT-ARCHITECTURE.md (v5.0) | Admin audit events | Extended (5.3) |
-| 54-INFRASTRUCTURE.md (v1.0) | Admin deployment topology | Referenced |
+| Reference                            | Description                                 | Alignment           |
+| ------------------------------------ | ------------------------------------------- | ------------------- |
+| AdminDashboardArchitecture.md (v1.2) | Foundation -- widget specs, API, data flows | Extended            |
+| ProductRequirements.md (19)          | Admin Dashboard Requirements                | Aligned             |
+| 02-FEATURES.md (v3.0)                | F-400 (Admin), F-600 (CMS) feature IDs      | Aligned             |
+| 03-USER-STORIES.md (v3.0)            | E2-E5 Admin stories                         | Aligned             |
+| UserFlows.md (8)                     | P7 Admin Journey                            | Extended            |
+| DesignSystem.md (v5.0)               | Admin-specific patterns (15)                | Aligned             |
+| DesignSystem.md (v5.0)               | Admin component catalog                     | Referenced          |
+| DesignSystemExtended.md              | Extended design tokens                      | Aligned             |
+| ComponentLibrary.md                  | Admin components                            | Aligned             |
+| FrontendArchitecture.md              | Admin frontend patterns                     | Aligned             |
+| BackendArchitecture.md               | NestJS admin module structure               | Aligned             |
+| 08f-DATABASE-IMPLEMENTATION.md       | Admin DB schema                             | Aligned             |
+| 08g-AI-ASSISTANT-ARCHITECTURE.md     | AI agent architecture                       | Extended            |
+| 08h-AI-ASSISTANT-IMPLEMENTATION.md   | AI implementation details                   | Extended            |
+| SystemArchitecture.md (v5.0)         | System architecture - admin service         | Aligned             |
+| DatabaseArchitecture.md (v5.0)       | Admin DB tables reference                   | Aligned             |
+| 12-API.md (v5.0)                     | Admin endpoints                             | Aligned             |
+| SecurityArchitecture.md (v5.0)       | Security for admin                          | Aligned             |
+| 15-AUTHORIZATION.md (v5.0)           | JWT, RBAC, permission model                 | Aligned             |
+| 16-COMPLIANCE.md (v5.0)              | Compliance gates for admin                  | Extended (10.4)     |
+| 18-AGENTS.md (v5.0)                  | Admin Agent AI specification                | Extended (7)        |
+| AnalyticsArchitecture.md (v5.0)      | Analytics dashboard widgets                 | Extended (1.2, 3.3) |
+| 21-MONITORING.md (v5.0)              | Monitoring dashboards                       | Extended (1.5, 3.6) |
+| 22-OBSERVABILITY.md (v5.0)           | Admin observability metrics                 | Extended (10.5)     |
+| 34-IMPLEMENTATION_PLAN.md (v5.0)     | Phase 9: Admin Dashboard (12 days)          | Referenced          |
+| ErrorHandling.md (v1.0)              | Admin error codes                           | Aligned             |
+| 46-EVENT-ARCHITECTURE.md (v5.0)      | Admin audit events                          | Extended (5.3)      |
+| 54-INFRASTRUCTURE.md (v1.0)          | Admin deployment topology                   | Referenced          |
 
 ---
 
 ## Appendix A: Response Time Goals
 
-| Dashboard | First Load | Subsequent | Data Refresh |
-|-----------|------------|------------|--------------|
-| Overview | <2s | <500ms | 30s (stats), 5s (realtime) |
-| Analytics | <2.5s | <800ms | Manual (date change) |
-| Leads | <1.5s | <300ms | 10s (auto-refresh) |
-| CMS | <1.5s | <200ms | On save |
-| Monitoring | <2s | <500ms | 30s (auto-refresh) |
-| Settings | <1s | <200ms | On save |
-| Permissions | <1.5s | <300ms | On change |
-| Audit | <2s | <500ms | Manual (filter change) |
-| Notifications | <1s | <100ms | Realtime (instant) |
+| Dashboard     | First Load | Subsequent | Data Refresh               |
+| ------------- | ---------- | ---------- | -------------------------- |
+| Overview      | <2s        | <500ms     | 30s (stats), 5s (realtime) |
+| Analytics     | <2.5s      | <800ms     | Manual (date change)       |
+| Leads         | <1.5s      | <300ms     | 10s (auto-refresh)         |
+| CMS           | <1.5s      | <200ms     | On save                    |
+| Monitoring    | <2s        | <500ms     | 30s (auto-refresh)         |
+| Settings      | <1s        | <200ms     | On save                    |
+| Permissions   | <1.5s      | <300ms     | On change                  |
+| Audit         | <2s        | <500ms     | Manual (filter change)     |
+| Notifications | <1s        | <100ms     | Realtime (instant)         |
 
 ## Appendix B: New Component Inventory
 
-| File Path | Purpose | Section |
-|-----------|---------|---------|
-| src/components/admin/AIAssistantPanel.tsx | AI assistant floating panel | 7.1 |
-| src/components/admin/AILeadScoring.tsx | Lead score display | 7.3 |
-| src/components/admin/NotificationFeed.tsx | Notification feed with realtime | 5 |
-| src/components/admin/NotificationToast.tsx | Toast notification component | 5 |
-| src/components/admin/GlobalSearch.tsx | Command palette search | 6 |
-| src/components/admin/SearchResults.tsx | Grouped search results | 6 |
-| src/components/admin/ActivityFeed.tsx | Real-time activity timeline | 8.3 |
-| src/components/admin/CommentsThread.tsx | Internal notes on resources | 8.2 |
-| src/components/admin/SharePreview.tsx | Preview link generation | 8.1 |
-| src/components/admin/BottomTabBar.tsx | Mobile bottom navigation | 9.5 |
-| src/components/admin/MobileActionBar.tsx | Contextual action bar (mobile) | 9.5 |
-| src/components/admin/BottomSheet.tsx | Mobile bottom sheet (Vaul) | 9.5 |
-| src/components/admin/OnboardingWizard.tsx | First-time setup wizard | 4.1 |
-| src/components/admin/ContentWizard.tsx | Content creation wizard | 4.2 |
-| src/components/admin/AuditDetailPanel.tsx | Audit entry detail slide-over | 10.1 |
-| src/components/admin/SystemStatusCards.tsx | Service health indicators | 10.2 |
-| src/components/admin/LogsViewer.tsx | Centralized log viewer | 10.3 |
-| src/components/admin/ComplianceDashboard.tsx | Compliance gate status | 10.4 |
-| src/components/admin/CostManager.tsx | Cost tracking dashboard | 10.6 |
-| src/components/admin/SLADashboard.tsx | SLO compliance display | 10.7 |
-| src/hooks/useGlobalSearch.ts | Search index + query hook | 6 |
-| src/hooks/useNotificationPrefs.ts | Notification preferences hook | 5.4 |
-| src/hooks/useActivityFeed.ts | Activity feed subscription hook | 8.3 |
-| src/hooks/useAiAssistant.ts | AI assistant session hook | 7.1 |
-| src/hooks/useResponsive.ts | Breakpoint detection hook | 9 |
+| File Path                                    | Purpose                         | Section |
+| -------------------------------------------- | ------------------------------- | ------- |
+| src/components/admin/AIAssistantPanel.tsx    | AI assistant floating panel     | 7.1     |
+| src/components/admin/AILeadScoring.tsx       | Lead score display              | 7.3     |
+| src/components/admin/NotificationFeed.tsx    | Notification feed with realtime | 5       |
+| src/components/admin/NotificationToast.tsx   | Toast notification component    | 5       |
+| src/components/admin/GlobalSearch.tsx        | Command palette search          | 6       |
+| src/components/admin/SearchResults.tsx       | Grouped search results          | 6       |
+| src/components/admin/ActivityFeed.tsx        | Real-time activity timeline     | 8.3     |
+| src/components/admin/CommentsThread.tsx      | Internal notes on resources     | 8.2     |
+| src/components/admin/SharePreview.tsx        | Preview link generation         | 8.1     |
+| src/components/admin/BottomTabBar.tsx        | Mobile bottom navigation        | 9.5     |
+| src/components/admin/MobileActionBar.tsx     | Contextual action bar (mobile)  | 9.5     |
+| src/components/admin/BottomSheet.tsx         | Mobile bottom sheet (Vaul)      | 9.5     |
+| src/components/admin/OnboardingWizard.tsx    | First-time setup wizard         | 4.1     |
+| src/components/admin/ContentWizard.tsx       | Content creation wizard         | 4.2     |
+| src/components/admin/AuditDetailPanel.tsx    | Audit entry detail slide-over   | 10.1    |
+| src/components/admin/SystemStatusCards.tsx   | Service health indicators       | 10.2    |
+| src/components/admin/LogsViewer.tsx          | Centralized log viewer          | 10.3    |
+| src/components/admin/ComplianceDashboard.tsx | Compliance gate status          | 10.4    |
+| src/components/admin/CostManager.tsx         | Cost tracking dashboard         | 10.6    |
+| src/components/admin/SLADashboard.tsx        | SLO compliance display          | 10.7    |
+| src/hooks/useGlobalSearch.ts                 | Search index + query hook       | 6       |
+| src/hooks/useNotificationPrefs.ts            | Notification preferences hook   | 5.4     |
+| src/hooks/useActivityFeed.ts                 | Activity feed subscription hook | 8.3     |
+| src/hooks/useAiAssistant.ts                  | AI assistant session hook       | 7.1     |
+| src/hooks/useResponsive.ts                   | Breakpoint detection hook       | 9       |
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **Experience Layer** | Product-level specification layer that sits on top of technical architecture docs — defines user flows, states, behaviors, and interactions rather than APIs, schemas, or data flows |
-| **Slide-over Panel** | UI pattern where a detail panel slides in from the right side, overlaying the current page partially while keeping context visible behind it |
-| **Command Palette** | ⌘K-triggered fuzzy-search overlay that lets users type to find and execute actions across all modules without mouse navigation |
-| **Realtime Subscription** | Supabase feature that pushes database changes to connected clients via WebSocket; used for instant notification delivery and live data updates |
-| **SLO** | Service Level Objective — target metric for system reliability (e.g., 99.5% uptime, <2s p95 latency); tracked per service in the monitoring dashboard |
-| **CWV** | Core Web Vitals — Google's set of real-world user experience metrics (LCP, CLS, INP) measuring loading, visual stability, and interactivity |
-| **ISR Revalidation** | Next.js Incremental Static Regeneration cache purge — triggered on admin content publish to update the public portfolio pages within seconds |
-| **KPI Cards** | Key Performance Indicator stat cards on the overview dashboard showing real-time metrics: visitors, leads, uptime, build status |
-| **Bulk Action Bar** | Contextual toolbar that appears when multiple rows are selected in a DataTable, offering batch operations (delete, archive, export, mark read) |
-| **Guardrail** | Behavioral constraint enforced by the AI agent — prevents unauthorized actions, requires confirmation for write operations, logs all mutations |
-| **Quiet Hours** | Configurable time range during which notification delivery is suppressed (e.g., 10pm–8am) to prevent alert fatigue |
-| **Fused Search** | Combined search across multiple indexes (navigation, sections, leads, content, settings, help) with deduplicated, scorable results grouped by category |
-| **Bento Grid** | Responsive grid layout pattern with irregular cell sizes used in the overview dashboard to display heterogeneous widgets (stats, charts, tables, badges) |
-| **Vaul** | vaul — React bottom sheet component library used for mobile admin drawer interactions; handles swipe-to-dismiss and dynamic height |
-| **3-Tier Permission Model** | Admin (full access), Editor (content + leads CRUD), Viewer (read-only) role hierarchy with per-resource permission granularity |
+| Term                        | Definition                                                                                                                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Experience Layer**        | Product-level specification layer that sits on top of technical architecture docs — defines user flows, states, behaviors, and interactions rather than APIs, schemas, or data flows |
+| **Slide-over Panel**        | UI pattern where a detail panel slides in from the right side, overlaying the current page partially while keeping context visible behind it                                         |
+| **Command Palette**         | ⌘K-triggered fuzzy-search overlay that lets users type to find and execute actions across all modules without mouse navigation                                                       |
+| **Realtime Subscription**   | Supabase feature that pushes database changes to connected clients via WebSocket; used for instant notification delivery and live data updates                                       |
+| **SLO**                     | Service Level Objective — target metric for system reliability (e.g., 99.5% uptime, <2s p95 latency); tracked per service in the monitoring dashboard                                |
+| **CWV**                     | Core Web Vitals — Google's set of real-world user experience metrics (LCP, CLS, INP) measuring loading, visual stability, and interactivity                                          |
+| **ISR Revalidation**        | Next.js Incremental Static Regeneration cache purge — triggered on admin content publish to update the public portfolio pages within seconds                                         |
+| **KPI Cards**               | Key Performance Indicator stat cards on the overview dashboard showing real-time metrics: visitors, leads, uptime, build status                                                      |
+| **Bulk Action Bar**         | Contextual toolbar that appears when multiple rows are selected in a DataTable, offering batch operations (delete, archive, export, mark read)                                       |
+| **Guardrail**               | Behavioral constraint enforced by the AI agent — prevents unauthorized actions, requires confirmation for write operations, logs all mutations                                       |
+| **Quiet Hours**             | Configurable time range during which notification delivery is suppressed (e.g., 10pm–8am) to prevent alert fatigue                                                                   |
+| **Fused Search**            | Combined search across multiple indexes (navigation, sections, leads, content, settings, help) with deduplicated, scorable results grouped by category                               |
+| **Bento Grid**              | Responsive grid layout pattern with irregular cell sizes used in the overview dashboard to display heterogeneous widgets (stats, charts, tables, badges)                             |
+| **Vaul**                    | vaul — React bottom sheet component library used for mobile admin drawer interactions; handles swipe-to-dismiss and dynamic height                                                   |
+| **3-Tier Permission Model** | Admin (full access), Editor (content + leads CRUD), Viewer (read-only) role hierarchy with per-resource permission granularity                                                       |
 
 ## Appendix C: Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| **1.1** | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), updated version header | Chief Architect |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Author          |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
+| **1.1** | Jun 2026 | Added Executive Summary, Decision Log (5 entries), Risk Register (5 entries), Glossary (15 terms), updated version header                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Chief Architect |
 | **1.0** | Jun 2026 | **Enterprise Experience Layer** -- New document adding product experience layer on top of existing AdminDashboardArchitecture.md. 12 sections: User Flows (11 dashboard modules), Feature Flows (8 features with step-by-step), UI States (6-state taxonomy across 9 dashboards), Multi-Step Experiences (6 wizards), Notification System (65 event catalog across 7 categories), Search Experience (6-index architecture), AI Agent Experiences (7 capabilities including scoring/summaries), Collaboration Features (sharing, comments, activity feed, multi-user model), Responsive Behavior (3 breakpoints with mobile patterns), Enterprise Screens (7 screens: audit, system status, logs, compliance, health, cost, SLA), Integration Architecture (10 services), Cross-Doc References (28 references). 25 new component files specified. | Chief Architect |
 
 ---
@@ -2417,6 +2414,6 @@ interface IntegrationConfig {
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | Initial enterprise-grade admin dashboard architecture | Chief Architect |
+| Version | Date     | Changes                                               | Author          |
+| ------- | -------- | ----------------------------------------------------- | --------------- |
+| 1.0     | Jun 2026 | Initial enterprise-grade admin dashboard architecture | Chief Architect |

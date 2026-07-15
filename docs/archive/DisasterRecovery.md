@@ -33,16 +33,16 @@ The portfolio platform achieves **enterprise-grade business continuity** through
 
 ### 1.2 Key Metrics
 
-| Metric | Target | Measurement Method |
-|--------|--------|-------------------|
-| Recovery Time Objective (RTO) | ≤ 1 hour | Timed drill (annual full) |
-| Recovery Point Objective (RPO) | ≤ 5 minutes | WAL lag monitoring |
-| Database backup frequency | Every 24 hours | Supabase backup schedule |
-| Database PITR capability | 7-day window | pg_dump + WAL archives |
-| DNS failover time | ≤ 5 minutes | Cloudflare TTL (120s) + health checks |
-| Service availability SLA | 99.9% (composite) | Better Uptime monitoring |
-| DR test completion rate | 100% per schedule | Quarterly attestation |
-| Recovery success rate | 100% | Post-recovery verification |
+| Metric                         | Target            | Measurement Method                    |
+| ------------------------------ | ----------------- | ------------------------------------- |
+| Recovery Time Objective (RTO)  | ≤ 1 hour          | Timed drill (annual full)             |
+| Recovery Point Objective (RPO) | ≤ 5 minutes       | WAL lag monitoring                    |
+| Database backup frequency      | Every 24 hours    | Supabase backup schedule              |
+| Database PITR capability       | 7-day window      | pg_dump + WAL archives                |
+| DNS failover time              | ≤ 5 minutes       | Cloudflare TTL (120s) + health checks |
+| Service availability SLA       | 99.9% (composite) | Better Uptime monitoring              |
+| DR test completion rate        | 100% per schedule | Quarterly attestation                 |
+| Recovery success rate          | 100%              | Post-recovery verification            |
 
 ### 1.3 Platform Architecture Overview
 
@@ -109,11 +109,11 @@ sequenceDiagram
 
     Monitor->>DevOps: ALERT: Service Down (P0/P1)
     DevOps->>DevOps: 1. Assess Severity (within 2 min)
-    
+
     alt Tier P0: Complete Outage
         DevOps->>Cloudflare: 2. Enable Maintenance Page
         DevOps->>DevOps: 3. Determine Root Cause
-        
+
         alt Database Issue
             DevOps->>Supabase: 4a. Check PITR Backup
             Supabase-->>DevOps: Restore to Latest Safe Point
@@ -125,7 +125,7 @@ sequenceDiagram
             DevOps->>Railway: 5b. Trigger Rollback Deploy
             Railway-->>DevOps: Rollback Complete
         end
-        
+
         DevOps->>Cloudflare: 6. Disable Maintenance Page
         Cloudflare-->>DevOps: Maintenance Removed
     else Tier P1: Partial Outage
@@ -146,36 +146,36 @@ sequenceDiagram
 
 ### 2.1 RTO & RPO by Service
 
-| Service | RTO Target | RPO Target | Business Impact if Exceeded |
-|---------|-----------|------------|-----------------------------|
-| **DNS (Cloudflare)** | 5 minutes | Immediate | Site unreachable globally |
-| **Frontend (Vercel Next.js)** | 30 minutes | < 1 hour | Visitors see stale/error page |
-| **API (Vercel NestJS)** | 30 minutes | < 5 minutes | Admin & lead features down |
-| **Database (Supabase PostgreSQL)** | 1 hour | 5 minutes | Data loss up to RPO window |
-| **AI Service (Railway FastAPI)** | 2 hours | < 1 hour | AI assistant unavailable |
-| **CDN Cache (Cloudflare)** | 15 minutes | Immediate | Slow load times / stale cache |
-| **Email (Resend)** | 4 hours | N/A | Lead notifications delayed |
-| **Analytics (PostHog)** | 4 hours | N/A | Dashboard data gap |
+| Service                            | RTO Target | RPO Target  | Business Impact if Exceeded   |
+| ---------------------------------- | ---------- | ----------- | ----------------------------- |
+| **DNS (Cloudflare)**               | 5 minutes  | Immediate   | Site unreachable globally     |
+| **Frontend (Vercel Next.js)**      | 30 minutes | < 1 hour    | Visitors see stale/error page |
+| **API (Vercel NestJS)**            | 30 minutes | < 5 minutes | Admin & lead features down    |
+| **Database (Supabase PostgreSQL)** | 1 hour     | 5 minutes   | Data loss up to RPO window    |
+| **AI Service (Railway FastAPI)**   | 2 hours    | < 1 hour    | AI assistant unavailable      |
+| **CDN Cache (Cloudflare)**         | 15 minutes | Immediate   | Slow load times / stale cache |
+| **Email (Resend)**                 | 4 hours    | N/A         | Lead notifications delayed    |
+| **Analytics (PostHog)**            | 4 hours    | N/A         | Dashboard data gap            |
 
 ### 2.2 Composite RTO Calculation
 
-| Dependency Chain | Individual RTOs | Composite RTO | Risk |
-|-----------------|----------------|---------------|------|
-| User → DNS → Vercel → Supabase | 5min + 30min + 1h | **1h 5min** | 🟡 Ensure DB is first priority |
-| User → DNS → Vercel → Railway | 5min + 30min + 2h | **2h 35min** | 🟢 AI is non-critical |
-| Admin → DNS → Vercel → Supabase | 5min + 30min + 1h | **1h 5min** | 🟡 Same as main path |
+| Dependency Chain                | Individual RTOs   | Composite RTO | Risk                           |
+| ------------------------------- | ----------------- | ------------- | ------------------------------ |
+| User → DNS → Vercel → Supabase  | 5min + 30min + 1h | **1h 5min**   | 🟡 Ensure DB is first priority |
+| User → DNS → Vercel → Railway   | 5min + 30min + 2h | **2h 35min**  | 🟢 AI is non-critical          |
+| Admin → DNS → Vercel → Supabase | 5min + 30min + 1h | **1h 5min**   | 🟡 Same as main path           |
 
 ### 2.3 Recovery Priority Matrix
 
-| Priority | Service | Recovery Order | Rationale |
-|----------|---------|---------------|-----------|
-| P1 | Cloudflare DNS | 1st | Foundation — all other services unreachable without DNS |
-| P1 | Supabase Database | 2nd | Persistent state — all apps depend on it |
-| P1 | Vercel (Frontend + API) | 3rd | Business logic + user-facing |
-| P2 | Railway (AI Service) | 4th | Non-critical feature, isolated service |
-| P3 | Resend (Email) | 5th | Async notification, can be delayed |
-| P3 | PostHog (Analytics) | 6th | Observability only, no user impact |
-| P3 | Sentry (Error Tracking) | 7th | Monitoring only, restore last |
+| Priority | Service                 | Recovery Order | Rationale                                               |
+| -------- | ----------------------- | -------------- | ------------------------------------------------------- |
+| P1       | Cloudflare DNS          | 1st            | Foundation — all other services unreachable without DNS |
+| P1       | Supabase Database       | 2nd            | Persistent state — all apps depend on it                |
+| P1       | Vercel (Frontend + API) | 3rd            | Business logic + user-facing                            |
+| P2       | Railway (AI Service)    | 4th            | Non-critical feature, isolated service                  |
+| P3       | Resend (Email)          | 5th            | Async notification, can be delayed                      |
+| P3       | PostHog (Analytics)     | 6th            | Observability only, no user impact                      |
+| P3       | Sentry (Error Tracking) | 7th            | Monitoring only, restore last                           |
 
 ---
 
@@ -183,46 +183,46 @@ sequenceDiagram
 
 ### 3.1 Severity Tier Definitions
 
-| Tier | Name | Definition | Response Time | RTO Target | Example |
-|------|------|-----------|---------------|------------|---------|
-| **P0** | 🔴 Critical | Complete platform outage / data loss | < 5 minutes | < 1 hour | Database corrupt, all services down |
-| **P1** | 🟡 High | Single service outage / partial data loss | < 15 minutes | < 2 hours | Vercel down, Railway down, DB degraded |
-| **P2** | 🟢 Medium | Non-critical service degraded | < 1 hour | < 4 hours | AI slow, email delayed, analytics stale |
-| **P3** | ⚪ Low | Cosmetic / performance degradation | < 4 hours | < 24 hours | Cache miss rate high, image load slow |
+| Tier   | Name        | Definition                                | Response Time | RTO Target | Example                                 |
+| ------ | ----------- | ----------------------------------------- | ------------- | ---------- | --------------------------------------- |
+| **P0** | 🔴 Critical | Complete platform outage / data loss      | < 5 minutes   | < 1 hour   | Database corrupt, all services down     |
+| **P1** | 🟡 High     | Single service outage / partial data loss | < 15 minutes  | < 2 hours  | Vercel down, Railway down, DB degraded  |
+| **P2** | 🟢 Medium   | Non-critical service degraded             | < 1 hour      | < 4 hours  | AI slow, email delayed, analytics stale |
+| **P3** | ⚪ Low      | Cosmetic / performance degradation        | < 4 hours     | < 24 hours | Cache miss rate high, image load slow   |
 
 ### 3.2 Disaster Scenario Catalog
 
-| ID | Scenario | Tier | Affected Services | Impact | Recovery Approach |
-|----|----------|------|------------------|--------|-------------------|
-| DR-001 | **Database corruption** (schema corruption, data loss) | P0 | Supabase (all dependents) | Complete platform outage — all reads/writes fail | PITR restore from pre-corruption WAL point |
-| DR-002 | **Database hardware failure** (disk failure, region outage) | P0 | Supabase (all dependents) | Complete platform outage — DB unreachable | Supabase automated failover (if HA) + PITR |
-| DR-003 | **Vercel platform outage** (deployment failure, region down) | P1 | Vercel (FE + API) | Site unreachable or failing | Rollback to last known-good deploy or DNS swap |
-| DR-004 | **Railway container crash** (OOM, app crash, deploy failure) | P1 | Railway (AI Service) | AI assistant unavailable | Railway redeploy or rollback via git |
-| DR-005 | **Cloudflare DNS misconfiguration** (accidental zone deletion, DNSSEC error) | P1 | Cloudflare (all services) | All domains unresolvable | Restore DNS zone from export, validate DNSSEC |
-| DR-006 | **Credential compromise** (API key leak, secret rotation gone wrong) | P1 | All services | Unauthorized access, service auth failures | Revoke + rotate all credentials, verify connectivity |
-| DR-007 | **Deployment failure** (broken code push, migration error) | P1 | Vercel + Railway | New features broken, potential data issues | Rollback to previous version, fix forward |
-| DR-008 | **DDoS attack** (L3/L4/L7 volumetric attack) | P1 | Vercel + Cloudflare | Slow performance, potential downtime | Enable Cloudflare "Under Attack" mode + WAF rules |
-| DR-009 | **SSL certificate expiry** (auto-renewal failure) | P2 | Cloudflare + Vercel | TLS warnings, potential browsers block | Renew certificate via Cloudflare or Let's Encrypt |
-| DR-010 | **Third-party API dependency failure** (OpenAI, Resend down) | P2 | Railway (AI), Vercel (Email) | AI or email features degraded | Graceful degradation — feature flag off |
-| DR-011 | **Storage bucket misconfiguration** (RLS policy broken, bucket public) | P2 | Supabase Storage | Potential data exposure | Restore RLS policy from backup, verify access |
-| DR-012 | **CDN cache poisoning** (stale aggressive cache) | P3 | Cloudflare CDN | Users see stale content | Purge entire Cloudflare cache via API |
+| ID     | Scenario                                                                     | Tier | Affected Services            | Impact                                           | Recovery Approach                                    |
+| ------ | ---------------------------------------------------------------------------- | ---- | ---------------------------- | ------------------------------------------------ | ---------------------------------------------------- |
+| DR-001 | **Database corruption** (schema corruption, data loss)                       | P0   | Supabase (all dependents)    | Complete platform outage — all reads/writes fail | PITR restore from pre-corruption WAL point           |
+| DR-002 | **Database hardware failure** (disk failure, region outage)                  | P0   | Supabase (all dependents)    | Complete platform outage — DB unreachable        | Supabase automated failover (if HA) + PITR           |
+| DR-003 | **Vercel platform outage** (deployment failure, region down)                 | P1   | Vercel (FE + API)            | Site unreachable or failing                      | Rollback to last known-good deploy or DNS swap       |
+| DR-004 | **Railway container crash** (OOM, app crash, deploy failure)                 | P1   | Railway (AI Service)         | AI assistant unavailable                         | Railway redeploy or rollback via git                 |
+| DR-005 | **Cloudflare DNS misconfiguration** (accidental zone deletion, DNSSEC error) | P1   | Cloudflare (all services)    | All domains unresolvable                         | Restore DNS zone from export, validate DNSSEC        |
+| DR-006 | **Credential compromise** (API key leak, secret rotation gone wrong)         | P1   | All services                 | Unauthorized access, service auth failures       | Revoke + rotate all credentials, verify connectivity |
+| DR-007 | **Deployment failure** (broken code push, migration error)                   | P1   | Vercel + Railway             | New features broken, potential data issues       | Rollback to previous version, fix forward            |
+| DR-008 | **DDoS attack** (L3/L4/L7 volumetric attack)                                 | P1   | Vercel + Cloudflare          | Slow performance, potential downtime             | Enable Cloudflare "Under Attack" mode + WAF rules    |
+| DR-009 | **SSL certificate expiry** (auto-renewal failure)                            | P2   | Cloudflare + Vercel          | TLS warnings, potential browsers block           | Renew certificate via Cloudflare or Let's Encrypt    |
+| DR-010 | **Third-party API dependency failure** (OpenAI, Resend down)                 | P2   | Railway (AI), Vercel (Email) | AI or email features degraded                    | Graceful degradation — feature flag off              |
+| DR-011 | **Storage bucket misconfiguration** (RLS policy broken, bucket public)       | P2   | Supabase Storage             | Potential data exposure                          | Restore RLS policy from backup, verify access        |
+| DR-012 | **CDN cache poisoning** (stale aggressive cache)                             | P3   | Cloudflare CDN               | Users see stale content                          | Purge entire Cloudflare cache via API                |
 
 ### 3.3 Scenario-Response Mapping
 
-| Scenario ID | Detection Method | Owner | Max RTO | Recovery Procedure |
-|-------------|-----------------|-------|---------|-------------------|
-| DR-001 | Better Uptime 500 + Sentry errors | DevOps Lead | 1h | RP-01 (PITR Restore) |
-| DR-002 | Better Uptime timeout + Supabase status | DevOps Lead | 1h | RP-01 (PITR Restore) |
-| DR-003 | Better Uptime timeout + Vercel status | DevOps Lead | 30min | RP-02 (Vercel Rollback) |
-| DR-004 | Better Uptime timeout + Railway dashboard | DevOps Lead | 2h | RP-03 (Railway Redeploy) |
-| DR-005 | Cloudflare notification + manual check | DevOps Lead | 15min | RP-04 (DNS Restore) |
-| DR-006 | Security monitoring alert | DevOps Lead | 30min | RP-05 (Credential Rotation) |
-| DR-007 | CI/CD failure + Sentry error spike | DevOps Lead | 30min | RP-02 (Vercel Rollback) |
-| DR-008 | Cloudflare DDoS alert | DevOps Lead | 15min | RP-06 (DDoS Mitigation) |
-| DR-009 | Better Uptime SSL expiry alert | DevOps Lead | 4h | RP-07 (SSL Renewal) |
-| DR-010 | Sentry API error spike | DevOps Lead | 4h | RP-08 (Graceful Degradation) |
-| DR-011 | Security audit alert | DevOps Lead | 1h | RP-09 (RLS Restore) |
-| DR-012 | User complaint + stale content observed | DevOps Lead | 1h | RP-10 (Cache Purge) |
+| Scenario ID | Detection Method                          | Owner       | Max RTO | Recovery Procedure           |
+| ----------- | ----------------------------------------- | ----------- | ------- | ---------------------------- |
+| DR-001      | Better Uptime 500 + Sentry errors         | DevOps Lead | 1h      | RP-01 (PITR Restore)         |
+| DR-002      | Better Uptime timeout + Supabase status   | DevOps Lead | 1h      | RP-01 (PITR Restore)         |
+| DR-003      | Better Uptime timeout + Vercel status     | DevOps Lead | 30min   | RP-02 (Vercel Rollback)      |
+| DR-004      | Better Uptime timeout + Railway dashboard | DevOps Lead | 2h      | RP-03 (Railway Redeploy)     |
+| DR-005      | Cloudflare notification + manual check    | DevOps Lead | 15min   | RP-04 (DNS Restore)          |
+| DR-006      | Security monitoring alert                 | DevOps Lead | 30min   | RP-05 (Credential Rotation)  |
+| DR-007      | CI/CD failure + Sentry error spike        | DevOps Lead | 30min   | RP-02 (Vercel Rollback)      |
+| DR-008      | Cloudflare DDoS alert                     | DevOps Lead | 15min   | RP-06 (DDoS Mitigation)      |
+| DR-009      | Better Uptime SSL expiry alert            | DevOps Lead | 4h      | RP-07 (SSL Renewal)          |
+| DR-010      | Sentry API error spike                    | DevOps Lead | 4h      | RP-08 (Graceful Degradation) |
+| DR-011      | Security audit alert                      | DevOps Lead | 1h      | RP-09 (RLS Restore)          |
+| DR-012      | User complaint + stale content observed   | DevOps Lead | 1h      | RP-10 (Cache Purge)          |
 
 ---
 
@@ -462,19 +462,19 @@ STEP 4: PROPAGATION MONITORING (20-30 minutes)
 
 ### 4.5 Recovery Procedures Summary
 
-| Procedure ID | Name | Max Duration | Automation Level | Owner |
-|-------------|------|-------------|-----------------|-------|
-| RP-01 | Database Recovery (PITR) | 60 min | Semi-automated (supabase CLI) | DevOps Lead |
-| RP-01b | Database Recovery (Full Backup) | 60 min | Manual (download + restore) | DevOps Lead |
-| RP-02 | Vercel Rollback | 30 min | Semi-automated (vercel CLI) | DevOps Lead |
-| RP-03 | Railway Redeploy | 20 min | Automated (git push) | DevOps Lead |
-| RP-04 | DNS Restore | 30 min | Semi-automated (terraform) | DevOps Lead |
-| RP-05 | Credential Rotation | 30 min | Manual (1Password + env vars) | DevOps Lead |
-| RP-06 | DDoS Mitigation | 15 min | Semi-automated (Cloudflare) | DevOps Lead |
-| RP-07 | SSL Renewal | 4 hours | Automated (Cloudflare) | DevOps Lead |
-| RP-08 | Graceful Degradation | 15 min | Manual (feature flags) | DevOps Lead |
-| RP-09 | RLS Policy Restore | 30 min | Manual (SQL scripts) | DevOps Lead |
-| RP-10 | Cache Purge | 15 min | Automated (CF API) | DevOps Lead |
+| Procedure ID | Name                            | Max Duration | Automation Level              | Owner       |
+| ------------ | ------------------------------- | ------------ | ----------------------------- | ----------- |
+| RP-01        | Database Recovery (PITR)        | 60 min       | Semi-automated (supabase CLI) | DevOps Lead |
+| RP-01b       | Database Recovery (Full Backup) | 60 min       | Manual (download + restore)   | DevOps Lead |
+| RP-02        | Vercel Rollback                 | 30 min       | Semi-automated (vercel CLI)   | DevOps Lead |
+| RP-03        | Railway Redeploy                | 20 min       | Automated (git push)          | DevOps Lead |
+| RP-04        | DNS Restore                     | 30 min       | Semi-automated (terraform)    | DevOps Lead |
+| RP-05        | Credential Rotation             | 30 min       | Manual (1Password + env vars) | DevOps Lead |
+| RP-06        | DDoS Mitigation                 | 15 min       | Semi-automated (Cloudflare)   | DevOps Lead |
+| RP-07        | SSL Renewal                     | 4 hours      | Automated (Cloudflare)        | DevOps Lead |
+| RP-08        | Graceful Degradation            | 15 min       | Manual (feature flags)        | DevOps Lead |
+| RP-09        | RLS Policy Restore              | 30 min       | Manual (SQL scripts)          | DevOps Lead |
+| RP-10        | Cache Purge                     | 15 min       | Automated (CF API)            | DevOps Lead |
 
 ---
 
@@ -482,16 +482,16 @@ STEP 4: PROPAGATION MONITORING (20-30 minutes)
 
 ### 5.1 Backup Inventory
 
-| Backup Type | Service | Frequency | Retention | Encryption | Recovery Method | RPO |
-|-------------|---------|-----------|-----------|------------|----------------|-----|
-| **Full Database** | Supabase PostgreSQL | Daily (03:00 UTC) | 30 days | AES-256 (S3 SSE-S3) | pg_dump -> S3 -> Restore | 24 hours |
-| **WAL Archives** | Supabase PostgreSQL | Continuous (every 5 min) | 7 days | AES-256 (S3 SSE-S3) | PITR from WAL logs | 5 minutes |
-| **Schema Dump** | Supabase PostgreSQL | On migration | Indefinite (git) | N/A (git stored) | supabase db pull | N/A |
-| **Application Code** | GitHub Repository | Every commit | Indefinite (git) | N/A (git stored) | git revert | Per commit |
-| **Deployment Config** | Vercel + Railway | On deploy | 90 days (platform) | Platform managed | Platform rollback | Per deploy |
-| **DNS Zone Export** | Cloudflare | Weekly | 12 months | AES-256 (local storage) | Cloudflare import | 7 days |
-| **Environment Variables** | All services | Quarterly | 12 months | AES-256 (1Password) | Manual re-entry | 90 days |
-| **Supabase Storage** | Supabase Object Storage | Daily sync | 14 days | AES-256 (S3 SSE-S3) | rsync restore | 24 hours |
+| Backup Type               | Service                 | Frequency                | Retention          | Encryption              | Recovery Method          | RPO        |
+| ------------------------- | ----------------------- | ------------------------ | ------------------ | ----------------------- | ------------------------ | ---------- |
+| **Full Database**         | Supabase PostgreSQL     | Daily (03:00 UTC)        | 30 days            | AES-256 (S3 SSE-S3)     | pg_dump -> S3 -> Restore | 24 hours   |
+| **WAL Archives**          | Supabase PostgreSQL     | Continuous (every 5 min) | 7 days             | AES-256 (S3 SSE-S3)     | PITR from WAL logs       | 5 minutes  |
+| **Schema Dump**           | Supabase PostgreSQL     | On migration             | Indefinite (git)   | N/A (git stored)        | supabase db pull         | N/A        |
+| **Application Code**      | GitHub Repository       | Every commit             | Indefinite (git)   | N/A (git stored)        | git revert               | Per commit |
+| **Deployment Config**     | Vercel + Railway        | On deploy                | 90 days (platform) | Platform managed        | Platform rollback        | Per deploy |
+| **DNS Zone Export**       | Cloudflare              | Weekly                   | 12 months          | AES-256 (local storage) | Cloudflare import        | 7 days     |
+| **Environment Variables** | All services            | Quarterly                | 12 months          | AES-256 (1Password)     | Manual re-entry          | 90 days    |
+| **Supabase Storage**      | Supabase Object Storage | Daily sync               | 14 days            | AES-256 (S3 SSE-S3)     | rsync restore            | 24 hours   |
 
 ### 5.2 Database Backup Implementation
 
@@ -542,14 +542,14 @@ echo "=== Backup Complete: $TIMESTAMP ==="
 
 ### 5.3 Backup Verification
 
-| Verification Step | Frequency | Method | Success Criteria |
-|------------------|-----------|--------|-----------------|
-| Database backup integrity | Daily (post-backup) | Verify checksum + test restore on staging | Checksum matches, staging DB loads |
-| PITR capability | Weekly | Run supabase db restore --dry-run | Dry run reports valid WAL range |
-| S3 backup accessibility | Weekly | aws s3 ls s3://portfolio-backups/supabase/prod/ | Latest backup exists |
-| Encryption verification | Monthly | Decrypt test file with passphrase | Decryption succeeds |
-| Storage backup integrity | Monthly | Restore to temporary bucket, verify files | All files present and readable |
-| Full DR test | Annually | Complete failover and restore | RTO 1h, RPO 5min satisfied |
+| Verification Step         | Frequency           | Method                                          | Success Criteria                   |
+| ------------------------- | ------------------- | ----------------------------------------------- | ---------------------------------- |
+| Database backup integrity | Daily (post-backup) | Verify checksum + test restore on staging       | Checksum matches, staging DB loads |
+| PITR capability           | Weekly              | Run supabase db restore --dry-run               | Dry run reports valid WAL range    |
+| S3 backup accessibility   | Weekly              | aws s3 ls s3://portfolio-backups/supabase/prod/ | Latest backup exists               |
+| Encryption verification   | Monthly             | Decrypt test file with passphrase               | Decryption succeeds                |
+| Storage backup integrity  | Monthly             | Restore to temporary bucket, verify files       | All files present and readable     |
+| Full DR test              | Annually            | Complete failover and restore                   | RTO 1h, RPO 5min satisfied         |
 
 ### 5.4 Backup Retention Policy
 
@@ -579,13 +579,13 @@ Deletion policy:
 
 ### 6.1 Failover Strategy Matrix
 
-| Service | Failover Mechanism | Target Environment | Activation Trigger | Fallback |
-|---------|-------------------|-------------------|-------------------|----------|
-| **Cloudflare DNS** | Multi-region health checks + load balancing | Remaining live origins | Health check failure (3 consecutive) | Automatic re-route |
-| **Vercel Frontend** | Deploy to alternative Vercel team/project | Secondary Vercel project | Manual decision by DevOps Lead | Redeploy + DNS update |
-| **Supabase Database** | PITR to same project or new Supabase project | Same Supabase project | DB corruption or region failure | Restore + reconnect |
-| **Railway AI Service** | Redeploy to alternative Railway project | Secondary Railway project | Container crash or region failure | Git push + env update |
-| **Static Assets** | Cloudflare cache + CDN | Cloudflare edge | Origin unavailability | Serve from cache (Always Online) |
+| Service                | Failover Mechanism                           | Target Environment        | Activation Trigger                   | Fallback                         |
+| ---------------------- | -------------------------------------------- | ------------------------- | ------------------------------------ | -------------------------------- |
+| **Cloudflare DNS**     | Multi-region health checks + load balancing  | Remaining live origins    | Health check failure (3 consecutive) | Automatic re-route               |
+| **Vercel Frontend**    | Deploy to alternative Vercel team/project    | Secondary Vercel project  | Manual decision by DevOps Lead       | Redeploy + DNS update            |
+| **Supabase Database**  | PITR to same project or new Supabase project | Same Supabase project     | DB corruption or region failure      | Restore + reconnect              |
+| **Railway AI Service** | Redeploy to alternative Railway project      | Secondary Railway project | Container crash or region failure    | Git push + env update            |
+| **Static Assets**      | Cloudflare cache + CDN                       | Cloudflare edge           | Origin unavailability                | Serve from cache (Always Online) |
 
 ### 6.2 DNS Failover Configuration
 
@@ -623,13 +623,13 @@ Load Balancing (if using Cloudflare LB):
 
 ### 6.3 Graceful Degradation Paths
 
-| Degraded Service | User Impact | Fallback Behavior | Feature Flag |
-|-----------------|-------------|-------------------|-------------|
-| **Database unavailable** | Cannot load dynamic content | Serve static ISR pages from cache, disable mutations | `db_read_only_mode` |
-| **AI Service down** | AI chat unresponsive | Hide AI chat button, show offline message | `ai_enabled` |
-| **Email (Resend) unavailable** | Lead notifications delayed | Queue leads locally, send when service resumes | `email_enabled` |
-| **Analytics (PostHog) down** | Analytics data gap | Suppress client-side errors | `analytics_enabled` |
-| **Sentry unavailable** | Error tracking gap | Graceful fallback (console.error) | `sentry_enabled` |
+| Degraded Service               | User Impact                 | Fallback Behavior                                    | Feature Flag        |
+| ------------------------------ | --------------------------- | ---------------------------------------------------- | ------------------- |
+| **Database unavailable**       | Cannot load dynamic content | Serve static ISR pages from cache, disable mutations | `db_read_only_mode` |
+| **AI Service down**            | AI chat unresponsive        | Hide AI chat button, show offline message            | `ai_enabled`        |
+| **Email (Resend) unavailable** | Lead notifications delayed  | Queue leads locally, send when service resumes       | `email_enabled`     |
+| **Analytics (PostHog) down**   | Analytics data gap          | Suppress client-side errors                          | `analytics_enabled` |
+| **Sentry unavailable**         | Error tracking gap          | Graceful fallback (console.error)                    | `sentry_enabled`    |
 
 ---
 
@@ -637,14 +637,14 @@ Load Balancing (if using Cloudflare LB):
 
 ### 7.1 Testing Cadence
 
-| Test Type | Frequency | Duration | Scope | Participants | Documentation |
-|-----------|-----------|----------|-------|--------------|---------------|
-| **Tabletop Exercise** | Quarterly | 1 hour | Walk through 2-3 scenarios verbally | DevOps Lead + Owner | `docs/dr/YYYY-QN-tabletop.md` |
-| **PITR Restore Drill** | Quarterly | 2 hours | Restore staging DB from latest backup | DevOps Lead | `docs/dr/YYYY-MM-pitr-drill.md` |
-| **DNS Failover Drill** | Semi-annual | 1 hour | Simulate DNS record failure, test recovery | DevOps Lead | `docs/dr/YYYY-MM-dns-drill.md` |
-| **Vercel Rollback Drill** | Semi-annual | 1 hour | Rollback staging deploy, verify functionality | DevOps Lead | `docs/dr/YYYY-MM-rollback-drill.md` |
-| **Credential Rotation Drill** | Semi-annual | 1 hour | Full rotation of all secrets, verify connectivity | DevOps Lead | `docs/dr/YYYY-MM-rotation-drill.md` |
-| **Full DR Drill** | Annual | 4 hours | Complete failover of all services | DevOps Lead + Owner | `docs/dr/YYYY-full-dr-report.md` |
+| Test Type                     | Frequency   | Duration | Scope                                             | Participants        | Documentation                       |
+| ----------------------------- | ----------- | -------- | ------------------------------------------------- | ------------------- | ----------------------------------- |
+| **Tabletop Exercise**         | Quarterly   | 1 hour   | Walk through 2-3 scenarios verbally               | DevOps Lead + Owner | `docs/dr/YYYY-QN-tabletop.md`       |
+| **PITR Restore Drill**        | Quarterly   | 2 hours  | Restore staging DB from latest backup             | DevOps Lead         | `docs/dr/YYYY-MM-pitr-drill.md`     |
+| **DNS Failover Drill**        | Semi-annual | 1 hour   | Simulate DNS record failure, test recovery        | DevOps Lead         | `docs/dr/YYYY-MM-dns-drill.md`      |
+| **Vercel Rollback Drill**     | Semi-annual | 1 hour   | Rollback staging deploy, verify functionality     | DevOps Lead         | `docs/dr/YYYY-MM-rollback-drill.md` |
+| **Credential Rotation Drill** | Semi-annual | 1 hour   | Full rotation of all secrets, verify connectivity | DevOps Lead         | `docs/dr/YYYY-MM-rotation-drill.md` |
+| **Full DR Drill**             | Annual      | 4 hours  | Complete failover of all services                 | DevOps Lead + Owner | `docs/dr/YYYY-full-dr-report.md`    |
 
 ### 7.2 Quarterly Tabletop Exercise Plan
 
@@ -718,12 +718,12 @@ OUTPUT:
 
 ### 7.4 Test Results Tracking
 
-| Test Date | Test Type | Scenarios Tested | Measured RTO | Measured RPO | Pass/Fail | Gaps Found | Action Items |
-|-----------|-----------|-----------------|--------------|--------------|-----------|------------|--------------|
-| TBD | Initial DR establishment | N/A | N/A | N/A | Pending | N/A | Document creation |
-| Q3 2026 | Tabletop | DR-001, DR-003, DR-008 | N/A | N/A | - | - | - |
-| Q4 2026 | PITR Restore | DR-001 | - | - | - | - | - |
-| Q1 2027 | Full Drill | All P0/P1 | - | - | - | - | - |
+| Test Date | Test Type                | Scenarios Tested       | Measured RTO | Measured RPO | Pass/Fail | Gaps Found | Action Items      |
+| --------- | ------------------------ | ---------------------- | ------------ | ------------ | --------- | ---------- | ----------------- |
+| TBD       | Initial DR establishment | N/A                    | N/A          | N/A          | Pending   | N/A        | Document creation |
+| Q3 2026   | Tabletop                 | DR-001, DR-003, DR-008 | N/A          | N/A          | -         | -          | -                 |
+| Q4 2026   | PITR Restore             | DR-001                 | -            | -            | -         | -          | -                 |
+| Q1 2027   | Full Drill               | All P0/P1              | -            | -            | -         | -          | -                 |
 
 ---
 
@@ -907,12 +907,12 @@ EXPECTED DURATION: 1-4 hours
 
 ### 9.1 Communication Channels
 
-| Channel | Purpose | Audience | Priority Incidents | Normal Operations |
-|---------|---------|----------|-------------------|-------------------|
-| **Telegram (Direct)** | Emergency alert + coordination | DevOps Lead only | Primary | Status updates |
-| **Email** | Formal notification + documentation | Portfolio Owner | Secondary | Post-incident reports |
-| **Better Uptime** | Automated alerting | DevOps Lead + Owner | Automated | Monitoring |
-| **Status Page** | Public status (if needed) | All visitors | Future | Future |
+| Channel               | Purpose                             | Audience            | Priority Incidents | Normal Operations     |
+| --------------------- | ----------------------------------- | ------------------- | ------------------ | --------------------- |
+| **Telegram (Direct)** | Emergency alert + coordination      | DevOps Lead only    | Primary            | Status updates        |
+| **Email**             | Formal notification + documentation | Portfolio Owner     | Secondary          | Post-incident reports |
+| **Better Uptime**     | Automated alerting                  | DevOps Lead + Owner | Automated          | Monitoring            |
+| **Status Page**       | Public status (if needed)           | All visitors        | Future             | Future                |
 
 ### 9.2 Communication Templates
 
@@ -961,14 +961,14 @@ PREVENTIVE MEASURES: ${PREVENTION_STEPS}
 
 ### 9.3 Escalation Matrix
 
-| Role | Name | Contact Method | Response Time | Backup |
-|------|------|---------------|---------------|--------|
-| **DevOps Lead** | Portfolio Owner | Telegram (instant) | 5 minutes for P0 | N/A (sole operator) |
-| **Platform Support** | Vercel Support | support@vercel.com | 4 hours (free tier) | N/A |
-| **Platform Support** | Railway Support | support@railway.app | 4 hours (free tier) | N/A |
-| **Platform Support** | Supabase Support | support@supabase.com | 4 hours (free tier) | N/A |
-| **Platform Support** | Cloudflare Support | support@cloudflare.com | 4 hours (free tier) | Community forums |
-| **Incident Commander** | Portfolio Owner | - | - | - |
+| Role                   | Name               | Contact Method         | Response Time       | Backup              |
+| ---------------------- | ------------------ | ---------------------- | ------------------- | ------------------- |
+| **DevOps Lead**        | Portfolio Owner    | Telegram (instant)     | 5 minutes for P0    | N/A (sole operator) |
+| **Platform Support**   | Vercel Support     | support@vercel.com     | 4 hours (free tier) | N/A                 |
+| **Platform Support**   | Railway Support    | support@railway.app    | 4 hours (free tier) | N/A                 |
+| **Platform Support**   | Supabase Support   | support@supabase.com   | 4 hours (free tier) | N/A                 |
+| **Platform Support**   | Cloudflare Support | support@cloudflare.com | 4 hours (free tier) | Community forums    |
+| **Incident Commander** | Portfolio Owner    | -                      | -                   | -                   |
 
 ### 9.4 Communication Timeline
 
@@ -1007,67 +1007,74 @@ T+7 days:      Post-mortem completed (if warranted)
 Run this checklist AFTER declaring any incident resolved:
 
 ## DNS & Connectivity
+
 - [ ] DNS resolves correctly:
-    `dig portfolioowner.com +short`
-    `dig api.portfolioowner.com +short`
-    `dig ai.portfolioowner.com +short`
+      `dig portfolioowner.com +short`
+      `dig api.portfolioowner.com +short`
+      `dig ai.portfolioowner.com +short`
 - [ ] HTTPS works (no certificate errors):
-    `curl -I https://portfolioowner.com`
+      `curl -I https://portfolioowner.com`
 - [ ] All subdomains accessible:
-    `curl -I https://api.portfolioowner.com/v1/health`
-    `curl -I https://ai.portfolioowner.com/health`
+      `curl -I https://api.portfolioowner.com/v1/health`
+      `curl -I https://ai.portfolioowner.com/health`
 
 ## Frontend (Next.js)
+
 - [ ] Homepage loads with HTTP 200:
-    `curl -s -o /dev/null -w "%{http_code}" https://portfolioowner.com`
+      `curl -s -o /dev/null -w "%{http_code}" https://portfolioowner.com`
 - [ ] ISR pages render correctly (check 3 random pages)
 - [ ] Admin login page loads:
-    `curl -s -o /dev/null -w "%{http_code}" https://portfolioowner.com/admin`
+      `curl -s -o /dev/null -w "%{http_code}" https://portfolioowner.com/admin`
 - [ ] No JavaScript console errors (manual check)
 
 ## API (NestJS)
+
 - [ ] Health endpoint returns 200:
-    `curl https://api.portfolioowner.com/v1/health`
+      `curl https://api.portfolioowner.com/v1/health`
 - [ ] Public endpoints respond:
-    `curl https://api.portfolioowner.com/v1/sections?is_live=true`
+      `curl https://api.portfolioowner.com/v1/sections?is_live=true`
 - [ ] Admin authentication works:
-    `curl -H "Authorization: Bearer $TOKEN" https://api.portfolioowner.com/v1/projects`
+      `curl -H "Authorization: Bearer $TOKEN" https://api.portfolioowner.com/v1/projects`
 - [ ] Rate limiting active:
-    `curl -I https://api.portfolioowner.com/v1/sections | grep -i x-ratelimit`
+      `curl -I https://api.portfolioowner.com/v1/sections | grep -i x-ratelimit`
 
 ## AI Service (FastAPI)
+
 - [ ] Health endpoint returns 200:
-    `curl https://ai.portfolioowner.com/health`
+      `curl https://ai.portfolioowner.com/health`
 - [ ] AI chat responds:
-    `curl -X POST https://ai.portfolioowner.com/chat -H "Content-Type: application/json" -d '{"message":"test","session_id":"verify"}'`
+      `curl -X POST https://ai.portfolioowner.com/chat -H "Content-Type: application/json" -d '{"message":"test","session_id":"verify"}'`
 
 ## Database (Supabase)
+
 - [ ] Database connection active:
-    `psql $DATABASE_URL -c "SELECT 1;"`
+      `psql $DATABASE_URL -c "SELECT 1;"`
 - [ ] Row counts consistent:
-    `psql $DATABASE_URL -f scripts/verify-row-counts.sql`
+      `psql $DATABASE_URL -f scripts/verify-row-counts.sql`
 - [ ] RLS policies active:
-    `psql $DATABASE_URL -c "SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'public' AND rowsecurity = false;"`
+      `psql $DATABASE_URL -c "SELECT tablename, rowsecurity FROM pg_tables WHERE schemaname = 'public' AND rowsecurity = false;"`
 
 ## Security
+
 - [ ] All RLS policies applied on 37 tables:
-    `psql $DATABASE_URL -c "SELECT count(*) FROM pg_tables WHERE schemaname='public' AND rowsecurity = true;"`
+      `psql $DATABASE_URL -c "SELECT count(*) FROM pg_tables WHERE schemaname='public' AND rowsecurity = true;"`
 - [ ] Audit logging active:
-    `psql $DATABASE_URL -c "SELECT count(*) FROM audit_logs WHERE created_at > now() - interval '10 minutes';"`
+      `psql $DATABASE_URL -c "SELECT count(*) FROM audit_logs WHERE created_at > now() - interval '10 minutes';"`
 - [ ] Security headers present:
-    `curl -I https://portfolioowner.com | grep -i 'strict-transport-security\|x-frame-options\|content-security-policy'`
+      `curl -I https://portfolioowner.com | grep -i 'strict-transport-security\|x-frame-options\|content-security-policy'`
 - [ ] TLS 1.3 enforced:
-    `openssl s_client -connect portfolioowner.com:443 -tls1_3 < /dev/null 2>&1 | grep "SSL handshake"`
+      `openssl s_client -connect portfolioowner.com:443 -tls1_3 < /dev/null 2>&1 | grep "SSL handshake"`
 
 ## Monitoring
+
 - [ ] Sentry errors stable (no spike):
-    Check Sentry dashboard -> Issues -> Last 30 minutes
+      Check Sentry dashboard -> Issues -> Last 30 minutes
 - [ ] Better Uptime all checks passing:
-    Check Better Uptime dashboard
+      Check Better Uptime dashboard
 - [ ] Cloudflare analytics normal:
-    Check Cloudflare dashboard -> Analytics
+      Check Cloudflare dashboard -> Analytics
 - [ ] Supabase usage normal:
-    Check Supabase dashboard -> Database -> Usage
+      Check Supabase dashboard -> Database -> Usage
 ```
 
 ### 10.2 Post-Recovery Data Integrity Checks
@@ -1124,6 +1131,7 @@ WHERE orphan_count > 0;
 # Post-Incident Review (PIR)
 
 ## Incident Metadata
+
 - **Incident ID:** DR-YYYY-MM-DD-{NN}
 - **Severity:** P0/P1/P2/P3
 - **Date:** YYYY-MM-DD
@@ -1132,39 +1140,46 @@ WHERE orphan_count > 0;
 - **Services Affected:** {list}
 
 ## Timeline
-| Time (UTC) | Event |
-|------------|-------|
-| HH:MM | Alert received |
-| HH:MM | Severity confirmed |
-| HH:MM | Containment actions started |
-| HH:MM | Recovery actions started |
-| HH:MM | Services restored |
-| HH:MM | Incident declared resolved |
+
+| Time (UTC) | Event                       |
+| ---------- | --------------------------- |
+| HH:MM      | Alert received              |
+| HH:MM      | Severity confirmed          |
+| HH:MM      | Containment actions started |
+| HH:MM      | Recovery actions started    |
+| HH:MM      | Services restored           |
+| HH:MM      | Incident declared resolved  |
 
 ## Root Cause Analysis
+
 - **Primary Cause:** {cause}
 - **Contributing Factors:** {factors}
 
 ## Impact Assessment
+
 - **User Impact:** {description}
 - **Data Loss (if any):** {description}
 - **RTO Met:** Yes/No ({actual} vs {target})
 - **RPO Met:** Yes/No ({actual} vs {target})
 
 ## What Went Well
+
 1. {item}
 2. {item}
 
 ## What Could Be Improved
+
 1. {item} -> **Action:** {action} | **Owner:** {owner} | **Deadline:** {date}
 2. {item} -> **Action:** {action} | **Owner:** {owner} | **Deadline:** {date}
 
 ## Preventive Actions
-| Action | Owner | Deadline | Status |
-|--------|-------|----------|--------|
-| {action} | {owner} | {date} | Open/In Progress/Done |
+
+| Action   | Owner   | Deadline | Status                |
+| -------- | ------- | -------- | --------------------- |
+| {action} | {owner} | {date}   | Open/In Progress/Done |
 
 ## Lessons Learned
+
 {paragraph}
 ```
 
@@ -1174,79 +1189,79 @@ WHERE orphan_count > 0;
 
 ### 11.1 ISO 22301 (Business Continuity) Mapping
 
-| ISO 22301 Clause | Requirement | Implementation | Status |
-|-----------------|-------------|----------------|--------|
-| **8.2** | Business impact analysis (BIA) | Sections 1-2: RTO/RPO by service, composite calculation | Complete |
-| **8.3** | Risk assessment | Section 3: Disaster scenario catalog (12 scenarios, 4 tiers) | Complete |
-| **8.4.1** | Business continuity strategy | Section 6: Failover plan with degradation paths | Complete |
-| **8.4.2** | Incident response structure | Section 9: Communication plan, escalation matrix | Complete |
-| **8.4.3** | Business continuity procedures | Sections 4, 8: Recovery procedures + runbooks | Complete |
-| **8.4.4** | Recovery procedures | Section 4: 11 recovery procedures (RP-01 through RP-10) | Complete |
-| **8.5** | Testing and exercising | Section 7: Quarterly tabletop + annual full drill | Complete |
-| **8.6** | Monitoring and review | Section 10: Post-recovery verification checklist | Complete |
-| **8.7** | Continuous improvement | Section 12: Change log with version history | Complete |
+| ISO 22301 Clause | Requirement                    | Implementation                                               | Status   |
+| ---------------- | ------------------------------ | ------------------------------------------------------------ | -------- |
+| **8.2**          | Business impact analysis (BIA) | Sections 1-2: RTO/RPO by service, composite calculation      | Complete |
+| **8.3**          | Risk assessment                | Section 3: Disaster scenario catalog (12 scenarios, 4 tiers) | Complete |
+| **8.4.1**        | Business continuity strategy   | Section 6: Failover plan with degradation paths              | Complete |
+| **8.4.2**        | Incident response structure    | Section 9: Communication plan, escalation matrix             | Complete |
+| **8.4.3**        | Business continuity procedures | Sections 4, 8: Recovery procedures + runbooks                | Complete |
+| **8.4.4**        | Recovery procedures            | Section 4: 11 recovery procedures (RP-01 through RP-10)      | Complete |
+| **8.5**          | Testing and exercising         | Section 7: Quarterly tabletop + annual full drill            | Complete |
+| **8.6**          | Monitoring and review          | Section 10: Post-recovery verification checklist             | Complete |
+| **8.7**          | Continuous improvement         | Section 12: Change log with version history                  | Complete |
 
 ### 11.2 NIST SP 800-34 (Contingency Planning) Mapping
 
-| NIST Control | Requirement | Implementation |
-|-------------|-------------|----------------|
-| **CP-1** | Policy and procedures | This document (55-DISASTER-RECOVERY.md) |
-| **CP-2** | Contingency plan | Full DR plan with recovery procedures per service |
-| **CP-3** | Training | Tabletop exercises, annual drills |
-| **CP-4** | Testing and exercises | Quarterly + annual testing schedule |
-| **CP-6** | Alternate storage site | S3 encrypted backups (geo-redundant) |
-| **CP-7** | Alternate processing site | Secondary Vercel/Railway projects |
-| **CP-8** | Telecommunications | Cloudflare DNS failover (120s TTL) |
-| **CP-9** | Backup | Daily pg_dump, WAL PITR, S3 + 1Password |
-| **CP-10** | Recovery and reconstitution | Step-by-step runbooks (Section 8) |
+| NIST Control | Requirement                 | Implementation                                    |
+| ------------ | --------------------------- | ------------------------------------------------- |
+| **CP-1**     | Policy and procedures       | This document (55-DISASTER-RECOVERY.md)           |
+| **CP-2**     | Contingency plan            | Full DR plan with recovery procedures per service |
+| **CP-3**     | Training                    | Tabletop exercises, annual drills                 |
+| **CP-4**     | Testing and exercises       | Quarterly + annual testing schedule               |
+| **CP-6**     | Alternate storage site      | S3 encrypted backups (geo-redundant)              |
+| **CP-7**     | Alternate processing site   | Secondary Vercel/Railway projects                 |
+| **CP-8**     | Telecommunications          | Cloudflare DNS failover (120s TTL)                |
+| **CP-9**     | Backup                      | Daily pg_dump, WAL PITR, S3 + 1Password           |
+| **CP-10**    | Recovery and reconstitution | Step-by-step runbooks (Section 8)                 |
 
 ### 11.3 SOC 2 (Trust Services Criteria) Mapping
 
-| Category | Criteria | Implementation |
-|----------|----------|----------------|
-| **Security** | Protected against unauthorized access | Credential rotation (RP-05), RLS backups |
-| **Availability** | System available per commitments | RTO 1h, 99.9% composite SLA target |
-| **Processing Integrity** | System processing is complete/accurate | Post-recovery data integrity checks |
-| **Confidentiality** | Information designated as confidential | Encrypted backups (AES-256), 1Password |
-| **Privacy** | Personal information collected/used appropriately | RPO 5min ensures minimal data loss |
+| Category                 | Criteria                                          | Implementation                           |
+| ------------------------ | ------------------------------------------------- | ---------------------------------------- |
+| **Security**             | Protected against unauthorized access             | Credential rotation (RP-05), RLS backups |
+| **Availability**         | System available per commitments                  | RTO 1h, 99.9% composite SLA target       |
+| **Processing Integrity** | System processing is complete/accurate            | Post-recovery data integrity checks      |
+| **Confidentiality**      | Information designated as confidential            | Encrypted backups (AES-256), 1Password   |
+| **Privacy**              | Personal information collected/used appropriately | RPO 5min ensures minimal data loss       |
 
 ---
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives | Date | Approver |
-|----|----------|-----------|--------------|------|----------|
-| DR-001 | Target RTO of 1 hour and RPO of 5 minutes for critical services | Balances recovery speed with free-tier infrastructure constraints; 1h RTO is achievable via runbook automation | 15-min RTO would require paid HA tiers; 4h RTO would be unacceptable for portfolio visibility | Jun 2026 | DevOps Lead |
-| DR-002 | Use PITR (7-day WAL) as primary recovery method with daily pg_dump as fallback | PITR enables sub-5-minute RPO; daily dump provides backup if WAL is corrupted | PITR alone risks single-point failure; daily dump alone would lose up to 24h of data | Jun 2026 | DevOps Lead |
-| DR-003 | Maintain Railway as cold spare for Vercel with documented migration runbook | Enables recovery if Vercel platform has extended outage; no ongoing cost for standby infra | Hot standby would duplicate costs ($20+/mo); no spare would leave us unrecoverable if Vercel goes down | Jun 2026 | DevOps Lead |
-| DR-004 | Implement Cloudflare health checks with 120s TTL for automated DNS failover | Fastest feasible failover on free tier; health checks detect outages within 3 probes (3 min) | 30s TTL would require paid Cloudflare plan; manual failover would take >15 min | Jun 2026 | DevOps Lead |
-| DR-005 | Schedule quarterly tabletop exercises plus annual full DR drill | Regular validation ensures runbooks stay current and recovery times are measured; annual full drill validates end-to-end | No testing would lead to untrusted recovery times; monthly drills would overburden single-operator team | Jun 2026 | DevOps Lead |
+| ID     | Decision                                                                       | Rationale                                                                                                                | Alternatives                                                                                            | Date     | Approver    |
+| ------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- | -------- | ----------- |
+| DR-001 | Target RTO of 1 hour and RPO of 5 minutes for critical services                | Balances recovery speed with free-tier infrastructure constraints; 1h RTO is achievable via runbook automation           | 15-min RTO would require paid HA tiers; 4h RTO would be unacceptable for portfolio visibility           | Jun 2026 | DevOps Lead |
+| DR-002 | Use PITR (7-day WAL) as primary recovery method with daily pg_dump as fallback | PITR enables sub-5-minute RPO; daily dump provides backup if WAL is corrupted                                            | PITR alone risks single-point failure; daily dump alone would lose up to 24h of data                    | Jun 2026 | DevOps Lead |
+| DR-003 | Maintain Railway as cold spare for Vercel with documented migration runbook    | Enables recovery if Vercel platform has extended outage; no ongoing cost for standby infra                               | Hot standby would duplicate costs ($20+/mo); no spare would leave us unrecoverable if Vercel goes down  | Jun 2026 | DevOps Lead |
+| DR-004 | Implement Cloudflare health checks with 120s TTL for automated DNS failover    | Fastest feasible failover on free tier; health checks detect outages within 3 probes (3 min)                             | 30s TTL would require paid Cloudflare plan; manual failover would take >15 min                          | Jun 2026 | DevOps Lead |
+| DR-005 | Schedule quarterly tabletop exercises plus annual full DR drill                | Regular validation ensures runbooks stay current and recovery times are measured; annual full drill validates end-to-end | No testing would lead to untrusted recovery times; monthly drills would overburden single-operator team | Jun 2026 | DevOps Lead |
 
 ---
 
 ## 12. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jun 2026 | **Initial DR/BCP Document**: Complete enterprise-grade disaster recovery and business continuity plan covering 12 sections; executive summary with RTO/RPO targets and Mermaid recovery workflow; recovery objectives matrix (7 services with composite RTO calculation); disaster scenario catalog (12 scenarios across 4 tiers P0-P3 with scenario-response mapping); recovery procedures per service (10 procedures: RP-01 PITR restore, RP-02 Vercel rollback, RP-03 Railway redeploy, RP-04 DNS restore, RP-05 credential rotation, RP-06 DDoS mitigation, RP-07 SSL renewal, RP-08 graceful degradation, RP-09 RLS restore, RP-10 cache purge); complete backup strategy (8 backup types with frequencies, retention, encryption, and RPO); failover plan with DNS health checks, load balancing, and graceful degradation paths; DR testing schedule (quarterly tabletop, semi-annual drills, annual full drill with measured targets); recovery runbooks (P0 complete DB failure, P0 complete platform outage, P1 single service, P2 degradation); communication plan with templates and escalation matrix; post-recovery verification checklist (9 categories with exact commands); enterprise standards alignment (ISO 22301, NIST SP 800-34, SOC 2); change log | DevOps Lead |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Author      |
+| ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| 1.0     | Jun 2026 | **Initial DR/BCP Document**: Complete enterprise-grade disaster recovery and business continuity plan covering 12 sections; executive summary with RTO/RPO targets and Mermaid recovery workflow; recovery objectives matrix (7 services with composite RTO calculation); disaster scenario catalog (12 scenarios across 4 tiers P0-P3 with scenario-response mapping); recovery procedures per service (10 procedures: RP-01 PITR restore, RP-02 Vercel rollback, RP-03 Railway redeploy, RP-04 DNS restore, RP-05 credential rotation, RP-06 DDoS mitigation, RP-07 SSL renewal, RP-08 graceful degradation, RP-09 RLS restore, RP-10 cache purge); complete backup strategy (8 backup types with frequencies, retention, encryption, and RPO); failover plan with DNS health checks, load balancing, and graceful degradation paths; DR testing schedule (quarterly tabletop, semi-annual drills, annual full drill with measured targets); recovery runbooks (P0 complete DB failure, P0 complete platform outage, P1 single service, P2 degradation); communication plan with templates and escalation matrix; post-recovery verification checklist (9 categories with exact commands); enterprise standards alignment (ISO 22301, NIST SP 800-34, SOC 2); change log | DevOps Lead |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/MASTER-INDEX.md` | Document navigation and dependency graph |
-| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture - deployment topology |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack - versions of all services |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema - backup considerations |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security architecture - incident response alignment |
-| `docs/operations/DevOpsArchitecture.md` (v2.0) | DevOps practices - CI/CD and deployment |
-| `docs/operations/DeploymentGuide.md` (v2.0) | Deployment strategy - rollback procedures |
-| `docs/operations/54-INFRASTRUCTURE.md` (v1.0) | Infrastructure architecture - cloud topology |
-| `ISO 22301:2019` | Security and resilience - Business continuity management |
-| `NIST SP 800-34 Rev. 1` | Contingency Planning Guide for Federal Information Systems |
-| `SOC 2` | Service Organization Control 2 - Trust Services Criteria |
+| Reference                                        | Description                                                |
+| ------------------------------------------------ | ---------------------------------------------------------- |
+| `docs/MASTER-INDEX.md`                           | Document navigation and dependency graph                   |
+| `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture - deployment topology                  |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)       | Technology stack - versions of all services                |
+| `docs/database/DatabaseArchitecture.md` (v5.0)   | Database schema - backup considerations                    |
+| `docs/security/SecurityArchitecture.md` (v5.0)   | Security architecture - incident response alignment        |
+| `docs/operations/DevOpsArchitecture.md` (v2.0)   | DevOps practices - CI/CD and deployment                    |
+| `docs/operations/DeploymentGuide.md` (v2.0)      | Deployment strategy - rollback procedures                  |
+| `docs/operations/54-INFRASTRUCTURE.md` (v1.0)    | Infrastructure architecture - cloud topology               |
+| `ISO 22301:2019`                                 | Security and resilience - Business continuity management   |
+| `NIST SP 800-34 Rev. 1`                          | Contingency Planning Guide for Federal Information Systems |
+| `SOC 2`                                          | Service Organization Control 2 - Trust Services Criteria   |
 
 ---
 
@@ -1254,25 +1269,25 @@ WHERE orphan_count > 0;
 
 ## Glossary
 
-| Term | Definition |
-|------|-----------|
-| **BCP** | Business Continuity Plan — a documented strategy for maintaining essential functions during and after a disruption |
-| **Cold Spare** | A secondary infrastructure environment that is maintained but not actively running, activated only during a disaster |
-| **Composite RTO** | The total recovery time for a user-facing journey, calculated as the sum of individual service RTOs in the dependency chain |
-| **DNS Failover** | Automatically redirecting traffic to a backup server by updating DNS records when the primary server becomes unhealthy |
-| **DR Drill** | A scheduled exercise that simulates a disaster scenario to validate recovery procedures and measure RTO/RPO |
-| **Failover** | The process of automatically or manually switching to a redundant or standby system upon primary system failure |
-| **Graceful Degradation** | The ability of a system to maintain limited functionality when some components are unavailable |
-| **PITR** | Point-in-Time Recovery — restoring a database to a specific moment using WAL (Write-Ahead Log) archives |
-| **RPO** | Recovery Point Objective — the maximum acceptable age of data that may be lost in a disaster (measured in time) |
-| **RTO** | Recovery Time Objective — the maximum acceptable time to restore service after a disaster |
-| **Runbook** | A documented step-by-step procedure for performing a specific operational or recovery task |
-| **Tabletop Exercise** | A discussion-based DR test where participants walk through scenarios verbally without actually executing recovery steps |
-| **WAL** | Write-Ahead Log — PostgreSQL's mechanism for ensuring data durability, enabling PITR by recording every change before applying it |
-| **Warm Standby** | A partially active backup environment that can be activated more quickly than a cold spare but at higher ongoing cost |
-| **MTTR** | Mean Time to Recovery — the average time required to restore service after an incident |
+| Term                     | Definition                                                                                                                        |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **BCP**                  | Business Continuity Plan — a documented strategy for maintaining essential functions during and after a disruption                |
+| **Cold Spare**           | A secondary infrastructure environment that is maintained but not actively running, activated only during a disaster              |
+| **Composite RTO**        | The total recovery time for a user-facing journey, calculated as the sum of individual service RTOs in the dependency chain       |
+| **DNS Failover**         | Automatically redirecting traffic to a backup server by updating DNS records when the primary server becomes unhealthy            |
+| **DR Drill**             | A scheduled exercise that simulates a disaster scenario to validate recovery procedures and measure RTO/RPO                       |
+| **Failover**             | The process of automatically or manually switching to a redundant or standby system upon primary system failure                   |
+| **Graceful Degradation** | The ability of a system to maintain limited functionality when some components are unavailable                                    |
+| **PITR**                 | Point-in-Time Recovery — restoring a database to a specific moment using WAL (Write-Ahead Log) archives                           |
+| **RPO**                  | Recovery Point Objective — the maximum acceptable age of data that may be lost in a disaster (measured in time)                   |
+| **RTO**                  | Recovery Time Objective — the maximum acceptable time to restore service after a disaster                                         |
+| **Runbook**              | A documented step-by-step procedure for performing a specific operational or recovery task                                        |
+| **Tabletop Exercise**    | A discussion-based DR test where participants walk through scenarios verbally without actually executing recovery steps           |
+| **WAL**                  | Write-Ahead Log — PostgreSQL's mechanism for ensuring data durability, enabling PITR by recording every change before applying it |
+| **Warm Standby**         | A partially active backup environment that can be activated more quickly than a cold spare but at higher ongoing cost             |
+| **MTTR**                 | Mean Time to Recovery — the average time required to restore service after an incident                                            |
 
-*Document Version: 1.0 - Enterprise-Grade Disaster Recovery & Business Continuity Plan*  
-*Supersedes: N/A (initial document)*  
-*Next Review Date: September 2026*  
-*Classification: CONFIDENTIAL - Internal Use Only*
+_Document Version: 1.0 - Enterprise-Grade Disaster Recovery & Business Continuity Plan_  
+_Supersedes: N/A (initial document)_  
+_Next Review Date: September 2026_  
+_Classification: CONFIDENTIAL - Internal Use Only_

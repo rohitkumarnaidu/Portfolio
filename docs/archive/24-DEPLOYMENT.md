@@ -12,13 +12,13 @@ The platform uses a **build-once, deploy-everywhere** strategy with **4-environm
 
 **Deployment Targets:**
 
-| Service | Provider | Runtime | Auto-deploy | Rollback | SLA Target |
-|---------|----------|---------|-------------|----------|------------|
-| Frontend (Next.js) | Vercel | Serverless + Edge Nodes | On `main` push | Instant via Vercel | 99.99% |
-| API (NestJS) | Vercel | Serverless Functions | On `main` push | Instant via Vercel | 99.99% |
-| AI (FastAPI) | Railway | Container (Docker) | On `main` push | `railway rollback` | 99.95% |
-| Database (PostgreSQL) | Supabase | Managed PostgreSQL 15 | Manual migrations | Point-in-time recovery | 99.99% |
-| DNS + CDN + SSL | Cloudflare | Global Edge Network | DNS record changes | Instant via API | 100% |
+| Service               | Provider   | Runtime                 | Auto-deploy        | Rollback               | SLA Target |
+| --------------------- | ---------- | ----------------------- | ------------------ | ---------------------- | ---------- |
+| Frontend (Next.js)    | Vercel     | Serverless + Edge Nodes | On `main` push     | Instant via Vercel     | 99.99%     |
+| API (NestJS)          | Vercel     | Serverless Functions    | On `main` push     | Instant via Vercel     | 99.99%     |
+| AI (FastAPI)          | Railway    | Container (Docker)      | On `main` push     | `railway rollback`     | 99.95%     |
+| Database (PostgreSQL) | Supabase   | Managed PostgreSQL 15   | Manual migrations  | Point-in-time recovery | 99.99%     |
+| DNS + CDN + SSL       | Cloudflare | Global Edge Network     | DNS record changes | Instant via API        | 100%       |
 
 **4-Environment Strategy:**
 
@@ -82,62 +82,62 @@ graph TB
     Browser --> CF_DNS
     Mobile --> CF_DNS
     API_Client --> CF_DNS
-    
+
     CF_DNS --> CF_WAF
     CF_WAF --> CF_SSL
     CF_SSL --> CF_CDN
     CF_CDN --> V_EDGE
-    
+
     V_EDGE --> V_WEB
     V_EDGE --> V_API
-    
+
     V_WEB -->|ISR Data Fetch| V_API
     V_API --> S_PG
     V_API --> S_STORAGE
     V_API --> EX_RESEND
     V_API --> S_AUTH
-    
+
     V_WEB -->|Chat Requests| R_AI
     R_AI --> EX_OPENAI
     R_AI --> S_PG
     R_AI --> R_REDIS
     R_AI --> S_STORAGE
-    
+
     V_WEB -.->|Analytics Events| EX_POSTHOG
     V_API -.->|Error Traces| EX_SENTRY
     R_AI -.->|Error Traces| EX_SENTRY
-    
+
     EX_GITHUB -->|CI/CD Triggers| V_EDGE
     EX_GITHUB -->|CI/CD Triggers| R_AI
-    
+
     MON_BETTER -->|Health Checks| V_WEB
     MON_BETTER -->|Health Checks| V_API
     MON_BETTER -->|Health Checks| R_AI
-    
+
     MON_BETTER -->|Alerts| MON_TELEGRAM
     EX_SENTRY -->|Critical Errors| MON_TELEGRAM
 ```
 
 ### 2.2 Provider Responsibility Matrix
 
-| Capability | Cloudflare | Vercel | Railway | Supabase |
-|------------|-----------|--------|---------|----------|
-| **DNS Resolution** | ✅ Primary (Authoritative) | ❌ | ❌ | ❌ |
-| **DDoS Protection** | ✅ WAF (L3-L7) | ✅ Basic | ❌ | ❌ |
-| **SSL/TLS Termination** | ✅ Edge Termination | ✅ Auto | ✅ Auto | ✅ Auto |
-| **CDN Caching** | ✅ 330+ PoPs (Static) | ✅ 100+ PoPs (ISR) | ❌ | ✅ CDN-backed Storage |
-| **Web Application Hosting** | ❌ | ✅ Next.js SSR/ISR | ❌ | ❌ |
-| **API Hosting** | ❌ | ✅ Serverless Functions | ✅ FastAPI Container | ❌ |
-| **Database Hosting** | ❌ | ❌ | ❌ | ✅ PostgreSQL |
-| **File Storage** | ❌ | ❌ | ❌ | ✅ S3-Compatible |
-| **Edge Middleware** | ✅ Workers | ✅ Edge Functions | ❌ | ❌ |
-| **Cache Invalidation** | ✅ Purge API | ✅ ISR Revalidation | ❌ | ❌ |
-| **Auto-scaling** | ✅ Global | ✅ Automatic | ✅ Manual | ✅ Managed |
+| Capability                  | Cloudflare                 | Vercel                  | Railway              | Supabase              |
+| --------------------------- | -------------------------- | ----------------------- | -------------------- | --------------------- |
+| **DNS Resolution**          | ✅ Primary (Authoritative) | ❌                      | ❌                   | ❌                    |
+| **DDoS Protection**         | ✅ WAF (L3-L7)             | ✅ Basic                | ❌                   | ❌                    |
+| **SSL/TLS Termination**     | ✅ Edge Termination        | ✅ Auto                 | ✅ Auto              | ✅ Auto               |
+| **CDN Caching**             | ✅ 330+ PoPs (Static)      | ✅ 100+ PoPs (ISR)      | ❌                   | ✅ CDN-backed Storage |
+| **Web Application Hosting** | ❌                         | ✅ Next.js SSR/ISR      | ❌                   | ❌                    |
+| **API Hosting**             | ❌                         | ✅ Serverless Functions | ✅ FastAPI Container | ❌                    |
+| **Database Hosting**        | ❌                         | ❌                      | ❌                   | ✅ PostgreSQL         |
+| **File Storage**            | ❌                         | ❌                      | ❌                   | ✅ S3-Compatible      |
+| **Edge Middleware**         | ✅ Workers                 | ✅ Edge Functions       | ❌                   | ❌                    |
+| **Cache Invalidation**      | ✅ Purge API               | ✅ ISR Revalidation     | ❌                   | ❌                    |
+| **Auto-scaling**            | ✅ Global                  | ✅ Automatic            | ✅ Manual            | ✅ Managed            |
 
 ### 2.3 Data Flow Path
 
 ```
-User → Cloudflare DNS → Cloudflare WAF → Cloudflare CDN/SSL → Vercel Edge → 
+User → Cloudflare DNS → Cloudflare WAF → Cloudflare CDN/SSL → Vercel Edge →
 Next.js/API (ISR or Serverless) → Supabase/OpenAI
 
 Non-cached path:  ~200ms global avg
@@ -195,26 +195,26 @@ graph TB
 
 ### 3.2 Network Architecture
 
-| Component | Specification | Provider | Region |
-|-----------|--------------|----------|--------|
-| **DNS Nameservers** | `archibald.ns.cloudflare.com`, `barbara.ns.cloudflare.com` | Cloudflare | Global Anycast |
-| **Edge WAF** | L3-L7 DDoS, Rate Limiting, Bot Management | Cloudflare | 330+ PoPs |
-| **Primary Compute** | us-east-1 (IAD) | Vercel | US East |
-| **AI Compute** | PDX | Railway | US West |
-| **Database Primary** | us-east-1 | Supabase | US East |
-| **Database Replica** | eu-west-1 | Supabase | EU West |
-| **CDN Caches** | All Vercel Edge + Cloudflare | Dual-layer | Global |
+| Component            | Specification                                              | Provider   | Region         |
+| -------------------- | ---------------------------------------------------------- | ---------- | -------------- |
+| **DNS Nameservers**  | `archibald.ns.cloudflare.com`, `barbara.ns.cloudflare.com` | Cloudflare | Global Anycast |
+| **Edge WAF**         | L3-L7 DDoS, Rate Limiting, Bot Management                  | Cloudflare | 330+ PoPs      |
+| **Primary Compute**  | us-east-1 (IAD)                                            | Vercel     | US East        |
+| **AI Compute**       | PDX                                                        | Railway    | US West        |
+| **Database Primary** | us-east-1                                                  | Supabase   | US East        |
+| **Database Replica** | eu-west-1                                                  | Supabase   | EU West        |
+| **CDN Caches**       | All Vercel Edge + Cloudflare                               | Dual-layer | Global         |
 
 ### 3.3 Network Latency SLAs
 
-| Region → Endpoint | p50 | p95 | p99 |
-|-------------------|-----|-----|-----|
-| US East → Vercel IAD | < 5ms | < 15ms | < 30ms |
-| US West → Vercel IAD | < 30ms | < 60ms | < 100ms |
-| Europe → Vercel CDG | < 10ms | < 25ms | < 50ms |
-| Asia → Vercel NRT | < 15ms | < 35ms | < 70ms |
+| Region → Endpoint          | p50    | p95     | p99     |
+| -------------------------- | ------ | ------- | ------- |
+| US East → Vercel IAD       | < 5ms  | < 15ms  | < 30ms  |
+| US West → Vercel IAD       | < 30ms | < 60ms  | < 100ms |
+| Europe → Vercel CDG        | < 10ms | < 25ms  | < 50ms  |
+| Asia → Vercel NRT          | < 15ms | < 35ms  | < 70ms  |
 | South America → Vercel IAD | < 80ms | < 120ms | < 200ms |
-| Australia → Vercel NRT | < 50ms | < 80ms | < 150ms |
+| Australia → Vercel NRT     | < 50ms | < 80ms  | < 150ms |
 
 ---
 
@@ -240,7 +240,7 @@ flowchart LR
     end
 
     subgraph "Environment"
-        ENV[\".env.local<br/>Local Supabase keys<br/>Test API keys<br/>Debug logging\"]   
+        ENV[\".env.local<br/>Local Supabase keys<br/>Test API keys<br/>Debug logging\"]
     end
 
     CODE -->|npm run dev| LOCAL_WEB
@@ -327,16 +327,16 @@ flowchart LR
 
 ### 4.5 Local Environment Configuration
 
-| Variable | Local Value | Notes |
-|----------|-------------|-------|
-| `NEXT_PUBLIC_SUPABASE_URL` | `http://localhost:54321` | Local Supabase API |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Local anon key | From `supabase status` |
-| `SUPABASE_SERVICE_ROLE_KEY` | Local service key | From `supabase status` |
-| `NEXTAUTH_URL` | `http://localhost:3000` | Auth callback |
-| `NEXTAUTH_SECRET` | Any random 32-char string | Dev only |
-| `LOG_LEVEL` | `debug` | Verbose logging |
-| `NEXT_PUBLIC_POSTHOG_KEY` | Dev PostHog project key | Optional |
-| `SENTRY_DSN` | (empty) | Disabled in dev |
+| Variable                        | Local Value               | Notes                  |
+| ------------------------------- | ------------------------- | ---------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | `http://localhost:54321`  | Local Supabase API     |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Local anon key            | From `supabase status` |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Local service key         | From `supabase status` |
+| `NEXTAUTH_URL`                  | `http://localhost:3000`   | Auth callback          |
+| `NEXTAUTH_SECRET`               | Any random 32-char string | Dev only               |
+| `LOG_LEVEL`                     | `debug`                   | Verbose logging        |
+| `NEXT_PUBLIC_POSTHOG_KEY`       | Dev PostHog project key   | Optional               |
+| `SENTRY_DSN`                    | (empty)                   | Disabled in dev        |
 
 ### 4.6 IDE Configuration
 
@@ -376,18 +376,18 @@ flowchart LR
 
 ### 4.8 Development Environment Checklist
 
-| Check | Command / Verification | Frequency |
-|-------|----------------------|-----------|
-| □ Node.js version | `node --version` → 20.x | Daily |
-| □ npm is up to date | `npm --version` → 10.x | Weekly |
-| □ Docker running | `docker ps` → containers running | Daily |
-| □ Supabase local running | `supabase status` → all services green | Daily |
-| □ Environment file exists | `.env.local` exists with all vars | One-time |
-| □ Dependencies installed | `ls node_modules` → exists | On pull |
-| □ Lint passes | `npm run lint` → 0 errors | On commit |
-| □ TypeScript compiles | `npx tsc --noEmit` → 0 errors | On commit |
-| □ Tests pass | `npm run test` → all green | On commit |
-| □ Build succeeds | `npm run build` → success | On commit |
+| Check                     | Command / Verification                 | Frequency |
+| ------------------------- | -------------------------------------- | --------- |
+| □ Node.js version         | `node --version` → 20.x                | Daily     |
+| □ npm is up to date       | `npm --version` → 10.x                 | Weekly    |
+| □ Docker running          | `docker ps` → containers running       | Daily     |
+| □ Supabase local running  | `supabase status` → all services green | Daily     |
+| □ Environment file exists | `.env.local` exists with all vars      | One-time  |
+| □ Dependencies installed  | `ls node_modules` → exists             | On pull   |
+| □ Lint passes             | `npm run lint` → 0 errors              | On commit |
+| □ TypeScript compiles     | `npx tsc --noEmit` → 0 errors          | On commit |
+| □ Tests pass              | `npm run test` → all green             | On commit |
+| □ Build succeeds          | `npm run build` → success              | On commit |
 
 ---
 
@@ -397,16 +397,16 @@ flowchart LR
 
 The **Testing Environment** is an automated, ephemeral environment that exists only for the duration of a CI/CD pipeline run. Unlike the persistent Staging environment, Testing is stateless, isolated per run, and automatically destroyed after verification.
 
-| Attribute | Testing Environment | Staging Environment |
-|-----------|-------------------|-------------------|
-| **Lifespan** | Ephemeral (per CI run) | Persistent (always on) |
-| **Trigger** | Every PR + every push | Push to `develop` branch |
-| **Database** | Fresh seed data per run | Anonymized prod copy |
-| **Purpose** | Validate code changes | Validate release candidate |
-| **URL** | CI pipeline internal | `staging.portfolioowner.com` |
-| **Access** | CI only | Team + stakeholders |
-| **Data** | Minimal test fixtures | Full dataset (anonymized) |
-| **Cost** | $0 (CI minutes only) | $0 (free tier) |
+| Attribute    | Testing Environment     | Staging Environment          |
+| ------------ | ----------------------- | ---------------------------- |
+| **Lifespan** | Ephemeral (per CI run)  | Persistent (always on)       |
+| **Trigger**  | Every PR + every push   | Push to `develop` branch     |
+| **Database** | Fresh seed data per run | Anonymized prod copy         |
+| **Purpose**  | Validate code changes   | Validate release candidate   |
+| **URL**      | CI pipeline internal    | `staging.portfolioowner.com` |
+| **Access**   | CI only                 | Team + stakeholders          |
+| **Data**     | Minimal test fixtures   | Full dataset (anonymized)    |
+| **Cost**     | $0 (CI minutes only)    | $0 (free tier)               |
 
 ### 5.2 Testing Environment Architecture
 
@@ -452,17 +452,17 @@ flowchart TB
 
 ### 5.3 Testing Environment Quality Gates
 
-| Gate | Tool | Command | Threshold | Failure Action |
-|------|------|---------|-----------|---------------|
-| **Lint** | ESLint | `npx turbo lint` | 0 errors, 0 warnings | Block PR merge |
-| **TypeScript** | `tsc` | `npx turbo typecheck` | 0 errors (strict) | Block PR merge |
-| **Build** | Turborepo | `npx turbo build` | All apps compile | Block PR merge |
-| **Unit Tests** | Jest | `npx turbo test` | 100% pass, >80% coverage | Block PR merge |
-| **E2E Tests** | Playwright | `npx playwright test` | 100% pass (critical paths) | Block PR merge |
-| **Security** | `npm audit` | `npm audit --audit-level=high` | 0 high/critical | Block PR merge |
-| **Performance** | Lighthouse CI | `lhci autorun` | Score > 90 all categories | Warning only |
-| **Bundle Size** | `@next/bundle-analyzer` | CI check | < 200KB first-load JS | Warning only |
-| **Mermaid** | Custom script | `node scripts/validate-mermaid.js` | 100% diagrams valid | Block PR merge |
+| Gate            | Tool                    | Command                            | Threshold                  | Failure Action |
+| --------------- | ----------------------- | ---------------------------------- | -------------------------- | -------------- |
+| **Lint**        | ESLint                  | `npx turbo lint`                   | 0 errors, 0 warnings       | Block PR merge |
+| **TypeScript**  | `tsc`                   | `npx turbo typecheck`              | 0 errors (strict)          | Block PR merge |
+| **Build**       | Turborepo               | `npx turbo build`                  | All apps compile           | Block PR merge |
+| **Unit Tests**  | Jest                    | `npx turbo test`                   | 100% pass, >80% coverage   | Block PR merge |
+| **E2E Tests**   | Playwright              | `npx playwright test`              | 100% pass (critical paths) | Block PR merge |
+| **Security**    | `npm audit`             | `npm audit --audit-level=high`     | 0 high/critical            | Block PR merge |
+| **Performance** | Lighthouse CI           | `lhci autorun`                     | Score > 90 all categories  | Warning only   |
+| **Bundle Size** | `@next/bundle-analyzer` | CI check                           | < 200KB first-load JS      | Warning only   |
+| **Mermaid**     | Custom script           | `node scripts/validate-mermaid.js` | 100% diagrams valid        | Block PR merge |
 
 ### 5.4 Testing Configuration
 
@@ -489,6 +489,7 @@ export default {
 ### 6.1 Purpose
 
 The Staging environment is a **production-parity** environment used for:
+
 - Final validation before production deployment
 - Stakeholder review of new features
 - Integration testing with real services (but test API keys)
@@ -497,26 +498,26 @@ The Staging environment is a **production-parity** environment used for:
 
 ### 6.2 Staging Configuration
 
-| Aspect | Staging Configuration | Production Difference |
-|--------|----------------------|----------------------|
-| **URL** | `staging.portfolioowner.com` | `portfolioowner.com` |
-| **Git Branch** | `develop` | `main` |
-| **Deploy Trigger** | Auto on push to `develop` | Auto on push to `main` |
-| **Database** | Supabase Free (separate project) | Supabase Free (separate project) |
-| **Data** | Anonymized production copy | Live production data |
-| **AI Service** | Railway (staging environment) | Railway (production environment) |
-| **Analytics** | PostHog (staging project) | PostHog (production project) |
-| **Error Tracking** | Sentry (staging DSN) | Sentry (production DSN) |
-| **Email** | Resend (test mode, no actual sends) | Resend (production, real emails) |
-| **ISR Cache** | 60s TTL | 60s TTL |
-| **CDN** | Vercel CDN + Cloudflare | Vercel CDN + Cloudflare |
-| **Debug Mode** | Disabled (source maps only) | Disabled |
-| **Feature Flags** | All enabled (full access) | Gradual rollout |
-| **Log Level** | `info` | `warn` |
-| **Backup Frequency** | Daily | Hourly |
-| **SLA** | 99.5% | 99.99% |
-| **Auth Providers** | Test OAuth | Production OAuth |
-| **Rate Limits** | Relaxed (10x production) | Standard |
+| Aspect               | Staging Configuration               | Production Difference            |
+| -------------------- | ----------------------------------- | -------------------------------- |
+| **URL**              | `staging.portfolioowner.com`        | `portfolioowner.com`             |
+| **Git Branch**       | `develop`                           | `main`                           |
+| **Deploy Trigger**   | Auto on push to `develop`           | Auto on push to `main`           |
+| **Database**         | Supabase Free (separate project)    | Supabase Free (separate project) |
+| **Data**             | Anonymized production copy          | Live production data             |
+| **AI Service**       | Railway (staging environment)       | Railway (production environment) |
+| **Analytics**        | PostHog (staging project)           | PostHog (production project)     |
+| **Error Tracking**   | Sentry (staging DSN)                | Sentry (production DSN)          |
+| **Email**            | Resend (test mode, no actual sends) | Resend (production, real emails) |
+| **ISR Cache**        | 60s TTL                             | 60s TTL                          |
+| **CDN**              | Vercel CDN + Cloudflare             | Vercel CDN + Cloudflare          |
+| **Debug Mode**       | Disabled (source maps only)         | Disabled                         |
+| **Feature Flags**    | All enabled (full access)           | Gradual rollout                  |
+| **Log Level**        | `info`                              | `warn`                           |
+| **Backup Frequency** | Daily                               | Hourly                           |
+| **SLA**              | 99.5%                               | 99.99%                           |
+| **Auth Providers**   | Test OAuth                          | Production OAuth                 |
+| **Rate Limits**      | Relaxed (10x production)            | Standard                         |
 
 ### 6.3 Staging Environment Architecture
 
@@ -554,23 +555,23 @@ graph TB
 # Staging Gate Requirements (all must pass before release)
 staging-gate:
   checks:
-    - name: "All CI checks pass"
+    - name: 'All CI checks pass'
       required: true
-    - name: "Staging deploy succeeds"
+    - name: 'Staging deploy succeeds'
       required: true
-    - name: "Health checks pass (all endpoints)"
+    - name: 'Health checks pass (all endpoints)'
       required: true
-    - name: "Smoke tests pass (critical paths)"
+    - name: 'Smoke tests pass (critical paths)'
       required: true
-    - name: "E2E tests pass (full suite)"
+    - name: 'E2E tests pass (full suite)'
       required: true
-    - name: "Lighthouse score > 90"
-      required: false  # Warning only
-    - name: "Security scan passes"
+    - name: 'Lighthouse score > 90'
+      required: false # Warning only
+    - name: 'Security scan passes'
       required: true
-    - name: "Stakeholder approval"
-      required: true   # For major releases
-      approver: "Product Owner"
+    - name: 'Stakeholder approval'
+      required: true # For major releases
+      approver: 'Product Owner'
 ```
 
 ### 6.5 Staging Environment Seed Data
@@ -587,7 +588,7 @@ LIMIT (SELECT COUNT(*) FROM production_sections WHERE is_live = true);
 
 -- Projects (anonymized titles, real structure)
 INSERT INTO projects (title, description, technologies, ...)
-SELECT 
+SELECT
   CONCAT('Sample Project ', ROW_NUMBER() OVER()),
   REPEAT('Sample project description. ', 20),
   technologies,
@@ -596,7 +597,7 @@ FROM production_projects;
 
 -- Leads (anonymized)
 INSERT INTO leads (name, email, message, status, created_at)
-SELECT 
+SELECT
   CONCAT('Test User ', ROW_NUMBER() OVER()),
   CONCAT('test-user-', ROW_NUMBER() OVER(), '@example.com'),
   REPEAT('Test message content. ', 10),
@@ -611,26 +612,26 @@ FROM generate_series(1, 50);
 
 ### 7.1 Production Configuration
 
-| Aspect | Production Configuration |
-|--------|------------------------|
-| **URL** | `https://portfolioowner.com` |
-| **Git Branch** | `main` (protected) |
-| **Deploy Trigger** | Auto on push to `main` |
-| **Database** | Supabase Free (production project) |
-| **Data** | Live production data |
-| **AI Service** | Railway (production, 512MB RAM) |
-| **Analytics** | PostHog (production project) |
-| **Error Tracking** | Sentry (production DSN) |
-| **Email** | Resend (production, real sends) |
-| **ISR Cache** | 60s TTL |
-| **CDN** | Vercel CDN (100+ PoPs) + Cloudflare (330+ PoPs) |
-| **Debug Mode** | Disabled |
-| **Feature Flags** | Gradual rollout (canary) |
-| **Log Level** | `warn` |
-| **Backup** | Hourly (Supabase managed) |
-| **SLA Target** | 99.99% |
-| **Rate Limits** | Standard tiers |
-| **SSL** | Cloudflare Full (Strict) + HSTS Preload |
+| Aspect             | Production Configuration                        |
+| ------------------ | ----------------------------------------------- |
+| **URL**            | `https://portfolioowner.com`                    |
+| **Git Branch**     | `main` (protected)                              |
+| **Deploy Trigger** | Auto on push to `main`                          |
+| **Database**       | Supabase Free (production project)              |
+| **Data**           | Live production data                            |
+| **AI Service**     | Railway (production, 512MB RAM)                 |
+| **Analytics**      | PostHog (production project)                    |
+| **Error Tracking** | Sentry (production DSN)                         |
+| **Email**          | Resend (production, real sends)                 |
+| **ISR Cache**      | 60s TTL                                         |
+| **CDN**            | Vercel CDN (100+ PoPs) + Cloudflare (330+ PoPs) |
+| **Debug Mode**     | Disabled                                        |
+| **Feature Flags**  | Gradual rollout (canary)                        |
+| **Log Level**      | `warn`                                          |
+| **Backup**         | Hourly (Supabase managed)                       |
+| **SLA Target**     | 99.99%                                          |
+| **Rate Limits**    | Standard tiers                                  |
+| **SSL**            | Cloudflare Full (Strict) + HSTS Preload         |
 
 ### 7.2 Production Deployment Flow
 
@@ -645,9 +646,9 @@ sequenceDiagram
     participant Supa as Supabase
 
     Dev->>GH: git push main
-    
+
     GH->>CI: Trigger production workflow
-    
+
     par Quality Gates
         CI->>CI: npm ci (90s)
         CI->>CI: Lint + TypeCheck (60s)
@@ -656,31 +657,31 @@ sequenceDiagram
         CI->>CI: Security Audit (15s)
         CI->>CI: Mermaid Validate (10s)
     end
-    
+
     Note over CI: All gates pass
-    
+
     par Deploy to Production
         CI->>Vercel: Deploy frontend + API
         Vercel-->>CI: ✅ Deploy URL + status
-        
+
         CI->>Railway: Deploy AI service
         Railway-->>CI: ✅ Deploy status
-        
+
         CI->>Supa: Run DB migrations
         Supa-->>CI: ✅ Migration status
     end
-    
+
     Note over CI: All deploys complete
-    
+
     par Post-Deploy Verification
         CI->>CI: Health checks (30s)
         CI->>CI: Smoke tests (2min)
         CI->>Vercel: Warm ISR cache
         CI->>CF: Purge Cloudflare cache
     end
-    
+
     CI-->>Dev: ✅ Production deploy complete (8min avg)
-    
+
     Note over CI,Dev: Rollback if any verification fails
     CI->>CI: Auto-rollback on failure
 ```
@@ -728,7 +729,7 @@ STEP 5: ROLLBACK TRIGGERS
     □ Site unreachable for > 30 seconds
     □ Database migration causes data issues
     □ Any security vulnerability detected
-  
+
   → EXECUTE IMMEDIATE ROLLBACK (see §16)
 ```
 
@@ -892,12 +893,12 @@ curl -s https://ai.portfolioowner.com/api/health | jq .
 
 ### 8.4 Deploy Window Policy
 
-| Environment | Allowed Window | Blackout Periods | Emergency Override |
-|-------------|---------------|------------------|-------------------|
-| **Staging** | Mon-Fri 08:00-20:00 | Weekends, holidays | On-call engineer |
-| **Production (Patch)** | Mon-Thu 09:00-16:00 | Fri 16:00-Mon 09:00, holidays | DevOps Lead + PO |
-| **Production (Feature)** | Tue-Wed 10:00-14:00 | Week before major events | Full CAB vote |
-| **Emergency** | Any time | None | Emergency CAB approval |
+| Environment              | Allowed Window      | Blackout Periods              | Emergency Override     |
+| ------------------------ | ------------------- | ----------------------------- | ---------------------- |
+| **Staging**              | Mon-Fri 08:00-20:00 | Weekends, holidays            | On-call engineer       |
+| **Production (Patch)**   | Mon-Thu 09:00-16:00 | Fri 16:00-Mon 09:00, holidays | DevOps Lead + PO       |
+| **Production (Feature)** | Tue-Wed 10:00-14:00 | Week before major events      | Full CAB vote          |
+| **Emergency**            | Any time            | None                          | Emergency CAB approval |
 
 ---
 
@@ -905,33 +906,33 @@ curl -s https://ai.portfolioowner.com/api/health | jq .
 
 ### 9.1 Domain Portfolio
 
-| Domain | Purpose | Registrar | Expiry | Auto-Renew |
-|--------|---------|-----------|--------|------------|
+| Domain               | Purpose            | Registrar  | Expiry | Auto-Renew |
+| -------------------- | ------------------ | ---------- | ------ | ---------- |
 | `portfolioowner.com` | Primary production | Cloudflare | Annual | ✅ Enabled |
-| `portfolioowner.dev` | Redirect to .com | Cloudflare | Annual | ✅ Enabled |
-| `portfolioowner.me` | Personal branding | Cloudflare | Annual | ✅ Enabled |
+| `portfolioowner.dev` | Redirect to .com   | Cloudflare | Annual | ✅ Enabled |
+| `portfolioowner.me`  | Personal branding  | Cloudflare | Annual | ✅ Enabled |
 
 ### 9.2 Subdomain Architecture
 
-| Subdomain | Service | Provider | CNAME Target | Cache |
-|-----------|---------|----------|-------------|-------|
-| `portfolioowner.com` (apex) | Production frontend | Vercel | `cname.vercel-dns.com` | Full |
-| `www.portfolioowner.com` | WWW redirect → apex | Cloudflare | Redirect to apex | N/A |
-| `staging.portfolioowner.com` | Staging frontend | Vercel | `cname.vercel-dns.com` | Full |
-| `api.portfolioowner.com` | NestJS API | Vercel | `cname.vercel-dns.com` | Dynamic |
-| `ai.portfolioowner.com` | FastAPI AI Service | Railway | `railway.app` generated | Dynamic |
-| `status.portfolioowner.com` | Status page | Better Uptime | `betteruptime.com` | None |
-| `cdn.portfolioowner.com` | Static assets CDN | Cloudflare R2 | Custom | Full |
+| Subdomain                    | Service             | Provider      | CNAME Target            | Cache   |
+| ---------------------------- | ------------------- | ------------- | ----------------------- | ------- |
+| `portfolioowner.com` (apex)  | Production frontend | Vercel        | `cname.vercel-dns.com`  | Full    |
+| `www.portfolioowner.com`     | WWW redirect → apex | Cloudflare    | Redirect to apex        | N/A     |
+| `staging.portfolioowner.com` | Staging frontend    | Vercel        | `cname.vercel-dns.com`  | Full    |
+| `api.portfolioowner.com`     | NestJS API          | Vercel        | `cname.vercel-dns.com`  | Dynamic |
+| `ai.portfolioowner.com`      | FastAPI AI Service  | Railway       | `railway.app` generated | Dynamic |
+| `status.portfolioowner.com`  | Status page         | Better Uptime | `betteruptime.com`      | None    |
+| `cdn.portfolioowner.com`     | Static assets CDN   | Cloudflare R2 | Custom                  | Full    |
 
 ### 9.3 Domain Hygiene
 
-| Practice | Implementation | Frequency |
-|----------|---------------|-----------|
-| **Auto-renew** | Enable for all domains | Per domain |
-| **Expiry monitoring** | 30-day, 14-day, 7-day, 1-day alerts | Automated |
-| **Registrar lock** | Transfer lock enabled on all domains | Permanent |
-| **WHOIS privacy** | Cloudflare WHOIS redaction | Permanent |
-| **DNSSEC** | Enabled for all domains | Permanent |
+| Practice              | Implementation                       | Frequency  |
+| --------------------- | ------------------------------------ | ---------- |
+| **Auto-renew**        | Enable for all domains               | Per domain |
+| **Expiry monitoring** | 30-day, 14-day, 7-day, 1-day alerts  | Automated  |
+| **Registrar lock**    | Transfer lock enabled on all domains | Permanent  |
+| **WHOIS privacy**     | Cloudflare WHOIS redaction           | Permanent  |
+| **DNSSEC**            | Enabled for all domains              | Permanent  |
 
 ### 9.4 Domain Acquisition Process
 
@@ -968,7 +969,7 @@ graph TB
     end
 
     subgraph "DNS Security"
-        DNSSEC[\"DNSSEC<br/>Algorithm: ECDSA 256<br/>Digest: SHA-256<br/>Chain of trust\"]  
+        DNSSEC[\"DNSSEC<br/>Algorithm: ECDSA 256<br/>Digest: SHA-256<br/>Chain of trust\"]
         CAA[\"CAA Records<br/>issue: digicert.com<br/>issue: letsencrypt.org<br/>issue: pki.goog\"]
     end
 
@@ -1035,23 +1036,23 @@ _dmarc  300 IN  TXT  "v=DMARC1; p=quarantine; rua=mailto:dmarc@portfolioowner.co
 
 ### 10.3 DNS Change Management
 
-| Change Type | Approval | TTL Strategy | Rollback Plan |
-|-------------|----------|-------------|---------------|
-| **New subdomain** | Self-service | 300s default | Delete record |
-| **Change CNAME target** | Review required | Reduce to 60s before change | Restore previous target |
-| **Change A record** | Review + CAB | Reduce to 60s before change | Restore previous IP |
-| **Add MX record** | Email admin | 300s default | Delete record |
-| **DNSSEC change** | CAB approval | 48h TTL (DS record propagation) | Restore previous DS record |
-| **NS change** | CAB approval | 48h TTL | Restore original NS |
+| Change Type             | Approval        | TTL Strategy                    | Rollback Plan              |
+| ----------------------- | --------------- | ------------------------------- | -------------------------- |
+| **New subdomain**       | Self-service    | 300s default                    | Delete record              |
+| **Change CNAME target** | Review required | Reduce to 60s before change     | Restore previous target    |
+| **Change A record**     | Review + CAB    | Reduce to 60s before change     | Restore previous IP        |
+| **Add MX record**       | Email admin     | 300s default                    | Delete record              |
+| **DNSSEC change**       | CAB approval    | 48h TTL (DS record propagation) | Restore previous DS record |
+| **NS change**           | CAB approval    | 48h TTL                         | Restore original NS        |
 
 ### 10.4 DNS Monitoring
 
-| Check | Tool | Frequency | Alert | 
-|-------|------|-----------|-------|
-| DNS resolution from 10 global locations | Better Uptime | Every 5 min | Telegram if any location fails |
-| DNSSEC validation | Cloudflare Dashboard | Auto | Email if broken |
-| Certificate Transparency | crt.sh monitoring | Daily | Email on unexpected cert issue |
-| DNS record drift | Git-tracked DNS config diff | Per change | PR review |
+| Check                                   | Tool                        | Frequency   | Alert                          |
+| --------------------------------------- | --------------------------- | ----------- | ------------------------------ |
+| DNS resolution from 10 global locations | Better Uptime               | Every 5 min | Telegram if any location fails |
+| DNSSEC validation                       | Cloudflare Dashboard        | Auto        | Email if broken                |
+| Certificate Transparency                | crt.sh monitoring           | Daily       | Email on unexpected cert issue |
+| DNS record drift                        | Git-tracked DNS config diff | Per change  | PR review                      |
 
 ---
 
@@ -1089,7 +1090,7 @@ graph TB
     CF_EDGE -->|TLS 1.3| VERCEL_ORIGIN
     CF_EDGE -->|TLS 1.3| RAILWAY_ORIGIN
     CF_EDGE -->|TLS 1.3| SUPABASE_ORIGIN
-    
+
     MODE --> CF_EDGE
     MIN_VERSION --> CF_EDGE
     HSTS --> CF_EDGE
@@ -1098,33 +1099,33 @@ graph TB
 
 ### 11.2 SSL/TLS Configuration
 
-| Setting | Value | Purpose |
-|---------|-------|---------|
-| **SSL Mode** | Full (Strict) | Encrypts all traffic; requires valid origin cert |
-| **Min TLS Version** | 1.3 | Only modern, secure protocol |
-| **HSTS** | `max-age=63072000; includeSubDomains; preload` | Forces HTTPS for 2 years |
-| **OCSP Stapling** | Enabled | Faster cert status checks |
-| **Certificate Type** | Auto (Cloudflare) | Let's Encrypt + Google Trust Services |
-| **Certificate Renewal** | Automatic (60-day refresh) | No manual intervention |
-| **Universal SSL** | Enabled | Covers all subdomains added to Cloudflare |
+| Setting                 | Value                                          | Purpose                                          |
+| ----------------------- | ---------------------------------------------- | ------------------------------------------------ |
+| **SSL Mode**            | Full (Strict)                                  | Encrypts all traffic; requires valid origin cert |
+| **Min TLS Version**     | 1.3                                            | Only modern, secure protocol                     |
+| **HSTS**                | `max-age=63072000; includeSubDomains; preload` | Forces HTTPS for 2 years                         |
+| **OCSP Stapling**       | Enabled                                        | Faster cert status checks                        |
+| **Certificate Type**    | Auto (Cloudflare)                              | Let's Encrypt + Google Trust Services            |
+| **Certificate Renewal** | Automatic (60-day refresh)                     | No manual intervention                           |
+| **Universal SSL**       | Enabled                                        | Covers all subdomains added to Cloudflare        |
 
 ### 11.3 SSL Certificate Inventory
 
-| Domain/Subdomain | Certificate Type | Issuer | Expiry | Auto-Renew |
-|-----------------|-----------------|--------|--------|------------|
-| `*.portfolioowner.com` | Cloudflare Universal | Cloudflare CA | Auto-renewed (60d) | ✅ |
-| `railway.app` (generated) | Auto-provisioned | Let's Encrypt | 90 days | ✅ (automatic) |
-| `*.vercel.app` | Auto-provisioned | Let's Encrypt | 90 days | ✅ (automatic) |
-| `*.supabase.co` | Supabase Managed | Google Trust Services | 90 days | ✅ (automatic) |
+| Domain/Subdomain          | Certificate Type     | Issuer                | Expiry             | Auto-Renew     |
+| ------------------------- | -------------------- | --------------------- | ------------------ | -------------- |
+| `*.portfolioowner.com`    | Cloudflare Universal | Cloudflare CA         | Auto-renewed (60d) | ✅             |
+| `railway.app` (generated) | Auto-provisioned     | Let's Encrypt         | 90 days            | ✅ (automatic) |
+| `*.vercel.app`            | Auto-provisioned     | Let's Encrypt         | 90 days            | ✅ (automatic) |
+| `*.supabase.co`           | Supabase Managed     | Google Trust Services | 90 days            | ✅ (automatic) |
 
 ### 11.4 SSL Expiry Monitoring
 
-| Certificate | Renewal Reminders | Action on Expiry |
-|-------------|------------------|------------------|
-| Cloudflare Universal | 30, 14, 7, 1 day (email) | Auto-renewed; manual check if renewal fails |
-| Railway app | Railway auto-manages | Downtime if SSL expires; redeploy to fix |
-| Vercel app | Vercel auto-manages | Downtime if SSL expires; redeploy to fix |
-| Supabase | Supabase auto-manages | Downtime if SSL expires; contact Supabase support |
+| Certificate          | Renewal Reminders        | Action on Expiry                                  |
+| -------------------- | ------------------------ | ------------------------------------------------- |
+| Cloudflare Universal | 30, 14, 7, 1 day (email) | Auto-renewed; manual check if renewal fails       |
+| Railway app          | Railway auto-manages     | Downtime if SSL expires; redeploy to fix          |
+| Vercel app           | Vercel auto-manages      | Downtime if SSL expires; redeploy to fix          |
+| Supabase             | Supabase auto-manages    | Downtime if SSL expires; contact Supabase support |
 
 ### 11.5 SSL Best Practices
 
@@ -1177,7 +1178,7 @@ graph TB
     CF_CACHE -->|Cache Miss / Argo| V_CACHE
     V_CACHE -->|ISR Pages| V_ISR
     V_ISR -->|Origin Fetch| ORIGIN[\"Vercel Origin Servers\"]
-    
+
     CF_CACHE --> STATIC
     V_CACHE --> PAGES
     V_CACHE -->|Bypass Cache| API
@@ -1192,20 +1193,20 @@ const cloudflareCacheRules = {
   staticAssets: {
     pattern: '*.{css,js,png,jpg,jpeg,gif,webp,svg,woff2,ico}',
     cacheLevel: 'cache_everything',
-    edgeTTL: 31536000,  // 1 year
+    edgeTTL: 31536000, // 1 year
     browserTTL: 31536000, // 1 year
     bypassCookie: false,
   },
   pages: {
     pattern: 'portfolioowner.com/*',
     cacheLevel: 'standard',
-    edgeTTL: 60,           // 60 seconds (matches ISR)
+    edgeTTL: 60, // 60 seconds (matches ISR)
     browserTTL: 60,
-    staleTTL: 86400,       // 24 hours stale-while-revalidate
+    staleTTL: 86400, // 24 hours stale-while-revalidate
   },
   api: {
     pattern: 'api.portfolioowner.com/*',
-    cacheLevel: 'bypass',  // Dynamic content
+    cacheLevel: 'bypass', // Dynamic content
   },
 };
 
@@ -1213,7 +1214,7 @@ const cloudflareCacheRules = {
 const isrConfig = {
   experimental: {
     staleTimes: {
-      static: 60,          // ISR revalidation
+      static: 60, // ISR revalidation
       dynamic: 30,
     },
   },
@@ -1242,37 +1243,37 @@ const cacheHeaders = {
 
 ### 12.3 CDN Performance Targets
 
-| Metric | Target | Measurement Method |
-|--------|--------|-------------------|
-| **Cache Hit Ratio (Cloudflare)** | > 85% | Cloudflare Analytics |
-| **Cache Hit Ratio (Vercel)** | > 90% | Vercel Analytics |
-| **p50 TTFB (cached)** | < 50ms | WebPageTest, Lighthouse |
-| **p95 TTFB (cached)** | < 100ms | Cloudflare Analytics |
-| **p50 TTFB (uncached)** | < 200ms | Sentry Performance |
-| **p95 TTFB (uncached)** | < 500ms | Sentry Performance |
-| **Global LCP** | < 1.5s | Vercel Analytics |
-| **Bandwidth Saved by CDN** | > 95% | Cloudflare Analytics |
+| Metric                           | Target  | Measurement Method      |
+| -------------------------------- | ------- | ----------------------- |
+| **Cache Hit Ratio (Cloudflare)** | > 85%   | Cloudflare Analytics    |
+| **Cache Hit Ratio (Vercel)**     | > 90%   | Vercel Analytics        |
+| **p50 TTFB (cached)**            | < 50ms  | WebPageTest, Lighthouse |
+| **p95 TTFB (cached)**            | < 100ms | Cloudflare Analytics    |
+| **p50 TTFB (uncached)**          | < 200ms | Sentry Performance      |
+| **p95 TTFB (uncached)**          | < 500ms | Sentry Performance      |
+| **Global LCP**                   | < 1.5s  | Vercel Analytics        |
+| **Bandwidth Saved by CDN**       | > 95%   | Cloudflare Analytics    |
 
 ### 12.4 Cache Invalidation Strategy
 
-| Invalidation Trigger | Method | Scope | Duration |
-|---------------------|--------|-------|----------|
-| **Content update (CMS)** | Vercel `revalidatePath()` | Specific pages | < 1s |
-| **New deploy** | Automatic ISR cache warm | All pages | < 30s |
-| **New deploy** | Cloudflare Purge API `purgeEverything()` | All cached assets | < 5s |
-| **Manual** | Cloudflare Dashboard → Purge Individual Files | Specific URLs | < 5s |
-| **Emergency** | Cloudflare API `purgeEverything()` | Everything | < 5s |
+| Invalidation Trigger     | Method                                        | Scope             | Duration |
+| ------------------------ | --------------------------------------------- | ----------------- | -------- |
+| **Content update (CMS)** | Vercel `revalidatePath()`                     | Specific pages    | < 1s     |
+| **New deploy**           | Automatic ISR cache warm                      | All pages         | < 30s    |
+| **New deploy**           | Cloudflare Purge API `purgeEverything()`      | All cached assets | < 5s     |
+| **Manual**               | Cloudflare Dashboard → Purge Individual Files | Specific URLs     | < 5s     |
+| **Emergency**            | Cloudflare API `purgeEverything()`            | Everything        | < 5s     |
 
 ### 12.5 CDN Cost Optimization
 
-| Strategy | Implementation | Savings |
-|----------|---------------|---------|
-| **Cache static assets aggressively** | 1-year immutable TTL | ~80% bandwidth reduction |
-| **ISR over SSR** | 60s cache for public pages | ~95% origin request reduction |
-| **Image optimization** | Cloudflare Polish + WebP | ~60% image size reduction |
-| **Brotli compression** | Cloudflare auto-enables | ~20% text asset reduction |
-| **Minified assets** | Next.js production build | ~30% JS/CSS size reduction |
-| **Rocket Loader** | Cloudflare (defer non-critical JS) | ~50% initial load JS |
+| Strategy                             | Implementation                     | Savings                       |
+| ------------------------------------ | ---------------------------------- | ----------------------------- |
+| **Cache static assets aggressively** | 1-year immutable TTL               | ~80% bandwidth reduction      |
+| **ISR over SSR**                     | 60s cache for public pages         | ~95% origin request reduction |
+| **Image optimization**               | Cloudflare Polish + WebP           | ~60% image size reduction     |
+| **Brotli compression**               | Cloudflare auto-enables            | ~20% text asset reduction     |
+| **Minified assets**                  | Next.js production build           | ~30% JS/CSS size reduction    |
+| **Rocket Loader**                    | Cloudflare (defer non-critical JS) | ~50% initial load JS          |
 
 ---
 
@@ -1280,13 +1281,13 @@ const cacheHeaders = {
 
 ### 13.1 Strategy by Service
 
-| Service | Strategy | Downtime | Mechanism | Rollback |
-|---------|----------|----------|-----------|----------|
-| **Frontend (Next.js)** | Incremental adoption | 0 | Vercel routes traffic to new version gradually | Instant (previous deployment) |
-| **API (NestJS)** | Blue-green deployment | 0 | Vercel keeps old functions warm until new ones ready | Instant (switch traffic) |
-| **AI (FastAPI)** | Rolling restart | < 5s | Railway replaces container, keeps old running | `railway rollback` |
-| **Database (PostgreSQL)** | Online migration | 0 | Supabase runs `ACCESS EXCLUSIVE` locks minimally | Reverse migration |
-| **Static Assets** | Atomic swap | 0 | New assets deployed alongside old; atomic DNS | Revert deploy |
+| Service                   | Strategy              | Downtime | Mechanism                                            | Rollback                      |
+| ------------------------- | --------------------- | -------- | ---------------------------------------------------- | ----------------------------- |
+| **Frontend (Next.js)**    | Incremental adoption  | 0        | Vercel routes traffic to new version gradually       | Instant (previous deployment) |
+| **API (NestJS)**          | Blue-green deployment | 0        | Vercel keeps old functions warm until new ones ready | Instant (switch traffic)      |
+| **AI (FastAPI)**          | Rolling restart       | < 5s     | Railway replaces container, keeps old running        | `railway rollback`            |
+| **Database (PostgreSQL)** | Online migration      | 0        | Supabase runs `ACCESS EXCLUSIVE` locks minimally     | Reverse migration             |
+| **Static Assets**         | Atomic swap           | 0        | New assets deployed alongside old; atomic DNS        | Revert deploy                 |
 
 ### 13.2 Blue-Green Deployment (Vercel)
 
@@ -1298,22 +1299,22 @@ sequenceDiagram
     participant M as Monitor
 
     Note over R,M: Pre-Deploy: Blue serves 100% traffic
-    
+
     R->>G: Deploy new version
     G->>M: Smoke tests pass?
     M-->>G: ✅ All green
-    
+
     R->>G: Route 10% traffic to Green
     G->>M: Error rate < baseline?
     M-->>G: ✅ Stable
-    
+
     R->>G: Route 50% traffic to Green
     G->>M: Error rate < baseline?
     M-->>G: ✅ Stable
-    
+
     R->>G: Route 100% traffic to Green
     Note over R,M: Green serves 100% traffic
-    
+
     M-->>R: Error spike at 100%?
     Note over R,M: Rollback: Reroute to Blue
 ```
@@ -1330,11 +1331,11 @@ ALTER TABLE sections ADD COLUMN new_column TEXT;
 
 -- PHASE 2: Backfill data in batches
 -- Small transactions, no long locks
-DO $$ 
+DO $$
 DECLARE batch_size INT := 1000;
 BEGIN
   LOOP
-    UPDATE sections 
+    UPDATE sections
     SET new_column = COALESCE(old_column, 'default')
     WHERE new_column IS NULL
     LIMIT batch_size;
@@ -1350,7 +1351,7 @@ ALTER TABLE sections ALTER COLUMN new_column SET NOT NULL;
 
 -- PHASE 4: Create index (CONCURRENTLY)
 -- Non-blocking index creation
-CREATE INDEX CONCURRENTLY idx_sections_new_column 
+CREATE INDEX CONCURRENTLY idx_sections_new_column
 ON sections(new_column);
 
 -- PHASE 5: Drop old column (next deploy)
@@ -1388,26 +1389,26 @@ ON sections(new_column);
 
 ### 14.1 Scaling Dimensions
 
-| Dimension | Current Capacity | Scaling Trigger | Scaling Action | Est. Cost After |
-|-----------|-----------------|-----------------|----------------|-----------------|
-| **Vercel: Bandwidth** | 100 GB/mo (free) | > 80 GB/mo | Optimize assets, compress | $0 (free tier) |
-| **Vercel: Build Minutes** | 6,000 min/mo (free) | > 4,800 min/mo | Use Turborepo caching | $0 (free tier) |
-| **Vercel: Serverless Execution** | 500 GB-hr/mo (free) | > 400 GB-hr/mo | Reduce cold starts | Vercel Pro ($20/mo) |
-| **Railway: RAM** | 512 MB (free) | > 80% sustained | Increase to 1 GB | $5/mo |
-| **Railway: CPU** | 1 vCPU (free) | > 80% sustained | Increase to 2 vCPU | $10/mo |
-| **Supabase: Database** | 500 MB (free) | > 80% capacity | Archive old data | $0 (free tier) |
-| **Supabase: Storage** | 1 GB (free) | > 800 MB | Clean up old assets | $0 (free tier) |
-| **Supabase: Users** | 50,000 (free) | > 40,000 | Reduce session lifetime | Supabase Pro ($25/mo) |
+| Dimension                        | Current Capacity    | Scaling Trigger | Scaling Action            | Est. Cost After       |
+| -------------------------------- | ------------------- | --------------- | ------------------------- | --------------------- |
+| **Vercel: Bandwidth**            | 100 GB/mo (free)    | > 80 GB/mo      | Optimize assets, compress | $0 (free tier)        |
+| **Vercel: Build Minutes**        | 6,000 min/mo (free) | > 4,800 min/mo  | Use Turborepo caching     | $0 (free tier)        |
+| **Vercel: Serverless Execution** | 500 GB-hr/mo (free) | > 400 GB-hr/mo  | Reduce cold starts        | Vercel Pro ($20/mo)   |
+| **Railway: RAM**                 | 512 MB (free)       | > 80% sustained | Increase to 1 GB          | $5/mo                 |
+| **Railway: CPU**                 | 1 vCPU (free)       | > 80% sustained | Increase to 2 vCPU        | $10/mo                |
+| **Supabase: Database**           | 500 MB (free)       | > 80% capacity  | Archive old data          | $0 (free tier)        |
+| **Supabase: Storage**            | 1 GB (free)         | > 800 MB        | Clean up old assets       | $0 (free tier)        |
+| **Supabase: Users**              | 50,000 (free)       | > 40,000        | Reduce session lifetime   | Supabase Pro ($25/mo) |
 
 ### 14.2 Horizontal Scaling Strategy
 
-| Component | Auto-scaling | Scaling Method | Max Instances | Notes |
-|-----------|-------------|----------------|---------------|-------|
-| **Next.js (Vercel)** | ✅ Automatic | Regional edge deployment | Unlimited | Vercel manages globally |
-| **NestJS (Vercel)** | ✅ Automatic | Per-request serverless | Unlimited | Cold start ~50ms |
-| **FastAPI (Railway)** | ⚠️ Manual (can enable) | Multi-replica | 2-3 replicas | Must upgrade from free plan |
-| **Supabase PostgreSQL** | ❌ Manual | Read replicas (paid) | 5 replicas max | $25/mo for replicas |
-| **Redis (Upstash)** | ⚠️ Manual | Scale tier | 3 tiers available | Free tier: 256MB |
+| Component               | Auto-scaling           | Scaling Method           | Max Instances     | Notes                       |
+| ----------------------- | ---------------------- | ------------------------ | ----------------- | --------------------------- |
+| **Next.js (Vercel)**    | ✅ Automatic           | Regional edge deployment | Unlimited         | Vercel manages globally     |
+| **NestJS (Vercel)**     | ✅ Automatic           | Per-request serverless   | Unlimited         | Cold start ~50ms            |
+| **FastAPI (Railway)**   | ⚠️ Manual (can enable) | Multi-replica            | 2-3 replicas      | Must upgrade from free plan |
+| **Supabase PostgreSQL** | ❌ Manual              | Read replicas (paid)     | 5 replicas max    | $25/mo for replicas         |
+| **Redis (Upstash)**     | ⚠️ Manual              | Scale tier               | 3 tiers available | Free tier: 256MB            |
 
 ### 14.3 Vertical Scaling Thresholds
 
@@ -1441,15 +1442,15 @@ flowchart TB
 
 ### 14.4 Performance Scaling Limits
 
-| Resource | Free Tier Limit | Headroom | Upgrade Needed When |
-|----------|----------------|----------|-------------------|
-| **Monthly visitors** | ~100,000 | 95% headroom | > 100K monthly visitors |
-| **Concurrent visitors** | ~1,000 | 95% headroom | > 1K concurrent |
-| **API requests/mo** | ~5 million | 99% headroom | > 5M API requests |
-| **Database rows** | ~50,000 (500MB) | 95% headroom | > 50K rows per table |
-| **File storage** | ~500 files (1GB) | 90% headroom | > 500 stored files |
-| **AI requests/mo** | ~10,000 ($5 budget) | 80% headroom | > 10K AI requests |
-| **Email sends/day** | 100 (Resend free) | 90% headroom | > 100 emails/day |
+| Resource                | Free Tier Limit     | Headroom     | Upgrade Needed When     |
+| ----------------------- | ------------------- | ------------ | ----------------------- |
+| **Monthly visitors**    | ~100,000            | 95% headroom | > 100K monthly visitors |
+| **Concurrent visitors** | ~1,000              | 95% headroom | > 1K concurrent         |
+| **API requests/mo**     | ~5 million          | 99% headroom | > 5M API requests       |
+| **Database rows**       | ~50,000 (500MB)     | 95% headroom | > 50K rows per table    |
+| **File storage**        | ~500 files (1GB)    | 90% headroom | > 500 stored files      |
+| **AI requests/mo**      | ~10,000 ($5 budget) | 80% headroom | > 10K AI requests       |
+| **Email sends/day**     | 100 (Resend free)   | 90% headroom | > 100 emails/day        |
 
 ### 14.5 Database Connection Pooling
 
@@ -1458,7 +1459,7 @@ Current (Free Tier):
   - Supabase: Max 15 direct connections
   - Solution: PgBouncer (built-in Supabase)
   - Application: NestJS uses connection pool (max 10)
-  
+
 Scaling:
   - Supabase Pro: Max 120 connections (with PgBouncer)
   - Read replicas: Offload read queries
@@ -1471,16 +1472,16 @@ Scaling:
 
 ### 15.1 Backup Schedule
 
-| Data | Backup Method | Frequency | Retention | Storage | RPO | RTO |
-|------|-------------|-----------|-----------|---------|-----|-----|
-| **PostgreSQL (Full)** | `pg_dump` | Daily | 30 days | Supabase Managed | 24 hours | < 1 hour |
-| **PostgreSQL (WAL)** | Continuous archiving | Real-time | 7 days | Supabase Managed | < 1 min | < 1 hour |
-| **Supabase Storage** | Sync to secondary bucket | Weekly | 90 days | Cloudflare R2 + Manual | 7 days | < 4 hours |
-| **Environment Variables** | Encrypted export | Per-change | Indefinite | 1Password + GitHub Secrets | N/A | < 30 min |
-| **CI/CD Configuration** | Git history | Per-commit | Indefinite | GitHub | N/A | < 5 min |
-| **Infrastructure as Code** | Git history | Per-commit | Indefinite | GitHub | N/A | < 5 min |
-| **Documentation** | Git history | Per-commit | Indefinite | GitHub | N/A | < 5 min |
-| **Application Code** | Git history | Per-commit | Indefinite | GitHub | N/A | < 5 min |
+| Data                       | Backup Method            | Frequency  | Retention  | Storage                    | RPO      | RTO       |
+| -------------------------- | ------------------------ | ---------- | ---------- | -------------------------- | -------- | --------- |
+| **PostgreSQL (Full)**      | `pg_dump`                | Daily      | 30 days    | Supabase Managed           | 24 hours | < 1 hour  |
+| **PostgreSQL (WAL)**       | Continuous archiving     | Real-time  | 7 days     | Supabase Managed           | < 1 min  | < 1 hour  |
+| **Supabase Storage**       | Sync to secondary bucket | Weekly     | 90 days    | Cloudflare R2 + Manual     | 7 days   | < 4 hours |
+| **Environment Variables**  | Encrypted export         | Per-change | Indefinite | 1Password + GitHub Secrets | N/A      | < 30 min  |
+| **CI/CD Configuration**    | Git history              | Per-commit | Indefinite | GitHub                     | N/A      | < 5 min   |
+| **Infrastructure as Code** | Git history              | Per-commit | Indefinite | GitHub                     | N/A      | < 5 min   |
+| **Documentation**          | Git history              | Per-commit | Indefinite | GitHub                     | N/A      | < 5 min   |
+| **Application Code**       | Git history              | Per-commit | Indefinite | GitHub                     | N/A      | < 5 min   |
 
 ### 15.2 Backup Architecture
 
@@ -1529,13 +1530,13 @@ flowchart TB
 
 ### 15.3 Backup Verification
 
-| Backup Type | Verification Method | Frequency | Owner |
-|-------------|-------------------|-----------|-------|
-| **PostgreSQL Full** | Restore to staging, run data integrity checks | Monthly | DevOps Lead |
-| **PostgreSQL WAL** | Verify continuous archiving is active | Weekly | DevOps Lead |
-| **Storage Sync** | Verify R2 bucket has latest files | Weekly | DevOps Lead |
-| **Env Variables** | Verify 1Password vault matches GitHub Secrets | Monthly | DevOps Lead |
-| **Git Code** | `git fsck` for repository integrity | Quarterly | All developers |
+| Backup Type         | Verification Method                           | Frequency | Owner          |
+| ------------------- | --------------------------------------------- | --------- | -------------- |
+| **PostgreSQL Full** | Restore to staging, run data integrity checks | Monthly   | DevOps Lead    |
+| **PostgreSQL WAL**  | Verify continuous archiving is active         | Weekly    | DevOps Lead    |
+| **Storage Sync**    | Verify R2 bucket has latest files             | Weekly    | DevOps Lead    |
+| **Env Variables**   | Verify 1Password vault matches GitHub Secrets | Monthly   | DevOps Lead    |
+| **Git Code**        | `git fsck` for repository integrity           | Quarterly | All developers |
 
 ### 15.4 Backup Restoration Playbook
 
@@ -1586,9 +1587,9 @@ sequenceDiagram
 
     M->>D: 🚨 Alert: Error rate spike (5x baseline)
     M->>D: 🚨 Alert: p95 latency > 2x baseline
-    
+
     D->>D: Assess severity (30s)
-    
+
     alt Auto-Rollback Triggered
         D->>V: vercel rollback --confirm
         V-->>D: ✅ Rolled back to v2.1.2
@@ -1609,13 +1610,13 @@ sequenceDiagram
 
 ### 16.2 Rollback by Service
 
-| Service | Rollback Method | Time | Data Loss Risk | Verification |
-|---------|----------------|------|---------------|--------------|
-| **Frontend (Vercel)** | `vercel rollback --confirm` | < 10s | None | Health check + smoke test |
-| **API (Vercel)** | `vercel rollback --confirm` | < 10s | None | Health check + smoke test |
-| **AI (Railway)** | `railway service rollback` | < 60s | None (stateless) | Health check + response test |
-| **Database** | Down migration + data fix | < 5 min | < 1 min (RPO) | Data integrity checks |
-| **Full Stack** | Sequential rollback (all above) | < 10 min | < 1 min | Full smoke suite |
+| Service               | Rollback Method                 | Time     | Data Loss Risk   | Verification                 |
+| --------------------- | ------------------------------- | -------- | ---------------- | ---------------------------- |
+| **Frontend (Vercel)** | `vercel rollback --confirm`     | < 10s    | None             | Health check + smoke test    |
+| **API (Vercel)**      | `vercel rollback --confirm`     | < 10s    | None             | Health check + smoke test    |
+| **AI (Railway)**      | `railway service rollback`      | < 60s    | None (stateless) | Health check + response test |
+| **Database**          | Down migration + data fix       | < 5 min  | < 1 min (RPO)    | Data integrity checks        |
+| **Full Stack**        | Sequential rollback (all above) | < 10 min | < 1 min          | Full smoke suite             |
 
 ### 16.3 Rollback Commands Reference
 
@@ -1653,16 +1654,16 @@ supabase db push --db-url "$PROD_DB_URL" < pre_migration.sql  # Rollback
 
 ### 16.4 Rollback Decision Matrix
 
-| Scenario | Rollback? | Action | Priority |
-|----------|-----------|--------|----------|
-| **5xx errors > 1%** | ✅ YES - auto | Full stack rollback | P0 |
-| **p95 latency > 2x baseline** | ✅ YES - auto | API + frontend rollback | P0 |
-| **Database data corruption** | ✅ YES - manual | DB PITR restore | P0 |
-| **Security vulnerability** | ✅ YES - emergency | Immediate full rollback | P0 |
-| **Broken UI on critical page** | ⚠️ Evaluate | Frontend rollback only | P1 |
-| **AI service down** | ⚠️ Evaluate | AI rollback only (graceful deg.) | P1 |
-| **Minor styling issue** | ❌ No | Hotfix in next deploy | P3 |
-| **New feature bug (non-critical)** | ❌ No | Fix forward | P3 |
+| Scenario                           | Rollback?          | Action                           | Priority |
+| ---------------------------------- | ------------------ | -------------------------------- | -------- |
+| **5xx errors > 1%**                | ✅ YES - auto      | Full stack rollback              | P0       |
+| **p95 latency > 2x baseline**      | ✅ YES - auto      | API + frontend rollback          | P0       |
+| **Database data corruption**       | ✅ YES - manual    | DB PITR restore                  | P0       |
+| **Security vulnerability**         | ✅ YES - emergency | Immediate full rollback          | P0       |
+| **Broken UI on critical page**     | ⚠️ Evaluate        | Frontend rollback only           | P1       |
+| **AI service down**                | ⚠️ Evaluate        | AI rollback only (graceful deg.) | P1       |
+| **Minor styling issue**            | ❌ No              | Hotfix in next deploy            | P3       |
+| **New feature bug (non-critical)** | ❌ No              | Fix forward                      | P3       |
 
 ### 16.5 Rollback Checklist
 
@@ -1685,49 +1686,49 @@ supabase db push --db-url "$PROD_DB_URL" < pre_migration.sql  # Rollback
 
 ## 17. Health Check Configuration
 
-| Service | Endpoint | Expected Response | Interval | Timeout | Failure Consequence |
-|---------|----------|-------------------|----------|---------|-------------------|
-| **Frontend** | `https://portfolioowner.com/api/health` | `200 { status: "ok", timestamp: "..." }` | 30s | 5s | Alert → Check Sentry |
-| **API** | `https://api.portfolioowner.com/health` | `200 { status: "ok", db: "connected", version: "2.1.0" }` | 30s | 5s | Alert → Auto-restart |
-| **AI Service** | `https://ai.portfolioowner.com/api/health` | `200 { status: "healthy", model: "gpt-4", uptime: 3600 }` | 60s | 10s | Alert → Railway restart |
-| **Supabase** | `https://db.supabase.co/ping` | `200` | 60s | 10s | Alert → Check Supabase status |
-| **Cloudflare** | `https://portfolioowner.com/cdn-cgi/trace` | `200` (contains `h=cloudflare`) | 60s | 10s | Alert → Check CF status |
+| Service        | Endpoint                                   | Expected Response                                         | Interval | Timeout | Failure Consequence           |
+| -------------- | ------------------------------------------ | --------------------------------------------------------- | -------- | ------- | ----------------------------- |
+| **Frontend**   | `https://portfolioowner.com/api/health`    | `200 { status: "ok", timestamp: "..." }`                  | 30s      | 5s      | Alert → Check Sentry          |
+| **API**        | `https://api.portfolioowner.com/health`    | `200 { status: "ok", db: "connected", version: "2.1.0" }` | 30s      | 5s      | Alert → Auto-restart          |
+| **AI Service** | `https://ai.portfolioowner.com/api/health` | `200 { status: "healthy", model: "gpt-4", uptime: 3600 }` | 60s      | 10s     | Alert → Railway restart       |
+| **Supabase**   | `https://db.supabase.co/ping`              | `200`                                                     | 60s      | 10s     | Alert → Check Supabase status |
+| **Cloudflare** | `https://portfolioowner.com/cdn-cgi/trace` | `200` (contains `h=cloudflare`)                           | 60s      | 10s     | Alert → Check CF status       |
 
 ---
 
 ## 18. Deployment Security
 
-| Control | Implementation | Verification |
-|---------|---------------|-------------|
-| **Environment isolation** | Separate Supabase projects, API keys, env vars per environment | Manual check per deploy |
-| **Secret rotation** | 90-day automated reminders for all credentials | Calendar event + Telegram reminder |
-| **Branch protection** | `main` branch requires CI pass + 1 review to merge | GitHub branch settings |
-| **Deploy protection** | Production deploys only from `main` branch | `if: github.ref == 'refs/heads/main'` in CI |
-| **Preview deployments** | Password-protected Vercel previews for sensitive PRs | Vercel deployment protection |
-| **Audit trail** | All deploys logged in GitHub Actions + Vercel dashboard | GitHub audit log |
-| **Signed commits** | GPG signing (required for main/develop) | GitHub verified badge |
-| **Dependency scanning** | Dependabot weekly + `npm audit` in CI | Block PRs with high/critical vulns |
-| **Secret scanning** | GitHub secret scanning on push | Block push with credentials |
-| **SAST** | ESLint security rules in CI | CI gate |
-| **Access control** | Least privilege on GitHub, Vercel, Railway | Quarterly audit |
-| **Rate limiting** | 3-tier rate limiting per endpoint | `@nestjs/throttler` + Upstash Redis |
+| Control                   | Implementation                                                 | Verification                                |
+| ------------------------- | -------------------------------------------------------------- | ------------------------------------------- |
+| **Environment isolation** | Separate Supabase projects, API keys, env vars per environment | Manual check per deploy                     |
+| **Secret rotation**       | 90-day automated reminders for all credentials                 | Calendar event + Telegram reminder          |
+| **Branch protection**     | `main` branch requires CI pass + 1 review to merge             | GitHub branch settings                      |
+| **Deploy protection**     | Production deploys only from `main` branch                     | `if: github.ref == 'refs/heads/main'` in CI |
+| **Preview deployments**   | Password-protected Vercel previews for sensitive PRs           | Vercel deployment protection                |
+| **Audit trail**           | All deploys logged in GitHub Actions + Vercel dashboard        | GitHub audit log                            |
+| **Signed commits**        | GPG signing (required for main/develop)                        | GitHub verified badge                       |
+| **Dependency scanning**   | Dependabot weekly + `npm audit` in CI                          | Block PRs with high/critical vulns          |
+| **Secret scanning**       | GitHub secret scanning on push                                 | Block push with credentials                 |
+| **SAST**                  | ESLint security rules in CI                                    | CI gate                                     |
+| **Access control**        | Least privilege on GitHub, Vercel, Railway                     | Quarterly audit                             |
+| **Rate limiting**         | 3-tier rate limiting per endpoint                              | `@nestjs/throttler` + Upstash Redis         |
 
 ---
 
 ## 19. Deployment Metrics & KPIs
 
-| Metric | Target | Elite | High | Medium | Low | Measurement Tool |
-|--------|--------|-------|------|--------|-----|-----------------|
-| **Deploy frequency** | Daily | On-demand (multiple/day) | Weekly–Monthly | Monthly–6 months | < 6 months | GitHub Insights |
-| **Deploy duration** | < 10 min | < 5 min | < 10 min | < 20 min | > 20 min | GitHub Actions timing |
-| **Lead time for changes** | < 1 day | < 1 hour | 1 day–1 week | 1 month–6 months | > 6 months | PR → production |
-| **Change failure rate** | < 5% | < 5% | 5–10% | 10–20% | > 20% | Deploys causing incidents |
-| **Time to restore (MTTR)** | < 1 hour | < 1 hour | < 1 day | 1 day–1 week | > 1 week | Incident → resolution |
-| **Rollback frequency** | < 5% | < 2% | 2–5% | 5–10% | > 10% | GitHub Actions rollback log |
-| **Preview deploy time** | < 5 min | < 2 min | < 5 min | < 10 min | > 10 min | Vercel |
-| **Production deploy time** | < 3 min | < 1 min | < 3 min | < 5 min | > 5 min | Vercel + Railway |
-| **Cache hit ratio (CDN)** | > 85% | > 95% | > 85% | > 70% | < 70% | Cloudflare Analytics |
-| **SSL certificate expiry** | > 30 days | > 60 days | > 30 days | > 14 days | < 14 days | Cloudflare Dashboard |
+| Metric                     | Target    | Elite                    | High           | Medium           | Low        | Measurement Tool            |
+| -------------------------- | --------- | ------------------------ | -------------- | ---------------- | ---------- | --------------------------- |
+| **Deploy frequency**       | Daily     | On-demand (multiple/day) | Weekly–Monthly | Monthly–6 months | < 6 months | GitHub Insights             |
+| **Deploy duration**        | < 10 min  | < 5 min                  | < 10 min       | < 20 min         | > 20 min   | GitHub Actions timing       |
+| **Lead time for changes**  | < 1 day   | < 1 hour                 | 1 day–1 week   | 1 month–6 months | > 6 months | PR → production             |
+| **Change failure rate**    | < 5%      | < 5%                     | 5–10%          | 10–20%           | > 20%      | Deploys causing incidents   |
+| **Time to restore (MTTR)** | < 1 hour  | < 1 hour                 | < 1 day        | 1 day–1 week     | > 1 week   | Incident → resolution       |
+| **Rollback frequency**     | < 5%      | < 2%                     | 2–5%           | 5–10%            | > 10%      | GitHub Actions rollback log |
+| **Preview deploy time**    | < 5 min   | < 2 min                  | < 5 min        | < 10 min         | > 10 min   | Vercel                      |
+| **Production deploy time** | < 3 min   | < 1 min                  | < 3 min        | < 5 min          | > 5 min    | Vercel + Railway            |
+| **Cache hit ratio (CDN)**  | > 85%     | > 95%                    | > 85%          | > 70%            | < 70%      | Cloudflare Analytics        |
+| **SSL certificate expiry** | > 30 days | > 60 days                | > 30 days      | > 14 days        | < 14 days  | Cloudflare Dashboard        |
 
 ### 19.1 Deployment Dashboard
 
@@ -1745,41 +1746,41 @@ graph TB
 
 ## Decision Log
 
-| Decision ID | Date | Decision | Rationale | Alternatives Considered | Outcome |
-|-------------|------|----------|-----------|------------------------|---------|
-| DEC-DPL-001 | Jun 2026 | Build-once, deploy-everywhere with CI-built artifacts | Deterministic artifacts; same bits tested in staging go to production | Build-per-environment (inconsistent artifacts) | Adopted — single CI pipeline builds all |
-| DEC-DPL-002 | Jun 2026 | Dual-layer CDN (Cloudflare + Vercel) | Cloudflare for static assets (330 PoPs); Vercel for ISR (100 PoPs) | Single CDN (reduced global performance) | Adopted — 85%+ cache hit ratio target |
-| DEC-DPL-003 | Jun 2026 | Vercel for frontend + API; Railway for AI Service | Vercel optimized for Next.js serverless; Railway for Docker containers | All-on-Vercel (no Docker support), all-on-Railway (no Next.js optimization) | Adopted — best-of-breed hosting |
-| DEC-DPL-004 | Jun 2026 | Zero-downtime deployments with blue-green pattern on Vercel | No traffic loss during deploys; instant rollback | Rolling update (Railway), recreate (downtime) | Adopted — < 5s AI downtime |
-| DEC-DPL-005 | Jun 2026 | Cloudflare Full (Strict) SSL with HSTS preload | End-to-end encryption; origin certificate required; best security posture | Flexible SSL (encrypts client→CF only), Off (no encryption) | Adopted — TLS 1.3, HSTS 2-year |
-| DEC-DPL-006 | Jun 2026 | Supabase managed PostgreSQL with PITR for disaster recovery | Managed backups; point-in-time recovery; 7-day WAL archive | Self-hosted PostgreSQL (operational overhead), PlanetScale (different SQL dialect) | Adopted — daily full + continuous WAL backups |
+| Decision ID | Date     | Decision                                                    | Rationale                                                                 | Alternatives Considered                                                            | Outcome                                       |
+| ----------- | -------- | ----------------------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------- |
+| DEC-DPL-001 | Jun 2026 | Build-once, deploy-everywhere with CI-built artifacts       | Deterministic artifacts; same bits tested in staging go to production     | Build-per-environment (inconsistent artifacts)                                     | Adopted — single CI pipeline builds all       |
+| DEC-DPL-002 | Jun 2026 | Dual-layer CDN (Cloudflare + Vercel)                        | Cloudflare for static assets (330 PoPs); Vercel for ISR (100 PoPs)        | Single CDN (reduced global performance)                                            | Adopted — 85%+ cache hit ratio target         |
+| DEC-DPL-003 | Jun 2026 | Vercel for frontend + API; Railway for AI Service           | Vercel optimized for Next.js serverless; Railway for Docker containers    | All-on-Vercel (no Docker support), all-on-Railway (no Next.js optimization)        | Adopted — best-of-breed hosting               |
+| DEC-DPL-004 | Jun 2026 | Zero-downtime deployments with blue-green pattern on Vercel | No traffic loss during deploys; instant rollback                          | Rolling update (Railway), recreate (downtime)                                      | Adopted — < 5s AI downtime                    |
+| DEC-DPL-005 | Jun 2026 | Cloudflare Full (Strict) SSL with HSTS preload              | End-to-end encryption; origin certificate required; best security posture | Flexible SSL (encrypts client→CF only), Off (no encryption)                        | Adopted — TLS 1.3, HSTS 2-year                |
+| DEC-DPL-006 | Jun 2026 | Supabase managed PostgreSQL with PITR for disaster recovery | Managed backups; point-in-time recovery; 7-day WAL archive                | Self-hosted PostgreSQL (operational overhead), PlanetScale (different SQL dialect) | Adopted — daily full + continuous WAL backups |
 
 ## Risk Register
 
-| Risk ID | Description | Probability | Impact | Severity | Mitigation | Owner |
-|---------|-------------|-------------|--------|----------|------------|-------|
-| RSK-DPL-001 | Provider outage (Vercel/Railway/Supabase) causes full site downtime | Low | Critical | Red | Disaster recovery plan (RR-003) with secondary providers; DNS failover procedure; < 4h RTO | DevOps Lead |
-| RSK-DPL-002 | SSL certificate expiry causes browser security warnings | Low | High | Amber | Cloudflare auto-renewal (60-day); 30/14/7/1-day expiry alerts; monitoring via Better Uptime | DevOps Lead |
-| RSK-DPL-003 | Database migration causes data loss or extended downtime | Low | Critical | Red | Online migration pattern (add nullable → backfill → NOT NULL → index); reversible migrations; staging test | Backend Lead |
-| RSK-DPL-004 | CDN cache serving stale content after deployment | Medium | Medium | Amber | ISR revalidation on deploy; Cloudflare purge API (`purgeEverything`); versioned asset URLs | DevOps Lead |
-| RSK-DPL-005 | DNS propagation delays during failover or domain changes | Low | Medium | Green | Standard 300s TTL; reduce to 60s before planned changes; pre-warm DNS with low TTL | DevOps Lead |
+| Risk ID     | Description                                                         | Probability | Impact   | Severity | Mitigation                                                                                                 | Owner        |
+| ----------- | ------------------------------------------------------------------- | ----------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------- | ------------ |
+| RSK-DPL-001 | Provider outage (Vercel/Railway/Supabase) causes full site downtime | Low         | Critical | Red      | Disaster recovery plan (RR-003) with secondary providers; DNS failover procedure; < 4h RTO                 | DevOps Lead  |
+| RSK-DPL-002 | SSL certificate expiry causes browser security warnings             | Low         | High     | Amber    | Cloudflare auto-renewal (60-day); 30/14/7/1-day expiry alerts; monitoring via Better Uptime                | DevOps Lead  |
+| RSK-DPL-003 | Database migration causes data loss or extended downtime            | Low         | Critical | Red      | Online migration pattern (add nullable → backfill → NOT NULL → index); reversible migrations; staging test | Backend Lead |
+| RSK-DPL-004 | CDN cache serving stale content after deployment                    | Medium      | Medium   | Amber    | ISR revalidation on deploy; Cloudflare purge API (`purgeEverything`); versioned asset URLs                 | DevOps Lead  |
+| RSK-DPL-005 | DNS propagation delays during failover or domain changes            | Low         | Medium   | Green    | Standard 300s TTL; reduce to 60s before planned changes; pre-warm DNS with low TTL                         | DevOps Lead  |
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **Blue-Green Deployment** | A deployment strategy where two identical environments (blue = current, green = new) are swapped atomically |
-| **CNAME** | Canonical Name — a DNS record that maps an alias domain name to a canonical domain name |
-| **DNSSEC** | DNS Security Extensions — cryptographic authentication of DNS responses to prevent spoofing |
-| **HSTS** | HTTP Strict Transport Security — a policy that forces browsers to connect via HTTPS only |
-| **ISR** | Incremental Static Regeneration — Next.js feature that updates static pages without rebuilding the entire site |
-| **PITR** | Point-in-Time Recovery — restoring a database to a specific moment, typically using WAL archives |
-| **PoP** | Point of Presence — a physical location where a CDN provider caches and serves content |
-| **RTO** | Recovery Time Objective — the maximum acceptable time to restore service after an incident |
-| **RPO** | Recovery Point Objective — the maximum acceptable data loss measured in time |
-| **Serverless** | A cloud execution model where the provider manages server allocation and scaling dynamically |
-| **Stale-While-Revalidate** | A caching strategy that serves stale content while fetching fresh content in the background |
-| **WAL** | Write-Ahead Log — PostgreSQL's transaction log used for point-in-time recovery |
+| Term                       | Definition                                                                                                     |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Blue-Green Deployment**  | A deployment strategy where two identical environments (blue = current, green = new) are swapped atomically    |
+| **CNAME**                  | Canonical Name — a DNS record that maps an alias domain name to a canonical domain name                        |
+| **DNSSEC**                 | DNS Security Extensions — cryptographic authentication of DNS responses to prevent spoofing                    |
+| **HSTS**                   | HTTP Strict Transport Security — a policy that forces browsers to connect via HTTPS only                       |
+| **ISR**                    | Incremental Static Regeneration — Next.js feature that updates static pages without rebuilding the entire site |
+| **PITR**                   | Point-in-Time Recovery — restoring a database to a specific moment, typically using WAL archives               |
+| **PoP**                    | Point of Presence — a physical location where a CDN provider caches and serves content                         |
+| **RTO**                    | Recovery Time Objective — the maximum acceptable time to restore service after an incident                     |
+| **RPO**                    | Recovery Point Objective — the maximum acceptable data loss measured in time                                   |
+| **Serverless**             | A cloud execution model where the provider manages server allocation and scaling dynamically                   |
+| **Stale-While-Revalidate** | A caching strategy that serves stale content while fetching fresh content in the background                    |
+| **WAL**                    | Write-Ahead Log — PostgreSQL's transaction log used for point-in-time recovery                                 |
 
 ---
 
@@ -1788,13 +1789,17 @@ graph TB
 To deploy the Phase 4 WebContainer AI Sandbox successfully, specific environment variables and security configurations must be applied to the Next.js Vercel deployment.
 
 ### 1. GitHub Integration Configuration
+
 The Sandbox relies on pushing commits directly to the remote repository. Ensure the following environment variables are set securely in Vercel:
+
 - `GITHUB_PAT`: A Personal Access Token (classic or fine-grained) with `repo` permissions to commit to the repository on behalf of the admin.
 - `GITHUB_REPO_OWNER`: The username or organization owning the target repository.
 - `GITHUB_REPO_NAME`: The name of the target repository.
 
 ### 2. Cross-Origin Policy Headers
+
 WebContainers rely on `SharedArrayBuffer`, requiring Vercel to serve the Sandbox pages with proper Cross-Origin Isolation headers. Ensure `next.config.js` properly configures:
+
 - `Cross-Origin-Embedder-Policy: require-corp`
 - `Cross-Origin-Opener-Policy: same-origin`
 
@@ -1802,38 +1807,36 @@ WebContainers rely on `SharedArrayBuffer`, requiring Vercel to serve the Sandbox
 
 ## 20. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Author      |
+| ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | **5.0** | Jun 2026 | **Enterprise v5.0 Upgrade**: Added 12 new sections — §2 Enterprise Deployment Architecture (full topology with provider matrix, data flow), §3 Infrastructure Topology (physical/logical topology, network architecture with latency SLAs), §4 Development Environment (local setup with Docker, IDE config, pre-commit hooks, development checklist), §5 Testing Environment (ephemeral CI environment, 9 quality gates, test config), §6 Staging Environment (full config, promotion gate, seed data), §7 Production Environment (runbook, env vars), §8 Deployment Workflow (lifecycle, timing Gantt, commands, deploy window policy), §9 Domain Strategy (portfolio, subdomain architecture, hygiene, acquisition process), §10 DNS Strategy (Cloudflare architecture, record inventory, change management, monitoring), §11 SSL/TLS Strategy (architecture with Cloudflare Full Strict, certificate inventory, HSTS preload), §12 CDN Strategy (dual-layer Cloudflare + Vercel, cache config with 4 asset types, invalidation, cost optimization), §14 Scaling Strategy (dimensions, horizontal/vertical scaling, performance limits, connection pooling). Upgraded 4 existing sections — §1 Executive Summary (expanded with 4-env strategy), §13 Zero-Downtime Deployment (blue-green sequence diagram, migration safety, checklist), §15 Backup Strategy (full backup architecture diagram, verification, restoration playbook), §16 Rollback Strategy (architecture sequence diagram, decision matrix, commands, checklist). Added §19 Deployment Metrics (DORA + platform KPIs, dashboard). Preserved §17 Health Check Configuration, §18 Deployment Security. Incorporated insights from docx_content.json (Ch.7 DevOps Pipeline, Agent 9 setup prompts). | DevOps Lead |
-| 4.0 | Jun 2026 | Enterprise-Grade Rewrite: 9 sections — Executive Summary, Deployment Topology, Environment Matrix, Pipeline, Zero-Downtime, Health Checks, Security, Metrics | DevOps Lead |
-| 3.0 | Jun 2026 | Added executive summary, environment matrix, change log | DevOps Lead |
-| 2.0 | Jun 2026 | Updated for enterprise monorepo structure | DevOps Lead |
-| 1.0 | Mar 2026 | Initial deployment documentation | DevOps Lead |
+| 4.0     | Jun 2026 | Enterprise-Grade Rewrite: 9 sections — Executive Summary, Deployment Topology, Environment Matrix, Pipeline, Zero-Downtime, Health Checks, Security, Metrics                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | DevOps Lead |
+| 3.0     | Jun 2026 | Added executive summary, environment matrix, change log                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | DevOps Lead |
+| 2.0     | Jun 2026 | Updated for enterprise monorepo structure                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | DevOps Lead |
+| 1.0     | Mar 2026 | Initial deployment documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | DevOps Lead |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
+| Reference                                        | Description                                                            |
+| ------------------------------------------------ | ---------------------------------------------------------------------- |
 | `docs/architecture/SystemArchitecture.md` (v5.0) | System architecture — §9 Deployment Architecture, environment topology |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology stack — hosting, providers, versions |
-| `docs/operations/DevOpsArchitecture.md` (v5.0) | DevOps — CI/CD pipeline, build system, toolchain, environment strategy |
-| `docs/operations/25-CICD.md` (v5.0) | CI/CD — workflow definitions, pipeline configuration, quality gates |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security — environment security, secret management, compliance |
-| `docs/operations/21-MONITORING.md` (v5.0) | Monitoring — SLOs, SLIs, alerting configuration |
-| `docs/operations/22-OBSERVABILITY.md` (v5.0) | Observability — tracing across the deployment pipeline |
-| `docx_content.json` | Ultimate Portfolio Plan — Ch.7 DevOps Pipeline, Agent 9 setup prompts |
-| `.github/workflows/ci.yml` | GitHub Actions CI/CD workflow (source of truth) |
-| `infrastructure/docker/docker-compose.yml` | Local development environment |
-| `infrastructure/ci/ci.yml` | CI/CD reference configuration |
-| `apps/ai/railway.toml` | Railway service configuration |
-| `turbo.json` | Turborepo pipeline configuration |
-| `package.json` | Scripts and dependencies |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)       | Technology stack — hosting, providers, versions                        |
+| `docs/operations/DevOpsArchitecture.md` (v5.0)   | DevOps — CI/CD pipeline, build system, toolchain, environment strategy |
+| `docs/operations/25-CICD.md` (v5.0)              | CI/CD — workflow definitions, pipeline configuration, quality gates    |
+| `docs/security/SecurityArchitecture.md` (v5.0)   | Security — environment security, secret management, compliance         |
+| `docs/operations/21-MONITORING.md` (v5.0)        | Monitoring — SLOs, SLIs, alerting configuration                        |
+| `docs/operations/22-OBSERVABILITY.md` (v5.0)     | Observability — tracing across the deployment pipeline                 |
+| `docx_content.json`                              | Ultimate Portfolio Plan — Ch.7 DevOps Pipeline, Agent 9 setup prompts  |
+| `.github/workflows/ci.yml`                       | GitHub Actions CI/CD workflow (source of truth)                        |
+| `infrastructure/docker/docker-compose.yml`       | Local development environment                                          |
+| `infrastructure/ci/ci.yml`                       | CI/CD reference configuration                                          |
+| `apps/ai/railway.toml`                           | Railway service configuration                                          |
+| `turbo.json`                                     | Turborepo pipeline configuration                                       |
+| `package.json`                                   | Scripts and dependencies                                               |
 
 ---
-
-
 
 ---
 
@@ -1842,21 +1845,25 @@ WebContainers rely on `SharedArrayBuffer`, requiring Vercel to serve the Sandbox
 Despite rigorous testing, deployments can sometimes fail or introduce critical bugs. A well-defined rollback strategy ensures the Mean Time To Recovery (MTTR) is kept to an absolute minimum, protecting the user experience and data integrity.
 
 ### 12.1 Frontend Rollback (Vercel)
+
 - **Mechanism**: Instant Revert.
 - **Process**: Vercel retains previous immutable builds. If a production bug is detected in the frontend, an administrator can use the Vercel Dashboard or CLI to "Promote" the immediate previous successful deployment back to production. This swap happens at the Edge and takes seconds, resulting in immediate recovery.
 
 ### 12.2 Backend & AI Service Rollback (Railway)
+
 - **Mechanism**: Previous Image / Commit Revert.
 - **Process**: If the deployment platform supports one-click rollbacks, use the platform dashboard to revert to the previous container image. Alternatively, execute `git revert <commit-hash>` on the `main` branch and push. The CI/CD pipeline will rapidly build and deploy the reverted state. Because of the rolling deployment strategy, if a new backend version fails its health check, the platform automatically halts the rollout, effectively self-rolling back.
 
 ### 12.3 Database Rollback (Supabase & Prisma)
+
 - **Mechanism**: Forward-Fixing or Point-in-Time Recovery (PITR).
 - **Process**:
   - **Minor Issues**: NEVER manually alter the database schema to roll back. Instead, write a new Prisma migration that reverses the changes (e.g., re-adding a dropped table) and deploy it as a hotfix.
   - **Catastrophic Data Loss/Corruption**: Utilize Supabase's Point-in-Time Recovery (PITR). This allows the database to be restored to the exact minute before the bad migration or malicious event occurred.
-  - *Note*: Rolling back code while leaving the database migrated forward is generally safe if the "Expand and Contract" deployment strategy (backward compatibility) was strictly followed.
+  - _Note_: Rolling back code while leaving the database migrated forward is generally safe if the "Expand and Contract" deployment strategy (backward compatibility) was strictly followed.
 
 ### 12.4 Incident Response
+
 - All rollbacks must be accompanied by an Incident Report detailing the root cause.
 - Post-mortems are blameless and focus on updating CI/CD pipeline checks to catch similar issues in the future.
 
@@ -1864,14 +1871,14 @@ Despite rigorous testing, deployments can sometimes fail or introduce critical b
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 5.0 | Jun 2026 | Enterprise deployment - 4 environments, zero-downtime, CDN, scaling, DR | DevOps Lead |
-| 4.0 | Jun 2026 | Added Vercel/Railway config, deployment runbooks | DevOps Lead |
-| 3.0 | Jun 2026 | Updated for enterprise structure | DevOps Lead |
-| 2.0 | Jun 2026 | Added deployment workflow diagrams | DevOps Lead |
-| 1.0 | Mar 2026 | Initial deployment documentation | DevOps Lead |
+| Version | Date     | Changes                                                                 | Author      |
+| ------- | -------- | ----------------------------------------------------------------------- | ----------- |
+| 5.0     | Jun 2026 | Enterprise deployment - 4 environments, zero-downtime, CDN, scaling, DR | DevOps Lead |
+| 4.0     | Jun 2026 | Added Vercel/Railway config, deployment runbooks                        | DevOps Lead |
+| 3.0     | Jun 2026 | Updated for enterprise structure                                        | DevOps Lead |
+| 2.0     | Jun 2026 | Added deployment workflow diagrams                                      | DevOps Lead |
+| 1.0     | Mar 2026 | Initial deployment documentation                                        | DevOps Lead |
 
-*Document Version: 5.0 — Enterprise-Grade Deployment Architecture*  
-*Supersedes v4.0 (June 2026) and all previous versions*  
-*Next Review Date: September 2026*
+_Document Version: 5.0 — Enterprise-Grade Deployment Architecture_  
+_Supersedes v4.0 (June 2026) and all previous versions_  
+_Next Review Date: September 2026_

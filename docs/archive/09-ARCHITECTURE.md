@@ -11,6 +11,7 @@
 The portfolio platform follows a **three-tier microservices architecture** strictly adhering to enterprise separation of concerns. It consists of a highly optimized Next.js 14 frontend (`apps/web`), a highly scalable NestJS 10 REST API (`apps/api`), and a robust multi-LLM FastAPI microservice (`apps/ai`). Everything is backed by Supabase (PostgreSQL 15 + Auth + Storage + Realtime). The architecture prioritizes a zero-friction, highly performant edge-first delivery via Vercel ISR, managed within a Turborepo v2 monorepo.
 
 **Core Design Principles:**
+
 - **Cost-optimized:** Every free tier carefully evaluated to support a portfolio workload
 - **Edge-first:** ISR and CDN caching for sub-100ms global page loads
 - **Security layered:** JWT auth + RLS + rate limiting + OWASP compliance at every tier
@@ -110,29 +111,29 @@ graph TB
     AdminSPA --> SharedUI
     AdminSPA --> Sandbox
     Sandbox -->|Deploy Commits| GitHub
-    
+
     PublicPages -.->|ISR fetch| ContentAPI
     AdminSPA -->|JWT requests| Gateway
     Gateway --> AuthAPI
     Gateway --> ContentAPI
     Gateway --> LeadAPI
-    
+
     AdminSPA -->|AI requests| ChatAPI
     PublicPages -->|Chat requests| ChatAPI
     ChatAPI --> RAGService
     RAGService --> VectorDB
     RAGService --> OpenAI
-    
+
     ContentAPI --> PG
     LeadAPI --> PG
     LeadAPI --> Resend
     AuthAPI --> AuthDB
     ContentAPI --> Storage
-    
+
     ChatAPI --> OpenAI
     AnalyzeAPI --> OpenAI
     SuggestAPI --> OpenAI
-    
+
     PublicPages -.->|Events| PostHog
     AdminSPA -.->|Events| PostHog
     Gateway -.->|Traces| Sentry
@@ -141,23 +142,23 @@ graph TB
 
 ### 1.2 Data Flow Directions
 
-| Flow | Direction | Protocol | Caching | SLA |
-|------|-----------|----------|---------|-----|
-| Public page request | Browser → Vercel CDN → ISR cache → Next.js | HTTPS | CDN + ISR | < 100ms |
-| Admin API request | Browser → Vercel → NestJS → Supabase | HTTPS + JWT | None (fresh) | < 200ms |
-| AI Chat request | Browser → FastAPI → OpenAI → pgvector | HTTPS + SSE | Response cache | < 3s |
-| Analytics event | Browser → PostHog SDK → PostHog Cloud | HTTPS | Batched | < 5s |
-| Lead form submit | Browser → NestJS → Supabase → Resend | HTTPS | None | < 2s |
+| Flow                | Direction                                  | Protocol    | Caching        | SLA     |
+| ------------------- | ------------------------------------------ | ----------- | -------------- | ------- |
+| Public page request | Browser → Vercel CDN → ISR cache → Next.js | HTTPS       | CDN + ISR      | < 100ms |
+| Admin API request   | Browser → Vercel → NestJS → Supabase       | HTTPS + JWT | None (fresh)   | < 200ms |
+| AI Chat request     | Browser → FastAPI → OpenAI → pgvector      | HTTPS + SSE | Response cache | < 3s    |
+| Analytics event     | Browser → PostHog SDK → PostHog Cloud      | HTTPS       | Batched        | < 5s    |
+| Lead form submit    | Browser → NestJS → Supabase → Resend       | HTTPS       | None           | < 2s    |
 
 ### 1.3 Key Architectural Decisions
 
-| Decision | Rationale | Trade-off |
-|----------|-----------|-----------|
-| Monorepo (Turborepo) | Shared types, components, configs across 3 apps | Complex tooling, larger repo |
-| ISR over SSR for public | Portfolio content changes infrequently | 60s delay before content updates appear |
-| Supabase over raw PostgreSQL | Managed auth + storage + realtime bundled | Vendor lock-in (mitigated by pg compatibility) |
-| Separate FastAPI for AI | Python ecosystem for ML/AI | Must maintain additional service |
-| Vercel colocation for API | Simplify deployment, reduce latency | Serverless cold starts |
+| Decision                     | Rationale                                       | Trade-off                                      |
+| ---------------------------- | ----------------------------------------------- | ---------------------------------------------- |
+| Monorepo (Turborepo)         | Shared types, components, configs across 3 apps | Complex tooling, larger repo                   |
+| ISR over SSR for public      | Portfolio content changes infrequently          | 60s delay before content updates appear        |
+| Supabase over raw PostgreSQL | Managed auth + storage + realtime bundled       | Vendor lock-in (mitigated by pg compatibility) |
+| Separate FastAPI for AI      | Python ecosystem for ML/AI                      | Must maintain additional service               |
+| Vercel colocation for API    | Simplify deployment, reduce latency             | Serverless cold starts                         |
 
 ---
 
@@ -169,7 +170,7 @@ graph TB
 graph TB
     subgraph "Next.js 14 App Router (apps/web)"
         RootLayout["RootLayout<br/>Providers, fonts, metadata"]
-        
+
         subgraph "Public Routes (ISR)"
             Home["/ (Homepage)<br/>ISR 60s"]
             Projects["/projects<br/>ISR 60s"]
@@ -179,7 +180,7 @@ graph TB
             Contact["/contact<br/>Dynamic"]
             AI["/ai-assistant<br/>Dynamic"]
         end
-        
+
         subgraph "Admin Routes (SSR)"
             Login["/admin/login<br/>No auth"]
             Dashboard["/admin<br/>Auth required"]
@@ -188,12 +189,12 @@ graph TB
             Analytics["/admin/analytics<br/>Auth required"]
             Settings["/admin/settings<br/>Auth required"]
         end
-        
+
         subgraph "API Routes"
             AuthAPI["/api/auth/[...nextauth]<br/>NextAuth.js"]
             Revalidate["/api/revalidate<br/>ISR purge"]
         end
-        
+
         RootLayout --> Home
         RootLayout --> Projects
         RootLayout --> Contact
@@ -211,15 +212,15 @@ graph TB
 
 ### 2.2 Rendering Strategy
 
-| Route Type | Strategy | Rationale | Cache TTL |
-|-----------|----------|-----------|-----------|
-| Public listing pages | ISR | Content changes infrequently; instant CDN serve | 60s (projects), 300s (blog) |
-| Public detail pages | ISR with `generateStaticParams` | Pre-render all known slugs at build | 60s |
-| Homepage sections | ISR | Section data revalidates per-TTL | 60s |
-| Contact form | Dynamic (CSR) | Needs client-side validation + CAPTCHA | None |
-| AI Assistant | Dynamic (CSR) | Real-time streaming responses | None |
-| Admin pages | SSR + Client fetch | Session check on every request; data via SWR | None |
-| API routes | Serverless | Stateless, per-request execution | None |
+| Route Type           | Strategy                        | Rationale                                       | Cache TTL                   |
+| -------------------- | ------------------------------- | ----------------------------------------------- | --------------------------- |
+| Public listing pages | ISR                             | Content changes infrequently; instant CDN serve | 60s (projects), 300s (blog) |
+| Public detail pages  | ISR with `generateStaticParams` | Pre-render all known slugs at build             | 60s                         |
+| Homepage sections    | ISR                             | Section data revalidates per-TTL                | 60s                         |
+| Contact form         | Dynamic (CSR)                   | Needs client-side validation + CAPTCHA          | None                        |
+| AI Assistant         | Dynamic (CSR)                   | Real-time streaming responses                   | None                        |
+| Admin pages          | SSR + Client fetch              | Session check on every request; data via SWR    | None                        |
+| API routes           | Serverless                      | Stateless, per-request execution                | None                        |
 
 ### 2.3 Data Fetching Pattern
 
@@ -287,15 +288,16 @@ graph TB
 
 ### 2.5 Performance Considerations
 
-| Optimization | Implementation | Impact |
-|-------------|---------------|--------|
-| ISR caching | 60s revalidation for public pages | Near-static speed |
-| Image optimization | Next/Image with WebP, lazy loading | 60-80% size reduction |
-| Dynamic imports | Heavy components (3D, markdown) on interaction | 30-50% JS reduction |
-| Font optimization | next/font with `display:swap` | Eliminates FOIT |
-| Bundle analysis | `@next/bundle-analyzer` in CI | Catch regressions |
+| Optimization       | Implementation                                 | Impact                |
+| ------------------ | ---------------------------------------------- | --------------------- |
+| ISR caching        | 60s revalidation for public pages              | Near-static speed     |
+| Image optimization | Next/Image with WebP, lazy loading             | 60-80% size reduction |
+| Dynamic imports    | Heavy components (3D, markdown) on interaction | 30-50% JS reduction   |
+| Font optimization  | next/font with `display:swap`                  | Eliminates FOIT       |
+| Bundle analysis    | `@next/bundle-analyzer` in CI                  | Catch regressions     |
 
 ### References
+
 - **Screens:** `docs/design/UserFlows.md` (Full screen specifications)
 - **Components:** `docs/design/DesignSystem.md` (Component implementations)
 
@@ -355,20 +357,20 @@ graph TB
 
 ### 3.2 API Endpoint Map
 
-| Module | Endpoints | Auth Required | Rate Limit Tier |
-|--------|-----------|---------------|-----------------|
-| Auth | `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout` | Yes (refresh) | Strict (5/15min) |
-| Sections | `GET /sections`, `GET /sections/:id`, `POST /sections`, `PATCH /sections/:id`, `DELETE /sections/:id` | No (GET), Yes (mutations) | Default (100/15min) |
-| Projects | `GET /projects`, `GET /projects/:slug`, `POST /projects`, `PATCH /projects/:id`, `DELETE /projects/:id` | No (GET), Yes (mutations) | Default |
-| Skills | `GET /skills`, `POST /skills`, `PATCH /skills/:id`, `DELETE /skills/:id` | No (GET), Yes (mutations) | Default |
-| Leads | `POST /leads`, `GET /leads`, `GET /leads/:id`, `PATCH /leads/:id`, `GET /leads/export` | No (POST), Yes (GET/PATCH) | Medium (POST: 10/15min) |
-| Analytics | `POST /analytics/events`, `GET /analytics/summary` | No (POST), Yes (GET) | Low (POST: 100/15min) |
-| Upload | `POST /upload`, `DELETE /upload/:id` | Yes | Admin (1000/15min) |
+| Module    | Endpoints                                                                                               | Auth Required              | Rate Limit Tier         |
+| --------- | ------------------------------------------------------------------------------------------------------- | -------------------------- | ----------------------- |
+| Auth      | `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`                                           | Yes (refresh)              | Strict (5/15min)        |
+| Sections  | `GET /sections`, `GET /sections/:id`, `POST /sections`, `PATCH /sections/:id`, `DELETE /sections/:id`   | No (GET), Yes (mutations)  | Default (100/15min)     |
+| Projects  | `GET /projects`, `GET /projects/:slug`, `POST /projects`, `PATCH /projects/:id`, `DELETE /projects/:id` | No (GET), Yes (mutations)  | Default                 |
+| Skills    | `GET /skills`, `POST /skills`, `PATCH /skills/:id`, `DELETE /skills/:id`                                | No (GET), Yes (mutations)  | Default                 |
+| Leads     | `POST /leads`, `GET /leads`, `GET /leads/:id`, `PATCH /leads/:id`, `GET /leads/export`                  | No (POST), Yes (GET/PATCH) | Medium (POST: 10/15min) |
+| Analytics | `POST /analytics/events`, `GET /analytics/summary`                                                      | No (POST), Yes (GET)       | Low (POST: 100/15min)   |
+| Upload    | `POST /upload`, `DELETE /upload/:id`                                                                    | Yes                        | Admin (1000/15min)      |
 
 ### 3.3 Middleware Execution Order
 
 ```text
-Request → CORS → Rate Limit → Auth Guard (if required) → Validation Pipe → 
+Request → CORS → Rate Limit → Auth Guard (if required) → Validation Pipe →
 Route Handler → Logging Interceptor (response timing) → Response
 ```
 
@@ -378,7 +380,7 @@ Route Handler → Logging Interceptor (response timing) → Response
 graph TB
     subgraph "FastAPI Application (apps/ai)"
         AIPath["/api (prefix)"]
-        
+
         subgraph "Routes"
             Chat["POST /chat<br/>Streaming SSE"]
             Analyze["POST /analyze<br/>Synchronous"]
@@ -412,6 +414,7 @@ graph TB
 ```
 
 ### References
+
 - **API Docs:** `docs/api/12-API.md` (Full endpoint documentation)
 - **Initialization:** `apps/api/src/main.ts`, `apps/ai/app/main.py`
 
@@ -525,67 +528,68 @@ erDiagram
 
 ### 4.2 Indexing Strategy
 
-| Table | Index Type | Columns | Purpose |
-|-------|-----------|---------|---------|
-| sections | B-tree | `is_visible, display_order` | Ordered listing of visible sections |
-| projects | B-tree | `slug` | Unique lookup for detail pages |
-| projects | GIN | `technologies` | Array contains queries for filtering |
-| projects | B-tree | `featured, display_order` | Featured projects ordering |
-| blog_posts | B-tree | `slug` | Unique lookup for article pages |
-| blog_posts | B-tree | `published, published_at` | Published posts in date order |
-| blog_posts | GIN | `tags` | Tag filtering |
-| leads | B-tree | `status, created_at` | Lead inbox ordering |
-| leads | B-tree | `email` | Lead search |
-| document_chunks | IVFFlat | `embedding` | Vector similarity search |
-| chat_conversations | B-tree | `session_id` | Session lookup |
-| chat_conversations | B-tree | `last_activity` | Cleanup queries |
+| Table              | Index Type | Columns                     | Purpose                              |
+| ------------------ | ---------- | --------------------------- | ------------------------------------ |
+| sections           | B-tree     | `is_visible, display_order` | Ordered listing of visible sections  |
+| projects           | B-tree     | `slug`                      | Unique lookup for detail pages       |
+| projects           | GIN        | `technologies`              | Array contains queries for filtering |
+| projects           | B-tree     | `featured, display_order`   | Featured projects ordering           |
+| blog_posts         | B-tree     | `slug`                      | Unique lookup for article pages      |
+| blog_posts         | B-tree     | `published, published_at`   | Published posts in date order        |
+| blog_posts         | GIN        | `tags`                      | Tag filtering                        |
+| leads              | B-tree     | `status, created_at`        | Lead inbox ordering                  |
+| leads              | B-tree     | `email`                     | Lead search                          |
+| document_chunks    | IVFFlat    | `embedding`                 | Vector similarity search             |
+| chat_conversations | B-tree     | `session_id`                | Session lookup                       |
+| chat_conversations | B-tree     | `last_activity`             | Cleanup queries                      |
 
 ### 4.3 Row Level Security (RLS) Policies
 
-| Table | Policy | Operation | Role | Condition |
-|-------|--------|-----------|------|-----------|
-| sections | Public read | SELECT | anon | `is_visible = true` |
-| sections | Admin all | ALL | authenticated | `auth.role() = 'admin'` |
-| projects | Public read | SELECT | anon | `true` (all public) |
-| projects | Admin all | ALL | authenticated | `auth.role() = 'admin'` |
-| blog_posts | Public read | SELECT | anon | `published = true` |
-| blog_posts | Admin all | ALL | authenticated | `auth.role() = 'admin'` |
-| leads | Public insert | INSERT | anon | `true` (rate limited at API layer) |
-| leads | Admin read/write | SELECT, UPDATE | authenticated | `auth.role() = 'admin'` |
-| skills | Public read | SELECT | anon | `true` |
-| skills | Admin all | ALL | authenticated | `auth.role() = 'admin'` |
+| Table      | Policy           | Operation      | Role          | Condition                          |
+| ---------- | ---------------- | -------------- | ------------- | ---------------------------------- |
+| sections   | Public read      | SELECT         | anon          | `is_visible = true`                |
+| sections   | Admin all        | ALL            | authenticated | `auth.role() = 'admin'`            |
+| projects   | Public read      | SELECT         | anon          | `true` (all public)                |
+| projects   | Admin all        | ALL            | authenticated | `auth.role() = 'admin'`            |
+| blog_posts | Public read      | SELECT         | anon          | `published = true`                 |
+| blog_posts | Admin all        | ALL            | authenticated | `auth.role() = 'admin'`            |
+| leads      | Public insert    | INSERT         | anon          | `true` (rate limited at API layer) |
+| leads      | Admin read/write | SELECT, UPDATE | authenticated | `auth.role() = 'admin'`            |
+| skills     | Public read      | SELECT         | anon          | `true`                             |
+| skills     | Admin all        | ALL            | authenticated | `auth.role() = 'admin'`            |
 
 ### 4.4 Storage Buckets
 
-| Bucket | Visibility | Max File Size | Allowed Types | CDN |
-|--------|------------|---------------|---------------|-----|
-| `images` | Public | 5MB | PNG, JPG, WebP, GIF, SVG | Supabase CDN |
-| `documents` | Public | 10MB | PDF | Supabase CDN |
-| `admin-assets` | Private | 20MB | Any | Signed URLs |
+| Bucket         | Visibility | Max File Size | Allowed Types            | CDN          |
+| -------------- | ---------- | ------------- | ------------------------ | ------------ |
+| `images`       | Public     | 5MB           | PNG, JPG, WebP, GIF, SVG | Supabase CDN |
+| `documents`    | Public     | 10MB          | PDF                      | Supabase CDN |
+| `admin-assets` | Private    | 20MB          | Any                      | Signed URLs  |
 
 ### 4.5 Data Retention
 
-| Table | Retention | Cleanup Strategy |
-|-------|-----------|------------------|
-| leads | 2 years | Quarterly batch delete |
-| analytics_events | 1 year | Monthly partition drop |
-| chat_conversations | 30 days | Daily cron: `DELETE WHERE last_activity < NOW() - 30d` |
-| document_chunks | Indefinite | Manual reindex on content change |
-| section_versions | 90 days | Weekly cleanup of old versions |
+| Table              | Retention  | Cleanup Strategy                                       |
+| ------------------ | ---------- | ------------------------------------------------------ |
+| leads              | 2 years    | Quarterly batch delete                                 |
+| analytics_events   | 1 year     | Monthly partition drop                                 |
+| chat_conversations | 30 days    | Daily cron: `DELETE WHERE last_activity < NOW() - 30d` |
+| document_chunks    | Indefinite | Manual reindex on content change                       |
+| section_versions   | 90 days    | Weekly cleanup of old versions                         |
 
 ### 4.6 Performance Budgets
 
-| Operation | Target | Method |
-|-----------|--------|--------|
-| Select single row by PK | < 5ms | Indexed PK lookup |
-| List visible sections | < 10ms | Composite index |
-| Insert lead | < 20ms | Simple INSERT WITH RETURNING |
-| Filter projects by technology | < 50ms | GIN index on array |
-| Full text search on projects | < 100ms | GIN index on tsvector (future) |
-| Vector similarity search (k=3) | < 200ms | IVFFlat index |
-| Analytics aggregation (30 days) | < 500ms | Materialized view |
+| Operation                       | Target  | Method                         |
+| ------------------------------- | ------- | ------------------------------ |
+| Select single row by PK         | < 5ms   | Indexed PK lookup              |
+| List visible sections           | < 10ms  | Composite index                |
+| Insert lead                     | < 20ms  | Simple INSERT WITH RETURNING   |
+| Filter projects by technology   | < 50ms  | GIN index on array             |
+| Full text search on projects    | < 100ms | GIN index on tsvector (future) |
+| Vector similarity search (k=3)  | < 200ms | IVFFlat index                  |
+| Analytics aggregation (30 days) | < 500ms | Materialized view              |
 
 ### References
+
 - **Full Schema:** `docs/database/DatabaseArchitecture.md` (Complete schema with RLS policies)
 
 ---
@@ -629,25 +633,26 @@ sequenceDiagram
 
 ### 5.2 Content Editor Architecture
 
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Rich Text Editor | TipTap (ProseMirror) | WYSIWYG content editing |
-| Image Upload | Dropzone + Supabase Storage | Drag-and-drop image management |
-| Style Presets | CSS class sets | One-click visual style changes |
-| Auto-save | 30s debounced PATCH | Prevent data loss |
-| Preview | Same-page iframe | See visitor view of changes |
-| Version History | `section_versions` table | Rollback capability |
+| Component        | Technology                  | Purpose                        |
+| ---------------- | --------------------------- | ------------------------------ |
+| Rich Text Editor | TipTap (ProseMirror)        | WYSIWYG content editing        |
+| Image Upload     | Dropzone + Supabase Storage | Drag-and-drop image management |
+| Style Presets    | CSS class sets              | One-click visual style changes |
+| Auto-save        | 30s debounced PATCH         | Prevent data loss              |
+| Preview          | Same-page iframe            | See visitor view of changes    |
+| Version History  | `section_versions` table    | Rollback capability            |
 
 ### 5.3 Image Upload Pipeline
 
 ```text
-User drops image → Client validates (type, size) → 
-Upload to Supabase Storage → WebP conversion (Sharp) → 
-Thumbnail generation → URL returned → 
+User drops image → Client validates (type, size) →
+Upload to Supabase Storage → WebP conversion (Sharp) →
+Thumbnail generation → URL returned →
 Inserted into editor → CDN caches image
 ```
 
 ### References
+
 - **CMS Features:** `docs/product/02-FEATURES.md` (F-600, F-601, F-602, F-603)
 - **Admin Screens:** `docs/design/UserFlows.md` (SCREEN-016)
 
@@ -687,14 +692,14 @@ sequenceDiagram
 
 ### 6.2 Event Catalog
 
-| Event Category | Events | Volume (Monthly Est.) | Importance |
-|---------------|--------|----------------------|------------|
-| Page views | `$pageview`, `$pageleave` | 5,000-10,000 | Critical |
-| Section views | `section_view` (×15 sections) | 15,000-30,000 | Critical |
-| Interactions | `project_click`, `cta_click`, `skill_hover` | 2,000-5,000 | High |
-| Conversions | `contact_form_submit`, `lead_created` | 50-200 | Critical |
-| Admin | `admin_login`, `admin_action` | 500-1,000 | Important |
-| AI | `chat_message`, `ai_response` | 500-2,000 | Nice-to-have |
+| Event Category | Events                                      | Volume (Monthly Est.) | Importance   |
+| -------------- | ------------------------------------------- | --------------------- | ------------ |
+| Page views     | `$pageview`, `$pageleave`                   | 5,000-10,000          | Critical     |
+| Section views  | `section_view` (×15 sections)               | 15,000-30,000         | Critical     |
+| Interactions   | `project_click`, `cta_click`, `skill_hover` | 2,000-5,000           | High         |
+| Conversions    | `contact_form_submit`, `lead_created`       | 50-200                | Critical     |
+| Admin          | `admin_login`, `admin_action`               | 500-1,000             | Important    |
+| AI             | `chat_message`, `ai_response`               | 500-2,000             | Nice-to-have |
 
 ### 6.3 Analytics Dashboard Data Flow
 
@@ -726,6 +731,7 @@ graph LR
 ```
 
 ### References
+
 - **Events:** `docs/operations/AnalyticsArchitecture.md` (Complete event catalog)
 - **Dashboard:** `docs/design/UserFlows.md` (SCREEN-014)
 
@@ -746,7 +752,7 @@ sequenceDiagram
 
     User->>Web: Type question
     Web->>AI: POST /api/ai/chat (SSE)
-    
+
     Note over AI: 1. Embed query
     AI->>Embed: Generate query embedding
     Embed->>OpenAI: text-embedding-3-small
@@ -759,11 +765,11 @@ sequenceDiagram
 
     Note over AI: 3. Build prompt
     AI->>AI: System prompt + context + chat history
-    
+
     Note over AI: 4. Generate response
     AI->>LLM: GPT-4 (or Claude fallback)
     LLM-->>AI: Streamed response (SSE)
-    
+
     Note over AI: 5. Stream to client
     AI-->>Web: Token-by-token SSE stream
     Web-->>User: Rendered response
@@ -774,12 +780,12 @@ sequenceDiagram
 
 ### 7.2 Model Routing Strategy
 
-| Model | Provider | Use Case | Cost | Fallback Order |
-|-------|----------|----------|------|----------------|
-| GPT-4 | OpenAI | Primary chat responses | $0.03/1K input, $0.06/1K output | 1st (primary) |
-| Claude 3.5 Sonnet | Anthropic | Fallback when GPT-4 unavailable | $0.03/1K input, $0.15/1K output | 2nd |
-| text-embedding-3-small | OpenAI | All embedding generation | $0.00013/1K tokens | 1st (only option) |
-| GPT-3.5 Turbo | OpenAI | Content analysis (cost-optimized) | $0.0015/1K input, $0.002/1K output | Fallback for analysis |
+| Model                  | Provider  | Use Case                          | Cost                               | Fallback Order        |
+| ---------------------- | --------- | --------------------------------- | ---------------------------------- | --------------------- |
+| GPT-4                  | OpenAI    | Primary chat responses            | $0.03/1K input, $0.06/1K output    | 1st (primary)         |
+| Claude 3.5 Sonnet      | Anthropic | Fallback when GPT-4 unavailable   | $0.03/1K input, $0.15/1K output    | 2nd                   |
+| text-embedding-3-small | OpenAI    | All embedding generation          | $0.00013/1K tokens                 | 1st (only option)     |
+| GPT-3.5 Turbo          | OpenAI    | Content analysis (cost-optimized) | $0.0015/1K input, $0.002/1K output | Fallback for analysis |
 
 ### 7.3 Content Analysis Pipeline
 
@@ -799,17 +805,18 @@ Output: { readability, seo_score, tone, keywords, suggestions }
 
 ### 7.4 AI Cost Budget
 
-| Feature | Est. Monthly Usage | Est. Monthly Cost | Annual Cost |
-|---------|-------------------|-------------------|-------------|
-| Chat (500 conversations @ 3 messages avg) | 1,500 messages | ~$3.50 | ~$42 |
-| Embeddings (content indexing) | 10,000 chunks | ~$0.65 | ~$7.80 |
-| Content analysis (50 requests) | 50 analyses | ~$0.15 | ~$1.80 |
-| Content suggestions (30 requests) | 30 suggestions | ~$0.75 | ~$9.00 |
-| **Total** | | **~$5.05** | **~$60.60** |
+| Feature                                   | Est. Monthly Usage | Est. Monthly Cost | Annual Cost |
+| ----------------------------------------- | ------------------ | ----------------- | ----------- |
+| Chat (500 conversations @ 3 messages avg) | 1,500 messages     | ~$3.50            | ~$42        |
+| Embeddings (content indexing)             | 10,000 chunks      | ~$0.65            | ~$7.80      |
+| Content analysis (50 requests)            | 50 analyses        | ~$0.15            | ~$1.80      |
+| Content suggestions (30 requests)         | 30 suggestions     | ~$0.75            | ~$9.00      |
+| **Total**                                 |                    | **~$5.05**        | **~$60.60** |
 
 > **Note:** AI costs are variable and depend on visitor traffic. The free credits from OpenAI ($18 free for new accounts) cover approximately 3 months of typical usage. Beyond that, a budget cap of $10/month should be configured.
 
 ### References
+
 - **AI Features:** `docs/product/02-FEATURES.md` (F-300, F-301, F-302, F-303, F-304, F-305)
 - **RAG Specs:** `docs/ai/19-RAG.md` (Full RAG pipeline documentation)
 
@@ -876,16 +883,17 @@ graph TB
 
 ### 8.3 Session Lifecycle
 
-| Event | Behavior | Token |
-|-------|----------|-------|
-| Login | Access + Refresh tokens issued | 15min access, 7d refresh |
-| API call | Access token sent in Authorization header | Bearer JWT |
-| Token expiry | 401 response triggers refresh | Refresh token used |
-| Refresh failure | Redirect to login | Clear all tokens |
-| Logout | Revoke refresh token, clear session | Blacklist + cookie clear |
-| Inactivity (24h) | Auto-logout | Session expiry |
+| Event            | Behavior                                  | Token                    |
+| ---------------- | ----------------------------------------- | ------------------------ |
+| Login            | Access + Refresh tokens issued            | 15min access, 7d refresh |
+| API call         | Access token sent in Authorization header | Bearer JWT               |
+| Token expiry     | 401 response triggers refresh             | Refresh token used       |
+| Refresh failure  | Redirect to login                         | Clear all tokens         |
+| Logout           | Revoke refresh token, clear session       | Blacklist + cookie clear |
+| Inactivity (24h) | Auto-logout                               | Session expiry           |
 
 ### References
+
 - **Auth Features:** `docs/product/02-FEATURES.md` (F-700, F-701, F-702)
 - **Auth Screens:** `docs/design/UserFlows.md` (SCREEN-012: Admin Login)
 
@@ -933,41 +941,41 @@ graph TB
     Actions -->|Build + Test + Deploy| Web
     Actions -->|Build + Test + Deploy| API
     Actions -->|Build + Deploy| AI
-    
+
     Web --> Edge
     Web -->|ISR Data Fetch| API
     API --> DB
     API --> Storage
     API --> Resend
-    
+
     AI --> OpenAI
     AI --> DB
-    
+
     Web -->|Analytics| PostHog
     API -->|Errors| Sentry
     AI -->|Errors| Sentry
-    
+
     Web -->|Auto| Analytics
-    
+
     DB --> AuthDB
     DB --> Realtime
-    
+
     Cloudflare -->|DNS| Web
     Cloudflare -->|DNS| API
 ```
 
 ### 9.2 Environment Matrix
 
-| Variable | Development | Staging | Production |
-|----------|-------------|---------|------------|
-| **URL** | `localhost:3000` | `staging.portfolioowner.com` | `portfolioowner.com` |
-| **Database** | Local Supabase | Supabase Free Tier (separate project) | Supabase Free Tier |
-| **AI Service** | Local FastAPI | Railway ($5 credit) | Railway ($5 credit) |
-| **Analytics** | PostHog (dev) | PostHog (staging) | PostHog (production) |
-| **Error Tracking** | Sentry (DSN: dev) | Sentry (DSN: staging) | Sentry (DSN: production) |
-| **Email** | Resend (test mode) | Resend (test mode) | Resend (production) |
-| **CDN** | None (local) | Vercel CDN | Vercel CDN |
-| **ISR** | Disabled | 60s | 60s |
+| Variable           | Development        | Staging                               | Production               |
+| ------------------ | ------------------ | ------------------------------------- | ------------------------ |
+| **URL**            | `localhost:3000`   | `staging.portfolioowner.com`          | `portfolioowner.com`     |
+| **Database**       | Local Supabase     | Supabase Free Tier (separate project) | Supabase Free Tier       |
+| **AI Service**     | Local FastAPI      | Railway ($5 credit)                   | Railway ($5 credit)      |
+| **Analytics**      | PostHog (dev)      | PostHog (staging)                     | PostHog (production)     |
+| **Error Tracking** | Sentry (DSN: dev)  | Sentry (DSN: staging)                 | Sentry (DSN: production) |
+| **Email**          | Resend (test mode) | Resend (test mode)                    | Resend (production)      |
+| **CDN**            | None (local)       | Vercel CDN                            | Vercel CDN               |
+| **ISR**            | Disabled           | 60s                                   | 60s                      |
 
 ### 9.3 CI/CD Pipeline
 
@@ -991,14 +999,14 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - run: npx vercel --prod  # Deploy frontend + API
+      - run: npx vercel --prod # Deploy frontend + API
 
   deploy-ai:
     needs: quality
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - run: railway up  # Deploy AI service
+      - run: railway up # Deploy AI service
 ```
 
 ### 9.4 Deployment Commands
@@ -1018,6 +1026,7 @@ turbo deploy
 ```
 
 ### References
+
 - **CI/CD:** `docs/operations/25-CICD.md` (Full pipeline configuration)
 - **Deployment:** `docs/operations/DeploymentGuide.md` (Step-by-step deployment guide)
 
@@ -1069,11 +1078,11 @@ graph TB
     SentrySDK --> SentryDash
     PostHogSDK --> PostHogDash
     VercelInsights --> VercelDash
-    
+
     SentryDash -->|Critical error| Telegram
     SentryDash -->|Critical error| Email
     PostHogDash -->|Traffic spike| Email
-    
+
     UptimeBot --> HealthEndpoint
     UptimeBot -->|Downtime| Telegram
     UptimeBot --> StatusPage
@@ -1081,22 +1090,23 @@ graph TB
 
 ### 10.2 Alert Severity Matrix
 
-| Severity | Response Time | Channel | Example |
-|----------|---------------|---------|---------|
-| **Critical** | < 15 min | Telegram + Email | Site down, API 500 rate > 5% |
-| **High** | < 1 hour | Telegram | Error rate spike, AI service down |
-| **Medium** | < 1 day | Email / Dashboard | Performance regression, slow queries |
-| **Low** | < 1 week | Dashboard | Feature usage decline, content stale |
+| Severity     | Response Time | Channel           | Example                              |
+| ------------ | ------------- | ----------------- | ------------------------------------ |
+| **Critical** | < 15 min      | Telegram + Email  | Site down, API 500 rate > 5%         |
+| **High**     | < 1 hour      | Telegram          | Error rate spike, AI service down    |
+| **Medium**   | < 1 day       | Email / Dashboard | Performance regression, slow queries |
+| **Low**      | < 1 week      | Dashboard         | Feature usage decline, content stale |
 
 ### 10.3 Health Check Endpoints
 
-| Service | Endpoint | Expected Response | Check Interval |
-|---------|----------|-------------------|----------------|
-| Frontend | `https://portfolioowner.com/api/health` | `{ status: "ok" }` | 1 minute |
-| API | `https://api.portfolioowner.com/health` | `{ status: "ok", db: "connected", version: "1.0" }` | 1 minute |
-| AI | `https://ai.portfolioowner.com/api/health` | `{ status: "ok", model: "gpt-4", uptime: 3600 }` | 5 minutes |
+| Service  | Endpoint                                   | Expected Response                                   | Check Interval |
+| -------- | ------------------------------------------ | --------------------------------------------------- | -------------- |
+| Frontend | `https://portfolioowner.com/api/health`    | `{ status: "ok" }`                                  | 1 minute       |
+| API      | `https://api.portfolioowner.com/health`    | `{ status: "ok", db: "connected", version: "1.0" }` | 1 minute       |
+| AI       | `https://ai.portfolioowner.com/api/health` | `{ status: "ok", model: "gpt-4", uptime: 3600 }`    | 5 minutes      |
 
 ### References
+
 - **Monitoring:** `docs/operations/MonitoringArchitecture.md` (Full monitoring configuration)
 - **Observability:** `docs/operations/22-OBSERVABILITY.md` (v5.0 — Enterprise observability covering logging, metrics, tracing, monitoring, alerting, incident management, SLOs, SLIs, runbooks, escalation, RCA, recovery, and enterprise standards)
 
@@ -1143,18 +1153,18 @@ graph TB
 
 ### 11.2 OWASP Top 10:2025 Compliance
 
-| Category | Protection | Implementation |
-|----------|-----------|----------------|
-| A01: Broken Access Control | JWT auth + RLS | 15min access token, Supabase RLS policies |
-| A02: Cryptographic Failures | Strong hashing + HTTPS | bcrypt 12 rounds, HSTS, secure cookies |
-| A03: Injection | Parameterized queries + validation | Supabase client, class-validator, Zod |
-| A04: Insecure Design | Security-by-default | Admin routes require auth; no defaults |
-| A05: Security Misconfiguration | Security headers + CORS | HSTS, CSP, XFO, X-Content-Type-Options |
-| A06: Vulnerable Components | Regular audits + Dependabot | Weekly npm audit, automated PRs |
-| A07: Auth Failures | Account lockout + rate limit | 5-attempt lockout, 15-min cooldown |
-| A08: Data Integrity | CSRF protection + transactions | NextAuth.js built-in, DB transactions |
-| A09: Logging Failures | Structured logging + audit trail | Correlation IDs, 30-day retention |
-| A10: SSRF | URL validation + allowlist | Outbound request domain restriction |
+| Category                       | Protection                         | Implementation                            |
+| ------------------------------ | ---------------------------------- | ----------------------------------------- |
+| A01: Broken Access Control     | JWT auth + RLS                     | 15min access token, Supabase RLS policies |
+| A02: Cryptographic Failures    | Strong hashing + HTTPS             | bcrypt 12 rounds, HSTS, secure cookies    |
+| A03: Injection                 | Parameterized queries + validation | Supabase client, class-validator, Zod     |
+| A04: Insecure Design           | Security-by-default                | Admin routes require auth; no defaults    |
+| A05: Security Misconfiguration | Security headers + CORS            | HSTS, CSP, XFO, X-Content-Type-Options    |
+| A06: Vulnerable Components     | Regular audits + Dependabot        | Weekly npm audit, automated PRs           |
+| A07: Auth Failures             | Account lockout + rate limit       | 5-attempt lockout, 15-min cooldown        |
+| A08: Data Integrity            | CSRF protection + transactions     | NextAuth.js built-in, DB transactions     |
+| A09: Logging Failures          | Structured logging + audit trail   | Correlation IDs, 30-day retention         |
+| A10: SSRF                      | URL validation + allowlist         | Outbound request domain restriction       |
 
 ### 11.3 Security Headers
 
@@ -1166,22 +1176,27 @@ const securityHeaders = [
   { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
   { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
-  { key: 'Content-Security-Policy', value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: blob: https:;" },
+  {
+    key: 'Content-Security-Policy',
+    value:
+      "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: blob: https:;",
+  },
 ];
 ```
 
 ### 11.4 Rate Limiting Tiers
 
-| Tier | Endpoints | Limit | Window | Penalty |
-|------|-----------|-------|--------|---------|
-| Strict | Auth (login, register) | 5 | 15 min | 15-min cooldown |
-| Medium | POST /leads (contact form) | 10 | 15 min | 15-min cooldown |
-| Low | POST /analytics/events | 100 | 15 min | 15-min cooldown |
-| Default | All public GET endpoints | 100 | 15 min | 15-min cooldown |
-| Admin | All admin endpoints | 1000 | 15 min | 15-min cooldown |
-| AI Chat | POST /api/ai/chat | 20 | Session | Per session |
+| Tier    | Endpoints                  | Limit | Window  | Penalty         |
+| ------- | -------------------------- | ----- | ------- | --------------- |
+| Strict  | Auth (login, register)     | 5     | 15 min  | 15-min cooldown |
+| Medium  | POST /leads (contact form) | 10    | 15 min  | 15-min cooldown |
+| Low     | POST /analytics/events     | 100   | 15 min  | 15-min cooldown |
+| Default | All public GET endpoints   | 100   | 15 min  | 15-min cooldown |
+| Admin   | All admin endpoints        | 1000  | 15 min  | 15-min cooldown |
+| AI Chat | POST /api/ai/chat          | 20    | Session | Per session     |
 
 ### References
+
 - **Full Security:** `docs/security/SecurityArchitecture.md` (Complete OWASP implementation)
 - **Authorization:** `docs/security/15-AUTHORIZATION.md` (Role and permission details)
 
@@ -1240,15 +1255,16 @@ packages/  →  can NOT depend on apps/ packages/  (never: ui → web)
 
 ### 12.3 Key Folder Conventions
 
-| Convention | Rule | Rationale |
-|-----------|------|-----------|
-| Module structure | Feature-based, not file-type | Easier to find related code |
-| Index exports | Barrel `index.ts` in every module | Clean imports, tree-shakeable |
-| File naming | `kebab-case` for modules, `PascalCase` for components | Language convention |
-| Tests | Co-located `*.test.ts` next to source | Easy to discover |
-| Types | `packages/shared` for cross-app, local for app-only | Prevents circular deps |
+| Convention       | Rule                                                  | Rationale                     |
+| ---------------- | ----------------------------------------------------- | ----------------------------- |
+| Module structure | Feature-based, not file-type                          | Easier to find related code   |
+| Index exports    | Barrel `index.ts` in every module                     | Clean imports, tree-shakeable |
+| File naming      | `kebab-case` for modules, `PascalCase` for components | Language convention           |
+| Tests            | Co-located `*.test.ts` next to source                 | Easy to discover              |
+| Types            | `packages/shared` for cross-app, local for app-only   | Prevents circular deps        |
 
 ### References
+
 - **Full Structure:** `docs/MASTER-INDEX.md` (Complete directory tree)
 
 ---
@@ -1339,39 +1355,39 @@ graph TB
 
 ### 13.3 Data Flow Direction
 
-| From | To | Data | Protocol | Frequency |
-|------|----|------|----------|-----------|
-| Next.js (ISR) | Supabase | Section, project, skill data | Supabase JS SDK | Per-ISR revalidation |
-| Next.js (Admin) | NestJS API | CRUD operations, auth | HTTPS REST | On user action |
-| NestJS API | Supabase | Mutations, reads | Supabase JS SDK | Per request |
-| Next.js | FastAPI | Chat messages, analysis | HTTPS SSE | On chat message |
-| FastAPI | OpenAI | Embeddings, completions | HTTPS REST | Per AI request |
-| FastAPI | Supabase (pgvector) | Vector similarity search | Supabase JS SDK | Per RAG query |
-| Next.js | PostHog | Analytics events | PostHog SDK | Batched, every 5s |
-| NestJS | Resend | Email sending | HTTPS REST | On lead submission |
-| NestJS | Sentry | Error traces | Sentry SDK | On error |
-| FastAPI | Sentry | Error traces | Sentry SDK | On error |
+| From            | To                  | Data                         | Protocol        | Frequency            |
+| --------------- | ------------------- | ---------------------------- | --------------- | -------------------- |
+| Next.js (ISR)   | Supabase            | Section, project, skill data | Supabase JS SDK | Per-ISR revalidation |
+| Next.js (Admin) | NestJS API          | CRUD operations, auth        | HTTPS REST      | On user action       |
+| NestJS API      | Supabase            | Mutations, reads             | Supabase JS SDK | Per request          |
+| Next.js         | FastAPI             | Chat messages, analysis      | HTTPS SSE       | On chat message      |
+| FastAPI         | OpenAI              | Embeddings, completions      | HTTPS REST      | Per AI request       |
+| FastAPI         | Supabase (pgvector) | Vector similarity search     | Supabase JS SDK | Per RAG query        |
+| Next.js         | PostHog             | Analytics events             | PostHog SDK     | Batched, every 5s    |
+| NestJS          | Resend              | Email sending                | HTTPS REST      | On lead submission   |
+| NestJS          | Sentry              | Error traces                 | Sentry SDK      | On error             |
+| FastAPI         | Sentry              | Error traces                 | Sentry SDK      | On error             |
 
 ---
 
 ## 14. Architecture Decision Records (ADRs)
 
-| ADR ID | Decision | Context | Options Considered | Consequence | Status |
-|--------|----------|---------|-------------------|-------------|--------|
-| ADR-001 | **Monorepo with Turborepo** | Need shared types, UI, configs across 3 apps | Nx, Lerna, pnpm workspaces | ✅ Shared packages; complex tooling |
-| ADR-002 | **ISR over SSR for public pages** | Content changes infrequently, perf priority | SSR, SSG, CSR, ISR | ✅ Near-static speed; 60s content delay |
-| ADR-003 | **Supabase over raw PostgreSQL** | Need managed auth, storage, realtime | PlanetScale, Neon, AWS RDS | ✅ Single provider; free tier adequate |
-| ADR-004 | **NestJS over Express** | Need structured API with modules/guards | Express, Fastify, Hono | ✅ Better DX; built-in validation; Swagger |
-| ADR-005 | **FastAPI over Node.js for AI** | Python ecosystem dominance for ML/AI | NestJS AI, Flask, Django | ✅ LangChain native; separate service overhead |
-| ADR-006 | **Vercel for frontend + API** | Simplify deployment, colocate | Railway, Fly.io, Netlify | ✅ Reduced latency; single pipeline |
-| ADR-007 | **Railway for AI service** | Python runtime not supported on Vercel | Fly.io, DigitalOcean, Render | ✅ Scales independently; $5 credit |
-| ADR-008 | **JWT over session-based auth** | Stateless API design | Session cookies, OAuth2 only | ✅ 15/7 day tokens; httpOnly cookies |
-| ADR-009 | **NextAuth.js over Supabase Auth for admin** | Need OAuth providers + session management | Supabase Auth alone, Auth0 | ✅ OAuth support; simpler session API |
-| ADR-010 | **pgvector for RAG** | PostgreSQL-native vector search | Pinecone, Weaviate, Qdrant | ✅ No additional service; integrated with Supabase |
-| ADR-011 | **PostHog over Google Analytics** | Developer-friendly, event-based, feature flags | GA4, Plausible, Fathom | ✅ Better DX; 1M free events; no cookies |
-| ADR-012 | **SWR for client data fetching** | Stale-while-revalidate pattern | React Query, RTK Query, Apollo | ✅ Auto-revalidation; small bundle |
-| ADR-013 | **Serverless NestJS on Vercel** | No server management, auto-scaling | Railway, Fly.io, Docker | ✅ Zero ops; cold start trade-off |
-| ADR-014 | **CSS custom properties for theming** | Runtime theme switching without JS | Tailwind dark:, styled-components | ✅ Instant toggle; no re-render |
+| ADR ID  | Decision                                     | Context                                        | Options Considered                | Consequence                                        | Status |
+| ------- | -------------------------------------------- | ---------------------------------------------- | --------------------------------- | -------------------------------------------------- | ------ |
+| ADR-001 | **Monorepo with Turborepo**                  | Need shared types, UI, configs across 3 apps   | Nx, Lerna, pnpm workspaces        | ✅ Shared packages; complex tooling                |
+| ADR-002 | **ISR over SSR for public pages**            | Content changes infrequently, perf priority    | SSR, SSG, CSR, ISR                | ✅ Near-static speed; 60s content delay            |
+| ADR-003 | **Supabase over raw PostgreSQL**             | Need managed auth, storage, realtime           | PlanetScale, Neon, AWS RDS        | ✅ Single provider; free tier adequate             |
+| ADR-004 | **NestJS over Express**                      | Need structured API with modules/guards        | Express, Fastify, Hono            | ✅ Better DX; built-in validation; Swagger         |
+| ADR-005 | **FastAPI over Node.js for AI**              | Python ecosystem dominance for ML/AI           | NestJS AI, Flask, Django          | ✅ LangChain native; separate service overhead     |
+| ADR-006 | **Vercel for frontend + API**                | Simplify deployment, colocate                  | Railway, Fly.io, Netlify          | ✅ Reduced latency; single pipeline                |
+| ADR-007 | **Railway for AI service**                   | Python runtime not supported on Vercel         | Fly.io, DigitalOcean, Render      | ✅ Scales independently; $5 credit                 |
+| ADR-008 | **JWT over session-based auth**              | Stateless API design                           | Session cookies, OAuth2 only      | ✅ 15/7 day tokens; httpOnly cookies               |
+| ADR-009 | **NextAuth.js over Supabase Auth for admin** | Need OAuth providers + session management      | Supabase Auth alone, Auth0        | ✅ OAuth support; simpler session API              |
+| ADR-010 | **pgvector for RAG**                         | PostgreSQL-native vector search                | Pinecone, Weaviate, Qdrant        | ✅ No additional service; integrated with Supabase |
+| ADR-011 | **PostHog over Google Analytics**            | Developer-friendly, event-based, feature flags | GA4, Plausible, Fathom            | ✅ Better DX; 1M free events; no cookies           |
+| ADR-012 | **SWR for client data fetching**             | Stale-while-revalidate pattern                 | React Query, RTK Query, Apollo    | ✅ Auto-revalidation; small bundle                 |
+| ADR-013 | **Serverless NestJS on Vercel**              | No server management, auto-scaling             | Railway, Fly.io, Docker           | ✅ Zero ops; cold start trade-off                  |
+| ADR-014 | **CSS custom properties for theming**        | Runtime theme switching without JS             | Tailwind dark:, styled-components | ✅ Instant toggle; no re-render                    |
 
 ---
 
@@ -1379,120 +1395,118 @@ graph TB
 
 ### 15.1 Monthly Cost Breakdown
 
-| Service | Provider | Monthly Cost | Free Tier | Limits |
-|---------|----------|-------------|-----------|--------|
-| Frontend hosting | Vercel | $0 | Yes | 100GB bandwidth, 6,000 build min |
-| API hosting | Vercel (Serverless) | $0 | Yes | Included in frontend |
-| AI Service | Railway | $0 | $5 credit | ~500h runtime/month |
-| Database | Supabase | $0 | Yes | 500MB DB, 1GB storage, 50K users |
-| Analytics | PostHog | $0 | Yes | 1M events/month |
-| Error Tracking | Sentry | $0 | Yes | 5K events/month |
-| Email | Resend | $0 | Yes | 100 emails/day |
-| CI/CD | GitHub Actions | $0 | Yes | 2,000 min/month (public repo) |
-| DNS | Cloudflare | $0 | Yes | Unlimited |
-| Domain | Namecheap/Cloudflare | ~$0.83 | — | ~$10/year |
-| **TOTAL** | | **~$0.83** | | **~$10/year** |
+| Service          | Provider             | Monthly Cost | Free Tier | Limits                           |
+| ---------------- | -------------------- | ------------ | --------- | -------------------------------- |
+| Frontend hosting | Vercel               | $0           | Yes       | 100GB bandwidth, 6,000 build min |
+| API hosting      | Vercel (Serverless)  | $0           | Yes       | Included in frontend             |
+| AI Service       | Railway              | $0           | $5 credit | ~500h runtime/month              |
+| Database         | Supabase             | $0           | Yes       | 500MB DB, 1GB storage, 50K users |
+| Analytics        | PostHog              | $0           | Yes       | 1M events/month                  |
+| Error Tracking   | Sentry               | $0           | Yes       | 5K events/month                  |
+| Email            | Resend               | $0           | Yes       | 100 emails/day                   |
+| CI/CD            | GitHub Actions       | $0           | Yes       | 2,000 min/month (public repo)    |
+| DNS              | Cloudflare           | $0           | Yes       | Unlimited                        |
+| Domain           | Namecheap/Cloudflare | ~$0.83       | —         | ~$10/year                        |
+| **TOTAL**        |                      | **~$0.83**   |           | **~$10/year**                    |
 
 ### 15.2 Scaling Triggers & Actions
 
-| Trigger | Threshold | Action | Est. Cost Impact |
-|---------|-----------|--------|-----------------|
-| Database > 500MB | @ 80% capacity | Clean up old analytics data, optimize indexes | $0 |
-| Database > 1GB | @ 100% capacity | Archive old data, upgrade to Pro ($25/mo) | +$25/mo |
-| Bandwidth > 100GB | @ 80% capacity | Optimize images, reduce bundle size | $0 |
-| Bandwidth > 1TB | Sustained | Upgrade Vercel Pro ($20/mo) | +$20/mo |
-| AI costs > $10/mo | Monthly | Reduce model quality, increase cache | —$3-8/mo |
-| Railway credits depleted | Monthly | Upgrade to $5 plan | +$5/mo |
-| PostHog events > 1M | Monthly | Sample events, reduce tracking | $0 |
-| Sentry events > 5K | Monthly | Reduce traces, filter errors | $0 |
+| Trigger                  | Threshold       | Action                                        | Est. Cost Impact |
+| ------------------------ | --------------- | --------------------------------------------- | ---------------- |
+| Database > 500MB         | @ 80% capacity  | Clean up old analytics data, optimize indexes | $0               |
+| Database > 1GB           | @ 100% capacity | Archive old data, upgrade to Pro ($25/mo)     | +$25/mo          |
+| Bandwidth > 100GB        | @ 80% capacity  | Optimize images, reduce bundle size           | $0               |
+| Bandwidth > 1TB          | Sustained       | Upgrade Vercel Pro ($20/mo)                   | +$20/mo          |
+| AI costs > $10/mo        | Monthly         | Reduce model quality, increase cache          | —$3-8/mo         |
+| Railway credits depleted | Monthly         | Upgrade to $5 plan                            | +$5/mo           |
+| PostHog events > 1M      | Monthly         | Sample events, reduce tracking                | $0               |
+| Sentry events > 5K       | Monthly         | Reduce traces, filter errors                  | $0               |
 
 ### 15.3 Horizontal Scaling Strategy
 
-| Component | Method | Auto-scaling | Notes |
-|-----------|--------|-------------|-------|
-| Next.js (Vercel) | Regional edge deployment | Automatic | Vercel handles globally |
-| NestJS (Vercel) | Serverless per-request | Automatic | Cold start ~50ms |
-| FastAPI (Railway) | Multi-replica | Manual | 2-3 replicas for production |
-| Supabase | Read replicas (paid) | Manual | $25/mo for replicas |
-| PostgreSQL | PgBouncer connection pooling | Built-in | Max 15 connections (free) |
+| Component         | Method                       | Auto-scaling | Notes                       |
+| ----------------- | ---------------------------- | ------------ | --------------------------- |
+| Next.js (Vercel)  | Regional edge deployment     | Automatic    | Vercel handles globally     |
+| NestJS (Vercel)   | Serverless per-request       | Automatic    | Cold start ~50ms            |
+| FastAPI (Railway) | Multi-replica                | Manual       | 2-3 replicas for production |
+| Supabase          | Read replicas (paid)         | Manual       | $25/mo for replicas         |
+| PostgreSQL        | PgBouncer connection pooling | Built-in     | Max 15 connections (free)   |
 
 ---
 
 ## Decision Log
 
-| ID | Decision | Rationale | Alternatives Considered | Date | Approver |
-|----|----------|-----------|------------------------|------|----------|
-| D-ARCH-001 | Adopt three-tier microservices (Next.js + NestJS + FastAPI) | Clear separation of concerns; cost-optimized free tiers; independent scaling per service | Monolithic Next.js (rejected — no separation of AI concerns); single BE service (rejected — mixing REST and AI workloads) | Mar 2026 | Architecture Lead |
-| D-ARCH-002 | Use Turborepo monorepo with npm workspaces | Code sharing across apps; parallel builds; shared TypeScript/ESLint configs | Multi-repo (rejected — coordination overhead); pnpm (rejected — less ecosystem support) | Mar 2026 | Architecture Lead |
-| D-ARCH-003 | Vercel ISR for public page delivery | Sub-100ms global page loads; automatic CDN caching; free tier handling | SSR-only (rejected — no caching, higher cost); SSG-only (rejected — stale content on update) | Mar 2026 | Architecture Lead |
-| D-ARCH-004 | Containerized FastAPI on Railway/Fly.io | LLM orchestrations need >10s timeouts; WebSocket/SSE support; container control | Vercel serverless (rejected — 10s timeout limit); AWS Lambda (rejected — cold start complexity) | Jun 2026 | Architecture Lead |
-| D-ARCH-005 | Supabase as single data platform (DB + Auth + Storage + Realtime) | All-in-one free tier (500MB DB, 1GB storage, built-in auth, RLS, pgvector) | MongoDB Atlas (rejected — no pgvector); Firebase (rejected — NoSQL vendor lock-in) | Mar 2026 | Architecture Lead |
-| D-ARCH-006 | Edge-first deployment with ISR + CDN | Cost-effective global performance; Vercel handles edge distribution automatically | Multi-region servers (rejected — cost prohibitive for portfolio) | Mar 2026 | Architecture Lead |
-| D-ARCH-007 | Defense-in-depth security across all 4 layers (Edge, API Gateway, Database, Response) | Compartmentalized security; RLS at DB level as second auth layer | Single-layer auth (rejected — insufficient for OWASP compliance); API-only security (rejected — no DB-level protection) | Mar 2026 | Architecture Lead |
+| ID         | Decision                                                                              | Rationale                                                                                | Alternatives Considered                                                                                                   | Date     | Approver          |
+| ---------- | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------- |
+| D-ARCH-001 | Adopt three-tier microservices (Next.js + NestJS + FastAPI)                           | Clear separation of concerns; cost-optimized free tiers; independent scaling per service | Monolithic Next.js (rejected — no separation of AI concerns); single BE service (rejected — mixing REST and AI workloads) | Mar 2026 | Architecture Lead |
+| D-ARCH-002 | Use Turborepo monorepo with npm workspaces                                            | Code sharing across apps; parallel builds; shared TypeScript/ESLint configs              | Multi-repo (rejected — coordination overhead); pnpm (rejected — less ecosystem support)                                   | Mar 2026 | Architecture Lead |
+| D-ARCH-003 | Vercel ISR for public page delivery                                                   | Sub-100ms global page loads; automatic CDN caching; free tier handling                   | SSR-only (rejected — no caching, higher cost); SSG-only (rejected — stale content on update)                              | Mar 2026 | Architecture Lead |
+| D-ARCH-004 | Containerized FastAPI on Railway/Fly.io                                               | LLM orchestrations need >10s timeouts; WebSocket/SSE support; container control          | Vercel serverless (rejected — 10s timeout limit); AWS Lambda (rejected — cold start complexity)                           | Jun 2026 | Architecture Lead |
+| D-ARCH-005 | Supabase as single data platform (DB + Auth + Storage + Realtime)                     | All-in-one free tier (500MB DB, 1GB storage, built-in auth, RLS, pgvector)               | MongoDB Atlas (rejected — no pgvector); Firebase (rejected — NoSQL vendor lock-in)                                        | Mar 2026 | Architecture Lead |
+| D-ARCH-006 | Edge-first deployment with ISR + CDN                                                  | Cost-effective global performance; Vercel handles edge distribution automatically        | Multi-region servers (rejected — cost prohibitive for portfolio)                                                          | Mar 2026 | Architecture Lead |
+| D-ARCH-007 | Defense-in-depth security across all 4 layers (Edge, API Gateway, Database, Response) | Compartmentalized security; RLS at DB level as second auth layer                         | Single-layer auth (rejected — insufficient for OWASP compliance); API-only security (rejected — no DB-level protection)   | Mar 2026 | Architecture Lead |
 
 ---
 
 ## 16. Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | Complete restructure into 13 architecture domains (System, Frontend, Backend, Data, CMS, Analytics, AI, Admin, Deployment, Monitoring, Security, Folder, Dependency); added 12 Mermaid diagrams; added 6 new ADRs (ADR-009 to ADR-014); added security layers diagram, rate limiting tiers, AI cost budget, scaling triggers, environment matrix; expanded ADR table to 14 decisions | Architecture Lead |
-| 3.0 | Jun 2026 | Added executive summary, 8 ADRs, cost analysis matrix, data flow performance budgets, error handling per layer table, monitoring architecture diagram, scaling strategy | Architecture Lead |
-| 2.0 | Jun 2026 | Updated for enterprise monorepo structure; added Mermaid diagrams | Architecture Lead |
-| 1.0 | Mar 2026 | Initial system architecture documentation | Architecture Lead |
+| Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                                                              | Author            |
+| ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| 4.0     | Jun 2026 | Complete restructure into 13 architecture domains (System, Frontend, Backend, Data, CMS, Analytics, AI, Admin, Deployment, Monitoring, Security, Folder, Dependency); added 12 Mermaid diagrams; added 6 new ADRs (ADR-009 to ADR-014); added security layers diagram, rate limiting tiers, AI cost budget, scaling triggers, environment matrix; expanded ADR table to 14 decisions | Architecture Lead |
+| 3.0     | Jun 2026 | Added executive summary, 8 ADRs, cost analysis matrix, data flow performance budgets, error handling per layer table, monitoring architecture diagram, scaling strategy                                                                                                                                                                                                              | Architecture Lead |
+| 2.0     | Jun 2026 | Updated for enterprise monorepo structure; added Mermaid diagrams                                                                                                                                                                                                                                                                                                                    | Architecture Lead |
+| 1.0     | Mar 2026 | Initial system architecture documentation                                                                                                                                                                                                                                                                                                                                            | Architecture Lead |
 
 ---
 
 ## Document References
 
-| Reference | Description |
-|-----------|-------------|
-| `docs/product/ProductRequirements.md` (v3.0) | Product Requirements — architecture requirements traceability |
-| `docs/product/02-FEATURES.md` (v3.0) | Feature catalog — F-XXX IDs referenced throughout |
-| `docs/design/UserFlows.md` (v5.0) | Screen specifications — pages built on this architecture |
-| `docs/design/DesignSystem.md` (v5.0) | Design system — components implemented on this architecture |
-| `docs/architecture/10-TECHSTACK.md` (v5.0) | Technology decisions — rationale for each tech choice |
-| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema — full DDL and RLS policies |
-| `docs/api/12-API.md` (v5.0) | API documentation — all endpoint specs |
-| `docs/architecture/13-INTEGRATIONS.md` (v5.0) | Third-party integrations — setup and config |
-| `docs/security/SecurityArchitecture.md` (v5.0) | Security implementation — OWASP compliance |
-| `docs/operations/DeploymentGuide.md` (v5.0) | Deployment — environment-specific configuration |
-| `docs/operations/25-CICD.md` (v5.0) | CI/CD pipeline — workflow definitions |
-| `docs/MASTER-INDEX.md` | Directory structure — complete file tree |
+| Reference                                      | Description                                                   |
+| ---------------------------------------------- | ------------------------------------------------------------- |
+| `docs/product/ProductRequirements.md` (v3.0)   | Product Requirements — architecture requirements traceability |
+| `docs/product/02-FEATURES.md` (v3.0)           | Feature catalog — F-XXX IDs referenced throughout             |
+| `docs/design/UserFlows.md` (v5.0)              | Screen specifications — pages built on this architecture      |
+| `docs/design/DesignSystem.md` (v5.0)           | Design system — components implemented on this architecture   |
+| `docs/architecture/10-TECHSTACK.md` (v5.0)     | Technology decisions — rationale for each tech choice         |
+| `docs/database/DatabaseArchitecture.md` (v5.0) | Database schema — full DDL and RLS policies                   |
+| `docs/api/12-API.md` (v5.0)                    | API documentation — all endpoint specs                        |
+| `docs/architecture/13-INTEGRATIONS.md` (v5.0)  | Third-party integrations — setup and config                   |
+| `docs/security/SecurityArchitecture.md` (v5.0) | Security implementation — OWASP compliance                    |
+| `docs/operations/DeploymentGuide.md` (v5.0)    | Deployment — environment-specific configuration               |
+| `docs/operations/25-CICD.md` (v5.0)            | CI/CD pipeline — workflow definitions                         |
+| `docs/MASTER-INDEX.md`                         | Directory structure — complete file tree                      |
 
 ---
 
-
-
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 4.0 | Jun 2026 | Enterprise architecture - 10 diagrams, 3 pillars, deployment, security, AI, error budgets | Chief Architect |
-| 3.0 | Jun 2026 | Updated for enterprise structure; added Mermaid diagrams | Chief Architect |
-| 2.0 | Jun 2026 | Added deployment architecture, security architecture | Chief Architect |
-| 1.0 | Mar 2026 | Initial architecture documentation | Chief Architect |
+| Version | Date     | Changes                                                                                   | Author          |
+| ------- | -------- | ----------------------------------------------------------------------------------------- | --------------- |
+| 4.0     | Jun 2026 | Enterprise architecture - 10 diagrams, 3 pillars, deployment, security, AI, error budgets | Chief Architect |
+| 3.0     | Jun 2026 | Updated for enterprise structure; added Mermaid diagrams                                  | Chief Architect |
+| 2.0     | Jun 2026 | Added deployment architecture, security architecture                                      | Chief Architect |
+| 1.0     | Mar 2026 | Initial architecture documentation                                                        | Chief Architect |
 
-*Document Version: 4.0 — Enterprise Edition*
+_Document Version: 4.0 — Enterprise Edition_
 
 ---
 
 ## Glossary
 
-| Term | Definition |
-|------|------------|
-| **Three-Tier Microservices** | An architecture pattern separating the application into presentation (Next.js), application (NestJS), and data (Supabase) tiers with independent scaling |
-| **ISR (Incremental Static Regeneration)** | A Next.js feature that allows static pages to be updated after deployment without rebuilding the entire site |
-| **BFF (Backend-for-Frontend)** | A pattern where the frontend server (Next.js) acts as an intermediary between the client and backend APIs, handling data aggregation and SSR |
-| **Edge Network** | A globally distributed network of servers that cache and serve content from locations closest to the user for minimal latency |
-| **SSR (Server-Side Rendering)** | Rendering web pages on the server instead of the browser, sending fully rendered HTML to the client |
-| **SSG (Static Site Generation)** | Pre-rendering pages at build time into static HTML files that can be served directly from CDN |
-| **Monorepo** | A single repository containing multiple distinct projects/applications with shared tooling and dependencies |
-| **Turborepo** | A high-performance build system for JavaScript/TypeScript monorepos with parallel task execution and caching |
-| **Serverless** | A cloud computing model where the cloud provider dynamically manages server allocation, scaling transparently |
-| **Containerization** | Packaging an application with its dependencies into a standardized unit (container) for consistent deployment across environments |
-| **Circuit Breaker** | A design pattern that detects failures and prevents cascading failures by stopping repeated requests to a failing service |
-| **Error Budget** | The acceptable amount of downtime or errors a system can have over a defined period before reliability guarantees are violated |
-| **RLS (Row-Level Security)** | A PostgreSQL feature that restricts which rows a user can query or modify based on a security policy expression |
-| **CORS (Cross-Origin Resource Sharing)** | A browser security mechanism that controls which domains can access resources from a different origin |
-| **CDN (Content Delivery Network)** | A geographically distributed network of proxy servers that cache content near users for faster delivery |
+| Term                                      | Definition                                                                                                                                               |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Three-Tier Microservices**              | An architecture pattern separating the application into presentation (Next.js), application (NestJS), and data (Supabase) tiers with independent scaling |
+| **ISR (Incremental Static Regeneration)** | A Next.js feature that allows static pages to be updated after deployment without rebuilding the entire site                                             |
+| **BFF (Backend-for-Frontend)**            | A pattern where the frontend server (Next.js) acts as an intermediary between the client and backend APIs, handling data aggregation and SSR             |
+| **Edge Network**                          | A globally distributed network of servers that cache and serve content from locations closest to the user for minimal latency                            |
+| **SSR (Server-Side Rendering)**           | Rendering web pages on the server instead of the browser, sending fully rendered HTML to the client                                                      |
+| **SSG (Static Site Generation)**          | Pre-rendering pages at build time into static HTML files that can be served directly from CDN                                                            |
+| **Monorepo**                              | A single repository containing multiple distinct projects/applications with shared tooling and dependencies                                              |
+| **Turborepo**                             | A high-performance build system for JavaScript/TypeScript monorepos with parallel task execution and caching                                             |
+| **Serverless**                            | A cloud computing model where the cloud provider dynamically manages server allocation, scaling transparently                                            |
+| **Containerization**                      | Packaging an application with its dependencies into a standardized unit (container) for consistent deployment across environments                        |
+| **Circuit Breaker**                       | A design pattern that detects failures and prevents cascading failures by stopping repeated requests to a failing service                                |
+| **Error Budget**                          | The acceptable amount of downtime or errors a system can have over a defined period before reliability guarantees are violated                           |
+| **RLS (Row-Level Security)**              | A PostgreSQL feature that restricts which rows a user can query or modify based on a security policy expression                                          |
+| **CORS (Cross-Origin Resource Sharing)**  | A browser security mechanism that controls which domains can access resources from a different origin                                                    |
+| **CDN (Content Delivery Network)**        | A geographically distributed network of proxy servers that cache content near users for faster delivery                                                  |

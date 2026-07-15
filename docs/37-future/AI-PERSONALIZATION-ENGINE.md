@@ -15,7 +15,7 @@ The AI Personalization Engine transforms the portfolio from a static showcase in
 
 This system builds on the existing infrastructure: `AnalyticsEvent`, `AnalyticsSession`, `PageView`, and `FeatureFlag` models in the NestJS API; the pgvector-powered `ContentEmbedding` model and RAG pipeline; and the FastAPI AI microservice that currently provides chat, analyze, suggest, and agent endpoints. The engine treats the existing `Section` model's `style_preset`, `style_config`, and `content` fields as personalization levers, applying real-time adjustments without requiring schema changes.
 
-Current baselines (from `docs/15-performance/PERFORMANCE-BENCHMARKS.md` and `docs/operations/AnalyticsArchitecture.md`): ~120 monthly visitors, ~450 page views, 3:42 average session duration. The personalization engine targets a 40% improvement in session duration and a 25% increase in lead conversion within 6 months of full rollout.
+Current baselines (from `docs/15-performance/PERFORMANCE-BENCHMARKS.md` and `docs/21-operations/AnalyticsArchitecture.md`): ~120 monthly visitors, ~450 page views, 3:42 average session duration. The personalization engine targets a 40% improvement in session duration and a 25% increase in lead conversion within 6 months of full rollout.
 
 ---
 
@@ -126,13 +126,13 @@ Design and specify a privacy-first, real-time AI personalization system for the 
 
 The engine classifies visitors into one of five intent categories, each driving different personalization strategies:
 
-| Intent | Description | Typical Signals | Personalization Strategy |
-|--------|-------------|-----------------|-------------------------|
-| **Browsing** | Casual discovery, no clear goal | Short sessions (<30s), scroll depth <40%, no CTA interaction | Default experience, subtle content highlighting |
-| **Evaluating** | Assessing skills for a potential hire or project | Deep project page views, multi-section navigation, tech stack comparison | Surface relevant projects, show testimonial density, enable detailed case studies |
-| **Hiring** | Looking to contract or employ | Contact page visit, lead form start, multiple testimonial views | Prioritize CTA, show availability status, simplify contact flow |
-| **Collaborating** | Potential partner, open-source contributor | GitHub link clicks, blog reading, sandbox IDE usage | Surface open-source projects, show collaboration history, link to contribution guide |
-| **Learning** | Researching technologies or the creator's methods | Blog deep reads, code snippet views, project tech stack exploration | Promote in-depth content, surface related blog posts, enable sandbox exploration |
+| Intent            | Description                                       | Typical Signals                                                          | Personalization Strategy                                                             |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| **Browsing**      | Casual discovery, no clear goal                   | Short sessions (<30s), scroll depth <40%, no CTA interaction             | Default experience, subtle content highlighting                                      |
+| **Evaluating**    | Assessing skills for a potential hire or project  | Deep project page views, multi-section navigation, tech stack comparison | Surface relevant projects, show testimonial density, enable detailed case studies    |
+| **Hiring**        | Looking to contract or employ                     | Contact page visit, lead form start, multiple testimonial views          | Prioritize CTA, show availability status, simplify contact flow                      |
+| **Collaborating** | Potential partner, open-source contributor        | GitHub link clicks, blog reading, sandbox IDE usage                      | Surface open-source projects, show collaboration history, link to contribution guide |
+| **Learning**      | Researching technologies or the creator's methods | Blog deep reads, code snippet views, project tech stack exploration      | Promote in-depth content, surface related blog posts, enable sandbox exploration     |
 
 ### 4.2 Signal Vector
 
@@ -186,18 +186,18 @@ interface SignalVector {
 
 The engine can adjust these aspects of the experience per visitor:
 
-| Lever | Control | Implementation | Existing Foundation |
-|-------|---------|----------------|---------------------|
-| Section ordering | Reorder portfolio sections per visitor | `Section.display_order` override in profile | Section model |
-| Content density | Show/hide optional sections | `Section.is_always_visible` flag | Section model |
-| Style preset | Choose visual theme per intent | `Section.style_preset` selection | Section model + Circadian Theme |
-| 3D scene complexity | Adjust Three.js scene detail | Scene tier (low/medium/high) | `detect-gpu`, Three.js |
-| CTA prioritization | Which CTA appears first, with what text | Dynamic `Section.content` overrides | Section model `content` JSON |
-| Project spotlight | Which projects appear first/top | Rerank project list per visitor | Project model, pgvector |
-| Animation intensity | GSAP/Framer Motion complexity tier | Redux store personalization context | Framer Motion, GSAP, `prefers-reduced-motion` |
-| Testimonial selection | Show testimonials matching visitor context | Rerank testimonial list per intent | Testimonial model |
-| Chat persona | Adjust chatbot tone to match intent | `apps/ai` chat endpoint prompt param | Chat routes in FastAPI |
-| Blog recommendations | Related articles based on interest vector | pgvector similarity on ContentEmbedding | BlogPost + ContentEmbedding |
+| Lever                 | Control                                    | Implementation                              | Existing Foundation                           |
+| --------------------- | ------------------------------------------ | ------------------------------------------- | --------------------------------------------- |
+| Section ordering      | Reorder portfolio sections per visitor     | `Section.display_order` override in profile | Section model                                 |
+| Content density       | Show/hide optional sections                | `Section.is_always_visible` flag            | Section model                                 |
+| Style preset          | Choose visual theme per intent             | `Section.style_preset` selection            | Section model + Circadian Theme               |
+| 3D scene complexity   | Adjust Three.js scene detail               | Scene tier (low/medium/high)                | `detect-gpu`, Three.js                        |
+| CTA prioritization    | Which CTA appears first, with what text    | Dynamic `Section.content` overrides         | Section model `content` JSON                  |
+| Project spotlight     | Which projects appear first/top            | Rerank project list per visitor             | Project model, pgvector                       |
+| Animation intensity   | GSAP/Framer Motion complexity tier         | Redux store personalization context         | Framer Motion, GSAP, `prefers-reduced-motion` |
+| Testimonial selection | Show testimonials matching visitor context | Rerank testimonial list per intent          | Testimonial model                             |
+| Chat persona          | Adjust chatbot tone to match intent        | `apps/ai` chat endpoint prompt param        | Chat routes in FastAPI                        |
+| Blog recommendations  | Related articles based on interest vector  | pgvector similarity on ContentEmbedding     | BlogPost + ContentEmbedding                   |
 
 ---
 
@@ -210,24 +210,24 @@ The engine can adjust these aspects of the experience per visitor:
 model VisitorProfile {
   id                String   @id @default(uuid())
   visitorId         String   @unique @map("visitor_id")
-  
+
   // Computed profile (updated via BullMQ job after session)
   intent            String?  // "browsing" | "evaluating" | "hiring" | "collaborating" | "learning"
   intentConfidence  Float?   @map("intent_confidence")
   signalVector      Json     @default("{}") @map("signal_vector")
   preferredTheme    String?  @map("preferred_theme")
   preferredMode     String?  @map("preferred_mode")
-  
+
   // Aggregated stats
   totalSessions     Int      @default(0) @map("total_sessions")
   totalPageViews    Int      @default(0) @map("total_page_views")
   firstSeenAt       DateTime @default(now()) @map("first_seen_at")
   lastSeenAt        DateTime @default(now()) @map("last_seen_at")
-  
+
   // Personalization state
   activeExperiments Json     @default("{}") @map("active_experiments")
   contentOverrides  Json     @default("{}") @map("content_overrides")
-  
+
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 
@@ -244,7 +244,7 @@ model ExperimentAssignment {
   variant         String
   assignedAt      DateTime @default(now()) @map("assigned_at")
   convertedAt     DateTime? @map("converted_at")
-  
+
   // Metrics for this assignment
   sessionCount    Int      @default(0) @map("session_count")
   totalDuration   Int      @default(0) @map("total_duration")
@@ -281,7 +281,7 @@ Phase 1: ──→ Add `visitor_profiles` table
 
 Phase 2: ──→ Add `signal_vector` column to `AnalyticsSession` (denormalized)
               Add GIN index on `AnalyticsSession.referrer` for attribution analysis
-              
+
 Phase 3: ──→ Add RLS policies on all new tables (see Section 10)
               Add TTL-based cleanup job to `PersonalizationEvent` (retention: 90 days)
 ```
@@ -356,12 +356,12 @@ The Scene Optimizer adjusts the Three.js hero scene based on GPU capability and 
 ```typescript
 interface SceneConfig {
   quality: 'low' | 'medium' | 'high';
-  particleCount: number;         // e.g., 500 / 2000 / 8000
-  geometryComplexity: number;     // e.g., 8 / 16 / 32 segments
+  particleCount: number; // e.g., 500 / 2000 / 8000
+  geometryComplexity: number; // e.g., 8 / 16 / 32 segments
   shadowsEnabled: boolean;
-  postProcessing: string[];       // e.g., [] / ['bloom'] / ['bloom', 'ssao']
-  animationFPS: number;           // 30 / 60
-  theatreTimeline: boolean;       // enable Theatre.js sequenced animations
+  postProcessing: string[]; // e.g., [] / ['bloom'] / ['bloom', 'ssao']
+  animationFPS: number; // 30 / 60
+  theatreTimeline: boolean; // enable Theatre.js sequenced animations
 }
 ```
 
@@ -385,33 +385,33 @@ The Experiment Engine leverages the existing `FeatureFlag` model (`apps/api/pris
 
 Experiment types:
 
-| Type | Description | Example |
-|------|-------------|---------|
-| Section layout A/B | Compare two `style_preset` values | `"minimal"` vs `"expanded"` for the Projects section |
-| Scene variant | Compare hero 3D scene configurations | High-detail vs low-detail for mobile visitors |
-| CTA copy | Compare CTA text and placement | Primary CTA at top vs bottom of page |
-| Content ordering | Compare content ranking strategies | Skill-based reranking vs chronological defaults |
-| Theme personalization | Compare auto-theme vs user-selected theme | Auto-match intent vs manual theme selection |
+| Type                  | Description                               | Example                                              |
+| --------------------- | ----------------------------------------- | ---------------------------------------------------- |
+| Section layout A/B    | Compare two `style_preset` values         | `"minimal"` vs `"expanded"` for the Projects section |
+| Scene variant         | Compare hero 3D scene configurations      | High-detail vs low-detail for mobile visitors        |
+| CTA copy              | Compare CTA text and placement            | Primary CTA at top vs bottom of page                 |
+| Content ordering      | Compare content ranking strategies        | Skill-based reranking vs chronological defaults      |
+| Theme personalization | Compare auto-theme vs user-selected theme | Auto-match intent vs manual theme selection          |
 
 ---
 
 ## 7. Tech Stack
 
-| Layer | Technology | Location | Purpose |
-|-------|-----------|----------|---------|
-| **Client SDK** | TypeScript + `navigator.sendBeacon()` | `apps/web/src/lib/personalization/` | Collect signals, apply overrides |
-| **Signal API** | NestJS controller | `apps/api/src/modules/personalization/` | Receive and validate signals |
-| **Profile DB** | Prisma + PostgreSQL | `visitor_profiles` table | Store computed profiles |
-| **Queue** | BullMQ (existing) | `apps/api/src/common/queue/` | Async signal processing |
-| **Intent Classifier** | FastAPI + LLM | `apps/ai/app/services/intent_service.py` | Infer intent from signals |
-| **Content Search** | pgvector (existing) | `apps/api/prisma/schema.prisma:612` | Semantic content reranking |
-| **Feature Flags** | `FeatureFlag` model (existing) | `apps/api/prisma/schema.prisma:599` | Experiment targeting |
-| **Analytics Storage** | `AnalyticsEvent` (existing) | `apps/api/prisma/schema.prisma:335` | Raw signal persistence |
-| **3D Detection** | `detect-gpu` (existing) | `apps/web/package.json:41` | GPU capability detection |
-| **Animation** | GSAP + Framer Motion (existing) | `apps/web/package.json:42-43` | Adaptive animation complexity |
-| **Theme Engine** | `data-theme` + `data-mode` | `apps/web/src/components/layout/` | Circadian theme adaptation |
-| **Edge Distribution** | Vercel Edge Functions | Edge middleware | Low-latency profile reads |
-| **Monitoring** | Sentry (existing) | `apps/api/src/main.ts:16` | Error tracking for personalization pipeline |
+| Layer                 | Technology                            | Location                                 | Purpose                                     |
+| --------------------- | ------------------------------------- | ---------------------------------------- | ------------------------------------------- |
+| **Client SDK**        | TypeScript + `navigator.sendBeacon()` | `apps/web/src/lib/personalization/`      | Collect signals, apply overrides            |
+| **Signal API**        | NestJS controller                     | `apps/api/src/modules/personalization/`  | Receive and validate signals                |
+| **Profile DB**        | Prisma + PostgreSQL                   | `visitor_profiles` table                 | Store computed profiles                     |
+| **Queue**             | BullMQ (existing)                     | `apps/api/src/common/queue/`             | Async signal processing                     |
+| **Intent Classifier** | FastAPI + LLM                         | `apps/ai/app/services/intent_service.py` | Infer intent from signals                   |
+| **Content Search**    | pgvector (existing)                   | `apps/api/prisma/schema.prisma:612`      | Semantic content reranking                  |
+| **Feature Flags**     | `FeatureFlag` model (existing)        | `apps/api/prisma/schema.prisma:599`      | Experiment targeting                        |
+| **Analytics Storage** | `AnalyticsEvent` (existing)           | `apps/api/prisma/schema.prisma:335`      | Raw signal persistence                      |
+| **3D Detection**      | `detect-gpu` (existing)               | `apps/web/package.json:41`               | GPU capability detection                    |
+| **Animation**         | GSAP + Framer Motion (existing)       | `apps/web/package.json:42-43`            | Adaptive animation complexity               |
+| **Theme Engine**      | `data-theme` + `data-mode`            | `apps/web/src/components/layout/`        | Circadian theme adaptation                  |
+| **Edge Distribution** | Vercel Edge Functions                 | Edge middleware                          | Low-latency profile reads                   |
+| **Monitoring**        | Sentry (existing)                     | `apps/api/src/main.ts:16`                | Error tracking for personalization pipeline |
 
 ---
 
@@ -424,10 +424,10 @@ The Personalization Client SDK is a lightweight TypeScript library bundled in `a
 ```typescript
 class PersonalizationClient {
   constructor(options: {
-    apiUrl: string;       // e.g., "/api/portfolio/personalization"
-    visitorId: string;    // Cross-session visitor identifier
-    sessionId: string;    // Current session identifier
-    debug?: boolean;      // Enable console logging
+    apiUrl: string; // e.g., "/api/portfolio/personalization"
+    visitorId: string; // Cross-session visitor identifier
+    sessionId: string; // Current session identifier
+    debug?: boolean; // Enable console logging
   });
 
   // Report a signal to the engine (batched, throttled)
@@ -466,13 +466,15 @@ To prevent layout shift from late personalization, a `<script>` tag in the `<hea
 ```html
 <script>
   // Inlined in layout.tsx <head>
-  (function() {
+  (function () {
     try {
       var cookie = document.cookie.match(/(?:^|;\s*)v_pid=([^;]*)/);
       var pid = cookie ? atob(cookie[1]) : crypto.randomUUID();
       if (!cookie) document.cookie = 'v_pid=' + btoa(pid) + ';max-age=31536000;path=/;SameSite=Lax';
       document.documentElement.dataset.visitorId = pid;
-    } catch(e) { /* fail silently */ }
+    } catch (e) {
+      /* fail silently */
+    }
   })();
 </script>
 ```
@@ -481,19 +483,19 @@ To prevent layout shift from late personalization, a `<script>` tag in the `<hea
 
 ## 9. Performance Budget
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
-| Client SDK bundle size | < 8 KB gzipped | Webpack bundle analyzer |
-| Signal overhead per page | < 50 ms added to TTI | Lighthouse lab test |
-| Signal batch frequency | 500ms (coalesced) | Chrome DevTools network |
-| Intent classification latency | < 500 ms P95 | NestJS + FastAPI tracing |
-| Profile read latency | < 10 ms P95 | Prisma query timings |
-| BullMQ processing delay | < 2 seconds P95 | BullMQ dashboard |
-| Content reranking latency | < 200 ms P95 | pgvector query timings |
-| Edge middleware latency | < 5 ms | Vercel Edge analytics |
-| Max concurrent experiments | 5 | FeatureFlag targeting rules |
-| Database connection pool | +10 connections baseline | PG Bouncer config |
-| Privacy data retention | 90 days (rolling window) | Cron cleanup job |
+| Metric                        | Target                   | Measurement                 |
+| ----------------------------- | ------------------------ | --------------------------- |
+| Client SDK bundle size        | < 8 KB gzipped           | Webpack bundle analyzer     |
+| Signal overhead per page      | < 50 ms added to TTI     | Lighthouse lab test         |
+| Signal batch frequency        | 500ms (coalesced)        | Chrome DevTools network     |
+| Intent classification latency | < 500 ms P95             | NestJS + FastAPI tracing    |
+| Profile read latency          | < 10 ms P95              | Prisma query timings        |
+| BullMQ processing delay       | < 2 seconds P95          | BullMQ dashboard            |
+| Content reranking latency     | < 200 ms P95             | pgvector query timings      |
+| Edge middleware latency       | < 5 ms                   | Vercel Edge analytics       |
+| Max concurrent experiments    | 5                        | FeatureFlag targeting rules |
+| Database connection pool      | +10 connections baseline | PG Bouncer config           |
+| Privacy data retention        | 90 days (rolling window) | Cron cleanup job            |
 
 Current baseline (from `docs/15-performance/PERFORMANCE-BENCHMARKS.md`): API P95 response time is 180ms, database connection pool is 20 connections. The personalization pipeline adds an estimated 15% overhead, manageable with the existing pool.
 
@@ -503,17 +505,17 @@ Current baseline (from `docs/15-performance/PERFORMANCE-BENCHMARKS.md`): API P95
 
 ### 10.1 Privacy-Preserving Design
 
-The system follows a privacy-first architecture compliant with `docs/security/PRIVACY.md` and `docs/security/data-classification.md`:
+The system follows a privacy-first architecture compliant with `docs/11-security/PRIVACY.md` and `docs/11-security/data-classification.md`:
 
-| Principle | Implementation |
-|-----------|---------------|
-| **No PII in signals** | The signal vector explicitly excludes name, email, IP address, and any identifiable metadata |
-| **Visitor ID is non-reversible** | `visitor_id` is a UUID, not derived from PII; no user lookup table exists |
-| **Session-bound profiles** | Cross-session stitching is opt-in (requires cookie consent); profiles default to session-scoped |
-| **Right to deletion** | `POST /api/portfolio/personalization/forget` deletes all profile data for a visitor ID |
-| **Transparency** | The Theme Switcher panel includes a "Personalization: Active" indicator with details |
-| **Opt-out** | `localStorage` key `personalization_opt_out: true` disables all personalization |
-| **Data retention** | `visitor_profiles` TTL: 90 days; `personalization_events` TTL: 90 days; `experiment_assignments` TTL: 365 days |
+| Principle                        | Implementation                                                                                                 |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **No PII in signals**            | The signal vector explicitly excludes name, email, IP address, and any identifiable metadata                   |
+| **Visitor ID is non-reversible** | `visitor_id` is a UUID, not derived from PII; no user lookup table exists                                      |
+| **Session-bound profiles**       | Cross-session stitching is opt-in (requires cookie consent); profiles default to session-scoped                |
+| **Right to deletion**            | `POST /api/portfolio/personalization/forget` deletes all profile data for a visitor ID                         |
+| **Transparency**                 | The Theme Switcher panel includes a "Personalization: Active" indicator with details                           |
+| **Opt-out**                      | `localStorage` key `personalization_opt_out: true` disables all personalization                                |
+| **Data retention**               | `visitor_profiles` TTL: 90 days; `personalization_events` TTL: 90 days; `experiment_assignments` TTL: 365 days |
 
 ### 10.2 Encryption
 
@@ -549,33 +551,33 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 ### 11.1 Primary KPIs
 
-| Metric | Baseline (Current) | Target (6 months) | Measurement |
-|--------|-------------------|-------------------|-------------|
-| Avg session duration | 3:42 min | 5:10 min (+40%) | `AnalyticsSession.durationSeconds` |
-| Pages per session | 3.75 | 5.25 (+40%) | `AnalyticsSession.pageViews` |
-| Lead conversion rate | 2.1% | 2.6% (+25%) | Lead form completions / unique visitors |
-| Blog read rate | 18% | 25% (+39%) | Blog page views / total page views |
-| CTA click-through rate | 4.2% | 5.9% (+40%) | CTA clicks / impressions |
-| Return visitor rate | 12% | 18% (+50%) | Visitors with >1 session in 30 days |
+| Metric                 | Baseline (Current) | Target (6 months) | Measurement                             |
+| ---------------------- | ------------------ | ----------------- | --------------------------------------- |
+| Avg session duration   | 3:42 min           | 5:10 min (+40%)   | `AnalyticsSession.durationSeconds`      |
+| Pages per session      | 3.75               | 5.25 (+40%)       | `AnalyticsSession.pageViews`            |
+| Lead conversion rate   | 2.1%               | 2.6% (+25%)       | Lead form completions / unique visitors |
+| Blog read rate         | 18%                | 25% (+39%)        | Blog page views / total page views      |
+| CTA click-through rate | 4.2%               | 5.9% (+40%)       | CTA clicks / impressions                |
+| Return visitor rate    | 12%                | 18% (+50%)        | Visitors with >1 session in 30 days     |
 
 ### 11.2 Secondary KPIs
 
-| Metric | Target | Measurement |
-|--------|--------|-------------|
+| Metric                   | Target                                       | Measurement                                |
+| ------------------------ | -------------------------------------------- | ------------------------------------------ |
 | Personalization accuracy | Intent correctly classified >80% of sessions | Manual audit of 200 labeled sessions/month |
-| A/B test confidence | 95% statistical significance within 2 weeks | Bayesian analysis (FastAPI) |
-| False intent changes | <5% of sessions show >2 intent changes | Profile change frequency |
-| Privacy compliance | Zero PII incidents | Quarterly audit |
-| Opt-out rate | <5% of visitors | opt_out count / total visitors |
-| Personalization overhead | <2% increase in API response times | Sentry tracing |
+| A/B test confidence      | 95% statistical significance within 2 weeks  | Bayesian analysis (FastAPI)                |
+| False intent changes     | <5% of sessions show >2 intent changes       | Profile change frequency                   |
+| Privacy compliance       | Zero PII incidents                           | Quarterly audit                            |
+| Opt-out rate             | <5% of visitors                              | opt_out count / total visitors             |
+| Personalization overhead | <2% increase in API response times           | Sentry tracing                             |
 
 ### 11.3 Business Impact Projections
 
-| Scenario | Confidence | Revenue Impact |
-|----------|-----------|---------------|
-| Conservative (60% of targets) | 70% | +15% lead gen, +20% session duration |
-| Expected (100% of targets) | 25% | +25% lead gen, +40% session duration |
-| Optimistic (130% of targets) | 5% | +35% lead gen, +55% session duration |
+| Scenario                      | Confidence | Revenue Impact                       |
+| ----------------------------- | ---------- | ------------------------------------ |
+| Conservative (60% of targets) | 70%        | +15% lead gen, +20% session duration |
+| Expected (100% of targets)    | 25%        | +25% lead gen, +40% session duration |
+| Optimistic (130% of targets)  | 5%         | +35% lead gen, +55% session duration |
 
 ---
 
@@ -585,15 +587,15 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 **Dependencies:** FeatureFlag model operational, BullMQ queue infrastructure stable, FastAPI service at baseline
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Create `VisitorProfile`, `ExperimentAssignment`, `PersonalizationEvent` Prisma models | 2 days | Backend | Migration file |
-| Build Signal Collector NestJS module + controller | 3 days | Backend | `POST /api/portfolio/personalization/signal` |
-| Create BullMQ signal processing queue and worker | 2 days | Backend | Queue + worker |
-| Build Personalization Client SDK | 4 days | Frontend | `client-sdk.ts` |
-| Write signal batching and `sendBeacon` integration | 1 day | Frontend | SDK + integration tests |
-| Add encrypted visitor ID cookie + `<head>` script | 1 day | Frontend | Cookie integration |
-| Performance budget baseline measurement | 2 days | Infrastructure | Current metrics snapshot |
+| Task                                                                                  | Est. Effort | Owner          | Deliverable                                  |
+| ------------------------------------------------------------------------------------- | ----------- | -------------- | -------------------------------------------- |
+| Create `VisitorProfile`, `ExperimentAssignment`, `PersonalizationEvent` Prisma models | 2 days      | Backend        | Migration file                               |
+| Build Signal Collector NestJS module + controller                                     | 3 days      | Backend        | `POST /api/portfolio/personalization/signal` |
+| Create BullMQ signal processing queue and worker                                      | 2 days      | Backend        | Queue + worker                               |
+| Build Personalization Client SDK                                                      | 4 days      | Frontend       | `client-sdk.ts`                              |
+| Write signal batching and `sendBeacon` integration                                    | 1 day       | Frontend       | SDK + integration tests                      |
+| Add encrypted visitor ID cookie + `<head>` script                                     | 1 day       | Frontend       | Cookie integration                           |
+| Performance budget baseline measurement                                               | 2 days      | Infrastructure | Current metrics snapshot                     |
 
 **Phase 0 Gate:** End-to-end signal flow working in staging (browser → SDK → API → BullMQ → DB). P95 latency < 500ms.
 
@@ -601,15 +603,15 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 **Dependencies:** FastAPI service operational (currently a stub), pgvector embeddings seeded
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Build heuristic intent classifier (rule-based) | 2 days | Backend | Intent service v1 |
-| Build LLM intent classifier in FastAPI | 4 days | AI/ML | Intent service v2 |
-| Build temporal smoothing logic | 1 day | Backend | Smoothing pipeline |
-| Create intent → personalization lever mapping | 2 days | Product | Decision table |
-| Build Profile Builder BullMQ worker | 2 days | Backend | Worker |
-| Write integration tests for intent pipeline | 2 days | QA | Test suite |
-| Deploy to staging with synthetic visitors | 1 day | DevOps | Staging test |
+| Task                                           | Est. Effort | Owner   | Deliverable        |
+| ---------------------------------------------- | ----------- | ------- | ------------------ |
+| Build heuristic intent classifier (rule-based) | 2 days      | Backend | Intent service v1  |
+| Build LLM intent classifier in FastAPI         | 4 days      | AI/ML   | Intent service v2  |
+| Build temporal smoothing logic                 | 1 day       | Backend | Smoothing pipeline |
+| Create intent → personalization lever mapping  | 2 days      | Product | Decision table     |
+| Build Profile Builder BullMQ worker            | 2 days      | Backend | Worker             |
+| Write integration tests for intent pipeline    | 2 days      | QA      | Test suite         |
+| Deploy to staging with synthetic visitors      | 1 day       | DevOps  | Staging test       |
 
 **Phase 1 Gate:** Intent classification accuracy >75% on test set of 100 labeled sessions. False positive rate <10%.
 
@@ -617,16 +619,16 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 **Dependencies:** Phase 1 complete, pgvector content embeddings populated
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Build Content Ranker using pgvector similarity | 3 days | Backend | `GET /api/portfolio/personalization/overrides` |
-| Build `PersonalizedSection` React component | 2 days | Frontend | Component |
-| Integrate SDK with section rendering | 2 days | Frontend | Section adapter |
-| Build Scene Optimizer with `detect-gpu` integration | 3 days | Frontend | Scene tier adjustment |
-| Build Project spotlight reranking | 2 days | Backend | Reranking endpoint |
-| Build Testimonial contextual selection | 1 day | Backend | Testimonial reranking |
-| Write E2E tests for adaptation pipeline | 3 days | QA | Playwright test suite |
-| A/B test: personalized vs default (internal team) | 1 week | Product | Experiment results |
+| Task                                                | Est. Effort | Owner    | Deliverable                                    |
+| --------------------------------------------------- | ----------- | -------- | ---------------------------------------------- |
+| Build Content Ranker using pgvector similarity      | 3 days      | Backend  | `GET /api/portfolio/personalization/overrides` |
+| Build `PersonalizedSection` React component         | 2 days      | Frontend | Component                                      |
+| Integrate SDK with section rendering                | 2 days      | Frontend | Section adapter                                |
+| Build Scene Optimizer with `detect-gpu` integration | 3 days      | Frontend | Scene tier adjustment                          |
+| Build Project spotlight reranking                   | 2 days      | Backend  | Reranking endpoint                             |
+| Build Testimonial contextual selection              | 1 day       | Backend  | Testimonial reranking                          |
+| Write E2E tests for adaptation pipeline             | 3 days      | QA       | Playwright test suite                          |
+| A/B test: personalized vs default (internal team)   | 1 week      | Product  | Experiment results                             |
 
 **Phase 2 Gate:** Personalization applied in <200ms after page load. No regressions in Lighthouse scores.
 
@@ -634,15 +636,15 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 **Dependencies:** Phase 2 complete, FeatureFlag system stable
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Extend FeatureFlag with experiment metadata | 2 days | Backend | Flag schema updates |
-| Build multi-armed bandit engine in FastAPI | 4 days | AI/ML | Bayesian engine |
-| Build Experiment Assignment service | 2 days | Backend | `ExperimentAssignment` CRUD |
-| Build experiment admin UI | 3 days | Frontend | Admin panel |
-| Build results dashboard (Bayesian charts) | 3 days | Frontend | Dashboard |
-| Write experiment reporting pipeline | 2 days | Backend | Report generation |
-| Security review of experiment assignment | 1 day | Security | Review sign-off |
+| Task                                        | Est. Effort | Owner    | Deliverable                 |
+| ------------------------------------------- | ----------- | -------- | --------------------------- |
+| Extend FeatureFlag with experiment metadata | 2 days      | Backend  | Flag schema updates         |
+| Build multi-armed bandit engine in FastAPI  | 4 days      | AI/ML    | Bayesian engine             |
+| Build Experiment Assignment service         | 2 days      | Backend  | `ExperimentAssignment` CRUD |
+| Build experiment admin UI                   | 3 days      | Frontend | Admin panel                 |
+| Build results dashboard (Bayesian charts)   | 3 days      | Frontend | Dashboard                   |
+| Write experiment reporting pipeline         | 2 days      | Backend  | Report generation           |
+| Security review of experiment assignment    | 1 day       | Security | Review sign-off             |
 
 **Phase 3 Gate:** Admin can create experiment, assign variants, view results with >90% statistical confidence within 2 weeks.
 
@@ -650,16 +652,16 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 **Dependencies:** Phase 3 complete, sufficient traffic for statistical learning
 
-| Task | Est. Effort | Owner | Deliverable |
-|------|-------------|-------|-------------|
-| Build cross-session profile stitching | 3 days | Backend | Stitching service |
-| Implement bandit-based auto-optimization | 3 days | AI/ML | Auto-optimization |
-| Build anomaly detection for bot filtering | 2 days | AI/ML | Bouncer service |
-| Build privacy dashboard (opt-out mgmt, data deletion) | 3 days | Frontend | Privacy panel |
-| Build personalization analytics dashboard | 3 days | Frontend | Analytics |
-| Load test with 10x current traffic | 2 days | Infrastructure | Test report |
-| Production rollout with 1% traffic ramp (5 stages) | 3 days | DevOps | Gradual rollout |
-| Documentation finalization | 2 days | All | Updated docs |
+| Task                                                  | Est. Effort | Owner          | Deliverable       |
+| ----------------------------------------------------- | ----------- | -------------- | ----------------- |
+| Build cross-session profile stitching                 | 3 days      | Backend        | Stitching service |
+| Implement bandit-based auto-optimization              | 3 days      | AI/ML          | Auto-optimization |
+| Build anomaly detection for bot filtering             | 2 days      | AI/ML          | Bouncer service   |
+| Build privacy dashboard (opt-out mgmt, data deletion) | 3 days      | Frontend       | Privacy panel     |
+| Build personalization analytics dashboard             | 3 days      | Frontend       | Analytics         |
+| Load test with 10x current traffic                    | 2 days      | Infrastructure | Test report       |
+| Production rollout with 1% traffic ramp (5 stages)    | 3 days      | DevOps         | Gradual rollout   |
+| Documentation finalization                            | 2 days      | All            | Updated docs      |
 
 **Phase 4 Gate:** Full production rollout. All targets met at 100% traffic. Zero PII incidents. Opt-out rate <5%.
 
@@ -667,14 +669,14 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 ## 13. Risk Assessment
 
-| Risk | Probability | Impact | Mitigation |
-|------|------------|--------|------------|
-| Intent misclassification degrades UX | Medium | High | Always serve fallback default; confidence threshold of 0.6; allow manual opt-out |
-| Personalization increases API costs | Medium | Medium | Batch signals aggressively; cache profiles in Redis via existing cache module |
-| Privacy compliance violation | Low | Critical | No PII in signal vector; 90-day TTL; automated cleanup jobs; quarterly audit |
-| A/B test contamination from same-visitor sessions | Medium | Medium | Sticky experiment assignments; session stitching |
-| GPU detection fails on unknown hardware | Low | Low | Default to "medium" tier; cache tier in localStorage |
-| FastAPI LLM calls add latency | Medium | Medium | Heuristic classifier as fast path; LLM only for low-confidence cases |
+| Risk                                              | Probability | Impact   | Mitigation                                                                       |
+| ------------------------------------------------- | ----------- | -------- | -------------------------------------------------------------------------------- |
+| Intent misclassification degrades UX              | Medium      | High     | Always serve fallback default; confidence threshold of 0.6; allow manual opt-out |
+| Personalization increases API costs               | Medium      | Medium   | Batch signals aggressively; cache profiles in Redis via existing cache module    |
+| Privacy compliance violation                      | Low         | Critical | No PII in signal vector; 90-day TTL; automated cleanup jobs; quarterly audit     |
+| A/B test contamination from same-visitor sessions | Medium      | Medium   | Sticky experiment assignments; session stitching                                 |
+| GPU detection fails on unknown hardware           | Low         | Low      | Default to "medium" tier; cache tier in localStorage                             |
+| FastAPI LLM calls add latency                     | Medium      | Medium   | Heuristic classifier as fast path; LLM only for low-confidence cases             |
 
 ---
 
@@ -682,37 +684,37 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 ### Internal Documents
 
-| Document | Path | Relevance |
-|----------|------|-----------|
-| Innovation Backlog | `docs/25-roadmap/INNOVATION-BACKLOG.md` | IB-18 (A/B Testing), IB-20 (Personalized Dashboard), IB-21 (Neural Portfolio Engine) |
-| Product Roadmap | `docs/25-roadmap/PRODUCT-ROADMAP.md` | P-09 (i18n), PL-02 (Public API) — dependencies for full personalization |
-| Feature Flag Guide | `docs/backend/feature-flag-guide.md` | Experiment Engine builds on existing FeatureFlag system |
-| Privacy Policy | `docs/security/PRIVACY.md` | All personalization must comply with documented privacy standards |
-| Data Classification | `docs/security/data-classification.md` | Visitor profile data classification and handling requirements |
-| Analytics Architecture | `docs/operations/AnalyticsArchitecture.md` | Existing analytics pipeline that personalization extends |
-| Frontend Architecture | `docs/07-frontend/FRONTEND-ARCHITECTURE.md` | Client SDK integration points with existing component structure |
-| 3D Architecture | `docs/07-frontend/3D-ARCHITECTURE.md` | Scene Optimizer builds on existing Three.js setup |
-| Circadian Theme Engine | `docs/37-future/CIRCADIAN-THEME.md` | Theme personalization lever integrates with 4-theme system |
-| RAG Design | `docs/ai/19-RAG.md` | ContentEmbedding + pgvector foundation for reranking |
-| AI Strategy | `docs/ai/strategy.md` | Overall AI vision alignment |
-| FastAPI ADR | `docs/adr/ADR-006-fastapi-ai.md` | AI microservice architecture and constraints |
-| pgvector ADR | `docs/adr/ADR-007-pgvector.md` | Vector search architecture |
-| BullMQ ADR | `docs/adr/ADR-017-bullmq-queue.md` | Background job queue for signal processing |
-| Performance Benchmarks | `docs/15-performance/PERFORMANCE-BENCHMARKS.md` | Baseline metrics for success measurement |
-| Scalability Strategy | `docs/15-performance/SCALABILITY-STRATEGY.md` | Infrastructure scaling for personalization load |
-| SOC 2 Readiness | `docs/36-enterprise/SOC2-READINESS.md` | Personalization privacy controls align with SOC 2 requirements |
-| API Contracts | `docs/api/APIContracts.md` | Personalization API follows existing response envelope pattern (`{ data, meta }`) |
+| Document               | Path                                            | Relevance                                                                            |
+| ---------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Innovation Backlog     | `docs/25-roadmap/INNOVATION-BACKLOG.md`         | IB-18 (A/B Testing), IB-20 (Personalized Dashboard), IB-21 (Neural Portfolio Engine) |
+| Product Roadmap        | `docs/25-roadmap/PRODUCT-ROADMAP.md`            | P-09 (i18n), PL-02 (Public API) — dependencies for full personalization              |
+| Feature Flag Guide     | `docs/06-backend/feature-flag-guide.md`         | Experiment Engine builds on existing FeatureFlag system                              |
+| Privacy Policy         | `docs/11-security/PRIVACY.md`                   | All personalization must comply with documented privacy standards                    |
+| Data Classification    | `docs/11-security/data-classification.md`       | Visitor profile data classification and handling requirements                        |
+| Analytics Architecture | `docs/21-operations/AnalyticsArchitecture.md`   | Existing analytics pipeline that personalization extends                             |
+| Frontend Architecture  | `docs/07-frontend/FRONTEND-ARCHITECTURE.md`     | Client SDK integration points with existing component structure                      |
+| 3D Architecture        | `docs/07-frontend/3D-ARCHITECTURE.md`           | Scene Optimizer builds on existing Three.js setup                                    |
+| Circadian Theme Engine | `docs/37-future/CIRCADIAN-THEME.md`             | Theme personalization lever integrates with 4-theme system                           |
+| RAG Design             | `docs/08-ai/19-RAG.md`                          | ContentEmbedding + pgvector foundation for reranking                                 |
+| AI Strategy            | `docs/08-ai/STRATEGY.md`                        | Overall AI vision alignment                                                          |
+| FastAPI ADR            | `docs/27-decisions/ADR-006-fastapi-ai.md`       | AI microservice architecture and constraints                                         |
+| pgvector ADR           | `docs/27-decisions/ADR-007-pgvector.md`         | Vector search architecture                                                           |
+| BullMQ ADR             | `docs/27-decisions/ADR-017-bullmq-queue.md`     | Background job queue for signal processing                                           |
+| Performance Benchmarks | `docs/15-performance/PERFORMANCE-BENCHMARKS.md` | Baseline metrics for success measurement                                             |
+| Scalability Strategy   | `docs/15-performance/SCALABILITY-STRATEGY.md`   | Infrastructure scaling for personalization load                                      |
+| SOC 2 Readiness        | `docs/36-enterprise/SOC2-READINESS.md`          | Personalization privacy controls align with SOC 2 requirements                       |
+| API Contracts          | `docs/10-api/APIContracts.md`                   | Personalization API follows existing response envelope pattern (`{ data, meta }`)    |
 
 ### ADR References
 
-| ADR | Title | Relevance |
-|-----|-------|-----------|
-| ADR-006 | FastAPI AI Service | Intent classification and Bayesian analysis run here |
-| ADR-007 | pgvector Embeddings | Content reranking relies on vector similarity |
-| ADR-014 | Zod Validation | Signal vectors validated via shared Zod schemas |
-| ADR-016 | Sentry Error Tracking | Personalization errors captured in Sentry |
-| ADR-017 | BullMQ Background Jobs | Async signal processing pipeline |
-| ADR-009 | PostHog Analytics | Personalization experiment events tracked |
+| ADR     | Title                  | Relevance                                            |
+| ------- | ---------------------- | ---------------------------------------------------- |
+| ADR-006 | FastAPI AI Service     | Intent classification and Bayesian analysis run here |
+| ADR-007 | pgvector Embeddings    | Content reranking relies on vector similarity        |
+| ADR-014 | Zod Validation         | Signal vectors validated via shared Zod schemas      |
+| ADR-016 | Sentry Error Tracking  | Personalization errors captured in Sentry            |
+| ADR-017 | BullMQ Background Jobs | Async signal processing pipeline                     |
+| ADR-009 | PostHog Analytics      | Personalization experiment events tracked            |
 
 ### External References
 
@@ -725,37 +727,37 @@ All personalization events are logged via the existing `AuditLog` model with:
 
 ## 15. Decision Log
 
-| ID | Decision | Rationale |
-|----|----------|-----------|
-| AP-D001 | No PII in signal vectors | Eliminates GDPR/CCPA risk at source; aligns with PRIVACY.md policy |
-| AP-D002 | Heuristic + LLM hybrid intent classification | LLM-only is too slow and expensive for every signal; heuristic fast path handles 70%+ of cases |
-| AP-D003 | BullMQ for async signal processing | Existing queue infrastructure; decouples signal ingestion from profile computation |
-| AP-D004 | Session-scoped profiles by default | Privacy-first; cross-session stitching is opt-in with cookie consent |
-| AP-D005 | Visitor ID stored as non-reversible UUID | Prevents any PII reconstruction; minimal tracking surface |
-| AP-D006 | Edge middleware for low-latency profile reads | Avoids API round-trip for every page load; profile read in <5ms |
-| AP-D007 | 90-day data retention window | Balances learning effectiveness with privacy; matches analytics data retention policy |
-| AP-D008 | Exponential moving average for intent smoothing | Prevents rapid intent flips from noisy signals; easy to tune α parameter |
+| ID      | Decision                                        | Rationale                                                                                      |
+| ------- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| AP-D001 | No PII in signal vectors                        | Eliminates GDPR/CCPA risk at source; aligns with PRIVACY.md policy                             |
+| AP-D002 | Heuristic + LLM hybrid intent classification    | LLM-only is too slow and expensive for every signal; heuristic fast path handles 70%+ of cases |
+| AP-D003 | BullMQ for async signal processing              | Existing queue infrastructure; decouples signal ingestion from profile computation             |
+| AP-D004 | Session-scoped profiles by default              | Privacy-first; cross-session stitching is opt-in with cookie consent                           |
+| AP-D005 | Visitor ID stored as non-reversible UUID        | Prevents any PII reconstruction; minimal tracking surface                                      |
+| AP-D006 | Edge middleware for low-latency profile reads   | Avoids API round-trip for every page load; profile read in <5ms                                |
+| AP-D007 | 90-day data retention window                    | Balances learning effectiveness with privacy; matches analytics data retention policy          |
+| AP-D008 | Exponential moving average for intent smoothing | Prevents rapid intent flips from noisy signals; easy to tune α parameter                       |
 
 ---
 
 ## 16. Open Questions
 
-| Question | Status | Owner | Target Resolution |
-|----------|--------|-------|-------------------|
-| Should personalization data be included in analytics exports? | Pending | PM | Phase 1 |
-| What is the GDPR consent mechanism for cross-session stitching? | TBD | Legal/Security | Phase 1 |
-| How do we handle shared devices (multiple visitors, same browser)? | TBD | Engineering | Phase 2 |
-| Should personalization be exposed via the public API for third-party consumers? | Pending | Product | Phase 4 |
-| What is the cost ceiling for LLM-based intent classification at scale? | TBD | Infrastructure | Phase 1 |
+| Question                                                                        | Status  | Owner          | Target Resolution |
+| ------------------------------------------------------------------------------- | ------- | -------------- | ----------------- |
+| Should personalization data be included in analytics exports?                   | Pending | PM             | Phase 1           |
+| What is the GDPR consent mechanism for cross-session stitching?                 | TBD     | Legal/Security | Phase 1           |
+| How do we handle shared devices (multiple visitors, same browser)?              | TBD     | Engineering    | Phase 2           |
+| Should personalization be exposed via the public API for third-party consumers? | Pending | Product        | Phase 4           |
+| What is the cost ceiling for LLM-based intent classification at scale?          | TBD     | Infrastructure | Phase 1           |
 
 ---
 
 ## Change Log
 
-| Version | Date | Changes | Author |
-|---------|------|---------|--------|
-| 1.0 | Jul 2026 | Initial design specification — AI Personalization Engine | Director of Engineering |
+| Version | Date     | Changes                                                  | Author                  |
+| ------- | -------- | -------------------------------------------------------- | ----------------------- |
+| 1.0     | Jul 2026 | Initial design specification — AI Personalization Engine | Director of Engineering |
 
 ---
 
-*End of Document — AI Personalization Engine v1.0*
+_End of Document — AI Personalization Engine v1.0_

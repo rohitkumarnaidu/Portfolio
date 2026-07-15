@@ -205,13 +205,13 @@ This document reviews the Portfolio platform against the AWS Well-Architected Fr
 | Q4 2026 | Cost dashboards + budgeting           | Cost           |    70→80     |
 | Q1 2027 | Sustainability assessment             | Sustainability |    40→60     |
 
-## Related Documents
+## Cross-References
 
-- `docs/architecture/SystemArchitecture.md` — System architecture
-- `docs/security/SecurityArchitecture.md` — Security controls
-- `docs/operations/55-DISASTER-RECOVERY.md` — Disaster recovery
-- `docs/quality/performance-budget.md` — Performance budgets
-- `docs/operations/58-COST-MANAGEMENT.md` — Cost strategy
+- `docs/05-architecture/SystemArchitecture.md` — System architecture
+- `docs/11-security/SecurityArchitecture.md` — Security controls
+- `docs/21-operations/55-DISASTER-RECOVERY.md` — Disaster recovery
+- `docs/35-quality/performance-budget.md` — Performance budgets
+- `docs/21-operations/58-COST-MANAGEMENT.md` — Cost strategy
 
 ---
 
@@ -246,5 +246,6 @@ graph LR
 ```
 
 ## Cross-References
+
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
 - [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
