@@ -6,15 +6,14 @@ import { cn } from '@/lib/cn';
 
 function formatTime(dateString: string): string {
   return new Date(dateString).toLocaleTimeString('en-US', {
-    hour: '2-digit', minute: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
   });
 }
 
 export default function AIAssistantPage() {
-  const {
-    messages, isLoading, isSending, error,
-    streamingContent, sendMessage, clearChat,
-  } = useChat();
+  const { messages, isLoading, isSending, error, streamingContent, sendMessage, clearChat } =
+    useChat();
   const [input, setInput] = useState('');
   const [suggestions] = useState([
     'What technologies do you work with?',
@@ -82,8 +81,19 @@ export default function AIAssistantPage() {
             <div className="flex items-center justify-center h-full">
               <div className="flex items-center gap-2 text-text-tertiary text-sm">
                 <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  />
                 </svg>
                 Loading conversation...
               </div>
@@ -91,18 +101,29 @@ export default function AIAssistantPage() {
           ) : allMessages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
               <div className="w-16 h-16 rounded-2xl bg-accent-500/10 flex items-center justify-center">
-                <svg className="w-8 h-8 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z" />
+                <svg
+                  className="w-8 h-8 text-accent-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"
+                  />
                 </svg>
               </div>
               <div>
                 <h2 className="text-h4 font-display text-text-primary mb-2">How can I help you?</h2>
                 <p className="text-body-sm text-text-secondary max-w-md">
-                  Ask about my projects, skills, experience, or anything else you&apos;d like to know.
+                  Ask about my projects, skills, experience, or anything else you&apos;d like to
+                  know.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2 justify-center">
-                {suggestions.map(s => (
+                {suggestions.map((s) => (
                   <button
                     key={s}
                     onClick={() => sendMessage(s, window.location.pathname)}
@@ -119,29 +140,36 @@ export default function AIAssistantPage() {
                 key={msg.id}
                 className={cn(
                   'flex gap-3 max-w-[85%]',
-                  msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''
+                  msg.role === 'user' ? 'ml-auto flex-row-reverse' : '',
                 )}
                 role="listitem"
               >
-                <div className={cn(
-                  'w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-sm',
-                  msg.role === 'user'
-                    ? 'bg-accent-500 text-white'
-                    : 'bg-surface-elevated text-text-secondary'
-                )} aria-hidden="true">
+                <div
+                  className={cn(
+                    'w-8 h-8 rounded-xl flex items-center justify-center shrink-0 text-sm',
+                    msg.role === 'user'
+                      ? 'bg-accent-500 text-white'
+                      : 'bg-surface-elevated text-text-secondary',
+                  )}
+                  aria-hidden="true"
+                >
                   {msg.role === 'user' ? 'U' : 'AI'}
                 </div>
-                <div className={cn(
-                  'rounded-2xl px-4 py-3 text-sm leading-relaxed',
-                  msg.role === 'user'
-                    ? 'bg-accent-500 text-white'
-                    : 'bg-surface-secondary border border-border-primary text-text-primary'
-                )}>
+                <div
+                  className={cn(
+                    'rounded-2xl px-4 py-3 text-sm leading-relaxed',
+                    msg.role === 'user'
+                      ? 'bg-accent-500 text-white'
+                      : 'bg-surface-secondary border border-border-primary text-text-primary',
+                  )}
+                >
                   <p className="whitespace-pre-wrap">{msg.content}</p>
-                  <p className={cn(
-                    'text-[10px] mt-1.5',
-                    msg.role === 'user' ? 'text-white/60' : 'text-text-tertiary'
-                  )}>
+                  <p
+                    className={cn(
+                      'text-[10px] mt-1.5',
+                      msg.role === 'user' ? 'text-white/60' : 'text-text-tertiary',
+                    )}
+                  >
                     {formatTime(msg.createdAt)}
                     {msg.id === 'streaming' && (
                       <span className="inline-flex ml-1">
@@ -158,7 +186,10 @@ export default function AIAssistantPage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-4 px-4 py-3 rounded-xl bg-semantic-error-bg border border-semantic-error text-sm text-semantic-error" role="alert">
+          <div
+            className="mb-4 px-4 py-3 rounded-xl bg-semantic-error-bg border border-semantic-error text-sm text-semantic-error"
+            role="alert"
+          >
             {error}
           </div>
         )}
@@ -168,8 +199,8 @@ export default function AIAssistantPage() {
           <div className="flex-1 relative">
             <textarea
               value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => {
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
                   handleSubmit(e);
@@ -189,12 +220,33 @@ export default function AIAssistantPage() {
           >
             {isSending ? (
               <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
               </svg>
             ) : (
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+                />
               </svg>
             )}
           </button>

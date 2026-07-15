@@ -1,6 +1,7 @@
 import { About } from '@/components/sections/About';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { getSections } from '@/lib/api';
+import type { Section } from '@portfolio/shared';
 
 export const metadata = {
   title: 'About | Portfolio',
@@ -8,8 +9,13 @@ export const metadata = {
 };
 
 export default async function AboutPage() {
-  const sections = await getSections(true, 'about');
-  const data = sections[0];
+  let data: Section | undefined;
+  try {
+    const sections = await getSections(true, 'about');
+    data = sections?.[0];
+  } catch {
+    // API unavailable during static generation
+  }
 
   return (
     <PageWrapper paddingY="lg">
