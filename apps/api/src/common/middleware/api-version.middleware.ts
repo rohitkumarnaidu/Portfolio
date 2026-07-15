@@ -1,5 +1,6 @@
-import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
-import { Request, Response, NextFunction } from 'express';
+import type { NestMiddleware } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import type { Request, Response, NextFunction } from 'express';
 
 const VERSION_RE = /application\/vnd\.portfolio\.v(\d+)\+json/;
 
@@ -11,7 +12,7 @@ export class ApiVersionMiddleware implements NestMiddleware {
     const accept = req.headers.accept || '';
     const match = accept.match(VERSION_RE);
     const version = match ? parseInt(match[1], 10) : 1;
-    (req as any).apiVersion = version;
+    (req as Request & { apiVersion: number }).apiVersion = version;
     next();
   }
 }
