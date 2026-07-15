@@ -14,9 +14,9 @@ const testimonialSchema = z.object({
   role: z.string().optional(),
   company: z.string().min(2, 'Company must be at least 2 characters'),
   content: z.string().min(10, 'Content must be at least 10 characters'),
-  rating: z.number().min(1).max(5).default(5),
-  avatar_url: z.string().optional(),
-  is_visible: z.boolean().default(true),
+  rating: z.number().min(1).max(5),
+  avatarUrl: z.string().optional(),
+  isVisible: z.boolean(),
 });
 
 type TestimonialFormData = z.infer<typeof testimonialSchema>;
@@ -50,8 +50,8 @@ export function TestimonialForm({
       company: '',
       content: '',
       rating: 5,
-      avatar_url: '',
-      is_visible: true,
+      avatarUrl: '',
+      isVisible: true,
     },
   });
 
@@ -65,8 +65,8 @@ export function TestimonialForm({
         company: initialData.company || '',
         content: initialData.content || '',
         rating: initialData.rating ?? 5,
-        avatar_url: initialData.avatar_url || '',
-        is_visible: initialData.is_visible ?? true,
+        avatarUrl: initialData.avatarUrl || '',
+        isVisible: initialData.isVisible ?? true,
       });
     } else {
       reset({
@@ -75,8 +75,8 @@ export function TestimonialForm({
         company: '',
         content: '',
         rating: 5,
-        avatar_url: '',
-        is_visible: true,
+        avatarUrl: '',
+        isVisible: true,
       });
     }
   }, [initialData, reset]);
@@ -118,13 +118,13 @@ export function TestimonialForm({
           Avatar Image (optional)
         </label>
         <Controller
-          name="avatar_url"
+          name="avatarUrl"
           control={control}
           render={({ field }) => (
             <ImageUpload
               value={field.value}
               onChange={field.onChange}
-              error={errors.avatar_url?.message}
+              error={errors.avatarUrl?.message}
             />
           )}
         />
@@ -140,7 +140,7 @@ export function TestimonialForm({
       <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
         <input
           type="checkbox"
-          {...register('is_visible')}
+          {...register('isVisible')}
           className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary"
         />
         Visible on portfolio

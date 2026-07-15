@@ -18,8 +18,8 @@ const projectSchema = z.object({
   github_url: z.string().url('Invalid URL').optional().or(z.literal('')),
   description: z.string().optional(),
   tech_stack: z.string().optional(),
-  is_featured: z.boolean().default(false),
-  is_private: z.boolean().default(false),
+  is_featured: z.boolean(),
+  is_private: z.boolean(),
   cover_image: z.string().optional(),
 });
 
@@ -33,7 +33,13 @@ export interface ProjectFormProps {
 }
 
 export function ProjectForm({ initialData, onSubmit, onCancel, isLoading }: ProjectFormProps) {
-  const { register, handleSubmit, control, reset, formState: { errors } } = useForm<ProjectFormData>({
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
       title: '',
@@ -79,7 +85,13 @@ export function ProjectForm({ initialData, onSubmit, onCancel, isLoading }: Proj
   const submitHandler = async (data: ProjectFormData) => {
     const payload: Partial<Project> = {
       ...data,
-      tech_stack: data.tech_stack ? data.tech_stack.split(',').map(t => t.trim()).filter(Boolean) : [],
+      category: data.category as Project['category'] | undefined,
+      tech_stack: data.tech_stack
+        ? data.tech_stack
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [],
     };
     await onSubmit(payload);
   };
@@ -91,28 +103,24 @@ export function ProjectForm({ initialData, onSubmit, onCancel, isLoading }: Proj
       </h3>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Input 
-          label="Title *" 
-          {...register('title')} 
-          error={errors.title?.message} 
+        <Input label="Title *" {...register('title')} error={errors.title?.message} />
+        <Input
+          label="Category"
+          placeholder="e.g. web, mobile, ai"
+          {...register('category')}
+          error={errors.category?.message}
         />
-        <Input 
-          label="Category" 
-          placeholder="e.g. web, mobile, ai" 
-          {...register('category')} 
-          error={errors.category?.message} 
+        <Input
+          label="Live URL"
+          placeholder="https://..."
+          {...register('live_url')}
+          error={errors.live_url?.message}
         />
-        <Input 
-          label="Live URL" 
-          placeholder="https://..." 
-          {...register('live_url')} 
-          error={errors.live_url?.message} 
-        />
-        <Input 
-          label="GitHub URL" 
-          placeholder="https://github.com/..." 
-          {...register('github_url')} 
-          error={errors.github_url?.message} 
+        <Input
+          label="GitHub URL"
+          placeholder="https://github.com/..."
+          {...register('github_url')}
+          error={errors.github_url?.message}
         />
       </div>
 
@@ -122,26 +130,28 @@ export function ProjectForm({ initialData, onSubmit, onCancel, isLoading }: Proj
           name="cover_image"
           control={control}
           render={({ field }) => (
-            <ImageUpload 
-              value={field.value} 
-              onChange={field.onChange} 
-              error={errors.cover_image?.message} 
+            <ImageUpload
+              value={field.value}
+              onChange={field.onChange}
+              error={errors.cover_image?.message}
             />
           )}
         />
       </div>
 
       <div className="space-y-1.5">
-        <label className="block text-sm font-medium text-text-primary">Description (Rich Text)</label>
+        <label className="block text-sm font-medium text-text-primary">
+          Description (Rich Text)
+        </label>
         <Controller
           name="description"
           control={control}
           render={({ field }) => (
             <div className="space-y-4">
-              <RichTextEditor 
-                content={field.value || ''} 
-                onChange={field.onChange} 
-                error={errors.description?.message} 
+              <RichTextEditor
+                content={field.value || ''}
+                onChange={field.onChange}
+                error={errors.description?.message}
               />
               <AIAnalysisPanel content={field.value || ''} type="project" />
             </div>
@@ -149,29 +159,29 @@ export function ProjectForm({ initialData, onSubmit, onCancel, isLoading }: Proj
         />
       </div>
 
-      <Textarea 
-        label="Technologies (comma-separated)" 
-        placeholder="React, TypeScript, Node.js" 
-        {...register('tech_stack')} 
-        error={errors.tech_stack?.message} 
+      <Textarea
+        label="Technologies (comma-separated)"
+        placeholder="React, TypeScript, Node.js"
+        {...register('tech_stack')}
+        error={errors.tech_stack?.message}
         rows={2}
       />
 
       <div className="flex gap-6">
         <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
-          <input 
-            type="checkbox" 
-            {...register('is_featured')} 
-            className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary" 
-          /> 
+          <input
+            type="checkbox"
+            {...register('is_featured')}
+            className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary"
+          />
           Featured
         </label>
         <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
-          <input 
-            type="checkbox" 
-            {...register('is_private')} 
-            className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary" 
-          /> 
+          <input
+            type="checkbox"
+            {...register('is_private')}
+            className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary"
+          />
           Private (NDA)
         </label>
       </div>

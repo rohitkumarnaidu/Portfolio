@@ -11,7 +11,7 @@ const skillSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   category: z.string().min(2, 'Category is required'),
   proficiency: z.number().min(0).max(100),
-  is_featured: z.boolean().default(false),
+  is_featured: z.boolean(),
 });
 
 type SkillFormData = z.infer<typeof skillSchema>;
@@ -24,7 +24,13 @@ export interface SkillFormProps {
 }
 
 export function SkillForm({ initialData, onSubmit, onCancel, isLoading }: SkillFormProps) {
-  const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<SkillFormData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    watch,
+  } = useForm<SkillFormData>({
     resolver: zodResolver(skillSchema),
     defaultValues: {
       name: '',
@@ -68,12 +74,23 @@ export function SkillForm({ initialData, onSubmit, onCancel, isLoading }: SkillF
 
       <div className="space-y-1.5">
         <label className="block text-sm font-medium text-text-primary">Category</label>
-        <select 
+        <select
           {...register('category')}
           className="w-full rounded-xl border border-border-primary bg-surface-secondary px-4 py-2.5 text-sm text-text-primary focus:ring-2 focus:ring-accent-500 focus:outline-none"
         >
-          {['Frontend', 'Backend', 'Languages', 'DevOps', 'Databases', 'Tools', 'Design', 'Other'].map(c => (
-            <option key={c} value={c}>{c}</option>
+          {[
+            'Frontend',
+            'Backend',
+            'Languages',
+            'DevOps',
+            'Databases',
+            'Tools',
+            'Design',
+            'Other',
+          ].map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
           ))}
         </select>
         {errors.category && <p className="text-sm text-red-500">{errors.category.message}</p>}
@@ -83,22 +100,22 @@ export function SkillForm({ initialData, onSubmit, onCancel, isLoading }: SkillF
         <label className="block text-sm font-medium text-text-primary">
           Proficiency: {currentProficiency}%
         </label>
-        <input 
-          type="range" 
-          min={0} 
-          max={100} 
-          {...register('proficiency', { valueAsNumber: true })} 
-          className="w-full accent-accent-500" 
+        <input
+          type="range"
+          min={0}
+          max={100}
+          {...register('proficiency', { valueAsNumber: true })}
+          className="w-full accent-accent-500"
         />
         {errors.proficiency && <p className="text-sm text-red-500">{errors.proficiency.message}</p>}
       </div>
 
       <label className="flex items-center gap-2 text-sm text-text-secondary cursor-pointer">
-        <input 
-          type="checkbox" 
-          {...register('is_featured')} 
-          className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary" 
-        /> 
+        <input
+          type="checkbox"
+          {...register('is_featured')}
+          className="rounded border-border-primary text-accent-500 focus:ring-accent-500 bg-surface-secondary"
+        />
         Featured
       </label>
 
