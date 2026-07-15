@@ -3,8 +3,7 @@
 import React, { useId } from 'react';
 import { cn } from './cn';
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
   helperText?: string;
@@ -32,10 +31,7 @@ export function Textarea({
   return (
     <div className={cn('w-full space-y-1.5', containerClassName)}>
       {label && (
-        <label
-          htmlFor={id}
-          className="block text-sm font-medium text-text-primary"
-        >
+        <label htmlFor={id} className="block text-sm font-medium text-text-primary">
           {label}
         </label>
       )}
@@ -53,14 +49,12 @@ export function Textarea({
             error
               ? 'border-red-400 dark:border-red-500 focus:ring-red-500'
               : isSuccess
-              ? 'border-green-400 dark:border-green-500 focus:ring-green-500'
-              : 'border-border-primary hover:border-border-accent',
-            className
+                ? 'border-green-400 dark:border-green-500 focus:ring-green-500'
+                : 'border-border-primary hover:border-border-accent',
+            className,
           )}
           aria-invalid={!!error}
-          aria-describedby={
-            error ? errorId : helperText ? helperId : undefined
-          }
+          aria-describedby={error ? errorId : helperText ? helperId : undefined}
           {...props}
         />
       </div>

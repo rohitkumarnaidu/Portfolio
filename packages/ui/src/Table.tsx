@@ -74,16 +74,38 @@ function SortIcon({ direction }: { direction: SortDirection }) {
   return (
     <span className="inline-flex ml-1" aria-hidden="true">
       {direction === 'asc' ? (
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
         </svg>
       ) : direction === 'desc' ? (
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       ) : (
-        <svg className="h-4 w-4 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+        <svg
+          className="h-4 w-4 opacity-30"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth={2}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+          />
         </svg>
       )}
     </span>
@@ -116,8 +138,8 @@ export function Table<T extends Record<string, unknown>>({
           ? currentSort.direction === 'asc'
             ? 'desc'
             : currentSort.direction === 'desc'
-            ? null
-            : 'asc'
+              ? null
+              : 'asc'
           : 'asc';
 
       const nextSort = { key, direction: nextDirection };
@@ -159,7 +181,8 @@ export function Table<T extends Record<string, unknown>>({
   const variantClasses = {
     default: '',
     striped: '[&_tbody_tr:nth-child(even)]:bg-surface-elevated/50',
-    bordered: '[&_td]:border [&_td]:border-border-primary [&_th]:border [&_th]:border-border-primary',
+    bordered:
+      '[&_td]:border [&_td]:border-border-primary [&_th]:border [&_th]:border-border-primary',
   };
 
   const alignClasses = {
@@ -169,11 +192,10 @@ export function Table<T extends Record<string, unknown>>({
   };
 
   return (
-    <div className={cn('w-full overflow-x-auto rounded-xl border border-border-primary', className)}>
-      <table
-        className={cn('w-full text-sm', variantClasses[variant])}
-        role="table"
-      >
+    <div
+      className={cn('w-full overflow-x-auto rounded-xl border border-border-primary', className)}
+    >
+      <table className={cn('w-full text-sm', variantClasses[variant])} role="table">
         <thead>
           <tr className="border-b border-border-primary bg-surface-elevated">
             {selectable && (
@@ -193,7 +215,8 @@ export function Table<T extends Record<string, unknown>>({
                 className={cn(
                   'px-4 py-3 font-semibold text-text-secondary',
                   alignClasses[col.align ?? 'left'],
-                  col.sortable && 'cursor-pointer select-none hover:text-text-primary transition-colors',
+                  col.sortable &&
+                    'cursor-pointer select-none hover:text-text-primary transition-colors',
                 )}
                 style={col.width ? { width: col.width } : undefined}
                 scope="col"
@@ -203,15 +226,17 @@ export function Table<T extends Record<string, unknown>>({
                     ? currentSort.direction === 'asc'
                       ? 'ascending'
                       : currentSort.direction === 'desc'
-                      ? 'descending'
-                      : 'none'
+                        ? 'descending'
+                        : 'none'
                     : undefined
                 }
               >
                 <span className="inline-flex items-center">
                   {col.label}
                   {col.sortable && (
-                    <SortIcon direction={currentSort.key === col.key ? currentSort.direction : null} />
+                    <SortIcon
+                      direction={currentSort.key === col.key ? currentSort.direction : null}
+                    />
                   )}
                 </span>
               </th>
@@ -222,10 +247,17 @@ export function Table<T extends Record<string, unknown>>({
           {isLoading ? (
             Array.from({ length: 5 }).map((_, i) => (
               <tr key={`skeleton-${i}`} className="border-b border-border-primary">
-                {selectable && <td className="px-4 py-3"><div className="h-4 w-4 rounded bg-surface-elevated animate-pulse" /></td>}
+                {selectable && (
+                  <td className="px-4 py-3">
+                    <div className="h-4 w-4 rounded bg-surface-elevated animate-pulse" />
+                  </td>
+                )}
                 {columns.map((col) => (
                   <td key={col.key} className="px-4 py-3">
-                    <div className="h-4 rounded bg-surface-elevated animate-pulse" style={{ width: `${60 + Math.random() * 40}%` }} />
+                    <div
+                      className="h-4 rounded bg-surface-elevated animate-pulse"
+                      style={{ width: `${60 + Math.random() * 40}%` }}
+                    />
                   </td>
                 ))}
               </tr>

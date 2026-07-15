@@ -135,9 +135,7 @@ export function Tabs({
     default: (isActive: boolean) =>
       cn(
         'relative px-4 py-2.5 text-sm font-medium transition-colors duration-fast',
-        isActive
-          ? 'text-accent-500'
-          : 'text-text-secondary hover:text-text-primary',
+        isActive ? 'text-accent-500' : 'text-text-secondary hover:text-text-primary',
       ),
     pills: (isActive: boolean) =>
       cn(
@@ -162,11 +160,7 @@ export function Tabs({
         ref={tabsRef}
         role="tablist"
         aria-orientation="horizontal"
-        className={cn(
-          'relative flex',
-          fullWidth && 'w-full',
-          variantStyles[variant],
-        )}
+        className={cn('relative flex', fullWidth && 'w-full', variantStyles[variant])}
         onKeyDown={handleKeyDown}
       >
         {items.map((item) => {
@@ -195,7 +189,11 @@ export function Tabs({
               )}
             >
               <span className="inline-flex items-center gap-2">
-                {item.icon && <span className="shrink-0" aria-hidden="true">{item.icon}</span>}
+                {item.icon && (
+                  <span className="shrink-0" aria-hidden="true">
+                    {item.icon}
+                  </span>
+                )}
                 {item.label}
               </span>
             </button>
@@ -223,7 +221,8 @@ export function Tabs({
           hidden={item.key !== activeKey}
           className={cn(
             'mt-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 rounded-lg',
-            item.key === activeKey && 'motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200',
+            item.key === activeKey &&
+              'motion-safe:animate-in motion-safe:fade-in motion-safe:duration-200',
           )}
         >
           {item.key === activeKey && activeContent}

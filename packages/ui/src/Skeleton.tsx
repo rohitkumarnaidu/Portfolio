@@ -33,8 +33,7 @@ export function Skeleton({
   lines = 1,
   ...props
 }: SkeletonProps) {
-  const baseClasses =
-    'animate-shimmer bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative';
+  const baseClasses = 'animate-shimmer bg-zinc-200 dark:bg-zinc-800 overflow-hidden relative';
 
   const shimmerOverlay =
     'before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent dark:before:via-white/5';
