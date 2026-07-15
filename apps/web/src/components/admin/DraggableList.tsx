@@ -40,7 +40,7 @@ export function DraggableList<T extends DraggableItem>({
               'bg-surface-primary transition-all duration-200',
               'hover:border-accent-500/50',
               isDragging && draggedIndex === index && 'opacity-50 scale-[1.02] shadow-lg',
-              isDragging && draggedIndex !== index && 'border-accent-500/30'
+              isDragging && draggedIndex !== index && 'border-accent-500/30',
             )}
           >
             <div
@@ -59,7 +59,10 @@ export function DraggableList<T extends DraggableItem>({
                 onClick={() => {
                   if (index > 0) {
                     const reordered = [...items];
-                    [reordered[index - 1], reordered[index]] = [reordered[index], reordered[index - 1]] as [T, T];
+                    [reordered[index - 1], reordered[index]] = [
+                      reordered[index],
+                      reordered[index - 1],
+                    ] as [T, T];
                     onReorder(reordered);
                   }
                 }}
@@ -67,7 +70,13 @@ export function DraggableList<T extends DraggableItem>({
                 className="p-1 text-text-tertiary hover:text-text-secondary disabled:opacity-30"
                 aria-label="Move up"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
                 </svg>
               </button>
@@ -75,7 +84,10 @@ export function DraggableList<T extends DraggableItem>({
                 onClick={() => {
                   if (index < items.length - 1) {
                     const reordered = [...items];
-                    [reordered[index], reordered[index + 1]] = [reordered[index + 1], reordered[index]] as [T, T];
+                    [reordered[index], reordered[index + 1]] = [
+                      reordered[index + 1],
+                      reordered[index],
+                    ] as [T, T];
                     onReorder(reordered);
                   }
                 }}
@@ -83,7 +95,13 @@ export function DraggableList<T extends DraggableItem>({
                 className="p-1 text-text-tertiary hover:text-text-secondary disabled:opacity-30"
                 aria-label="Move down"
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
