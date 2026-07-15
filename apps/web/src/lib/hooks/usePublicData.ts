@@ -1,7 +1,15 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getExperiences, getTestimonials, getAdminServices, getBlogPosts, getFAQs, getSkills, getProjects } from '@/lib/api';
+import {
+  getExperiences,
+  getTestimonials,
+  getAdminServices,
+  getBlogPosts,
+  getFAQs,
+  getSkills,
+  getProjects,
+} from '@/lib/api';
 
 export function usePublicExperiences() {
   return useQuery({

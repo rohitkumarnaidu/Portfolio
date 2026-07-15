@@ -41,8 +41,7 @@ export function useUpdateSection() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<Section> }) =>
-      updateSection(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Section> }) => updateSection(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sections'] });
       queryClient.invalidateQueries({ queryKey: ['section'] });
@@ -66,7 +65,7 @@ export function useReorderSections() {
 
   return useMutation({
     mutationFn: (order: Array<{ id: string; display_order: number }>) =>
-      reorderSections(order.map(o => o.id)),
+      reorderSections(order.map((o) => o.id)),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sections'] });
     },

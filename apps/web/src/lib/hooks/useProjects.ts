@@ -1,13 +1,7 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  getProjects,
-  getProject,
-  createProject,
-  updateProject,
-  deleteProject,
-} from '@/lib/api';
+import { getProjects, getProject, createProject, updateProject, deleteProject } from '@/lib/api';
 import type { Project } from '@portfolio/shared';
 
 export function useProjects(params?: {
@@ -49,8 +43,7 @@ export function useUpdateProject() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<Project> }) =>
-      updateProject(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Project> }) => updateProject(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['project'] });

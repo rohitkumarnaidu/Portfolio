@@ -12,7 +12,12 @@ import {
 } from '@/lib/api';
 import type { User } from '@/lib/api';
 
-export function useUsers(params?: { page?: number; perPage?: number; search?: string; role?: string }) {
+export function useUsers(params?: {
+  page?: number;
+  perPage?: number;
+  search?: string;
+  role?: string;
+}) {
   return useQuery({
     queryKey: ['users', params],
     queryFn: () => getUsers(params),
@@ -41,8 +46,7 @@ export function useCreateUser() {
 export function useUpdateUser() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<User> }) =>
-      updateUser(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<User> }) => updateUser(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
@@ -52,8 +56,7 @@ export function useUpdateUser() {
 export function useUpdateUserRole() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, role }: { id: string; role: string }) =>
-      updateUserRole(id, role),
+    mutationFn: ({ id, role }: { id: string; role: string }) => updateUserRole(id, role),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },

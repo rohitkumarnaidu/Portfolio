@@ -1,12 +1,7 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  getSettings,
-  getSetting,
-  upsertSetting,
-  deleteSetting,
-} from '@/lib/api';
+import { getSettings, getSetting, upsertSetting, deleteSetting } from '@/lib/api';
 import type { SystemSetting } from '@/lib/api';
 
 export function useSettings() {
