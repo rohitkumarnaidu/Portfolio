@@ -1,0 +1,27 @@
+# Generated / dependency directories
+node_modules/
+.next/
+dist/
+.turbo/
+
+# Prisma generated client
+apps/api/generated/
+
+# Build outputs
+packages/*/dist/
+
+# Coverage
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Docker
+.docker/
+docker-compose.yml
+
+# OS
+.DS_Store
+Thumbs.db
