@@ -12,13 +12,17 @@ export function Footer({ className }: FooterProps) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={`bg-surface-elevated border-t border-border-primary pt-16 pb-8 ${className || ''}`}>
+    <footer
+      className={`bg-surface-elevated border-t border-border-primary pt-16 pb-8 ${className || ''}`}
+    >
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          
           {/* Brand & Bio */}
           <div className="lg:col-span-1">
-            <Link href="/" className="font-display text-h4 font-bold text-text-primary tracking-tight mb-4 inline-block">
+            <Link
+              href="/"
+              className="font-display text-h4 font-bold text-text-primary tracking-tight mb-4 inline-block"
+            >
               {SITE_CONFIG.author}
             </Link>
             <p className="text-text-secondary text-body-sm mb-6 max-w-xs">
@@ -26,7 +30,7 @@ export function Footer({ className }: FooterProps) {
             </p>
             <div className="flex gap-4">
               {SOCIAL_LINKS.map((social) => (
-                <a 
+                <a
                   key={social.platform}
                   href={social.url}
                   target="_blank"
@@ -36,7 +40,13 @@ export function Footer({ className }: FooterProps) {
                 >
                   <span className="sr-only">{social.label}</span>
                   {/* Icon placeholder based on platform */}
-                  <div className="w-6 h-6 bg-current" style={{ mask: `url('/icons/${social.platform}.svg') no-repeat center / contain`, WebkitMask: `url('/icons/${social.platform}.svg') no-repeat center / contain` }} />
+                  <div
+                    className="w-6 h-6 bg-current"
+                    style={{
+                      mask: `url('/icons/${social.platform}.svg') no-repeat center / contain`,
+                      WebkitMask: `url('/icons/${social.platform}.svg') no-repeat center / contain`,
+                    }}
+                  />
                 </a>
               ))}
             </div>
@@ -48,7 +58,7 @@ export function Footer({ className }: FooterProps) {
             <ul className="flex flex-col gap-3">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link 
+                  <Link
                     href={link.href}
                     className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm"
                   >
@@ -64,17 +74,26 @@ export function Footer({ className }: FooterProps) {
             <h3 className="font-display font-semibold text-text-primary mb-4">Legal</h3>
             <ul className="flex flex-col gap-3">
               <li>
-                <Link href="/privacy" className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm">
+                <Link
+                  href="/privacy"
+                  className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm">
+                <Link
+                  href="/terms"
+                  className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/styleguide" className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm">
+                <Link
+                  href="/styleguide"
+                  className="text-text-secondary hover:text-accent-500 hover:underline transition-colors text-sm"
+                >
                   Design System
                 </Link>
               </li>
@@ -88,15 +107,17 @@ export function Footer({ className }: FooterProps) {
               Subscribe to my newsletter for the latest updates on my projects and articles.
             </p>
             <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <label htmlFor="footer-email" className="sr-only">Email address</label>
-              <input 
-                type="email" 
+              <label htmlFor="footer-email" className="sr-only">
+                Email address
+              </label>
+              <input
+                type="email"
                 id="footer-email"
                 placeholder="hello@example.com"
                 className="flex-grow px-3 py-2 bg-surface-primary border border-border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-accent-500 text-sm"
                 required
               />
-              <button 
+              <button
                 type="submit"
                 className="px-4 py-2 bg-text-primary text-surface-primary rounded-md text-sm font-medium hover:bg-text-secondary transition-colors"
               >
@@ -104,7 +125,6 @@ export function Footer({ className }: FooterProps) {
               </button>
             </form>
           </div>
-          
         </div>
 
         {/* Bottom Bar */}
@@ -112,7 +132,7 @@ export function Footer({ className }: FooterProps) {
           <small className="text-text-tertiary">
             &copy; {currentYear} {SITE_CONFIG.author}. All rights reserved.
           </small>
-          <button 
+          <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-text-secondary hover:text-text-primary text-sm font-medium transition-colors"
           >

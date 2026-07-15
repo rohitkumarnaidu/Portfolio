@@ -17,23 +17,16 @@ export const ClientShell = ({ children }: ClientShellProps) => {
 
   useFocusVisible();
 
-  useKeyboardShortcut(
-    { key: 'k', meta: true },
-    () => setCommandPaletteOpen(true),
-    { enabled: !commandPaletteOpen }
-  );
+  useKeyboardShortcut({ key: 'k', meta: true }, () => setCommandPaletteOpen(true), {
+    enabled: !commandPaletteOpen,
+  });
 
   return (
     <>
       <ReadingProgress />
       <Cursor />
-      <CommandPalette
-        open={commandPaletteOpen}
-        onClose={() => setCommandPaletteOpen(false)}
-      />
-      <ScrollProvider>
-        {children}
-      </ScrollProvider>
+      <CommandPalette open={commandPaletteOpen} onClose={() => setCommandPaletteOpen(false)} />
+      <ScrollProvider>{children}</ScrollProvider>
     </>
   );
 };

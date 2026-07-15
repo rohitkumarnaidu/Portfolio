@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/cn';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 
 export interface PageWrapperProps {
   width?: 'narrow' | 'default' | 'wide' | 'full';
@@ -47,7 +47,7 @@ export function PageWrapper({
   };
 
   return (
-    <motion.main 
+    <motion.main
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
@@ -57,7 +57,13 @@ export function PageWrapper({
       {hero && title && (
         <section className="w-full bg-gradient-hero text-text-primary py-24 md:py-32 relative overflow-hidden">
           <div className="noise-overlay" aria-hidden="true" />
-          <div className={cn("mx-auto w-full relative z-10 text-center", widthStyles[width], pxStyles[paddingX])}>
+          <div
+            className={cn(
+              'mx-auto w-full relative z-10 text-center',
+              widthStyles[width],
+              pxStyles[paddingX],
+            )}
+          >
             <h1 className="font-display text-display font-bold tracking-tight mb-4 text-white">
               {title}
             </h1>
@@ -69,9 +75,15 @@ export function PageWrapper({
           </div>
         </section>
       )}
-      
+
       {!hero && title && (
-        <header className={cn("mx-auto w-full pt-16 md:pt-24 pb-8", widthStyles[width], pxStyles[paddingX])}>
+        <header
+          className={cn(
+            'mx-auto w-full pt-16 md:pt-24 pb-8',
+            widthStyles[width],
+            pxStyles[paddingX],
+          )}
+        >
           <h1 className="font-display text-h1 font-bold tracking-tight text-text-primary">
             {title}
           </h1>
@@ -83,13 +95,15 @@ export function PageWrapper({
         </header>
       )}
 
-      <div className={cn(
-        "flex-grow w-full mx-auto",
-        widthStyles[width],
-        pxStyles[paddingX],
-        !hero && !title ? pyStyles[paddingY] : "pb-16 md:pb-24",
-        className
-      )}>
+      <div
+        className={cn(
+          'flex-grow w-full mx-auto',
+          widthStyles[width],
+          pxStyles[paddingX],
+          !hero && !title ? pyStyles[paddingY] : 'pb-16 md:pb-24',
+          className,
+        )}
+      >
         {children}
       </div>
     </motion.main>
