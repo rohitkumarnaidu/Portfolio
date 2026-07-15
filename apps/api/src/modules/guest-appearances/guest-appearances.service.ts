@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateGuestAppearanceDto, UpdateGuestAppearanceDto } from './dto';
+import type { CreateGuestAppearanceDto, UpdateGuestAppearanceDto } from './dto';
 
 @Injectable()
 export class GuestAppearancesService {
@@ -23,12 +23,14 @@ export class GuestAppearancesService {
   }
 
   async create(dto: CreateGuestAppearanceDto) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.prisma.guestAppearance.create({ data: sanitizeStrings(dto) as any });
   }
 
   async update(id: string, dto: UpdateGuestAppearanceDto) {
     const existing = await this.prisma.guestAppearance.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Guest appearance not found');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.prisma.guestAppearance.update({ where: { id }, data: sanitizeStrings(dto) as any });
   }
 

@@ -1,4 +1,12 @@
-import { IsString, IsBoolean, IsNumber, IsOptional, Min, MaxLength, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  Min,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateFaqDto {
