@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateNotificationDto } from './dto';
+import type { CreateNotificationDto } from './dto';
 
 @Injectable()
 export class NotificationsService {
@@ -10,11 +10,13 @@ export class NotificationsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findAll(opts?: { page?: number; perPage?: number; isRead?: boolean; type?: string }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (opts?.isRead !== undefined) where.isRead = opts.isRead;
     if (opts?.type) where.type = opts.type;
     return paginateQuery(
-      (args) => this.prisma.notification.findMany({ where, orderBy: { createdAt: 'desc' }, ...args }),
+      (args) =>
+        this.prisma.notification.findMany({ where, orderBy: { createdAt: 'desc' }, ...args }),
       () => this.prisma.notification.count({ where }),
       opts,
     );
@@ -49,7 +51,9 @@ export class NotificationsService {
         type: dto.type,
         title: dto.title,
         body: dto.body,
-        channel: dto.channel ?? 'telegram',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        channel: (dto.channel ?? 'telegram') as any,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         payload: (dto.payload ?? {}) as any,
       },
     });

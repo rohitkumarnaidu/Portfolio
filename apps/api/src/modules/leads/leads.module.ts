@@ -3,4 +3,3 @@ import { NotificationModule } from '../../common/notifications/notification.modu
 import { LeadsService } from './leads.service';
 @Module({ imports: [NotificationModule], providers: [LeadsService], exports: [LeadsService] })
 export class LeadsModule {}
-

@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException, Logger, Inject } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { NOTIFICATION_ADAPTER } from '../../common/notifications/notification.module';
-import { NotificationAdapter } from '../../common/notifications/notification.interface';
+import type { NotificationAdapter } from '../../common/notifications/notification.interface';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateLeadDto, UpdateLeadDto } from './dto';
+import type { CreateLeadDto, UpdateLeadDto } from './dto';
 
 @Injectable()
 export class LeadsService {
@@ -15,7 +15,14 @@ export class LeadsService {
     @Inject(NOTIFICATION_ADAPTER) private readonly notifier: NotificationAdapter,
   ) {}
 
-  async findAll(opts?: { status?: string; source?: string; search?: string; page?: number; perPage?: number }) {
+  async findAll(opts?: {
+    status?: string;
+    source?: string;
+    search?: string;
+    page?: number;
+    perPage?: number;
+  }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = { deletedAt: null };
     if (opts?.status) where.status = opts.status;
     if (opts?.source) where.source = opts.source;
@@ -49,13 +56,22 @@ export class LeadsService {
         status: 'new',
         priority: 'normal',
         metadata: sanitized.metadata || {},
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any,
     });
-    this.notifier.sendNewLeadNotification({
-      leadId: lead.id, name: lead.name, email: lead.email,
-      phone: lead.phone ?? undefined, company: lead.company ?? undefined, subject: lead.subject ?? undefined,
-      message: lead.message, source: lead.source, createdAt: lead.createdAt.toISOString(),
-    }).catch((err) => this.logger.error('Notification failed', err));
+    this.notifier
+      .sendNewLeadNotification({
+        leadId: lead.id,
+        name: lead.name,
+        email: lead.email,
+        phone: lead.phone ?? undefined,
+        company: lead.company ?? undefined,
+        subject: lead.subject ?? undefined,
+        message: lead.message,
+        source: lead.source,
+        createdAt: lead.createdAt.toISOString(),
+      })
+      .catch((err) => this.logger.error('Notification failed', err));
     return lead;
   }
 
@@ -64,13 +80,17 @@ export class LeadsService {
     if (!lead || lead.deletedAt) throw new NotFoundException('Lead not found');
     const sanitized = sanitizeStrings(dto);
     const { note, ...updateData } = sanitized;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updated = await this.prisma.lead.update({ where: { id }, data: updateData as any });
     if (updateData.status && updateData.status !== lead.status) {
-      this.notifier.sendLeadStatusChanged(id, lead.email, lead.name, updateData.status as string)
+      this.notifier
+        .sendLeadStatusChanged(id, lead.email, lead.name, updateData.status as string)
         .catch((err) => this.logger.error('Status notification failed', err));
     }
     if (note) {
-      await this.prisma.leadNote.create({ data: { leadId: id, content: note as string, authorId: 'admin' } });
+      await this.prisma.leadNote.create({
+        data: { leadId: id, content: note as string, authorId: 'admin' },
+      });
     }
     return updated;
   }
@@ -80,11 +100,21 @@ export class LeadsService {
   }
 
   async addNote(leadId: string, note: string, userId: string) {
-    return this.prisma.leadNote.create({ data: { leadId, content: sanitizeStrings(note) as string, authorId: userId } });
+    return this.prisma.leadNote.create({
+      data: { leadId, content: sanitizeStrings(note) as string, authorId: userId },
+    });
   }
 
-  async addActivity(leadId: string, action: string, actorId?: string, description?: string, details?: Record<string, unknown>, ipAddress?: string) {
+  async addActivity(
+    leadId: string,
+    action: string,
+    actorId?: string,
+    description?: string,
+    details?: Record<string, unknown>,
+    ipAddress?: string,
+  ) {
     return this.prisma.leadActivity.create({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: { leadId, action, actorId, description, details: (details || {}) as any, ipAddress },
     });
   }
@@ -115,16 +145,20 @@ export class LeadsService {
   }
 
   async bulkDelete(ids: string[]) {
-    const result = await this.prisma.lead.updateMany({ where: { id: { in: ids } }, data: { deletedAt: new Date() } });
+    const result = await this.prisma.lead.updateMany({
+      where: { id: { in: ids } },
+      data: { deletedAt: new Date() },
+    });
     return { deleted: result.count, failed: ids.length - result.count };
   }
 
-  async bulkUpdate(ids: string[], data: Record<string, any>) {
+  async bulkUpdate(ids: string[], data: Record<string, unknown>) {
     const leads = await this.prisma.lead.findMany({ where: { id: { in: ids }, deletedAt: null } });
     const foundIds = leads.map((l: { id: string }) => l.id);
     const missing = ids.filter((id) => !foundIds.includes(id));
     if (missing.length) throw new NotFoundException(`Leads ${missing.join(', ')} not found`);
     const { note, ...updateData } = data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await this.prisma.lead.updateMany({ where: { id: { in: ids } }, data: updateData as any });
     if (note) {
       await this.prisma.leadNote.createMany({

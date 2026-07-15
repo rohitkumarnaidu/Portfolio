@@ -1,4 +1,5 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import type { TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { LeadsService } from './leads.service';
 import { PrismaService } from '../../common/database/prisma.service';
@@ -162,7 +163,10 @@ describe('LeadsService', () => {
 
       expect(result.status).toBe('in_progress');
       expect(mockNotifier.sendLeadStatusChanged).toHaveBeenCalledWith(
-        'lead-1', 'john@test.com', 'John Doe', 'in_progress',
+        'lead-1',
+        'john@test.com',
+        'John Doe',
+        'in_progress',
       );
     });
 
@@ -226,7 +230,11 @@ describe('LeadsService', () => {
 
     it('should add a note', async () => {
       mockPrisma.leadNote.create.mockResolvedValue({
-        id: 'n2', leadId: 'lead-1', content: 'New note', authorId: 'u1', createdAt: new Date(),
+        id: 'n2',
+        leadId: 'lead-1',
+        content: 'New note',
+        authorId: 'u1',
+        createdAt: new Date(),
       });
 
       const note = await service.addNote('lead-1', 'New note', 'u1');

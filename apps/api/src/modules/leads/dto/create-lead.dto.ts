@@ -1,4 +1,12 @@
-import { IsString, IsEmail, IsOptional, IsEnum, IsObject, MinLength, MaxLength } from 'class-validator';
+import {
+  IsString,
+  IsEmail,
+  IsOptional,
+  IsEnum,
+  IsObject,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateLeadDto {
@@ -9,7 +17,8 @@ export class CreateLeadDto {
   @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(500) subject?: string;
   @ApiProperty() @IsString() @MinLength(10) @MaxLength(5000) message!: string;
   @ApiPropertyOptional({ enum: ['contact_form', 'ai_chat', 'referral', 'direct'] })
-  @IsOptional() @IsEnum(['contact_form', 'ai_chat', 'referral', 'direct'])
+  @IsOptional()
+  @IsEnum(['contact_form', 'ai_chat', 'referral', 'direct'])
   source?: string;
   @ApiPropertyOptional() @IsOptional() @IsObject() metadata?: Record<string, unknown>;
   @ApiPropertyOptional() @IsOptional() @IsString() ipAddress?: string;
@@ -17,10 +26,12 @@ export class CreateLeadDto {
 
 export class UpdateLeadDto {
   @ApiPropertyOptional({ enum: ['new', 'read', 'replied', 'converted', 'archived'] })
-  @IsOptional() @IsEnum(['new', 'read', 'replied', 'converted', 'archived'])
+  @IsOptional()
+  @IsEnum(['new', 'read', 'replied', 'converted', 'archived'])
   status?: string;
   @ApiPropertyOptional({ enum: ['low', 'normal', 'high', 'urgent'] })
-  @IsOptional() @IsEnum(['low', 'normal', 'high', 'urgent'])
+  @IsOptional()
+  @IsEnum(['low', 'normal', 'high', 'urgent'])
   priority?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() note?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() ipAddress?: string;

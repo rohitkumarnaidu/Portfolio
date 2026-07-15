@@ -2,7 +2,10 @@ import { IsString, IsOptional, IsEnum } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateLeadDto {
-  @ApiPropertyOptional({ enum: ['new', 'read', 'replied', 'converted', 'archived'], description: 'Lead status' })
+  @ApiPropertyOptional({
+    enum: ['new', 'read', 'replied', 'converted', 'archived'],
+    description: 'Lead status',
+  })
   @IsEnum(['new', 'read', 'replied', 'converted', 'archived'])
   @IsOptional()
   status?: 'new' | 'read' | 'replied' | 'converted' | 'archived';
@@ -17,4 +20,3 @@ export class UpdateLeadDto {
   @IsOptional()
   note?: string;
 }
-
