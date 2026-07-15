@@ -3,25 +3,42 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateReadingListItemDto {
   @ApiProperty({ example: 'Clean Code' })
-  @IsString() @MaxLength(300)
+  @IsString()
+  @MaxLength(300)
   title!: string;
 
-  @ApiPropertyOptional({ example: 'Robert C. Martin' }) @IsOptional() @IsString() @MaxLength(200)
+  @ApiPropertyOptional({ example: 'Robert C. Martin' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(200)
   author?: string;
 
-  @ApiPropertyOptional() @IsOptional() @IsUrl()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsUrl()
   url?: string;
 
-  @ApiPropertyOptional() @IsOptional() @IsUrl()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsUrl()
   coverImageUrl?: string;
 
-  @ApiPropertyOptional({ example: 'books' }) @IsOptional() @IsString() @MaxLength(100)
+  @ApiPropertyOptional({ example: 'books' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
   category?: string;
 
-  @ApiPropertyOptional({ example: 'A must-read for every developer' }) @IsOptional() @IsString() @MaxLength(2000)
+  @ApiPropertyOptional({ example: 'A must-read for every developer' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
   recommendation?: string;
 
-  @ApiPropertyOptional() @IsOptional() @IsNumber() @Min(0)
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
   displayOrder?: number;
 }
 

@@ -4,7 +4,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 export class AddProjectImageDto {
   @ApiProperty({ description: 'Image URL' })
   @IsString()
-  imageUrl: string;
+  imageUrl!: string;
 
   @ApiPropertyOptional({ description: 'Accessibility alt text' })
   @IsString()

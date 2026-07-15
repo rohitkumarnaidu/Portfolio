@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreatePressFeatureDto, UpdatePressFeatureDto } from './dto';
+import type { CreatePressFeatureDto, UpdatePressFeatureDto } from './dto';
 
 @Injectable()
 export class PressFeaturesService {
@@ -23,12 +23,14 @@ export class PressFeaturesService {
   }
 
   async create(dto: CreatePressFeatureDto) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.prisma.pressFeature.create({ data: sanitizeStrings(dto) as any });
   }
 
   async update(id: string, dto: UpdatePressFeatureDto) {
     const existing = await this.prisma.pressFeature.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Press feature not found');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return this.prisma.pressFeature.update({ where: { id }, data: sanitizeStrings(dto) as any });
   }
 
