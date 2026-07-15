@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import type { ConfigService } from '@nestjs/config';
 import { Octokit } from '@octokit/rest';
 
 @Injectable()
@@ -29,11 +29,14 @@ export class GithubService {
         throw new Error('Path is a directory, not a file');
       }
 
-      const content = Buffer.from((response.data as any).content, 'base64').toString('utf-8');
+      const content = Buffer.from(
+        (response.data as { content: string }).content,
+        'base64',
+      ).toString('utf-8');
       return {
         content,
-        sha: (response.data as any).sha,
-        path: (response.data as any).path,
+        sha: (response.data as { sha: string }).sha,
+        path: (response.data as { path: string }).path,
       };
     } catch (error) {
       this.logger.error(`Failed to get file from GitHub: ${path}`, error);
@@ -54,7 +57,7 @@ export class GithubService {
         return [response.data]; // It's a single file
       }
 
-      return response.data.map(item => ({
+      return response.data.map((item) => ({
         name: item.name,
         path: item.path,
         type: item.type, // 'file' or 'dir'

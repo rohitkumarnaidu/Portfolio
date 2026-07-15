@@ -1,14 +1,21 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
+import type { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateServiceDto, UpdateServiceDto } from './dto';
+import type { CreateServiceDto, UpdateServiceDto } from './dto';
 
 @Injectable()
 export class ServicesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(opts?: { page?: number; perPage?: number; search?: string; sortBy?: string; sortOrder?: 'asc' | 'desc' }) {
+  async findAll(opts?: {
+    page?: number;
+    perPage?: number;
+    search?: string;
+    sortBy?: string;
+    sortOrder?: 'asc' | 'desc';
+  }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (opts?.search) {
       const q = opts.search;
@@ -17,6 +24,7 @@ export class ServicesService {
         { description: { contains: q, mode: 'insensitive' } },
       ];
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const orderBy: any = {};
     if (opts?.sortBy) {
       orderBy[opts.sortBy] = opts.sortOrder === 'desc' ? 'desc' : 'asc';
@@ -36,6 +44,7 @@ export class ServicesService {
 
   async create(dto: CreateServiceDto) {
     return this.prisma.service.create({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: sanitizeStrings(dto) as any,
     });
   }
@@ -45,6 +54,7 @@ export class ServicesService {
     if (!existing) throw new NotFoundException('Service not found');
     return this.prisma.service.update({
       where: { id },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       data: sanitizeStrings(dto) as any,
     });
   }
@@ -55,8 +65,10 @@ export class ServicesService {
     await this.prisma.service.delete({ where: { id } });
   }
 
-  async restore() {
-    throw new NotFoundException('Service not found');
+  async restore(id: string) {
+    const existing = await this.prisma.service.findUnique({ where: { id } });
+    if (!existing) throw new NotFoundException('Service not found');
+    return existing;
   }
 
   async hardDelete(id: string) {

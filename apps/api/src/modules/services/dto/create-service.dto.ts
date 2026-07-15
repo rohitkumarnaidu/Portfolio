@@ -1,4 +1,14 @@
-import { IsString, IsBoolean, IsNumber, IsOptional, IsArray, Min, MaxLength, MinLength, ArrayMinSize } from 'class-validator';
+import {
+  IsString,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsArray,
+  Min,
+  MaxLength,
+  MinLength,
+  ArrayMinSize,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateServiceDto {
@@ -15,7 +25,12 @@ export class CreateServiceDto {
 }
 export class UpdateServiceDto {
   @ApiPropertyOptional() @IsOptional() @IsString() @MinLength(2) @MaxLength(200) title?: string;
-  @ApiPropertyOptional() @IsOptional() @IsString() @MinLength(10) @MaxLength(2000) description?: string;
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @MinLength(10)
+  @MaxLength(2000)
+  description?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() @MinLength(1) @MaxLength(50) icon?: string;
   @ApiPropertyOptional() @IsOptional() @IsArray() @IsString({ each: true }) features?: string[];
   @ApiPropertyOptional() @IsOptional() @IsString() pricingTier?: string;

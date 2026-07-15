@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import { PrismaService } from '../../common/database/prisma.service';
-import { CacheService } from '../../common/cache/cache.service';
+import type { PrismaService } from '../../common/database/prisma.service';
+import type { CacheService } from '../../common/cache/cache.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import { CreateSectionDto, UpdateSectionDto } from './dto';
+import type { CreateSectionDto, UpdateSectionDto } from './dto';
 
 const CACHE_KEY = 'sections';
 
@@ -16,7 +16,18 @@ export class SectionsService {
     private readonly cache: CacheService,
   ) {}
 
-  async findAll(liveOnly?: boolean, type?: string, opts?: { page?: number; perPage?: number; search?: string; sortBy?: string; sortOrder?: 'asc' | 'desc' }) {
+  async findAll(
+    liveOnly?: boolean,
+    type?: string,
+    opts?: {
+      page?: number;
+      perPage?: number;
+      search?: string;
+      sortBy?: string;
+      sortOrder?: 'asc' | 'desc';
+    },
+  ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const where: any = {};
     if (liveOnly) where.isLive = true;
     if (type) where.sectionType = type;
@@ -27,7 +38,9 @@ export class SectionsService {
         { sectionKey: { contains: q, mode: 'insensitive' } },
       ];
     }
-    const orderBy: any = opts?.sortBy ? { [opts.sortBy]: opts.sortOrder || 'asc' } : { displayOrder: 'asc' };
+    const orderBy: Record<string, string> = opts?.sortBy
+      ? { [opts.sortBy]: opts.sortOrder || 'asc' }
+      : { displayOrder: 'asc' };
     return paginateQuery(
       (args) => this.prisma.section.findMany({ where, orderBy, ...args }),
       () => this.prisma.section.count({ where }),
@@ -46,6 +59,7 @@ export class SectionsService {
   }
 
   async create(dto: CreateSectionDto) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const section = await this.prisma.section.create({ data: sanitizeStrings(dto) as any });
     await this.cache.delPattern(`${CACHE_KEY}:*`);
     return section;
@@ -54,7 +68,11 @@ export class SectionsService {
   async update(id: string, dto: UpdateSectionDto) {
     const existing = await this.prisma.section.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('Section not found');
-    const section = await this.prisma.section.update({ where: { id }, data: sanitizeStrings(dto) as any });
+    const section = await this.prisma.section.update({
+      where: { id },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data: sanitizeStrings(dto) as any,
+    });
     await this.cache.delPattern(`${CACHE_KEY}:*`);
     return section;
   }
@@ -72,11 +90,14 @@ export class SectionsService {
     return { deleted: result.count, failed: ids.length - result.count };
   }
 
-  async bulkUpdate(ids: string[], data: Record<string, any>) {
+  async bulkUpdate(ids: string[], data: Record<string, unknown>) {
     const sanitized = sanitizeStrings(data);
     const result = await Promise.all(
       ids.map(async (id) => {
-        const updated = await this.prisma.section.update({ where: { id }, data: sanitized as any }).catch(() => null);
+        const updated = await this.prisma.section
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          .update({ where: { id }, data: sanitized as any })
+          .catch(() => null);
         if (!updated) throw new NotFoundException(`Section ${id} not found`);
         return updated;
       }),
@@ -87,7 +108,9 @@ export class SectionsService {
 
   async reorder(order: Array<{ id: string; displayOrder: number }>) {
     for (const { id, displayOrder } of order) {
-      const updated = await this.prisma.section.update({ where: { id }, data: { displayOrder } }).catch(() => null);
+      const updated = await this.prisma.section
+        .update({ where: { id }, data: { displayOrder } })
+        .catch(() => null);
       if (!updated) throw new NotFoundException(`Section ${id} not found`);
     }
     await this.cache.delPattern(`${CACHE_KEY}:*`);

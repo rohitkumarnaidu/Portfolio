@@ -6,4 +6,3 @@ import { SectionsService } from './sections.service';
   exports: [SectionsService],
 })
 export class SectionsModule {}
-
