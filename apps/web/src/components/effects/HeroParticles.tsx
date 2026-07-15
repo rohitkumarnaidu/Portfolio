@@ -7,10 +7,7 @@ interface HeroParticlesProps {
   className?: string;
 }
 
-export const HeroParticles = ({
-  count = 20,
-  className,
-}: HeroParticlesProps) => {
+export const HeroParticles = ({ count = 20, className }: HeroParticlesProps) => {
   return (
     <div
       className={cn('absolute inset-0 overflow-hidden pointer-events-none', className)}

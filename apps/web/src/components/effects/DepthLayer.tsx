@@ -9,11 +9,7 @@ interface DepthLayerProps {
   children: ReactNode;
 }
 
-export const DepthLayer = ({
-  layer = 'mid',
-  className,
-  children,
-}: DepthLayerProps) => {
+export const DepthLayer = ({ layer = 'mid', className, children }: DepthLayerProps) => {
   const depthClass = {
     far: 'depth-far',
     mid: 'depth-mid',
@@ -21,9 +17,5 @@ export const DepthLayer = ({
     hover: 'depth-hover',
   }[layer];
 
-  return (
-    <div className={cn(depthClass, className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn(depthClass, className)}>{children}</div>;
 };

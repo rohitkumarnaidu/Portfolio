@@ -9,12 +9,7 @@ interface DotGridProps {
   className?: string;
 }
 
-export const DotGrid = ({
-  spacing = 20,
-  dotSize = 1,
-  opacity = 0.5,
-  className,
-}: DotGridProps) => {
+export const DotGrid = ({ spacing = 20, dotSize = 1, opacity = 0.5, className }: DotGridProps) => {
   return (
     <div
       className={cn('absolute inset-0 pointer-events-none bg-dots', className)}

@@ -8,13 +8,6 @@ interface DepthSceneProps {
   children: ReactNode;
 }
 
-export const DepthScene = ({
-  className,
-  children,
-}: DepthSceneProps) => {
-  return (
-    <div className={cn('depth-container', className)}>
-      {children}
-    </div>
-  );
+export const DepthScene = ({ className, children }: DepthSceneProps) => {
+  return <div className={cn('depth-container', className)}>{children}</div>;
 };
