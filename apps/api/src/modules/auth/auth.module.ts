@@ -29,4 +29,3 @@ import { GithubStrategy } from './github.strategy';
   exports: [AuthService, JwtModule, PassportModule, JwtAuthGuard, RolesGuard],
 })
 export class AuthModule {}
-
