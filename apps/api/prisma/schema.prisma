@@ -7,26 +7,88 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
-  admin
-  editor
-  viewer
+// ── Enums ──────────────────────────────────────────────────
+
+enum ProjectCategory {
+  web
+  mobile
+  ai
+  devops
+  design
+  other
 }
 
-model User {
-  id                  String    @id @default(uuid())
-  email               String    @unique
-  displayName         String    @map("display_name")
-  avatarUrl           String?   @map("avatar_url")
-  passwordHash        String?   @map("password_hash")
-  role                UserRole  @default(admin)
-  isActive            Boolean   @default(true) @map("is_active")
-  failedLoginAttempts Int       @default(0) @map("failed_login_attempts")
-  lockedUntil         DateTime? @map("locked_until")
-  metadata            Json      @default("{}")
-  createdAt           DateTime  @default(now()) @map("created_at")
-  updatedAt           DateTime  @updatedAt @map("updated_at")
+enum LeadSource {
+  contact_form
+  ai_chat
+  referral
+  direct
+}
 
+enum LeadStatus {
+  new
+  read
+  replied
+  converted
+  archived
+}
+
+enum LeadPriority {
+  low
+  normal
+  high
+  urgent
+}
+
+enum MessageRole {
+  user
+  assistant
+  system
+}
+
+enum AppearanceType {
+  podcast
+  conference
+  webinar
+  workshop
+  other
+}
+
+enum SettingDataType {
+  string
+  number
+  boolean
+  json
+}
+
+enum NotificationChannel {
+  telegram
+  email
+  push
+}
+
+enum AuditAction {
+  INSERT
+  UPDATE
+  DELETE
+}
+
+// ══════════════════════════════════════════════════════════════
+// CORE TABLES (Auth & RBAC)
+// ══════════════════════════════════════════════════════════════
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  displayName  String   @map("display_name")
+  avatarUrl    String?  @map("avatar_url")
+  passwordHash String?  @map("password_hash")
+  isActive     Boolean  @default(true) @map("is_active")
+  metadata     Json     @default("{}")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  roles           UserRole[]
   sessions        Session[]
   leadNotes       LeadNote[]
   leadActivities  LeadActivity[]
@@ -37,21 +99,43 @@ model User {
   @@map("users")
 }
 
-model Session {
-  id           String   @id @default(uuid())
-  userId       String   @map("user_id")
-  refreshToken String   @unique @map("refresh_token")
-  userAgent    String?  @map("user_agent")
-  ipAddress    String?  @map("ip_address")
-  isRevoked    Boolean  @default(false) @map("is_revoked")
-  expiresAt    DateTime @map("expires_at")
-  createdAt    DateTime @default(now()) @map("created_at")
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  userRoles UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String   @id @default(uuid())
+  resource    String
+  action      String
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@unique([resource, action])
+  @@map("permissions")
+}
+
+model UserRole {
+  userId    String   @map("user_id")
+  roleId    String   @map("role_id")
+  createdAt DateTime @default(now()) @map("created_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
-  @@map("sessions")
+  @@id([userId, roleId])
+  @@map("user_roles")
 }
+
+// ══════════════════════════════════════════════════════════════
+// CONTENT TABLES
+// ══════════════════════════════════════════════════════════════
 
 model Section {
   id              String   @id @default(uuid())
@@ -71,29 +155,28 @@ model Section {
 
   @@index([displayOrder])
   @@index([isLive])
-  @@index([isLive, sectionType])
   @@map("sections")
 }
 
 model Project {
-  id           String   @id @default(uuid())
-  slug         String   @unique
+  id           String             @id @default(uuid())
+  slug         String             @unique
   title        String
   description  String?
-  techStack    String[] @map("tech_stack")
-  liveUrl      String?  @map("live_url")
-  githubUrl    String?  @map("github_url")
-  coverImage   String?  @map("cover_image")
-  thumbnailUrl String?  @map("thumbnail_url")
-  isFeatured   Boolean  @default(false) @map("is_featured")
-  isPrivate    Boolean  @default(false) @map("is_private")
-  ndaPassword  String?  @map("nda_password")
-  category     String?
-  displayOrder Int      @default(0) @map("display_order")
-  content      Json     @default("{}")
-  metrics      Json     @default("{}")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  techStack    String[]           @map("tech_stack")
+  liveUrl      String?            @map("live_url")
+  githubUrl    String?            @map("github_url")
+  coverImage   String?            @map("cover_image")
+  thumbnailUrl String?            @map("thumbnail_url")
+  isFeatured   Boolean            @default(false) @map("is_featured")
+  isPrivate    Boolean            @default(false) @map("is_private")
+  ndaPassword  String?            @map("nda_password")
+  category     ProjectCategory?
+  displayOrder Int                @default(0) @map("display_order")
+  content      Json               @default("{}")
+  metrics      Json               @default("{}")
+  createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
 
   projectImages ProjectImage[]
   caseStudies   CaseStudy[]
@@ -101,8 +184,6 @@ model Project {
   @@index([slug])
   @@index([category])
   @@index([isFeatured])
-  @@index([isFeatured, isPrivate])
-  @@index([category, isPrivate])
   @@index([displayOrder])
   @@map("projects")
 }
@@ -144,7 +225,6 @@ model BlogPost {
 
   @@index([slug])
   @@index([isPublished])
-  @@index([isPublished, publishedAt(sort: Desc, nulls: Last)])
   @@index([publishedAt(sort: Desc, nulls: Last)])
   @@index([tags], type: Gin)
   @@map("blog_posts")
@@ -180,7 +260,6 @@ model Testimonial {
   updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@index([isVisible])
-  @@index([isVisible, isFeatured])
   @@map("testimonials")
 }
 
@@ -198,45 +277,42 @@ model Skill {
 
   @@index([category])
   @@index([isFeatured])
-  @@index([category, isFeatured])
   @@map("skills")
 }
 
 model Experience {
-  id              String   @id @default(uuid())
-  company         String
-  role            String
-  description     String?
-  technologies    String[]
-  companyLogoUrl  String?  @map("company_logo_url")
-  companyUrl      String?  @map("company_url")
-  location        String?
-  startDate       DateTime @map("start_date")
-  endDate         DateTime? @map("end_date")
-  isCurrent       Boolean  @default(false) @map("is_current")
-  displayOrder    Int      @default(0) @map("display_order")
-  isVisible       Boolean  @default(true) @map("is_visible")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
+  id             String   @id @default(uuid())
+  company        String
+  role           String
+  description    String?
+  technologies   String[]
+  companyLogoUrl String?  @map("company_logo_url")
+  companyUrl     String?  @map("company_url")
+  location       String?
+  startDate      DateTime @map("start_date")
+  endDate        DateTime? @map("end_date")
+  isCurrent      Boolean  @default(false) @map("is_current")
+  displayOrder   Int      @default(0) @map("display_order")
+  isVisible      Boolean  @default(true) @map("is_visible")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@index([displayOrder])
-  @@index([isVisible, displayOrder])
   @@map("experiences")
 }
 
 model Achievement {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   title          String
   issuer         String?
   description    String?
-  badgeImageUrl  String?  @map("badge_image_url")
+  badgeImageUrl  String?   @map("badge_image_url")
   category       String?
   achievedDate   DateTime? @map("achieved_date")
-  credentialUrl  String?  @map("credential_url")
-  displayOrder   Int      @default(0) @map("display_order")
-  createdAt      DateTime @default(now()) @map("created_at")
+  credentialUrl  String?   @map("credential_url")
+  displayOrder   Int       @default(0) @map("display_order")
+  createdAt      DateTime  @default(now()) @map("created_at")
 
-  @@index([category, displayOrder])
   @@map("achievements")
 }
 
@@ -244,7 +320,7 @@ model Service {
   id           String   @id @default(uuid())
   title        String
   description  String
-  icon         String   @default("💻")
+  icon         String   @default("code")
   features     String[]
   pricingTier  String?  @map("pricing_tier")
   priceCents   Int?     @map("price_cents")
@@ -258,41 +334,94 @@ model Service {
   @@map("services")
 }
 
-model FAQ {
-  id           String   @id @default(uuid())
-  question     String
-  answer       String
-  category     String?
-  displayOrder Int      @default(0) @map("display_order")
-  isVisible    Boolean  @default(true) @map("is_visible")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+model CaseStudy {
+  id                   String   @id @default(uuid())
+  projectId            String   @map("project_id")
+  challenge            String?
+  approach             String?
+  solution             String?
+  impact               String?
+  architectureDiagrams String[] @map("architecture_diagrams")
+  codeSnippets         String[] @map("code_snippets")
+  metrics              Json     @default("{}")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
 
-  @@map("faqs")
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId])
+  @@map("case_studies")
 }
 
-model Lead {
-  id         String   @id @default(uuid())
-  name       String
-  email      String
-  phone      String?
-  company    String?
-  subject    String?
-  message    String
-  source     String   @default("contact_form")
-  status     String   @default("new")
-  priority   String   @default("normal")
-  ipAddress  String?  @map("ip_address")
-  metadata   Json     @default("{}")
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
-  deletedAt  DateTime? @map("deleted_at")
+model PressFeature {
+  id           String    @id @default(uuid())
+  publication  String
+  title        String
+  url          String?
+  logoUrl      String?   @map("logo_url")
+  description  String?
+  featuredDate DateTime? @map("featured_date")
+  displayOrder Int       @default(0) @map("display_order")
+  createdAt    DateTime  @default(now()) @map("created_at")
 
-  notes    LeadNote[]
+  @@map("press_features")
+}
+
+model GuestAppearance {
+  id             String         @id @default(uuid())
+  type           AppearanceType
+  title          String
+  host           String?
+  url            String?
+  coverImageUrl  String?        @map("cover_image_url")
+  description    String?
+  appearanceDate DateTime?      @map("appearance_date")
+  displayOrder   Int            @default(0) @map("display_order")
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  @@index([type])
+  @@map("guest_appearances")
+}
+
+model ReadingListItem {
+  id             String   @id @default(uuid())
+  title          String
+  author         String?
+  url            String?
+  coverImageUrl  String?  @map("cover_image_url")
+  category       String?
+  recommendation String?
+  displayOrder   Int      @default(0) @map("display_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@map("reading_list")
+}
+
+// ══════════════════════════════════════════════════════════════
+// LEAD MANAGEMENT TABLES
+// ══════════════════════════════════════════════════════════════
+
+model Lead {
+  id        String       @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  subject   String?
+  message   String
+  source    LeadSource   @default(contact_form)
+  status    LeadStatus   @default(new)
+  priority  LeadPriority @default(normal)
+  ipAddress String?      @map("ip_address")
+  metadata  Json         @default("{}")
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
+  deletedAt DateTime?    @map("deleted_at")
+
+  notes      LeadNote[]
   activities LeadActivity[]
 
   @@index([status])
-  @@index([status, createdAt(sort: Desc)])
   @@index([source])
   @@index([email])
   @@index([createdAt(sort: Desc)])
@@ -308,8 +437,8 @@ model LeadNote {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  lead   Lead   @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  author User?  @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  lead   Lead  @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  author User? @relation(fields: [authorId], references: [id], onDelete: SetNull)
 
   @@index([leadId])
   @@map("lead_notes")
@@ -332,6 +461,10 @@ model LeadActivity {
   @@map("lead_activities")
 }
 
+// ══════════════════════════════════════════════════════════════
+// ANALYTICS TABLES
+// ══════════════════════════════════════════════════════════════
+
 model AnalyticsEvent {
   id         String   @id @default(uuid())
   eventName  String   @map("event_name")
@@ -344,7 +477,6 @@ model AnalyticsEvent {
   createdAt  DateTime @default(now()) @map("created_at")
 
   @@index([eventName])
-  @@index([eventName, createdAt(sort: Desc)])
   @@index([sessionId])
   @@index([createdAt(sort: Desc)])
   @@map("analytics_events")
@@ -373,26 +505,30 @@ model AnalyticsSession {
 }
 
 model PageView {
-  id                  String   @id @default(uuid())
-  sessionId           String?  @map("session_id")
-  pageUrl             String   @map("page_url")
-  pageTitle           String?  @map("page_title")
-  referrer            String?
-  scrollDepthPercent  Int      @default(0) @map("scroll_depth_percent")
-  timeOnPageSeconds   Int      @default(0) @map("time_on_page_seconds")
-  engagement          Json     @default("{}")
-  viewedAt            DateTime @default(now()) @map("viewed_at")
+  id                 String   @id @default(uuid())
+  sessionId          String?  @map("session_id")
+  pageUrl            String   @map("page_url")
+  pageTitle          String?  @map("page_title")
+  referrer           String?
+  scrollDepthPercent Int      @default(0) @map("scroll_depth_percent")
+  timeOnPageSeconds  Int      @default(0) @map("time_on_page_seconds")
+  engagement         Json     @default("{}")
+  viewedAt           DateTime @default(now()) @map("viewed_at")
 
   @@index([pageUrl])
   @@index([viewedAt(sort: Desc)])
   @@map("page_views")
 }
 
+// ══════════════════════════════════════════════════════════════
+// AI & RAG TABLES
+// ══════════════════════════════════════════════════════════════
+
 model ChatConversation {
   id             String    @id @default(uuid())
   sessionId      String    @unique @map("session_id")
   visitorId      String?   @map("visitor_id")
-  pageContext     String?  @map("page_context")
+  pageContext    String?   @map("page_context")
   messageCount   Int       @default(0) @map("message_count")
   createdAt      DateTime  @default(now()) @map("created_at")
   lastActivityAt DateTime  @default(now()) @map("last_activity_at")
@@ -405,14 +541,14 @@ model ChatConversation {
 }
 
 model ChatMessage {
-  id              String   @id @default(uuid())
-  conversationId  String   @map("conversation_id")
-  role            String
-  content         String
-  tokensUsed      Int      @default(0) @map("tokens_used")
-  responseTimeMs  Int      @default(0) @map("response_time_ms")
-  metadata        Json     @default("{}")
-  createdAt       DateTime @default(now()) @map("created_at")
+  id             String      @id @default(uuid())
+  conversationId String      @map("conversation_id")
+  role           MessageRole
+  content        String
+  tokensUsed     Int         @default(0) @map("tokens_used")
+  responseTimeMs Int         @default(0) @map("response_time_ms")
+  metadata       Json        @default("{}")
+  createdAt      DateTime    @default(now()) @map("created_at")
 
   conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
@@ -420,68 +556,110 @@ model ChatMessage {
   @@map("chat_messages")
 }
 
+model DocumentChunk {
+  id          String   @id @default(uuid())
+  documentId  String   @map("document_id")
+  content     String
+  chunkIndex  Int      @default(0) @map("chunk_index")
+  tokenCount  Int      @default(0) @map("token_count")
+  metadata    Json     @default("{}")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([documentId])
+  @@index([documentId, chunkIndex])
+  @@map("document_chunks")
+}
+
+model EmbeddingCache {
+  id         String    @id @default(uuid())
+  inputHash  String    @unique @map("input_hash")
+  inputText  String    @map("input_text")
+  model      String    @default("text-embedding-3-small")
+  tokenCount Int       @default(0) @map("token_count")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  expiresAt  DateTime? @map("expires_at")
+
+  @@index([inputHash])
+  @@map("embeddings_cache")
+}
+
+// ══════════════════════════════════════════════════════════════
+// SYSTEM TABLES
+// ══════════════════════════════════════════════════════════════
+
 model MediaAsset {
-  id            String   @id @default(uuid())
-  fileName      String   @map("file_name")
-  filePath      String   @map("file_path")
-  bucketName    String   @default("assets") @map("bucket_name")
-  mimeType      String   @map("mime_type")
-  fileSizeBytes Int      @default(0) @map("file_size_bytes")
+  id            String    @id @default(uuid())
+  fileName      String    @map("file_name")
+  filePath      String    @map("file_path")
+  bucketName    String    @default("assets") @map("bucket_name")
+  mimeType      String    @map("mime_type")
+  fileSizeBytes Int       @default(0) @map("file_size_bytes")
   width         Int?
   height        Int?
-  altText       String?  @map("alt_text")
-  uploadedBy    String?  @map("uploaded_by")
-  variants      Json     @default("{}")
-  createdAt     DateTime @default(now()) @map("created_at")
+  altText       String?   @map("alt_text")
+  uploadedBy    String?   @map("uploaded_by")
+  variants      Json      @default("{}")
+  createdAt     DateTime  @default(now()) @map("created_at")
   deletedAt     DateTime? @map("deleted_at")
 
   uploader User? @relation(fields: [uploadedBy], references: [id], onDelete: SetNull)
 
-  @@index([mimeType, createdAt(sort: Desc)])
+  @@index([mimeType])
   @@map("media_assets")
 }
 
+model AvailabilityStatus {
+  id                String   @id @default(uuid())
+  isAvailable       Boolean  @default(true) @map("is_available")
+  statusLabel       String   @default("Available for new opportunities") @map("status_label")
+  availableUntil    String?  @map("available_until")
+  preferredContact  String   @default("email") @map("preferred_contact")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@map("availability_status")
+}
+
 model SystemSetting {
-  id           String   @id @default(uuid())
-  settingKey   String   @unique @map("setting_key")
-  settingValue String   @default("") @map("setting_value")
-  settingGroup String   @default("general") @map("setting_group")
+  id           String         @id @default(uuid())
+  settingKey   String         @unique @map("setting_key")
+  settingValue String         @default("") @map("setting_value")
+  settingGroup String         @default("general") @map("setting_group")
   description  String?
-  dataType     String   @default("string") @map("data_type")
-  isEncrypted  Boolean  @default(false) @map("is_encrypted")
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  dataType     SettingDataType @default(string) @map("data_type")
+  isEncrypted  Boolean        @default(false) @map("is_encrypted")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  updatedAt    DateTime       @updatedAt @map("updated_at")
 
   @@map("system_settings")
 }
 
 model Notification {
-  id        String    @id @default(uuid())
+  id        String             @id @default(uuid())
   type      String
   title     String
   body      String?
-  channel   String    @default("telegram")
-  payload   Json      @default("{}")
-  isRead    Boolean   @default(false) @map("is_read")
-  isSent    Boolean   @default(false) @map("is_sent")
-  sentAt    DateTime? @map("sent_at")
-  readAt    DateTime? @map("read_at")
-  createdAt DateTime  @default(now()) @map("created_at")
+  channel   NotificationChannel @default(email)
+  payload   Json               @default("{}")
+  isRead    Boolean            @default(false) @map("is_read")
+  isSent    Boolean            @default(false) @map("is_sent")
+  sentAt    DateTime?          @map("sent_at")
+  readAt    DateTime?          @map("read_at")
+  createdAt DateTime           @default(now()) @map("created_at")
 
   @@map("notifications")
 }
 
 model AuditLog {
-  id            String   @id @default(uuid())
-  tableName     String   @map("table_name")
-  recordId      String   @map("record_id")
-  action        String
-  actorId       String?  @map("actor_id")
-  ipAddress     String?  @map("ip_address")
-  oldValues     Json?    @map("old_values")
-  newValues     Json?    @map("new_values")
-  correlationId String?  @map("correlation_id")
-  createdAt     DateTime @default(now()) @map("created_at")
+  id            String      @id @default(uuid())
+  tableName     String      @map("table_name")
+  recordId      String      @map("record_id")
+  action        AuditAction
+  actorId       String?     @map("actor_id")
+  ipAddress     String?     @map("ip_address")
+  oldValues     Json?       @map("old_values")
+  newValues     Json?       @map("new_values")
+  correlationId String?     @map("correlation_id")
+  createdAt     DateTime    @default(now()) @map("created_at")
 
   actor User? @relation(fields: [actorId], references: [id], onDelete: SetNull)
 
@@ -491,95 +669,21 @@ model AuditLog {
   @@map("audit_logs")
 }
 
-model AdminActivity {
+model Session {
   id           String   @id @default(uuid())
-  adminId      String?  @map("admin_id")
-  action       String
-  resourceType String?  @map("resource_type")
-  resourceId   String?  @map("resource_id")
-  description  String?
-  details      Json     @default("{}")
+  userId       String   @map("user_id")
+  refreshToken String   @unique @map("refresh_token")
+  userAgent    String?  @map("user_agent")
   ipAddress    String?  @map("ip_address")
+  isRevoked    Boolean  @default(false) @map("is_revoked")
+  expiresAt    DateTime @map("expires_at")
   createdAt    DateTime @default(now()) @map("created_at")
 
-  admin User? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([adminId])
-  @@index([createdAt(sort: Desc)])
-  @@map("admin_activities")
-}
-
-model CaseStudy {
-  id                    String   @id @default(uuid())
-  projectId             String   @map("project_id")
-  challenge             String?
-  approach              String?
-  solution              String?
-  impact                String?
-  architectureDiagrams  String[] @map("architecture_diagrams")
-  codeSnippets          String[] @map("code_snippets")
-  metrics               Json     @default("{}")
-  createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-
-  @@index([projectId])
-  @@map("case_studies")
-}
-
-model PressFeature {
-  id            String   @id @default(uuid())
-  publication   String
-  title         String
-  url           String?
-  logoUrl       String?  @map("logo_url")
-  description   String?
-  featuredDate  DateTime? @map("featured_date")
-  displayOrder  Int      @default(0) @map("display_order")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  @@map("press_features")
-}
-
-model GuestAppearance {
-  id            String   @id @default(uuid())
-  type          String
-  title         String
-  host          String?
-  url           String?
-  coverImageUrl String?  @map("cover_image_url")
-  description   String?
-  appearanceDate DateTime? @map("appearance_date")
-  displayOrder  Int      @default(0) @map("display_order")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  @@map("guest_appearances")
-}
-
-model ReadingListItem {
-  id            String   @id @default(uuid())
-  title         String
-  author        String?
-  url           String?
-  coverImageUrl String?  @map("cover_image_url")
-  category      String?
-  recommendation String?
-  displayOrder  Int      @default(0) @map("display_order")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  @@map("reading_list")
-}
-
-model AvailabilityStatus {
-  id               String   @id @default(uuid())
-  isAvailable      Boolean  @default(true) @map("is_available")
-  statusLabel      String   @default("Available for new opportunities") @map("status_label")
-  availableUntil   String?  @map("available_until")
-  preferredContact String   @default("email") @map("preferred_contact")
-  updatedAt        DateTime @updatedAt @map("updated_at")
-
-  @@map("availability_status")
+  @@index([userId])
+  @@index([refreshToken])
+  @@map("sessions")
 }
 
 model ApiKey {
@@ -609,18 +713,33 @@ model FeatureFlag {
   @@map("feature_flags")
 }
 
-model ContentEmbedding {
-  id            String   @id @default(uuid())
-  sourceType    String   @map("source_type")   // "project", "skill", "blog", "experience"
-  sourceId      String   @map("source_id")
-  chunkIndex    Int      @default(0) @map("chunk_index")
-  chunkText     String   @map("chunk_text")
-  // embedding vector stored via raw SQL (pgvector), not Prisma-native
-  metadata      Json     @default("{}")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+model AdminActivity {
+  id           String   @id @default(uuid())
+  adminId      String?  @map("admin_id")
+  action       String
+  resourceType String?  @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  description  String?
+  details      Json     @default("{}")
+  ipAddress    String?  @map("ip_address")
+  createdAt    DateTime @default(now()) @map("created_at")
 
-  @@unique([sourceType, sourceId, chunkIndex])
-  @@index([sourceType])
-  @@map("content_embeddings")
+  admin User? @relation(fields: [adminId], references: [id], onDelete: SetNull)
+
+  @@index([adminId])
+  @@index([createdAt(sort: Desc)])
+  @@map("admin_activities")
+}
+
+model FAQ {
+  id           String   @id @default(uuid())
+  question     String
+  answer       String
+  category     String?
+  displayOrder Int      @default(0) @map("display_order")
+  isVisible    Boolean  @default(true) @map("is_visible")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("faqs")
 }
