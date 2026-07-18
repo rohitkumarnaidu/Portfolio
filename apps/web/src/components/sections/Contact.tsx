@@ -1,16 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { Button, Input } from '@portfolio/ui';
-import { submitLead } from '@/lib/api';
+import { submitLead, ApiError } from '@/lib/api';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import { useInView } from '@/hooks/useInView';
 import { SectionWrapper } from '@/components/layout/SectionWrapper';
+import { RECAPTCHA_SITE_KEY, isRecaptchaEnabled, useRecaptchaToken } from '@/lib/useRecaptcha';
 
 interface FormData {
   name: string;
   email: string;
   subject: string;
   message: string;
+  /** Honeypot field — must stay empty for real users. */
+  company_url: string;
 }
 
 interface FormErrors {
@@ -38,34 +43,80 @@ function validate(data: FormData): FormErrors {
 
 import type { Section } from '@portfolio/shared';
 
+const RATE_LIMIT_COOLDOWN_SECONDS = 60;
+
 export function Contact({ data }: { data?: Section }) {
   const { ref, inView } = useInView<HTMLDivElement>(0.1);
+  const { track } = useAnalytics();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     subject: '',
     message: '',
+    company_url: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [touched, setTouched] = useState<Set<string>>(new Set());
+  const [rateLimited, setRateLimited] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const [rateLimitMessage, setRateLimitMessage] = useState<string | null>(null);
+
+  const getRecaptchaToken = useRecaptchaToken();
+  const cooldownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (cooldownTimer.current) clearInterval(cooldownTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (cooldown <= 0) {
+      if (cooldownTimer.current) {
+        clearInterval(cooldownTimer.current);
+        cooldownTimer.current = null;
+      }
+      return;
+    }
+    if (!cooldownTimer.current) {
+      cooldownTimer.current = setInterval(() => {
+        setCooldown((s) => Math.max(0, s - 1));
+      }, 1000);
+    }
+    return () => {
+      if (cooldownTimer.current) {
+        clearInterval(cooldownTimer.current);
+        cooldownTimer.current = null;
+      }
+    };
+  }, [cooldown]);
+
+  const startCooldown = () => {
+    setRateLimited(true);
+    setCooldown(RATE_LIMIT_COOLDOWN_SECONDS);
+  };
 
   const handleChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
+    if (field === 'company_url') return;
     if (touched.has(field)) {
       const newErrors = validate({ ...formData, [field]: value });
-      setErrors((prev) => ({ ...prev, [field]: newErrors[field] }));
+      setErrors((prev) => ({ ...prev, [field]: newErrors[field as keyof FormErrors] }));
     }
   };
 
   const handleBlur = (field: keyof FormData) => {
+    if (field === 'company_url') return;
     setTouched((prev) => new Set(prev).add(field));
     const newErrors = validate(formData);
-    setErrors((prev) => ({ ...prev, [field]: newErrors[field] }));
+    setErrors((prev) => ({ ...prev, [field]: newErrors[field as keyof FormErrors] }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (rateLimited) return;
 
     const validationErrors = validate(formData);
     setErrors(validationErrors);
@@ -73,25 +124,44 @@ export function Contact({ data }: { data?: Section }) {
 
     if (Object.keys(validationErrors).length > 0) return;
 
+    // Honeypot: bots fill hidden fields. Silently succeed without contacting the backend.
+    if (formData.company_url.trim().length > 0) {
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '', company_url: '' });
+      return;
+    }
+
     setStatus('loading');
     try {
+      const recaptchaToken = await getRecaptchaToken('submit_lead');
+
       await submitLead({
         name: formData.name,
         email: formData.email,
         subject: formData.subject,
         message: formData.message,
         source: 'contact_form',
+        metadata: recaptchaToken ? { recaptchaToken } : undefined,
       });
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch {
+      setRateLimitMessage(null);
+      track('contact_submit', { subject: formData.subject, source: 'contact_form' });
+      setFormData({ name: '', email: '', subject: '', message: '', company_url: '' });
+    } catch (err) {
+      if (err instanceof ApiError && err.status_code === 429) {
+        startCooldown();
+        const remaining = (err.details as Array<{ message?: string }> | undefined)?.[0]?.message;
+        setRateLimitMessage(
+          remaining || 'Too many messages sent. Please wait a moment before trying again.',
+        );
+      }
       setStatus('error');
     }
   };
 
   const content = (data?.content ?? {}) as Record<string, string | undefined>;
 
-  return (
+  const form = (
     <SectionWrapper
       id="contact"
       variant="alt"
@@ -186,6 +256,20 @@ export function Contact({ data }: { data?: Section }) {
               className="glass-subtle rounded-2xl p-6 md:p-8 space-y-5"
               noValidate
             >
+              {/* Honeypot — hidden from users, traps bots. Must stay empty. */}
+              <div className="sr-only" aria-hidden="true">
+                <label htmlFor="company_url">Company website</label>
+                <input
+                  id="company_url"
+                  name="company_url"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={formData.company_url}
+                  onChange={(e) => handleChange('company_url', e.target.value)}
+                />
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <Input
                   label="Name *"
@@ -254,7 +338,40 @@ export function Contact({ data }: { data?: Section }) {
                 </div>
               )}
 
-              {status === 'error' && (
+              {rateLimited && (
+                <div
+                  className="flex items-start gap-2 p-3 rounded-xl bg-semantic-warning-bg border border-semantic-warning/20"
+                  role="alert"
+                  aria-live="assertive"
+                >
+                  <svg
+                    className="w-5 h-5 text-semantic-warning shrink-0 mt-0.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <div className="text-sm text-semantic-warning">
+                    <p>
+                      {rateLimitMessage ||
+                        'Too many messages sent. Please wait before trying again.'}
+                    </p>
+                    {cooldown > 0 && (
+                      <p className="mt-1 tabular-nums">
+                        You can send another message in {cooldown}s.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {status === 'error' && !rateLimited && (
                 <div className="flex items-center gap-2 p-3 rounded-xl bg-semantic-error-bg border border-semantic-error/20">
                   <svg
                     className="w-5 h-5 text-semantic-error shrink-0"
@@ -275,8 +392,18 @@ export function Contact({ data }: { data?: Section }) {
                 </div>
               )}
 
-              <Button type="submit" size="lg" fullWidth isLoading={status === 'loading'}>
-                {status === 'loading' ? 'Sending...' : 'Send Message'}
+              <Button
+                type="submit"
+                size="lg"
+                fullWidth
+                isLoading={status === 'loading'}
+                disabled={rateLimited && cooldown > 0}
+              >
+                {status === 'loading'
+                  ? 'Sending...'
+                  : cooldown > 0
+                    ? `Try again in ${cooldown}s`
+                    : 'Send Message'}
                 <svg
                   className="w-4 h-4"
                   fill="none"
@@ -293,4 +420,12 @@ export function Contact({ data }: { data?: Section }) {
       </div>
     </SectionWrapper>
   );
+
+  if (isRecaptchaEnabled()) {
+    return (
+      <GoogleReCaptchaProvider reCaptchaKey={RECAPTCHA_SITE_KEY}>{form}</GoogleReCaptchaProvider>
+    );
+  }
+
+  return form;
 }
