@@ -1,0 +1,139 @@
+/* Tailwind directives for the @portfolio/ui Storybook preview */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Theme variables (light theme default) ───────────────── */
+:root,
+[data-theme='light'] {
+  --accent-50: #eff6ff;
+  --accent-100: #dbeafe;
+  --accent-200: #bfdbfe;
+  --accent-300: #93c5fd;
+  --accent-400: #60a5fa;
+  --accent-500: #3b82f6;
+  --accent-600: #2563eb;
+  --accent-700: #1d4ed8;
+  --accent-800: #1e40af;
+
+  --surface-primary: #fdfdfd;
+  --surface-secondary: #ffffff;
+  --surface-elevated: #f4f5f7;
+
+  --border-primary: #e2e8f0;
+  --border-accent: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-inverse: #ffffff;
+  --text-link: #2563eb;
+
+  --semantic-success: #10b981;
+  --semantic-success-bg: #ecfdf5;
+  --semantic-warning: #f59e0b;
+  --semantic-warning-bg: #fffbeb;
+  --semantic-error: #ef4444;
+  --semantic-error-bg: #fef2f2;
+  --semantic-info: #3b82f6;
+  --semantic-info-bg: #eff6ff;
+
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 12px 24px rgba(15, 23, 42, 0.12);
+  --shadow-xl: 0 24px 48px rgba(15, 23, 42, 0.16);
+  --shadow-2xl: 0 32px 64px rgba(15, 23, 42, 0.2);
+
+  --shadow-accent-focus: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  --shadow-accent-active: inset 0 0 0 2px rgba(59, 130, 246, 0.15);
+  --shadow-accent-hover: 0 8px 30px rgba(59, 130, 246, 0.25);
+
+  --glass-subtle: rgba(255, 255, 255, 0.6);
+  --glass-medium: rgba(255, 255, 255, 0.75);
+  --glass-prominent: rgba(255, 255, 255, 0.9);
+
+  --gradient-hero: linear-gradient(135deg, #2563eb, #10b981);
+  --gradient-cta: linear-gradient(135deg, #2563eb, #8b5cf6);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  --gradient-text-hero: linear-gradient(135deg, #2563eb, #10b981);
+
+  --neu-light-flat-light: -8px -8px 16px rgba(255, 255, 255, 0.9);
+  --neu-light-flat-dark: 8px 8px 16px rgba(15, 23, 42, 0.05);
+  --neu-light-raised-light: -10px -10px 20px rgba(255, 255, 255, 0.95);
+  --neu-light-raised-dark: 10px 10px 20px rgba(15, 23, 42, 0.08);
+  --neu-light-pressed-light: inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+  --neu-light-pressed-dark: inset 4px 4px 8px rgba(15, 23, 42, 0.06);
+  --neu-light-raised-hover-light: -12px -12px 24px rgba(255, 255, 255, 1);
+  --neu-light-raised-hover-dark: 12px 12px 24px rgba(15, 23, 42, 0.1);
+}
+
+/* ── Dark theme (toggled via data-theme on <html>) ───────── */
+[data-theme='dark'] {
+  --accent-50: #0a1929;
+  --accent-100: #0f2942;
+  --accent-200: #13395c;
+  --accent-300: #174a75;
+  --accent-400: #00e1ff;
+  --accent-500: #00f0ff;
+  --accent-600: #00c3ff;
+  --accent-700: #0099ff;
+  --accent-800: #ff0055;
+
+  --surface-primary: #000000;
+  --surface-secondary: #0a0a0c;
+  --surface-elevated: #111114;
+
+  --border-primary: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(255, 255, 255, 0.15);
+
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-inverse: #000000;
+  --text-link: #00f0ff;
+
+  --semantic-success: #10b981;
+  --semantic-success-bg: rgba(16, 185, 129, 0.1);
+  --semantic-warning: #f59e0b;
+  --semantic-warning-bg: rgba(245, 158, 11, 0.1);
+  --semantic-error: #ef4444;
+  --semantic-error-bg: rgba(239, 68, 68, 0.1);
+  --semantic-info: #3b82f6;
+  --semantic-info-bg: rgba(59, 130, 246, 0.1);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.8);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.9);
+  --shadow-lg: 0 16px 32px rgba(0, 0, 0, 0.9);
+  --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.95);
+  --shadow-2xl: 0 32px 64px rgba(0, 0, 0, 1);
+
+  --shadow-accent-focus: 0 0 0 3px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.2);
+  --shadow-accent-active: inset 0 0 0 2px rgba(0, 240, 255, 0.3);
+  --shadow-accent-hover: 0 8px 30px rgba(0, 240, 255, 0.3), 0 0 40px rgba(255, 0, 85, 0.15);
+
+  --glass-subtle: rgba(10, 10, 12, 0.6);
+  --glass-medium: rgba(10, 10, 12, 0.8);
+  --glass-prominent: rgba(10, 10, 12, 0.95);
+
+  --gradient-hero: linear-gradient(135deg, #00f0ff, #ff0055, #8b5cf6);
+  --gradient-cta: linear-gradient(135deg, #00f0ff, #0099ff);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  --gradient-text-hero: linear-gradient(to right, #00f0ff, #ff0055, #8b5cf6);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body, system-ui, sans-serif);
+  background: var(--surface-primary);
+  color: var(--text-primary);
+}
