@@ -366,6 +366,8 @@ export async function submitLead(data: {
   subject?: string;
   message: string;
   source?: string;
+  metadata?: Record<string, unknown>;
+  ipAddress?: string;
 }) {
   return request<Lead>('/leads', {
     method: 'POST',
@@ -564,6 +566,24 @@ export function getLeadsExportUrl(_page?: number, _perPage?: number, status?: st
   sp.set('token', token ? encodeURIComponent(token) : '');
   if (status) sp.set('status', status);
   return `/api/leads/export?${sp.toString()}`;
+}
+
+// ── Public: Analytics Events ────────────────────────────────
+
+export interface TrackEventPayload {
+  eventName: string;
+  pageUrl: string;
+  sessionId: string;
+  visitorId: string;
+  userAgent?: string;
+  properties?: Record<string, unknown>;
+}
+
+export async function trackAnalyticsEvent(payload: TrackEventPayload) {
+  return request<{ id?: string }>('/portfolio/analytics/events', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
 }
 
 // ── Admin: Analytics ────────────────────────────────────────
