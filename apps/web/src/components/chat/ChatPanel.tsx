@@ -1,7 +1,8 @@
 'use client';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { MessageCircle, X, Maximize2, Minimize2 } from 'lucide-react';
 import { useChatStream } from '@/hooks/useChatStream';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import { ChatMessage } from './ChatMessage';
 import { ChatInput } from './ChatInput';
 import { TypingIndicator } from './TypingIndicator';
@@ -10,7 +11,19 @@ export function ChatPanel() {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const { messages, isTyping, error, sendMessage, stopGeneration } = useChatStream('/api/ai/chat');
+  const { track } = useAnalytics();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const handleSend = useCallback(
+    (content: string) => {
+      track('chat_message_sent', {
+        length: content.length,
+        page: typeof window !== 'undefined' ? window.location.pathname : undefined,
+      });
+      sendMessage(content);
+    },
+    [track, sendMessage],
+  );
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -105,7 +118,7 @@ export function ChatPanel() {
 
       {/* Input */}
       <div className="rounded-b-2xl overflow-hidden">
-        <ChatInput onSend={sendMessage} disabled={isTyping} />
+        <ChatInput onSend={handleSend} disabled={isTyping} />
         {isTyping && (
           <div className="px-4 py-2 bg-surface-secondary border-t border-border-primary flex justify-center">
             <button

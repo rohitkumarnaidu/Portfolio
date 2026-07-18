@@ -1,15 +1,27 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Badge, Button } from '@portfolio/ui';
 import { useProject } from '@/lib/hooks/useProjects';
 import { usePublicProjects } from '@/lib/hooks/usePublicData';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import { ProjectDetailSkeleton } from '@/components/skeletons/ProjectDetailSkeleton';
 
 export function ProjectDetailClient({ slug }: { slug: string }) {
   const { data: project, isLoading, error } = useProject(slug);
   const { data: allProjects } = usePublicProjects({ per_page: 100 });
+  const { track } = useAnalytics();
+
+  useEffect(() => {
+    if (project) {
+      track('project_view', {
+        slug: project.slug,
+        title: project.title,
+        category: project.category ?? undefined,
+      });
+    }
+  }, [project, track]);
 
   const relatedProjects = useMemo(() => {
     if (!project || !allProjects) return [];
