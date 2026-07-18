@@ -64,3 +64,64 @@ export { NeuSlider } from './NeuSlider';
 export type { NeuSliderProps } from './NeuSlider';
 
 export * from './Textarea';
+
+// ──────────────────────────────
+// Phase 4 Component Library Atoms
+// @see docs/07-frontend/FRONTEND-IMPLEMENTATION-PLAN.md §4
+// ──────────────────────────────
+
+// Spinner
+export { Spinner } from './Spinner';
+export type { SpinnerProps } from './Spinner';
+
+// Accordion
+export { Accordion } from './Accordion';
+export type { AccordionProps, AccordionItem } from './Accordion';
+
+// Select
+export { Select } from './Select';
+export type { SelectProps, SelectOption } from './Select';
+
+// Breadcrumb
+export { Breadcrumb } from './Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './Breadcrumb';
+
+// Pagination
+export { Pagination } from './Pagination';
+export type { PaginationProps } from './Pagination';
+
+// SearchBar
+export { SearchBar } from './SearchBar';
+export type { SearchBarProps, SearchResult } from './SearchBar';
+
+// StatCard
+export { StatCard } from './StatCard';
+export type { StatCardProps } from './StatCard';
+
+// ProgressBar
+export { ProgressBar } from './ProgressBar';
+export type { ProgressBarProps } from './ProgressBar';
+
+// Timeline
+export { Timeline } from './Timeline';
+export type { TimelineProps, TimelineItem, TimelineStatus } from './Timeline';
+
+// NotificationDot
+export { NotificationDot } from './NotificationDot';
+export type { NotificationDotProps, PresenceStatus } from './NotificationDot';
+
+// StatusBadge
+export { StatusBadge } from './StatusBadge';
+export type { StatusBadgeProps, StatusKind } from './StatusBadge';
+
+// IconButton
+export { IconButton } from './IconButton';
+export type { IconButtonProps } from './IconButton';
+
+// TagInput
+export { TagInput } from './TagInput';
+export type { TagInputProps } from './TagInput';
+
+// FileUpload
+export { FileUpload } from './FileUpload';
+export type { FileUploadProps, UploadState, UploadedFile } from './FileUpload';
