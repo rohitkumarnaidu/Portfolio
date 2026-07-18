@@ -190,6 +190,11 @@ const config: Config = {
           '50%': { transform: 'translateY(-10px) translateX(-5px)' },
           '75%': { transform: 'translateY(-30px) translateX(15px)' },
         },
+        // Indeterminate progress bar sweep
+        'progress-indeterminate': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(300%)' },
+        },
       },
       animation: {
         shimmer: 'shimmer 1.5s ease-in-out infinite',
@@ -202,6 +207,7 @@ const config: Config = {
         wiggle: 'wiggle 0.3s ease-in-out',
         'mesh-shift': 'mesh-shift 8s ease-in-out infinite',
         'particle-float': 'particle-float 6s ease-in-out infinite',
+        'progress-indeterminate': 'progress-indeterminate 1.2s ease-in-out infinite',
       },
 
       // ── z-index ────────────────────────────────────────────
