@@ -5,18 +5,44 @@ import { getAnalyticsSummary, getAnalyticsSessions } from '@/lib/api';
 import type { AnalyticsSummary, AnalyticsSession } from '@/lib/api';
 import { Card } from '@portfolio/ui';
 
+type MetricSource = 'measured' | 'estimated' | 'unavailable';
+
+function SourceBadge({ source }: { source: MetricSource }) {
+  if (source === 'measured') {
+    return (
+      <span className="ml-2 inline-flex items-center rounded-full bg-semantic-success/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-semantic-success">
+        Measured
+      </span>
+    );
+  }
+  if (source === 'estimated') {
+    return (
+      <span className="ml-2 inline-flex items-center rounded-full bg-semantic-warning/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-semantic-warning">
+        Estimated
+      </span>
+    );
+  }
+  return (
+    <span className="ml-2 inline-flex items-center rounded-full bg-white/5 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-text-tertiary">
+      N/A
+    </span>
+  );
+}
+
 function StatCard({
   label,
   value,
   sub,
   icon,
   color,
+  source = 'measured',
 }: {
   label: string;
   value: string | number;
   sub?: string;
   icon: React.ReactNode;
   color?: string;
+  source?: MetricSource;
 }) {
   return (
     <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
@@ -27,6 +53,7 @@ function StatCard({
           {icon}
         </div>
         <p className="text-xs font-medium text-text-tertiary uppercase tracking-wider">{label}</p>
+        <SourceBadge source={source} />
       </div>
       <p className="text-h3 font-display text-text-primary">
         {typeof value === 'number' ? value.toLocaleString() : value}
@@ -41,15 +68,17 @@ function ScoreDial({
   score,
   maxScore = 100,
   color,
+  available = true,
 }: {
   label: string;
   score: number;
   maxScore?: number;
   color: string;
+  available?: boolean;
 }) {
   const radius = 40;
   const circumference = 2 * Math.PI * radius;
-  const pct = Math.min(score / maxScore, 1);
+  const pct = available ? Math.min(score / maxScore, 1) : 0;
   const offset = circumference * (1 - pct);
 
   return (
@@ -68,7 +97,7 @@ function ScoreDial({
           cy="50"
           r={radius}
           fill="none"
-          stroke={color}
+          stroke={available ? color : 'var(--border-primary)'}
           strokeWidth="8"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
@@ -82,7 +111,7 @@ function ScoreDial({
           className="fill-text-primary text-xl font-display font-bold"
           fontSize="20"
         >
-          {Math.round(score)}
+          {available ? Math.round(score) : '—'}
         </text>
         <text
           x="50"
@@ -91,7 +120,7 @@ function ScoreDial({
           className="fill-text-tertiary text-[9px]"
           fontSize="9"
         >
-          {maxScore === 100 ? 'Score' : 'ms'}
+          {available ? (maxScore === 100 ? 'Score' : 'ms') : 'N/A'}
         </text>
       </svg>
       <span className="text-xs text-text-secondary font-medium">{label}</span>
@@ -259,6 +288,7 @@ export default function PerformancePage() {
               ? `${Math.round(avgDuration)}s`
               : `${Math.floor(avgDuration / 60)}m ${Math.round(avgDuration % 60)}s`
           }
+          source="measured"
           icon={
             <svg
               className="w-4 h-4"
@@ -278,6 +308,8 @@ export default function PerformancePage() {
         <StatCard
           label="Bounce Rate"
           value={`${Math.round(errorRate * 100)}%`}
+          source="measured"
+          sub="Bounce rate as error proxy"
           icon={
             <svg
               className="w-4 h-4"
@@ -297,6 +329,7 @@ export default function PerformancePage() {
         <StatCard
           label="Total Sessions"
           value={sessions.length}
+          source="measured"
           icon={
             <svg
               className="w-4 h-4"
@@ -316,6 +349,7 @@ export default function PerformancePage() {
         <StatCard
           label="Analytics Period"
           value="30 Days"
+          source="measured"
           icon={
             <svg
               className="w-4 h-4"
@@ -354,17 +388,22 @@ export default function PerformancePage() {
               color="var(--semantic-info)"
             />
           </div>
-          <p className="text-xs text-text-tertiary text-center mt-4">Estimated from session data</p>
+          <p className="text-xs text-semantic-warning text-center mt-4">
+            Estimated — derived from session analytics, not field-measured
+          </p>
         </div>
 
         <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
           <h3 className="font-display text-h4 text-text-primary mb-4">Lighthouse Scores</h3>
           <div className="grid grid-cols-2 gap-4">
-            <ScoreDial label="Performance" score={avgDuration > 0 ? 78 : 85} color="#22c55e" />
-            <ScoreDial label="Accessibility" score={92} color="#eab308" />
-            <ScoreDial label="Best Practices" score={88} color="#06b6d4" />
-            <ScoreDial label="SEO" score={95} color="#8b5cf6" />
+            <ScoreDial label="Performance" score={0} color="#22c55e" available={false} />
+            <ScoreDial label="Accessibility" score={0} color="#eab308" available={false} />
+            <ScoreDial label="Best Practices" score={0} color="#06b6d4" available={false} />
+            <ScoreDial label="SEO" score={0} color="#8b5cf6" available={false} />
           </div>
+          <p className="text-xs text-text-tertiary text-center mt-4">
+            Connect Lighthouse CI to populate measured scores
+          </p>
         </div>
 
         <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
@@ -418,7 +457,7 @@ export default function PerformancePage() {
                 </text>
               </svg>
             </div>
-            <p className="text-xs text-text-tertiary">Bounce rate as error proxy</p>
+            <p className="text-xs text-text-tertiary">Bounce rate as error proxy (measured)</p>
           </div>
         </div>
       </div>
@@ -441,10 +480,13 @@ export default function PerformancePage() {
       <Card variant="elevated" padding="md" className="mb-6">
         <h3 className="font-display text-h4 text-text-primary mb-2">About Performance Metrics</h3>
         <p className="text-sm text-text-tertiary leading-relaxed">
-          Core Web Vitals (LCP, CLS, INP) are estimated from session analytics data and may differ
-          from field measurements. For accurate Lighthouse scores, run a full audit via Chrome
-          DevTools. API response times are derived from session durations and represent general
-          trends rather than precise measurements.
+          Core Web Vitals (LCP, CLS, INP) are{' '}
+          <span className="text-semantic-warning">estimated</span> from session analytics data and
+          may differ from field measurements. They are not measured with real-user telemetry.
+          Lighthouse scores are shown as <span className="text-text-primary">N/A</span> until a
+          Lighthouse CI integration is connected. Session counts, bounce rate, and analytics period
+          are real values reported by the analytics API. API response times are derived from session
+          durations and represent general trends rather than precise measurements.
         </p>
       </Card>
     </div>
