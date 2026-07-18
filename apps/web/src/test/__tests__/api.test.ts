@@ -25,6 +25,10 @@ beforeEach(() => {
   mockFetch.mockReset();
   mockLocalStorage.clear();
   process.env.NEXT_PUBLIC_API_URL = 'http://test:3001';
+  // Re-assert this file's fetch stub for each test. The global MSW server
+  // (wired in setup.tsx) patches globalThis.fetch in beforeAll, so we restore
+  // the explicit mock here to keep these unit tests hermetic.
+  global.fetch = mockFetch;
 });
 
 describe('ApiError class', () => {

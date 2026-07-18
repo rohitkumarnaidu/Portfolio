@@ -40,6 +40,10 @@ function createWrapper() {
 beforeEach(() => {
   mockFetch.mockReset();
   mockLocalStorage.clear();
+  // Re-assert this file's fetch stub for each test. The global MSW server
+  // (wired in setup.tsx) patches globalThis.fetch in beforeAll, so we restore
+  // the explicit mock here to keep these unit tests hermetic.
+  global.fetch = mockFetch;
 });
 
 describe('useProjects hook', () => {
