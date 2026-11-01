@@ -38,7 +38,7 @@
   },
   "packageManager": "npm@10.8.0",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19.0"
   },
   "peerDependencies": {
     "entities": "^4.5.0"
