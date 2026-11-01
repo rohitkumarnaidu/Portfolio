@@ -19,6 +19,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Prisma generate (api)
+        if: matrix.workspace == 'apps/api'
+        run: npx prisma generate
+        working-directory: apps/api
       - run: npm run lint --workspace=${{ matrix.workspace }}
       - run: npm run typecheck --workspace=${{ matrix.workspace }}
 
