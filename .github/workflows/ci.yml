@@ -88,6 +88,7 @@ jobs:
         if: matrix.workspace == 'apps/web'
         run: npm run analyze
         working-directory: apps/web
+        continue-on-error: true
         env:
           ANALYZE: true
 
