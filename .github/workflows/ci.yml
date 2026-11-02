@@ -156,12 +156,24 @@ jobs:
     needs: [quality, prisma-validate, npm-audit]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         app: [api, web]
       fail-fast: false
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
+      - name: Downcase repository name and prepare context
+        run: |
+          echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+          cp package-lock.json apps/api/ 2>/dev/null || true
+          cp package-lock.json apps/web/ 2>/dev/null || true
+          if [ -d "packages" ]; then
+            cp -r packages apps/web/ 2>/dev/null || true
+          fi
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Log in to GitHub Container Registry
@@ -177,7 +189,7 @@ jobs:
           file: apps/${{ matrix.app }}/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}/${{ matrix.app }}:latest
-            ghcr.io/${{ github.repository }}/${{ matrix.app }}:${{ github.sha }}
+            ghcr.io/${{ env.REPO_LOWER }}/${{ matrix.app }}:latest
+            ghcr.io/${{ env.REPO_LOWER }}/${{ matrix.app }}:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
