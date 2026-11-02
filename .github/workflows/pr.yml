@@ -13,7 +13,7 @@ jobs:
       matrix:
         workspace: [apps/api, apps/web]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -34,7 +34,7 @@ jobs:
         workspace: [apps/api, apps/web]
     services:
       postgres:
-        image: postgres:16-alpine
+        image: pgvector/pgvector:pg16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: dummy_password
@@ -47,12 +47,18 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Prisma generate (api)
+        if: matrix.workspace == 'apps/api'
+        run: npx prisma generate
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
       - run: npm run test --workspace=${{ matrix.workspace }}
         continue-on-error: ${{ matrix.workspace == 'apps/web' }}
 
@@ -64,7 +70,7 @@ jobs:
       matrix:
         workspace: [apps/api, apps/web]
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -77,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:16-alpine
+        image: pgvector/pgvector:pg16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: dummy_password
@@ -90,13 +96,17 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run prisma:validate --workspace=apps/api
+        env:
+          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
       - run: npm run prisma:generate --workspace=apps/api
+        env:
+          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
       - run: npm run prisma:migrate:deploy --workspace=apps/api
         continue-on-error: true
