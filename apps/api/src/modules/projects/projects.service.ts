@@ -102,7 +102,7 @@ export class ProjectsService {
   }
 
   async bulkUpdate(ids: string[], data: Partial<CreateProjectDto>) {
-    const results: any[] = [];
+    const results: Record<string, unknown>[] = [];
     for (const id of ids) {
       const existing = await this.prisma.project.findUnique({ where: { id } });
       if (!existing) throw new NotFoundException(`Project ${id} not found`);
