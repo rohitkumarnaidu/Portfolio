@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiQuery, ApiNotFoundResponse } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import type { ProjectsService } from '../../modules/projects/projects.service';
+import { ProjectsService } from '../../modules/projects/projects.service';
 
 @ApiTags('Portfolio - Projects')
 @Controller('portfolio/projects')

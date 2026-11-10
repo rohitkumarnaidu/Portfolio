@@ -1,8 +1,8 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
-import type { LeadsService } from '../../modules/leads/leads.service';
-import type { CreateLeadDto } from '../../modules/leads/dto';
+import { LeadsService } from '../../modules/leads/leads.service';
+import { CreateLeadDto } from '../../modules/leads/dto';
 
 @ApiTags('Portfolio - Leads')
 @Controller('portfolio/leads')

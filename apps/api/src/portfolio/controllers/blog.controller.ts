@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiNotFoundResponse } from '@nestjs/swagger';
 import { CacheTTL } from '@nestjs/cache-manager';
-import type { BlogService } from '../../modules/blog/blog.service';
+import { BlogService } from '../../modules/blog/blog.service';
 
 @ApiTags('Portfolio - Blog')
 @Controller('portfolio/blog')
