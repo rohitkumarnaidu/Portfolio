@@ -97,7 +97,7 @@ export class TestimonialsService {
   }
 
   async bulkUpdate(ids: string[], data: Partial<CreateTestimonialDto>) {
-    const results = [];
+    const results: Record<string, unknown>[] = [];
     for (const id of ids) {
       const existing = await this.prisma.testimonial.findUnique({ where: { id } });
       if (!existing) throw new NotFoundException(`Testimonial ${id} not found`);

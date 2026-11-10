@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit --strict",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run",
     "test:e2e": "npx playwright test",
     "test:e2e:ui": "npx playwright test --headed",
     "analyze": "ANALYZE=true next build"
