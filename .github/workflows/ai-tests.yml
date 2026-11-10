@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: pip install ruff==0.15.7 pytest pytest-asyncio pytest-cov asgi-lifespan
+      - run: pip install ruff==0.17.4 pytest pytest-asyncio pytest-cov asgi-lifespan
       - run: ruff check .
       - run: pytest --cov=. --cov-fail-under=40
         env:
