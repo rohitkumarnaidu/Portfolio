@@ -11,7 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import type { SystemSettingsService } from '../../modules/system-settings/system-settings.service';
+import { SystemSettingsService } from '../../modules/system-settings/system-settings.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';

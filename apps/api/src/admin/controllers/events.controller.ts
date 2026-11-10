@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, Delete, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import type { EventsService } from '../../modules/events/events.service';
+import { EventsService } from '../../modules/events/events.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';

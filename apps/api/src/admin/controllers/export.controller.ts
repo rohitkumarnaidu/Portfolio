@@ -4,8 +4,9 @@ import type { Response } from 'express';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
-import type { CsvService } from '../../common/export/csv.service';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { Raw } from '../../common/decorators/raw.decorator';
+import { CsvService } from '../../common/export/csv.service';
+import { PrismaService } from '../../common/database/prisma.service';
 
 type EntityName =
   | 'sections'
@@ -57,6 +58,7 @@ export class AdminExportController {
   @Get(':entity/csv')
   @Roles('admin', 'editor')
   @ApiOperation({ summary: 'Export entity data as CSV' })
+  @Raw()
   async exportCsv(@Param('entity') entity: EntityName, @Res() res: Response) {
     const modelName = ENTITY_MODELS[entity];
     if (!modelName) {

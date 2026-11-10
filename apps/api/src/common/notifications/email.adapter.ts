@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import type { NotificationAdapter, LeadNotificationPayload } from './notification.interface';
 import { getTemplate } from './templates/index';
 

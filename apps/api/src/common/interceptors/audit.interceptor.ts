@@ -1,9 +1,9 @@
 import type { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
-import type { Reflector } from '@nestjs/core';
+import { Reflector } from '@nestjs/core';
 import type { Observable } from 'rxjs';
 import { tap } from 'rxjs';
-import type { ActivitiesService } from '../../modules/activities/activities.service';
+import { ActivitiesService } from '../../modules/activities/activities.service';
 import type { AuditMetadata } from '../decorators/audit.decorator';
 import { AUDIT_KEY } from '../decorators/audit.decorator';
 

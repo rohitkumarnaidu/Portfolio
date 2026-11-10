@@ -30,6 +30,8 @@ import { ChatModule } from '../modules/chat/chat.module';
 import { SandboxModule } from '../modules/sandbox/sandbox.module';
 import { EventsModule } from '../modules/events/events.module';
 import { WebhooksModule } from '../modules/webhooks/webhooks.module';
+import { SearchModule } from '../modules/search/search.module';
+import { CleanupModule } from '../common/cleanup/cleanup.module';
 import { AdminAuthController } from './controllers/auth.controller';
 import { AdminEventsController } from './controllers/events.controller';
 import { AdminDashboardController } from './controllers/dashboard.controller';
@@ -92,6 +94,8 @@ import { AdminSearchController } from './controllers/search.controller';
     SandboxModule,
     EventsModule,
     WebhooksModule,
+    SearchModule,
+    CleanupModule,
   ],
   controllers: [
     AdminAuthController,

@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import type { PrismaService } from '../database/prisma.service';
+import { PrismaService } from '../database/prisma.service';
 
 @Injectable()
 export class CleanupService {
@@ -48,6 +48,11 @@ export class CleanupService {
       });
       results.chatConversations = deletedChats;
     }
+
+    const { count: deletedAdminSessions } = await this.prisma.session.deleteMany({
+      where: { expiresAt: { lt: now } },
+    });
+    results.adminSessions = deletedAdminSessions;
 
     this.logger.log(`Cleanup complete: ${JSON.stringify(results)}`);
     return { cleaned: results, runAt: now.toISOString() };

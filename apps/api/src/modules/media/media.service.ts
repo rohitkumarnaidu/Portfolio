@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { PrismaService } from '../../common/database/prisma.service';
 import type { PaginationOpts, PaginatedResult } from '../../common/database/pagination.helper';
 import { paginate } from '../../common/database/pagination.helper';
 import type { CreateMediaDto } from './dto';

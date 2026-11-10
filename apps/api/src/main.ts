@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -7,12 +8,18 @@ import compression from 'compression';
 import * as express from 'express';
 import cookieParser from 'cookie-parser';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { TransformInterceptor } from './common/interceptors/transform.interceptor';
+import { Reflector } from '@nestjs/core';
 import * as Sentry from '@sentry/node';
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
   const logger = new Logger('Bootstrap');
+
+  // Trust the first proxy hop so rate limiting and secure-cookie checks see
+  // the real client IP behind Vercel/Railway/nginx.
+  app.set('trust proxy', 1);
 
   if (process.env.SENTRY_DSN) {
     try {
@@ -62,6 +69,7 @@ async function bootstrap() {
   );
 
   app.useGlobalFilters(new GlobalExceptionFilter());
+  app.useGlobalInterceptors(new TransformInterceptor(app.get(Reflector)));
   app.setGlobalPrefix('api');
 
   const port = parseInt(process.env.PORT || '3001', 10);

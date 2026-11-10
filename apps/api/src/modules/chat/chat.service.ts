@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import type { ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import type { Response } from 'express';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { PrismaService } from '../../common/database/prisma.service';
 import { paginateQuery } from '../../common/database/pagination.helper';
 import { MessageRole } from '../../../generated/prisma/client';
 import type { SendMessageDto } from './dto';

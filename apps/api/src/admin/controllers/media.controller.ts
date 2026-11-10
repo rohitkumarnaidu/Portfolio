@@ -16,7 +16,7 @@ import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery, ApiConsumes } from '@ne
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname, join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
-import type { MediaService } from '../../modules/media/media.service';
+import { MediaService } from '../../modules/media/media.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';

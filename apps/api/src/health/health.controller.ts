@@ -1,11 +1,24 @@
 import { Controller, Get, HttpCode } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import type { PrismaService } from '../common/database/prisma.service';
+import { Raw } from '../common/decorators/raw.decorator';
+import { PrismaService } from '../common/database/prisma.service';
 
 @ApiTags('Health')
+@Raw()
 @Controller('health')
 export class HealthController {
   constructor(private readonly prisma: PrismaService) {}
+
+  @Get()
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Health check alias used by deploy smoke tests' })
+  health() {
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+    };
+  }
 
   @Get('liveness')
   @HttpCode(200)

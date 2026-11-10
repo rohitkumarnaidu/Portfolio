@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import type { UpdateAvailabilityStatusDto } from './dto';
 
@@ -9,8 +9,19 @@ export class AvailabilityStatusService {
 
   async getStatus() {
     const status = await this.prisma.availabilityStatus.findFirst();
-    if (!status) throw new NotFoundException('Availability status not found');
-    return status;
+    if (status) return status;
+
+    // Nothing has been saved yet. Return the schema defaults so the admin page
+    // renders an editable form instead of failing with a 404. The first PATCH
+    // persists a real row.
+    return {
+      id: '',
+      isAvailable: true,
+      statusLabel: 'Available for new opportunities',
+      availableUntil: null,
+      preferredContact: 'email',
+      updatedAt: new Date().toISOString(),
+    };
   }
 
   async update(dto: UpdateAvailabilityStatusDto) {

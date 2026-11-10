@@ -1,6 +1,7 @@
 import type { NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import * as path from 'path';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { CacheModule as NestCacheModule } from '@nestjs/cache-manager';
 import { CacheModule } from './common/cache/cache.module';
@@ -20,10 +21,22 @@ import { SearchModule } from './modules/search/search.module';
 import { WebhooksModule } from './modules/webhooks/webhooks.module';
 import { ApiVersionMiddleware } from './common/middleware/api-version.middleware';
 import { CoepCoopMiddleware } from './common/middleware/coep-coop.middleware';
+import { KeyNormalizationMiddleware } from './common/middleware/key-normalization.middleware';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config],
+      // Centralized env file (works from apps/api and from the repo root),
+      // then per-app overrides. Real process env always wins.
+      envFilePath: [
+        path.resolve(process.cwd(), '../../config/.env'),
+        path.resolve(process.cwd(), 'config/.env'),
+        '.env.local',
+        '.env',
+      ],
+    }),
     LoggerModule.forRoot({
       pinoHttp: {
         transport:
@@ -40,13 +53,10 @@ import { CoepCoopMiddleware } from './common/middleware/coep-coop.middleware';
         quietReqLogger: true,
       },
     }),
-    ThrottlerModule.forRoot([
-      { name: 'default', ttl: 60000, limit: 100 },
-      { name: 'auth', ttl: 900000, limit: 5 },
-      { name: 'leads', ttl: 900000, limit: 10 },
-      { name: 'chat', ttl: 3600000, limit: 20 },
-      { name: 'admin', ttl: 900000, limit: 1000 },
-    ]),
+    // One global bucket. Route-specific limits are applied with @Throttle on
+    // the handlers that need them (login, leads, chat); extra named buckets
+    // here would apply to every route and exhaust after a few requests.
+    ThrottlerModule.forRoot([{ name: 'default', ttl: 60000, limit: 100 }]),
     NestCacheModule.register({ ttl: 60 }),
     CacheModule,
     CleanupModule,
@@ -65,7 +75,7 @@ import { CoepCoopMiddleware } from './common/middleware/coep-coop.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiVersionMiddleware).forRoutes('*');
+    consumer.apply(ApiVersionMiddleware, KeyNormalizationMiddleware).forRoutes('*');
     consumer.apply(CoepCoopMiddleware).forRoutes('/admin/sandbox*');
   }
 }

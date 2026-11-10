@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
 import type { CreateAchievementDto, UpdateAchievementDto } from './dto';

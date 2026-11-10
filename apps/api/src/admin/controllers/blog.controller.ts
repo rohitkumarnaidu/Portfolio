@@ -11,12 +11,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
-import type { BlogService } from '../../modules/blog/blog.service';
+import { BlogService } from '../../modules/blog/blog.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
 import { Audit } from '../../common/decorators/audit.decorator';
-import type { RevalidationService } from '../../common/revalidation/revalidation.service';
+import { RevalidationService } from '../../common/revalidation/revalidation.service';
 import type { CreateBlogPostDto, UpdateBlogPostDto } from '../../modules/blog/dto';
 
 @ApiTags('Admin - Blog')

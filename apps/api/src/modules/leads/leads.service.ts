@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException, Logger, Inject } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { PrismaService } from '../../common/database/prisma.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { NOTIFICATION_ADAPTER } from '../../common/notifications/notification.module';
-import type { NotificationAdapter } from '../../common/notifications/notification.interface';
+import { NotificationAdapter } from '../../common/notifications/notification.interface';
 import { paginateQuery } from '../../common/database/pagination.helper';
 import type { CreateLeadDto, UpdateLeadDto } from './dto';
 

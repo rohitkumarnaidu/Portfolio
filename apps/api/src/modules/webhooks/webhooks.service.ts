@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { PrismaService } from '../../common/database/prisma.service';
 import type { CreateWebhookDto } from './dto/create-webhook.dto';
 
 interface WebhookRegistration {

@@ -12,12 +12,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import type { ProjectsService } from '../../modules/projects/projects.service';
+import { ProjectsService } from '../../modules/projects/projects.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
 import { Audit } from '../../common/decorators/audit.decorator';
-import type { RevalidationService } from '../../common/revalidation/revalidation.service';
+import { RevalidationService } from '../../common/revalidation/revalidation.service';
 import type {
   CreateProjectDto,
   UpdateProjectDto,

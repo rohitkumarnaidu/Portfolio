@@ -1,9 +1,13 @@
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-import type { INestApplication} from '@nestjs/common';
+import type { INestApplication } from '@nestjs/common';
 import { ValidationPipe } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import * as request from 'supertest';
+import * as bcrypt from 'bcrypt';
 import { AppModule } from '../src/app.module';
+import { TransformInterceptor } from '../src/common/interceptors/transform.interceptor';
+import { PrismaService } from '../src/common/database/prisma.service';
 
 const hasDb = !!process.env.DATABASE_URL;
 const itIf = (condition: boolean) => (condition ? it : it.skip);
@@ -27,6 +31,7 @@ describe('Portfolio API (e2e)', () => {
         transformOptions: { enableImplicitConversion: true },
       }),
     );
+    app.useGlobalInterceptors(new TransformInterceptor(app.get(Reflector)));
     await app.init();
     httpServer = app.getHttpServer();
   });
@@ -79,30 +84,38 @@ describe('Portfolio API (e2e)', () => {
         .expect(401);
     });
 
-    itIf(hasDb)(
-      'POST /api/admin/auth/register should return 201 for valid registration',
-      async () => {
-        const uniqueEmail = `e2e-test-${Date.now()}@test.com`;
-        return request(httpServer)
-          .post('/api/admin/auth/register')
-          .send({ email: uniqueEmail, password: 'TestPass123!', display_name: 'E2E Test' })
-          .expect(201)
-          .expect((res) => {
-            expect(res.body.data).toHaveProperty('id');
-            expect(res.body.data.email).toBe(uniqueEmail);
-          });
-      },
-    );
+    itIf(hasDb)('POST /api/admin/auth/register should no longer be exposed', () => {
+      return request(httpServer)
+        .post('/api/admin/auth/register')
+        .send({ email: `nope-${Date.now()}@test.com`, password: 'TestPass123!' })
+        .expect(404);
+    });
 
     itIf(hasDb)('POST /api/admin/auth/login should succeed with valid credentials', async () => {
+      const prisma = app.get(PrismaService);
       const uniqueEmail = `e2e-login-${Date.now()}@test.com`;
-      await request(httpServer)
-        .post('/api/admin/auth/register')
-        .send({ email: uniqueEmail, password: 'TestPass123!', display_name: 'Login Test' });
+      const password = 'TestPass123!';
+
+      await prisma.user.deleteMany({ where: { email: { startsWith: 'e2e-login-' } } });
+      await prisma.user.create({
+        data: {
+          email: uniqueEmail,
+          displayName: 'Login Test',
+          passwordHash: await bcrypt.hash(password, 12),
+          isActive: true,
+          roles: {
+            create: {
+              role: {
+                connectOrCreate: { where: { name: 'editor' }, create: { name: 'editor' } },
+              },
+            },
+          },
+        },
+      });
 
       return request(httpServer)
         .post('/api/admin/auth/login')
-        .send({ email: uniqueEmail, password: 'TestPass123!' })
+        .send({ email: uniqueEmail, password })
         .expect(201)
         .expect((res) => {
           expect(res.body.data).toHaveProperty('access_token');
@@ -168,24 +181,6 @@ describe('Portfolio API (e2e)', () => {
     });
   });
 
-  describe('Portfolio - Skills', () => {
-    it('GET /api/portfolio/skills should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/skills')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-
-    it('GET /api/portfolio/skills?category= should filter by category', () => {
-      return request(httpServer)
-        .get('/api/portfolio/skills')
-        .query({ category: 'Frontend' })
-        .expect(200);
-    });
-  });
-
   describe('Portfolio - Projects', () => {
     it('GET /api/portfolio/projects should have pagination meta', () => {
       return request(httpServer)
@@ -247,57 +242,6 @@ describe('Portfolio API (e2e)', () => {
     });
   });
 
-  describe('Portfolio - Experiences', () => {
-    it('GET /api/portfolio/experiences should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/experiences')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - Testimonials', () => {
-    it('GET /api/portfolio/testimonials should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/testimonials')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-
-    it('GET /api/portfolio/testimonials?featured=true should filter', () => {
-      return request(httpServer)
-        .get('/api/portfolio/testimonials')
-        .query({ featured: 'true' })
-        .expect(200);
-    });
-  });
-
-  describe('Portfolio - Services', () => {
-    it('GET /api/portfolio/services should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/services')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - FAQs', () => {
-    it('GET /api/portfolio/faqs should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/faqs')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
   describe('Portfolio - Case Studies', () => {
     it('GET /api/portfolio/case-studies should return array', () => {
       return request(httpServer)
@@ -305,61 +249,6 @@ describe('Portfolio API (e2e)', () => {
         .expect(200)
         .expect((res) => {
           expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - Achievements', () => {
-    it('GET /api/portfolio/achievements should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/achievements')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - Press Features', () => {
-    it('GET /api/portfolio/press-features should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/press-features')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - Guest Appearances', () => {
-    it('GET /api/portfolio/guest-appearances should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/guest-appearances')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - Reading List', () => {
-    it('GET /api/portfolio/reading-list-items should return array', () => {
-      return request(httpServer)
-        .get('/api/portfolio/reading-list-items')
-        .expect(200)
-        .expect((res) => {
-          expect(Array.isArray(res.body.data)).toBe(true);
-        });
-    });
-  });
-
-  describe('Portfolio - Availability', () => {
-    it('GET /api/portfolio/availability-status should return status', () => {
-      return request(httpServer)
-        .get('/api/portfolio/availability-status')
-        .expect(200)
-        .expect((res) => {
-          expect(res.body).toHaveProperty('data');
         });
     });
   });

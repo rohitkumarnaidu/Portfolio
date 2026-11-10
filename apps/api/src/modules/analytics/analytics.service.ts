@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
+import { PrismaService } from '../../common/database/prisma.service';
 import { paginateQuery } from '../../common/database/pagination.helper';
 
 @Injectable()
@@ -173,12 +173,45 @@ export class AnalyticsService {
 
     const pageViewEvents = await this.prisma.analyticsEvent.findMany({
       where: { eventName: 'page_view', createdAt: { gte: cutoff } },
-      select: { pageUrl: true },
+      select: { pageUrl: true, visitorId: true, createdAt: true },
     });
     const pageViewsByUrl: Record<string, number> = {};
     pageViewEvents.forEach((e: { pageUrl: string | null }) => {
       if (e.pageUrl) pageViewsByUrl[e.pageUrl] = (pageViewsByUrl[e.pageUrl] || 0) + 1;
     });
+
+    const topPages = Object.entries(pageViewsByUrl)
+      .map(([path, views]) => ({ path, views }))
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 10);
+
+    // Active visitors are independent of the selected period: anyone seen in
+    // the last five minutes.
+    const activeSessions = await this.prisma.analyticsSession.findMany({
+      where: { lastActivityAt: { gte: new Date(now.getTime() - 5 * 60 * 1000) } },
+      select: { visitorId: true },
+    });
+    const activeVisitors = new Set(
+      activeSessions.map((s: { visitorId: string | null }) => s.visitorId).filter(Boolean),
+    ).size;
+
+    // Daily series for the dashboard charts.
+    const dailyMap = new Map<string, { visitors: Set<string>; pageViews: number }>();
+    pageViewEvents.forEach((e: { visitorId: string | null; createdAt?: Date }) => {
+      if (!e.createdAt) return;
+      const date = new Date(e.createdAt).toISOString().slice(0, 10);
+      const entry = dailyMap.get(date) ?? { visitors: new Set<string>(), pageViews: 0 };
+      if (e.visitorId) entry.visitors.add(e.visitorId);
+      entry.pageViews += 1;
+      dailyMap.set(date, entry);
+    });
+    const visitorsOverTime = [...dailyMap.entries()]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([date, entry]) => ({
+        date,
+        visitors: entry.visitors.size,
+        page_views: entry.pageViews,
+      }));
 
     return {
       totalPageViews,
@@ -188,6 +221,14 @@ export class AnalyticsService {
       bounceRate,
       pageViewsByUrl,
       period: period || '30d',
+      // snake_case aliases consumed by the admin dashboard pages.
+      total_page_views: totalPageViews,
+      total_visitors: uniqueVisitors,
+      active_visitors: activeVisitors,
+      avg_session_duration: avgDuration,
+      bounce_rate: bounceRate / 100,
+      top_pages: topPages,
+      visitors_over_time: visitorsOverTime,
     };
   }
 

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
-import type { PrismaService } from '../../common/database/prisma.service';
-import type { CacheService } from '../../common/cache/cache.service';
+import { PrismaService } from '../../common/database/prisma.service';
+import { CacheService } from '../../common/cache/cache.service';
 import { sanitizeStrings } from '../../common/utils/sanitize';
 import { paginateQuery } from '../../common/database/pagination.helper';
 import type { CreateSectionDto, UpdateSectionDto } from './dto';

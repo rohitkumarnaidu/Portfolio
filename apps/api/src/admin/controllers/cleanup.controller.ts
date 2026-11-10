@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
-import type { CleanupService } from '../../common/cleanup/cleanup.service';
+import { CleanupService } from '../../common/cleanup/cleanup.service';
 
 @ApiTags('Admin - Cleanup')
 @ApiBearerAuth()

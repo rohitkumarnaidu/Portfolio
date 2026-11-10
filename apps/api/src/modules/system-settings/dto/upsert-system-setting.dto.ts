@@ -2,11 +2,17 @@ import { IsString, IsOptional, IsIn, MinLength, MaxLength } from 'class-validato
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpsertSystemSettingDto {
-  @ApiProperty({ example: 'site_name' })
+  // The canonical key comes from the `:key` route param. Kept optional so
+  // clients that also send it in the body still validate.
+  @ApiPropertyOptional({
+    example: 'site_name',
+    description: 'Optional; the `:key` route parameter takes precedence.',
+  })
+  @IsOptional()
   @IsString()
   @MinLength(1)
   @MaxLength(100)
-  settingKey!: string;
+  settingKey?: string;
 
   @ApiProperty({ example: 'My Portfolio' })
   @IsString()

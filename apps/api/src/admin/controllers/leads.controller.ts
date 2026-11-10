@@ -14,11 +14,12 @@ import {
 } from '@nestjs/common';
 import type { Response } from 'express';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import type { LeadsService } from '../../modules/leads/leads.service';
+import { LeadsService } from '../../modules/leads/leads.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
 import { Audit } from '../../common/decorators/audit.decorator';
+import { Raw } from '../../common/decorators/raw.decorator';
 import type { UpdateLeadDto } from '../../modules/leads/dto';
 
 const CSV_SAFE_RE = /^[=+\-@\t\r]/;
@@ -57,6 +58,7 @@ export class AdminLeadsController {
   @Get('export')
   @Roles('admin', 'editor')
   @ApiOperation({ summary: 'Export leads as CSV' })
+  @Raw()
   async exportCsv(@Res() res: Response) {
     const leads = await this.leads.getExportData();
     const header = 'name,email,phone,company,subject,status,priority,created_at';
@@ -70,7 +72,7 @@ export class AdminLeadsController {
         escapeCsv(l.subject || ''),
         l.status,
         l.priority,
-        l.created_at,
+        l.createdAt,
       ].join(','),
     );
     const csv = [header, ...rows].join('\n');
