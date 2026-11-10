@@ -104,6 +104,12 @@ jobs:
           NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
           NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
 
+  # Runtime secrets live in the hosting platforms, not in this workflow:
+  #   Vercel (web)  — REVALIDATION_SECRET
+  #   Railway (api) — REVALIDATION_SECRET (same value) and CORS_ORIGIN set to
+  #                   the public web origin (the API posts revalidation there).
+  # Without a shared REVALIDATION_SECRET, public pages fall back to the ISR
+  # windows (60s projects / 300s blog and home) instead of updating on write.
   deploy-web:
     name: Deploy Web (Vercel)
     needs: [determine-env, quality]

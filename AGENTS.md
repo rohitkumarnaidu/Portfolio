@@ -61,12 +61,14 @@ Configures Helmet, compression, CORS (from `CORS_ORIGIN`), a global `ValidationP
 ### Web: data flow
 
 - App Router pages in `src/app/` (public sections + `src/app/admin`). Components in `src/components/` (notably `3d/`, `admin/`, `sections/`, `ui/`).
-- API access goes through `src/lib/api.ts` — a typed `fetch` wrapper that unwraps the API's `{ data, meta }` envelope, throws `ApiError` on non-2xx, and attaches the bearer token from `localStorage('admin_access_token')`. Server-side calls hit `NEXT_PUBLIC_API_URL`; client-side calls use the `/api` relative base. Higher-level fetchers live in `src/lib/data/`.
+- API access goes through `src/lib/api.ts` - a typed `fetch` wrapper that unwraps the API's `{ data, meta }` envelope, throws `ApiError` on non-2xx, and sends cookies (`credentials: 'include'`). Browser calls use the same-origin `/api` base; Next.js rewrites `/api/:path*` to `API_PROXY_TARGET` (default `http://localhost:3001`). Server-side calls go straight to `API_PROXY_TARGET`. On a 401 the client refreshes once via `/api/admin/auth/refresh` and replays. Higher-level fetchers live in `src/lib/data/`.
 - Data fetching/caching uses TanStack React Query (`src/lib/query-provider.tsx`, `src/lib/use-api-query.ts`).
 
 ### Auth model
 
-JWT access tokens (issued via custom NestJS + Passport.js OAuth flows) + role-based access (`admin` / `editor` / `viewer`). OAuth (Google/GitHub) is handled completely by the NestJS API Gateway, replacing the need for direct Supabase Auth integration. Guards and decorators live in `src/modules/auth/` (`JwtAuthGuard`, `RolesGuard`, `@Roles`, `@CurrentUser`, `@Public`). Admin controllers are guarded by default; the portfolio layer is public.
+Admin auth uses JWT access tokens delivered as HttpOnly cookies (`admin_token`, 15 min, `Path=/api`) plus a rotating refresh cookie (`admin_refresh`, 7 days, `Path=/api/admin/auth`). `Authorization: Bearer <token>` is still accepted for Swagger and API clients. Refresh sessions are persisted in the Postgres `sessions` table (only the SHA-256 hash), so auth does not depend on Redis. Role-based access uses `admin` / `editor` / `viewer` via `user_roles`.
+
+There is **no public registration**: administrators create users with `POST /api/admin/users`. OAuth (Google/GitHub) is handled entirely by the NestJS API and only signs in existing active accounts — it never provisions new ones. Login, refresh, logout and profile live in `src/admin/controllers/auth.controller.ts`; guards and decorators live in `src/modules/auth/` (`JwtAuthGuard`, `RolesGuard`, `@Roles`, `@CurrentUser`, `@Public`). Admin controllers are guarded by default; the portfolio layer is public.
 
 ## Conventions
 

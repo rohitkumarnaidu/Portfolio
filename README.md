@@ -37,10 +37,10 @@ Enterprise-grade monorepo portfolio platform built with NestJS, Next.js, and Pos
 | Backend API | NestJS, REST, Swagger, BullMQ, Prisma ORM, Passport JWT                    |
 | AI Service  | FastAPI (Python), OpenAI                                                   |
 | Database    | Supabase (PostgreSQL) with Prisma ORM + Driver Adapters                    |
-| Cache       | Redis via ioredis (BullMQ queues + session store + data cache)             |
+| Cache       | Redis via ioredis (optional; BullMQ queues + data cache)                   |
 | Email       | Resend API, BullMQ queue, Handlebars templates                             |
 | Monitoring  | Sentry (APM + profiling), Pino structured logging, PostHog analytics       |
-| Auth        | JWT access tokens + Redis-backed refresh tokens, role-based access         |
+| Auth        | HttpOnly JWT cookies + Postgres-backed rotating refresh sessions, RBAC     |
 | Queue       | BullMQ (email, notifications, background jobs)                             |
 | DevOps      | Docker Compose, Dockerfile, GitHub Actions, lint-staged + husky            |
 
@@ -69,9 +69,14 @@ git clone <repo>
 cd portfolio
 npm install
 cp config/.env.example config/.env
-# Edit config/.env with your values
+# Edit config/.env with your values (DATABASE_URL, JWT_SECRET, ADMIN_PASSWORD, ...)
+npm run prisma:migrate:deploy --workspace=apps/api
+npm run prisma:seed --workspace=apps/api   # creates the first admin (ADMIN_PASSWORD required)
 npm run dev
 ```
+
+There is no public sign-up: the seed creates the first administrator, and further
+users are created from the admin dashboard (`POST /api/admin/users`).
 
 | Service      | URL                            | Port |
 | ------------ | ------------------------------ | ---- |
