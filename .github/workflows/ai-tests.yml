@@ -20,3 +20,5 @@ jobs:
       - run: pip install ruff==0.15.7 pytest pytest-asyncio pytest-cov
       - run: ruff check .
       - run: pytest --cov=. --cov-fail-under=40
+        env:
+          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/postgres
