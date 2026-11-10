@@ -1,5 +1,4 @@
-import pytest
-from app.middleware.pii_filter import PIIFilterMiddleware, sanitize_text
+from app.middleware.pii_filter import sanitize_text
 
 
 def test_sanitize_email():

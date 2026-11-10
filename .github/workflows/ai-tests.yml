@@ -17,6 +17,6 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: pip install ruff pytest pytest-asyncio pytest-cov
+      - run: pip install ruff==0.15.7 pytest pytest-asyncio pytest-cov
       - run: ruff check .
       - run: pytest --cov=. --cov-fail-under=40
