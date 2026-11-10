@@ -1,12 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "name": "portfolio",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "$NEXT_PUBLIC_API_URL/$1"
-    }
-  ],
   "headers": [
     {
       "source": "/admin/sandbox/(.*)",
@@ -50,11 +44,5 @@
         }
       ]
     }
-  ],
-  "functions": {
-    "api/*.ts": {
-      "maxDuration": 30,
-      "memory": 512
-    }
-  }
+  ]
 }

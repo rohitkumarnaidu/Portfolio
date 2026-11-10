@@ -1,11 +1,25 @@
+# Local/production-like stack for the npm-workspaces monorepo.
+#
+#   docker compose -f infrastructure/docker/docker-compose.yml up --build
+#
+# Web and API images are built from the repository root because both depend on
+# the workspace lockfile. The browser only ever talks to the web origin; Next.js
+# proxies /api/* to the API service over the compose network.
 x-env: &env
-  NODE_ENV: ${NODE_ENV:-development}
+  NODE_ENV: ${NODE_ENV:-production}
   DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/portfolio?schema=public}
   REDIS_URL: ${REDIS_URL:-redis://redis:6379}
   JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret-change-in-production-min-32-chars!!}
   CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
-  SUPABASE_URL: ${SUPABASE_URL:-}
-  SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-}
+  ADMIN_APP_URL: ${ADMIN_APP_URL:-http://localhost:3000}
+  COOKIE_SECURE: ${COOKIE_SECURE:-false}
+  COOKIE_DOMAIN: ${COOKIE_DOMAIN:-}
+  GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+  GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+  GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:3000/api/admin/auth/google/callback}
+  GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID:-}
+  GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET:-}
+  GITHUB_CALLBACK_URL: ${GITHUB_CALLBACK_URL:-http://localhost:3000/api/admin/auth/github/callback}
 
 services:
   postgres:
@@ -19,7 +33,6 @@ services:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ../../supabase/migrations:/docker-entrypoint-initdb.d
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d portfolio"]
       interval: 10s
@@ -51,28 +64,49 @@ services:
         max-size: "10m"
         max-file: "3"
 
+  api:
+    build:
+      context: ../..
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "${API_PORT:-4000}:3001"
+    environment:
+      <<: *env
+      PORT: 3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health/liveness"]
+      interval: 15s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
+
   web:
     build:
-      context: ../../apps/web
-      dockerfile: Dockerfile
-      cache_from:
-        - ghcr.io/${GITHUB_REPOSITORY:-portfolio}/web:latest
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+      args:
+        # Baked into the standalone build; must be reachable from the web container.
+        API_PROXY_TARGET: http://api:3001
     ports:
       - "${WEB_PORT:-3000}:3000"
     environment:
       <<: *env
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+      API_PROXY_TARGET: http://api:3001
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
-    env_file:
-      - ../../config/.env.example
     depends_on:
       api:
-        condition: service_started
-    volumes:
-      - ../../apps/web:/app
-      - /app/node_modules
-      - /app/.next
-    command: npm run dev
+        condition: service_healthy
     restart: unless-stopped
     logging:
       driver: "json-file"
@@ -83,43 +117,7 @@ services:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
       interval: 30s
       timeout: 5s
-      start_period: 10s
-      retries: 3
-
-  api:
-    build:
-      context: ../../apps/api
-      dockerfile: Dockerfile
-      cache_from:
-        - ghcr.io/${GITHUB_REPOSITORY:-portfolio}/api:latest
-    ports:
-      - "${API_PORT:-4000}:3001"
-    environment:
-      <<: *env
-      PORT: 3001
-    env_file:
-      - ../../config/.env.example
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ../../apps/api:/app
-      - /app/node_modules
-      - /app/dist
-    command: npm run start:dev
-    restart: unless-stopped
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3001/api/health/liveness"]
-      interval: 30s
-      timeout: 5s
-      start_period: 10s
+      start_period: 20s
       retries: 3
 
   ai:
@@ -133,19 +131,23 @@ services:
       PYTHONUNBUFFERED: 1
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
-    env_file:
-      - ../../config/.env.example
     depends_on:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_healthy
+        condition: service_started
     restart: unless-stopped
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
         max-file: "3"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 10s
+      start_period: 20s
+      retries: 3
 
 volumes:
   postgres-data:
