@@ -7,12 +7,13 @@
  * ADR Reference: docs/adr/ADR-010-tailwind-css.md
  *
  * Font Stack:
- * - Display: Plus Jakarta Sans (fallback for Cabinet Grotesk — not on Google Fonts)
+ * - Display: Plus Jakarta Sans (admin / legacy surface)
+ * - Serif: Instrument Serif (public editorial surface)
  * - Body: Inter
  * - Mono: JetBrains Mono
  */
 
-import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
+import { Plus_Jakarta_Sans, Instrument_Serif, Inter, JetBrains_Mono } from 'next/font/google';
 
 /**
  * Display font — Used for H1, H2, hero headings, and display text.
@@ -27,6 +28,20 @@ export const fontDisplay = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700'],
   variable: '--font-display',
   fallback: ['system-ui', 'sans-serif'],
+});
+
+/**
+ * Editorial serif — Used for the public site's display typography.
+ * Instrument Serif carries the contrast and personality that a generic
+ * sans-serif display face cannot, while staying readable at small sizes.
+ */
+export const fontSerif = Instrument_Serif({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+  fallback: ['Georgia', 'Times New Roman', 'serif'],
 });
 
 /**
@@ -64,4 +79,9 @@ export const fontMono = JetBrains_Mono({
  * <html className={fontVariables}>
  * ```
  */
-export const fontVariables = [fontDisplay.variable, fontBody.variable, fontMono.variable].join(' ');
+export const fontVariables = [
+  fontDisplay.variable,
+  fontSerif.variable,
+  fontBody.variable,
+  fontMono.variable,
+].join(' ');

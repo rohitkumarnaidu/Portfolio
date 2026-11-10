@@ -4,7 +4,7 @@ import { SITE_CONFIG } from '@/lib/constants';
 
 export const revalidate = 600;
 
-const API_BASE = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api`;
+const API_BASE = `${process.env.API_PROXY_TARGET || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api`;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || SITE_CONFIG.url;
 
 function escapeXml(value: unknown): string {

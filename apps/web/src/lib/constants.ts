@@ -15,14 +15,14 @@
 // ── Site Metadata ───────────────────────────────────────────
 
 export const SITE_CONFIG = {
-  name: 'Portfolio',
-  title: 'Portfolio — Full-Stack Developer',
-  titleTemplate: '%s — Portfolio',
+  name: 'Rohith Naidu',
+  title: 'Rohith Naidu — Software Engineer',
+  titleTemplate: '%s — Rohith Naidu',
   description:
-    'Full-stack developer specializing in React, Next.js, NestJS, and TypeScript. Building enterprise-grade web applications with modern technologies.',
-  author: 'Portfolio Owner',
+    'Software engineer working on applied AI systems, developer platforms, and full-stack products. Building most of it in public.',
+  author: 'Rohith Naidu',
   locale: 'en_US',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://portfolioowner.com',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://rohitkumarnaidu.github.io/Portfolio',
 } as const;
 
 // ── Social Links ────────────────────────────────────────────
@@ -30,18 +30,13 @@ export const SITE_CONFIG = {
 export const SOCIAL_LINKS = [
   {
     platform: 'github' as const,
-    url: 'https://github.com',
+    url: 'https://github.com/rohitkumarnaidu',
     label: 'Visit GitHub profile',
   },
   {
-    platform: 'linkedin' as const,
-    url: 'https://linkedin.com',
-    label: 'Visit LinkedIn profile',
-  },
-  {
-    platform: 'email' as const,
-    url: 'mailto:hello@portfolio.com',
-    label: 'Send an email',
+    platform: 'npm' as const,
+    url: 'https://www.npmjs.com/package/forgevena',
+    label: 'Visit the Forgevena npm package',
   },
 ] as const;
 
@@ -89,14 +84,8 @@ export const ROUTES = {
   PROJECT_DETAIL: (slug: string) => `/projects/${slug}` as const,
   BLOG: '/blog',
   BLOG_POST: (slug: string) => `/blog/${slug}` as const,
+  ABOUT: '/about',
   CONTACT: '/contact',
-  CASE_STUDIES: '/case-studies',
-  CASE_STUDY_DETAIL: (id: string) => `/case-studies/${id}` as const,
-  AI_ASSISTANT: '/ai-assistant',
-  ACHIEVEMENTS: '/achievements',
-  PRESS: '/press',
-  READING_LIST: '/reading-list',
-  GUEST_APPEARANCES: '/guest-appearances',
 
   // Admin routes
   ADMIN: '/admin',
@@ -117,14 +106,10 @@ export const ROUTES = {
 // ── Navigation Links ────────────────────────────────────────
 
 export const NAV_LINKS = [
-  { href: `#${SECTION_IDS.ABOUT}`, label: 'About' },
-  { href: `#${SECTION_IDS.SKILLS}`, label: 'Skills' },
-  { href: `#${SECTION_IDS.EXPERIENCE}`, label: 'Experience' },
-  { href: `#${SECTION_IDS.PROJECTS}`, label: 'Projects' },
-  { href: ROUTES.BLOG, label: 'Blog' },
-  { href: ROUTES.CASE_STUDIES, label: 'Case Studies' },
-  { href: ROUTES.AI_ASSISTANT, label: 'AI Assistant' },
-  { href: `#${SECTION_IDS.CONTACT}`, label: 'Contact' },
+  { href: ROUTES.PROJECTS, label: 'Work' },
+  { href: ROUTES.ABOUT, label: 'About' },
+  { href: ROUTES.BLOG, label: 'Writing' },
+  { href: ROUTES.CONTACT, label: 'Contact' },
 ] as const;
 
 // ── ISR Revalidation Intervals ──────────────────────────────
