@@ -1,5 +1,7 @@
 version: 2
 updates:
+  # npm workspaces: this single entry covers apps/web, apps/api and packages/*
+  # because Dependabot reads the `workspaces` field in the root package.json.
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -10,24 +12,57 @@ updates:
       - dependencies
       - automated
     versioning-strategy: increase
+    groups:
+      # Minor and patch bumps land as one reviewable PR instead of dozens.
+      # Major bumps stay separate because they need individual migration work.
+      minor-and-patch:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
     ignore:
       - dependency-name: '@types/node'
         versions: ['>=23.0.0']
+
+  - package-ecosystem: pip
+    directory: /apps/ai
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - automated
+    groups:
+      minor-and-patch:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: monthly
     labels:
+      - dependencies
       - github-actions
       - automated
+    groups:
+      actions:
+        patterns: ['*']
+        update-types: ['minor', 'patch']
 
   - package-ecosystem: docker
     directory: /apps/api
     schedule:
       interval: monthly
+    labels:
+      - dependencies
+      - docker
+      - automated
 
   - package-ecosystem: docker
     directory: /apps/web
     schedule:
       interval: monthly
+    labels:
+      - dependencies
+      - docker
+      - automated
