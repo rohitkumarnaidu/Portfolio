@@ -107,8 +107,24 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
       - name: Build
+        if: matrix.workspace == 'apps/api'
         run: npm run build
         working-directory: ${{ matrix.workspace }}
+        env:
+          NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
+          NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
+      # next/font fetches Google Fonts at build time; a rate-limited runner IP
+      # fails the build with a null font URL. Retry so a network hiccup does
+      # not block a deploy.
+      - name: Build (web)
+        if: matrix.workspace == 'apps/web'
+        run: |
+          for attempt in 1 2 3; do
+            if npm run build; then exit 0; fi
+            echo "::warning::web build attempt ${attempt} failed (likely next/font fetch)"
+          done
+          exit 1
+        working-directory: apps/web
         env:
           NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
           NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
