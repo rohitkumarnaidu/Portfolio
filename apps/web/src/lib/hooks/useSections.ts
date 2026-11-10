@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  getSections,
+  getAdminSections,
   getSection,
   createSection,
   updateSection,
@@ -14,7 +14,7 @@ import type { Section } from '@portfolio/shared';
 export function useSections(isLive?: boolean, type?: string) {
   return useQuery({
     queryKey: ['sections', { isLive, type }],
-    queryFn: () => getSections(isLive, type),
+    queryFn: () => getAdminSections(),
   });
 }
 
@@ -64,8 +64,7 @@ export function useReorderSections() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (order: Array<{ id: string; display_order: number }>) =>
-      reorderSections(order.map((o) => o.id)),
+    mutationFn: (order: Array<{ id: string; display_order: number }>) => reorderSections(order),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sections'] });
     },

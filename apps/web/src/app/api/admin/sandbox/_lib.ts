@@ -58,8 +58,6 @@ export function getSandboxWorkdir(): string | null {
   return absolute;
 }
 
-export const SANDBOX_RUNTIME = 'nodejs' as const;
-
 export const sandboxEnvHint = () => {
   if (!process.env.SANDBOX_WORKDIR) {
     return 'SANDBOX_WORKDIR is not configured. Set it to a directory that the sandbox may read/write.';

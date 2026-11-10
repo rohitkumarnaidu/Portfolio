@@ -1,13 +1,18 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getExperiences, createExperience, updateExperience, deleteExperience } from '@/lib/api';
+import {
+  getAdminExperiences,
+  createExperience,
+  updateExperience,
+  deleteExperience,
+} from '@/lib/api';
 import type { Experience } from '@portfolio/shared';
 
 export function useExperiences() {
   return useQuery({
     queryKey: ['experiences'],
-    queryFn: () => getExperiences(),
+    queryFn: () => getAdminExperiences(),
   });
 }
 

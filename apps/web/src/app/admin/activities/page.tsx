@@ -29,7 +29,7 @@ const entityIcons: Record<string, string> = {
 
 export default function ActivitiesPage() {
   const [page, setPage] = useState(1);
-  const { data: activities, isLoading, refetch } = useActivities({ page, per_page: 50 });
+  const { data: activities, isLoading, refetch } = useActivities({ page, perPage: 50 });
 
   const prevPage = () => setPage((p) => Math.max(1, p - 1));
   const nextPage = () => setPage((p) => p + 1);
@@ -77,7 +77,7 @@ export default function ActivitiesPage() {
               >
                 <div className="w-8 h-8 rounded-lg bg-surface-elevated flex items-center justify-center shrink-0">
                   <span className="text-xs font-bold text-text-tertiary">
-                    {entityIcons[act.entity_type] || '?'}
+                    {entityIcons[act.resourceType] || '?'}
                   </span>
                 </div>
                 <div className="flex-1 min-w-0">
@@ -87,19 +87,21 @@ export default function ActivitiesPage() {
                     >
                       {act.action}
                     </span>
-                    <span className="text-sm text-text-primary capitalize">{act.entity_type}</span>
-                    <span className="text-xs text-text-tertiary font-mono">
-                      {act.entity_id.slice(0, 8)}
-                    </span>
+                    <span className="text-sm text-text-primary capitalize">{act.resourceType}</span>
+                    {act.resourceId && (
+                      <span className="text-xs text-text-tertiary font-mono">
+                        {act.resourceId.slice(0, 8)}
+                      </span>
+                    )}
                   </div>
-                  {typeof act.metadata?.changes === 'string' && (
+                  {typeof act.details?.changes === 'string' && (
                     <p className="text-xs text-text-tertiary mt-0.5 truncate">
-                      {act.metadata.changes}
+                      {act.details.changes}
                     </p>
                   )}
                 </div>
                 <span className="text-xs text-text-tertiary shrink-0">
-                  {new Date(act.created_at).toLocaleString()}
+                  {new Date(act.createdAt).toLocaleString()}
                 </span>
               </div>
             ))}

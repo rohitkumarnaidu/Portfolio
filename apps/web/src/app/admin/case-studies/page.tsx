@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useCaseStudies } from '@/lib/hooks/useCaseStudies';
+import { useAdminCaseStudies } from '@/lib/hooks/useCaseStudies';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { createCaseStudy, updateCaseStudy, deleteCaseStudy } from '@/lib/api';
 import { useQueryClient } from '@tanstack/react-query';
@@ -29,7 +29,7 @@ const emptyForm: CSForm = {
 };
 
 export default function AdminCaseStudiesPage() {
-  const { data: caseStudies, isLoading } = useCaseStudies();
+  const { data: caseStudies, isLoading } = useAdminCaseStudies();
   const { data: projects } = useProjects({ per_page: 100 });
   const queryClient = useQueryClient();
   const { addToast } = useToast();

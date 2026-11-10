@@ -8,10 +8,10 @@ import {
   unauthorizedResponse,
   resolveSandboxPath,
   sandboxEnvHint,
-  SANDBOX_RUNTIME,
 } from '../_lib';
 
-export const runtime = SANDBOX_RUNTIME;
+// Next.js statically analyses segment config, so this must be a literal.
+export const runtime = 'nodejs';
 
 const execFileAsync = promisify(execFile);
 

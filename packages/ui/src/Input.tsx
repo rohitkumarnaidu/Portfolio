@@ -52,7 +52,7 @@ export function Input({
   const helperId = `${id}-helper`;
 
   const sizeClasses = {
-    md: 'h-10 px-3 text-sm',
+    md: 'h-10 px-3 text-base sm:text-sm',
     lg: 'h-12 px-4 text-base',
   };
 

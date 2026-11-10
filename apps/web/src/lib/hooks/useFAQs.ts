@@ -1,13 +1,13 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getFAQs, createFAQ, updateFAQ, deleteFAQ } from '@/lib/api';
+import { getAdminFAQs, createFAQ, updateFAQ, deleteFAQ } from '@/lib/api';
 import type { FAQ } from '@portfolio/shared';
 
 export function useFAQs() {
   return useQuery({
     queryKey: ['faqs'],
-    queryFn: () => getFAQs(),
+    queryFn: () => getAdminFAQs(),
   });
 }
 

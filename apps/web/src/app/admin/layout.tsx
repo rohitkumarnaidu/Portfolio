@@ -844,6 +844,13 @@ function AdminShell({ children }: { children: React.ReactNode }) {
     setMobileOpen(false);
   }, [pathname]);
 
+  // Never navigate during render; wait until the cookie probe finishes.
+  useEffect(() => {
+    if (!loading && !isAuthenticated && pathname !== '/admin/login') {
+      router.replace('/admin/login');
+    }
+  }, [loading, isAuthenticated, pathname, router]);
+
   if (pathname === '/admin/login') {
     return <>{children}</>;
   }
@@ -874,7 +881,6 @@ function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   if (!isAuthenticated) {
-    router.push('/admin/login');
     return null;
   }
 

@@ -6,16 +6,71 @@ import { Card } from '@portfolio/ui';
 
 // ── Types ──────────────────────────────────────────────────
 
-interface AnalyticsSummary {
-  total_views: number;
-  unique_visitors: number;
-  average_session_duration: number;
-  bounce_rate: number;
-  top_pages: Array<{ path: string; views: number }>;
-  top_sources: Array<{ source: string; visitors: number }>;
-  device_breakdown: { desktop: number; mobile: number; tablet: number };
-  daily_views: Array<{ date: string; views: number }>;
-  period: string;
+interface AnalyticsSummaryResponse {
+  // Current API shape (camelCase + snake_case aliases).
+  totalPageViews?: number;
+  uniqueVisitors?: number;
+  totalSessions?: number;
+  avgSessionDurationSeconds?: number;
+  bounceRate?: number;
+  pageViewsByUrl?: Record<string, number>;
+  period?: string;
+  total_page_views?: number;
+  unique_visitors?: number;
+  avg_session_duration_seconds?: number;
+  bounce_rate?: number;
+  page_views_by_url?: Record<string, number>;
+  // Older dashboard shape, kept for compatibility.
+  total_views?: number;
+  average_session_duration?: number;
+  top_pages?: Array<{ path: string; views: number }>;
+  top_sources?: Array<{ source: string; visitors: number }>;
+  device_breakdown?: { desktop: number; mobile: number; tablet: number };
+  daily_views?: Array<{ date: string; views: number }>;
+  visitors_over_time?: Array<{ date: string; visitors: number; page_views: number }>;
+}
+
+interface AnalyticsView {
+  totalViews: number;
+  uniqueVisitors: number;
+  avgSessionSeconds: number;
+  bounceRatePct: number;
+  dailyViews: Array<{ date: string; views: number }>;
+  topPages: Array<{ path: string; views: number }>;
+  topSources: Array<{ source: string; visitors: number }>;
+  devices: { desktop: number; mobile: number; tablet: number };
+}
+
+/** Map the API summary onto the values this dashboard renders. */
+function normalizeSummary(raw: AnalyticsSummaryResponse): AnalyticsView {
+  const pageViews = raw.pageViewsByUrl ?? raw.page_views_by_url ?? {};
+  const topPages =
+    raw.top_pages ??
+    Object.entries(pageViews)
+      .map(([path, views]) => ({ path, views }))
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 8);
+
+  const bounce = raw.bounce_rate ?? raw.bounceRate ?? 0;
+
+  return {
+    totalViews: raw.total_views ?? raw.total_page_views ?? raw.totalPageViews ?? 0,
+    uniqueVisitors: raw.unique_visitors ?? raw.uniqueVisitors ?? 0,
+    avgSessionSeconds:
+      raw.average_session_duration ??
+      raw.avg_session_duration_seconds ??
+      raw.avgSessionDurationSeconds ??
+      0,
+    // The current API reports a percentage; the legacy shape used a fraction.
+    bounceRatePct: bounce <= 1 ? bounce * 100 : bounce,
+    dailyViews:
+      raw.daily_views ??
+      raw.visitors_over_time?.map((point) => ({ date: point.date, views: point.page_views })) ??
+      [],
+    topPages,
+    topSources: raw.top_sources ?? [],
+    devices: raw.device_breakdown ?? { desktop: 0, mobile: 0, tablet: 0 },
+  };
 }
 
 const PERIODS = [
@@ -180,7 +235,10 @@ function DailyViewsChart({ data }: { data: Array<{ date: string; views: number }
 // ── Donut Chart ────────────────────────────────────────────
 
 function DonutChart({ data }: { data: { desktop: number; mobile: number; tablet: number } }) {
-  const total = data.desktop + data.mobile + data.tablet || 1;
+  const total = data.desktop + data.mobile + data.tablet;
+  if (total === 0)
+    return <div className="text-sm text-text-tertiary text-center py-8">No device data yet</div>;
+
   const segments = [
     {
       label: 'Desktop',
@@ -266,14 +324,14 @@ function DonutChart({ data }: { data: { desktop: number; mobile: number; tablet:
 // ── Main Component ─────────────────────────────────────────
 
 export function AnalyticsCharts() {
-  const [summary, setSummary] = useState<AnalyticsSummary | null>(null);
+  const [summary, setSummary] = useState<AnalyticsView | null>(null);
   const [period, setPeriod] = useState('7d');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
     getAnalyticsSummary(period)
-      .then((res) => setSummary(res as unknown as AnalyticsSummary))
+      .then((res) => setSummary(normalizeSummary(res)))
       .catch(() => setSummary(null))
       .finally(() => setLoading(false));
   }, [period]);
@@ -360,7 +418,7 @@ export function AnalyticsCharts() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Page Views"
-          value={summary.total_views}
+          value={summary.totalViews}
           icon={
             <svg
               className="w-4 h-4"
@@ -384,7 +442,7 @@ export function AnalyticsCharts() {
         />
         <StatCard
           label="Unique Visitors"
-          value={summary.unique_visitors}
+          value={summary.uniqueVisitors}
           icon={
             <svg
               className="w-4 h-4"
@@ -403,7 +461,7 @@ export function AnalyticsCharts() {
         />
         <StatCard
           label="Avg. Session"
-          value={formatDuration(summary.average_session_duration)}
+          value={formatDuration(summary.avgSessionSeconds)}
           icon={
             <svg
               className="w-4 h-4"
@@ -422,7 +480,7 @@ export function AnalyticsCharts() {
         />
         <StatCard
           label="Bounce Rate"
-          value={`${Math.round(summary.bounce_rate * 100)}%`}
+          value={`${Math.round(summary.bounceRatePct)}%`}
           icon={
             <svg
               className="w-4 h-4"
@@ -446,13 +504,13 @@ export function AnalyticsCharts() {
         {/* Daily Views Chart */}
         <div className="lg:col-span-2 rounded-2xl bg-surface-secondary border border-border-primary p-5">
           <h3 className="font-display text-h4 text-text-primary mb-4">Daily Views</h3>
-          <DailyViewsChart data={summary.daily_views} />
+          <DailyViewsChart data={summary.dailyViews} />
         </div>
 
         {/* Device Breakdown */}
         <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
           <h3 className="font-display text-h4 text-text-primary mb-4">Devices</h3>
-          <DonutChart data={summary.device_breakdown} />
+          <DonutChart data={summary.devices} />
         </div>
       </div>
 
@@ -461,12 +519,12 @@ export function AnalyticsCharts() {
         {/* Top Pages */}
         <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
           <h3 className="font-display text-h4 text-text-primary mb-4">Top Pages</h3>
-          {summary.top_pages.length === 0 ? (
+          {summary.topPages.length === 0 ? (
             <p className="text-sm text-text-tertiary">No page data yet</p>
           ) : (
             <div className="space-y-2">
-              {summary.top_pages.map((page, i) => {
-                const maxViews = summary.top_pages[0]?.views || 1;
+              {summary.topPages.map((page, i) => {
+                const maxViews = summary.topPages[0]?.views || 1;
                 const barWidth = (page.views / maxViews) * 100;
                 return (
                   <div key={page.path} className="flex items-center gap-3">
@@ -497,12 +555,12 @@ export function AnalyticsCharts() {
         {/* Top Sources */}
         <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
           <h3 className="font-display text-h4 text-text-primary mb-4">Traffic Sources</h3>
-          {summary.top_sources.length === 0 ? (
+          {summary.topSources.length === 0 ? (
             <p className="text-sm text-text-tertiary">No source data yet</p>
           ) : (
             <div className="space-y-2">
-              {summary.top_sources.map((src, i) => {
-                const maxVisitors = summary.top_sources[0]?.visitors || 1;
+              {summary.topSources.map((src, i) => {
+                const maxVisitors = summary.topSources[0]?.visitors || 1;
                 const barWidth = (src.visitors / maxVisitors) * 100;
                 return (
                   <div key={src.source} className="flex items-center gap-3">

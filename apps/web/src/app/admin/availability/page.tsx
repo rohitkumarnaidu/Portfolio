@@ -7,19 +7,23 @@ import {
 } from '@/lib/hooks/useAvailability';
 import { Button, Card, Input, useToast } from '@portfolio/ui';
 
+const CONTACT_OPTIONS = ['email', 'linkedin', 'calendar', 'form'];
+
 export default function AvailabilityPage() {
   const { data: status, isLoading } = useAdminAvailabilityStatus();
   const updateMutation = useUpdateAvailabilityStatus();
   const { addToast } = useToast();
-  const [statusValue, setStatusValue] = useState('available');
-  const [label, setLabel] = useState('');
-  const [description, setDescription] = useState('');
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [statusLabel, setStatusLabel] = useState('');
+  const [availableUntil, setAvailableUntil] = useState('');
+  const [preferredContact, setPreferredContact] = useState('email');
 
   useEffect(() => {
     if (status) {
-      setStatusValue(status.status || 'available');
-      setLabel(status.label || '');
-      setDescription(status.description || '');
+      setIsAvailable(status.isAvailable ?? true);
+      setStatusLabel(status.statusLabel ?? '');
+      setAvailableUntil(status.availableUntil ?? '');
+      setPreferredContact(status.preferredContact ?? 'email');
     }
   }, [status]);
 
@@ -27,9 +31,10 @@ export default function AvailabilityPage() {
     e.preventDefault();
     try {
       await updateMutation.mutateAsync({
-        status: statusValue as 'available' | 'limited' | 'unavailable',
-        label,
-        description,
+        isAvailable,
+        statusLabel,
+        availableUntil: availableUntil || undefined,
+        preferredContact,
       });
       addToast({ variant: 'success', title: 'Availability status updated' });
     } catch {
@@ -57,44 +62,70 @@ export default function AvailabilityPage() {
           <div>
             <label className="block text-sm font-medium text-text-primary mb-1.5">Status</label>
             <div className="flex gap-3">
-              {['available', 'limited', 'unavailable'].map((opt) => (
+              {[
+                { value: true, label: 'Available' },
+                { value: false, label: 'Unavailable' },
+              ].map((opt) => (
                 <button
-                  key={opt}
+                  key={opt.label}
                   type="button"
-                  onClick={() => setStatusValue(opt)}
+                  onClick={() => setIsAvailable(opt.value)}
                   className={`flex-1 py-2.5 px-4 rounded-xl text-sm font-medium transition-all border ${
-                    statusValue === opt
-                      ? opt === 'available'
+                    isAvailable === opt.value
+                      ? opt.value
                         ? 'bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400'
-                        : opt === 'limited'
-                          ? 'bg-amber-500/10 border-amber-500 text-amber-600 dark:text-amber-400'
-                          : 'bg-red-500/10 border-red-500 text-red-600 dark:text-red-400'
+                        : 'bg-red-500/10 border-red-500 text-red-600 dark:text-red-400'
                       : 'border-border-primary text-text-secondary hover:bg-surface-elevated'
                   }`}
                 >
-                  {opt.charAt(0).toUpperCase() + opt.slice(1)}
+                  {opt.label}
                 </button>
               ))}
             </div>
           </div>
           <Input
-            label="Label *"
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
+            label="Status Label *"
+            value={statusLabel}
+            onChange={(e) => setStatusLabel(e.target.value)}
             required
             placeholder="Available for new projects"
           />
-          <div>
-            <label className="block text-sm font-medium text-text-primary mb-1.5">
-              Description
-            </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              className="w-full rounded-xl border border-border-primary bg-surface-secondary px-4 py-2.5 text-sm text-text-primary placeholder:text-text-tertiary/50 resize-none"
-              placeholder="Brief description of your availability..."
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label
+                className="block text-sm font-medium text-text-primary"
+                htmlFor="availableUntil"
+              >
+                Available Until
+              </label>
+              <input
+                id="availableUntil"
+                type="date"
+                value={availableUntil}
+                onChange={(e) => setAvailableUntil(e.target.value)}
+                className="w-full rounded-xl border border-border-primary bg-surface-secondary px-4 py-2.5 text-sm text-text-primary focus:outline-none focus:ring-2 focus:ring-accent-500"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label
+                className="block text-sm font-medium text-text-primary"
+                htmlFor="preferredContact"
+              >
+                Preferred Contact
+              </label>
+              <select
+                id="preferredContact"
+                value={preferredContact}
+                onChange={(e) => setPreferredContact(e.target.value)}
+                className="w-full rounded-xl border border-border-primary bg-surface-secondary px-4 py-2.5 text-sm text-text-primary capitalize"
+              >
+                {CONTACT_OPTIONS.map((option) => (
+                  <option key={option} value={option} className="capitalize">
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="flex gap-3 pt-2">
             <Button type="submit" disabled={updateMutation.isPending}>

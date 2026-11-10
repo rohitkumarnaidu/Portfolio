@@ -3,7 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getActivities, getActivity } from '@/lib/api';
 
-export function useActivities(params?: { page?: number; per_page?: number }) {
+export function useActivities(params?: { page?: number; perPage?: number }) {
   return useQuery({
     queryKey: ['activities', params],
     queryFn: () => getActivities(params),

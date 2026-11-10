@@ -1,7 +1,13 @@
 'use client';
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getProjects, getProject, createProject, updateProject, deleteProject } from '@/lib/api';
+import {
+  getAdminProjects,
+  getProject,
+  createProject,
+  updateProject,
+  deleteProject,
+} from '@/lib/api';
 import type { Project } from '@portfolio/shared';
 
 export function useProjects(params?: {
@@ -16,7 +22,7 @@ export function useProjects(params?: {
 }) {
   return useQuery({
     queryKey: ['projects', params],
-    queryFn: () => getProjects(params),
+    queryFn: () => getAdminProjects(params),
   });
 }
 

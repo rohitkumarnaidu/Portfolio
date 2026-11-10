@@ -50,7 +50,7 @@ export default function LeadsPage() {
   };
 
   const handleExport = () => {
-    window.open(getLeadsExportUrl(undefined, undefined, statusFilter || undefined), '_blank');
+    window.open(getLeadsExportUrl(), '_blank');
   };
 
   return (

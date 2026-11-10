@@ -78,9 +78,9 @@ describe('API Client: getProjects', () => {
     const result = await getProjects();
     expect(result).toEqual(mockProjects);
     expect(mockFetch).toHaveBeenCalledWith(
-      '/api/projects',
+      '/api/portfolio/projects',
       expect.objectContaining({
-        headers: expect.objectContaining({ 'Content-Type': 'application/json' }),
+        credentials: 'include',
       }),
     );
   });
@@ -98,7 +98,8 @@ describe('API Client: getProjects', () => {
     const url = mockFetch.mock.calls[0][0];
     expect(url).toContain('category=web');
     expect(url).toContain('featured=true');
-    expect(url).toContain('per_page=10');
+    // The API's query contract is camelCase (see KeyNormalizationMiddleware).
+    expect(url).toContain('perPage=10');
   });
 
   it('throws ApiError on non-ok response', async () => {
@@ -171,9 +172,9 @@ describe('API Client: submitLead', () => {
   });
 });
 
-describe('API Client: auth token', () => {
-  it('attaches Bearer token when token is in localStorage', async () => {
-    mockLocalStorage.setItem('admin_access_token', 'test-token-123');
+describe('API Client: cookie auth', () => {
+  it('sends cookies with requests instead of a Bearer token', async () => {
+    mockLocalStorage.setItem('admin_access_token', 'legacy-token-should-be-ignored');
     const { getProjects } = await import('@/lib/api');
 
     mockFetch.mockResolvedValueOnce({
@@ -183,15 +184,9 @@ describe('API Client: auth token', () => {
     });
 
     await getProjects();
-    expect(mockLocalStorage.getItem).toHaveBeenCalledWith('admin_access_token');
-    expect(mockFetch).toHaveBeenCalledWith(
-      '/api/projects',
-      expect.objectContaining({
-        headers: expect.objectContaining({
-          Authorization: 'Bearer test-token-123',
-        }),
-      }),
-    );
+    const options = mockFetch.mock.calls[0][1];
+    expect(options.credentials).toBe('include');
+    expect(options.headers.Authorization).toBeUndefined();
   });
 
   it('does not attach Authorization header when no token', async () => {

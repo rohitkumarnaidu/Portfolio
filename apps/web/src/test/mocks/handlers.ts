@@ -157,9 +157,35 @@ function buildHandlers(base: string) {
         { status: 201 },
       );
     }),
+    // Leads — api.ts calls POST /api/portfolio/leads
     http.post(`${base}/portfolio/leads`, async ({ request }) => {
+      if (leadState.rateLimited) {
+        return HttpResponse.json(
+          {
+            error: {
+              code: 'RATE_LIMITED',
+              message: 'Too many requests',
+              details: [{ message: 'Please wait 60 seconds before trying again.' }],
+            },
+          },
+          { status: 429 },
+        );
+      }
       const body = (await request.json()) as Record<string, unknown>;
-      return HttpResponse.json(envelope({ id: 'lead-1', ...body }), { status: 201 });
+      return HttpResponse.json(
+        envelope({
+          id: 'lead-1',
+          name: body.name ?? '',
+          email: body.email ?? '',
+          message: body.message ?? '',
+          source: body.source ?? 'contact_form',
+          status: 'new',
+          priority: 'normal',
+          created_at: '2024-04-01T00:00:00Z',
+          updated_at: '2024-04-01T00:00:00Z',
+        }),
+        { status: 201 },
+      );
     }),
 
     // Analytics events (fire-and-forget beacon endpoints)

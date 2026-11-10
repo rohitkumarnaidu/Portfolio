@@ -1,13 +1,20 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { getCaseStudies, getCaseStudy, getProject } from '@/lib/api';
+import { getCaseStudies, getCaseStudy, getAdminCaseStudies, getProject } from '@/lib/api';
 
 export function useCaseStudies(projectId?: string) {
   return useQuery({
     queryKey: ['caseStudies', projectId],
     queryFn: () => getCaseStudies(projectId),
     staleTime: 120_000,
+  });
+}
+
+export function useAdminCaseStudies(projectId?: string) {
+  return useQuery({
+    queryKey: ['adminCaseStudies', projectId],
+    queryFn: () => getAdminCaseStudies(projectId),
   });
 }
 

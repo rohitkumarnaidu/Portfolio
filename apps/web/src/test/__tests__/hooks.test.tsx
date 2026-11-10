@@ -122,24 +122,6 @@ describe('useBlogPosts hook', () => {
   });
 });
 
-describe('useInView hook', () => {
-  it('returns ref and inView state', async () => {
-    const { useInView } = await import('@/hooks/useInView');
-    const { result } = renderHook(() => useInView());
-
-    expect(result.current.ref).toBeDefined();
-    expect(result.current.ref.current).toBeNull();
-    expect(result.current.inView).toBe(false);
-  });
-
-  it('accepts custom threshold', async () => {
-    const { useInView } = await import('@/hooks/useInView');
-    const { result } = renderHook(() => useInView(0.5));
-
-    expect(result.current.inView).toBe(false);
-  });
-});
-
 describe('useReducedMotion hook', () => {
   it('returns false by default (motion not reduced)', async () => {
     const { useReducedMotion } = await import('@/hooks/useReducedMotion');

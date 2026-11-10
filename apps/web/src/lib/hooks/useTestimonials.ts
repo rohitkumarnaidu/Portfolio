@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  getTestimonials,
+  getAdminTestimonials,
   createTestimonial,
   updateTestimonial,
   deleteTestimonial,
@@ -12,7 +12,7 @@ import type { Testimonial } from '@portfolio/shared';
 export function useTestimonials() {
   return useQuery({
     queryKey: ['testimonials'],
-    queryFn: () => getTestimonials(),
+    queryFn: () => getAdminTestimonials(),
   });
 }
 
