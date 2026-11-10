@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import type { PrismaService } from '../../common/database/prisma.service';
-import type { PaginationOpts, PaginatedResult } from '../../common/database/pagination.helper';
+import { PrismaService } from '../../common/database/prisma.service';
+import { PaginationOpts, PaginatedResult } from '../../common/database/pagination.helper';
 import { paginateQuery } from '../../common/database/pagination.helper';
-import type { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto';
 
 const BCRYPT_ROUNDS = 12;
 const SORT_FIELDS = ['createdAt', 'email', 'displayName'];
@@ -31,17 +31,36 @@ export class UsersService {
       opts?.sortBy && SORT_FIELDS.includes(opts.sortBy)
         ? { [opts.sortBy]: opts.sortOrder ?? 'asc' }
         : { createdAt: 'desc' as const };
-    return paginateQuery(
-      (args) => this.prisma.user.findMany({ where, orderBy, ...args }),
+    const result = await paginateQuery(
+      (args) =>
+        this.prisma.user.findMany({
+          where,
+          orderBy,
+          ...args,
+          include: { roles: { include: { role: true } } },
+        }),
       () => this.prisma.user.count({ where }),
       opts,
     );
+
+    return {
+      ...result,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data: result.data.map((user: any) => {
+        const { roles, ...rest } = user;
+        return { ...rest, role: roles?.[0]?.role?.name ?? 'viewer' };
+      }),
+    };
   }
 
   async findById(id: string) {
-    const user = await this.prisma.user.findUnique({ where: { id } });
+    const user = await this.prisma.user.findUnique({
+      where: { id },
+      include: { roles: { include: { role: true } } },
+    });
     if (!user) throw new NotFoundException('User not found');
-    return user;
+    const { roles, ...rest } = user;
+    return { ...rest, role: roles[0]?.role?.name ?? 'viewer' };
   }
 
   async create(dto: CreateUserDto) {
@@ -68,8 +87,14 @@ export class UsersService {
   async update(id: string, dto: UpdateUserDto) {
     const existing = await this.prisma.user.findUnique({ where: { id } });
     if (!existing) throw new NotFoundException('User not found');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return this.prisma.user.update({ where: { id }, data: dto as any });
+    const { role, ...data } = dto;
+    const user = await this.prisma.user.update({
+      where: { id },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      data: data as any,
+    });
+    if (role) await this.updateRole(id, role);
+    return user;
   }
 
   async updateRole(id: string, roleName: 'admin' | 'editor' | 'viewer') {

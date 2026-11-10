@@ -1,16 +1,18 @@
 import { Injectable, UnauthorizedException, Logger } from '@nestjs/common';
-import type { JwtService } from '@nestjs/jwt';
-import type { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
-import type { PrismaService } from '../../common/database/prisma.service';
-import type { CacheService } from '../../common/cache/cache.service';
-import type { LoginDto } from './dto/login.dto';
-import type { RegisterDto } from './dto/register.dto';
+import { PrismaService } from '../../common/database/prisma.service';
+import { LoginDto } from './dto/login.dto';
 
-const BCRYPT_ROUNDS = 12;
 const SESSION_TTL_SECONDS = 7 * 24 * 60 * 60;
+
+export interface SessionContext {
+  userAgent?: string;
+  ipAddress?: string;
+}
 
 function hashToken(token: string): string {
   return crypto.createHash('sha256').update(token).digest('hex');
@@ -24,8 +26,25 @@ export class AuthService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly cache: CacheService,
   ) {}
+
+  /**
+   * Persists a refresh session and returns the opaque refresh token.
+   * Only the SHA-256 hash is stored so a database leak cannot mint tokens.
+   */
+  private async createSession(userId: string, context?: SessionContext): Promise<string> {
+    const refreshToken = uuidv4();
+    await this.prisma.session.create({
+      data: {
+        userId,
+        refreshToken: hashToken(refreshToken),
+        userAgent: context?.userAgent ?? null,
+        ipAddress: context?.ipAddress ?? null,
+        expiresAt: new Date(Date.now() + SESSION_TTL_SECONDS * 1000),
+      },
+    });
+    return refreshToken;
+  }
 
   private get lockoutThreshold(): number {
     return this.configService.get<number>('app.LOCKOUT_THRESHOLD') ?? 5;
@@ -47,7 +66,7 @@ export class AuthService {
     return { id: user.id, email: user.email, role, displayName: user.displayName };
   }
 
-  async login(dto: LoginDto) {
+  async login(dto: LoginDto, context?: SessionContext) {
     const user = await this.prisma.user.findUnique({
       where: { email: dto.email },
       include: { roles: { include: { role: true } } },
@@ -99,17 +118,7 @@ export class AuthService {
     const role = user.roles[0]?.role.name ?? 'viewer';
     const payload = { sub: user.id, email: user.email, role };
     const access_token = this.jwtService.sign(payload);
-    const refresh_token = uuidv4();
-    const tokenHash = hashToken(refresh_token);
-
-    await this.cache.set(
-      `session:${tokenHash}`,
-      {
-        userId: user.id,
-        isRevoked: false,
-      },
-      SESSION_TTL_SECONDS,
-    );
+    const refresh_token = await this.createSession(user.id, context);
 
     this.logger.log(`Successful login: ${user.email} (${role})`);
     return {
@@ -126,36 +135,6 @@ export class AuthService {
     };
   }
 
-  async register(dto: RegisterDto) {
-    const existing = await this.prisma.user.findUnique({ where: { email: dto.email } });
-    if (existing) throw new UnauthorizedException('Email already registered');
-
-    const passwordHash = await bcrypt.hash(dto.password, BCRYPT_ROUNDS);
-    const user = await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        displayName: dto.display_name,
-        passwordHash,
-        isActive: true,
-        roles: {
-          create: {
-            role: { connectOrCreate: { where: { name: 'editor' }, create: { name: 'editor' } } },
-          },
-        },
-      },
-      include: { roles: { include: { role: true } } },
-    });
-
-    const role = user.roles[0]?.role.name ?? 'editor';
-    this.logger.log(`New user registered: ${user.email} (${role})`);
-    return {
-      id: user.id,
-      email: user.email,
-      display_name: user.displayName,
-      role,
-    };
-  }
-
   async validateOAuthLogin(
     profile: {
       emails?: { value: string }[];
@@ -164,48 +143,33 @@ export class AuthService {
       photos?: { value: string }[];
     },
     provider: 'google' | 'github',
+    context?: SessionContext,
   ) {
     const email = profile.emails?.[0]?.value;
     if (!email) {
       throw new UnauthorizedException('Email is required from OAuth provider');
     }
 
-    let user = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
       include: { roles: { include: { role: true } } },
     });
+
+    // Admin accounts are provisioned explicitly by an administrator.
+    // OAuth proves identity; it must never create access.
     if (!user) {
-      user = await this.prisma.user.create({
-        data: {
-          email,
-          displayName: profile.displayName || profile.username || email.split('@')[0],
-          avatarUrl: profile.photos?.[0]?.value,
-          isActive: true,
-          roles: {
-            create: {
-              role: { connectOrCreate: { where: { name: 'editor' }, create: { name: 'editor' } } },
-            },
-          },
-        },
-        include: { roles: { include: { role: true } } },
-      });
-      this.logger.log(`New user registered via ${provider} OAuth: ${user.email}`);
+      this.logger.warn(`OAuth login rejected for unprovisioned email via ${provider}: ${email}`);
+      throw new UnauthorizedException('No admin account exists for this email address');
+    }
+    if (!user.isActive) {
+      this.logger.warn(`OAuth login rejected for inactive account via ${provider}: ${email}`);
+      throw new UnauthorizedException('Account is deactivated');
     }
 
-    const role = user.roles[0]?.role.name ?? 'editor';
+    const role = user.roles[0]?.role.name ?? 'viewer';
     const payload = { sub: user.id, email: user.email, role };
     const access_token = this.jwtService.sign(payload);
-    const refresh_token = uuidv4();
-    const tokenHash = hashToken(refresh_token);
-
-    await this.cache.set(
-      `session:${tokenHash}`,
-      {
-        userId: user.id,
-        isRevoked: false,
-      },
-      SESSION_TTL_SECONDS,
-    );
+    const refresh_token = await this.createSession(user.id, context);
 
     return {
       access_token,
@@ -223,10 +187,10 @@ export class AuthService {
 
   async refresh(refreshToken: string) {
     const tokenHash = hashToken(refreshToken);
-    const session = await this.cache.get<{ userId: string; isRevoked: boolean }>(
-      `session:${tokenHash}`,
-    );
-    if (!session || session.isRevoked) {
+    const session = await this.prisma.session.findUnique({
+      where: { refreshToken: tokenHash },
+    });
+    if (!session || session.isRevoked || session.expiresAt <= new Date()) {
       this.logger.warn(`Invalid/expired refresh token used`);
       throw new UnauthorizedException('Invalid or expired refresh token');
     }
@@ -237,29 +201,23 @@ export class AuthService {
     });
     if (!user) throw new UnauthorizedException('User not found');
 
+    // Conditional update makes rotation single-use even under concurrent refreshes.
+    const revoked = await this.prisma.session.updateMany({
+      where: { id: session.id, isRevoked: false },
+      data: { isRevoked: true },
+    });
+    if (revoked.count === 0) {
+      this.logger.warn(`Refresh token already rotated`);
+      throw new UnauthorizedException('Invalid or expired refresh token');
+    }
+
     const role = user.roles[0]?.role.name ?? 'viewer';
     const payload = { sub: user.id, email: user.email, role };
     const new_access_token = this.jwtService.sign(payload);
-    const new_refresh_token = uuidv4();
-    const newTokenHash = hashToken(new_refresh_token);
-
-    await this.cache.set(
-      `session:${tokenHash}`,
-      {
-        ...session,
-        isRevoked: true,
-      },
-      SESSION_TTL_SECONDS,
-    );
-
-    await this.cache.set(
-      `session:${newTokenHash}`,
-      {
-        userId: user.id,
-        isRevoked: false,
-      },
-      SESSION_TTL_SECONDS,
-    );
+    const new_refresh_token = await this.createSession(user.id, {
+      userAgent: session.userAgent ?? undefined,
+      ipAddress: session.ipAddress ?? undefined,
+    });
 
     this.logger.log(`Token refreshed for: ${user.email}`);
     return {
@@ -272,16 +230,12 @@ export class AuthService {
 
   async logout(refreshToken: string) {
     const tokenHash = hashToken(refreshToken);
-    const session = await this.cache.get<{ userId: string; isRevoked: boolean }>(
-      `session:${tokenHash}`,
-    );
-    if (session) {
-      await this.cache.set(
-        `session:${tokenHash}`,
-        { ...session, isRevoked: true },
-        SESSION_TTL_SECONDS,
-      );
-      this.logger.log(`User logged out: ${session.userId}`);
+    const { count } = await this.prisma.session.updateMany({
+      where: { refreshToken: tokenHash, isRevoked: false },
+      data: { isRevoked: true },
+    });
+    if (count > 0) {
+      this.logger.log(`Refresh session revoked`);
     }
   }
 

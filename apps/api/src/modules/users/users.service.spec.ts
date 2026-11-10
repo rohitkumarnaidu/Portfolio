@@ -103,12 +103,15 @@ describe('UsersService', () => {
   });
 
   describe('findById', () => {
-    it('should return a user by id', async () => {
+    it('should return a user by id with a flattened role', async () => {
       mockPrisma.user.findUnique.mockResolvedValue(mockUser);
 
       const result = await service.findById('user-1');
 
-      expect(result).toEqual(mockUser);
+      const { roles, ...rest } = mockUser;
+      expect(roles).toHaveLength(1);
+      expect(result).toEqual({ ...rest, role: 'admin' });
+      expect(result).not.toHaveProperty('roles');
     });
 
     it('should throw for non-existent user', async () => {

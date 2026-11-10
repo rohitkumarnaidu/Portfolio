@@ -25,6 +25,22 @@ const envSchema = z.object({
   EMAIL_FROM: z.string().default('noreply@portfolio.com'),
   ADMIN_NOTIFICATION_EMAIL: z.string().default('admin@portfolio.com'),
   AI_API_URL: z.string().default('http://localhost:8000'),
+
+  // OAuth providers (optional in development; required when OAuth is used)
+  GOOGLE_CLIENT_ID: z.string().default(''),
+  GOOGLE_CLIENT_SECRET: z.string().default(''),
+  GOOGLE_CALLBACK_URL: z.string().default('http://localhost:3000/api/admin/auth/google/callback'),
+  GITHUB_CLIENT_ID: z.string().default(''),
+  GITHUB_CLIENT_SECRET: z.string().default(''),
+  GITHUB_CALLBACK_URL: z.string().default('http://localhost:3000/api/admin/auth/github/callback'),
+
+  // Admin session/cookies
+  ADMIN_APP_URL: z.string().default('http://localhost:3000'),
+  COOKIE_SECURE: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
+  COOKIE_DOMAIN: z.string().default(''),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;

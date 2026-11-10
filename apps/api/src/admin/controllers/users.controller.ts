@@ -12,12 +12,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
-import type { UsersService } from '../../modules/users/users.service';
+import { UsersService } from '../../modules/users/users.service';
 import { JwtAuthGuard } from '../../modules/auth/jwt-auth.guard';
 import { RolesGuard } from '../../modules/auth/roles.guard';
 import { Roles } from '../../modules/auth/roles.decorator';
 import { Audit } from '../../common/decorators/audit.decorator';
-import type { CreateUserDto, UpdateUserDto, UpdateUserRoleDto } from '../../modules/users/dto';
+import { CreateUserDto, UpdateUserDto, UpdateUserRoleDto } from '../../modules/users/dto';
 
 @ApiTags('Admin - Users')
 @ApiBearerAuth()
