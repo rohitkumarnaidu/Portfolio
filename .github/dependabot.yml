@@ -21,6 +21,14 @@ updates:
     ignore:
       - dependency-name: '@types/node'
         versions: ['>=23.0.0']
+      # `postprocessing` caps its three peer at `<0.185.0`, so a newer three
+      # cannot hoist. npm then installs a second copy under apps/web and
+      # TypeScript treats the two @types/three trees as different types.
+      # Re-enable minor bumps once postprocessing supports a newer three.
+      - dependency-name: 'three'
+        update-types: ['version-update:semver-minor']
+      - dependency-name: '@types/three'
+        update-types: ['version-update:semver-minor']
 
   - package-ecosystem: pip
     directory: /apps/ai
