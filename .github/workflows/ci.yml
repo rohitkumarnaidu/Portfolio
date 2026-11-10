@@ -81,8 +81,23 @@ jobs:
           DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
 
       - name: Build
+        if: matrix.workspace == 'apps/api'
         run: npm run build
         working-directory: ${{ matrix.workspace }}
+
+      # next/font downloads Google Fonts at build time. Shared runner IPs
+      # occasionally get a rate-limited CSS response, which makes Next throw
+      # "Cannot read properties of null" while parsing the font URL. That is a
+      # network failure, not a code failure, so retry before failing the gate.
+      - name: Build (web)
+        if: matrix.workspace == 'apps/web'
+        run: |
+          for attempt in 1 2 3; do
+            if npm run build; then exit 0; fi
+            echo "::warning::web build attempt ${attempt} failed (likely next/font fetch)"
+          done
+          exit 1
+        working-directory: apps/web
 
       - name: Bundle analysis (web only)
         if: matrix.workspace == 'apps/web'
