@@ -13,7 +13,7 @@ jobs:
       matrix:
         workspace: [apps/api, apps/web]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -47,7 +47,7 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -70,12 +70,18 @@ jobs:
       matrix:
         workspace: [apps/api, apps/web]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Prisma generate (api)
+        if: matrix.workspace == 'apps/api'
+        run: npx prisma generate
+        working-directory: apps/api
+        env:
+          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
       - run: npm run build --workspace=${{ matrix.workspace }}
 
   prisma:
@@ -96,7 +102,7 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with:
           node-version: 22

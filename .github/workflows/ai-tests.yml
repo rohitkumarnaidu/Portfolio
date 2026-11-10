@@ -11,12 +11,29 @@ jobs:
     defaults:
       run:
         working-directory: apps/ai
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - run: pip install -r requirements.txt
-      - run: pip install ruff pytest pytest-asyncio pytest-cov
+      - run: pip install ruff==0.15.7 pytest pytest-asyncio pytest-cov asgi-lifespan
       - run: ruff check .
       - run: pytest --cov=. --cov-fail-under=40
+        env:
+          DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/postgres
+          JWT_SECRET: ci-test-secret

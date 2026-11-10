@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.responses import StreamingResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 from app.services.ai_service import AIService
 from app.services.cache_service import CacheService
@@ -12,7 +12,7 @@ router = APIRouter()
 
 
 class ChatRequest(BaseModel):
-    message: str
+    message: str = Field(min_length=1)
     session_id: Optional[str] = None
     page_context: Optional[str] = None
     history: Optional[list[dict]] = None

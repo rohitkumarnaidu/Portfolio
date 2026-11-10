@@ -24,16 +24,18 @@ async def lifespan(app: FastAPI):
     from app.services.embedding_service import EmbeddingService
     from app.services.cache_service import CacheService
     from app.services.cost_controller import CostController
-    from app.database import engine
+    from app.database import async_session_maker, engine
 
-    # We will initialize these later when we implement them
-    app.state.rag = RAGService()
+    # RAGService needs a session for the lifetime of the app.
+    rag_session = async_session_maker()
+    app.state.rag = RAGService(rag_session)
     app.state.embedding = EmbeddingService()
     app.state.cache = CacheService()
     app.state.analytics = AnalyticsService()
     app.state.cost = CostController()
-    
+
     yield
+    await rag_session.close()
     await engine.dispose()
 
 

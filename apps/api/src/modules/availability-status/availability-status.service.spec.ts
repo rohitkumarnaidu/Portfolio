@@ -1,6 +1,5 @@
 import type { TestingModule } from '@nestjs/testing';
 import { Test } from '@nestjs/testing';
-import { NotFoundException } from '@nestjs/common';
 import { AvailabilityStatusService } from './availability-status.service';
 import { PrismaService } from '../../common/database/prisma.service';
 
@@ -42,10 +41,17 @@ describe('AvailabilityStatusService', () => {
       expect(result).toEqual(mockStatus);
     });
 
-    it('should throw when no status exists', async () => {
+    it('should return schema defaults when no status exists', async () => {
       mockPrisma.availabilityStatus.findFirst.mockResolvedValue(null);
 
-      await expect(service.getStatus()).rejects.toThrow(NotFoundException);
+      const result = await service.getStatus();
+
+      expect(result).toMatchObject({
+        id: '',
+        isAvailable: true,
+        statusLabel: 'Available for new opportunities',
+        preferredContact: 'email',
+      });
     });
   });
 
