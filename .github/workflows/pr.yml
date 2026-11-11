@@ -59,8 +59,9 @@ jobs:
         working-directory: apps/api
         env:
           DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
+      # Blocking. A failing test run has to fail the job, otherwise a broken
+      # suite still reports a green check and the regression ships.
       - run: npm run test --workspace=${{ matrix.workspace }}
-        continue-on-error: true
 
   build:
     name: Build Check
