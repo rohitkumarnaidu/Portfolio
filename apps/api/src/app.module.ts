@@ -23,6 +23,21 @@ import { ApiVersionMiddleware } from './common/middleware/api-version.middleware
 import { CoepCoopMiddleware } from './common/middleware/coep-coop.middleware';
 import { KeyNormalizationMiddleware } from './common/middleware/key-normalization.middleware';
 
+/**
+ * pino resolves a transport target relative to the file that created the
+ * logger, which is nestjs-pino in the root node_modules. When npm nests
+ * pino-pretty under apps/api/node_modules, that lookup fails and the API
+ * cannot boot at all. Resolving the path here keeps the transport working
+ * regardless of how npm lays the tree out.
+ */
+const pinoPrettyTarget = ((): string => {
+  try {
+    return require.resolve('pino-pretty');
+  } catch {
+    return 'pino-pretty';
+  }
+})();
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -41,7 +56,7 @@ import { KeyNormalizationMiddleware } from './common/middleware/key-normalizatio
       pinoHttp: {
         transport:
           process.env.NODE_ENV !== 'production'
-            ? { target: 'pino-pretty', options: { colorize: true } }
+            ? { target: pinoPrettyTarget, options: { colorize: true } }
             : undefined,
         level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
         redact: [
