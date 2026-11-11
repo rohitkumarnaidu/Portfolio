@@ -32,6 +32,11 @@ RUN addgroup --system --gid 1001 nodejs && \
 # The Prisma client is generated to apps/api/generated (custom output path),
 # so the runtime image needs the generated client, schema, and Prisma CLI.
 COPY --from=builder /repo/node_modules ./node_modules
+# npm keeps a package under apps/api/node_modules when the root copy would be
+# a different version. The runtime image only ships the root node_modules, so
+# those nested copies have to come along as well, otherwise the API resolves
+# a different version than the lockfile pins.
+COPY --from=builder /repo/apps/api/node_modules ./node_modules
 COPY --from=builder /repo/apps/api/package.json ./package.json
 COPY --from=builder /repo/apps/api/prisma.config.ts ./prisma.config.ts
 COPY --from=builder /repo/apps/api/prisma ./prisma
