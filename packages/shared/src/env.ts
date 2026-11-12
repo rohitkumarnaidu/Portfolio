@@ -4,23 +4,23 @@ import { z } from 'zod';
 
 export const EnvSchema = z.object({
   // Supabase
-  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
+  NEXT_PUBLIC_SUPABASE_URL: z.url(),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(), // Only required on server
-  SUPABASE_DB_URL: z.string().url().optional(),
+  SUPABASE_DB_URL: z.url().optional(),
 
   // Auth
   JWT_SECRET: z.string().min(32).optional(),
   JWT_REFRESH_SECRET: z.string().min(32).optional(),
-  ADMIN_EMAIL: z.string().email().optional(),
+  ADMIN_EMAIL: z.email().optional(),
   ADMIN_PASSWORD: z.string().min(8).optional(),
 
   // Site Config
-  NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
-  NEXT_PUBLIC_API_URL: z.string().url().optional(),
+  NEXT_PUBLIC_SITE_URL: z.url().optional(),
+  NEXT_PUBLIC_API_URL: z.url().optional(),
 
   // AI Service
-  AI_API_URL: z.string().url().default('http://localhost:8000'),
+  AI_API_URL: z.url().default('http://localhost:8000'),
   OPENAI_API_KEY: z.string().min(1).optional(),
   ANTHROPIC_API_KEY: z.string().min(1).optional(),
 
@@ -38,7 +38,7 @@ export type EnvConfig = z.infer<typeof EnvSchema>;
 export function validateEnv(env: Record<string, string | undefined>): EnvConfig {
   const result = EnvSchema.safeParse(env);
   if (!result.success) {
-    console.error('❌ Invalid environment variables:', result.error.format());
+    console.error('❌ Invalid environment variables:', z.treeifyError(result.error));
     throw new Error('Invalid environment variables');
   }
   return result.data;

@@ -25,7 +25,7 @@ export type ExperienceId = string & { readonly __brand: 'ExperienceId' };
 // ============================================
 
 export const SectionSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   section_key: z
     .string()
     .min(3)
@@ -39,10 +39,10 @@ export const SectionSchema = z.object({
   min_items: z.number().int().min(1).default(1),
   auto_publish: z.boolean().default(false),
   is_always_visible: z.boolean().default(false),
-  style_config: z.record(z.unknown()).default({}),
-  content: z.record(z.unknown()).default({}),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  style_config: z.record(z.string(), z.unknown()).default({}),
+  content: z.record(z.string(), z.unknown()).default({}),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
 });
 
 export const CreateSectionSchema = SectionSchema.omit({
@@ -54,23 +54,23 @@ export const CreateSectionSchema = SectionSchema.omit({
 export const UpdateSectionSchema = CreateSectionSchema.partial();
 
 export const ProjectSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().min(3).max(200),
   description: z.string().optional(),
   tech_stack: z.array(z.string()).max(20).default([]),
-  live_url: z.string().url().optional().or(z.literal('')),
-  github_url: z.string().url().optional().or(z.literal('')),
+  live_url: z.url().optional().or(z.literal('')),
+  github_url: z.url().optional().or(z.literal('')),
   cover_image: z.string().optional(),
   thumbnail_url: z.string().optional(),
   is_featured: z.boolean().default(false),
   is_private: z.boolean().default(false),
   category: z.enum(['web', 'mobile', 'ai', 'devops', 'design', 'other']).optional(),
   display_order: z.number().int().min(0).default(0),
-  content: z.record(z.unknown()).default({}),
-  metrics: z.record(z.unknown()).default({}),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  content: z.record(z.string(), z.unknown()).default({}),
+  metrics: z.record(z.string(), z.unknown()).default({}),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
 });
 
 export const CreateProjectSchema = ProjectSchema.omit({
@@ -82,7 +82,7 @@ export const CreateProjectSchema = ProjectSchema.omit({
 export const UpdateProjectSchema = CreateProjectSchema.partial();
 
 export const SkillSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   name: z.string().min(2).max(100),
   category: z.string().min(1),
   proficiency: z.number().int().min(0).max(100),
@@ -90,8 +90,8 @@ export const SkillSchema = z.object({
   lottie_url: z.string().optional(),
   display_order: z.number().int().min(0).default(0),
   is_featured: z.boolean().default(false),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
 });
 
 export const CreateSkillSchema = SkillSchema.omit({
@@ -103,9 +103,9 @@ export const CreateSkillSchema = SkillSchema.omit({
 export const UpdateSkillSchema = CreateSkillSchema.partial();
 
 export const LeadSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   name: z.string().min(2).max(100),
-  email: z.string().email().max(255),
+  email: z.email().max(255),
   phone: z.string().optional(),
   company: z.string().optional(),
   subject: z.string().optional(),
@@ -113,9 +113,9 @@ export const LeadSchema = z.object({
   source: z.enum(['contact_form', 'ai_chat', 'referral', 'direct']).default('contact_form'),
   status: z.enum(['new', 'read', 'replied', 'converted', 'archived']).default('new'),
   priority: z.enum(['low', 'normal', 'high', 'urgent']).default('normal'),
-  metadata: z.record(z.unknown()).default({}),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  metadata: z.record(z.string(), z.unknown()).default({}),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
 });
 
 export const CreateLeadSchema = LeadSchema.omit({
@@ -127,12 +127,12 @@ export const CreateLeadSchema = LeadSchema.omit({
 export const UpdateLeadSchema = CreateLeadSchema.partial();
 
 export const LoginSchema = z.object({
-  email: z.string().email().max(255),
+  email: z.email().max(255),
   password: z.string().min(8).max(128),
 });
 
 export const RegisterSchema = z.object({
-  email: z.string().email().max(255),
+  email: z.email().max(255),
   password: z
     .string()
     .min(8)
@@ -277,13 +277,13 @@ export interface ApiError {
 // ── Experience ──────────────────────────────────────────────
 
 export const ExperienceSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   company: z.string().min(1).max(200),
   role: z.string().min(2).max(200),
   description: z.string().optional(),
   technologies: z.array(z.string().min(1).max(50)).max(20),
-  companyLogoUrl: z.string().url().optional().or(z.literal('')),
-  companyUrl: z.string().url().optional().or(z.literal('')),
+  companyLogoUrl: z.url().optional().or(z.literal('')),
+  companyUrl: z.url().optional().or(z.literal('')),
   location: z.string().optional(),
   startDate: z.string().regex(/^\d{4}-\d{2}$/),
   endDate: z
@@ -293,8 +293,8 @@ export const ExperienceSchema = z.object({
   isCurrent: z.boolean().default(false),
   displayOrder: z.number().int().min(0).default(0),
   isVisible: z.boolean().default(true),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export interface Experience {
@@ -318,19 +318,19 @@ export interface Experience {
 // ── Testimonial ─────────────────────────────────────────────
 
 export const TestimonialSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   name: z.string().min(2).max(100),
   role: z.string().min(1).max(100),
   company: z.string().min(1).max(100),
-  avatarUrl: z.string().url().optional(),
+  avatarUrl: z.url().optional(),
   content: z.string().min(20).max(1000),
   rating: z.number().int().min(1).max(5).default(5),
   displayOrder: z.number().int().min(0).default(0),
   isVerified: z.boolean().default(false),
   isFeatured: z.boolean().default(false),
   isVisible: z.boolean().default(true),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export interface Testimonial {
@@ -352,12 +352,12 @@ export interface Testimonial {
 // ── Blog Post ───────────────────────────────────────────────
 
 export const BlogPostSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   title: z.string().min(5).max(200),
   excerpt: z.string().optional(),
   content: z.string().min(50),
-  coverImage: z.string().url().optional(),
+  coverImage: z.url().optional(),
   category: z.string().optional(),
   tags: z.array(z.string().min(1).max(30)).max(10).default([]),
   authorName: z.string().min(1).max(100),
@@ -366,9 +366,9 @@ export const BlogPostSchema = z.object({
   isFeatured: z.boolean().default(false),
   seoTitle: z.string().max(60).optional(),
   seoDescription: z.string().max(160).optional(),
-  publishedAt: z.string().datetime().optional(),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  publishedAt: z.iso.datetime().optional(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export interface BlogPost {
@@ -394,7 +394,7 @@ export interface BlogPost {
 // ── Service ─────────────────────────────────────────────────
 
 export const ServiceSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   title: z.string().min(2).max(100),
   description: z.string().min(10).max(500),
   icon: z.string().min(1).max(10),
@@ -402,12 +402,12 @@ export const ServiceSchema = z.object({
   pricingTier: z.string().optional(),
   priceCents: z.number().int().optional(),
   ctaText: z.string().optional(),
-  ctaUrl: z.string().url().optional(),
+  ctaUrl: z.url().optional(),
   is_highlighted: z.boolean().optional(),
   isActive: z.boolean().default(true),
   displayOrder: z.number().int().min(0).default(0),
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
+  updatedAt: z.iso.datetime(),
 });
 
 export interface Service {
@@ -430,14 +430,14 @@ export interface Service {
 // ── FAQ ─────────────────────────────────────────────────────
 
 export const FAQSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   question: z.string().min(5).max(300),
   answer: z.string().min(10).max(2000),
   category: z.string().min(1).max(50).optional(),
   display_order: z.number().int().min(0).default(0),
   is_visible: z.boolean().default(true),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  created_at: z.iso.datetime(),
+  updated_at: z.iso.datetime(),
 });
 
 export interface FAQ {
@@ -454,13 +454,13 @@ export interface FAQ {
 // ── Chat ─────────────────────────────────────────────────────
 
 export const ChatMessageSchema = z.object({
-  id: z.string().uuid(),
-  conversationId: z.string().uuid(),
+  id: z.uuid(),
+  conversationId: z.uuid(),
   role: z.enum(['user', 'assistant', 'system']),
   content: z.string(),
   tokensUsed: z.number().int().nonnegative().default(0),
   responseTimeMs: z.number().int().nonnegative().default(0),
-  createdAt: z.string().datetime().or(z.date()),
+  createdAt: z.iso.datetime().or(z.date()),
 });
 
 export interface ChatMessage {
@@ -474,13 +474,13 @@ export interface ChatMessage {
 }
 
 export const ChatConversationSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   sessionId: z.string().max(200),
   visitorId: z.string().optional().nullable(),
   pageContext: z.string().max(500).optional().nullable(),
   messageCount: z.number().int().nonnegative().default(0),
-  createdAt: z.string().datetime().or(z.date()),
-  lastActivityAt: z.string().datetime().or(z.date()),
+  createdAt: z.iso.datetime().or(z.date()),
+  lastActivityAt: z.iso.datetime().or(z.date()),
 });
 
 export interface ChatConversation {

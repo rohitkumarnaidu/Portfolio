@@ -14,8 +14,8 @@ import type { Project } from '@portfolio/shared';
 const projectSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
   category: z.string().optional(),
-  live_url: z.string().url('Invalid URL').optional().or(z.literal('')),
-  github_url: z.string().url('Invalid URL').optional().or(z.literal('')),
+  live_url: z.url('Invalid URL').optional().or(z.literal('')),
+  github_url: z.url('Invalid URL').optional().or(z.literal('')),
   description: z.string().optional(),
   tech_stack: z.string().optional(),
   is_featured: z.boolean(),

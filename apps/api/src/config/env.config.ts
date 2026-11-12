@@ -12,7 +12,7 @@ const envSchema = z.object({
     .min(32)
     .default('dev-refresh-secret-change-in-production-min-32!!'),
   JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
-  ADMIN_EMAIL: z.string().email().default('admin@portfolio.com'),
+  ADMIN_EMAIL: z.email().default('admin@portfolio.com'),
   ADMIN_PASSWORD: z.string().min(8).default('***REDACTED***'),
   RATE_LIMIT_TTL: z.coerce.number().default(60),
   RATE_LIMIT_MAX: z.coerce.number().default(100),
@@ -48,7 +48,10 @@ export type EnvConfig = z.infer<typeof envSchema>;
 export const config = registerAs('app', () => {
   const parsed = envSchema.safeParse(process.env);
   if (!parsed.success) {
-    console.error('Invalid environment variables:', JSON.stringify(parsed.error.format(), null, 2));
+    console.error(
+      'Invalid environment variables:',
+      JSON.stringify(z.treeifyError(parsed.error), null, 2),
+    );
     throw new Error(`Environment validation failed: ${parsed.error.message}`);
   }
   return parsed.data;
