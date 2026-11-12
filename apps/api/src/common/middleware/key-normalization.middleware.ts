@@ -23,7 +23,17 @@ export function KeyNormalizationMiddleware(req: Request, _res: Response, next: N
     camelizeShallow(req.body as Record<string, unknown>);
   }
   if (req.query && typeof req.query === 'object') {
-    camelizeShallow(req.query as Record<string, unknown>);
+    const query = { ...(req.query as Record<string, unknown>) };
+    camelizeShallow(query);
+    // Express 5 exposes req.query as a getter that re-parses the query string
+    // on every access, so a mutated copy is thrown away. The normalized query
+    // has to replace the getter on the request instance.
+    Object.defineProperty(req, 'query', {
+      value: query,
+      configurable: true,
+      enumerable: true,
+      writable: true,
+    });
   }
   next();
 }

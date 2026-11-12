@@ -42,7 +42,7 @@
   },
   "packageManager": "npm@10.8.0",
   "engines": {
-    "node": ">=20.19.0"
+    "node": ">=22.12.0"
   },
   "peerDependencies": {
     "entities": "^4.5.0"
