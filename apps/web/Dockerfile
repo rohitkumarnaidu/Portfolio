@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Build context: repository root (npm workspaces + Turborepo).
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /repo
 
@@ -25,7 +25,7 @@ COPY apps/web ./apps/web
 
 RUN npm run build --workspace=apps/web
 
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 
 WORKDIR /app
 

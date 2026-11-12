@@ -90,7 +90,10 @@ const pinoPrettyTarget = ((): string => {
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ApiVersionMiddleware, KeyNormalizationMiddleware).forRoutes('*');
-    consumer.apply(CoepCoopMiddleware).forRoutes('/admin/sandbox*');
+    // Express 5 uses path-to-regexp v8, where a wildcard has to be named.
+    // '*splat' is the catch-all, and '{*splat}' keeps the prefix match that
+    // '/admin/sandbox*' used to provide.
+    consumer.apply(ApiVersionMiddleware, KeyNormalizationMiddleware).forRoutes('*splat');
+    consumer.apply(CoepCoopMiddleware).forRoutes('/admin/sandbox{*splat}');
   }
 }

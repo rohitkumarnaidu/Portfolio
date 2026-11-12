@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 # Build context: repository root (npm workspaces + Turborepo).
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /repo
 
@@ -20,7 +20,7 @@ COPY apps/api ./apps/api
 RUN npm run prisma:generate --workspace=apps/api
 RUN npm run build --workspace=apps/api
 
-FROM node:22-alpine AS runner
+FROM node:24-alpine AS runner
 
 WORKDIR /app
 
