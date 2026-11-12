@@ -119,3 +119,6 @@ apps/ai/venv/
 apps/web/.vscode/
 **/.venv/
 **/venv/
+
+# Playwright MCP local artifacts
+.playwright-mcp/

@@ -15,10 +15,11 @@ export const revalidate = 300;
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
+  const { slug } = await params;
   try {
-    const post = await getPublishedBlogPost(params.slug);
+    const post = await getPublishedBlogPost(slug);
     return pageMetadata({
       title: post.seoTitle || post.title,
       description:
@@ -36,10 +37,11 @@ export async function generateMetadata({
   }
 }
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
+export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   let post: BlogPost | null = null;
   try {
-    post = await getPublishedBlogPost(params.slug);
+    post = await getPublishedBlogPost(slug);
   } catch {
     post = null;
   }
