@@ -50,6 +50,7 @@
   "dependencies": {
     "@portfolio/web": "^1.0.0",
     "cookie-parser": "^1.4.7",
-    "isomorphic-dompurify": "^3.18.0"
+    "isomorphic-dompurify": "^3.18.0",
+    "zod": "^4.6.7"
   }
 }
