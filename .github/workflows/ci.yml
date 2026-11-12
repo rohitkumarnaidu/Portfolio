@@ -73,14 +73,11 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
 
-      # Informational only. The global coverage threshold (40%) is not met
-      # yet, so this step reports coverage but does not fail the gate on it.
-      # Failing tests are blocked by the PR Checks "Tests" job, which runs
-      # the same suites without the coverage threshold.
+      # Blocking. The API suite is database independent and its coverage
+      # thresholds are met, so a regression here has to fail the gate.
       - name: Test with coverage
         run: npm run test:coverage
         working-directory: ${{ matrix.workspace }}
-        continue-on-error: true
         env:
           DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
 
