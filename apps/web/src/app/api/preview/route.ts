@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
     return new Response('Invalid or missing token/id', { status: 401 });
   }
 
-  draftMode().enable();
+  const draft = await draftMode();
+  draft.enable();
   redirect(`/blog/${id}?preview=true`);
 }

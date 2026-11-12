@@ -18,9 +18,10 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const curated = getWork(params.slug);
+  const { slug } = await params;
+  const curated = getWork(slug);
   if (curated) {
     return pageMetadata({
       title: curated.title,
@@ -31,7 +32,7 @@ export async function generateMetadata({
   }
 
   try {
-    const project = await getProject(params.slug);
+    const project = await getProject(slug);
     return pageMetadata({
       title: project.title,
       description: project.description || `${project.title} by ${SITE.shortName}`,
@@ -137,15 +138,16 @@ function DashboardProject({ project }: { project: Project }) {
   );
 }
 
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const curated = getWork(params.slug);
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const curated = getWork(slug);
   if (curated) {
     return <CaseStudy project={curated} />;
   }
 
   let project: Project | null = null;
   try {
-    project = await getProject(params.slug);
+    project = await getProject(slug);
   } catch {
     project = null;
   }

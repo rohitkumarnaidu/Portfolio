@@ -17,7 +17,7 @@ const nextConfig = {
   experimental: {
     // Monorepo root so `output: standalone` bundles workspace packages.
     outputFileTracingRoot: path.join(__dirname, '../../'),
-    optimizePackageImports: ['@portfolio/ui', '@portfolio/shared', 'three', 'motion', 'gsap'],
+    optimizePackageImports: ['@portfolio/ui', '@portfolio/shared', 'three', 'gsap'],
   },
   transpilePackages: ['three'],
 
