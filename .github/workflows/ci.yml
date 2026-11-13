@@ -4,8 +4,6 @@ on:
   push:
     branches: [main, develop]
     tags: ['v*']
-  pull_request:
-    branches: [main, develop]
   workflow_dispatch:
 
 concurrency:
@@ -19,26 +17,8 @@ env:
 
 jobs:
   quality:
-    name: Quality Gate (${{ matrix.workspace }})
+    name: Quality Gate
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workspace: [apps/api, apps/web]
-      fail-fast: false
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: dummy_password
-          POSTGRES_DB: portfolio_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v7
 
@@ -49,59 +29,28 @@ jobs:
 
       - run: npm ci
 
-      - name: Prisma validate & generate (api)
-        if: matrix.workspace == 'apps/api'
-        run: |
-          npx prisma validate
-          npx prisma generate
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-
       - name: Lint
         run: npm run lint
-        working-directory: ${{ matrix.workspace }}
 
       - name: Typecheck
         run: npm run typecheck
-        working-directory: ${{ matrix.workspace }}
 
-      - name: Prisma migrate (api)
-        if: matrix.workspace == 'apps/api'
-        run: npx prisma migrate deploy
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-
-      # Blocking. The API suite is database independent and its coverage
-      # thresholds are met, so a regression here has to fail the gate.
       - name: Test with coverage
-        run: npm run test:coverage
-        working-directory: ${{ matrix.workspace }}
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-
-      - name: Build
-        if: matrix.workspace == 'apps/api'
-        run: npm run build
-        working-directory: ${{ matrix.workspace }}
+        run: npm run test:coverage --workspace=apps/web
 
       # next/font downloads Google Fonts at build time. Shared runner IPs
       # occasionally get a rate-limited CSS response, which makes Next throw
       # "Cannot read properties of null" while parsing the font URL. That is a
       # network failure, not a code failure, so retry before failing the gate.
-      - name: Build (web)
-        if: matrix.workspace == 'apps/web'
+      - name: Build
         run: |
           for attempt in 1 2 3; do
-            if npm run build; then exit 0; fi
+            if npm run build --workspace=apps/web; then exit 0; fi
             echo "::warning::web build attempt ${attempt} failed (likely next/font fetch)"
           done
           exit 1
-        working-directory: apps/web
 
-      - name: Bundle analysis (web only)
-        if: matrix.workspace == 'apps/web'
+      - name: Bundle analysis
         run: npm run analyze
         working-directory: apps/web
         continue-on-error: true
@@ -112,7 +61,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: coverage-${{ matrix.workspace == 'apps/api' && 'api' || 'web' }}
+          name: coverage-web
           path: apps/*/coverage/
           retention-days: 14
 
@@ -130,63 +79,20 @@ jobs:
         run: npm audit --audit-level=high || echo "::warning::Audit vulnerabilities found"
         continue-on-error: true
 
-  prisma-validate:
-    name: Prisma Schema Validation
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: dummy_password
-          POSTGRES_DB: portfolio_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - run: npm ci
-      - name: Validate Prisma schema
-        run: npx prisma validate
-        working-directory: apps/api
-      - name: Generate Prisma client
-        run: npx prisma generate
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-      - name: Deploy migrations
-        run: npx prisma migrate deploy
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-
   docker-build:
-    name: Docker Build (${{ matrix.app }})
-    needs: [quality, prisma-validate, npm-audit]
+    name: Docker Build (web)
+    needs: [quality, npm-audit]
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
-    strategy:
-      matrix:
-        app: [api, web]
-      fail-fast: false
     continue-on-error: true
     steps:
       - uses: actions/checkout@v7
       - name: Downcase repository name and prepare context
         run: |
           echo "REPO_LOWER=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
-          cp package-lock.json apps/api/ 2>/dev/null || true
           cp package-lock.json apps/web/ 2>/dev/null || true
           if [ -d "packages" ]; then
             cp -r packages apps/web/ 2>/dev/null || true
@@ -202,11 +108,11 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
-          context: apps/${{ matrix.app }}
-          file: apps/${{ matrix.app }}/Dockerfile
+          context: apps/web
+          file: apps/web/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ env.REPO_LOWER }}/${{ matrix.app }}:latest
-            ghcr.io/${{ env.REPO_LOWER }}/${{ matrix.app }}:${{ github.sha }}
+            ghcr.io/${{ env.REPO_LOWER }}/web:latest
+            ghcr.io/${{ env.REPO_LOWER }}/web:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

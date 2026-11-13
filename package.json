@@ -18,8 +18,6 @@
   "scripts": {
     "dev": "turbo run dev",
     "dev:web": "npm run dev --workspace=apps/web",
-    "dev:api": "npm run start:dev --workspace=apps/api",
-    "dev:ai": "npm run start --workspace=apps/ai",
     "build": "turbo run build",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
@@ -32,8 +30,6 @@
     "@types/three": "^0.185.1"
   },
   "devDependencies": {
-    "@portfolio/api": "^1.0.0",
-    "@types/cookie-parser": "^1.4.10",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "concurrently": "^8.2.2",
@@ -42,17 +38,11 @@
     "prettier": "^3.9.10",
     "turbo": "^2.11.10"
   },
-  "packageManager": "npm@10.8.0",
+  "packageManager": "npm@11.21.2",
   "engines": {
     "node": ">=22.12.0"
   },
-  "peerDependencies": {
-    "entities": "^4.5.0"
-  },
   "dependencies": {
-    "@portfolio/web": "^1.0.0",
-    "cookie-parser": "^1.4.7",
-    "isomorphic-dompurify": "^3.18.0",
-    "zod": "^4.6.7"
+    "@portfolio/web": "^1.0.0"
   }
 }

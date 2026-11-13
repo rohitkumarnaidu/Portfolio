@@ -1,8 +1,6 @@
 import Link from 'next/link';
-import type { BlogPost } from '@portfolio/shared';
-import { getPublishedBlogPosts } from '@/lib/api';
 import { formatDate } from '@/lib/format-date';
-import { SITE } from '@/lib/public-content';
+import { POSTS, SITE } from '@/lib/public-content';
 import { pageMetadata } from '@/lib/seo';
 import { ArrowUpRight } from '@/components/public/icons';
 
@@ -15,16 +13,8 @@ export const metadata = pageMetadata({
   path: '/blog',
 });
 
-async function getPosts(): Promise<BlogPost[]> {
-  try {
-    return await getPublishedBlogPosts({ per_page: 24 });
-  } catch {
-    return [];
-  }
-}
-
-export default async function BlogPage() {
-  const posts = await getPosts();
+export default function BlogPage() {
+  const posts = POSTS;
 
   return (
     <>
@@ -48,10 +38,8 @@ export default async function BlogPage() {
         {posts.length ? (
           <div className="post-list">
             {posts.map((post) => (
-              <Link key={post.id} href={`/blog/${post.slug}`} className="post-row">
-                <span className="post-row__date">
-                  {formatDate(post.publishedAt || post.createdAt)}
-                </span>
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="post-row">
+                <span className="post-row__date">{formatDate(post.publishedAt)}</span>
                 <span>
                   <span className="post-row__title">{post.title}</span>
                   {post.excerpt ? <span className="post-row__excerpt">{post.excerpt}</span> : null}

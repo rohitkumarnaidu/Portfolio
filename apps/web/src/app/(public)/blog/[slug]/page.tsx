@@ -1,16 +1,17 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import type { BlogPost } from '@portfolio/shared';
-import { getPublishedBlogPost } from '@/lib/api';
 import { blogPostingSchema } from '@/lib/json-ld';
-import { sanitizeHtml } from '@/lib/sanitize';
 import { formatDate } from '@/lib/format-date';
-import { SITE } from '@/lib/public-content';
+import { getPost, POSTS, SITE } from '@/lib/public-content';
 import { pageMetadata } from '@/lib/seo';
 import { ArrowLeft, ArrowUpRight } from '@/components/public/icons';
 
 export const revalidate = 300;
+
+export function generateStaticParams() {
+  return POSTS.map((post) => ({ slug: post.slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -18,39 +19,33 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  try {
-    const post = await getPublishedBlogPost(slug);
-    return pageMetadata({
-      title: post.seoTitle || post.title,
-      description:
-        post.seoDescription || post.excerpt || `${post.title} — an essay by ${SITE.shortName}`,
-      path: `/blog/${post.slug}`,
-      type: 'article',
-      images: post.coverImage ? [post.coverImage] : undefined,
-      article: {
-        publishedTime: post.publishedAt,
-        authors: [post.authorName],
-      },
-    });
-  } catch {
+  const post = getPost(slug);
+
+  if (!post) {
     return { title: 'Post not found', robots: { index: false, follow: false } };
   }
+
+  return pageMetadata({
+    title: post.title,
+    description: post.excerpt || `${post.title} — an essay by ${SITE.shortName}`,
+    path: `/blog/${post.slug}`,
+    type: 'article',
+    article: {
+      publishedTime: post.publishedAt,
+      authors: [SITE.name],
+    },
+  });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  let post: BlogPost | null = null;
-  try {
-    post = await getPublishedBlogPost(slug);
-  } catch {
-    post = null;
-  }
+  const post = getPost(slug);
 
   if (!post) {
     notFound();
   }
 
-  const published = post.publishedAt || post.createdAt;
+  const published = post.publishedAt;
 
   return (
     <article className="article container-ed">
@@ -66,27 +61,20 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
         <div className="article__meta">
           <span>{formatDate(published)}</span>
-          {post.readTimeMinutes ? <span>{post.readTimeMinutes} min read</span> : null}
-          {post.category ? <span>{post.category}</span> : null}
-          {post.authorName ? <span>{post.authorName}</span> : null}
+          {post.readingTimeMinutes ? <span>{post.readingTimeMinutes} min read</span> : null}
+          {post.tags.length ? <span>{post.tags.join(', ')}</span> : null}
         </div>
-
-        {post.coverImage ? (
-          <div className="article__cover">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={post.coverImage} alt={`Cover image for ${post.title}`} loading="lazy" />
-          </div>
-        ) : null}
       </header>
 
-      <div
-        className="article__body prose-editorial"
-        dangerouslySetInnerHTML={{ __html: sanitizeHtml(post.content) }}
-      />
+      <div className="article__body prose-editorial">
+        {post.body.map((paragraph) => (
+          <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+        ))}
+      </div>
 
       <footer className="article__foot">
         <div className="article__foot-inner">
-          <span>Written by {post.authorName || SITE.shortName}</span>
+          <span>Written by {SITE.name}</span>
           <a href={SITE.github} target="_blank" rel="noopener noreferrer" className="link-arrow">
             Discuss on GitHub
             <ArrowUpRight size={14} />
@@ -102,10 +90,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               title: post.title,
               description: post.excerpt,
               datePublished: published,
-              dateModified: post.updatedAt,
-              authorName: post.authorName || SITE.name,
+              dateModified: published,
+              authorName: SITE.name,
               url: `${SITE.url}/blog/${post.slug}`,
-              image: post.coverImage || undefined,
             }),
           ),
         }}

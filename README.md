@@ -1,127 +1,100 @@
 # Portfolio
 
 <p align="center">
-  <a href="https://github.com/yourusername/portfolio/actions/workflows/ci.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/yourusername/portfolio/ci.yml?branch=main&label=CI&logo=github&style=flat-square" alt="CI Status" />
-  </a>
-  <a href="LICENSE.md">
-    <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square&label=License" alt="MIT License" />
+  <a href="https://github.com/rohitkumarnaidu/Portfolio/actions/workflows/ci.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/rohitkumarnaidu/Portfolio/ci.yml?branch=main&label=CI&logo=github&style=flat-square" alt="CI Status" />
   </a>
   <a href="https://nodejs.org/">
-    <img src="https://img.shields.io/badge/node-%3E%3D18-brightgreen?style=flat-square&logo=node.js&logoColor=white" alt="Node Version" />
+    <img src="https://img.shields.io/badge/node-%3E%3D22.12-brightgreen?style=flat-square&logo=node.js&logoColor=white" alt="Node Version" />
   </a>
   <a href="https://nextjs.org/">
-    <img src="https://img.shields.io/badge/Next.js-14-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/Next.js-15-000000?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
   </a>
-  <a href="https://nestjs.com/">
-    <img src="https://img.shields.io/badge/NestJS-10-E0234E?style=flat-square&logo=nestjs&logoColor=white" alt="NestJS" />
-  </a>
-  <a href="CODE_OF_CONDUCT.md">
-    <img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa?style=flat-square" alt="Code of Conduct" />
-  </a>
-  <a href="https://github.com/yourusername/portfolio">
-    <img src="https://img.shields.io/github/last-commit/yourusername/portfolio?style=flat-square&label=Updated" alt="Last Commit" />
-  </a>
-  <a href="docs/MASTER-INDEX.md">
-    <img src="https://img.shields.io/badge/docs-280%20files-blueviolet?style=flat-square" alt="Documentation" />
+  <a href="https://react.dev/">
+    <img src="https://img.shields.io/badge/React-19-087ea4?style=flat-square&logo=react&logoColor=white" alt="React" />
   </a>
 </p>
 
-Enterprise-grade monorepo portfolio platform built with NestJS, Next.js, and PostgreSQL.
+A static portfolio site: one Next.js app, no backend, no database. The content
+lives in the repository, the site is generated from it, and it deploys to Vercel.
 
-## Tech Stack
+## Stack
 
-| Layer       | Technology                                                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| Frontend    | Next.js 14 (App Router), TypeScript, Tailwind CSS, Framer Motion, Three.js |
-| Backend API | NestJS, REST, Swagger, BullMQ, Prisma ORM, Passport JWT                    |
-| AI Service  | FastAPI (Python), OpenAI                                                   |
-| Database    | Supabase (PostgreSQL) with Prisma ORM + Driver Adapters                    |
-| Cache       | Redis via ioredis (optional; BullMQ queues + data cache)                   |
-| Email       | Resend API, BullMQ queue, Handlebars templates                             |
-| Monitoring  | Sentry (APM + profiling), Pino structured logging, PostHog analytics       |
-| Auth        | HttpOnly JWT cookies + Postgres-backed rotating refresh sessions, RBAC     |
-| Queue       | BullMQ (email, notifications, background jobs)                             |
-| DevOps      | Docker Compose, Dockerfile, GitHub Actions, lint-staged + husky            |
+| Concern        | Choice                                           |
+| -------------- | ------------------------------------------------ |
+| Framework      | Next.js 15 (App Router), React 19, TypeScript 5  |
+| Styling        | Tailwind CSS 3.4, design tokens in `packages/ui` |
+| 3D             | Three.js 0.184, React Three Fiber 9, Drei 10     |
+| Animation      | GSAP, Lenis (smooth scroll)                      |
+| Error tracking | Sentry (APM + profiling)                         |
+| Testing        | Vitest, React Testing Library, Playwright        |
+| Delivery       | GitHub Actions, Vercel                           |
 
 ## Architecture
 
 ```
 apps/
-├── web/           Next.js 14 — public portfolio + admin dashboard
-├── api/           NestJS — REST API (portfolio + admin split)
-├── ai/            FastAPI — AI chat, embeddings, RAG
+└── web/            Next.js — the portfolio
 packages/
-├── ui/            Shared React component library
-├── shared/        Shared TypeScript types, Zod schemas
-├── config/        Shared ESLint, TypeScript configs
-infrastructure/
-├── docker/        Docker Compose + Dockerfiles (web, api, ai)
-├── ci/            CI/CD reference
-config/            Environment variable templates
-docs/              Architecture, deployment, security, and design docs
+├── ui/             Shared React component library (design system)
+└── config/         Shared ESLint and TypeScript configs
+config/             Environment variable templates
+docs/               Architecture, design, testing, and process docs
 ```
+
+Content is plain TypeScript in `apps/web/src/lib/public-content.ts`: the work
+index, the essays, the copy for each page. Editing that file and deploying is
+the whole publish flow — there is no CMS and no publish step.
 
 ## Quick Start
 
 ```bash
-git clone <repo>
-cd portfolio
+git clone https://github.com/rohitkumarnaidu/Portfolio.git
+cd Portfolio
 npm install
-cp config/.env.example config/.env
-# Edit config/.env with your values (DATABASE_URL, JWT_SECRET, ADMIN_PASSWORD, ...)
-npm run prisma:migrate:deploy --workspace=apps/api
-npm run prisma:seed --workspace=apps/api   # creates the first admin (ADMIN_PASSWORD required)
 npm run dev
 ```
 
-There is no public sign-up: the seed creates the first administrator, and further
-users are created from the admin dashboard (`POST /api/admin/users`).
+The site runs at http://localhost:3000. There is nothing else to configure: the
+content is in the repository and the build needs no secrets. Optional
+integrations (Sentry, PostHog) read from `config/.env` — copy
+`.env.example` to `config/.env` if you want them.
 
-| Service      | URL                            | Port |
-| ------------ | ------------------------------ | ---- |
-| Frontend     | http://localhost:3000          | 3000 |
-| REST API     | http://localhost:3001/api      | 3001 |
-| Swagger Docs | http://localhost:3001/api/docs | 3001 |
-| AI Service   | http://localhost:8000          | 8000 |
+### Toolchain
+
+The repository pins npm in `packageManager`:
+
+```bash
+corepack enable   # honours the pinned npm version
+```
+
+npm 10 cannot resolve this dependency tree from scratch (an upstream arborist
+bug, npm/cli#9787). The pin is npm 11.21.2, which has the fix and writes
+lockfiles that install correctly on Linux. If you regenerate
+`package-lock.json`, delete `node_modules` as well — npm rebuilds the tree from
+whatever is on disk and drops the platform-specific optional packages
+(npm/cli#4828), which breaks Linux CI installs.
 
 ## Scripts
 
-| Command             | Description                                         |
-| ------------------- | --------------------------------------------------- |
-| `npm run dev`       | Start all services (web + api + ai)                 |
-| `npm run dev:api`   | API only (watch mode)                               |
-| `npm run dev:web`   | Frontend only                                       |
-| `npm run dev:ai`    | AI service only                                     |
-| `npm run build`     | Build all packages                                  |
-| Testing             | Run tests per workspace (see AGENTS.md for details) |
-| `npm run lint`      | Lint all workspaces                                 |
-| `npm run typecheck` | Type-check all workspaces                           |
-
-## API Docs
-
-- Swagger UI: `http://localhost:3001/api/docs`
-- API README: `apps/api/README.md`
-- API Standards: `docs/api/44-API-STANDARDS.md`
-
-## Key Features
-
-- **16+ CRUD entities**: sections, projects, blog, skills, experiences, testimonials, services, FAQs, leads, achievements, press features, guest appearances, reading list, media, users, system settings
-- **Admin dashboard**: 3D scene backgrounds (Three.js), real-time health indicators, sortable DataTable with bulk ops, keyboard shortcuts
-- **Enterprise tooling**: Sentry APM + profiling, Pino structured logging, Resend transactional email, BullMQ job queue
-- **Performance**: Redis caching layer, Prisma query logging (dev), compound indices, React Query SWR, route prefetch
-- **Security**: Rate limiting (per-route), Helmet headers, JWT auth, role guards (admin/editor/viewer), account lockout, password policy, GDPR export + anonymize
-- **AI**: AI chat assistant, OpenAI integration, RAG context, quote generation
+| Command             | Description                                   |
+| ------------------- | --------------------------------------------- |
+| `npm run dev`       | Start the site                                |
+| `npm run build`     | Production build                              |
+| `npm run lint`      | Lint all workspaces                           |
+| `npm run typecheck` | Type-check all workspaces                     |
+| `npm test`          | Tests (per workspace: `npm test -w apps/web`) |
 
 ## Documentation
 
-| Document                                  | Description                                         |
-| ----------------------------------------- | --------------------------------------------------- |
-| `docs/architecture/SystemArchitecture.md` | System architecture, module dependencies, data flow |
-| `docs/operations/DeploymentGuide.md`      | Docker setup, env vars, production checklist        |
-| `docs/api/44-API-STANDARDS.md`            | API design conventions, versioning, error format    |
-| `docs/security/SecurityArchitecture.md`   | Security model, auth flow, data privacy             |
-| `docs/quality/TestingArchitecture.md`     | Test strategy, unit/e2e/integration                 |
+| Document                                      | Description                            |
+| --------------------------------------------- | -------------------------------------- |
+| `docs/MASTER-INDEX.md`                        | Index of every document                |
+| `docs/05-architecture/TECHSTACK.md`           | The stack and the trade-offs behind it |
+| `docs/04-design/DESIGN-SYSTEM.md`             | Design tokens, typography, components  |
+| `docs/07-frontend/FRONTEND-ARCHITECTURE.md`   | App structure, rendering, state        |
+| `docs/13-testing/TESTING-ARCHITECTURE.md`     | Test strategy and what is covered      |
+| `docs/24-development/DEVELOPER-ONBOARDING.md` | Getting set up                         |
 
 ## License
 

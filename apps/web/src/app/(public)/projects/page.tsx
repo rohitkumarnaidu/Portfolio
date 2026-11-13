@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import type { Project } from '@portfolio/shared';
-import { getProjects } from '@/lib/api';
 import { SITE, WORK } from '@/lib/public-content';
 import { pageMetadata } from '@/lib/seo';
 import { ArrowUpRight } from '@/components/public/icons';
@@ -14,20 +12,7 @@ export const metadata = pageMetadata({
   path: '/projects',
 });
 
-async function getDashboardProjects(): Promise<Project[]> {
-  try {
-    return await getProjects({ per_page: 24 });
-  } catch {
-    return [];
-  }
-}
-
-export default async function ProjectsPage() {
-  const curatedSlugs = new Set(WORK.map((project) => project.slug));
-  const dashboardProjects = (await getDashboardProjects()).filter(
-    (project) => !curatedSlugs.has(project.slug),
-  );
-
+export default function ProjectsPage() {
   return (
     <>
       <section className="page-head container-ed">
@@ -100,41 +85,6 @@ export default async function ProjectsPage() {
           ))}
         </div>
       </section>
-
-      {dashboardProjects.length > 0 ? (
-        <section className="section container-ed">
-          <div className="section-head">
-            <div className="section-head__left">
-              <span className="section-head__index">+</span>
-              <h2 className="section-head__title">From the dashboard</h2>
-            </div>
-            <span className="section-head__aside">{dashboardProjects.length} published</span>
-          </div>
-
-          <div className="work-index">
-            {dashboardProjects.map((project, index) => (
-              <Link key={project.id} href={`/projects/${project.slug}`} className="work-row">
-                <span className="work-row__num">{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <span className="work-row__kicker">{project.category || 'Project'}</span>
-                  <h3 className="work-row__title">{project.title}</h3>
-                </div>
-                <div>
-                  <p className="work-row__summary">{project.description}</p>
-                  <p className="work-row__meta">
-                    {project.tech_stack?.slice(0, 3).map((tech) => (
-                      <span key={tech}>{tech}</span>
-                    ))}
-                  </p>
-                </div>
-                <span className="work-row__arrow" aria-hidden="true">
-                  <ArrowUpRight />
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-      ) : null}
     </>
   );
 }

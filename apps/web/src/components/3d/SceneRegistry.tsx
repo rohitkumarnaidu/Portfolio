@@ -19,18 +19,12 @@ const NotFoundScene = dynamic(
   { ssr: false },
 );
 
-const AdminAmbientParticlesScene = dynamic(
-  () => import('./scenes/AdminAmbientParticles').then((mod) => mod.AdminAmbientParticles),
-  { ssr: false },
-);
-
 const SCENE_COMPONENTS: Record<
   SceneType,
   React.ComponentType<Omit<SceneRegistryProps, 'scene'>>
 > = {
   hero: HeroScene,
   notFound: NotFoundScene,
-  admin: AdminAmbientParticlesScene,
 };
 
 export const SceneRegistry = ({ scene, ...props }: SceneRegistryProps) => {

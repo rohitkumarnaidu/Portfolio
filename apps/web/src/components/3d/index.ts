@@ -3,7 +3,7 @@ export { SceneRegistry } from './SceneRegistry';
 export { SceneErrorBoundary } from './SceneErrorBoundary';
 export { CanvasWrapper } from './CanvasWrapper';
 
-export { HeroScene, NotFoundScene, AdminAmbientParticles } from './scenes';
+export { HeroScene, NotFoundScene } from './scenes';
 export { Particles, FloatingShapes } from './primitives';
 export { LightingSystem } from './lighting';
 export { BloomEffect, ChromaticAberrationEffect } from './effects';
