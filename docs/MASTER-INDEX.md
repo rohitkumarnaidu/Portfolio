@@ -7,25 +7,20 @@ existing links keep working.
 
 ## Overview (`00-overview`)
 
-- [README](00-overview/README.md)
-
 ## Product (`01-product`)
 
 - [FEATURES](01-product/FEATURES.md)
 - [PRODUCT-VISION](01-product/PRODUCT-VISION.md)
-- [README](01-product/README.md)
 
 ## Strategy (`02-strategy`)
 
 - [COMPETITIVE-ANALYSIS](02-strategy/COMPETITIVE-ANALYSIS.md)
 - [PRODUCT-STRATEGY](02-strategy/PRODUCT-STRATEGY.md)
-- [README](02-strategy/README.md)
 
 ## Requirements (`03-requirements`)
 
 - [NON-FUNCTIONAL-REQUIREMENTS](03-requirements/NON-FUNCTIONAL-REQUIREMENTS.md)
 - [QUALITY-ATTRIBUTE-SCENARIOS](03-requirements/QUALITY-ATTRIBUTE-SCENARIOS.md)
-- [README](03-requirements/README.md)
 
 ## Design system (`04-design`)
 
@@ -37,7 +32,6 @@ existing links keep working.
 - [IMMERSIVE-EXPERIENCE](04-design/IMMERSIVE-EXPERIENCE.md)
 - [INTERACTION-PATTERNS](04-design/INTERACTION-PATTERNS.md)
 - [MOBILE-EXPERIENCE](04-design/MOBILE-EXPERIENCE.md)
-- [README](04-design/README.md)
 - [RESPONSIVE-STRATEGY](04-design/RESPONSIVE-STRATEGY.md)
 - [SCREEN-FLOWS](04-design/SCREEN-FLOWS.md)
 - [UIUX](04-design/UIUX.md)
@@ -50,7 +44,6 @@ existing links keep working.
 - [DOMAIN-ARCHITECTURE](05-architecture/DOMAIN-ARCHITECTURE.md)
 - [ENGINEERING-PRINCIPLES](05-architecture/ENGINEERING-PRINCIPLES.md)
 - [INFORMATION-ARCHITECTURE](05-architecture/INFORMATION-ARCHITECTURE.md)
-- [README](05-architecture/README.md)
 - [ROUTING-ARCHITECTURE](05-architecture/ROUTING-ARCHITECTURE.md)
 - [STATE-MANAGEMENT](05-architecture/STATE-MANAGEMENT.md)
 - [TECH-RADAR](05-architecture/TECH-RADAR.md)
@@ -67,7 +60,6 @@ existing links keep working.
 - [FRONTEND-IMPLEMENTATION-PLAN](07-frontend/FRONTEND-IMPLEMENTATION-PLAN.md)
 - [MOTION-SYSTEM](07-frontend/MOTION-SYSTEM.md)
 - [NEUMORPHISM](07-frontend/NEUMORPHISM.md)
-- [README](07-frontend/README.md)
 - [RENDERING-STRATEGY](07-frontend/RENDERING-STRATEGY.md)
 - [VISUAL-EXPERIENCE-SYSTEM](07-frontend/VISUAL-EXPERIENCE-SYSTEM.md)
 
@@ -78,7 +70,6 @@ existing links keep working.
 - [E2E-TESTING](13-testing/E2E-TESTING.md)
 - [FRONTEND-TESTING](13-testing/FRONTEND-TESTING.md)
 - [PERFORMANCE-TESTING](13-testing/PERFORMANCE-TESTING.md)
-- [README](13-testing/README.md)
 - [STORYBOOK](13-testing/STORYBOOK.md)
 - [TESTING-ARCHITECTURE](13-testing/TESTING-ARCHITECTURE.md)
 - [UNIT-TESTING-GUIDE](13-testing/UNIT-TESTING-GUIDE.md)
@@ -90,19 +81,16 @@ existing links keep working.
 - [PERFORMANCE-BENCHMARKS](15-performance/PERFORMANCE-BENCHMARKS.md)
 - [PERFORMANCE-BUDGET](15-performance/PERFORMANCE-BUDGET.md)
 - [PERFORMANCE-OPTIMIZATION](15-performance/PERFORMANCE-OPTIMIZATION.md)
-- [README](15-performance/README.md)
 
 ## Accessibility (`16-accessibility`)
 
 - [ACCESSIBILITY-ARCHITECTURE](16-accessibility/ACCESSIBILITY-ARCHITECTURE.md)
 - [ACCESSIBILITY-CHECKLIST](16-accessibility/ACCESSIBILITY-CHECKLIST.md)
 - [ACCESSIBILITY-TESTING-GUIDE](16-accessibility/ACCESSIBILITY-TESTING-GUIDE.md)
-- [README](16-accessibility/README.md)
 - [WCAG-STATEMENT](16-accessibility/WCAG-STATEMENT.md)
 
 ## SEO (`17-seo`)
 
-- [README](17-seo/README.md)
 - [SEO-ARCHITECTURE](17-seo/SEO-ARCHITECTURE.md)
 - [SEO-CHECKLIST](17-seo/SEO-CHECKLIST.md)
 - [SEO-IMPLEMENTATION-GUIDE](17-seo/SEO-IMPLEMENTATION-GUIDE.md)
@@ -110,7 +98,6 @@ existing links keep working.
 ## Operations (`21-operations`)
 
 - [DEPENDENCY-INVENTORY](21-operations/DEPENDENCY-INVENTORY.md)
-- [README](21-operations/README.md)
 - [RELEASE-CHECKLIST](21-operations/RELEASE-CHECKLIST.md)
 - [RELEASE-MANAGEMENT](21-operations/RELEASE-MANAGEMENT.md)
 - [TECHNICAL-DEBT](21-operations/TECHNICAL-DEBT.md)
@@ -118,7 +105,6 @@ existing links keep working.
 ## Release (`22-release`)
 
 - [HOTFIX-PROCESS](22-release/HOTFIX-PROCESS.md)
-- [README](22-release/README.md)
 - [RELEASE-PROCESS](22-release/RELEASE-PROCESS.md)
 - [VERSIONING-STRATEGY](22-release/VERSIONING-STRATEGY.md)
 
@@ -130,7 +116,6 @@ existing links keep working.
 - [DECISION-LOG](23-governance/DECISION-LOG.md)
 - [GIT-STANDARDS](23-governance/GIT-STANDARDS.md)
 - [PR-TEMPLATE](23-governance/PR-TEMPLATE.md)
-- [README](23-governance/README.md)
 
 ## Development (`24-development`)
 
@@ -142,7 +127,6 @@ existing links keep working.
 - [ERROR-BUDGET-POLICY](24-development/ERROR-BUDGET-POLICY.md)
 - [FAQ](24-development/FAQ.md)
 - [NAMING-CONVENTIONS](24-development/NAMING-CONVENTIONS.md)
-- [README](24-development/README.md)
 - [SUPPORT](24-development/SUPPORT.md)
 
 ## Decision records (`27-decisions`)
@@ -155,7 +139,6 @@ existing links keep working.
 - [ADR-015-docker-multistage-build](27-decisions/ADR-015-docker-multistage-build.md)
 - [ADR-016-sentry-error-tracking](27-decisions/ADR-016-sentry-error-tracking.md)
 - [ADR-INDEX](27-decisions/ADR-INDEX.md)
-- [README](27-decisions/README.md)
 
 ## Templates (`28-templates`)
 
@@ -163,7 +146,6 @@ existing links keep working.
 - [INCIDENT-COMMS-TEMPLATES](28-templates/INCIDENT-COMMS-TEMPLATES.md)
 - [POSTMORTEM-TEMPLATE](28-templates/POSTMORTEM-TEMPLATE.md)
 - [POSTMORTEM-TRACKER](28-templates/POSTMORTEM-TRACKER.md)
-- [README](28-templates/README.md)
 - [RELEASE-NOTE-TEMPLATE](28-templates/RELEASE-NOTE-TEMPLATE.md)
 - [RFC-TEMPLATE](28-templates/RFC-TEMPLATE.md)
 
@@ -172,19 +154,16 @@ existing links keep working.
 - [ACCESSIBILITY-AUDIT-CHECKLIST](29-checklists/ACCESSIBILITY-AUDIT-CHECKLIST.md)
 - [CODE-REVIEW-CHECKLIST](29-checklists/CODE-REVIEW-CHECKLIST.md)
 - [PERFORMANCE-REVIEW-CHECKLIST](29-checklists/PERFORMANCE-REVIEW-CHECKLIST.md)
-- [README](29-checklists/README.md)
 
 ## Playbooks (`31-playbooks`)
 
 - [INCIDENT-RESPONSE](31-playbooks/INCIDENT-RESPONSE.md)
 - [INCIDENT-SEVERITY](31-playbooks/INCIDENT-SEVERITY.md)
-- [README](31-playbooks/README.md)
 - [ROLLBACK](31-playbooks/ROLLBACK.md)
 
 ## Onboarding (`33-onboarding`)
 
 - [CONTRIBUTOR-ONBOARDING](33-onboarding/CONTRIBUTOR-ONBOARDING.md)
-- [README](33-onboarding/README.md)
 
 ## Contributing (`34-contributing`)
 
@@ -192,7 +171,6 @@ existing links keep working.
 - [CONTRIBUTING](34-contributing/CONTRIBUTING.md)
 - [LICENSE](34-contributing/LICENSE.md)
 - [OPEN-SOURCE-POLICY](34-contributing/OPEN-SOURCE-POLICY.md)
-- [README](34-contributing/README.md)
 - [SECURITY](34-contributing/SECURITY.md)
 
 ## Quality (`35-quality`)
@@ -201,4 +179,3 @@ existing links keep working.
 - [DOC-OPS-PLAN](35-quality/DOC-OPS-PLAN.md)
 - [DOCUMENTATION-QUALITY-STANDARDS](35-quality/DOCUMENTATION-QUALITY-STANDARDS.md)
 - [QUALITY-GATES](35-quality/QUALITY-GATES.md)
-- [README](35-quality/README.md)
