@@ -335,29 +335,6 @@ export function getWork(slug: string): WorkProject | undefined {
   return WORK.find((project) => project.slug === slug);
 }
 
-// ── Writing ─────────────────────────────────────────────────
-
-export interface BlogPost {
-  slug: string;
-  title: string;
-  excerpt: string;
-  publishedAt: string;
-  readingTimeMinutes: number;
-  tags: string[];
-  body: string[];
-}
-
-/**
- * Essays live here, next to the work they describe. The site renders from
- * this file, so a post is published by adding it to the list — there is no
- * database and no publish step to run.
- */
-export const POSTS: BlogPost[] = [];
-
-export function getPost(slug: string): BlogPost | undefined {
-  return POSTS.find((post) => post.slug === slug);
-}
-
 export interface Capability {
   index: string;
   title: string;

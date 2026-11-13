@@ -29,9 +29,9 @@ Fixes # (issue)
 - [ ] I have run `npm run lint` and fixed any issues
 - [ ] I have run `npm run typecheck` and fixed any issues
 - [ ] I have added or updated tests to cover my changes
-- [ ] All existing tests pass (`cd apps/web && npm test`)
+- [ ] All existing tests pass (`cd apps/api && npm test` and/or `cd apps/web && npm test`)
 - [ ] I have updated documentation in `docs/` for any changed behavior
-- [ ] Content in `apps/web/src/lib/public-content.ts` has been updated where the change affects copy
+- [ ] Zod schemas in `packages/shared` have been updated to reflect API contract changes
 - [ ] My changes do not introduce any new security vulnerabilities
 - [ ] I have checked for any hardcoded secrets or credentials
 

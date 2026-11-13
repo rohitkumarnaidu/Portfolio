@@ -33,6 +33,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@portfolio/shared': path.resolve(__dirname, '../../packages/shared/src'),
       '@portfolio/ui': path.resolve(__dirname, '../../packages/ui/src'),
     },
   },

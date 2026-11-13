@@ -1,0 +1,16 @@
+export const CACHE_TAGS = {
+  SECTIONS: 'sections',
+  PROJECTS: 'projects',
+  BLOG: 'blog',
+  SKILLS: 'skills',
+  EXPERIENCES: 'experiences',
+  TESTIMONIALS: 'testimonials',
+  SERVICES: 'services',
+  FAQS: 'faqs',
+  CASE_STUDIES: 'case-studies',
+  ACHIEVEMENTS: 'achievements',
+  PRESS: 'press',
+  GUEST_APPEARANCES: 'guest-appearances',
+  READING_LIST: 'reading-list',
+  AVAILABILITY_STATUS: 'availability-status',
+} as const;

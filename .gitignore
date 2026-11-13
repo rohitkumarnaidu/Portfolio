@@ -1,4 +1,4 @@
-# Git ignore patterns for node, build outputs
+# Git ignore patterns for node, python, build outputs
 # Dependencies
 node_modules/
 .pnp/
@@ -76,12 +76,21 @@ apps/ai/__pycache__/
 
 # Supabase
 supabase/.branches/
+supabase/functions/*/index.ts
+
 # Turborepo
 .turbo/
 
 # OS / Temporary files
-Thumbs.db
-.DS_Store
+nul
+docx_content.json
+rename_script.*
+rename_web.ps1
+
+# Documents (tracked — see docs/MASTER-INDEX.md)
+documents/
+
+apps/api/.env
 
 # Additional local files and data
 .npmrc
@@ -89,6 +98,7 @@ Thumbs.db
 *.db-journal
 *.sqlite
 *.sqlite3
+apps/api/data/
 apps/web/test.js
 test.js
 
