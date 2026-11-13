@@ -76,21 +76,12 @@ apps/ai/__pycache__/
 
 # Supabase
 supabase/.branches/
-supabase/functions/*/index.ts
-
 # Turborepo
 .turbo/
 
 # OS / Temporary files
-nul
-docx_content.json
-rename_script.*
-rename_web.ps1
-
-# Documents (tracked — see docs/MASTER-INDEX.md)
-documents/
-
-apps/api/.env
+Thumbs.db
+.DS_Store
 
 # Additional local files and data
 .npmrc
@@ -98,7 +89,6 @@ apps/api/.env
 *.db-journal
 *.sqlite
 *.sqlite3
-apps/api/data/
 apps/web/test.js
 test.js
 
