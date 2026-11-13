@@ -1,7 +1,7 @@
 # Frontend Architecture - Enterprise FAANG Reference
 
 > **File:** FrontendArchitecture.md | **Version:** 2.0 (Enterprise Multi-LLM Upgrade) | **Last Updated:** July 2026
-> **Status:** Active | **Stack:** Next.js 14.2 + React 18.3 + TypeScript 5.4 + Tailwind CSS 3.4
+> **Status:** Active | **Stack:** Next.js 15.5 + React 19.3 + TypeScript 5.4 + Tailwind CSS 3.4
 > **Monorepo:** Turborepo 2.0 | **Packages:** 3 (@portfolio/ui, @portfolio/shared, @portfolio/config)
 > **Package Manager:** pnpm 9.0 | **Node:** 20 LTS
 
@@ -9,7 +9,7 @@
 
 ### Executive Summary
 
-FRONTEND-ARCHITECTURE.md defines the complete frontend architecture for the portfolio platform — built on Next.js 14.2 + React 18.3 + TypeScript 5.4 with Turborepo monorepo across 3 packages (@portfolio/ui, @portfolio/shared, @portfolio/config). The architecture covers 20 sections: technology stack and system integration (NestJS API, FastAPI AI, Supabase), App Router route design with ISR/SSG/SSR strategy, Atomic Design component hierarchy (5 levels: atoms→molecules→organisms→templates→pages), server/client boundary rules (50+ components documented), 6 feature architectures (homepage, projects, blog, contact, AI assistant, admin), state management (SWR cache + Zustand for UI state + URL params for filter/share state), animation architecture (Framer Motion for layout + GSAP for scroll/parallax + Three.js for 3D), CMS integration with section-based content, AI assistant with SSE streaming, PostHog analytics, admin dashboard patterns, folder structure conventions, import/dependency rules (3-tier boundary enforcement), code splitting strategy (route-based + lazy load for heavy deps), multi-tier caching (CDN→ISR→SWR→localStorage), performance budgets (<100KB JS, <15KB CSS, all CWV green), security architecture (CSP, XSS protection, CSRF tokens), testing strategy (Vitest→RTL→MSW→Playwright), and CI/CD pipeline (GitHub Actions + Vercel deployment). Includes 15+ architecture diagrams and design decision documentation throughout.
+FRONTEND-ARCHITECTURE.md defines the complete frontend architecture for the portfolio platform — built on Next.js 15.5 + React 19.3 + TypeScript 5.4 with Turborepo monorepo across 3 packages (@portfolio/ui, @portfolio/shared, @portfolio/config). The architecture covers 20 sections: technology stack and system integration (NestJS API, FastAPI AI, Supabase), App Router route design with ISR/SSG/SSR strategy, Atomic Design component hierarchy (5 levels: atoms→molecules→organisms→templates→pages), server/client boundary rules (50+ components documented), 6 feature architectures (homepage, projects, blog, contact, AI assistant, admin), state management (SWR cache + Zustand for UI state + URL params for filter/share state), animation architecture (Framer Motion for layout + GSAP for scroll/parallax + Three.js for 3D), CMS integration with section-based content, AI assistant with SSE streaming, PostHog analytics, admin dashboard patterns, folder structure conventions, import/dependency rules (3-tier boundary enforcement), code splitting strategy (route-based + lazy load for heavy deps), multi-tier caching (CDN→ISR→SWR→localStorage), performance budgets (<100KB JS, <15KB CSS, all CWV green), security architecture (CSP, XSS protection, CSRF tokens), testing strategy (Vitest→RTL→MSW→Playwright), and CI/CD pipeline (GitHub Actions + Vercel deployment). Includes 15+ architecture diagrams and design decision documentation throughout.
 
 ---
 

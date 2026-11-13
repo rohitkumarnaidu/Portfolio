@@ -255,14 +255,14 @@ Complete inventory of all third-party dependencies across the monorepo, includin
 
 ## 9. Deprecation & End-of-Life Tracking
 
-| Dependency            | Current Version | EOL Date               | Risk if Unmaintained                 | Upgrade Deadline |
-| --------------------- | --------------- | ---------------------- | ------------------------------------ | ---------------- |
-| Next.js 14            | 14.2.x          | ~Sep 2025 (Next 15 GA) | Security vulns, missing features     | Q1 2026          |
-| React 18              | 18.3.x          | ~2025 (React 19 GA)    | Stale ecosystem                      | Q2 2026          |
-| NestJS 10             | 10.4.x          | ~2025 (NestJS 11)      | Security vulns                       | Q1 2026          |
-| @nestjs/testing (dev) | 11.1.27         | N/A (NestJS 11)        | Version mismatch with runtime (10.x) | Next major sync  |
+| Dependency            | Current Version | EOL Date          | Risk if Unmaintained             | Upgrade Deadline |
+| --------------------- | --------------- | ----------------- | -------------------------------- | ---------------- |
+| Next.js 15            | 15.5.x          | ~2026 (Next 16)   | Security vulns, missing features | Q1 2026          |
+| React 19              | 19.3.x          | ~2026 (React 20)  | Stale ecosystem                  | Q2 2026          |
+| NestJS 12             | 12.5.x          | ~2026 (NestJS 13) | Security vulns                   | Q1 2026          |
+| @nestjs/testing (dev) | 12.5.0          | N/A               | Version mismatch with runtime    | Next major sync  |
 
-**Note:** `@nestjs/testing` is at version 11.x while the runtime is at 10.x. This mismatch should be resolved in a future upgrade cycle to align versions.
+**Note:** the NestJS packages are all on v12 and the API runs on Node 24. The v12 packages are ESM only, so the API is consumed through `require(esm)` and the Jest suite runs with `--experimental-vm-modules`.
 
 ## 10. License Compliance Summary
 

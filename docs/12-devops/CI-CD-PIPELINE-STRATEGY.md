@@ -455,7 +455,7 @@ Rollback: vercel rollback $DEPLOY_URL (manual trigger)
 ```
 Stack: Local machine + Docker Desktop
 Services:
-  - Node 22 (via nvm or fnm)
+  - Node 24 (via nvm or fnm)
   - Postgres 16 (Docker container or local install)
   - Redis (optional, for BullMQ)
 
@@ -472,7 +472,7 @@ Commands:
 ```
 Stack: GitHub Actions ubuntu-latest
 Services:
-  - Node 22 (setup-node action)
+  - Node 24 (setup-node action)
   - Postgres 16 (service container, ephemeral)
 
 Postgres service container config:

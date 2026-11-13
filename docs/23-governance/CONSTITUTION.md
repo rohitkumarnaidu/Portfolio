@@ -110,7 +110,7 @@ The portfolio is not merely a website. It is a **living artifact** of engineerin
                      │ HTTPS (REST/SSE)
 ┌────────────────────▼────────────────────────────┐
 │                  apps/api                        │
-│  (NestJS 10 — Business Logic Layer)             │
+│  (NestJS 12 — Business Logic Layer)             │
 │  Can import: packages/shared, packages/config   │
 │  Cannot import: apps/web, apps/ai               │
 └────────────────────┬────────────────────────────┘

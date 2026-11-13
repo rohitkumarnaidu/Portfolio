@@ -243,7 +243,7 @@ portfolio/                          # Root — Turborepo v2 + npm workspaces
 │   │   ├── vitest.config.ts        # Vitest config
 │   │   └── playwright.config.ts    # E2E tests
 │   │
-│   ├── api/                        # NestJS 10 REST API
+│   ├── api/                        # NestJS 12 REST API
 │   │   ├── src/
 │   │   │   ├── main.ts             # Bootstrap: Helmet, CORS, Swagger, Pino, Sentry
 │   │   │   ├── app.module.ts       # Root module
