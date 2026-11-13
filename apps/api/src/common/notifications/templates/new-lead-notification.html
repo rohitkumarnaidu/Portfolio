@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Lead Notification</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f4f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+  <table style="width:100%;max-width:600px;margin:0 auto;padding:32px 16px;" cellpadding="0" cellspacing="0">
+    <tr>
+      <td style="text-align:center;padding-bottom:24px;">
+        <h1 style="font-size:24px;font-weight:700;color:#18181b;margin:0;letter-spacing:-0.02em;">New Contact Form Submission</h1>
+        <p style="font-size:14px;color:#71717a;margin:8px 0 0 0;">Portfolio Lead Notification</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="background-color:#ffffff;border-radius:12px;padding:32px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <table style="width:100%;border-collapse:collapse;" cellpadding="0" cellspacing="0">
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Name</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;">{{name}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Email</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;"><a href="mailto:{{email}}" style="color:#2563eb;text-decoration:none;">{{email}}</a></p>
+            </td>
+          </tr>
+          {{#if phone}}
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Phone</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;">{{phone}}</p>
+            </td>
+          </tr>
+          {{/if}}
+          {{#if company}}
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Company</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;">{{company}}</p>
+            </td>
+          </tr>
+          {{/if}}
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Subject</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;">{{subject}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Source</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;">{{source}}</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:10px 0;border-bottom:1px solid #e4e4e7;">
+              <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Date</span>
+              <p style="margin:4px 0 0 0;font-size:15px;color:#18181b;">{{createdAt}}</p>
+            </td>
+          </tr>
+        </table>
+        <div style="margin-top:24px;">
+          <span style="font-size:12px;font-weight:600;color:#71717a;text-transform:uppercase;letter-spacing:0.05em;">Message</span>
+          <blockquote style="margin:8px 0 0 0;padding:16px;background-color:#f4f4f5;border-radius:8px;border-left:4px solid #2563eb;font-size:14px;color:#3f3f46;line-height:1.6;white-space:pre-wrap;">{{message}}</blockquote>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:24px 0 0 0;text-align:center;">
+        <p style="font-size:12px;color:#a1a1aa;margin:0;">Portfolio Lead Notification System</p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

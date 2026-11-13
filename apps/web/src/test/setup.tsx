@@ -1,4 +1,13 @@
 import '@testing-library/jest-dom';
+import { afterAll, afterEach, beforeAll } from 'vitest';
+import { server } from './mocks/server';
+
+// ── MSW lifecycle ───────────────────────────────────────────
+// Start the mock API server before the suite, reset handlers between tests
+// (so per-test overrides don't leak), and tear it down at the end.
+beforeAll(() => server.listen({ onUnhandledRequest: 'bypass' }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 // Mock next/navigation
 vi.mock('next/navigation', () => ({

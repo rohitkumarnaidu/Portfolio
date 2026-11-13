@@ -2,9 +2,9 @@
 const path = require('path');
 
 // The repo keeps runtime configuration in `config/.env` (single source of
-// truth for the web server). Next.js only reads .env files from the app
-// directory, so load the shared file here. Real process env always wins, and
-// production hosts (Vercel) set these in project settings.
+// truth for the API and the web server). Next.js only reads .env files from
+// the app directory, so load the shared file here. Real process env always
+// wins, and production hosts (Vercel/Railway) set these in project settings.
 const sharedEnvPath = path.join(__dirname, '../../config/.env');
 if (require('fs').existsSync(sharedEnvPath)) {
   require('dotenv').config({ path: sharedEnvPath });
@@ -15,9 +15,10 @@ const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   // Monorepo root so `output: standalone` bundles workspace packages.
+  // Next 15 moved this out of `experimental`.
   outputFileTracingRoot: path.join(__dirname, '../../'),
   experimental: {
-    optimizePackageImports: ['@portfolio/ui', 'three'],
+    optimizePackageImports: ['@portfolio/ui', '@portfolio/shared', 'three', 'gsap'],
   },
   transpilePackages: ['three'],
 
@@ -50,6 +51,19 @@ const nextConfig = {
   // Compression
   compress: true,
 
+  // Proxy same-origin browser API calls to the NestJS API.
+  // `afterFiles` (the default) keeps local route handlers such as
+  // /api/preview, /api/revalidate and /api/admin/sandbox/* taking precedence.
+  async rewrites() {
+    const target = process.env.API_PROXY_TARGET || 'http://localhost:3001';
+    return [
+      {
+        source: '/api/:path*',
+        destination: `${target.replace(/\/$/, '')}/api/:path*`,
+      },
+    ];
+  },
+
   // HTTP headers for caching
   async headers() {
     return [
@@ -77,6 +91,19 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/admin/sandbox/:path*',
+        headers: [
+          {
+            key: 'Cross-Origin-Embedder-Policy',
+            value: 'require-corp',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin',
           },
         ],
       },

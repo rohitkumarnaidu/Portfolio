@@ -1,5 +1,5 @@
 export type Tier = 'high' | 'mid' | 'low' | 'off';
-export type SceneType = 'hero' | 'notFound';
+export type SceneType = 'hero' | 'notFound' | 'admin';
 
 export type HealthState = 'normal' | 'loading' | 'error';
 

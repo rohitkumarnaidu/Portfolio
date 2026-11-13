@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # npm workspaces: this single entry covers apps/web and packages/*
+  # npm workspaces: this single entry covers apps/web, apps/api and packages/*
   # because Dependabot reads the `workspaces` field in the root package.json.
   - package-ecosystem: npm
     directory: /
@@ -42,6 +42,15 @@ updates:
       actions:
         patterns: ['*']
         update-types: ['minor', 'patch']
+
+  - package-ecosystem: docker
+    directory: /apps/api
+    schedule:
+      interval: monthly
+    labels:
+      - dependencies
+      - docker
+      - automated
 
   - package-ecosystem: docker
     directory: /apps/web
