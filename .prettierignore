@@ -5,7 +5,6 @@ dist/
 .turbo/
 
 # Prisma generated client
-apps/api/generated/
 
 # Build outputs
 packages/*/dist/

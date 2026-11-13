@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { ApiError, submitLead } from '@/lib/api';
 
-type Status = 'idle' | 'submitting' | 'success' | 'error';
+type Status = 'idle' | 'ready';
 
 const INITIAL = {
   name: '',
@@ -15,38 +14,26 @@ const INITIAL = {
 export function ContactForm() {
   const [form, setForm] = useState(INITIAL);
   const [status, setStatus] = useState<Status>('idle');
-  const [feedback, setFeedback] = useState('');
 
   function update(field: keyof typeof INITIAL, value: string) {
     setForm((current) => ({ ...current, [field]: value }));
+    if (status === 'ready') setStatus('idle');
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  /**
+   * The site is static, so the form composes a message in the visitor's mail
+   * client instead of posting to a server. Nothing is stored and nothing is
+   * tracked — the visitor stays in control of what they send.
+   */
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (status === 'submitting') return;
 
-    setStatus('submitting');
-    setFeedback('');
+    const to = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'hello@example.com';
+    const subject = form.subject.trim() || 'Portfolio enquiry';
+    const body = `${form.message.trim()}\n\n— ${form.name.trim()}\n${form.email.trim()}`;
 
-    try {
-      await submitLead({
-        name: form.name.trim(),
-        email: form.email.trim(),
-        subject: form.subject.trim() || 'Portfolio enquiry',
-        message: form.message.trim(),
-        source: 'contact_form',
-      });
-      setStatus('success');
-      setFeedback('Message received. I will reply from the address you left.');
-      setForm(INITIAL);
-    } catch (error) {
-      setStatus('error');
-      if (error instanceof ApiError) {
-        setFeedback(error.message);
-      } else {
-        setFeedback('Something went wrong sending the message. Please try again.');
-      }
-    }
+    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setStatus('ready');
   }
 
   return (
@@ -105,27 +92,19 @@ export function ContactForm() {
         </div>
       </div>
 
-      {feedback ? (
-        <p
-          className={`form-status ${status === 'error' ? 'form-status--error' : 'form-status--success'}`}
-          role="status"
-          aria-live="polite"
-        >
-          {feedback}
+      {status === 'ready' ? (
+        <p className="form-status form-status--success" role="status" aria-live="polite">
+          Your mail client should be opening with the message ready to send.
         </p>
       ) : null}
 
       <div className="form-footer">
-        <button
-          type="submit"
-          className="btn"
-          disabled={status === 'submitting'}
-          aria-busy={status === 'submitting'}
-        >
-          {status === 'submitting' ? 'Sending…' : 'Send message'}
+        <button type="submit" className="btn">
+          Send message
         </button>
         <p className="form-note">
-          Messages are stored as leads in the dashboard. No newsletter, no tracking pixel.
+          Opens your mail client with the message prefilled. Nothing is stored, no newsletter, no
+          tracking pixel.
         </p>
       </div>
     </form>

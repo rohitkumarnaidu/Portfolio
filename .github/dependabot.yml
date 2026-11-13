@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # npm workspaces: this single entry covers apps/web, apps/api and packages/*
+  # npm workspaces: this single entry covers apps/web and packages/*
   # because Dependabot reads the `workspaces` field in the root package.json.
   - package-ecosystem: npm
     directory: /
@@ -30,20 +30,6 @@ updates:
       - dependency-name: '@types/three'
         update-types: ['version-update:semver-minor']
 
-  - package-ecosystem: pip
-    directory: /apps/ai
-    schedule:
-      interval: weekly
-      day: monday
-    open-pull-requests-limit: 5
-    labels:
-      - dependencies
-      - automated
-    groups:
-      minor-and-patch:
-        patterns: ['*']
-        update-types: ['minor', 'patch']
-
   - package-ecosystem: github-actions
     directory: /
     schedule:
@@ -56,15 +42,6 @@ updates:
       actions:
         patterns: ['*']
         update-types: ['minor', 'patch']
-
-  - package-ecosystem: docker
-    directory: /apps/api
-    schedule:
-      interval: monthly
-    labels:
-      - dependencies
-      - docker
-      - automated
 
   - package-ecosystem: docker
     directory: /apps/web

@@ -1,7 +1,0 @@
-{
-  "root": true,
-  "extends": ["../../packages/config/eslint-preset.js"],
-  "rules": {
-    "@typescript-eslint/consistent-type-imports": "off"
-  }
-}

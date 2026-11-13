@@ -1,11 +1,11 @@
 blank_issues_enabled: true
 contact_links:
   - name: Documentation
-    url: https://github.com/yourusername/portfolio/docs/MASTER-INDEX.md
+    url: https://github.com/rohitkumarnaidu/Portfolio/blob/main/docs/MASTER-INDEX.md
     about: Check the documentation first
   - name: Discussions
-    url: https://github.com/yourusername/portfolio/discussions
+    url: https://github.com/rohitkumarnaidu/Portfolio/discussions
     about: Ask questions and discuss ideas
   - name: Security Issue
-    url: https://github.com/yourusername/portfolio/SECURITY.md
+    url: https://github.com/rohitkumarnaidu/Portfolio/blob/main/docs/34-contributing/SECURITY.md
     about: Report security vulnerabilities

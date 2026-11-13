@@ -29,8 +29,6 @@ jobs:
     outputs:
       environment: ${{ steps.set-env.outputs.environment }}
       site_url: ${{ steps.set-env.outputs.site_url }}
-      api_url: ${{ steps.set-env.outputs.api_url }}
-      ai_url: ${{ steps.set-env.outputs.ai_url }}
     steps:
       - id: set-env
         run: |
@@ -38,47 +36,21 @@ jobs:
             echo "environment=${{ inputs.environment }}" >> "$GITHUB_OUTPUT"
             if [[ "${{ inputs.environment }}" == "production" ]]; then
               echo "site_url=https://portfolio.dev" >> "$GITHUB_OUTPUT"
-              echo "api_url=https://api.portfolio.dev" >> "$GITHUB_OUTPUT"
-              echo "ai_url=https://ai.portfolio.dev" >> "$GITHUB_OUTPUT"
             else
               echo "site_url=https://staging.portfolio.dev" >> "$GITHUB_OUTPUT"
-              echo "api_url=https://staging-api.portfolio.dev" >> "$GITHUB_OUTPUT"
-              echo "ai_url=https://staging-ai.portfolio.dev" >> "$GITHUB_OUTPUT"
             fi
           elif [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
             echo "environment=production" >> "$GITHUB_OUTPUT"
             echo "site_url=https://portfolio.dev" >> "$GITHUB_OUTPUT"
-            echo "api_url=https://api.portfolio.dev" >> "$GITHUB_OUTPUT"
-            echo "ai_url=https://ai.portfolio.dev" >> "$GITHUB_OUTPUT"
           else
             echo "environment=staging" >> "$GITHUB_OUTPUT"
             echo "site_url=https://staging.portfolio.dev" >> "$GITHUB_OUTPUT"
-            echo "api_url=https://staging-api.portfolio.dev" >> "$GITHUB_OUTPUT"
-            echo "ai_url=https://staging-ai.portfolio.dev" >> "$GITHUB_OUTPUT"
           fi
 
   quality:
-    name: Quality Gate (${{ matrix.workspace }})
+    name: Quality Gate
     needs: [determine-env]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workspace: [apps/api, apps/web]
-      fail-fast: false
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: dummy_password
-          POSTGRES_DB: portfolio_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -86,38 +58,16 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
       - run: npm ci
-      - name: Prisma validate & generate (api)
-        if: matrix.workspace == 'apps/api'
-        run: |
-          npx prisma validate
-          npx prisma generate
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
       - name: Lint
         run: npm run lint
-        working-directory: ${{ matrix.workspace }}
       - name: Typecheck
         run: npm run typecheck
-        working-directory: ${{ matrix.workspace }}
       - name: Test with coverage
-        run: npm run test:coverage
-        working-directory: ${{ matrix.workspace }}
-        continue-on-error: true
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-      - name: Build
-        if: matrix.workspace == 'apps/api'
-        run: npm run build
-        working-directory: ${{ matrix.workspace }}
-        env:
-          NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
-          NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
+        run: npm run test:coverage --workspace=apps/web
       # next/font fetches Google Fonts at build time; a rate-limited runner IP
       # fails the build with a null font URL. Retry so a network hiccup does
       # not block a deploy.
-      - name: Build (web)
-        if: matrix.workspace == 'apps/web'
+      - name: Build
         run: |
           for attempt in 1 2 3; do
             if npm run build; then exit 0; fi
@@ -126,15 +76,8 @@ jobs:
           exit 1
         working-directory: apps/web
         env:
-          NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
           NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
 
-  # Runtime secrets live in the hosting platforms, not in this workflow:
-  #   Vercel (web)  — REVALIDATION_SECRET
-  #   Railway (api) — REVALIDATION_SECRET (same value) and CORS_ORIGIN set to
-  #                   the public web origin (the API posts revalidation there).
-  # Without a shared REVALIDATION_SECRET, public pages fall back to the ISR
-  # windows (60s projects / 300s blog and home) instead of updating on write.
   deploy-web:
     name: Deploy Web (Vercel)
     needs: [determine-env, quality]
@@ -164,52 +107,12 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-          NEXT_PUBLIC_API_URL: ${{ needs.determine-env.outputs.api_url }}
           NEXT_PUBLIC_SITE_URL: ${{ needs.determine-env.outputs.site_url }}
-
-  deploy-api:
-    name: Deploy API (Railway)
-    needs: [determine-env, quality]
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: npm
-      - run: npm ci
-      - name: Deploy to Railway
-        run: |
-          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then
-            echo "::warning::RAILWAY_TOKEN not configured. Skipping Railway deploy."
-            exit 0
-          fi
-          npx railway up --service api --ci --environment ${{ needs.determine-env.outputs.environment }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-  deploy-ai:
-    name: Deploy AI (Railway)
-    needs: [determine-env, quality]
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Deploy to Railway
-        run: |
-          if [ -z "${{ secrets.RAILWAY_TOKEN }}" ]; then
-            echo "::warning::RAILWAY_TOKEN not configured. Skipping Railway deploy."
-            exit 0
-          fi
-          npx railway up --service ai --ci --environment ${{ needs.determine-env.outputs.environment }}
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
 
   smoke-test:
     name: Post-Deploy Smoke Tests
-    needs: [determine-env, deploy-web, deploy-api, deploy-ai]
-    if: needs.deploy-web.result == 'success' || needs.deploy-api.result == 'success'
+    needs: [determine-env, deploy-web]
+    if: needs.deploy-web.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Wait for deployment propagation
@@ -225,26 +128,6 @@ jobs:
           fi
           echo "::notice::Web health check passed ($STATUS)"
 
-      - name: Health check API
-        if: needs.determine-env.outputs.api_url != 'https://api.portfolio.dev'
-        run: |
-          STATUS=$(curl -s -o /dev/null -w '%{http_code}' ${{ needs.determine-env.outputs.api_url }}/api/health)
-          if [[ "$STATUS" != "200" ]]; then
-            echo "::error::API health check failed with status $STATUS"
-            exit 1
-          fi
-          echo "::notice::API health check passed ($STATUS)"
-
-      - name: Health check AI
-        if: needs.determine-env.outputs.ai_url != 'https://ai.portfolio.dev'
-        run: |
-          STATUS=$(curl -s -o /dev/null -w '%{http_code}' ${{ needs.determine-env.outputs.ai_url }}/health)
-          if [[ "$STATUS" != "200" ]]; then
-            echo "::error::AI health check failed with status $STATUS"
-            exit 1
-          fi
-          echo "::notice::AI health check passed ($STATUS)"
-
       - name: Rollback instructions
         if: failure()
         run: |
@@ -254,10 +137,6 @@ jobs:
           echo "::error::"
           echo "::error::Vercel rollback command:"
           echo "::error::  npx vercel rollback --token=\$VERCEL_TOKEN"
-          echo "::error::"
-          echo "::error::Railway rollback commands:"
-          echo "::error::  npx railway rollback --service api --environment ${{ needs.determine-env.outputs.environment }}"
-          echo "::error::  npx railway rollback --service ai --environment ${{ needs.determine-env.outputs.environment }}"
           echo "::error::"
           echo "::error::Or re-run this workflow with the previous commit:"
           echo "::error::  gh workflow run deploy.yml --ref <previous-stable-sha>"

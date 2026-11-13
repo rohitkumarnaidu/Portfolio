@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import type { BlogPost } from '@portfolio/shared';
 import { SITE_CONFIG } from '@/lib/constants';
+import { POSTS, type BlogPost } from '@/lib/public-content';
 
 export const revalidate = 600;
 
-const API_BASE = `${process.env.API_PROXY_TARGET || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api`;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || SITE_CONFIG.url;
 
 function escapeXml(value: unknown): string {
@@ -25,15 +24,13 @@ function buildFeed(posts: BlogPost[]): string {
   const items = posts
     .map((post) => {
       const link = `${SITE_URL}/blog/${encodeURIComponent(post.slug)}`;
-      const description = post.excerpt || post.seoDescription || '';
       return `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${escapeXml(link)}</link>
       <guid isPermaLink="true">${escapeXml(link)}</guid>
-      <description>${escapeXml(description)}</description>
-      <pubDate>${escapeXml(toRfc822(post.publishedAt || post.createdAt))}</pubDate>
-      <author>${escapeXml(post.authorName)}</author>
-${post.category ? `      <category>${escapeXml(post.category)}</category>\n` : ''}    </item>`;
+      <description>${escapeXml(post.excerpt)}</description>
+      <pubDate>${escapeXml(toRfc822(post.publishedAt))}</pubDate>
+${post.tags.length ? `      <category>${escapeXml(post.tags.join(', '))}</category>\n` : ''}    </item>`;
     })
     .join('\n');
 
@@ -53,23 +50,7 @@ ${items}
 }
 
 export async function GET() {
-  let posts: BlogPost[] = [];
-
-  try {
-    const res = await fetch(`${API_BASE}/portfolio/blog?perPage=50`, {
-      next: { revalidate: 600 },
-      headers: { Accept: 'application/json' },
-    });
-
-    if (res.ok) {
-      const body = (await res.json()) as { data?: BlogPost[] } | BlogPost[];
-      posts = Array.isArray(body) ? body : (body.data ?? []);
-    }
-  } catch {
-    posts = [];
-  }
-
-  const xml = buildFeed(posts);
+  const xml = buildFeed(POSTS);
 
   return new NextResponse(xml, {
     status: 200,

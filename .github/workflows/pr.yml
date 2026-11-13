@@ -9,9 +9,6 @@ jobs:
   lint:
     name: Lint & Typecheck
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workspace: [apps/api, apps/web]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -19,33 +16,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Prisma generate (api)
-        if: matrix.workspace == 'apps/api'
-        run: npx prisma generate
-        working-directory: apps/api
-      - run: npm run lint --workspace=${{ matrix.workspace }}
-      - run: npm run typecheck --workspace=${{ matrix.workspace }}
+      - run: npm run lint
+      - run: npm run typecheck
 
   test:
     name: Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        workspace: [apps/api, apps/web]
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: dummy_password
-          POSTGRES_DB: portfolio_test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -53,23 +29,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Prisma generate (api)
-        if: matrix.workspace == 'apps/api'
-        run: npx prisma generate
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-      # Blocking. A failing test run has to fail the job, otherwise a broken
-      # suite still reports a green check and the regression ships.
-      - run: npm run test --workspace=${{ matrix.workspace }}
+      - run: npm run test:coverage --workspace=apps/web
 
   build:
     name: Build Check
     runs-on: ubuntu-latest
     needs: [lint, test]
-    strategy:
-      matrix:
-        workspace: [apps/api, apps/web]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -77,57 +42,14 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - name: Prisma generate (api)
-        if: matrix.workspace == 'apps/api'
-        run: npx prisma generate
-        working-directory: apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-      - name: Build (api)
-        if: matrix.workspace == 'apps/api'
-        run: npm run build --workspace=apps/api
       # next/font downloads Google Fonts at build time. Shared runner IPs
       # occasionally get a rate-limited CSS response, which makes Next throw
       # "Cannot read properties of null" while parsing the font URL. That is a
       # network failure, not a code failure, so retry before failing the gate.
-      - name: Build (web)
-        if: matrix.workspace == 'apps/web'
+      - name: Build
         run: |
           for attempt in 1 2 3; do
             if npm run build --workspace=apps/web; then exit 0; fi
             echo "::warning::web build attempt ${attempt} failed (likely next/font fetch)"
           done
           exit 1
-
-  prisma:
-    name: Prisma Validation
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: pgvector/pgvector:pg16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: dummy_password
-          POSTGRES_DB: portfolio_test
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npm run prisma:validate --workspace=apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-      - run: npm run prisma:generate --workspace=apps/api
-        env:
-          DATABASE_URL: postgresql://postgres:dummy_password@localhost:5432/portfolio_test?schema=public
-      - run: npm run prisma:migrate:deploy --workspace=apps/api
-        continue-on-error: true

@@ -1,8 +1,13 @@
 import Link from 'next/link';
-import type { BlogPost } from '@portfolio/shared';
-import { getPublishedBlogPosts } from '@/lib/api';
 import { formatDate } from '@/lib/format-date';
-import { ABOUT_PARAGRAPHS, CAPABILITIES, PRINCIPLES, SITE, WORK } from '@/lib/public-content';
+import {
+  ABOUT_PARAGRAPHS,
+  CAPABILITIES,
+  POSTS,
+  PRINCIPLES,
+  SITE,
+  WORK,
+} from '@/lib/public-content';
 import { pageMetadata } from '@/lib/seo';
 import { ArrowUpRight } from '@/components/public/icons';
 import { SectionHead } from '@/components/public/SectionHead';
@@ -17,16 +22,8 @@ export const metadata = pageMetadata({
   socialTitle: `${SITE.shortName} — ${SITE.role}`,
 });
 
-async function getLatestPosts(): Promise<BlogPost[]> {
-  try {
-    return await getPublishedBlogPosts({ per_page: 3 });
-  } catch {
-    return [];
-  }
-}
-
-export default async function HomePage() {
-  const posts = await getLatestPosts();
+export default function HomePage() {
+  const posts = POSTS.slice(0, 3);
 
   return (
     <>
@@ -203,10 +200,8 @@ export default async function HomePage() {
         {posts.length ? (
           <div className="post-list">
             {posts.map((post) => (
-              <Link key={post.id} href={`/blog/${post.slug}`} className="post-row">
-                <span className="post-row__date">
-                  {formatDate(post.publishedAt || post.createdAt)}
-                </span>
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="post-row">
+                <span className="post-row__date">{formatDate(post.publishedAt)}</span>
                 <span>
                   <span className="post-row__title">{post.title}</span>
                   {post.excerpt ? <span className="post-row__excerpt">{post.excerpt}</span> : null}
