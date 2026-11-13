@@ -9,7 +9,7 @@
 
 This document catalogs every technology used across the portfolio platform Ã¢â‚¬â€ from frameworks to hosting providers to animation libraries. Each technology is selected based on a trade-off analysis of cost, performance, ecosystem, and team expertise. The total platform cost is ~$10/year (domain only), achieved through strategic use of free tiers across all services.
 
-**Stack at a Glance:** Next.js 14 + NestJS 10 + FastAPI + Supabase + Turborepo + TypeScript 5 + Tailwind CSS 3.4 + **GSAP 3.15 + Three.js 0.184 + React Three Fiber 8.20 + Drei 9.122 + Motion 12 + Lenis 1.3**
+**Stack at a Glance:** Next.js 15 + NestJS 12 + FastAPI + Supabase + Turborepo + TypeScript 5 + Tailwind CSS 3.4 + **GSAP 3.15 + Three.js 0.184 + React Three Fiber 9.8 + Drei 10.7 + Motion 14 + Lenis 1.3**
 
 **Animation Ecosystem:** 13 libraries spanning timeline animation, 3D rendering, scroll-based effects, smooth scrolling, post-processing, and custom GLSL Ã¢â‚¬â€ all working in concert to deliver a distinctive, high-performance visual experience.
 
@@ -148,12 +148,12 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
 ---
 
-### 1.3 React Three Fiber (R3F) Ã¢â‚¬â€ v8.20.2
+### 1.3 React Three Fiber (R3F) Ã¢â‚¬â€ v9.8.2
 
 | Field           | Detail                                                                        |
 | --------------- | ----------------------------------------------------------------------------- |
 | **Package**     | `@react-three/fiber`                                                          |
-| **Version**     | `^8.20.2` (latest v8 Ã¢â‚¬â€ React 18 compatible)                             |
+| **Version**     | `^9.8.2` (latest v9 Ã¢â‚¬â€ React 19 compatible)                              |
 | **License**     | MIT                                                                           |
 | **Bundle Size** | ~15KB gzipped (excluding `three`)                                             |
 | **Purpose**     | React renderer for Three.js Ã¢â‚¬â€ declarative 3D scenes as React components |
@@ -219,7 +219,7 @@ function Hero3D() {
 | Field           | Detail                                                                                   |
 | --------------- | ---------------------------------------------------------------------------------------- |
 | **Package**     | `@react-three/drei`                                                                      |
-| **Version**     | `^9.122.0` (latest v9 Ã¢â‚¬â€ React 18 compatible)                                       |
+| **Version**     | `^10.7.9` (latest v10 Ã¢â‚¬â€ React 19 compatible)                                       |
 | **License**     | MIT                                                                                      |
 | **Bundle Size** | ~30KB gzipped (tree-shaken per import)                                                   |
 | **Purpose**     | Utility components and helpers for R3F Ã¢â‚¬â€ camera controls, loaders, shapes, effects |
@@ -943,10 +943,10 @@ graph TB
 
 ## 7. Package Manager & Monorepo
 
-| Tool           | Purpose                | Rationale                                     |
-| -------------- | ---------------------- | --------------------------------------------- |
-| npm 10+        | Package manager        | Ships with Node.js 20 LTS                     |
-| Turborepo 2.0+ | Monorepo orchestration | Caching, parallel execution, dependency graph |
+| Tool           | Purpose                | Rationale                                       |
+| -------------- | ---------------------- | ----------------------------------------------- |
+| npm 10+        | Package manager        | Ships with Node.js 22.12+ (24 in CI and Docker) |
+| Turborepo 2.0+ | Monorepo orchestration | Caching, parallel execution, dependency graph   |
 
 ---
 
@@ -975,8 +975,8 @@ graph TB
 ## 10. Version Compatibility Matrix
 
 ```text
-Node.js 20 LTS Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Next.js 14.2+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 18.3+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ NestJS 10.4+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Passport 0.7+
+Node.js 22.12+ (24 in CI and Docker) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Next.js 15.5+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19.3+
+                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ NestJS 12.5+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Passport 0.7+
                 Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ TypeScript 5.4+
 
 Python 3.10+    Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ FastAPI 0.115+ Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ LangChain 0.3+
@@ -995,7 +995,7 @@ Three.js 0.184  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ @react-t
 GSAP 3.15+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ ScrollTrigger plugin
                 Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Lenis 1.3+ (scroll integration)
 
-Motion 12+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 18.3+ (framer-motion API, new package)
+Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19.3+ (framer-motion API, new package)
 ```
 
 ---
@@ -1041,7 +1041,7 @@ Motion 12+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 18
 | Technology | Risk Level | Risk                           | Mitigation                            | Fallback                  |
 | ---------- | ---------- | ------------------------------ | ------------------------------------- | ------------------------- |
 | Next.js 14 | Low        | Rapid framework evolution      | Pin major version, follow LTS         | Remix, Astro              |
-| NestJS 10  | Low        | Smaller community than Express | Well-established patterns             | Express, Fastify          |
+| NestJS 12  | Low        | Smaller community than Express | Well-established patterns             | Express, Fastify          |
 | FastAPI    | Low        | Python version upgrades        | Pin Python 3.10+                      | Flask, Django             |
 | Supabase   | Medium     | Free tier limits               | Monitor usage, upgrade plan if needed | PlanetScale, Neon         |
 | Vercel     | Medium     | Vendor lock-in (ISR)           | Keep Next.js portable                 | Netlify, Cloudflare Pages |
@@ -1065,7 +1065,7 @@ Motion 12+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 18
 | --------------- | ----------------------- | ---------------------------------- |
 | GSAP            | `^3.15.0`               | Stable API, minor versions safe    |
 | Three.js        | `0.184.x` (exact minor) | Breaking changes between minors    |
-| R3F             | `^8.20.0`               | Stable v8 API, React 18 compatible |
+| R3F             | `^9.8.0`                | Stable v8 API, React 19 compatible |
 | Drei            | `^9.122.0`              | Follows R3F v8                     |
 | Motion          | `^12.40.0`              | Stable API                         |
 | Lenis           | `^1.3.0`                | Still early, minor versions safe   |

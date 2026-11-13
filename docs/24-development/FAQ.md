@@ -8,8 +8,8 @@ A next-generation enterprise portfolio platform built with NestJS, Next.js, and 
 
 ### What tech stack does it use?
 
-- **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Three.js
-- **Backend:** NestJS 10, Prisma ORM, PostgreSQL, Redis
+- **Frontend:** Next.js 15 (App Router), TypeScript, Tailwind CSS, Three.js
+- **Backend:** NestJS 12, Prisma ORM, PostgreSQL, Redis
 - **AI:** FastAPI, LangChain, OpenAI, Anthropic
 - **Infrastructure:** Docker, Vercel, Supabase
 

@@ -2,7 +2,7 @@
 
 > **Document:** `InteractionPatterns.md` | **Version:** 2.0 (Enterprise Upgrade) | **Last Updated:** July 2026
 > **Status:** ✅ Active | **Owner:** Principal Frontend Lead | **Review Cadence:** Quarterly
-> **Stack:** Next.js 14.2 / React 18.3 / Framer Motion 12 / TypeScript 5.5 / Tailwind CSS 3.4
+> **Stack:** Next.js 15.5 / React 19.3 / Framer Motion 14 / TypeScript 5.5 / Tailwind CSS 3.4
 
 ---
 
@@ -154,13 +154,13 @@ interface DeviceCapabilities {
 }
 ```
 
-| Capability            | Detection Method                                                    | Fallback                   |
+| Capability | Detection Method | Fallback |
 | --------------------- | ------------------------------------------------------------------- | -------------------------- | ------------------------------ | ------- |
-| `pointerType`         | `matchMedia('(pointer: fine)')` / `matchMedia('(pointer: coarse)')` | `'fine'` (desktop default) |
-| `hoverSupported`      | `matchMedia('(hover: hover)')`                                      | `true`                     |
-| `reducedMotion`       | `useReducedMotion()`                                                | `false`                    |
-| `reducedTransparency` | `matchMedia('(prefers-reduced-transparency: reduce)')`              | `false`                    |
-| `touchSupported`      | `'ontouchstart' in window`                                          |                            | `navigator.maxTouchPoints > 0` | `false` |
+| `pointerType` | `matchMedia('(pointer: fine)')` / `matchMedia('(pointer: coarse)')` | `'fine'` (desktop default) |
+| `hoverSupported` | `matchMedia('(hover: hover)')` | `true` |
+| `reducedMotion` | `useReducedMotion()` | `false` |
+| `reducedTransparency` | `matchMedia('(prefers-reduced-transparency: reduce)')` | `false` |
+| `touchSupported` | `'ontouchstart' in window` | | `navigator.maxTouchPoints > 0` | `false` |
 
 ### 2.3 Interaction State Machine
 

@@ -4,7 +4,7 @@ NestJS REST API backend — fully separated Portfolio (public) and Admin (authen
 
 ## Tech
 
-- **Framework**: NestJS 10, TypeScript, strict mode
+- **Framework**: NestJS 12, TypeScript, strict mode
 - **Database**: PostgreSQL via Prisma ORM with `@prisma/adapter-pg` driver adapter
 - **Auth**: JWT access tokens (15min) + refresh tokens in Redis (7d TTL)
 - **Queue**: BullMQ (Redis-backed) for email, notifications, background jobs

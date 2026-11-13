@@ -10,7 +10,7 @@ Every layer has a single, well-defined responsibility.
 
 **Frontend (Next.js 14 App Router):** Handles UI rendering, user interaction, and client-side state. Never queries the database directly. Data arrives exclusively through the typed API client at `apps/web/src/lib/api.ts`.
 
-**Backend (NestJS 10):** Houses all business logic inside `apps/api/src/modules/<entity>/` services. Controllers are thin Ã¢â‚¬â€ they only route HTTP verbs to service methods. No views are rendered.
+**Backend (NestJS 12):** Houses all business logic inside `apps/api/src/modules/<entity>/` services. Controllers are thin Ã¢â‚¬â€ they only route HTTP verbs to service methods. No views are rendered.
 
 **AI Service (FastAPI):** Isolated Python microservice at `apps/ai/` for compute-heavy AI workloads (RAG, embeddings, LLM streaming). Never touches the database directly Ã¢â‚¬â€ communicates with NestJS via REST.
 
