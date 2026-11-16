@@ -24,7 +24,7 @@ flowchart LR
     subgraph PR[PR GATE G2]
         P1[TypeScript Strict]
         P2[Lint + Tests]
-        P3[Coverage >= 70%]
+        P3[Coverage >= 40% API / 1% Web]
         P4[Dependency Scan]
         P5[Build]
         P6[PR Size Check]
@@ -99,17 +99,19 @@ flowchart LR
 | **Enforcement** | Fully automated via CI pipeline (GitHub Actions) |
 | **Gatekeeper**  | CI Pipeline (merge blocked until green)          |
 
-| Check                       | Tool / Command             | Threshold                         | Pass/Fail           |
-| --------------------------- | -------------------------- | --------------------------------- | ------------------- |
-| TypeScript strict mode      | `tsc --noEmit --strict`    | Zero errors                       | Fail on any error   |
-| Lint                        | `npm run lint`             | Zero warnings                     | Fail on any warning |
-| Unit tests                  | `npm test` (Jest/Vitest)   | 100% pass rate                    | Fail on any failure |
-| Integration tests           | `npm run test:integration` | 100% pass rate                    | Fail on any failure |
-| Code coverage (services)    | `jest --coverage`          | >= 70%                            | Fail below minimum  |
-| Code coverage (controllers) | `jest --coverage`          | >= 50%                            | Fail below minimum  |
-| Dependency scan             | `npm audit` / `pnpm audit` | Zero critical vulnerabilities     | Fail on critical    |
-| PR size                     | git diff stats             | <= 400 lines changed, <= 20 files | Fail on exceed      |
-| Build                       | `npm run build`            | Successful build                  | Fail on any error   |
+| Check                       | Tool / Command             | Threshold                                 | Pass/Fail           |
+| --------------------------- | -------------------------- | ----------------------------------------- | ------------------- |
+| TypeScript strict mode      | `tsc --noEmit --strict`    | Zero errors                               | Fail on any error   |
+| Lint                        | `npm run lint`             | Zero warnings                             | Fail on any warning |
+| Unit tests                  | `npm test` (Jest/Vitest)   | 100% pass rate                            | Fail on any failure |
+| Integration tests           | `npm run test:integration` | 100% pass rate                            | Fail on any failure |
+| Code coverage (API, Jest)   | `jest --coverage`          | >= 40% (all metrics, `coverageThreshold`) | Fail below minimum  |
+| Code coverage (web, Vitest) | `vitest --coverage`        | >= 1% floor                               | Fail below minimum  |
+| Dependency scan             | `npm audit` / `pnpm audit` | Zero critical vulnerabilities             | Fail on critical    |
+| PR size                     | git diff stats             | <= 400 lines changed, <= 20 files         | Fail on exceed      |
+| Build                       | `npm run build`            | Successful build                          | Fail on any error   |
+
+**Note on coverage floors:** The enforced thresholds are deliberately low today — **40% (branches/functions/lines/statements) for the API** via `coverageThreshold` in `apps/api/jest.config.ts`, and **1% for the web app** via `thresholds` in `apps/web/vitest.config.ts`. These floors exist so coverage cannot silently regress; they are raised deliberately as tests are added, and are not treated as targets.
 
 **Bypass Procedure:** Emergency bypass requires approval from QA Lead + Engineering Lead. Bypassed checks must be validated within 24 hours post-merge. Documented in PR description with `[GATE_BYPASS]` tag.
 
