@@ -115,6 +115,7 @@ Agent capabilities are packaged as `SKILL.md` files under `.opencode/skills/` �
 | `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` | Approved redesign spec — source of truth for the redesign                               |
 | `DESIGN.md` (root)                                             | Design contract: token rules + current reality                                          |
 | `PROGRESS.md` (root)                                           | Phase status + session log                                                              |
+| `roadmap.md` (root)                                            | Phase-level roadmap: status table, sequencing rules, carried items                      |
 | `docs/MASTER-INDEX.md`                                         | Auto-generated index of the remaining docs tree (`node scripts/generate-docs-index.js`) |
 | `docs/27-decisions/`                                           | ADRs (decision records)                                                                 |
 | `docs/archive/`                                                | Unmaintained history — read for context, never update                                   |
