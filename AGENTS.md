@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Working contract for AI agents and humans in this repository. Keep it short, current, and true — every claim was verified against the code on 2026-11-16. If code and this file disagree, **fix this file** (or the code) in the same change.
+Working contract for AI agents and humans in this repository. Keep it short, current, and true — every claim was verified against the code on 2026-11-17. If code and this file disagree, **fix this file** (or the code) in the same change.
 
 ## Commands
 
@@ -35,6 +35,13 @@ scratch — an upstream arborist bug (npm/cli#9787). When regenerating
 `package-lock.json`, delete `node_modules` too: npm rebuilds the tree from
 whatever is on disk and drops the platform-specific optional packages
 (npm/cli#4828), which breaks the Linux CI install.
+
+### Versioning
+
+- **One platform version.** Root `package.json` `version` is the single source of truth (currently `2.0.0`, matching `CHANGELOG.md`); workspace package versions mirror it on release. npm never publishes them — they exist for humans.
+- **SemVer + conventional commits.** `feat:` → MINOR, `fix:`/`perf:` → PATCH, breaking change → MAJOR; `docs:`/`chore:` never bump alone. `CHANGELOG.md` follows Keep a Changelog.
+- **Release flow.** Merge PR → bump root version + write the CHANGELOG section → tag `vX.Y.Z` → deploy. Tags did not exist before 2026-11 (the 2.0.0 release predates tagging); tag every release from the next one onward.
+- **API version is orthogonal.** Breaking response-shape changes also bump `n` in `application/vnd.portfolio.v<n>+json` (see bootstrap below).
 
 ## Architecture
 
@@ -91,14 +98,23 @@ There is **no public registration**: administrators create users with `POST /api
 6. **Session-end progress.** At the end of every work session, update root `PROGRESS.md` (status line + session log). Never delete a completed item — strike it through.
 7. **Shared types are the contract.** Cross-app types and Zod schemas belong in `packages/shared`; import via `@portfolio/shared` rather than redefining. The API response envelope is always `{ data, meta? }`.
 8. **Pre-commit:** husky + lint-staged run Prettier (+ ESLint `--fix` on `.ts/.tsx`) on staged files.
+9. **Be honest, always.** Never claim tests pass, research supports something, or work is done without evidence from this session (ran it / read it / verified it). Say "I don't know" when you don't. Fabricated results are the cardinal sin in this repo.
+10. **Research before implementing when uncertain.** Verify APIs, versions, and tradeoffs from primary sources before writing code; record non-obvious verdicts + provenance in the spec (§12 pattern) instead of guessing. When two options are genuinely close, ask the user.
+11. **Behavior changes ship with tests.** New or changed behavior gets test cases (API Jest, web Vitest/Playwright). Run the workspace suites and the full gate — `typecheck` → `lint` → tests → `build` — before claiming done. Coverage floors in `docs/35-quality/QUALITY-GATES.md` are raised as tests are added, never lowered.
+12. **Quality gates are enforced, not vibes.** Every PR satisfies spec §7's anti-generic checklist; run the `qa-pass` skill before declaring work done; backend changes respect `docs/35-quality/QUALITY-GATES.md`.
+13. **Documentation ships with the change.** User-facing, architectural, or workflow changes update the relevant docs in the same PR (module READMEs, `TECHSTACK.md`/`QUALITY-GATES.md` when facts change, `PROGRESS.md` session log). An undocumented feature is an incomplete feature.
+
+### Skills & plugins
+
+Agent capabilities are packaged as `SKILL.md` files under `.opencode/skills/` — load the matching skill **before** doing that kind of work instead of improvising: `design-system-check` (before any UI PR), `qa-pass` (before declaring work done), `new-section` (public-section build workflow). Plugins/MCP servers (e.g. `pencil` for `.pen` design files, `browse` for the browser) are configured in the OpenCode config; their operating rules come from the server instructions, not this file.
 
 ## Live docs map
 
-| Path | Role |
-|---|---|
-| `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` | Approved redesign spec — source of truth for the redesign |
-| `DESIGN.md` (root) | Design contract: token rules + current reality |
-| `PROGRESS.md` (root) | Phase status + session log |
-| `docs/MASTER-INDEX.md` | Auto-generated index of the remaining docs tree (`node scripts/generate-docs-index.js`) |
-| `docs/27-decisions/` | ADRs (decision records) |
-| `docs/archive/` | Unmaintained history — read for context, never update |
+| Path                                                           | Role                                                                                    |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` | Approved redesign spec — source of truth for the redesign                               |
+| `DESIGN.md` (root)                                             | Design contract: token rules + current reality                                          |
+| `PROGRESS.md` (root)                                           | Phase status + session log                                                              |
+| `docs/MASTER-INDEX.md`                                         | Auto-generated index of the remaining docs tree (`node scripts/generate-docs-index.js`) |
+| `docs/27-decisions/`                                           | ADRs (decision records)                                                                 |
+| `docs/archive/`                                                | Unmaintained history — read for context, never update                                   |
