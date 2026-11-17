@@ -13,6 +13,18 @@
    are injected on the <html> element by layout.tsx.
    ────────────────────────────────────────────────────────── */
 
+/* ── Interim Serif Alias ───────────────────────────────────
+   The Phase 0 font swap (spec §12 Q1) ships IBM Plex Sans + Plex Mono
+   only, but public.css still resolves its --serif chain through
+   --font-serif. An undefined var() would invalidate that whole
+   font-family declaration to browser defaults, so the serif role
+   aliases the body face until Phase 1: public surface restyle
+   removes serif role.
+   ────────────────────────────────────────────────────────── */
+:root {
+  --font-serif: var(--font-body);
+}
+
 /* ══════════════════════════════════════════════════════════════
    THEME SYSTEM — CSS Custom Properties
    ══════════════════════════════════════════════════════════════ */
@@ -78,7 +90,11 @@
   /* Premium Gradients */
   --gradient-hero: linear-gradient(135deg, #2563eb, #10b981);
   --gradient-cta: linear-gradient(135deg, #2563eb, #8b5cf6);
-  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 100%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
   --gradient-text-hero: linear-gradient(135deg, #2563eb, #10b981);
 
   /* Duration & Easing */
@@ -182,7 +198,11 @@
   /* Premium Gradients */
   --gradient-hero: linear-gradient(135deg, #00f0ff, #ff0055, #8b5cf6);
   --gradient-cta: linear-gradient(135deg, #00f0ff, #0099ff);
-  --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
   --gradient-text-hero: linear-gradient(to right, #00f0ff, #ff0055, #8b5cf6);
 
   /* Scrim & Overlay */
@@ -316,12 +336,24 @@
   }
 
   /* Stagger Animation Delay Classes */
-  .stagger-1 { animation-delay: 0ms; }
-  .stagger-2 { animation-delay: 80ms; }
-  .stagger-3 { animation-delay: 160ms; }
-  .stagger-4 { animation-delay: 240ms; }
-  .stagger-5 { animation-delay: 320ms; }
-  .stagger-6 { animation-delay: 400ms; }
+  .stagger-1 {
+    animation-delay: 0ms;
+  }
+  .stagger-2 {
+    animation-delay: 80ms;
+  }
+  .stagger-3 {
+    animation-delay: 160ms;
+  }
+  .stagger-4 {
+    animation-delay: 240ms;
+  }
+  .stagger-5 {
+    animation-delay: 320ms;
+  }
+  .stagger-6 {
+    animation-delay: 400ms;
+  }
 
   /* Hide scrollbar but keep functionality */
   .scrollbar-none {
