@@ -2,25 +2,34 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@portfolio/ui';
+import {
+  DEFAULT_SKIN,
+  applyToDocument,
+  persist,
+  resolveStored,
+  type Scheme,
+  type Skin,
+} from '@/lib/theme';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [scheme, setScheme] = useState<Scheme>('light');
+  const [skin, setSkin] = useState<Skin>(DEFAULT_SKIN);
 
   useEffect(() => {
     setMounted(true);
-    const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const preferred =
-      stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    setTheme(preferred);
-    document.documentElement.setAttribute('data-theme', preferred);
+    // Read-only on mount: the pre-paint script in layout.tsx already applied
+    // the attributes to <html>, so the toggle must not re-apply them here.
+    const resolved = resolveStored();
+    setScheme(resolved.scheme);
+    setSkin(resolved.skin);
   }, []);
 
   const toggle = () => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    setTheme(next);
-    localStorage.setItem('theme', next);
-    document.documentElement.setAttribute('data-theme', next);
+    const next: Scheme = scheme === 'light' ? 'dark' : 'light';
+    setScheme(next);
+    persist(next, skin);
+    applyToDocument(next, skin);
   };
 
   if (!mounted) {
@@ -38,13 +47,13 @@ export function ThemeToggle() {
         'transition-all duration-200',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500',
       )}
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}
+      aria-label={`Switch to ${scheme === 'light' ? 'dark' : 'light'} theme`}
     >
       {/* Sun icon */}
       <svg
         className={cn(
           'absolute w-4 h-4 transition-all duration-300',
-          theme === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-75',
+          scheme === 'light' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 rotate-90 scale-75',
         )}
         fill="none"
         viewBox="0 0 24 24"
@@ -61,7 +70,7 @@ export function ThemeToggle() {
       <svg
         className={cn(
           'absolute w-4 h-4 transition-all duration-300',
-          theme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75',
+          scheme === 'dark' ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75',
         )}
         fill="none"
         viewBox="0 0 24 24"

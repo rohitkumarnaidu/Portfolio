@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
+import { THEME_SCRIPT } from '@/lib/theme-script';
 import { SITE } from '@/lib/public-content';
 import '@/styles/globals.css';
 import '@/styles/public.css';
@@ -50,27 +51,22 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={fontVariables} suppressHydrationWarning>
+    <html
+      lang="en"
+      data-scheme="dark"
+      data-skin="3"
+      className={fontVariables}
+      suppressHydrationWarning
+    >
       <head>
         {/*
           Admin keeps the existing data-theme contract. The public surface is
           intentionally fixed to its paper palette and does not read this value.
+          THEME_SCRIPT below sets data-scheme + data-skin before paint and also
+          writes the legacy data-theme mirror (kept in sync with data-scheme;
+          deleted in Phase 1 together with the alias bridge).
         */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('theme');
-                  if (!theme) {
-                    theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  }
-                  document.documentElement.setAttribute('data-theme', theme);
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body className="min-h-dvh bg-surface-primary text-text-primary antialiased">{children}</body>
     </html>
