@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
 import { THEME_SCRIPT } from '@/lib/theme-script';
 import { SITE } from '@/lib/public-content';
+import '@portfolio/tokens/theme.css';
 import '@/styles/globals.css';
 import '@/styles/public.css';
 
