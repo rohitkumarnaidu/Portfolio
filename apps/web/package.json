@@ -1,6 +1,6 @@
 {
   "name": "@portfolio/web",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -18,8 +18,8 @@
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
     "@monaco-editor/react": "^4.7.0",
-    "@portfolio/shared": "1.0.0",
-    "@portfolio/ui": "1.0.0",
+    "@portfolio/shared": "2.0.0",
+    "@portfolio/ui": "2.0.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "@react-three/postprocessing": "^3.2.2",
