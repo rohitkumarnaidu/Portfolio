@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Working contract for AI agents and humans in this repository. Keep it short, current, and true — every claim was verified against the code on 2026-11-17. If code and this file disagree, **fix this file** (or the code) in the same change.
 
 ## Commands
 
@@ -25,7 +25,7 @@ There is **no root `test` script**. Run tests per workspace:
 
 `npm run prisma:generate` (required after schema edits — see the custom output path below), `prisma:migrate:dev`, `prisma:migrate:deploy`, `prisma:seed`, `prisma:studio`, `prisma:validate`.
 
-Env vars are centralized in `config/.env` (copy from `config/.env.example`). `DATABASE_URL` points at Postgres.
+Env vars are centralized in `config/.env` (copy from `config/.env.example`). Frontend vars live in the root `.env.example`. `DATABASE_URL` points at Postgres.
 
 ### npm version
 
@@ -36,6 +36,13 @@ scratch — an upstream arborist bug (npm/cli#9787). When regenerating
 whatever is on disk and drops the platform-specific optional packages
 (npm/cli#4828), which breaks the Linux CI install.
 
+### Versioning
+
+- **One platform version.** Root `package.json` `version` is the single source of truth (currently `2.0.0`, matching `CHANGELOG.md`); workspace package versions mirror it on release. npm never publishes them — they exist for humans.
+- **SemVer + conventional commits.** `feat:` → MINOR, `fix:`/`perf:` → PATCH, breaking change → MAJOR; `docs:`/`chore:` never bump alone. `CHANGELOG.md` follows Keep a Changelog.
+- **Release flow.** Merge PR → bump root version + write the CHANGELOG section → tag `vX.Y.Z` → deploy. Tags did not exist before 2026-11 (the 2.0.0 release predates tagging); tag every release from the next one onward.
+- **API version is orthogonal.** Breaking response-shape changes also bump `n` in `application/vnd.portfolio.v<n>+json` (see bootstrap below).
+
 ## Architecture
 
 Two apps behind a shared monorepo:
@@ -43,7 +50,7 @@ Two apps behind a shared monorepo:
 - **`apps/web`** — Next.js 15 App Router. Public portfolio + admin dashboard. Heavy 3D/motion stack (Three.js / react-three-fiber, GSAP, Lenis). Includes a WebContainer-powered Sandbox IDE at `/admin/sandbox` requiring strict COOP/COEP isolation headers.
 - **`apps/api`** — NestJS 12 REST API. The substantive backend. **This is where most backend work happens.**
 
-Shared packages: `packages/shared` (TypeScript types + Zod schemas, the source of truth for data contracts shared by web and api, imported as `@portfolio/shared`), `packages/ui` (`@portfolio/ui` React components), `packages/config` (shared ESLint/TS base configs).
+Shared packages: `packages/shared` (TypeScript types + Zod schemas, the source of truth for data contracts shared by web and api, imported as `@portfolio/shared`), `packages/ui` (`@portfolio/ui` — 27 UI primitives with Storybook stories), `packages/config` (shared ESLint/TS base configs).
 
 ### API: the three-layer module pattern (most important convention)
 
@@ -63,14 +70,17 @@ Prisma client is generated to a **custom path** `apps/api/generated/prisma` (con
 
 ### API: bootstrap (`src/main.ts`)
 
-Configures Helmet, compression, CORS (from `CORS_ORIGIN`), a global `ValidationPipe` (`whitelist` + `forbidNonWhitelisted` + `transform`), a global `GlobalExceptionFilter`, Sentry (when `SENTRY_DSN` set), and Pino logging. Content negotiation reads an API version from the `Accept` header (`application/vnd.portfolio.v<n>+json`) into `req.apiVersion`. Throttling is a global `ThrottlerGuard`.
+Configures Helmet, compression, CORS (from `CORS_ORIGIN`), a global `ValidationPipe` (`whitelist` + `forbidNonWhitelisted` + `transform`), a global `GlobalExceptionFilter`, Sentry (when `SENTRY_DSN` set), and Pino logging. Content negotiation reads an API version from the `Accept` header (`application/vnd.portfolio.v<n>+json`) into `req.apiVersion`. Throttling is a global `ThrottlerGuard` (`@nestjs/throttler`, `trust proxy` set).
 
-### Web: data flow
+### Web: structure & data flow
 
-- App Router pages in `src/app/` (public sections + `src/app/admin`). Components in `src/components/` (notably `3d/`, `admin/`, `sections/`, `ui/`).
-- API access goes through `src/lib/api.ts` - a typed `fetch` wrapper that unwraps the API's `{ data, meta }` envelope, throws `ApiError` on non-2xx, and sends cookies (`credentials: 'include'`). Browser calls use the same-origin `/api` base; Next.js rewrites `/api/:path*` to `API_PROXY_TARGET` (default `http://localhost:3001`). Server-side calls go straight to `API_PROXY_TARGET`. On a 401 the client refreshes once via `/api/admin/auth/refresh` and replays. Higher-level fetchers live in `src/lib/data/`.
-- Data fetching/caching uses TanStack React Query (`src/lib/query-provider.tsx`, `src/lib/use-api-query.ts`).
+- App Router pages in `src/app/`: public sections under `(public)/` (about, blog, contact, projects), the admin dashboard under `src/app/admin`, and route handlers under `src/app/api` (admin auth, preview, revalidate, health, rss).
+- Components in `src/components/`: `3d/` (CanvasWrapper, Scene3D, SceneRegistry, effects/fallbacks/lighting/primitives/scenes), `admin/` (forms/panels + sandbox), `public/` (CaseStudy, ContactForm, SiteHeader/SiteFooter, SectionHead, icons), plus `ThemeToggle.tsx`. Reusable UI primitives live in `packages/ui` (`@portfolio/ui`) — there is **no** `src/components/ui/` or `src/components/sections/`.
+- **API access goes through `src/lib/api.ts`** — a typed `fetch` wrapper that unwraps the API's `{ data, meta }` envelope, throws `ApiError` on non-2xx, and sends cookies (`credentials: 'include'`). Browser calls use the same-origin `/api` base; Next.js rewrites `/api/:path*` to `API_PROXY_TARGET` (default `http://localhost:3001`) in `next.config.js`. Server-side calls go straight to `API_PROXY_TARGET`. On a 401 the client refreshes once via `/api/admin/auth/refresh` and replays.
+- **Server state is TanStack React Query** (`src/lib/query-provider.tsx`) with per-entity hooks in **`src/lib/hooks/`** (22 `use*` fetcher hooks — the higher-level fetching layer; there is **no** `src/lib/data/` or `use-api-query.ts`).
 - The public site also renders curated content straight from `src/lib/public-content.ts` — that is the fallback when the API has nothing published.
+- Other lib utilities: `cache-tags.ts`, `seo.ts`, `json-ld.ts`, `sanitize.ts`, `fonts.ts`, `webcontainer.ts`, `cn.ts`, `constants.ts`, `format-date.ts`, `3d/`.
+- Styling: the token system lives in `src/styles/globals.css` (CSS variables under `[data-theme]`, light + dark) plus `src/styles/public.css` (`.site` editorial palette), bridged to Tailwind in `tailwind.config.ts` (`darkMode: ['selector', '[data-theme="dark"]']`). Fonts load via `next/font` in `src/lib/fonts.ts`.
 
 ### Auth model
 
@@ -78,8 +88,33 @@ Admin auth uses JWT access tokens delivered as HttpOnly cookies (`admin_token`, 
 
 There is **no public registration**: administrators create users with `POST /api/admin/users`. OAuth (Google/GitHub) is handled entirely by the NestJS API and only signs in existing active accounts — it never provisions new ones. Login, refresh, logout and profile live in `src/admin/controllers/auth.controller.ts`; guards and decorators live in `src/modules/auth/` (`JwtAuthGuard`, `RolesGuard`, `@Roles`, `@CurrentUser`, `@Public`). Admin controllers are guarded by default; the portfolio layer is public.
 
-## Conventions
+## Working rules for agents
 
-- **Shared types are the contract.** Cross-app types and Zod schemas belong in `packages/shared`; import via `@portfolio/shared` rather than redefining. Note the API response envelope is always `{ data, meta? }`.
-- **Pre-commit:** husky + lint-staged run Prettier (+ ESLint `--fix` on `.ts/.tsx`) on staged files.
-- The `docs/` directory is large and mostly forward-looking design/architecture writing. Treat code as ground truth over docs when they disagree.
+1. **Code is ground truth.** Much of `docs/` is archived history (`docs/archive/` = unmaintained). Live documents are listed in the map below.
+2. **Token discipline — the #1 rule.** Components never hardcode hex and never reference primitive tokens; semantic tokens only. Today that means the CSS variables in `globals.css`/the Tailwind bridge; after Phase 0 it means the DTCG semantic + component layers. Token drift is the documented #1 maintenance killer.
+3. **Design contract first.** Read root `DESIGN.md` before any visual/UI change. The locked redesign spec is `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md`.
+4. **Anti-generic checklist = PR criteria.** Every UI PR satisfies spec §7 (banned AI tells + required criteria) — reviewers check it, not vibes.
+5. **Review gate.** Redesign work follows the chain: spec → plan (in `docs/superpowers/plans/`) → build. Don't improvise scope.
+6. **Session-end progress.** At the end of every work session, update root `PROGRESS.md` (status line + session log). Never delete a completed item — strike it through.
+7. **Shared types are the contract.** Cross-app types and Zod schemas belong in `packages/shared`; import via `@portfolio/shared` rather than redefining. The API response envelope is always `{ data, meta? }`.
+8. **Pre-commit:** husky + lint-staged run Prettier (+ ESLint `--fix` on `.ts/.tsx`) on staged files.
+9. **Be honest, always.** Never claim tests pass, research supports something, or work is done without evidence from this session (ran it / read it / verified it). Say "I don't know" when you don't. Fabricated results are the cardinal sin in this repo.
+10. **Research before implementing when uncertain.** Verify APIs, versions, and tradeoffs from primary sources before writing code; record non-obvious verdicts + provenance in the spec (§12 pattern) instead of guessing. When two options are genuinely close, ask the user.
+11. **Behavior changes ship with tests.** New or changed behavior gets test cases (API Jest, web Vitest/Playwright). Run the workspace suites and the full gate — `typecheck` → `lint` → tests → `build` — before claiming done. Coverage floors in `docs/35-quality/QUALITY-GATES.md` are raised as tests are added, never lowered.
+12. **Quality gates are enforced, not vibes.** Every PR satisfies spec §7's anti-generic checklist; run the `qa-pass` skill before declaring work done; backend changes respect `docs/35-quality/QUALITY-GATES.md`.
+13. **Documentation ships with the change.** User-facing, architectural, or workflow changes update the relevant docs in the same PR (module READMEs, `TECHSTACK.md`/`QUALITY-GATES.md` when facts change, `PROGRESS.md` session log). An undocumented feature is an incomplete feature.
+
+### Skills & plugins
+
+Agent capabilities are packaged as `SKILL.md` files under `.opencode/skills/` — load the matching skill **before** doing that kind of work instead of improvising: `design-system-check` (before any UI PR), `qa-pass` (before declaring work done), `new-section` (public-section build workflow). Plugins/MCP servers (e.g. `pencil` for `.pen` design files, `browse` for the browser) are configured in the OpenCode config; their operating rules come from the server instructions, not this file.
+
+## Live docs map
+
+| Path                                                           | Role                                                                                    |
+| -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` | Approved redesign spec — source of truth for the redesign                               |
+| `DESIGN.md` (root)                                             | Design contract: token rules + current reality                                          |
+| `PROGRESS.md` (root)                                           | Phase status + session log                                                              |
+| `docs/MASTER-INDEX.md`                                         | Auto-generated index of the remaining docs tree (`node scripts/generate-docs-index.js`) |
+| `docs/27-decisions/`                                           | ADRs (decision records)                                                                 |
+| `docs/archive/`                                                | Unmaintained history — read for context, never update                                   |

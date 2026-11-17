@@ -196,16 +196,16 @@
 
 ### NFR-SEC-03: Row-Level Security
 
-| Field                   | Value                                                                                                                                                                                        |
+| Field | Value |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- |
-| **Category**            | Security                                                                                                                                                                                     |
-| **Priority**            | P0 Ã¢â‚¬â€ Critical                                                                                                                                                                          |
-| **Description**         | All 37 Prisma models must have Supabase RLS policies enforcing that users can only access their own data. This prevents horizontal privilege escalation even if an API token is compromised. |
-| **Metric / Target**     | 100% of tables (37/37) have RLS policies; admin role bypass via `service_role` key in `apps/api` only                                                                                        |
-| **Measurement Method**  | Automated RLS audit script enumerates all tables and checks for active RLS policies. Run on schema migration.                                                                                |
-| **Current Status**      | Ã°Å¸Å¸Â¡ Designed Ã¢â‚¬â€ Prisma schema defines 37 models. RLS policies not yet applied.                                                                                                     | v   |
-| **Dependencies**        | Prisma schema finalization, Supabase RLS policy creation, API service role configuration                                                                                                     |
-| **Acceptance Criteria** | All 37 tables have RLS enabled; direct table access returns empty set without proper auth; API endpoints function correctly via service role                                                 |
+| **Category** | Security |
+| **Priority** | P0 Ã¢â‚¬â€ Critical |
+| **Description** | All 37 Prisma models must have Supabase RLS policies enforcing that users can only access their own data. This prevents horizontal privilege escalation even if an API token is compromised. |
+| **Metric / Target** | 100% of tables (37/37) have RLS policies; admin role bypass via `service_role` key in `apps/api` only |
+| **Measurement Method** | Automated RLS audit script enumerates all tables and checks for active RLS policies. Run on schema migration. |
+| **Current Status** | Ã°Å¸Å¸Â¡ Designed Ã¢â‚¬â€ Prisma schema defines 37 models. RLS policies not yet applied. | v |
+| **Dependencies** | Prisma schema finalization, Supabase RLS policy creation, API service role configuration |
+| **Acceptance Criteria** | All 37 tables have RLS enabled; direct table access returns empty set without proper auth; API endpoints function correctly via service role |
 
 ### NFR-SEC-04: Rate Limiting
 

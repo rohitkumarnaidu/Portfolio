@@ -1,17 +1,17 @@
-# Tech Stack Document Ã¢â‚¬â€ Enterprise Technology Inventory
+# Tech Stack Document — Enterprise Technology Inventory
 
-> **Document:** `10-TECHSTACK.md` | **Version:** 4.0 | **Last Updated:** June 2026  
-> **Status:** Ã¢Å“â€¦ Active | **Owner:** Architecture Lead | **Review Cadence:** Quarterly
+> **Document:** `10-TECHSTACK.md` | **Version:** 4.1 | **Last Updated:** November 2026  
+> **Status:** ✅ Active | **Owner:** Architecture Lead | **Review Cadence:** Quarterly
 
 ---
 
 ## Executive Summary
 
-This document catalogs every technology used across the portfolio platform Ã¢â‚¬â€ from frameworks to hosting providers to animation libraries. Each technology is selected based on a trade-off analysis of cost, performance, ecosystem, and team expertise. The total platform cost is ~$10/year (domain only), achieved through strategic use of free tiers across all services.
+This document catalogs every technology used across the portfolio platform — from frameworks to hosting providers to animation libraries. Each technology is selected based on a trade-off analysis of cost, performance, ecosystem, and team expertise. The total platform cost is ~$10/year (domain only), achieved through strategic use of free tiers across all services.
 
-**Stack at a Glance:** Next.js 15 + NestJS 12 + FastAPI + Supabase + Turborepo + TypeScript 5 + Tailwind CSS 3.4 + **GSAP 3.15 + Three.js 0.184 + React Three Fiber 9.8 + Drei 10.7 + Motion 14 + Lenis 1.3**
+**Stack at a Glance:** Next.js 15 + NestJS 12 + Turborepo + TypeScript 5 + Tailwind CSS 3.4 + **GSAP 3.15 + Three.js 0.184 + React Three Fiber 9.8 + Drei 10.7 + Motion 14 + Lenis 1.3**
 
-**Animation Ecosystem:** 13 libraries spanning timeline animation, 3D rendering, scroll-based effects, smooth scrolling, post-processing, and custom GLSL Ã¢â‚¬â€ all working in concert to deliver a distinctive, high-performance visual experience.
+**Animation Ecosystem:** 13 libraries spanning timeline animation, 3D rendering, scroll-based effects, smooth scrolling, post-processing, and custom GLSL — all working in concert to deliver a distinctive, high-performance visual experience.
 
 ---
 
@@ -20,7 +20,7 @@ This document catalogs every technology used across the portfolio platform Ã¢�
 1. [Animation & 3D Libraries](#1-animation--3d-libraries)
 2. [Frontend Core](#2-frontend-core)
 3. [Backend API (NestJS)](#3-backend-api-nestjs)
-4. [AI Microservice (FastAPI)](#4-ai-microservice-fastapi)
+4. [AI Microservice (FastAPI) — Removed in 2.0.0](#4-ai-microservice-fastapi--removed-in-200)
 5. [Database & Storage](#5-database--storage)
 6. [DevOps & Deployment](#6-devops--deployment)
 7. [Package Manager & Monorepo](#7-package-manager--monorepo)
@@ -36,14 +36,14 @@ This document catalogs every technology used across the portfolio platform Ã¢�
 
 ## 1. Animation & 3D Libraries
 
-The portfolio uses a carefully orchestrated animation stack Ã¢â‚¬â€ each library serves a specific purpose, from micro-interactions to immersive 3D scenes.
+The portfolio uses a carefully orchestrated animation stack — each library serves a specific purpose, from micro-interactions to immersive 3D scenes.
 
-### 1.1 GSAP (GreenSock Animation Platform) Ã¢â‚¬â€ v3.15.0
+### 1.1 GSAP (GreenSock Animation Platform) — v3.15.1
 
 | Field            | Detail                                                                    |
 | ---------------- | ------------------------------------------------------------------------- |
 | **Package**      | `gsap`                                                                    |
-| **Version**      | `^3.15.0`                                                                 |
+| **Version**      | `^3.15.1`                                                                 |
 | **License**      | Standard (free for all uses as of 2025 Webflow acquisition)               |
 | **Bundle Size**  | ~22KB gzipped (core)                                                      |
 | **Purpose**      | High-performance timeline animations, scroll-driven effects, SVG morphing |
@@ -87,12 +87,12 @@ useEffect(() => {
 
 #### Trade-offs & Rationale
 
-| Pro                                              | Con                                              |
-| ------------------------------------------------ | ------------------------------------------------ |
-| Industry-standard performance (60fps on mobile)  | Not React-native Ã¢â‚¬â€ requires manual cleanup |
-| ScrollTrigger is the most capable scroll library | Learning curve for advanced features             |
-| All plugins now free                             | Larger than pure CSS animations                  |
-| Browser-consistent behavior                      | Imperative API feels different from React        |
+| Pro                                              | Con                                        |
+| ------------------------------------------------ | ------------------------------------------ |
+| Industry-standard performance (60fps on mobile)  | Not React-native — requires manual cleanup |
+| ScrollTrigger is the most capable scroll library | Learning curve for advanced features       |
+| All plugins now free                             | Larger than pure CSS animations            |
+| Browser-consistent behavior                      | Imperative API feels different from React  |
 
 #### Resources
 
@@ -102,7 +102,7 @@ useEffect(() => {
 
 ---
 
-### 1.2 Three.js Ã¢â‚¬â€ v0.184.0
+### 1.2 Three.js — v0.184.0
 
 | Field           | Detail                                                                              |
 | --------------- | ----------------------------------------------------------------------------------- |
@@ -148,15 +148,15 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
 ---
 
-### 1.3 React Three Fiber (R3F) Ã¢â‚¬â€ v9.8.2
+### 1.3 React Three Fiber (R3F) — v9.8.2
 
-| Field           | Detail                                                                        |
-| --------------- | ----------------------------------------------------------------------------- |
-| **Package**     | `@react-three/fiber`                                                          |
-| **Version**     | `^9.8.2` (latest v9 Ã¢â‚¬â€ React 19 compatible)                              |
-| **License**     | MIT                                                                           |
-| **Bundle Size** | ~15KB gzipped (excluding `three`)                                             |
-| **Purpose**     | React renderer for Three.js Ã¢â‚¬â€ declarative 3D scenes as React components |
+| Field           | Detail                                                                  |
+| --------------- | ----------------------------------------------------------------------- |
+| **Package**     | `@react-three/fiber`                                                    |
+| **Version**     | `^9.8.2` (latest v9 — React 19 compatible)                              |
+| **License**     | MIT                                                                     |
+| **Bundle Size** | ~15KB gzipped (excluding `three`)                                       |
+| **Purpose**     | React renderer for Three.js — declarative 3D scenes as React components |
 
 #### Usage in Portfolio
 
@@ -200,12 +200,12 @@ function Hero3D() {
 
 #### Trade-offs & Rationale
 
-| Pro                                     | Con                                             |
-| --------------------------------------- | ----------------------------------------------- |
-| Declarative 3D Ã¢â‚¬â€ feels like React | Adds abstraction over Three.js                  |
-| Handles canvas lifecycle, DPR, resize   | Must still understand Three.js concepts         |
-| Automatic disposal on unmount           | Performance overhead of React reconciler for 3D |
-| TypeScript-first                        | Debugging can be harder than vanilla Three.js   |
+| Pro                                   | Con                                             |
+| ------------------------------------- | ----------------------------------------------- |
+| Declarative 3D — feels like React     | Adds abstraction over Three.js                  |
+| Handles canvas lifecycle, DPR, resize | Must still understand Three.js concepts         |
+| Automatic disposal on unmount         | Performance overhead of React reconciler for 3D |
+| TypeScript-first                      | Debugging can be harder than vanilla Three.js   |
 
 #### Resources
 
@@ -214,15 +214,15 @@ function Hero3D() {
 
 ---
 
-### 1.4 Drei Ã¢â‚¬â€ v9.122.0
+### 1.4 Drei — v10.7.9
 
-| Field           | Detail                                                                                   |
-| --------------- | ---------------------------------------------------------------------------------------- |
-| **Package**     | `@react-three/drei`                                                                      |
-| **Version**     | `^10.7.9` (latest v10 Ã¢â‚¬â€ React 19 compatible)                                       |
-| **License**     | MIT                                                                                      |
-| **Bundle Size** | ~30KB gzipped (tree-shaken per import)                                                   |
-| **Purpose**     | Utility components and helpers for R3F Ã¢â‚¬â€ camera controls, loaders, shapes, effects |
+| Field           | Detail                                                                             |
+| --------------- | ---------------------------------------------------------------------------------- |
+| **Package**     | `@react-three/drei`                                                                |
+| **Version**     | `^10.7.9` (latest v10 — React 19 compatible)                                       |
+| **License**     | MIT                                                                                |
+| **Bundle Size** | ~30KB gzipped (tree-shaken per import)                                             |
+| **Purpose**     | Utility components and helpers for R3F — camera controls, loaders, shapes, effects |
 
 #### Usage in Portfolio
 
@@ -244,15 +244,15 @@ function Hero3D() {
 
 ---
 
-### 1.5 Theatre.js Ã¢â‚¬â€ v0.7.2
+### 1.5 Theatre.js — v0.7.2
 
-| Field           | Detail                                                                                               |
-| --------------- | ---------------------------------------------------------------------------------------------------- |
-| **Package**     | `@theatre/core`                                                                                      |
-| **Version**     | `^0.7.2`                                                                                             |
-| **License**     | Apache 2.0                                                                                           |
-| **Bundle Size** | ~40KB gzipped                                                                                        |
-| **Purpose**     | Motion design tool for the web Ã¢â‚¬â€ create complex, choreographed animations visually or via code |
+| Field           | Detail                                                                                         |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| **Package**     | `@theatre/core`                                                                                |
+| **Version**     | `^0.7.2`                                                                                       |
+| **License**     | Apache 2.0                                                                                     |
+| **Bundle Size** | ~40KB gzipped                                                                                  |
+| **Purpose**     | Motion design tool for the web — create complex, choreographed animations visually or via code |
 
 #### Usage in Portfolio
 
@@ -300,7 +300,7 @@ const obj = sheet.object('Hero Text', {
 
 ---
 
-### 1.6 Spline Ã¢â‚¬â€ v1.12.97
+### 1.6 Spline — v1.12.97
 
 | Field           | Detail                                                                             |
 | --------------- | ---------------------------------------------------------------------------------- |
@@ -352,12 +352,12 @@ function SplineScene() {
 
 ---
 
-### 1.7 Lenis (Smooth Scroll) Ã¢â‚¬â€ v1.3.23
+### 1.7 Lenis (Smooth Scroll) — v1.3.25
 
 | Field           | Detail                                                                                |
 | --------------- | ------------------------------------------------------------------------------------- |
 | **Package**     | `lenis`                                                                               |
-| **Version**     | `^1.3.23`                                                                             |
+| **Version**     | `^1.3.25`                                                                             |
 | **License**     | MIT                                                                                   |
 | **Bundle Size** | ~5KB gzipped                                                                          |
 | **Purpose**     | Smooth, performant scrolling with easing, inertia, and GSAP/ScrollTrigger integration |
@@ -416,12 +416,12 @@ function useLenis() {
 
 #### Trade-offs & Rationale
 
-| Pro                              | Con                                                          |
-| -------------------------------- | ------------------------------------------------------------ |
-| Best-in-class smooth scroll      | Changes native scroll behavior Ã¢â‚¬â€ accessibility concern |
-| GSAP ScrollTrigger integration   | `prefers-reduced-motion` must be manually respected          |
-| Small bundle (5KB)               | Touch/mobile inertia needs tuning                            |
-| Active development and community | Must disable during modal/overlay states                     |
+| Pro                              | Con                                                    |
+| -------------------------------- | ------------------------------------------------------ |
+| Best-in-class smooth scroll      | Changes native scroll behavior — accessibility concern |
+| GSAP ScrollTrigger integration   | `prefers-reduced-motion` must be manually respected    |
+| Small bundle (5KB)               | Touch/mobile inertia needs tuning                      |
+| Active development and community | Must disable during modal/overlay states               |
 
 #### Resources
 
@@ -430,15 +430,15 @@ function useLenis() {
 
 ---
 
-### 1.8 Motion (Framer Motion successor) Ã¢â‚¬â€ v12.40.0
+### 1.8 Motion (framer-motion) — v14.13.0
 
-| Field           | Detail                                                                                             |
-| --------------- | -------------------------------------------------------------------------------------------------- |
-| **Package**     | `motion`                                                                                           |
-| **Version**     | `^12.40.0`                                                                                         |
-| **License**     | MIT                                                                                                |
-| **Bundle Size** | ~15KB gzipped (motion-dom + motion-utils)                                                          |
-| **Purpose**     | Declarative React animation library Ã¢â‚¬â€ layout animations, gestures, exit animations, variants |
+| Field           | Detail                                                                                       |
+| --------------- | -------------------------------------------------------------------------------------------- |
+| **Package**     | `framer-motion`                                                                              |
+| **Version**     | `^14.13.0`                                                                                   |
+| **License**     | MIT                                                                                          |
+| **Bundle Size** | ~15KB gzipped (motion-dom + motion-utils)                                                    |
+| **Purpose**     | Declarative React animation library — layout animations, gestures, exit animations, variants |
 
 #### Usage in Portfolio
 
@@ -454,7 +454,7 @@ function useLenis() {
 #### Integration Pattern
 
 ```tsx
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 
 // Page transition wrapper
 function PageWrapper({ children }: { children: React.ReactNode }) {
@@ -495,15 +495,15 @@ const item = {
 
 #### Trade-offs & Rationale
 
-| Pro                                               | Con                                             |
-| ------------------------------------------------- | ----------------------------------------------- |
-| Declarative React animations                      | Less performant than GSAP for complex timelines |
-| Layout animations (FLIP) Ã¢â‚¬â€ unique to Motion | Bundle overhead for simple animations           |
-| Gesture support (drag, pan)                       | ~15KB even when tree-shaken                     |
-| TypeScript-first, excellent DX                    | Cannot match GSAP's ScrollTrigger depth         |
-| AnimatePresence for exit animations               |                                                 |
+| Pro                                         | Con                                             |
+| ------------------------------------------- | ----------------------------------------------- |
+| Declarative React animations                | Less performant than GSAP for complex timelines |
+| Layout animations (FLIP) — unique to Motion | Bundle overhead for simple animations           |
+| Gesture support (drag, pan)                 | ~15KB even when tree-shaken                     |
+| TypeScript-first, excellent DX              | Cannot match GSAP's ScrollTrigger depth         |
+| AnimatePresence for exit animations         |                                                 |
 
-> **Note:** `motion` is the successor to `framer-motion` (same API, new package name). We use `motion` directly as it's the current and future-proof package.
+> **Note:** this repo depends on `framer-motion` v14 directly (the same team's successor project publishes the identical API as the `motion` package; this codebase has not migrated to it).
 
 #### Resources
 
@@ -512,15 +512,15 @@ const item = {
 
 ---
 
-### 1.9 Post Processing Ã¢â‚¬â€ v6.39.1
+### 1.9 Post Processing — v6.39.1
 
-| Field           | Detail                                                                                   |
-| --------------- | ---------------------------------------------------------------------------------------- |
-| **Package**     | `postprocessing` + `@react-three/postprocessing`                                         |
-| **Version**     | `^6.39.1` + `^2.19.0`                                                                    |
-| **License**     | Zlib                                                                                     |
-| **Bundle Size** | ~20KB gzipped                                                                            |
-| **Purpose**     | Post-processing effects for Three.js Ã¢â‚¬â€ bloom, depth of field, vignette, pixelation |
+| Field           | Detail                                                                             |
+| --------------- | ---------------------------------------------------------------------------------- |
+| **Package**     | `postprocessing` + `@react-three/postprocessing`                                   |
+| **Version**     | `^6.39.1` + `^2.19.0`                                                              |
+| **License**     | Zlib                                                                               |
+| **Bundle Size** | ~20KB gzipped                                                                      |
+| **Purpose**     | Post-processing effects for Three.js — bloom, depth of field, vignette, pixelation |
 
 #### Usage in Portfolio
 
@@ -718,14 +718,14 @@ function ParticleField({ count = 5000 }) {
 graph TB
     subgraph "User-facing Animations"
         GSAP["GSAP 3.15<br/>Timeline, ScrollTrigger, Text"]
-        MOTION["Motion 12<br/>Layout, Gestures, Exit"]
+        MOTION["Motion 14<br/>Layout, Gestures, Exit"]
         LENIS["Lenis 1.3<br/>Smooth Scroll"]
     end
 
     subgraph "3D Rendering Layer"
         THREE["Three.js 0.184<br/>WebGL, WebGPU"]
-        R3F["R3F 8.20<br/>React renderer"]
-        DREI["Drei 9.122<br/>R3F utilities"]
+        R3F["R3F 9.8<br/>React renderer"]
+        DREI["Drei 10.7<br/>R3F utilities"]
     end
 
     subgraph "3D Effects & Tools"
@@ -754,7 +754,7 @@ graph TB
     end
 
     subgraph "React Integration"
-        MOTION -->|motion/react| REACT_UI
+        MOTION -->|framer-motion| REACT_UI
         GSAP -->|useRef + useEffect| REACT_UI
         R3F -->|Canvas| REACT_UI
     end
@@ -764,7 +764,7 @@ graph TB
     REACT_UI["React"]
 ```
 
-### 1.13 Performance Budget Ã¢â‚¬â€ Animation/3D
+### 1.13 Performance Budget — Animation/3D
 
 | Library              | Bundle Contribution | Load Strategy           | Priority |
 | -------------------- | ------------------- | ----------------------- | -------- |
@@ -783,12 +783,12 @@ graph TB
 
 ## 2. Frontend Core
 
-### 2.1 Next.js Ã¢â‚¬â€ v14.2.x
+### 2.1 Next.js — v15.5.x
 
 | Field       | Detail                                                           |
 | ----------- | ---------------------------------------------------------------- |
 | **Package** | `next`                                                           |
-| **Version** | `^14.2.0`                                                        |
+| **Version** | `^15.5.29`                                                       |
 | **License** | MIT                                                              |
 | **Purpose** | React framework with App Router, ISR, SSR, and server components |
 
@@ -814,16 +814,16 @@ graph TB
 
 - **Docs:** https://nextjs.org/docs
 
-### 2.2 React Ã¢â‚¬â€ v18.3.x
+### 2.2 React — v19.2.x
 
 | Field       | Detail               |
 | ----------- | -------------------- |
 | **Package** | `react`, `react-dom` |
-| **Version** | `^18.3.0`            |
+| **Version** | `^19.2.7`            |
 | **License** | MIT                  |
 | **Purpose** | UI component library |
 
-### 2.3 TypeScript Ã¢â‚¬â€ v5.5.x
+### 2.3 TypeScript — v5.5.x
 
 | Field       | Detail              |
 | ----------- | ------------------- |
@@ -832,7 +832,7 @@ graph TB
 | **License** | Apache 2.0          |
 | **Mode**    | Strict mode enabled |
 
-### 2.4 Tailwind CSS Ã¢â‚¬â€ v3.4.x
+### 2.4 Tailwind CSS — v3.4.x
 
 | Field       | Detail                                                |
 | ----------- | ----------------------------------------------------- |
@@ -862,12 +862,12 @@ graph TB
 
 ## 3. Backend API (NestJS)
 
-### 3.1 NestJS Ã¢â‚¬â€ v10.4.x
+### 3.1 NestJS — v12.5.x
 
 | Field       | Detail                                                         |
 | ----------- | -------------------------------------------------------------- |
 | **Package** | `@nestjs/core`, `@nestjs/common`, etc.                         |
-| **Version** | `^10.4.0`                                                      |
+| **Version** | `^12.5.0`                                                      |
 | **License** | MIT                                                            |
 | **Purpose** | Structured Node.js backend framework with modular architecture |
 
@@ -879,54 +879,38 @@ graph TB
 - Skills Module (CRUD, category grouping)
 - Leads Module (CRUD, CSV export, auto-reply)
 - Analytics Module (event storage, aggregation)
-- Upload Module (file handling, Supabase storage)
+- Media Module (file upload + management)
 
 ### 3.2 Key Dependencies
 
-| Package                 | Version   | Purpose                               |
-| ----------------------- | --------- | ------------------------------------- |
-| `@nestjs/passport`      | `^10.x`   | Passport authentication integration   |
-| `passport-jwt`          | `^4.x`    | JWT strategy for Passport             |
-| `@nestjs/swagger`       | `^7.x`    | OpenAPI/Swagger documentation         |
-| `@nestjs/throttler`     | `^5.x`    | Rate limiting                         |
-| `@supabase/supabase-js` | `^2.45.x` | Supabase client for DB, Auth, Storage |
+| Package             | Version | Purpose                             |
+| ------------------- | ------- | ----------------------------------- |
+| `@nestjs/passport`  | `^10.x` | Passport authentication integration |
+| `passport-jwt`      | `^4.x`  | JWT strategy for Passport           |
+| `@nestjs/swagger`   | `^7.x`  | OpenAPI/Swagger documentation       |
+| `@nestjs/throttler` | `^5.x`  | Rate limiting                       |
 
 ---
 
-## 4. AI Microservice (FastAPI)
+## 4. AI Microservice (FastAPI) — Removed in 2.0.0
 
-### 4.1 FastAPI Ã¢â‚¬â€ v0.115.x
-
-| Field       | Detail                                    |
-| ----------- | ----------------------------------------- |
-| **Package** | `fastapi`                                 |
-| **Version** | `>=0.115.0`                               |
-| **License** | MIT                                       |
-| **Purpose** | Python ASGI framework for AI microservice |
-
-### 4.2 Key Dependencies
-
-| Package     | Version   | Purpose                    |
-| ----------- | --------- | -------------------------- |
-| `uvicorn`   | `^0.32.x` | ASGI server                |
-| `langchain` | `^0.3.x`  | LLM orchestration          |
-| `openai`    | `^1.x`    | OpenAI API client          |
-| `anthropic` | `^0.30.x` | Anthropic API client       |
-| `supabase`  | `^2.x`    | Supabase client for Python |
+> **Removed:** The FastAPI-based AI microservice and its Python dependency
+> stack (`fastapi`, `uvicorn`, `langchain`, `openai`, `anthropic`, `supabase`)
+> were removed from the platform in **2.0.0**, together with the
+> Supabase-managed services. See the root `CHANGELOG.md` for the full removal
+> entry. AI-related work now lives in the NestJS API's own service modules.
 
 ---
 
 ## 5. Database & Storage
 
-### 5.1 Supabase (PostgreSQL 15)
+### 5.1 PostgreSQL 15
 
-| Service    | Version       | Purpose                   | Free Tier Limit |
-| ---------- | ------------- | ------------------------- | --------------- |
-| PostgreSQL | 15            | Primary database          | 500MB           |
-| Auth       | Managed       | User management           | 50,000 users    |
-| Storage    | S3-compatible | Image/asset storage       | 1GB             |
-| Realtime   | WebSocket     | Live analytics            | 2M messages     |
-| pgvector   | 0.7.x         | Vector embeddings for RAG | Included        |
+| Service    | Version | Purpose                        | Access Layer                                       |
+| ---------- | ------- | ------------------------------ | -------------------------------------------------- |
+| PostgreSQL | 15      | Primary database (self-hosted) | Prisma ORM + `@prisma/adapter-pg` over a `pg.Pool` |
+
+> **Note:** Supabase-managed Auth, Storage, Realtime, and pgvector were removed in platform **2.0.0**. Auth is now JWT-based in the NestJS API, and file handling lives in the API's Media module. See the root `CHANGELOG.md`.
 
 ---
 
@@ -935,7 +919,6 @@ graph TB
 | Service    | Purpose                | Cost | Notes                            |
 | ---------- | ---------------------- | ---- | -------------------------------- |
 | Vercel     | Frontend + API hosting | $0   | 100GB bandwidth, 6,000 build min |
-| Railway    | AI service hosting     | $0   | $5 monthly credit                |
 | GitHub     | Source control + CI/CD | $0   | Public repo, 2,000 min/month     |
 | Cloudflare | DNS + DDoS protection  | $0   | Free plan                        |
 
@@ -943,10 +926,10 @@ graph TB
 
 ## 7. Package Manager & Monorepo
 
-| Tool           | Purpose                | Rationale                                       |
-| -------------- | ---------------------- | ----------------------------------------------- |
-| npm 10+        | Package manager        | Ships with Node.js 22.12+ (24 in CI and Docker) |
-| Turborepo 2.0+ | Monorepo orchestration | Caching, parallel execution, dependency graph   |
+| Tool           | Purpose                | Rationale                                                         |
+| -------------- | ---------------------- | ----------------------------------------------------------------- |
+| npm 11.21.2    | Package manager        | Pinned in root `package.json` `packageManager`; used via corepack |
+| Turborepo 2.0+ | Monorepo orchestration | Caching, parallel execution, dependency graph                     |
 
 ---
 
@@ -975,27 +958,27 @@ graph TB
 ## 10. Version Compatibility Matrix
 
 ```text
-Node.js 22.12+ (24 in CI and Docker) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Next.js 15.5+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19.3+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ NestJS 12.5+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Passport 0.7+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ TypeScript 5.4+
+Node.js 22.12+ (24 in CI and Docker) ────→ Next.js 15.5+  ────→ React 19.3+
+                ────→ NestJS 12.5+  ────→ Passport 0.7+
+                ────→ TypeScript 5.4+
 
-Python 3.10+    Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ FastAPI 0.115+ Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ LangChain 0.3+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Uvicorn 0.32+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ PyTorch 2.5+
+PostgreSQL 15   ────→ Prisma (ORM, via @prisma/adapter-pg)
 
-PostgreSQL 15   Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ pgvector 0.7+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Supabase JS 2.45+
-
-npm 10+         Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Turborepo 2.0+
+npm 11.21.2     ────→ Turborepo 2.0+   (pinned via corepack `packageManager`)
 
 Animation Stack Compatibility:
-Three.js 0.184  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ @react-three/fiber 8.20+  Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ @react-three/drei 9.122+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ @react-three/postprocessing 2.19+
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ postprocessing 6.39+
+Three.js 0.184  ────→ @react-three/fiber 9.8+  ────→ @react-three/drei 10.7+
+                ────→ @react-three/postprocessing 2.19+
+                ────→ postprocessing 6.39+
 
-GSAP 3.15+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ ScrollTrigger plugin
-                Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ Lenis 1.3+ (scroll integration)
+GSAP 3.15+      ────→ ScrollTrigger plugin
+                ────→ Lenis 1.3+ (scroll integration)
 
-Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19.3+ (framer-motion API, new package)
+Motion 14+      ────→ React 19.3+ (framer-motion API, new package)
+
+Removed in 2.0.0: the Python/FastAPI/LangChain/Uvicorn/PyTorch AI microservice
+and the pgvector/Supabase JS stack (Supabase-managed Auth/Storage/Realtime).
+See the root CHANGELOG.md for the 2.0.0 removal entry.
 ```
 
 ---
@@ -1004,18 +987,16 @@ Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19
 
 ### Annual Platform Costs
 
-| Service                        | Annual Cost   | Notes                          |
-| ------------------------------ | ------------- | ------------------------------ |
-| Domain                         | ~$10          | Cloudflare or Namecheap        |
-| Vercel (Frontend + API)        | $0            | Free tier                      |
-| Railway (AI Service)           | $0            | $5 credit covers usage         |
-| Supabase (DB + Auth + Storage) | $0            | Free tier                      |
-| PostHog (Analytics)            | $0            | Free tier                      |
-| Sentry (Error Tracking)        | $0            | Free tier                      |
-| Resend (Email)                 | $0            | 100 emails/day                 |
-| GitHub Actions (CI/CD)         | $0            | Public repo                    |
-| OpenAI (AI API)                | ~$60          | Variable, ~$5/mo typical       |
-| **Total**                      | **~$70/year** | (~$10 base + ~$60 AI variable) |
+| Service                 | Annual Cost   | Notes                          |
+| ----------------------- | ------------- | ------------------------------ |
+| Domain                  | ~$10          | Cloudflare or Namecheap        |
+| Vercel (Frontend + API) | $0            | Free tier                      |
+| PostHog (Analytics)     | $0            | Free tier                      |
+| Sentry (Error Tracking) | $0            | Free tier                      |
+| Resend (Email)          | $0            | 100 emails/day                 |
+| GitHub Actions (CI/CD)  | $0            | Public repo                    |
+| OpenAI (AI API)         | ~$60          | Variable, ~$5/mo typical       |
+| **Total**               | **~$70/year** | (~$10 base + ~$60 AI variable) |
 
 > **Note:** AI costs are variable and depend on usage. The OpenAI free credits ($18 for new accounts) cover ~3 months of typical use. A budget cap of $10/month should be configured on the OpenAI dashboard.
 
@@ -1025,27 +1006,25 @@ Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19
 
 ### Animation/3D Libraries
 
-| Technology              | Risk Level | Risk                                        | Mitigation                       | Fallback                            |
-| ----------------------- | ---------- | ------------------------------------------- | -------------------------------- | ----------------------------------- |
-| GSAP 3.15               | Low        | Webflow acquisition may change licensing    | Open-source fork (anime.js)      | Motion, CSS animations              |
-| Three.js 0.184          | Low        | Breaking changes between versions           | Pin version, test on upgrade     | CSS 3D transforms for simple scenes |
-| @react-three/fiber 8.20 | Low        | Depends on Three.js compatibility           | Update in lockstep with Three.js | Vanilla Three.js                    |
-| Theatre.js 0.7          | Medium     | Smaller community, less maintenance         | Limit to non-critical animations | GSAP timelines                      |
-| Spline 1.12             | Medium     | Proprietary format, Spline dependency       | Export static GLTF as fallback   | Static images                       |
-| Lenis 1.3               | Low        | Scroll behavior vs browser standards        | Feature flag to disable          | Native scroll                       |
-| Motion 12               | Low        | Name change (framer-motion Ã¢â€ â€™ motion) | Well-established API             | GSAP, CSS animations                |
-| Post Processing 6.39    | Low        | Depends on Three.js                         | Update in lockstep               | PostCSS CSS filters                 |
+| Technology             | Risk Level | Risk                                     | Mitigation                       | Fallback                            |
+| ---------------------- | ---------- | ---------------------------------------- | -------------------------------- | ----------------------------------- |
+| GSAP 3.15              | Low        | Webflow acquisition may change licensing | Open-source fork (anime.js)      | Motion, CSS animations              |
+| Three.js 0.184         | Low        | Breaking changes between versions        | Pin version, test on upgrade     | CSS 3D transforms for simple scenes |
+| @react-three/fiber 9.8 | Low        | Depends on Three.js compatibility        | Update in lockstep with Three.js | Vanilla Three.js                    |
+| Theatre.js 0.7         | Medium     | Smaller community, less maintenance      | Limit to non-critical animations | GSAP timelines                      |
+| Spline 1.12            | Medium     | Proprietary format, Spline dependency    | Export static GLTF as fallback   | Static images                       |
+| Lenis 1.3              | Low        | Scroll behavior vs browser standards     | Feature flag to disable          | Native scroll                       |
+| Motion 14              | Low        | Name change (framer-motion → motion)     | Well-established API             | GSAP, CSS animations                |
+| Post Processing 6.39   | Low        | Depends on Three.js                      | Update in lockstep               | PostCSS CSS filters                 |
 
 ### Core Stack
 
-| Technology | Risk Level | Risk                           | Mitigation                            | Fallback                  |
-| ---------- | ---------- | ------------------------------ | ------------------------------------- | ------------------------- |
-| Next.js 14 | Low        | Rapid framework evolution      | Pin major version, follow LTS         | Remix, Astro              |
-| NestJS 12  | Low        | Smaller community than Express | Well-established patterns             | Express, Fastify          |
-| FastAPI    | Low        | Python version upgrades        | Pin Python 3.10+                      | Flask, Django             |
-| Supabase   | Medium     | Free tier limits               | Monitor usage, upgrade plan if needed | PlanetScale, Neon         |
-| Vercel     | Medium     | Vendor lock-in (ISR)           | Keep Next.js portable                 | Netlify, Cloudflare Pages |
-| Turborepo  | Low        | Active development             | Pin version                           | Nx, Lerna                 |
+| Technology | Risk Level | Risk                           | Mitigation                    | Fallback                  |
+| ---------- | ---------- | ------------------------------ | ----------------------------- | ------------------------- |
+| Next.js 15 | Low        | Rapid framework evolution      | Pin major version, follow LTS | Remix, Astro              |
+| NestJS 12  | Low        | Smaller community than Express | Well-established patterns     | Express, Fastify          |
+| Vercel     | Medium     | Vendor lock-in (ISR)           | Keep Next.js portable         | Netlify, Cloudflare Pages |
+| Turborepo  | Low        | Active development             | Pin version                   | Nx, Lerna                 |
 
 ---
 
@@ -1063,12 +1042,12 @@ Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19
 
 | Library         | Strategy                | Reason                             |
 | --------------- | ----------------------- | ---------------------------------- |
-| GSAP            | `^3.15.0`               | Stable API, minor versions safe    |
+| GSAP            | `^3.15.1`               | Stable API, minor versions safe    |
 | Three.js        | `0.184.x` (exact minor) | Breaking changes between minors    |
-| R3F             | `^9.8.0`                | Stable v8 API, React 19 compatible |
-| Drei            | `^9.122.0`              | Follows R3F v8                     |
-| Motion          | `^12.40.0`              | Stable API                         |
-| Lenis           | `^1.3.0`                | Still early, minor versions safe   |
+| R3F             | `^9.8.0`                | Stable v9 API, React 19 compatible |
+| Drei            | `^10.7.9`               | Follows R3F v9                     |
+| Motion          | `^14.13.0`              | Stable API                         |
+| Lenis           | `^1.3.25`               | Still early, minor versions safe   |
 | Theatre.js      | `^0.7.0`                | Pre-1.0, pin minor                 |
 | Spline          | `^1.12.0`               | Stable runtime API                 |
 | Post Processing | `^6.39.0`               | Stable API                         |
@@ -1079,6 +1058,7 @@ Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19
 
 | Version | Date     | Changes                                                                                                                                                                                                                                                                                                                                | Author            |
 | ------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| 4.1     | Nov 2026 | FastAPI AI microservice and Supabase removed in platform 2.0.0; document annotated and version facts corrected                                                                                                                                                                                                                         | Docs cleanup      |
 | 4.0     | Jun 2026 | Added complete Animation & 3D Libraries section (13 libraries: GSAP, Three.js, R3F v8, Drei v9, Theatre.js, Spline, Lenis, Motion, Post Processing v2, Custom GLSL, WebGL Particles, Shaders); added animation architecture diagram, performance budget table, version compatibility matrix, risk assessment, version pinning strategy | Architecture Lead |
 | 3.0     | Jun 2026 | Added executive summary, technology risk assessment with fallbacks, dependency update cadence, version compatibility matrix                                                                                                                                                                                                            | Architecture Lead |
 | 2.0     | Jun 2026 | Updated for enterprise monorepo structure; added Mermaid version graph, cost analysis                                                                                                                                                                                                                                                  | Architecture Lead |
@@ -1088,37 +1068,34 @@ Motion 14+      Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€ â€™ React 19
 
 ## Document References
 
-| Reference                                           | Description                                                       |
-| --------------------------------------------------- | ----------------------------------------------------------------- |
-| `docs/05-architecture/SystemArchitecture.md` (v5.0) | System architecture Ã¢â‚¬â€ where these technologies are deployed |
-| `docs/04-design/DesignTokens.md` (v5.0)             | Visual design Ã¢â‚¬â€ animation language and design principles    |
-| `docs/04-design/DesignSystem.md` (v5.0)             | Component specifications Ã¢â‚¬â€ implementation of design tokens  |
-| `docs/04-design/DesignSystem.md` (v5.0)             | UI/UX architecture Ã¢â‚¬â€ motion UX, AI UX specifications        |
-| `apps/web/package.json`                             | Actual dependency manifest                                        |
+| Reference               | Description                                              |
+| ----------------------- | -------------------------------------------------------- |
+| `apps/web/package.json` | Web workspace dependency manifest                        |
+| `apps/api/package.json` | API workspace dependency manifest                        |
+| `DESIGN.md` (root)      | Design contract — token rules and current visual reality |
 
 ---
 
 ## Decision Log
 
-| ID         | Decision                                                                             | Rationale                                                                                                    | Alternatives Considered                                                                                                                                                                            | Date     | Approver          |
-| ---------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------- |
-| D-TECH-001 | Adopt Next.js 14 with App Router and React Server Components                         | Optimal cost/performance for portfolio; ISR enables edge caching; free-tier Vercel hosting                   | Remix (rejected Ã¢â‚¬â€ smaller ecosystem); Astro (rejected Ã¢â‚¬â€ weaker SSR/API integration); WordPress (rejected Ã¢â‚¬â€ overkill for portfolio)                                               | Mar 2026 | Architecture Lead |
-| D-TECH-002 | Use TypeScript 5 across all workspaces with strict mode                              | Catches type errors at compile time; improves developer experience; ecosystem standard                       | JavaScript (rejected Ã¢â‚¬â€ no type safety); Flow (rejected Ã¢â‚¬â€ deprecated); plain JS with JSDoc (rejected Ã¢â‚¬â€ weaker checks)                                                             | Mar 2026 | Architecture Lead |
-| D-TECH-003 | Select Supabase (PostgreSQL 15 + pgvector) as primary database                       | Generous free tier (500MB DB, 1GB storage, built-in auth, RLS, pgvector for embeddings); all-in-one solution | MongoDB Atlas (rejected Ã¢â‚¬â€ no pgvector); PlanetScale (rejected Ã¢â‚¬â€ MySQL, no pgvector); Firebase (rejected Ã¢â‚¬â€ NoSQL, vendor lock-in)                                                 | Mar 2026 | Architecture Lead |
-| D-TECH-004 | Invest in 13 animation/3D libraries (GSAP, Three.js, R3F, Motion, Lenis)             | Differentiator for portfolio; enables distinctive visual experience unmatched by template-based portfolios   | Single animation library (rejected Ã¢â‚¬â€ limits creative options); no animation (rejected Ã¢â‚¬â€ generic appearance); CSS-only animations (rejected Ã¢â‚¬â€ insufficient for 3D/scroll effects) | Jun 2026 | Architecture Lead |
-| D-TECH-005 | Architect as Turborepo monorepo with npm workspaces                                  | Code sharing, explicit dependency direction, parallel builds, shared configs                                 | Single-package repo (rejected Ã¢â‚¬â€ no separation of concerns); multi-repo (rejected Ã¢â‚¬â€ coordination overhead); pnpm workspaces (rejected Ã¢â‚¬â€ less ecosystem support)                   | Mar 2026 | Architecture Lead |
-| D-TECH-006 | Deploy FastAPI AI microservice as container on Railway/Fly.io rather than serverless | LLM orchestrations require >10s timeouts, WebSocket/SSE support; container provides full control             | Vercel serverless functions (rejected Ã¢â‚¬â€ 10s timeout limit); AWS Lambda (rejected Ã¢â‚¬â€ cold start, complexity); self-hosted VPS (rejected Ã¢â‚¬â€ maintenance burden)                      | Jun 2026 | Architecture Lead |
+| ID         | Decision                                                                                                                                 | Rationale                                                                                                    | Alternatives Considered                                                                                                                                                          | Date     | Approver          |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------- |
+| D-TECH-001 | Adopt Next.js 14 with App Router and React Server Components                                                                             | Optimal cost/performance for portfolio; ISR enables edge caching; free-tier Vercel hosting                   | Remix (rejected — smaller ecosystem); Astro (rejected — weaker SSR/API integration); WordPress (rejected — overkill for portfolio)                                               | Mar 2026 | Architecture Lead |
+| D-TECH-002 | Use TypeScript 5 across all workspaces with strict mode                                                                                  | Catches type errors at compile time; improves developer experience; ecosystem standard                       | JavaScript (rejected — no type safety); Flow (rejected — deprecated); plain JS with JSDoc (rejected — weaker checks)                                                             | Mar 2026 | Architecture Lead |
+| D-TECH-003 | Select Supabase (PostgreSQL 15 + pgvector) as primary database — **superseded in 2.0.0** (plain PostgreSQL + Prisma)                     | Generous free tier (500MB DB, 1GB storage, built-in auth, RLS, pgvector for embeddings); all-in-one solution | MongoDB Atlas (rejected — no pgvector); PlanetScale (rejected — MySQL, no pgvector); Firebase (rejected — NoSQL, vendor lock-in)                                                 | Mar 2026 | Architecture Lead |
+| D-TECH-004 | Invest in 13 animation/3D libraries (GSAP, Three.js, R3F, Motion, Lenis)                                                                 | Differentiator for portfolio; enables distinctive visual experience unmatched by template-based portfolios   | Single animation library (rejected — limits creative options); no animation (rejected — generic appearance); CSS-only animations (rejected — insufficient for 3D/scroll effects) | Jun 2026 | Architecture Lead |
+| D-TECH-005 | Architect as Turborepo monorepo with npm workspaces                                                                                      | Code sharing, explicit dependency direction, parallel builds, shared configs                                 | Single-package repo (rejected — no separation of concerns); multi-repo (rejected — coordination overhead); pnpm workspaces (rejected — less ecosystem support)                   | Mar 2026 | Architecture Lead |
+| D-TECH-006 | Deploy FastAPI AI microservice as container on Railway/Fly.io rather than serverless — **superseded in 2.0.0** (AI microservice removed) | LLM orchestrations require >10s timeouts, WebSocket/SSE support; container provides full control             | Vercel serverless functions (rejected — 10s timeout limit); AWS Lambda (rejected — cold start, complexity); self-hosted VPS (rejected — maintenance burden)                      | Jun 2026 | Architecture Lead |
 
 ## Risk Register
 
-| ID         | Risk                                                                                        | Likelihood | Impact | Mitigation                                                                                                                              |
-| ---------- | ------------------------------------------------------------------------------------------- | ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
-| R-TECH-001 | Animation library version conflicts across 13 libraries causing build failures              | Medium     | High   | Pin exact versions in package.json; add CI check for peer dependency conflicts; maintain version compatibility matrix (Ã‚Â§10)          |
-| R-TECH-002 | Free-tier limitations (Vercel 100GB bandwidth, Supabase 500MB DB) exceeded as traffic grows | Medium     | Medium | Set bandwidth monitoring alerts at 80%; document Pro tier upgrade path; optimize image sizes and cache hit rates                        |
-| R-TECH-003 | Technology becomes outdated (e.g., Next.js major version change requires breaking changes)  | Medium     | Medium | Schedule quarterly dependency review; maintain upgrade runbook; use Renovate/Dependabot for automated PRs                               |
-| R-TECH-004 | pgvector performance degrades as embedding count grows beyond free-tier capacity            | Low        | Medium | Monitor index build time and query latency; plan migration to larger instance; implement chunk pruning for stale embeddings             |
-| R-TECH-005 | Third-party service (OpenAI, Supabase, Resend) changes pricing or deprecates free tier      | Low        | High   | Maintain multi-provider fallback strategy; document migration runbook for each service; keep costs at $0 to absorb reasonable increases |
-| R-TECH-006 | Developer learning curve for 13 animation libraries slows feature development               | Medium     | Low    | Create reusable animation abstractions in packages/ui; document patterns and examples in Storybook; pair-program complex animations     |
+| ID         | Risk                                                                                       | Likelihood | Impact | Mitigation                                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------ | ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| R-TECH-001 | Animation library version conflicts across 13 libraries causing build failures             | Medium     | High   | Pin exact versions in package.json; add CI check for peer dependency conflicts; maintain version compatibility matrix (§10)             |
+| R-TECH-002 | Free-tier limitations (Vercel 100GB bandwidth) exceeded as traffic grows                   | Medium     | Medium | Set bandwidth monitoring alerts at 80%; document Pro tier upgrade path; optimize image sizes and cache hit rates                        |
+| R-TECH-003 | Technology becomes outdated (e.g., Next.js major version change requires breaking changes) | Medium     | Medium | Schedule quarterly dependency review; maintain upgrade runbook; use Renovate/Dependabot for automated PRs                               |
+| R-TECH-005 | Third-party service (OpenAI, Resend) changes pricing or deprecates free tier               | Low        | High   | Maintain multi-provider fallback strategy; document migration runbook for each service; keep costs at $0 to absorb reasonable increases |
+| R-TECH-006 | Developer learning curve for 13 animation libraries slows feature development              | Medium     | Low    | Create reusable animation abstractions in packages/ui; document patterns and examples in Storybook; pair-program complex animations     |
 
 ## 15. Strategic Technology Assessment
 
@@ -1134,15 +1111,14 @@ Technologies in this stack were evaluated against the following enterprise crite
 ### 15.2 Tradeoff Analysis
 
 - **Monorepo (Turborepo) vs. Multi-repo:** Chosen for shared types and configurations, though it introduces some build complexity.
-- **Supabase vs. AWS/GCP Native:** Supabase provides rapid iteration with built-in auth and RLS, at the cost of some vendor lock-in compared to raw PostgreSQL.
-- **FastAPI vs. Node.js for AI:** FastAPI chosen for superior Python ML ecosystem compatibility, despite the cost of maintaining a polyglot architecture.
+- **Historical note:** two earlier trade-offs — Supabase-managed services vs. raw PostgreSQL, and FastAPI (Python) vs. Node.js for AI — were both resolved in platform **2.0.0** by removal. The stack is now plain PostgreSQL via Prisma and NestJS-only.
 
 ### 15.3 Future Migration Strategy
 
 To avoid deep vendor lock-in, the following decoupling strategies are in place:
 
 - **Database Abstraction:** Prisma ORM abstracts PostgreSQL, allowing migration to any Postgres-compliant provider (AWS RDS, Neon).
-- **Deployment Portability:** Dockerized services (FastAPI/NestJS) can move from Railway to AWS Fargate or Kubernetes with minimal changes.
+- **Deployment Portability:** Dockerized services (NestJS) can move from Railway to AWS Fargate or Kubernetes with minimal changes.
 - **Frontend Agnosticism:** Core business logic is contained in the backend, meaning Next.js can be swapped for another React framework if necessary.
 
 ### 15.4 Cost Analysis
@@ -1150,14 +1126,14 @@ To avoid deep vendor lock-in, the following decoupling strategies are in place:
 Current infrastructure leverages generous free tiers. As traffic scales, the projected costs are:
 
 - **0 - 10k MAU:** - /mo (Domain, base tiers).
-- **10k - 50k MAU:** - /mo (Vercel Pro, Supabase Pro, Railway scaled resources).
+- **10k - 50k MAU:** - /mo (Vercel Pro, scaled PostgreSQL).
 - **50k+ MAU:** +/mo (Dedicated databases, high-volume AI API calls).
 
 ### 15.5 Scaling Strategy
 
 - **Phase 1 (Current):** Serverless frontend + containerized monolith APIs.
 - **Phase 2:** Implement Redis caching (Upstash) for heavy database queries and API rate limiting.
-- **Phase 3:** Extract high-load modules (e.g., AI embeddings) into dedicated worker nodes.
+- **Phase 3:** Extract high-load modules into dedicated worker nodes.
 - **Phase 4:** Global database read replicas and CDN edge caching for all static/ISR routes.
 
 ## Change Log
@@ -1188,9 +1164,9 @@ Current infrastructure leverages generous free tiers. As traffic scales, the pro
 | **Lenis**                                 | A smooth scrolling library that enables custom scroll behaviors with GSAP integration                        |
 | **Zustand**                               | A small, fast state management library for React with a minimal API and no boilerplate                       |
 
-_Document Version: 4.0 Ã¢â‚¬â€ Enterprise Edition_
+_Document Version: 4.0 — Enterprise Edition_
 
 ## Cross-References
 
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
+- [../MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

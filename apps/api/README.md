@@ -6,7 +6,7 @@ NestJS REST API backend — fully separated Portfolio (public) and Admin (authen
 
 - **Framework**: NestJS 12, TypeScript, strict mode
 - **Database**: PostgreSQL via Prisma ORM with `@prisma/adapter-pg` driver adapter
-- **Auth**: JWT access tokens (15min) + refresh tokens in Redis (7d TTL)
+- **Auth**: JWT access tokens (15 min) delivered as HttpOnly cookies (`Bearer` accepted for API clients) + rotating refresh cookie (7d). Refresh sessions persist in the Postgres `sessions` table (only SHA-256 hashes) — auth does not depend on Redis
 - **Queue**: BullMQ (Redis-backed) for email, notifications, background jobs
 - **Caching**: ioredis — portfolio endpoints (5min TTL), automatic invalidation on writes
 - **Email**: Resend API via BullMQ queue + Handlebars templates
@@ -18,18 +18,18 @@ NestJS REST API backend — fully separated Portfolio (public) and Admin (authen
 
 See `config/.env.example` at repo root. Key variables:
 
-| Variable         | Description                                 |
-| ---------------- | ------------------------------------------- |
-| `DATABASE_URL`   | PostgreSQL connection string                |
-| `JWT_SECRET`     | JWT signing secret                          |
-| `REDIS_URL`      | Redis connection (cache + queue + sessions) |
-| `SENTRY_DSN`     | Sentry error tracking + profiling           |
-| `RESEND_API_KEY` | Transactional email                         |
-| `OPENAI_API_KEY` | AI assistant                                |
-| `CORS_ORIGIN`    | Allowed origins (comma-separated)           |
-| `RATE_LIMIT_TTL` | Global rate limit window (seconds)          |
-| `RATE_LIMIT_MAX` | Global rate limit max requests              |
-| `NODE_ENV`       | `development` / `production`                |
+| Variable         | Description                        |
+| ---------------- | ---------------------------------- |
+| `DATABASE_URL`   | PostgreSQL connection string       |
+| `JWT_SECRET`     | JWT signing secret                 |
+| `REDIS_URL`      | Redis connection (cache + queue)   |
+| `SENTRY_DSN`     | Sentry error tracking + profiling  |
+| `RESEND_API_KEY` | Transactional email                |
+| `OPENAI_API_KEY` | AI assistant                       |
+| `CORS_ORIGIN`    | Allowed origins (comma-separated)  |
+| `RATE_LIMIT_TTL` | Global rate limit window (seconds) |
+| `RATE_LIMIT_MAX` | Global rate limit max requests     |
+| `NODE_ENV`       | `development` / `production`       |
 
 ## Scripts
 
@@ -138,4 +138,4 @@ npm run test:coverage
 
 ## Deployment
 
-See `docs/operations/DeploymentGuide.md` and `infrastructure/docker/docker-compose.yml`.
+See `docs/12-devops/DEPLOYMENT-GUIDE.md` and `infrastructure/docker/docker-compose.yml`.

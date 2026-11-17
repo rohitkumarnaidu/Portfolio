@@ -1,4 +1,5 @@
-# Git ignore patterns for node, python, build outputs
+# Git ignore patterns for node, build outputs
+
 # Dependencies
 node_modules/
 .pnp/
@@ -51,19 +52,14 @@ next-env.d.ts
 
 # IDE
 .idea/
-.opencode/
 .vscode/
 *.swp
 *.swo
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-venv/
-.venv/
-*.egg-info/
-.pytest_cache/
+# OpenCode session state is ignored; project skills are tracked
+.opencode/*
+!.opencode/skills/
+!.opencode/skills/**
 
 # Build outputs per workspace
 apps/web/.next/
@@ -71,36 +67,16 @@ apps/web/out/
 apps/api/dist/
 apps/api/generated/
 
-# Python
-apps/ai/__pycache__/
-
-# Supabase
-supabase/.branches/
-supabase/functions/*/index.ts
-
 # Turborepo
 .turbo/
 
-# OS / Temporary files
-nul
-docx_content.json
-rename_script.*
-rename_web.ps1
-
-# Documents (tracked — see docs/MASTER-INDEX.md)
-documents/
-
-apps/api/.env
-
-# Additional local files and data
+# Local files
 .npmrc
 *.db
 *.db-journal
 *.sqlite
 *.sqlite3
 apps/api/data/
-apps/web/test.js
-test.js
 
 # Tool caches and test artifacts
 .eslintcache
@@ -113,12 +89,6 @@ playwright/.cache/
 # Windows
 Thumbs.db
 Desktop.ini
-
-# Specific path ignoring for cases where standard patterns didn't match
-apps/ai/venv/
-apps/web/.vscode/
-**/.venv/
-**/venv/
 
 # Playwright MCP local artifacts
 .playwright-mcp/
