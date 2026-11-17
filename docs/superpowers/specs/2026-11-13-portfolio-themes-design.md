@@ -43,7 +43,7 @@ Rebuild the public portfolio as **one committed identity with few expressions**:
 ### 2.1 Views (two, behind one switcher)
 
 - **Signature view** — the 3D instrument hero experience. Loaded **on interaction**, never the critical path.
-- **Default view** — fast, content-first editorial that **carries the entire funnel alone** (must be fully usable if 3D never loads).
+- **Default view** — fast, content-first editorial that **carries the entire funnel alone** (must be fully usable if 3D never loads). 3D presence extends across public sections as a tiered enhancement layer (§13) — the funnel never depends on it.
 - Switcher persisted (localStorage + cookie mirror) via the repo's proven hand-rolled no-flash script, extended to write both attributes before first paint. `next-themes` is NOT used (groundwork audit: installed with zero imports — the hand-rolled system won; dead dep removed).
 - **Archive posture:** superseded visual expressions live on as sub-paths (e.g. `/archive/<name>`) rather than being deleted — the honest path to "more" over the site's lifetime.
 
@@ -286,14 +286,15 @@ Dynamic sitemap · OG defaults + per-page images · `metadata` per route · skip
 
 ## 9 · Risks & Honest Tradeoffs
 
-| Risk                                   | Mitigation                                                                                     |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| Copper reads "retro"                   | 10% discipline + cool-slate neutrals (muddy-brown contamination guard) + no copper backgrounds |
-| Cobalt blends into SaaS median         | Cobalt is _secondary only_, framed as terminal/code context, never the CTA color               |
-| Hero scope creep                       | 2-week budget, blueprint fixed, SVG tier is a _deliverable_ not a fallback afterthought        |
-| Skin switch under-delivers             | Skins 1–2 exist precisely to prove token switching is real — they ship in Phase 3              |
-| Token drift via AI tools               | DESIGN.md + review checklist + CI budget checks                                                |
-| 25-section temptation from March plans | Not in this spec; funnel is 5 sections + feature layer                                         |
+| Risk                                   | Mitigation                                                                                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Copper reads "retro"                   | 10% discipline + cool-slate neutrals (muddy-brown contamination guard) + no copper backgrounds                                    |
+| Cobalt blends into SaaS median         | Cobalt is _secondary only_, framed as terminal/code context, never the CTA color                                                  |
+| Hero scope creep                       | 2-week budget, blueprint fixed, SVG tier is a _deliverable_ not a fallback afterthought                                           |
+| Skin switch under-delivers             | Skins 1–2 exist precisely to prove token switching is real — they ship in Phase 3                                                 |
+| Token drift via AI tools               | DESIGN.md + review checklist + CI budget checks                                                                                   |
+| 25-section temptation from March plans | Not in this spec; funnel is 5 sections + feature layer                                                                            |
+| 3D-everywhere scope creep              | §13 tiered intensity — ambient T2 elements only outside the hero, ≤2 canvases/page, lazy chunks, designed static tier per section |
 
 ---
 
@@ -359,3 +360,31 @@ All eight micro-decisions were researched in two grounded NotebookLM passes. Use
 ### 12.1 · Second research pass (2026-11-16 — done)
 
 Sharper framing produced two reversals, both conservative (build-more → cheapest-correct-path), consistent with the committed-identity philosophy. Provenance: `askM3` grounded pass (source IDs + taste/evidence splits per verdict). If the user later prefers the first-pass options (per-page OG; MCP v1), revert in this table.
+
+---
+
+## 13 · Scope amendment — 3D presence across the site (2026-11-17, user decision)
+
+**Decision:** 3D is not confined to the Signature hero. The user opted to extend 3D presence **across more of the site**. This amends the §2.1 posture: the Default view keeps its hard guarantee (**fully usable if 3D never loads**), and public sections receive an **ambient 3D enhancement layer** on top of that guarantee.
+
+### 13.1 Tiered intensity — how "more 3D" stays shippable
+
+| Tier                      | Where                        | What                                                                                                                        | Tech                                                            |
+| ------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **T3 — full instrument**  | Signature hero view          | The §4 experience: live signal-trace, AI-state binding, postprocessing                                                      | r3f canvas, postprocessing, GSAP                                |
+| **T2 — ambient element**  | Projects, About, Contact     | One lightweight 3D element per section (low-poly mesh / shader plane / parallax depth), visually subordinate to the content | r3f (shared canvas per page where possible), GSAP ScrollTrigger |
+| **T1 — depth, no canvas** | Blog, footer, neutral chrome | CSS 3D transforms / tilt / layered parallax — zero WebGL cost                                                               | CSS transforms                                                  |
+
+Blog stays T1: long-form reading pages don't earn GPU time. Admin never gets ambient 3D.
+
+### 13.2 Hard constraints (non-negotiable, per section)
+
+- **≤2 active canvases per page**, `frameloop="demand"` when offscreen, assets lazy-loaded and Draco/KTX2 compressed.
+- **First-load JS budget unchanged:** 3D chunks are lazy; the no-3D First Load JS stays the reference number.
+- **Fallback tier per section is a deliverable:** each T2 element has a designed static state (SVG/CSS) — identical layout, no canvas — used for `prefers-reduced-motion` and as the render guarantee.
+- **CLS 0:** canvas mounts into reserved space.
+- **Mid-tier mobile target:** ambient animations hold ≥50fps on a reference mid-tier phone; 3D assets ≤1.5MB per page compressed.
+
+### 13.3 Relationship to the hero budget
+
+The hero blueprint (§4.5) is unchanged. Ambient T2 elements are separate, smaller units of work scheduled **after** the hero ships, one section at a time per §8's build order — so "more 3D" cannot cannibalize the hero deadline.
