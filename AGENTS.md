@@ -50,7 +50,7 @@ Two apps behind a shared monorepo:
 - **`apps/web`** — Next.js 15 App Router. Public portfolio + admin dashboard. Heavy 3D/motion stack (Three.js / react-three-fiber, GSAP, Lenis). Includes a WebContainer-powered Sandbox IDE at `/admin/sandbox` requiring strict COOP/COEP isolation headers.
 - **`apps/api`** — NestJS 12 REST API. The substantive backend. **This is where most backend work happens.**
 
-Shared packages: `packages/shared` (TypeScript types + Zod schemas, the source of truth for data contracts shared by web and api, imported as `@portfolio/shared`), `packages/ui` (`@portfolio/ui` — 27 UI primitives with Storybook stories), `packages/config` (shared ESLint/TS base configs).
+Shared packages: `packages/shared` (TypeScript types + Zod schemas, the source of truth for data contracts shared by web and api, imported as `@portfolio/shared`), `packages/ui` (`@portfolio/ui` — 29 UI primitives with Storybook stories), `packages/config` (shared ESLint/TS base configs).
 
 ### API: the three-layer module pattern (most important convention)
 
@@ -77,7 +77,7 @@ Configures Helmet, compression, CORS (from `CORS_ORIGIN`), a global `ValidationP
 - App Router pages in `src/app/`: public sections under `(public)/` (about, blog, contact, projects), the admin dashboard under `src/app/admin`, and route handlers under `src/app/api` (admin auth, preview, revalidate, health, rss).
 - Components in `src/components/`: `3d/` (CanvasWrapper, Scene3D, SceneRegistry, effects/fallbacks/lighting/primitives/scenes), `admin/` (forms/panels + sandbox), `public/` (CaseStudy, ContactForm, SiteHeader/SiteFooter, SectionHead, icons), plus `ThemeToggle.tsx`. Reusable UI primitives live in `packages/ui` (`@portfolio/ui`) — there is **no** `src/components/ui/` or `src/components/sections/`.
 - **API access goes through `src/lib/api.ts`** — a typed `fetch` wrapper that unwraps the API's `{ data, meta }` envelope, throws `ApiError` on non-2xx, and sends cookies (`credentials: 'include'`). Browser calls use the same-origin `/api` base; Next.js rewrites `/api/:path*` to `API_PROXY_TARGET` (default `http://localhost:3001`) in `next.config.js`. Server-side calls go straight to `API_PROXY_TARGET`. On a 401 the client refreshes once via `/api/admin/auth/refresh` and replays.
-- **Server state is TanStack React Query** (`src/lib/query-provider.tsx`) with per-entity hooks in **`src/lib/hooks/`** (22 `use*` fetcher hooks — the higher-level fetching layer; there is **no** `src/lib/data/` or `use-api-query.ts`).
+- **Server state is TanStack React Query** (`src/lib/query-provider.tsx`) with per-entity hooks in **`src/lib/hooks/`** (23 `use*` fetcher hooks - the higher-level fetching layer; there is **no** `src/lib/data/` or `use-api-query.ts`).
 - The public site also renders curated content straight from `src/lib/public-content.ts` — that is the fallback when the API has nothing published.
 - Other lib utilities: `cache-tags.ts`, `seo.ts`, `json-ld.ts`, `sanitize.ts`, `fonts.ts`, `webcontainer.ts`, `cn.ts`, `constants.ts`, `format-date.ts`, `3d/`.
 - Styling: the token system lives in `src/styles/globals.css` (CSS variables under `[data-theme]`, light + dark) plus `src/styles/public.css` (`.site` editorial palette), bridged to Tailwind in `tailwind.config.ts` (`darkMode: ['selector', '[data-theme="dark"]']`). Fonts load via `next/font` in `src/lib/fonts.ts`.

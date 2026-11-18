@@ -9,6 +9,38 @@
   --pf-reduced-motion-fade: 120ms;
 }
 
+:root {
+  --pf-public-paper: #F4F0E7;
+  --pf-public-paper-deep: #EBE4D6;
+  --pf-public-ink: #17140F;
+  --pf-public-ink-soft: #3D372E;
+  --pf-public-muted: #6C6456;
+  --pf-public-rule: #D6CDBA;
+  --pf-public-rule-strong: #B5A98F;
+  --pf-public-accent: #C2401F;
+  --pf-public-accent-deep: #8F2C14;
+  --pf-public-green: #2F6B4A;
+  --pf-public-code-bg: #1C1914;
+  --pf-public-code-fg: #EDE7DA;
+  --pf-sandbox-base: #0E0E11;
+  --pf-sandbox-panel: #18181B;
+  --pf-sandbox-rail: #1E1E24;
+  --pf-sandbox-preview-light: #F5F5F5;
+  --pf-sandbox-preview-dark: #1A1A1A;
+  --pf-legacy-palette-blue-600: #2563EB;
+  --pf-legacy-palette-emerald-500: #10B981;
+  --pf-legacy-palette-violet-500: #8B5CF6;
+  --pf-legacy-palette-cyan-neon: #00F0FF;
+  --pf-legacy-palette-pink-neon: #FF0055;
+  --pf-legacy-palette-blue-neon: #0099FF;
+  --pf-legacy-palette-slate-300: #CBD5E1;
+  --pf-scene-chart-performance: #22C55E;
+  --pf-scene-chart-accessibility: #EAB308;
+  --pf-scene-chart-cyan: #06B6D4;
+  --pf-scene-chart-violet: #8B5CF6;
+  --pf-scene-chart-mesh-teal: #6EE7B7;
+}
+
 [data-scheme='light'][data-skin='3'] {
   --pf-status-success: #2E9E6D;
   --pf-status-warning: #C98A2C;

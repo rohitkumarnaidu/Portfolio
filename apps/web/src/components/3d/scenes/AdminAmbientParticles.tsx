@@ -5,11 +5,12 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { Tier, HealthState } from '@/lib/3d/types';
 import { generateParticleField } from '@/lib/3d/particles/generateParticles';
+import { SCENE } from '@/lib/design-tokens';
 
 const HEALTH_TARGETS: Record<HealthState, THREE.Color> = {
-  normal: new THREE.Color('#06b6d4'),
-  loading: new THREE.Color('#f59e0b'),
-  error: new THREE.Color('#ef4444'),
+  normal: new THREE.Color(SCENE.adminParticles.normal),
+  loading: new THREE.Color(SCENE.adminParticles.loading),
+  error: new THREE.Color(SCENE.adminParticles.error),
 };
 
 export const AdminHealthContext = createContext<{
@@ -87,7 +88,7 @@ export const AdminAmbientParticles = ({
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
   const { clock } = useThree();
   const { health } = useContext(AdminHealthContext);
-  const currentColorRef = useRef(new THREE.Color('#06b6d4'));
+  const currentColorRef = useRef(new THREE.Color(SCENE.adminParticles.normal));
   const glowRef = useRef(0);
 
   const count = tier === 'high' ? 30 : 20;
@@ -118,7 +119,7 @@ export const AdminAmbientParticles = ({
         uTime: { value: 0 },
         uSpeed: { value: tier === 'high' ? 0.5 : 0.3 },
         uBreath: { value: 1.0 },
-        uColor: { value: new THREE.Color('#06b6d4') },
+        uColor: { value: new THREE.Color(SCENE.adminParticles.normal) },
         uGlow: { value: 0 },
       },
       vertexShader,

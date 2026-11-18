@@ -141,6 +141,11 @@ jobs:
       - name: Check per-skin CSS budget (<8KB)
         run: node packages/tokens/src/check-budget.mjs
 
+      # §3.7 criterion 1: tokens are the single source. Component code may
+      # reference custom properties or design-tokens.ts, never a raw hex value.
+      - name: Check no raw hex outside the token package
+        run: node packages/tokens/src/check-no-hex.mjs
+
       - name: Check committed dist is fresh
         # The generator is deterministic. Any output here means the committed
         # dist is stale or a generated file is missing from the commit.

@@ -6,16 +6,17 @@
    ══════════════════════════════════════════════════════════════ */
 
 .site {
-  --paper: #f4f0e7;
-  --paper-deep: #ebe4d6;
-  --ink: #17140f;
-  --ink-soft: #3d372e;
-  --muted: #6c6456;
-  --rule: #d6cdba;
-  --rule-strong: #b5a98f;
-  --accent: #c2401f;
-  --accent-deep: #8f2c14;
-  --green: #2f6b4a;
+  /* Paper/ink roles come from tokens.json (publicSurface), emitted at :root. */
+  --paper: var(--pf-public-paper);
+  --paper-deep: var(--pf-public-paper-deep);
+  --ink: var(--pf-public-ink);
+  --ink-soft: var(--pf-public-ink-soft);
+  --muted: var(--pf-public-muted);
+  --rule: var(--pf-public-rule);
+  --rule-strong: var(--pf-public-rule-strong);
+  --accent: var(--pf-public-accent);
+  --accent-deep: var(--pf-public-accent-deep);
+  --green: var(--pf-public-green);
 
   --serif: var(--font-serif), 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
   --sans: var(--font-body), 'Helvetica Neue', Arial, sans-serif;
@@ -1355,11 +1356,11 @@
   font-family: var(--mono);
   font-size: 0.82rem;
   line-height: 1.65;
-  background: #1c1914;
-  color: #ede7da;
+  background: var(--pf-public-code-bg);
+  color: var(--pf-public-code-fg);
   padding: 1.25rem 1.4rem;
   overflow-x: auto;
-  border: 1px solid #1c1914;
+  border: 1px solid var(--pf-public-code-bg);
 }
 
 .prose-editorial pre code {

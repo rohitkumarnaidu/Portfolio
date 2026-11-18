@@ -33,20 +33,20 @@ See `config/.env.example` at repo root. Key variables:
 
 ## Scripts
 
-| Command                         | Description                               |
-| ------------------------------- | ----------------------------------------- |
-| `npm run start:dev`             | Watch mode (auto-reload)                  |
-| `npm run build`                 | Compile TypeScript → `dist/`              |
-| `npm run lint`                  | ESLint                                    |
-| `npm run typecheck`             | TypeScript strict check                   |
-| `npm test`                      | Jest unit tests (52 tests)                |
-| `npm run test:e2e`              | End-to-end tests (30+ tests, requires DB) |
-| `npm run test:coverage`         | Coverage report                           |
-| `npm run prisma:generate`       | Regenerate Prisma client                  |
-| `npm run prisma:migrate:dev`    | Dev migration (creates SQL file)          |
-| `npm run prisma:migrate:deploy` | Production migration                      |
-| `npm run prisma:studio`         | Prisma Studio GUI                         |
-| `npm run prisma:seed`           | Seed database                             |
+| Command                         | Description                                  |
+| ------------------------------- | -------------------------------------------- |
+| `npm run start:dev`             | Watch mode (auto-reload)                     |
+| `npm run build`                 | Compile TypeScript → `dist/`                 |
+| `npm run lint`                  | ESLint                                       |
+| `npm run typecheck`             | TypeScript strict check                      |
+| `npm test`                      | Jest unit tests (460 tests across 38 suites) |
+| `npm run test:e2e`              | End-to-end tests (30+ tests, requires DB)    |
+| `npm run test:coverage`         | Coverage report                              |
+| `npm run prisma:generate`       | Regenerate Prisma client                     |
+| `npm run prisma:migrate:dev`    | Dev migration (creates SQL file)             |
+| `npm run prisma:migrate:deploy` | Production migration                         |
+| `npm run prisma:studio`         | Prisma Studio GUI                            |
+| `npm run prisma:seed`           | Seed database                                |
 
 ## Project Structure
 

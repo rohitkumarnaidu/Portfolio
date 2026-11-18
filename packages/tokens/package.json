@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./theme.css": "./dist/theme-tokens.css"
+    "./theme.css": "./dist/theme-tokens.css",
+    "./tokens.json": "./tokens.json"
   },
   "scripts": {
     "build": "node src/build.mjs",

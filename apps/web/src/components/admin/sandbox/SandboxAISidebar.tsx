@@ -64,7 +64,7 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#18181b] text-sm relative">
+    <div className="flex flex-col h-full bg-sandbox-panel text-sm relative">
       <div className="p-4 font-semibold border-b border-white/5 flex items-center gap-2 text-indigo-400 bg-black/20">
         <Sparkles size={16} />
         AI Copilot
@@ -125,7 +125,7 @@ export function SandboxAISidebar({ currentFileContent, onCodeSuggested }: Sandbo
               onChange={(e) => setInstruction(e.target.value)}
               placeholder="e.g. Refactor this to use Tailwind..."
               disabled={loading}
-              className="bg-[#0e0e11] border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500 transition-colors pr-10"
+              className="bg-sandbox-base border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500 transition-colors pr-10"
             />
             <motion.button
               whileHover={{ scale: 1.1 }}

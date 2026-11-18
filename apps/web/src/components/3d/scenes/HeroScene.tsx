@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import type { Tier } from '@/lib/3d/types';
+import { SCENE } from '@/lib/design-tokens';
 import { FloatingShapes } from '../primitives/FloatingShapes';
 import { Particles } from '../primitives/Particles';
 
@@ -39,7 +40,7 @@ export const HeroScene = ({ tier, theme, reducedMotion }: HeroSceneProps) => {
       <directionalLight
         position={[5, 5, 5]}
         intensity={theme === 'dark' ? 0.8 : 0.5}
-        color={theme === 'dark' ? '#818cf8' : '#6366f1'}
+        color={SCENE.hero.primary[theme]}
       />
       <FloatingShapes tier={tier} theme={theme} reducedMotion={reducedMotion} />
       <Particles

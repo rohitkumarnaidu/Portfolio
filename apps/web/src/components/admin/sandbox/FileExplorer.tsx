@@ -64,7 +64,7 @@ export function FileExplorer({ onSelectFile, currentPath = '' }: FileExplorerPro
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#18181b] text-sm text-gray-300 w-full relative">
+    <div className="flex flex-col h-full bg-sandbox-panel text-sm text-gray-300 w-full relative">
       <div className="p-3 font-semibold border-b border-white/5 flex items-center justify-between bg-black/20">
         <div className="flex items-center gap-2 text-gray-400">
           <Search size={14} />

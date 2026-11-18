@@ -72,7 +72,7 @@
   --shadow-accent-focus: 0 0 0 4px color-mix(in srgb, var(--pf-accent-primary) 20%, transparent);
 
   /* Border Colors */
-  --border-accent: #cbd5e1;
+  --border-accent: var(--pf-legacy-palette-slate-300);
 
   /* Shadows (Light Premium) */
   --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
@@ -92,14 +92,26 @@
   --glass-prominent: rgba(255, 255, 255, 0.9);
 
   /* Premium Gradients */
-  --gradient-hero: linear-gradient(135deg, #2563eb, #10b981);
-  --gradient-cta: linear-gradient(135deg, #2563eb, #8b5cf6);
+  --gradient-hero: linear-gradient(
+    135deg,
+    var(--pf-legacy-palette-blue-600),
+    var(--pf-legacy-palette-emerald-500)
+  );
+  --gradient-cta: linear-gradient(
+    135deg,
+    var(--pf-legacy-palette-blue-600),
+    var(--pf-legacy-palette-violet-500)
+  );
   --gradient-glass: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.9) 0%,
     rgba(255, 255, 255, 0.4) 100%
   );
-  --gradient-text-hero: linear-gradient(135deg, #2563eb, #10b981);
+  --gradient-text-hero: linear-gradient(
+    135deg,
+    var(--pf-legacy-palette-blue-600),
+    var(--pf-legacy-palette-emerald-500)
+  );
 
   /* Duration & Easing */
   --duration-instant: 0ms;
@@ -194,14 +206,28 @@
   --glass-prominent: rgba(10, 10, 12, 0.95);
 
   /* Premium Gradients */
-  --gradient-hero: linear-gradient(135deg, #00f0ff, #ff0055, #8b5cf6);
-  --gradient-cta: linear-gradient(135deg, #00f0ff, #0099ff);
+  --gradient-hero: linear-gradient(
+    135deg,
+    var(--pf-legacy-palette-cyan-neon),
+    var(--pf-legacy-palette-pink-neon),
+    var(--pf-legacy-palette-violet-500)
+  );
+  --gradient-cta: linear-gradient(
+    135deg,
+    var(--pf-legacy-palette-cyan-neon),
+    var(--pf-legacy-palette-blue-neon)
+  );
   --gradient-glass: linear-gradient(
     135deg,
     rgba(255, 255, 255, 0.08) 0%,
     rgba(255, 255, 255, 0.01) 100%
   );
-  --gradient-text-hero: linear-gradient(to right, #00f0ff, #ff0055, #8b5cf6);
+  --gradient-text-hero: linear-gradient(
+    to right,
+    var(--pf-legacy-palette-cyan-neon),
+    var(--pf-legacy-palette-pink-neon),
+    var(--pf-legacy-palette-violet-500)
+  );
 
   /* Scrim & Overlay */
   --scrim-light: rgba(0, 0, 0, 0.5);

@@ -83,13 +83,13 @@ export default function SandboxPage() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] bg-[#0e0e11] text-white overflow-hidden relative font-sans">
+    <div className="flex h-[calc(100vh-4rem)] bg-sandbox-base text-white overflow-hidden relative font-sans">
       {/* Dynamic Workspace Container */}
       <motion.div layout className="flex-1 flex flex-col min-w-0 h-full relative">
         {/* Workspace Header / Tabs */}
         <motion.div
           layout
-          className="flex items-center justify-between p-3 px-4 border-b border-white/5 bg-[#18181b]/80 backdrop-blur-md z-20"
+          className="flex items-center justify-between p-3 px-4 border-b border-white/5 bg-sandbox-panel backdrop-blur-md z-20"
         >
           <div className="flex items-center gap-3">
             <motion.button
@@ -144,7 +144,7 @@ export default function SandboxPage() {
         </motion.div>
 
         {/* Workspace Content Area */}
-        <div className="flex-1 overflow-hidden relative bg-[#0e0e11] p-4">
+        <div className="flex-1 overflow-hidden relative bg-sandbox-base p-4">
           <AnimatePresence mode="popLayout">
             {/* Preview View */}
             {activeTab === 'preview' && (
@@ -157,7 +157,7 @@ export default function SandboxPage() {
                 className="absolute inset-4 rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-black"
               >
                 {isBooting ? (
-                  <div className="w-full h-full flex flex-col items-center justify-center bg-[#18181b]">
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-sandbox-panel">
                     <div className="w-64 h-64 relative flex items-center justify-center">
                       <div className="absolute inset-0 border-t-2 border-indigo-500 rounded-full animate-spin"></div>
                       <div
@@ -184,9 +184,9 @@ export default function SandboxPage() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.98, y: -10 }}
                 transition={{ duration: 0.3, type: 'spring', bounce: 0 }}
-                className="absolute inset-4 rounded-xl overflow-hidden border border-white/10 shadow-2xl flex bg-[#18181b]"
+                className="absolute inset-4 rounded-xl overflow-hidden border border-white/10 shadow-2xl flex bg-sandbox-panel"
               >
-                <div className="w-64 border-r border-white/5 bg-[#1e1e24] overflow-y-auto">
+                <div className="w-64 border-r border-white/5 bg-sandbox-rail overflow-y-auto">
                   <FileExplorer onSelectFile={handleSelectFile} currentPath={currentFilePath} />
                 </div>
                 <div className="flex-1">

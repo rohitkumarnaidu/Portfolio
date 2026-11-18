@@ -42,26 +42,17 @@ Architecture Decision Records (ADRs) document significant architectural decision
 
 ## ADR Index
 
-| ID                                            | Title                      | Status   | Date       |
-| --------------------------------------------- | -------------------------- | -------- | ---------- |
-| [ADR-001](ADR-001-monorepo-turborepo.md)      | Monorepo with Turborepo    | Accepted | 2026-06-17 |
-| [ADR-002](ADR-002-nextjs-app-router.md)       | Next.js App Router         | Accepted | 2026-06-17 |
-| [ADR-003](ADR-003-nestjs-api.md)              | NestJS API Framework       | Accepted | 2026-06-17 |
-| [ADR-004](ADR-004-supabase.md)                | Supabase PostgreSQL        | Accepted | 2026-06-17 |
-| [ADR-005](ADR-005-isr-rendering.md)           | ISR Rendering Strategy     | Accepted | 2026-06-17 |
-| [ADR-006](ADR-006-fastapi-ai.md)              | FastAPI AI Service         | Accepted | 2026-06-17 |
-| [ADR-007](ADR-007-pgvector.md)                | pgvector for Embeddings    | Accepted | 2026-06-17 |
-| [ADR-008](ADR-008-tiptap-editor.md)           | TipTap Rich Text Editor    | Accepted | 2026-06-17 |
-| [ADR-009](ADR-009-posthog-analytics.md)       | PostHog Analytics          | Accepted | 2026-06-17 |
-| [ADR-010](ADR-010-tailwind-css.md)            | Tailwind CSS               | Accepted | 2026-06-17 |
-| [ADR-011](ADR-011-jwt-auth.md)                | JWT Authentication         | Accepted | 2026-06-17 |
-| [ADR-012](ADR-012-vercel-deployment.md)       | Vercel Deployment          | Accepted | 2026-06-17 |
-| [ADR-013](ADR-013-framer-motion.md)           | Framer Motion              | Accepted | 2026-06-17 |
-| [ADR-014](ADR-014-zod-validation.md)          | Zod Validation             | Accepted | 2026-06-17 |
-| [ADR-015](ADR-015-docker-multistage-build.md) | Multi-stage Docker Build   | Accepted | 2026-07-11 |
-| [ADR-016](ADR-016-sentry-error-tracking.md)   | Sentry Error Tracking      | Accepted | 2026-07-11 |
-| [ADR-017](ADR-017-bullmq-queue.md)            | BullMQ Background Queue    | Accepted | 2026-07-11 |
-| [ADR-018](ADR-018-nestjs-passport-auth.md)    | Passport.js Authentication | Accepted | 2026-07-11 |
+| ID                                            | Title                    | Status   | Date       |
+| --------------------------------------------- | ------------------------ | -------- | ---------- |
+| [ADR-001](ADR-001-monorepo-turborepo.md)      | Monorepo with Turborepo  | Accepted | 2026-06-17 |
+| [ADR-002](ADR-002-nextjs-app-router.md)       | Next.js App Router       | Accepted | 2026-06-17 |
+| [ADR-005](ADR-005-isr-rendering.md)           | ISR Rendering Strategy   | Accepted | 2026-06-17 |
+| [ADR-010](ADR-010-tailwind-css.md)            | Tailwind CSS             | Accepted | 2026-06-17 |
+| [ADR-012](ADR-012-vercel-deployment.md)       | Vercel Deployment        | Accepted | 2026-06-17 |
+| [ADR-015](ADR-015-docker-multistage-build.md) | Multi-stage Docker Build | Accepted | 2026-07-11 |
+| [ADR-016](ADR-016-sentry-error-tracking.md)   | Sentry Error Tracking    | Accepted | 2026-07-11 |
+
+**Missing records:** the index previously listed 18 ADRs, but only the seven above exist on disk. References to ADR-003 (NestJS), ADR-004 (Supabase), ADR-006 (FastAPI), ADR-007 (pgvector), ADR-008 (TipTap), ADR-009 (PostHog), ADR-011 (JWT), ADR-013 (Framer Motion), ADR-014 (Zod), ADR-017 (BullMQ) and ADR-018 (Passport) are historical; do not link them until the records are written. Several describe components that were removed or replaced (Supabase, FastAPI) and need a current decision record rather than a backfill.
 
 ## References
 

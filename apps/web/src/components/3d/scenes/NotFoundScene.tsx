@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import type { Mesh } from 'three';
 import type { Tier } from '@/lib/3d/types';
+import { SCENE } from '@/lib/design-tokens';
 
 interface NotFoundSceneProps {
   tier: Tier;
@@ -25,19 +26,10 @@ export const NotFoundScene = ({ tier, theme, reducedMotion }: NotFoundSceneProps
   return (
     <group>
       <ambientLight intensity={0.2} />
-      <pointLight
-        position={[2, 2, 2]}
-        intensity={0.5}
-        color={theme === 'dark' ? '#f87171' : '#ef4444'}
-      />
+      <pointLight position={[2, 2, 2]} intensity={0.5} color={SCENE.notFound[theme]} />
       <mesh ref={meshRef}>
         <torusGeometry args={[1, 0.3, 16, 32]} />
-        <meshStandardMaterial
-          color={theme === 'dark' ? '#f87171' : '#ef4444'}
-          wireframe
-          transparent
-          opacity={0.6}
-        />
+        <meshStandardMaterial color={SCENE.notFound[theme]} wireframe transparent opacity={0.6} />
       </mesh>
     </group>
   );

@@ -1,6 +1,6 @@
 # Portfolio Redesign — Multi-Theme 3D Architecture · Design Spec
 
-**Status:** ✅ APPROVED by user (2026-11-16) — next step: writing-plans → Phase 0 build. Amended §11 (2026-11-16 groundwork audit).
+**Status:** ✅ APPROVED by user (2026-11-16); Phase 0 COMPLETE (2026-11-18, §3.7 5/5) — next: Phase 1. Amended §11, §12, §13, §14, §15.
 **Date:** 2026-11-15 (research started 2026-11-13)
 **Evidence base:** Research report `research_report_20261113_portfolio_career_strategy.md` (61 sources, S01–S61) + 12 grounded NotebookLM passes (askA–askL) + production precedents (nickvirden.com, hire-me-mcp)
 **Verdict lineage:** research → brainstorm → user decisions (all closed) → **this spec** → writing-plans → build
@@ -414,3 +414,23 @@ Task 7 made §3.7's automated AA criterion real: `packages/tokens/src/check-cont
 **Row 7 — informational, outside the declared matrix.** `status.success.light` (`#2E9E6D`) measures 3.09:1 on `surface.base` — below `AA_NORMAL`, but `status.*` is scheme-constant and no `contrastPairs` entry declares it, so Phase 0's gate does not apply. Its only planned consumer (the "Available for work" badge) is Phase 1 work; the resolution — darken within the status family, same-hue luminance shifts only, never hue changes — is **deferred to Phase 1**. Value unchanged in Phase 0.
 
 **Reconciliation rule (for future audits):** a failing token moves to the nearest primitive **of the same family** that passes; if that collides with a sibling in the hierarchy, the sibling shifts one step toward more prominence — and both moves get separate rows here. `status.*` may never change hue; luminance within the same hue only.
+
+---
+
+## 15 · Token-source closure amendments (2026-11-18, Phase 0)
+
+**User ruling:** §3.7 criterion 1's hex ban is Phase 0 scope. It is not deferred to Phase 1; the destination contract (§3.1) simply arrives earlier than the rest of the component layer.
+
+**What changed**
+
+| #   | Amendment                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A5  | `tokens.json` gained scheme-independent groups that previously existed only as literals or CSS: `publicSurface` (12 paper/ink roles), `sandboxSurface` (5 IDE chrome roles), `legacyPalette` (7 pre-DTCG stop colors), `brand.google` (4 mark colors, literal by definition) and `scene` (hero light/ambient/accent, backdrop, fallback stops, shape colors, 404, admin particle states, chart colors). `scene.chart` stays DTCG so the generator can emit it; the rest of `scene` is raw values consumed by TypeScript. |
+| A6  | `build.mjs` emits `--pf-public-*`, `--pf-sandbox-*`, `--pf-legacy-palette-*` and `--pf-scene-chart-*` at `:root`. Skin blocks are unchanged; `:root` is shared overhead under the budget rule, so the per-skin <8KB result is unaffected (1,845 B).                                                                                                                                                                                                                                                                      |
+| A7  | `apps/web/src/lib/design-tokens.ts` is the literal-value bridge: it re-exports `@portfolio/tokens/tokens.json` for Three.js materials, SVG chart props, `themeColor` metadata and the Google mark. It defines no colors.                                                                                                                                                                                                                                                                                                 |
+| A8  | `packages/tokens/src/check-no-hex.mjs` scans `apps/web/src`, `packages/ui/src`, `packages/shared/src` and `apps/web/tailwind.config.ts`; the `tokens` CI job fails on any raw hex. `tokens.json` and generated `dist/` remain the only places a hex literal may live.                                                                                                                                                                                                                                                    |
+| A9  | Values preserve the shipped rendered colors exactly — this is a source migration, not a visual redesign. One documented delta: the sandbox header used `#18181b/80`; Tailwind v3 cannot apply an alpha modifier to a `var()` color, so it renders solid `--pf-sandbox-panel` (≈2 RGB points darker over the base).                                                                                                                                                                                                       |
+
+**Skin 1 value note:** §3.2's Skin 1 destination paper is `#F3EDE2`; the shipped `publicSurface.paper` is `#F4F0E7` (the value already live in `public.css`). `publicSurface` is the current public palette, **not** a finished Skin 1. Phase 3 must reconcile the two values when Skin 1 becomes a real skin; do not silently treat one as the other.
+
+**Evidence (Phase 0 close):** token tests 60/60, contrast 20/20, skin 3 budget 1,845 B, hex guard zero violations, `next build` 52 pages, typecheck/lint clean.

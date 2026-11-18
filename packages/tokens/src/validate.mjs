@@ -28,13 +28,72 @@ import { hexToRgb } from './wcag.mjs';
 
 const LEVELS = new Set(['AA_NORMAL', 'AA_LARGE', 'NONE']);
 const SCHEMES = new Set(['light', 'dark']);
-const TOP_LEVEL_KEYS = ['primitives', 'status', 'viz', 'motion', 'skins', 'contrastPairs'];
+const TOP_LEVEL_KEYS = [
+  'primitives',
+  'publicSurface',
+  'sandboxSurface',
+  'legacyPalette',
+  'brand',
+  'scene',
+  'status',
+  'viz',
+  'motion',
+  'skins',
+  'contrastPairs',
+];
 
 const fail = (message) => {
   throw new Error(`tokens.json: ${message}`);
 };
 
 const isObject = (value) => typeof value === 'object' && value !== null && !Array.isArray(value);
+
+function assertHex(value, at) {
+  if (typeof value !== 'string') fail(`${at} must be a hex string`);
+  try {
+    hexToRgb(value);
+  } catch (error) {
+    fail(`${at}: ${error.message}`);
+  }
+}
+
+function assertSchemePair(pair, at) {
+  if (!isObject(pair)) fail(`${at} must be an object with "light" and "dark" values`);
+  for (const scheme of ['light', 'dark']) {
+    if (!(scheme in pair)) fail(`${at} is missing the "${scheme}" value`);
+    assertHex(pair[scheme], `${at}.${scheme}`);
+  }
+}
+
+function assertScene(scene) {
+  if (!isObject(scene)) fail('scene must be an object');
+  for (const group of ['hero', 'backdrop', 'notFound']) {
+    if (!isObject(scene[group])) fail(`scene.${group} must be an object`);
+  }
+  for (const name of ['primary', 'ambient', 'accent']) {
+    assertSchemePair(scene.hero[name], `scene.hero.${name}`);
+  }
+  assertSchemePair(scene.backdrop, 'scene.backdrop');
+  assertSchemePair(scene.notFound, 'scene.notFound');
+  if (!isObject(scene.fallback)) fail('scene.fallback must be an object');
+  for (const scheme of ['light', 'dark']) {
+    const stops = scene.fallback[scheme];
+    if (!Array.isArray(stops) || stops.length !== 3) {
+      fail(`scene.fallback.${scheme} must be an array of exactly 3 hex strings`);
+    }
+    stops.forEach((stop, index) => assertHex(stop, `scene.fallback.${scheme}[${index}]`));
+  }
+  if (!isObject(scene.shapes)) fail('scene.shapes must be an object of hex strings');
+  for (const [name, value] of Object.entries(scene.shapes)) {
+    assertHex(value, `scene.shapes.${name}`);
+  }
+  if (!isObject(scene.adminParticles))
+    fail('scene.adminParticles must be an object of hex strings');
+  for (const [name, value] of Object.entries(scene.adminParticles)) {
+    assertHex(value, `scene.adminParticles.${name}`);
+  }
+  assertDtcgColorGroup(scene.chart, 'scene.chart');
+}
 
 function assertDtcgColorGroup(group, path) {
   if (!isObject(group)) fail(`${path} must be an object of DTCG color tokens`);
@@ -118,7 +177,9 @@ function assertContrastPairs(pairs, semantic) {
       }
     }
     if (!LEVELS.has(pair.level)) {
-      fail(`${at}.level must be one of AA_NORMAL, AA_LARGE, NONE — got ${JSON.stringify(pair.level)}`);
+      fail(
+        `${at}.level must be one of AA_NORMAL, AA_LARGE, NONE — got ${JSON.stringify(pair.level)}`,
+      );
     }
     if ('schemes' in pair) {
       const valid =
@@ -140,6 +201,14 @@ export function validateTokens(tokens) {
   for (const [family, group] of Object.entries(tokens.primitives)) {
     assertDtcgColorGroup(group, `primitives.${family}`);
   }
+  assertDtcgColorGroup(tokens.publicSurface, 'publicSurface');
+  assertDtcgColorGroup(tokens.sandboxSurface, 'sandboxSurface');
+  assertDtcgColorGroup(tokens.legacyPalette, 'legacyPalette');
+  if (!isObject(tokens.brand) || !isObject(tokens.brand.google)) {
+    fail('brand.google must be an object of DTCG color tokens');
+  }
+  assertDtcgColorGroup(tokens.brand.google, 'brand.google');
+  assertScene(tokens.scene);
   assertDtcgColorGroup(tokens.status, 'status');
   assertDtcgColorGroup(tokens.viz, 'viz');
   assertMotion(tokens.motion);

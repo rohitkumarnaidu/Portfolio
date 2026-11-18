@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
 import { THEME_SCRIPT } from '@/lib/theme-script';
 import { SITE } from '@/lib/public-content';
+import { publicSurface } from '@/lib/design-tokens';
 import '@portfolio/tokens/theme.css';
 import '@/styles/globals.css';
 import '@/styles/public.css';
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: [{ media: '(prefers-color-scheme: light)', color: '#f4f0e7' }],
+  themeColor: [{ media: '(prefers-color-scheme: light)', color: publicSurface.paper }],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
