@@ -28,10 +28,10 @@
   --pf-border-hairline: #A6ADBB;
   --pf-border-accent: rgba(193,102,46,.30);
   --pf-text-primary: #0A0C10;
-  --pf-text-secondary: #565E6D;
-  --pf-text-muted: #A6ADBB;
+  --pf-text-secondary: #262B35;
+  --pf-text-muted: #565E6D;
   --pf-accent-primary: #C1662E;
-  --pf-accent-link: #C1662E;
+  --pf-accent-link: #9A4E22;
   --pf-accent-trace: #C1662E;
   --pf-accent-hover: #9A4E22;
   --pf-accent-active: #7A3C18;
@@ -60,8 +60,8 @@
   --pf-border-hairline: #262B35;
   --pf-border-accent: rgba(224,137,90,.15);
   --pf-text-primary: #F4F5F7;
-  --pf-text-secondary: #A6ADBB;
-  --pf-text-muted: #565E6D;
+  --pf-text-secondary: #E4E7EC;
+  --pf-text-muted: #A6ADBB;
   --pf-accent-primary: #C1662E;
   --pf-accent-link: #D68A54;
   --pf-accent-trace: #D68A54;

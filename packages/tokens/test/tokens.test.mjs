@@ -143,7 +143,7 @@ test('status and viz carry the locked constants', () => {
   });
 });
 
-test('semantic map matches spec 3.2 verbatim', () => {
+test('semantic map matches spec 3.2 as amended by 14', () => {
   assert.deepEqual(tokens.skins['3'].semantic, {
     surface: {
       base: { light: '#F4F5F7', dark: '#0A0C10' },
@@ -156,12 +156,12 @@ test('semantic map matches spec 3.2 verbatim', () => {
     },
     text: {
       primary: { light: '#0A0C10', dark: '#F4F5F7' },
-      secondary: { light: '#565E6D', dark: '#A6ADBB' },
-      muted: { light: '#A6ADBB', dark: '#565E6D' },
+      secondary: { light: '#262B35', dark: '#E4E7EC' },
+      muted: { light: '#565E6D', dark: '#A6ADBB' },
     },
     accent: {
       primary: { light: '#C1662E', dark: '#C1662E' },
-      link: { light: '#C1662E', dark: '#D68A54' },
+      link: { light: '#9A4E22', dark: '#D68A54' },
       trace: { light: '#C1662E', dark: '#D68A54' },
       traceHalo: { light: null, dark: '#E3A87C' },
       hover: { light: '#9A4E22', dark: '#D68A54' },

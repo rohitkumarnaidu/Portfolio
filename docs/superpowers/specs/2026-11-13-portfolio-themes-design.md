@@ -388,3 +388,29 @@ Blog stays T1: long-form reading pages don't earn GPU time. Admin never gets amb
 ### 13.3 Relationship to the hero budget
 
 The hero blueprint (§4.5) is unchanged. Ambient T2 elements are separate, smaller units of work scheduled **after** the hero ships, one section at a time per §8's build order — so "more 3D" cannot cannibalize the hero deadline.
+
+## 14 · Contrast reconciliation amendments (Phase 0)
+
+Task 7 made §3.7's automated AA criterion real: `packages/tokens/src/check-contrast.mjs` resolves every declared `contrastPairs` entry in both schemes and compares full-precision WCAG contrast ratios against the pair's required level (`AA_NORMAL` 4.5, `AA_LARGE` 3.0, `NONE` none) — no rounding in comparisons, displayed ratios rounded to 2dp only. The checker is the authority over §3.2's ⚠️ prose. §3.2's values stay locked; the amendments below supersede the matching §3.2 cells, and every amended value stays within its primitive family (graphite for text, ember for accent).
+
+**Before reconciliation** the checker measured **17/20 pair-scheme checks passing**, with exactly three failures, all `AA_NORMAL`: `text.muted.light` 2.07:1, `text.muted.dark` 3.00:1, `accent.link.light` 3.70:1. **After reconciliation: 20/20 pass** — `node packages/tokens/src/check-contrast.mjs` exits 0 (CI wiring is Task 9).
+
+| token            | scheme | was       | now                                        | pair                                    | ratio |
+| ---------------- | ------ | --------- | ------------------------------------------ | --------------------------------------- | ----- |
+| `text.muted`     | light  | `#A6ADBB` | `#565E6D`                                  | text.muted × surface.base               | 5.98  |
+| `text.secondary` | light  | `#565E6D` | `#262B35`                                  | text.secondary × surface.base           | 13.01 |
+| `text.muted`     | dark   | `#565E6D` | `#A6ADBB`                                  | text.muted × surface.base               | 8.68  |
+| `text.secondary` | dark   | `#A6ADBB` | `#E4E7EC`                                  | text.secondary × surface.base           | 15.79 |
+| `accent.link`    | light  | `#C1662E` | `#9A4E22`                                  | accent.link × surface.base              | 5.52  |
+| `accent.link`    | dark   | `#D68A54` | `#D68A54` _(unchanged — prose correction)_ | accent.link × surface.base              | 7.10  |
+| `status.success` | light  | `#2E9E6D` | `#2E9E6D` _(unchanged — deferred)_         | _(informational — not a declared pair)_ | 3.09  |
+
+**Rows 1–4 — the separation pattern.** Each scheme is one linked pair of moves: the failing `text.muted` takes the nearest same-family primitive that passes (graphite-500 light, graphite-300 dark), and `text.secondary` then shifts one graphite step toward **more prominence** (darker in light, lighter in dark) so muted ≠ secondary and the primary > secondary > muted hierarchy holds in both schemes. The graphite scale is sparse (300/500/800 on the light end, 100/300/500 on the dark end), so "one step" lands on graphite-800 (light) and graphite-100 (dark); no intermediate step exists and none was invented. `text.secondary` also holds its second declared pair: 14.20:1 on `surface.panel` light, 13.32:1 dark.
+
+**Row 5.** `accent.link.light` steps from ember-500 to ember-600, the nearest passing ember primitive (5.52:1). It now equals `accent.hover.light` (`#9A4E22`) — the same link == hover pattern that already exists on dark (both `#D68A54`).
+
+**Row 6 — prose correction, not a value change.** §3.2's `accent.link` row claims "base copper on `#0A0C10` ≈ 3.8:1 = AA fail". Measured: `#C1662E` on `#0A0C10` is 4.85:1 — a **pass**. The shipped dark value `#D68A54` measures 7.10:1. `accent.link.dark` therefore stays `#D68A54` (§3.3's "dark = illuminated signal" independently justifies ember-400 for links on dark); the ⚠️ note is superseded by this row and §3.2 is not edited.
+
+**Row 7 — informational, outside the declared matrix.** `status.success.light` (`#2E9E6D`) measures 3.09:1 on `surface.base` — below `AA_NORMAL`, but `status.*` is scheme-constant and no `contrastPairs` entry declares it, so Phase 0's gate does not apply. Its only planned consumer (the "Available for work" badge) is Phase 1 work; the resolution — darken within the status family, same-hue luminance shifts only, never hue changes — is **deferred to Phase 1**. Value unchanged in Phase 0.
+
+**Reconciliation rule (for future audits):** a failing token moves to the nearest primitive **of the same family** that passes; if that collides with a sibling in the hierarchy, the sibling shifts one step toward more prominence — and both moves get separate rows here. `status.*` may never change hue; luminance within the same hue only.
