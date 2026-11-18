@@ -1,232 +1,133 @@
-# Quality Gates — Release Lifecycle Enforcement
+# Quality Gates — What Is Actually Enforced
 
-> **Document:** `QUALITY-GATES.md` | **Version:** 1.0 | **Last Updated:** July 2026
-> **Status:** ✅ Active | **Owner:** QA Lead | **Review Cadence:** Quarterly
+> **Document:** `QUALITY-GATES.md` | **Version:** 2.0 | **Last Updated:** 2026-11-18
+> **Status:** Active | **Owner:** Maintainer | **Review cadence:** Whenever CI changes
+>
+> This file used to describe an enterprise pipeline (staging gate, Lighthouse CI, PR-size
+> checks, quarterly audits) that this repository does not run. It now documents the
+> checks that exist. A gate that is not wired is listed as **not implemented**, not as
+> policy — an aspirational gate that silently never runs is worse than no gate.
 
-## 1. Purpose
-
-This document defines the quality gates that every change must pass before progressing to the next stage of the development lifecycle. Each gate has automated or manual enforcement, defined pass/fail criteria, and a documented bypass procedure for emergencies.
-
----
-
-## 2. Gate Stages
+## 1. The pipeline that exists
 
 ```mermaid
 flowchart LR
-    subgraph Dev[DEV GATE G1]
-        D1[TypeScript Check]
-        D2[Lint]
-        D3[Format]
-        D4[Secrets Scan]
-        D5[Unit Tests]
-    end
-
-    subgraph PR[PR GATE G2]
-        P1[TypeScript Strict]
-        P2[Lint + Tests]
-        P3[Coverage >= 40% API / 1% Web]
-        P4[Dependency Scan]
-        P5[Build]
-        P6[PR Size Check]
-    end
-
-    subgraph Staging[STAGING GATE G3]
-        S1[E2E Tests]
-        S2[Lighthouse >= 90]
-        S3[Bundle Size]
-        S4[API Performance]
-        S5[DB Migration Check]
-        S6[QA Sign-off]
-    end
-
-    subgraph Prod[PROD GATE G4]
-        PR1[Error Rate < 0.1%]
-        PR2[API Latency p95 < 150ms]
-        PR3[Zero P0/P1 Issues]
-        PR4[Health Checks]
-        PR5[Uptime 100%]
-    end
-
-    Dev -->|git push| PR
-    PR -->|merge to main| Staging
-    Staging -->|promote| Prod
-
-    style Dev fill:#2563eb,color:#fff
-    style PR fill:#7c3aed,color:#fff
-    style Staging fill:#ea580c,color:#fff
-    style Prod fill:#16a34a,color:#fff
+    A[pre-commit<br/>Prettier + ESLint on staged files] --> B[CI quality matrix<br/>apps/api + apps/web]
+    B --> C[CI token job<br/>build, test, contrast, budget, hex guard, dist freshness]
+    C --> D[CI prisma-validate]
+    D --> E[CI npm-audit<br/>non-blocking]
+    E --> F[Merge to main]
 ```
 
-## 3. Gate Overview
+There is no staging environment and no automated production gate. Deployment and
+post-deploy verification are manual; see §6.
 
-| #   | Gate         | Stage                 | Enforcement        | Gatekeeper       |
-| --- | ------------ | --------------------- | ------------------ | ---------------- |
-| G1  | PRE-COMMIT   | Local development     | Automated (hooks)  | Developer        |
-| G2  | PULL REQUEST | CI pipeline           | Automated (CI)     | CI Pipeline      |
-| G3  | PRE-DEPLOY   | Staging validation    | Automated + Manual | QA Engineer      |
-| G4  | POST-DEPLOY  | Production monitoring | Automated          | On-Call Engineer |
-| G5  | QUARTERLY    | Periodic review       | Manual             | Engineering Lead |
+## 2. Local gate (pre-commit)
 
----
+Enforced by husky + lint-staged (`.husky/pre-commit`, `package.json` `lint-staged`):
 
-## 3. Gate Definitions
+| Check      | Command            | Scope                 | Blocking   |
+| ---------- | ------------------ | --------------------- | ---------- |
+| Formatting | `prettier --write` | staged files          | No (fixes) |
+| Lint       | `eslint --fix`     | staged `.ts` / `.tsx` | Yes        |
 
-### G1: PRE-COMMIT Gate (Local)
+Not wired locally: typecheck, tests, secret scanning, commit-message linting.
 
-| Aspect          | Details                                              |
-| --------------- | ---------------------------------------------------- |
-| **Stage**       | Local development, before `git commit`               |
-| **Enforcement** | Automated via pre-commit hooks (husky + lint-staged) |
-| **Gatekeeper**  | Developer (self-enforced)                            |
+## 3. CI gate (GitHub Actions)
 
-| Check                       | Command                           | Criterion                       | Pass/Fail         |
-| --------------------------- | --------------------------------- | ------------------------------- | ----------------- |
-| Code compiles               | `tsc --noEmit`                    | Zero type errors                | Fail on any error |
-| Linter passes               | `npm run lint`                    | Zero lint errors                | Fail on any error |
-| Formatter passes            | `npm run format -- --check`       | All files formatted             | Fail on diff      |
-| No secrets committed        | `secretlint` / detect-secrets     | No credentials, tokens, or keys | Fail on match     |
-| Unit tests (affected scope) | `npm test -- --changedSince=main` | All pass                        | Fail on failure   |
+Workflow: `.github/workflows/ci.yml`. Runs on pushes to `main`/`develop`, pull requests,
+and tags.
 
-**Bypass Procedure:** `git commit --no-verify` is permitted only for experimental/scratch branches. Bypasses are logged in the commit message with `[SKIP_HOOK: <reason>]`. Production branches (`main`, `release/*`) never bypass.
+### 3.1 `quality` matrix — `apps/api` and `apps/web`
 
----
+| Check                            | Command                 | Threshold / notes                                                        |
+| -------------------------------- | ----------------------- | ------------------------------------------------------------------------ |
+| Lint                             | `npm run lint`          | Zero warnings/errors (`next lint --max-warnings=0` for web)              |
+| Typecheck                        | `npm run typecheck`     | `tsc --noEmit --strict`                                                  |
+| Unit tests + coverage            | `npm run test:coverage` | 100% pass. API floor 40% (all metrics); web floor 1%.                    |
+| Build                            | `npm run build`         | Successful build (web retries up to 3× for `next/font` network failures) |
+| Prisma validate/generate/migrate | `npx prisma …`          | API leg only, against the Postgres service                               |
+| Bundle analysis                  | `npm run analyze`       | Web leg only, `continue-on-error: true` — informational                  |
 
-### G2: PULL REQUEST Gate (CI)
+### 3.2 `tokens` job
 
-| Aspect          | Details                                          |
-| --------------- | ------------------------------------------------ |
-| **Stage**       | On PR open, synchronize, and merge to `main`     |
-| **Enforcement** | Fully automated via CI pipeline (GitHub Actions) |
-| **Gatekeeper**  | CI Pipeline (merge blocked until green)          |
+| Check                     | Command                                                    | Threshold                |
+| ------------------------- | ---------------------------------------------------------- | ------------------------ |
+| Deterministic build       | `node packages/tokens/src/build.mjs`                       | Exit 0                   |
+| Token tests               | `node --test` (in `packages/tokens`)                       | 100% pass                |
+| WCAG AA contrast          | `node packages/tokens/src/check-contrast.mjs`              | 20/20 pair-scheme checks |
+| Per-skin CSS budget       | `node packages/tokens/src/check-budget.mjs`                | < 8,192 bytes per skin   |
+| No raw hex outside tokens | `node packages/tokens/src/check-no-hex.mjs`                | Zero violations          |
+| Committed dist is fresh   | `git status --porcelain --ignored -- packages/tokens/dist` | Empty                    |
 
-| Check                       | Tool / Command             | Threshold                                 | Pass/Fail           |
-| --------------------------- | -------------------------- | ----------------------------------------- | ------------------- |
-| TypeScript strict mode      | `tsc --noEmit --strict`    | Zero errors                               | Fail on any error   |
-| Lint                        | `npm run lint`             | Zero warnings                             | Fail on any warning |
-| Unit tests                  | `npm test` (Jest/Vitest)   | 100% pass rate                            | Fail on any failure |
-| Integration tests           | `npm run test:integration` | 100% pass rate                            | Fail on any failure |
-| Code coverage (API, Jest)   | `jest --coverage`          | >= 40% (all metrics, `coverageThreshold`) | Fail below minimum  |
-| Code coverage (web, Vitest) | `vitest --coverage`        | >= 1% floor                               | Fail below minimum  |
-| Dependency scan             | `npm audit` / `pnpm audit` | Zero critical vulnerabilities             | Fail on critical    |
-| PR size                     | git diff stats             | <= 400 lines changed, <= 20 files         | Fail on exceed      |
-| Build                       | `npm run build`            | Successful build                          | Fail on any error   |
+### 3.3 Other jobs
 
-**Note on coverage floors:** The enforced thresholds are deliberately low today — **40% (branches/functions/lines/statements) for the API** via `coverageThreshold` in `apps/api/jest.config.ts`, and **1% for the web app** via `thresholds` in `apps/web/vitest.config.ts`. These floors exist so coverage cannot silently regress; they are raised deliberately as tests are added, and are not treated as targets.
+| Job               | What it does                                                   | Blocking                 |
+| ----------------- | -------------------------------------------------------------- | ------------------------ |
+| `prisma-validate` | `prisma validate`, generate, `migrate deploy` against Postgres | Yes                      |
+| `npm-audit`       | `npm audit --audit-level=high`                                 | No (`continue-on-error`) |
+| `docker-build`    | Builds/pushes API + web images on `main` and tags              | No (`continue-on-error`) |
 
-**Bypass Procedure:** Emergency bypass requires approval from QA Lead + Engineering Lead. Bypassed checks must be validated within 24 hours post-merge. Documented in PR description with `[GATE_BYPASS]` tag.
+### 3.4 Not implemented
 
----
+These were previously listed as gates; they are **not** wired:
 
-### G3: PRE-DEPLOY Gate (Staging)
+- integration-test job / `npm run test:integration`
+- PR-size limits (≤400 lines / ≤20 files)
+- secret scanning (`secretlint`, `detect-secrets`)
+- Lighthouse CI and bundle-size regression thresholds
+- staging environment, smoke suite, QA sign-off
+- Datadog/Grafana latency SLOs, uptime monitoring, PagerDuty escalation
+- quarterly penetration test / documentation-staleness gate
 
-| Aspect          | Details                                        |
-| --------------- | ---------------------------------------------- |
-| **Stage**       | Before promotion from staging to production    |
-| **Enforcement** | Automated (CI) + Manual sign-off (QA Engineer) |
-| **Gatekeeper**  | QA Engineer                                    |
+Do not claim a change passed any of these. If one is added, update this file and
+`.github/workflows/ci.yml` in the same PR.
 
-| Check                         | Tool / Method                      | Threshold                             | Pass/Fail            |
-| ----------------------------- | ---------------------------------- | ------------------------------------- | -------------------- |
-| E2E tests                     | Playwright (all browsers)          | 100% pass rate                        | Fail on any failure  |
-| Lighthouse scores             | Lighthouse CI                      | >= 90 in all categories               | Fail on any category |
-| Bundle size regression        | `@next/bundle-analyzer` comparison | <= 5% increase from baseline          | Fail on exceed       |
-| API performance baseline      | k6 / autocannon                    | p95 latency <= 100ms                  | Fail on exceed       |
-| Database migration validation | Prisma migrate diff                | No destructive changes (DROP, RENAME) | Fail on destructive  |
-| Smoke tests                   | Playwright smoke suite             | 100% pass                             | Fail on any failure  |
+## 4. Review gate (human)
 
-**Bypass Procedure:** Requires approval from QA Lead + Architecture Lead + Engineering Manager (minimum 2 of 3). Post-deployment validation must complete within 24 hours. Full regression must run within 48 hours. Documented in release notes.
+Every UI PR additionally satisfies the design contract:
 
----
+- `DESIGN.md` §4 hard rules (no raw hex, semantic tokens only, AA pairs, performance
+  budgets, anti-generic checklist).
+- Spec §7 anti-generic checklist — review criteria, not advice.
+- Behavior changes ship with tests; documentation ships with the change.
+- `PROGRESS.md` is updated at the end of each work session.
 
-### G4: POST-DEPLOY Gate (Production)
+## 5. Coverage floors
 
-| Aspect          | Details                                      |
-| --------------- | -------------------------------------------- |
-| **Stage**       | First 30 minutes after production deployment |
-| **Enforcement** | Automated monitoring + alerts                |
-| **Gatekeeper**  | On-Call Engineer                             |
+Enforced in config, not by prose:
 
-| Check           | Tool / Source           | Threshold            | Pass/Fail         |
-| --------------- | ----------------------- | -------------------- | ----------------- |
-| Error rate      | Sentry                  | < 0.1% of requests   | Fail on exceed    |
-| API latency     | Datadog / Grafana       | p95 < 150ms          | Fail on exceed    |
-| Critical issues | Sentry issues list      | Zero P0/P1 issues    | Fail on any P0/P1 |
-| Health checks   | `/api/health` endpoint  | All services healthy | Fail on unhealthy |
-| Uptime          | Better Uptime / Pingdom | 100% availability    | Fail on downtime  |
+- **API:** 40% branches/functions/lines/statements via `coverageThreshold` in
+  `apps/api/jest.config.ts`.
+- **Web:** 1% floor via `thresholds` in `apps/web/vitest.config.ts`.
 
-**Bypass Procedure:** P0/P1 issues in production never bypass — they trigger immediate rollback or hotfix. For non-critical thresholds, the On-Call Engineer may keep the release live if a fix is in progress with an ETA under 2 hours. Engineering Lead must be notified.
+Floors exist so coverage cannot silently regress; they are raised deliberately as
+tests are added and are not targets.
 
----
+## 6. Release and post-deploy (manual)
 
-### G5: QUARTERLY Gate (Periodic)
+1. Merge the PR to `main` after CI is green and review is complete.
+2. Bump the root `package.json` version and add the `CHANGELOG.md` section.
+3. Tag `vX.Y.Z`.
+4. Deploy through the hosting provider.
+5. Verify the deployed surface manually: `/`, `/projects`, `/blog`, `/contact`,
+   `/admin/login`, `/api/health`, `/rss.xml`, `/sitemap.xml`. Check Sentry when
+   `SENTRY_DSN` is configured.
 
-| Aspect          | Details                               |
-| --------------- | ------------------------------------- |
-| **Stage**       | Every quarter (end of Q1, Q2, Q3, Q4) |
-| **Enforcement** | Manual review, documented report      |
-| **Gatekeeper**  | Engineering Lead                      |
+There is no automated rollback trigger; a failed deploy is rolled back through the
+hosting provider.
 
-| Check                     | Scope                              | Method                                          | Pass/Fail                 |
-| ------------------------- | ---------------------------------- | ----------------------------------------------- | ------------------------- |
-| Full security audit       | All services + infrastructure      | Penetration test + DAST + SAST                  | Fail on critical findings |
-| Dependency freshness      | All `package.json` files           | Outdated check via `npm outdated` / `renovate`  | Warnings recorded         |
-| Performance benchmark     | Lighthouse, API latency, load test | Compare against baseline quarter                | Fail on >= 10% regression |
-| Documentation review      | All `docs/`                        | Stale content audit, cross-reference validation | Fail on >= 20% stale      |
-| Technical debt assessment | Codebase + backlog                 | Debt quantification via CodeClimate / sonar     | Debt cap review           |
+## 7. Failure handling
 
-**Bypass Procedure:** Quarterly gate cannot be fully bypassed. In extraordinary circumstances, individual items may be deferred with documented justification and a remediation deadline. Requires Engineering Lead + CTO approval.
+| Gate       | Who acts        | Expected response                                |
+| ---------- | --------------- | ------------------------------------------------ |
+| Pre-commit | Author          | Fix before committing                            |
+| CI         | PR author       | Fix and push; no merge while red                 |
+| Review     | Reviewer/author | Resolve comments; re-request review              |
+| Deploy     | Maintainer      | Roll back through the provider, then fix forward |
 
----
+## Cross-references
 
-## 4. Gate Summary Matrix
-
-| Gate | Stage      | Automated         | Manual Check       | Blocking                  | Emergency Bypass         |
-| ---- | ---------- | ----------------- | ------------------ | ------------------------- | ------------------------ |
-| G1   | Local      | All checks        | Developer judgment | Commit blocked            | `--no-verify` flag       |
-| G2   | CI         | All checks        | —                  | Merge blocked             | QA Lead + Eng Lead       |
-| G3   | Staging    | E2E, Perf, Bundle | QA sign-off        | Promotion blocked         | QA Lead + Arch Lead + EM |
-| G4   | Production | Monitoring        | On-call review     | Rollback trigger          | None for P0/P1           |
-| G5   | Quarterly  | —                 | Full review        | Quarterly release blocked | Deferred with date       |
-
----
-
-## 5. Promotion Rules
-
-```mermaid
-stateDiagram-v2
-    [*] --> Dev
-    Dev --> Dev: Commit fails gate
-    Dev --> Test: All checks pass
-
-    Test --> Test: Tests fail
-    Test --> Staging: CI green + review approved
-    Test --> Dev: Rollback requested
-
-    Staging --> Staging: E2E/perf fail
-    Staging --> Prod: QA sign-off + all gates pass
-    Staging --> Test: Rollback / fixes needed
-
-    Prod --> Prod: Monitoring healthy
-    Prod --> Staging: P0/P1 incident → rollback
-    Prod --> Dev: Hotfix required
-
-    note right of Dev : G1: Pre-commit
-    note right of Test : G2: PR gate
-    note right of Staging : G3: Pre-deploy
-    note right of Prod : G4: Post-deploy
-```
-
-## 6. Gate Failure Runbook
-
-| Gate | Failure Escalation                             | Notification          | Remediation SLA               |
-| ---- | ---------------------------------------------- | --------------------- | ----------------------------- |
-| G1   | Developer fixes locally                        | Pre-commit output     | Before next commit            |
-| G2   | CI fails → PR author + team notified           | GitHub status + Slack | < 4 hours                     |
-| G3   | QA Engineer → QA Lead → Engineering Manager    | Slack @channel        | < 8 hours                     |
-| G4   | On-Call → Engineering Lead → Incident Response | PagerDuty + Slack     | < 1 hour (P0), < 4 hours (P1) |
-| G5   | Engineering Lead → backlog                     | Quarterly report      | Next sprint                   |
-
-## Cross-References
-
-- [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+- [AGENTS.md](../../AGENTS.md) — commands, architecture, working rules
+- [DESIGN.md](../../DESIGN.md) — design contract
+- [MASTER-INDEX.md](../MASTER-INDEX.md) — documentation index

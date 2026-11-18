@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { getAnalyticsSummary, getAnalyticsSessions } from '@/lib/api';
 import type { AnalyticsSummary, AnalyticsSession } from '@/lib/api';
 import { Card } from '@portfolio/ui';
+import { CHART } from '@/lib/design-tokens';
 
 type MetricSource = 'measured' | 'estimated' | 'unavailable';
 
@@ -396,10 +397,15 @@ export default function PerformancePage() {
         <div className="rounded-2xl bg-surface-secondary border border-border-primary p-5">
           <h3 className="font-display text-h4 text-text-primary mb-4">Lighthouse Scores</h3>
           <div className="grid grid-cols-2 gap-4">
-            <ScoreDial label="Performance" score={0} color="#22c55e" available={false} />
-            <ScoreDial label="Accessibility" score={0} color="#eab308" available={false} />
-            <ScoreDial label="Best Practices" score={0} color="#06b6d4" available={false} />
-            <ScoreDial label="SEO" score={0} color="#8b5cf6" available={false} />
+            <ScoreDial label="Performance" score={0} color={CHART.performance} available={false} />
+            <ScoreDial
+              label="Accessibility"
+              score={0}
+              color={CHART.accessibility}
+              available={false}
+            />
+            <ScoreDial label="Best Practices" score={0} color={CHART.cyan} available={false} />
+            <ScoreDial label="SEO" score={0} color={CHART.violet} available={false} />
           </div>
           <p className="text-xs text-text-tertiary text-center mt-4">
             Connect Lighthouse CI to populate measured scores
@@ -473,7 +479,7 @@ export default function PerformancePage() {
           <h3 className="font-display text-h4 text-text-primary mb-4">
             API Response Time (7 Day Trend)
           </h3>
-          <TrendChart data={dailyResponseTimes} label="Response (ms)" color="#06b6d4" />
+          <TrendChart data={dailyResponseTimes} label="Response (ms)" color={CHART.cyan} />
         </div>
       </div>
 

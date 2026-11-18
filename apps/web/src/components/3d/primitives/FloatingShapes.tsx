@@ -5,6 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import { Float } from '@react-three/drei';
 import * as THREE from 'three';
 import type { Tier } from '@/lib/3d/types';
+import { SCENE } from '@/lib/design-tokens';
 
 interface FloatingShapesProps {
   tier: Tier;
@@ -13,21 +14,25 @@ interface FloatingShapesProps {
 }
 
 const SHAPES = [
-  { type: 'box' as const, position: [-2, 1, -1] as [number, number, number], color: '#6366f1' },
+  {
+    type: 'box' as const,
+    position: [-2, 1, -1] as [number, number, number],
+    color: SCENE.shapes.box,
+  },
   {
     type: 'sphere' as const,
     position: [2.5, -0.5, -2] as [number, number, number],
-    color: '#22d3ee',
+    color: SCENE.shapes.sphere,
   },
   {
     type: 'torus' as const,
     position: [-1.5, -1.5, -3] as [number, number, number],
-    color: '#a78bfa',
+    color: SCENE.shapes.torus,
   },
   {
     type: 'octahedron' as const,
     position: [1.8, 1.8, -1.5] as [number, number, number],
-    color: '#67e8f9',
+    color: SCENE.shapes.octahedron,
   },
 ];
 

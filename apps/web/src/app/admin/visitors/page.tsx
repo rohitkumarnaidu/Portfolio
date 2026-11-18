@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getAnalyticsSummary, getAnalyticsSessions } from '@/lib/api';
 import type { AnalyticsSummary, AnalyticsSession } from '@/lib/api';
+import { CHART } from '@/lib/design-tokens';
 
 const PERIODS = [
   { value: '24h', label: '24h' },
@@ -125,7 +126,7 @@ function DailyViewsChart({
       <path
         d={viewsPath}
         fill="none"
-        stroke="#06b6d4"
+        stroke={CHART.cyan}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -172,7 +173,7 @@ function DailyViewsChart({
           y1="16"
           x2="20"
           y2="16"
-          stroke="#06b6d4"
+          stroke={CHART.cyan}
           strokeWidth="2"
           strokeDasharray="4 3"
         />

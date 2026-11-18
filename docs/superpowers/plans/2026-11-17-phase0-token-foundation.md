@@ -1,6 +1,6 @@
 # Phase 0 — Token Foundation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Make `tokens.json` the single source of truth for all color/motion design values, delivered as generated CSS behind a no-flash dual-attribute theme provider, with automated WCAG AA contrast and <8KB skin-CSS budget checks.
 
@@ -51,7 +51,7 @@ Five inputs the spec implies but no single task test fully exercises — each pi
 - Consumes: nothing (leaf package).
 - Produces: `hexToRgb(hex) → {r,g,b}` (throws on invalid), `relativeLuminance(hex) → number`, `contrastRatio(fgHex, bgHex) → number`, `REQUIRED = { AA_NORMAL: 4.5, AA_LARGE: 3.0, NONE: 0 }` — all consumed by Task 7's checker.
 
-- [ ] **Step 1: Write the failing test** — WCAG math with published anchor values:
+- [x] **Step 1: Write the failing test** — WCAG math with published anchor values:
 
 ```js
 // packages/tokens/test/wcag.test.mjs
@@ -76,10 +76,10 @@ test('REQUIRED levels', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify failure** — `node --test packages/tokens/test/` → FAIL (module not found).
-- [ ] **Step 3: Implement `wcag.mjs`** — WCAG 2.x relative luminance: linearize `c/12.92` if `c ≤ 0.03928` else `((c+0.055)/1.055)^2.4`; `L = 0.2126R + 0.7152G + 0.0722B`; ratio = `(Llight + 0.05)/(Ldark + 0.05)`, lighter first.
-- [ ] **Step 4: Run to verify pass** — `node --test packages/tokens/test/` → PASS.
-- [ ] **Step 5: Scaffold package + wiring:**
+- [x] **Step 2: Run to verify failure** — `node --test packages/tokens/test/` → FAIL (module not found).
+- [x] **Step 3: Implement `wcag.mjs`** — WCAG 2.x relative luminance: linearize `c/12.92` if `c ≤ 0.03928` else `((c+0.055)/1.055)^2.4`; `L = 0.2126R + 0.7152G + 0.0722B`; ratio = `(Llight + 0.05)/(Ldark + 0.05)`, lighter first.
+- [x] **Step 4: Run to verify pass** — `node --test packages/tokens/test/` → PASS.
+- [x] **Step 5: Scaffold package + wiring:**
 
 ```json
 // packages/tokens/package.json
@@ -99,7 +99,7 @@ test('REQUIRED levels', () => {
 
 Add `"@portfolio/tokens": "2.0.0"` to `apps/web/package.json` dependencies; add `"tokens:build": "node packages/tokens/src/build.mjs"` to root scripts (build script itself lands in Task 3 — create an empty `src/build.mjs` stub now so the script resolves). Run `npm install` so the lockfile records the workspace link (expect zero external packages added).
 
-- [ ] **Step 6: Commit** — `feat(tokens): package scaffold with WCAG math module`
+- [x] **Step 6: Commit** — `feat(tokens): package scaffold with WCAG math module`
 
 ### Task 2: `tokens.json` — primitives + Skin 3 semantic + motion + contrastPairs
 
@@ -113,7 +113,7 @@ Add `"@portfolio/tokens": "2.0.0"` to `apps/web/package.json` dependencies; add 
 
 - Produces (data contract, consumed by Tasks 3/7): top-level keys `primitives`, `status`, `viz`, `motion`, `skins["3"]`, `contrastPairs`. Semantic tokens carry `{ "light": "<hex|rgba>", "dark": "<hex|rgba>" }`; primitives carry DTCG `{ "$type": "color", "$value": "<hex>" }`. `contrastPairs` entries: `{ "fg": "<semantic.path>", "bg": "<semantic.path>", "level": "AA_NORMAL|AA_LARGE|NONE" }` — pair checked in **both** schemes unless `"schemes": ["dark"]` is given.
 
-- [ ] **Step 1: Write the failing test** — validator must accept the real file and reject a fixture missing a `dark` value:
+- [x] **Step 1: Write the failing test** — validator must accept the real file and reject a fixture missing a `dark` value:
 
 ```js
 import { validateTokens } from '../src/validate.mjs';
@@ -129,8 +129,8 @@ test('every contrastPair references a known semantic token', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify failure** — FAIL (no such files).
-- [ ] **Step 3: Write `tokens.json`** — exact locked values (spec §3.2):
+- [x] **Step 2: Run to verify failure** — FAIL (no such files).
+- [x] **Step 3: Write `tokens.json`** — exact locked values (spec §3.2):
 
   - **primitives.graphite (9):** `0: #FFFFFF`, `50: #F4F5F7`, `100: #E4E7EC`, `300: #A6ADBB`, `500: #565E6D`, `800: #262B35`, `850: #1B1F27`, `900: #12151B`, `950: #0A0C10`
   - **primitives.ember (5):** `300: #E3A87C`, `400: #D68A54`, `500: #C1662E`, `600: #9A4E22`, `700: #7A3C18`
@@ -147,9 +147,9 @@ test('every contrastPair references a known semantic token', () => {
   - **motion:** `dur.tap 120ms`, `dur.transition 200ms`, `dur.reveal 350ms`, `ease.out cubic-bezier(0.2, 0, 0, 1)`, `ease.spring cubic-bezier(0.35, 0, 0.1, 1)` (zero bounce — spec §3.6), `reducedMotion.fade 120ms`
   - **contrastPairs (initial matrix):** text.primary/base, text.primary/panel, text.secondary/base, text.secondary/panel, text.muted/base, accent.link/base, accentSecondary.link/base — all `AA_NORMAL`; accent.primary/base, accent.focus/base — `AA_LARGE`; border.hairline/base — `NONE` (decorative hairline; WCAG 1.4.11 applies only to essential boundaries).
 
-- [ ] **Step 4: Implement `validate.mjs`** — checks: every semantic token has both `light` and `dark` keys (`null` allowed only for `accent.traceHalo.light`); every `contrastPair.fg/bg` resolves; `$value` is a valid hex via `hexToRgb` (import from `wcag.mjs`).
-- [ ] **Step 5: Run to verify pass** — `node --test packages/tokens/test/` → PASS.
-- [ ] **Step 6: Commit** — `feat(tokens): skin 3 semantic map, motion tokens, contrast pair matrix`
+- [x] **Step 4: Implement `validate.mjs`** — checks: every semantic token has both `light` and `dark` keys (`null` allowed only for `accent.traceHalo.light`); every `contrastPair.fg/bg` resolves; `$value` is a valid hex via `hexToRgb` (import from `wcag.mjs`).
+- [x] **Step 5: Run to verify pass** — `node --test packages/tokens/test/` → PASS.
+- [x] **Step 6: Commit** — `feat(tokens): skin 3 semantic map, motion tokens, contrast pair matrix`
 
 ### Task 3: Generator → `dist/theme-tokens.css` (deterministic, committed)
 
@@ -164,7 +164,7 @@ test('every contrastPair references a known semantic token', () => {
 - Consumes: `tokens.json` + `validate.mjs` (Task 2).
 - Produces: `dist/theme-tokens.css`, exported as `@portfolio/tokens/theme.css` (Task 5 imports it). CSS contract: every semantic token as `--pf-<dotted-path-to-kebab>` (e.g. `accentSecondary.link` → `--pf-accent-secondary-link`), emitted under combined selectors `[data-scheme='light'][data-skin='3'] { … }` and `[data-scheme='dark'][data-skin='3'] { … }`; motion tokens under `:root`; a `@media (prefers-reduced-motion: reduce)` block zeroing durations to 120ms; status/viz constants emitted in both scheme blocks (they are constant, but selectors need them resolved).
 
-- [ ] **Step 1: Write the failing test** — generate into a temp dir, assert structure:
+- [x] **Step 1: Write the failing test** — generate into a temp dir, assert structure:
 
 ```js
 test('emits both scheme blocks with locked values', () => {
@@ -180,10 +180,10 @@ test('output is byte-deterministic', () => {
 });
 ```
 
-- [ ] **Step 2: Run to verify failure** — FAIL (build is a stub).
-- [ ] **Step 3: Implement `build.mjs`** — read + validate `tokens.json`, kebab-case the paths (`/[A-Z]/ → -$&lower`), emit blocks in fixed key order, write file with trailing newline. No minification needed (budget check is raw bytes).
-- [ ] **Step 4: Run to verify pass** + regenerate the committed file — `node packages/tokens/src/build.mjs && node --test packages/tokens/test/` → PASS.
-- [ ] **Step 5: Commit** — `feat(tokens): deterministic CSS generator with committed dist output`
+- [x] **Step 2: Run to verify failure** — FAIL (build is a stub).
+- [x] **Step 3: Implement `build.mjs`** — read + validate `tokens.json`, kebab-case the paths (`/[A-Z]/ → -$&lower`), emit blocks in fixed key order, write file with trailing newline. No minification needed (budget check is raw bytes).
+- [x] **Step 4: Run to verify pass** + regenerate the committed file — `node packages/tokens/src/build.mjs && node --test packages/tokens/test/` → PASS.
+- [x] **Step 5: Commit** — `feat(tokens): deterministic CSS generator with committed dist output`
 
 ### Task 4: IBM Plex font swap (`next/font`)
 
@@ -196,9 +196,9 @@ test('output is byte-deterministic', () => {
 
 - Produces (unchanged var names, new values): `--font-display` (Plex Sans, 600/700 weight styling), `--font-body` (Plex Sans), `--font-mono` (Plex Mono), `--font-serif` (aliased to `var(--font-body)` — interim; `public.css` references `--font-serif` and would break to browser-default if left undefined, because an undefined `var()` invalidates the whole `font-family` declaration). Q1 spec §12: Plex Sans + Plex Mono **only**.
 
-- [ ] **Step 1: Rewrite `fonts.ts`** — `Plex_Sans({ subsets: ['latin'], display: 'swap' })` + `Plex_Mono({ subsets: ['latin'], display: 'swap' })` from `next/font/google`; keep the exported `fontVariables` composition shape so `layout.tsx` keeps working; delete `Plus_Jakarta_Sans`, `Instrument_Serif`, `Inter`, `JetBrains_Mono`; map `--font-serif` to the sans variable with a `// Phase 1: public surface restyle removes serif role` comment.
-- [ ] **Step 2: Verify** — `npm run typecheck && npm run build` (from repo root) → PASS; grep confirms no other file imports the deleted exports (`grep -r "Instrument_Serif\|Plus_Jakarta\|JetBrains_Mono" apps/web/src packages/ui/src` → no matches; adjust any hit you find).
-- [ ] **Step 3: Commit** — `feat(web): swap font stack to IBM Plex Sans + Plex Mono (spec Q1)`
+- [x] **Step 1: Rewrite `fonts.ts`** — `Plex_Sans({ subsets: ['latin'], display: 'swap' })` + `Plex_Mono({ subsets: ['latin'], display: 'swap' })` from `next/font/google`; keep the exported `fontVariables` composition shape so `layout.tsx` keeps working; delete `Plus_Jakarta_Sans`, `Instrument_Serif`, `Inter`, `JetBrains_Mono`; map `--font-serif` to the sans variable with a `// Phase 1: public surface restyle removes serif role` comment.
+- [x] **Step 2: Verify** — `npm run typecheck && npm run build` (from repo root) → PASS; grep confirms no other file imports the deleted exports (`grep -r "Instrument_Serif\|Plus_Jakarta\|JetBrains_Mono" apps/web/src packages/ui/src` → no matches; adjust any hit you find).
+- [x] **Step 3: Commit** — `feat(web): swap font stack to IBM Plex Sans + Plex Mono (spec Q1)`
 
 ### Task 5: No-flash dual-attribute provider + scheme toggle
 
@@ -222,12 +222,12 @@ test('output is byte-deterministic', () => {
   - `applyToDocument(scheme, skin): void` — sets `data-scheme`, `data-skin`, **and `data-theme = scheme`** (legacy mirror so the existing Tailwind `darkMode: ['selector', '[data-theme="dark"]']` keeps working unchanged in Phase 0; mirror is deleted in Phase 1 with the aliases)
   - `THEME_SCRIPT: string` — vanilla pre-paint mirror of `resolveStored`+`applyToDocument`, wrapped in try/catch, no dependencies
 
-- [ ] **Step 1: Write the failing unit tests** — jsdom: empty storage + `matchMedia` mock `{matches: false}` → `resolveStored` returns light (OS preference respected — Review Focus #2); `{matches: true}` → dark. Legacy migration: seed `localStorage.theme = 'dark'` → resolves dark AND writes `pf.theme` (Review Focus #3). `applyToDocument` sets all three attributes. `THEME_SCRIPT` string contains `data-scheme`, `data-skin`, `data-theme`, and `prefers-color-scheme`.
-- [ ] **Step 2: Run to verify failure** — `npm test -- src/test/__tests__/theme.test.ts` (from `apps/web`) → FAIL.
-- [ ] **Step 3: Implement `theme.ts` + `theme-script.ts`** — script string is hand-written vanilla (it runs before React); the unit test asserts behavioral parity markers (attribute names + matchMedia + storage keys).
-- [ ] **Step 4: Update `layout.tsx`** — `<html lang="en" data-scheme="dark" data-skin="3" className={fontVariables} suppressHydrationWarning>`; replace the inline script body with `__html: THEME_SCRIPT`; keep the existing comment about the admin `data-theme` contract, updated to mention the mirror.
-- [ ] **Step 5: Rework `ThemeToggle.tsx`** — scheme-only toggle reading `resolveStored()` on mount, calling `persist` + `applyToDocument` on click; keep the sun/moon SVGs and the `mounted` guard; `aria-label` stays dynamic.
-- [ ] **Step 6: Write the failing e2e test, then run it** — `apps/web/e2e/theme-no-flash.spec.ts`:
+- [x] **Step 1: Write the failing unit tests** — jsdom: empty storage + `matchMedia` mock `{matches: false}` → `resolveStored` returns light (OS preference respected — Review Focus #2); `{matches: true}` → dark. Legacy migration: seed `localStorage.theme = 'dark'` → resolves dark AND writes `pf.theme` (Review Focus #3). `applyToDocument` sets all three attributes. `THEME_SCRIPT` string contains `data-scheme`, `data-skin`, `data-theme`, and `prefers-color-scheme`.
+- [x] **Step 2: Run to verify failure** — `npm test -- src/test/__tests__/theme.test.ts` (from `apps/web`) → FAIL.
+- [x] **Step 3: Implement `theme.ts` + `theme-script.ts`** — script string is hand-written vanilla (it runs before React); the unit test asserts behavioral parity markers (attribute names + matchMedia + storage keys).
+- [x] **Step 4: Update `layout.tsx`** — `<html lang="en" data-scheme="dark" data-skin="3" className={fontVariables} suppressHydrationWarning>`; replace the inline script body with `__html: THEME_SCRIPT`; keep the existing comment about the admin `data-theme` contract, updated to mention the mirror.
+- [x] **Step 5: Rework `ThemeToggle.tsx`** — scheme-only toggle reading `resolveStored()` on mount, calling `persist` + `applyToDocument` on click; keep the sun/moon SVGs and the `mounted` guard; `aria-label` stays dynamic.
+- [x] **Step 6: Write the failing e2e test, then run it** — `apps/web/e2e/theme-no-flash.spec.ts`:
 
 ```ts
 test('applies persisted scheme+skin before paint', async ({ page }) => {
@@ -255,7 +255,7 @@ test('resolves light from OS preference with empty storage', async ({ page }) =>
 
 Run `npm run test:e2e` (from `apps/web`) → PASS. (Review Focus #1 pinned here; the OS-light test pins Review Focus #2 end-to-end because Playwright's default emulation is light.)
 
-- [ ] **Step 7: Commit** — `feat(web): no-flash dual-attribute theme provider with legacy migration`
+- [x] **Step 7: Commit** — `feat(web): no-flash dual-attribute theme provider with legacy migration`
 
 ### Task 6: Legacy alias bridge in `globals.css` (admin re-dresses to Skin 3)
 
@@ -313,10 +313,10 @@ Run `npm run test:e2e` (from `apps/web`) → PASS. (Review Focus #1 pinned here;
 Note: `--border-accent` keeps its existing per-scheme definition (it collides with no `--pf-` name); the glass/gradient/scrim/neu vars stay as-is — they are legacy visual residue deleted in Phase 1 (bento/glass are banned AI tells, spec §7).
 Also update the existing `@media (prefers-reduced-motion: reduce)` block: replace the `0.01ms` nuclear option with **120ms opacity-only fades** per spec §3.6 (`transition-property: opacity` for the sweep; keep `scroll-behavior: auto`).
 
-- [ ] **Step 1: Apply the alias blocks + import** (single edit set as above).
-- [ ] **Step 2: Verify build + full web suite** — `npm run typecheck && npm run lint && npm run build` (root) → PASS; `npm test` (from `apps/web`) → PASS.
-- [ ] **Step 3: Visual smoke, both surfaces** — `npm run dev` (root), then check with the browser: `/admin/login`, `/admin`, one public page. Confirm: dark default renders graphite + copper (no blue/cyan remnants in chrome, buttons, focus rings); scheme toggle flips surfaces; no unstyled flash on hard reload. **Known interim states (acceptable, do not fix):** public pages still render the `.site` paper palette (Phase 1); admin glass/mesh gradient utilities render legacy visuals (Phase 1 deletes them); `public.css` serif role renders sans (Task 4 note).
-- [ ] **Step 4: Commit** — `feat(web): alias legacy tokens onto DTCG semantic layer (admin re-dresses to skin 3)`
+- [x] **Step 1: Apply the alias blocks + import** (single edit set as above).
+- [x] **Step 2: Verify build + full web suite** — `npm run typecheck && npm run lint && npm run build` (root) → PASS; `npm test` (from `apps/web`) → PASS.
+- [x] **Step 3: Visual smoke, both surfaces** — `npm run dev` (root), then check with the browser: `/admin/login`, `/admin`, one public page. Confirm: dark default renders graphite + copper (no blue/cyan remnants in chrome, buttons, focus rings); scheme toggle flips surfaces; no unstyled flash on hard reload. **Known interim states (acceptable, do not fix):** public pages still render the `.site` paper palette (Phase 1); admin glass/mesh gradient utilities render legacy visuals (Phase 1 deletes them); `public.css` serif role renders sans (Task 4 note).
+- [x] **Step 4: Commit** — `feat(web): alias legacy tokens onto DTCG semantic layer (admin re-dresses to skin 3)`
 
 ### Task 7: Contrast checker + value reconciliation (spec §14 amendments)
 
@@ -333,11 +333,11 @@ Also update the existing `@media (prefers-reduced-motion: reduce)` block: replac
 - Consumes: `wcag.mjs` (Task 1), `tokens.json` pair matrix (Task 2).
 - Produces: exit code 0 = all pairs pass; non-zero with a table of `fg × bg × scheme: actual < required` failures. CI runs it (Task 9).
 
-- [ ] **Step 1: Write the failing test** — seeded failure: run the checker logic against a tokens fixture where `text.muted.light` is `#A6ADBB` on `#F4F5F7` (≈2.0:1 < 4.5) → must report failure, exit non-zero; and against the real `tokens.json` with `process.exitCode` stubbed → records current pass/fail set.
-- [ ] **Step 2: Implement `check-contrast.mjs`** — resolve each pair per scheme, compare against `REQUIRED[level]`, print a pass table + failure table, `process.exit(failures ? 1 : 0)`.
-- [ ] **Step 3: Run against the real tokens — expect failures** (`AA_NORMAL` suspects per spec values: `text.muted` light ≈2.0:1, `accent.link` light ≈3.7:1, `status.success` light ≈3.1:1; dark `text.muted` ≈3.0:1). **Reconciliation rule:** move the failing token to the nearest primitive of the same family that passes (e.g. `accent.link.light` → ember-600 `#9A4E22` ≈5.5:1; `text.muted.light` → graphite-500 `#565E6D` ≈5.9:1 — note this makes muted == secondary; if hierarchy demands separation, step `text.secondary.light` down one graphite step instead, and record which). Never touch `status.*` semantics by hue — only luminance within the same hue. Every change = one row in spec §14: `| token | scheme | was | now | pair | ratio |`.
-- [ ] **Step 4: Regenerate + rerun everything** — `node packages/tokens/src/build.mjs && node packages/tokens/src/check-contrast.mjs` → exit 0; `node --test packages/tokens/test/` → PASS.
-- [ ] **Step 5: Commit** — `fix(tokens): reconcile failing contrast pairs to WCAG AA; record §14 amendments`
+- [x] **Step 1: Write the failing test** — seeded failure: run the checker logic against a tokens fixture where `text.muted.light` is `#A6ADBB` on `#F4F5F7` (≈2.0:1 < 4.5) → must report failure, exit non-zero; and against the real `tokens.json` with `process.exitCode` stubbed → records current pass/fail set.
+- [x] **Step 2: Implement `check-contrast.mjs`** — resolve each pair per scheme, compare against `REQUIRED[level]`, print a pass table + failure table, `process.exit(failures ? 1 : 0)`.
+- [x] **Step 3: Run against the real tokens — expect failures** (`AA_NORMAL` suspects per spec values: `text.muted` light ≈2.0:1, `accent.link` light ≈3.7:1, `status.success` light ≈3.1:1; dark `text.muted` ≈3.0:1). **Reconciliation rule:** move the failing token to the nearest primitive of the same family that passes (e.g. `accent.link.light` → ember-600 `#9A4E22` ≈5.5:1; `text.muted.light` → graphite-500 `#565E6D` ≈5.9:1 — note this makes muted == secondary; if hierarchy demands separation, step `text.secondary.light` down one graphite step instead, and record which). Never touch `status.*` semantics by hue — only luminance within the same hue. Every change = one row in spec §14: `| token | scheme | was | now | pair | ratio |`.
+- [x] **Step 4: Regenerate + rerun everything** — `node packages/tokens/src/build.mjs && node packages/tokens/src/check-contrast.mjs` → exit 0; `node --test packages/tokens/test/` → PASS.
+- [x] **Step 5: Commit** — `fix(tokens): reconcile failing contrast pairs to WCAG AA; record §14 amendments`
 
 ### Task 8: Skin-CSS budget check (<8KB)
 
@@ -351,10 +351,10 @@ Also update the existing `@media (prefers-reduced-motion: reduce)` block: replac
 - Consumes: `dist/theme-tokens.css`.
 - Produces: exit 0 iff every skin block's raw bytes < 8192. Splits the file on `[data-scheme=` block boundaries and measures per skin (today: one skin; Phase 3 adds 1–2 automatically).
 
-- [ ] **Step 1: Write the failing test** — fixture CSS: one 8191-byte block (pass) + one 8193-byte block (fail).
-- [ ] **Step 2: Implement `check-budget.mjs`** — parse blocks by selector regex, byte-measure (`Buffer.byteLength`), report per-skin table, exit accordingly.
-- [ ] **Step 3: Run against real output** — `node packages/tokens/src/check-budget.mjs` → exit 0 (expected size ≈3–4KB; if over, minify the generator output instead of trimming tokens).
-- [ ] **Step 4: Commit** — `feat(tokens): per-skin CSS budget check (<8KB, spec §3.7)`
+- [x] **Step 1: Write the failing test** — fixture CSS: one 8191-byte block (pass) + one 8193-byte block (fail).
+- [x] **Step 2: Implement `check-budget.mjs`** — parse blocks by selector regex, byte-measure (`Buffer.byteLength`), report per-skin table, exit accordingly.
+- [x] **Step 3: Run against real output** — `node packages/tokens/src/check-budget.mjs` → exit 0 (expected size ≈3–4KB; if over, minify the generator output instead of trimming tokens).
+- [x] **Step 4: Commit** — `feat(tokens): per-skin CSS budget check (<8KB, spec §3.7)`
 
 ### Task 9: CI wiring + contract docs + full gate
 
@@ -369,7 +369,7 @@ Also update the existing `@media (prefers-reduced-motion: reduce)` block: replac
 - Consumes: all prior tasks.
 - Produces: CI enforcement of Tasks 3/7/8.
 
-- [ ] **Step 1: Add the CI job** (no npm install needed — pure Node):
+- [x] **Step 1: Add the CI job** (no npm install needed — pure Node):
 
 ```yaml
 tokens:
@@ -386,7 +386,19 @@ tokens:
     - run: git diff --exit-code -- packages/tokens/dist # committed output must be fresh
 ```
 
-- [ ] **Step 2: Update `DESIGN.md`** — add: pipeline (`tokens.json` → `build.mjs` → `dist/theme-tokens.css` → `--pf-*` → alias bridge), the regenerate command (`npm run tokens:build`), the dual-attribute contract (`data-scheme` × `data-skin`, `data-theme` = deprecated mirror), the component-layer deferral, and the alias-deletion note for Phase 1.
-- [ ] **Step 3: Full gate** — `npm run typecheck && npm run lint && npm test (api) && npm test (web) && npm run build` → all green; then `node packages/tokens/src/check-contrast.mjs && node packages/tokens/src/check-budget.mjs` → green.
-- [ ] **Step 4: Verify §3.7 acceptance criteria** — walk the checklist explicitly (tokens single source / no-flash / <8KB / AA both schemes / DESIGN.md) and tick them in `PROGRESS.md`.
-- [ ] **Step 5: Commit** — `chore(ci): token checks gate; docs: DESIGN.md pipeline + PROGRESS Phase 0 status`
+- [x] **Step 2: Update `DESIGN.md`** — add: pipeline (`tokens.json` → `build.mjs` → `dist/theme-tokens.css` → `--pf-*` → alias bridge), the regenerate command (`npm run tokens:build`), the dual-attribute contract (`data-scheme` × `data-skin`, `data-theme` = deprecated mirror), the component-layer deferral, and the alias-deletion note for Phase 1.
+- [x] **Step 3: Full gate** — `npm run typecheck && npm run lint && npm test (api) && npm test (web) && npm run build` → all green; then `node packages/tokens/src/check-contrast.mjs && node packages/tokens/src/check-budget.mjs` → green.
+- [x] **Step 4: Verify §3.7 acceptance criteria** — walk the checklist explicitly (tokens single source / no-flash / <8KB / AA both schemes / DESIGN.md) and tick them in `PROGRESS.md`.
+- [x] **Step 5: Commit** — `chore(ci): token checks gate; docs: DESIGN.md pipeline + PROGRESS Phase 0 status`
+
+---
+
+## Post-plan closure — §3.7 criterion 1 (2026-11-18)
+
+All nine tasks above are complete. After the Task 9 gate, the user ruled that §3.7 criterion 1's hex ban is Phase 0 scope, so closure landed as follow-up work:
+
+- `tokens.json` gained `publicSurface`, `sandboxSurface`, `legacyPalette`, `brand.google` and `scene` groups; `build.mjs` emits their CSS at `:root` (spec §15, A5–A6).
+- `apps/web/src/lib/design-tokens.ts` re-exports token values for WebGL, charts, metadata and the Google mark (A7).
+- `globals.css`, `public.css`, `tailwind.config.ts`, sandbox chrome, admin charts and `layout.tsx` `themeColor` migrated to token references (A9).
+- `packages/tokens/src/check-no-hex.mjs` plus five guard tests and a CI step enforce the ban (A8).
+- Evidence: token tests 60/60 · contrast 20/20 · budget 1,845 B · hex guard zero violations · `next build` 52 pages · typecheck/lint clean.

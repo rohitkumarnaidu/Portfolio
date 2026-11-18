@@ -1,6 +1,6 @@
 # Portfolio Redesign — Multi-Theme 3D Architecture · Design Spec
 
-**Status:** ✅ APPROVED by user (2026-11-16) — next step: writing-plans → Phase 0 build. Amended §11 (2026-11-16 groundwork audit).
+**Status:** ✅ APPROVED by user (2026-11-16); Phase 0 COMPLETE (2026-11-18, §3.7 5/5) — next: Phase 1. Amended §11, §12, §13, §14, §15.
 **Date:** 2026-11-15 (research started 2026-11-13)
 **Evidence base:** Research report `research_report_20261113_portfolio_career_strategy.md` (61 sources, S01–S61) + 12 grounded NotebookLM passes (askA–askL) + production precedents (nickvirden.com, hire-me-mcp)
 **Verdict lineage:** research → brainstorm → user decisions (all closed) → **this spec** → writing-plans → build
@@ -388,3 +388,49 @@ Blog stays T1: long-form reading pages don't earn GPU time. Admin never gets amb
 ### 13.3 Relationship to the hero budget
 
 The hero blueprint (§4.5) is unchanged. Ambient T2 elements are separate, smaller units of work scheduled **after** the hero ships, one section at a time per §8's build order — so "more 3D" cannot cannibalize the hero deadline.
+
+## 14 · Contrast reconciliation amendments (Phase 0)
+
+Task 7 made §3.7's automated AA criterion real: `packages/tokens/src/check-contrast.mjs` resolves every declared `contrastPairs` entry in both schemes and compares full-precision WCAG contrast ratios against the pair's required level (`AA_NORMAL` 4.5, `AA_LARGE` 3.0, `NONE` none) — no rounding in comparisons, displayed ratios rounded to 2dp only. The checker is the authority over §3.2's ⚠️ prose. §3.2's values stay locked; the amendments below supersede the matching §3.2 cells, and every amended value stays within its primitive family (graphite for text, ember for accent).
+
+**Before reconciliation** the checker measured **17/20 pair-scheme checks passing**, with exactly three failures, all `AA_NORMAL`: `text.muted.light` 2.07:1, `text.muted.dark` 3.00:1, `accent.link.light` 3.70:1. **After reconciliation: 20/20 pass** — `node packages/tokens/src/check-contrast.mjs` exits 0 (CI wiring is Task 9).
+
+| token            | scheme | was       | now                                        | pair                                    | ratio |
+| ---------------- | ------ | --------- | ------------------------------------------ | --------------------------------------- | ----- |
+| `text.muted`     | light  | `#A6ADBB` | `#565E6D`                                  | text.muted × surface.base               | 5.98  |
+| `text.secondary` | light  | `#565E6D` | `#262B35`                                  | text.secondary × surface.base           | 13.01 |
+| `text.muted`     | dark   | `#565E6D` | `#A6ADBB`                                  | text.muted × surface.base               | 8.68  |
+| `text.secondary` | dark   | `#A6ADBB` | `#E4E7EC`                                  | text.secondary × surface.base           | 15.79 |
+| `accent.link`    | light  | `#C1662E` | `#9A4E22`                                  | accent.link × surface.base              | 5.52  |
+| `accent.link`    | dark   | `#D68A54` | `#D68A54` _(unchanged — prose correction)_ | accent.link × surface.base              | 7.10  |
+| `status.success` | light  | `#2E9E6D` | `#2E9E6D` _(unchanged — deferred)_         | _(informational — not a declared pair)_ | 3.09  |
+
+**Rows 1–4 — the separation pattern.** Each scheme is one linked pair of moves: the failing `text.muted` takes the nearest same-family primitive that passes (graphite-500 light, graphite-300 dark), and `text.secondary` then shifts one graphite step toward **more prominence** (darker in light, lighter in dark) so muted ≠ secondary and the primary > secondary > muted hierarchy holds in both schemes. The graphite scale is sparse (300/500/800 on the light end, 100/300/500 on the dark end), so "one step" lands on graphite-800 (light) and graphite-100 (dark); no intermediate step exists and none was invented. `text.secondary` also holds its second declared pair: 14.20:1 on `surface.panel` light, 13.32:1 dark.
+
+**Row 5.** `accent.link.light` steps from ember-500 to ember-600, the nearest passing ember primitive (5.52:1). It now equals `accent.hover.light` (`#9A4E22`) — the same link == hover pattern that already exists on dark (both `#D68A54`).
+
+**Row 6 — prose correction, not a value change.** §3.2's `accent.link` row claims "base copper on `#0A0C10` ≈ 3.8:1 = AA fail". Measured: `#C1662E` on `#0A0C10` is 4.85:1 — a **pass**. The shipped dark value `#D68A54` measures 7.10:1. `accent.link.dark` therefore stays `#D68A54` (§3.3's "dark = illuminated signal" independently justifies ember-400 for links on dark); the ⚠️ note is superseded by this row and §3.2 is not edited.
+
+**Row 7 — informational, outside the declared matrix.** `status.success.light` (`#2E9E6D`) measures 3.09:1 on `surface.base` — below `AA_NORMAL`, but `status.*` is scheme-constant and no `contrastPairs` entry declares it, so Phase 0's gate does not apply. Its only planned consumer (the "Available for work" badge) is Phase 1 work; the resolution — darken within the status family, same-hue luminance shifts only, never hue changes — is **deferred to Phase 1**. Value unchanged in Phase 0.
+
+**Reconciliation rule (for future audits):** a failing token moves to the nearest primitive **of the same family** that passes; if that collides with a sibling in the hierarchy, the sibling shifts one step toward more prominence — and both moves get separate rows here. `status.*` may never change hue; luminance within the same hue only.
+
+---
+
+## 15 · Token-source closure amendments (2026-11-18, Phase 0)
+
+**User ruling:** §3.7 criterion 1's hex ban is Phase 0 scope. It is not deferred to Phase 1; the destination contract (§3.1) simply arrives earlier than the rest of the component layer.
+
+**What changed**
+
+| #   | Amendment                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A5  | `tokens.json` gained scheme-independent groups that previously existed only as literals or CSS: `publicSurface` (12 paper/ink roles), `sandboxSurface` (5 IDE chrome roles), `legacyPalette` (7 pre-DTCG stop colors), `brand.google` (4 mark colors, literal by definition) and `scene` (hero light/ambient/accent, backdrop, fallback stops, shape colors, 404, admin particle states, chart colors). `scene.chart` stays DTCG so the generator can emit it; the rest of `scene` is raw values consumed by TypeScript. |
+| A6  | `build.mjs` emits `--pf-public-*`, `--pf-sandbox-*`, `--pf-legacy-palette-*` and `--pf-scene-chart-*` at `:root`. Skin blocks are unchanged; `:root` is shared overhead under the budget rule, so the per-skin <8KB result is unaffected (1,845 B).                                                                                                                                                                                                                                                                      |
+| A7  | `apps/web/src/lib/design-tokens.ts` is the literal-value bridge: it re-exports `@portfolio/tokens/tokens.json` for Three.js materials, SVG chart props, `themeColor` metadata and the Google mark. It defines no colors.                                                                                                                                                                                                                                                                                                 |
+| A8  | `packages/tokens/src/check-no-hex.mjs` scans `apps/web/src`, `packages/ui/src`, `packages/shared/src` and `apps/web/tailwind.config.ts`; the `tokens` CI job fails on any raw hex. `tokens.json` and generated `dist/` remain the only places a hex literal may live.                                                                                                                                                                                                                                                    |
+| A9  | Values preserve the shipped rendered colors exactly — this is a source migration, not a visual redesign. One documented delta: the sandbox header used `#18181b/80`; Tailwind v3 cannot apply an alpha modifier to a `var()` color, so it renders solid `--pf-sandbox-panel` (≈2 RGB points darker over the base).                                                                                                                                                                                                       |
+
+**Skin 1 value note:** §3.2's Skin 1 destination paper is `#F3EDE2`; the shipped `publicSurface.paper` is `#F4F0E7` (the value already live in `public.css`). `publicSurface` is the current public palette, **not** a finished Skin 1. Phase 3 must reconcile the two values when Skin 1 becomes a real skin; do not silently treat one as the other.
+
+**Evidence (Phase 0 close):** token tests 60/60, contrast 20/20, skin 3 budget 1,845 B, hex guard zero violations, `next build` 52 pages, typecheck/lint clean.

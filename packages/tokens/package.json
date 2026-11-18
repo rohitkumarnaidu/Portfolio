@@ -1,0 +1,15 @@
+{
+  "name": "@portfolio/tokens",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./theme.css": "./dist/theme-tokens.css",
+    "./tokens.json": "./tokens.json"
+  },
+  "scripts": {
+    "build": "node src/build.mjs",
+    "test": "node --test",
+    "check": "node src/check-contrast.mjs && node src/check-budget.mjs"
+  }
+}

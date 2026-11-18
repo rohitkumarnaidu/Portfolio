@@ -1,13 +1,14 @@
+import { SCENE } from '@/lib/design-tokens';
+
+// Concrete values for the WebGL layer — CSS custom properties cannot be
+// sampled by shaders. Source of truth: packages/tokens/tokens.json (scene).
 export const THEME_LIGHT_COLORS = {
-  primary: { light: '#6366f1', dark: '#818cf8' },
-  ambient: { light: '#a5b4fc', dark: '#6366f1' },
-  accent: { light: '#22d3ee', dark: '#67e8f9' },
+  primary: SCENE.hero.primary,
+  ambient: SCENE.hero.ambient,
+  accent: SCENE.hero.accent,
 } as const;
 
-export const THEME_BACKGROUND_COLORS = {
-  light: '#0f0f1a',
-  dark: '#0a0a14',
-} as const;
+export const THEME_BACKGROUND_COLORS = SCENE.backdrop;
 
 export const getLightColor = (
   theme: 'light' | 'dark',

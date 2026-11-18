@@ -1,10 +1,11 @@
 import { ShaderMaterial, Color } from 'three';
 import type { Tier } from '../types';
 import { particleWarp, particleColor } from './shaders';
+import { SCENE } from '@/lib/design-tokens';
 
 const THEME_COLORS = {
-  light: new Color('#6366f1'),
-  dark: new Color('#818cf8'),
+  light: new Color(SCENE.hero.primary.light),
+  dark: new Color(SCENE.hero.primary.dark),
 };
 
 interface ParticleMaterialOptions {

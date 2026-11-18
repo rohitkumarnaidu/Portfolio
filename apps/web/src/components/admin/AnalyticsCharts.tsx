@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { getAnalyticsSummary } from '@/lib/api';
 import { Card } from '@portfolio/ui';
+import { CHART } from '@/lib/design-tokens';
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -246,8 +247,18 @@ function DonutChart({ data }: { data: { desktop: number; mobile: number; tablet:
       color: 'var(--accent-500)',
       pct: data.desktop / total,
     },
-    { label: 'Mobile', value: data.mobile, color: '#06b6d4', pct: data.mobile / total },
-    { label: 'Tablet', value: data.tablet, color: '#8b5cf6', pct: data.tablet / total },
+    {
+      label: 'Mobile',
+      value: data.mobile,
+      color: CHART.cyan,
+      pct: data.mobile / total,
+    },
+    {
+      label: 'Tablet',
+      value: data.tablet,
+      color: CHART.violet,
+      pct: data.tablet / total,
+    },
   ];
 
   const radius = 60;

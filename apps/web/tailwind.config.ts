@@ -48,6 +48,15 @@ const config: Config = {
           info: 'var(--semantic-info)',
           'info-bg': 'var(--semantic-info-bg)',
         },
+        // Sandbox IDE chrome — fixed dark surface, independent of the admin
+        // theme (tokens.json: sandboxSurface).
+        sandbox: {
+          base: 'var(--pf-sandbox-base)',
+          panel: 'var(--pf-sandbox-panel)',
+          rail: 'var(--pf-sandbox-rail)',
+          preview: 'var(--pf-sandbox-preview-light)',
+          'preview-dark': 'var(--pf-sandbox-preview-dark)',
+        },
       },
 
       // ── Typography ──────────────────────────────────────────
@@ -335,11 +344,11 @@ const config: Config = {
         },
         '.bg-mesh-1': {
           background:
-            'radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-500), transparent), radial-gradient(ellipse 50% 80% at 80% 50%, #06b6d4, transparent), radial-gradient(ellipse 50% 80% at 20% 50%, #a78bfa, transparent)',
+            'radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-500), transparent), radial-gradient(ellipse 50% 80% at 80% 50%, var(--pf-scene-chart-cyan), transparent), radial-gradient(ellipse 50% 80% at 20% 50%, var(--pf-scene-chart-violet), transparent)',
         },
         '.bg-mesh-2': {
           background:
-            'radial-gradient(ellipse 60% 60% at 20% 80%, var(--accent-500), transparent), radial-gradient(ellipse 60% 60% at 80% 20%, #6ee7b7, transparent), radial-gradient(ellipse 60% 60% at 50% 50%, #a78bfa, transparent)',
+            'radial-gradient(ellipse 60% 60% at 20% 80%, var(--accent-500), transparent), radial-gradient(ellipse 60% 60% at 80% 20%, var(--pf-scene-chart-mesh-teal), transparent), radial-gradient(ellipse 60% 60% at 50% 50%, var(--pf-scene-chart-violet), transparent)',
         },
         '.scrim-light': {
           '&::after': {

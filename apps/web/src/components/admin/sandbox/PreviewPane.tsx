@@ -19,7 +19,7 @@ export function PreviewPane({ url }: PreviewPaneProps) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#f5f5f5] dark:bg-[#1a1a1a]">
+    <div className="flex flex-col h-full bg-sandbox-preview dark:bg-sandbox-preview-dark">
       {/* Toolbar */}
       <div className="flex items-center justify-center p-2 border-b border-border-primary bg-surface-secondary gap-2">
         <Button

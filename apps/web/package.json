@@ -19,6 +19,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@monaco-editor/react": "^4.7.0",
     "@portfolio/shared": "2.0.0",
+    "@portfolio/tokens": "2.0.0",
     "@portfolio/ui": "2.0.0",
     "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
