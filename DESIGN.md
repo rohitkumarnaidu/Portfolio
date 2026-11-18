@@ -15,7 +15,7 @@ This file is the drift shield for every AI tool and human working on this repo. 
 ## 2 · Current reality (what ships today)
 
 - **Token pipeline:** `packages/tokens/tokens.json` (DTCG) is the single source of truth → `packages/tokens/src/build.mjs` validates it and deterministically emits the committed `packages/tokens/dist/theme-tokens.css` → `apps/web/src/app/layout.tsx` imports it as `@portfolio/tokens/theme.css`. Generated custom properties are `--pf-*`: motion at `:root`, Skin 3 semantic/status/viz under `[data-scheme='light'][data-skin='3']` and `[data-scheme='dark'][data-skin='3']`, plus a `prefers-reduced-motion` override. Skin 3 is the only skin emitted today; skins 1–2 are Phase 3. **Regenerate with `npm run tokens:build` and commit `dist/`** — CI rebuilds and fails if the committed output is stale or a generated file is missing.
-- **Legacy alias bridge:** `apps/web/src/styles/globals.css` maps the component-facing names (`--accent-*`, `--surface-*`, `--border-primary`, `--text-*`, `--semantic-*`, `--duration-*`, `--ease-*`) onto the generated `--pf-*` tokens, so existing admin/UI components re-dress with zero edits. Shadows, glass, gradients, blur, scrim and ambient-pattern values are still hand-authored in that file. **The aliases are Phase 0 scaffolding** — deleted in Phase 1 with the per-section rebuild, when components consume the DTCG semantic/component layer directly.
+- **Legacy alias bridge:** `apps/web/src/styles/globals.css` maps the component-facing names (`--accent-*`, `--surface-*`, `--border-primary`, `--text-*`, `--semantic-*`, most `--duration-*`/`--ease-*`) onto the generated `--pf-*` tokens, so existing admin/UI components re-dress with zero edits. The three timing names `--duration-instant`, `--ease-in`, `--ease-smooth` remain hand-authored literals in `globals.css` until Phase 1 removes them. Shadows, glass, gradients, blur, scrim and ambient-pattern values are still hand-authored in that file. **The aliases are Phase 0 scaffolding** — deleted in Phase 1 with the per-section rebuild, when components consume the DTCG semantic/component layer directly.
 - **Component-layer deferral:** the DTCG `component` layer does not exist yet (Phase 1+). Until then components consume the existing semantic variables through the alias bridge; no component reads primitives or `--pf-*` directly.
 - **Public palette:** `apps/web/src/styles/public.css` — `.site`-namespaced editorial paper palette (oatmeal `#F4F0E7`, ink, ember-red accent `#C2401F`). This is the seed of Skin 1; it is untouched in Phase 0 (its hex is Phase 1's demolition site).
 - **Fonts:** `apps/web/src/lib/fonts.ts` via `next/font/google` — IBM Plex Sans in the display (600/700) and body (300–700) roles, IBM Plex Mono (400/500/700) for the technical alphabet. The serif role was removed with the swap; an interim `:root { --font-serif: var(--font-body) }` alias in `globals.css` keeps `public.css` resolving until the Phase 1 restyle. **Family decision is locked** (spec §12 Q1) — not an open micro-decision.
@@ -25,7 +25,7 @@ This file is the drift shield for every AI tool and human working on this repo. 
 
 - **DTCG 3-layer tokens** (W3C format): `primitive` → `semantic` → `component`. **Components consume only the semantic/component layer.** No raw hex, no primitive names in component code — ever.
 - **Dual attributes on `<html>`:** `data-scheme="light|dark"` × `data-skin="1|2|3"`, applied by the no-flash script before first paint, persisted localStorage + cookie mirror.
-- **Skin 3 (flagship) palette:** Ember Copper `#C1662E` (primary) + Signal Cobalt `#2F5FD1` (secondary) on a 9-step cool graphite scale. Exact semantic token table (light/dark values, AA-checked): spec §3.2.
+- **Skin 3 (flagship) palette:** Ember Copper `#C1662E` (primary) + Signal Cobalt `#2F5FD1` (secondary) on a 9-step cool graphite scale. Exact semantic token table (light/dark values, AA-checked): spec §3.2 as amended by §14.
 - **Accent behavior:** light scheme → copper is a **solid machined fill** (CTAs, badges); dark scheme → copper is an **illuminated signal** (glowing 1px trace; link text steps to ember-400 `#D68A54` for contrast). **70-20-10 discipline:** ≤10% copper, never an expansive background fill.
 - **Statuses are constant colors, never brand-colored:** success `#2E9E6D` · warning `#C98A2C` · danger `#C64545` · info `#2F5FD1`.
 - **Type:** one family across optical roles (locked: IBM Plex Sans, spec §12 Q1); mono for the technical alphabet (hero data, terminal, metadata).
@@ -43,15 +43,15 @@ This file is the drift shield for every AI tool and human working on this repo. 
 
 ## 5 · Where things live
 
-| Thing                                     | Path                                                                    |
-| ----------------------------------------- | ----------------------------------------------------------------------- |
-| Exact locked token values                 | `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` §3.2     |
-| Token source (DTCG)                       | `packages/tokens/tokens.json`                                           |
-| Generator (`npm run tokens:build`)        | `packages/tokens/src/build.mjs`                                         |
-| Generated token CSS (committed)           | `packages/tokens/dist/theme-tokens.css` (`@portfolio/tokens/theme.css`) |
-| Legacy alias bridge (Phase 0 scaffolding) | `apps/web/src/styles/globals.css`                                       |
-| Public palette                            | `apps/web/src/styles/public.css`                                        |
-| Tailwind bridge                           | `apps/web/tailwind.config.ts`                                           |
-| Fonts                                     | `apps/web/src/lib/fonts.ts`                                             |
-| Theme runtime + pre-paint script          | `apps/web/src/lib/theme.ts` · `apps/web/src/lib/theme-script.ts`        |
-| Progress                                  | `PROGRESS.md` (root)                                                    |
+| Thing                                     | Path                                                                                  |
+| ----------------------------------------- | ------------------------------------------------------------------------------------- |
+| Exact locked token values                 | `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` §3.2 as amended by §14 |
+| Token source (DTCG)                       | `packages/tokens/tokens.json`                                                         |
+| Generator (`npm run tokens:build`)        | `packages/tokens/src/build.mjs`                                                       |
+| Generated token CSS (committed)           | `packages/tokens/dist/theme-tokens.css` (`@portfolio/tokens/theme.css`)               |
+| Legacy alias bridge (Phase 0 scaffolding) | `apps/web/src/styles/globals.css`                                                     |
+| Public palette                            | `apps/web/src/styles/public.css`                                                      |
+| Tailwind bridge                           | `apps/web/tailwind.config.ts`                                                         |
+| Fonts                                     | `apps/web/src/lib/fonts.ts`                                                           |
+| Theme runtime + pre-paint script          | `apps/web/src/lib/theme.ts` · `apps/web/src/lib/theme-script.ts`                      |
+| Progress                                  | `PROGRESS.md` (root)                                                                  |
