@@ -116,6 +116,35 @@ jobs:
           path: apps/*/coverage/
           retention-days: 14
 
+  # The token package has zero dependencies (Node builtins + local files only),
+  # so this job needs no npm ci and stays fast.
+  tokens:
+    name: Token checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Build tokens
+        run: node packages/tokens/src/build.mjs
+
+      - name: Test token package
+        run: node --test packages/tokens/test/
+
+      - name: Check WCAG AA contrast (both schemes)
+        run: node packages/tokens/src/check-contrast.mjs
+
+      - name: Check per-skin CSS budget (<8KB)
+        run: node packages/tokens/src/check-budget.mjs
+
+      # The generator is deterministic: a diff here means the committed dist
+      # is stale and the web app would ship token values without the source.
+      - name: Check committed dist is fresh
+        run: git diff --exit-code -- packages/tokens/dist
+
   npm-audit:
     name: npm Audit
     runs-on: ubuntu-latest
