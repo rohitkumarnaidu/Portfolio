@@ -132,7 +132,8 @@ jobs:
         run: node packages/tokens/src/build.mjs
 
       - name: Test token package
-        run: node --test packages/tokens/test/
+        run: node --test
+        working-directory: packages/tokens
 
       - name: Check WCAG AA contrast (both schemes)
         run: node packages/tokens/src/check-contrast.mjs
