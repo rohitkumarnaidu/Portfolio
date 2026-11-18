@@ -140,10 +140,10 @@ jobs:
       - name: Check per-skin CSS budget (<8KB)
         run: node packages/tokens/src/check-budget.mjs
 
-      # The generator is deterministic: a diff here means the committed dist
-      # is stale and the web app would ship token values without the source.
       - name: Check committed dist is fresh
-        run: git diff --exit-code -- packages/tokens/dist
+        # The generator is deterministic. Any output here means the committed
+        # dist is stale or a generated file is missing from the commit.
+        run: test -z "$(git status --porcelain --ignored -- packages/tokens/dist)"
 
   npm-audit:
     name: npm Audit
