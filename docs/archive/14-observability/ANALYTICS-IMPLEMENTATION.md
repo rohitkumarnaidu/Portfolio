@@ -1,11 +1,11 @@
 # Analytics Implementation — Domain Analytics, Implementation Patterns, Validation & Governance
 
-> **Archive note:** this file was recovered from encoding damage. A small number
-> of characters had been replaced by `U+FFFD`; they were reconstructed from context
-> (section signs, dashes, and one degree sign). It remains historical material only.
+> **Archive note:** this file was recovered from encoding damage. Some characters
+> had been replaced by `?` or `U+FFFD`; they were reconstructed from context
+> (arrows, status marks, section signs, and dashes). It remains historical material only.
 
 > **Document:** `AnalyticsImplementation.md` | **Version:** 2.0 | **Last Updated:** June 2026  
-> **Status:** ? Active | **Owner:** Product Owner | **Review Cadence:** Monthly  
+> **Status:** ✅ Active | **Owner:** Product Owner | **Review Cadence:** Monthly  
 > **Classification:** Implementation + Analysis Guide | **Companion To:** `AnalyticsArchitecture.md` (v5.0)  
 > **Analytics Stack:** Umami + PostHog + Vercel Analytics + Custom DB (Supabase)  
 > **Total Events:** 90 across 12 domains | \*\*Est.
@@ -44,20 +44,20 @@ This document defines the **how** — the implementation patterns, validation me
 ## 1.2 What This Document Covers| # | Topic | Why It Exists | Coverage Gap Addressed |
 
 |---|-------|--------------|------------------------|
-| 1 | **Event Schema Registry** | No central schema definitions exist for the 90 events | ? Zero current coverage |
-| 2 | **Validation & Testing** | No event validation anywhere in the codebase | ? Biggest single gap |
-| 3 | **Tracking Plan Process** | No process for proposing, approving, or QAing events | ? Zero current coverage |
-| 4 | **Implementation Patterns** | No documented SDK usage or event emitter conventions | ? Zero current coverage |
-| 5 | **Funnel Analytics** | No analytical treatment of conversion funnels | ? Zero current coverage |
-| 6 | **Lead Analytics** | No lead pipeline metrics, queries, or dashboards | ? Zero current coverage |
-| 7 | **AI & Agent Analytics** | No AI cost/quality/agent performance analysis | ? Zero current coverage |
-| 8 | **SEO Analytics** | No SEO keyword/index/backlink analysis layer | ? Zero current coverage |
-| 9 | **Content & Portfolio Analytics** | No content engagement metrics or queries | ? Zero current coverage |
-| 10 | **Performance Analytics** | No CWV/Lighthouse/API performance analysis | ? Zero current coverage |
-| 11 | **Executive & Business Metrics** | No top-level KPI dashboard or health score | ? Zero current coverage |
-| 12 | **Data Quality Monitoring** | No completeness/accuracy metrics for analytics data | ? Zero current coverage |
-| 13 | **Dashboard Implementation** | Reifies 4 dashboards from §15 of the strategy doc | ? Referenced from AnalyticsArchitecture.md §15 |
-| 14 | **Enterprise Governance** | Cross-document standards, ownership, review cadence | ? Zero current coverage |
+| 1 | **Event Schema Registry** | No central schema definitions exist for the 90 events | ❌ Zero current coverage |
+| 2 | **Validation & Testing** | No event validation anywhere in the codebase | ❌ Biggest single gap |
+| 3 | **Tracking Plan Process** | No process for proposing, approving, or QAing events | ❌ Zero current coverage |
+| 4 | **Implementation Patterns** | No documented SDK usage or event emitter conventions | ❌ Zero current coverage |
+| 5 | **Funnel Analytics** | No analytical treatment of conversion funnels | ❌ Zero current coverage |
+| 6 | **Lead Analytics** | No lead pipeline metrics, queries, or dashboards | ❌ Zero current coverage |
+| 7 | **AI & Agent Analytics** | No AI cost/quality/agent performance analysis | ❌ Zero current coverage |
+| 8 | **SEO Analytics** | No SEO keyword/index/backlink analysis layer | ❌ Zero current coverage |
+| 9 | **Content & Portfolio Analytics** | No content engagement metrics or queries | ❌ Zero current coverage |
+| 10 | **Performance Analytics** | No CWV/Lighthouse/API performance analysis | ❌ Zero current coverage |
+| 11 | **Executive & Business Metrics** | No top-level KPI dashboard or health score | ❌ Zero current coverage |
+| 12 | **Data Quality Monitoring** | No completeness/accuracy metrics for analytics data | ❌ Zero current coverage |
+| 13 | **Dashboard Implementation** | Reifies 4 dashboards from §15 of the strategy doc | ✅ Referenced from AnalyticsArchitecture.md §15 |
+| 14 | **Enterprise Governance** | Cross-document standards, ownership, review cadence | ❌ Zero current coverage |
 
 ## 1.3 How to Use This Document| Role | Read These Sections | Action |
 
@@ -65,12 +65,12 @@ This document defines the **how** — the implementation patterns, validation me
 | **Frontend Developer** | §5.1 (Browser SDK), §5.3 (React Hooks), §3 (Validation) | Implement events per schema |
 | **Backend Developer (NestJS)** | §5.2 (NestJS Module), §3 (Validation), §8 (AI Analytics) | Implement AnalyticsModule + AI events |
 | **AI Engineer (FastAPI)** | §5.4 (AI Service), §3 (Validation), §8 (AI Analytics) | Implement AI event emissions |
-| **QA Engineer** | §3.3 (Test Cases), §3.4 (CI Checks), §6§12 (Domain queries) | Write validation tests + funnel tests |
+| **QA Engineer** | §3.3 (Test Cases), §3.4 (CI Checks), §6–12 (Domain queries) | Write validation tests + funnel tests |
 | **Product Owner** | §4 (Tracking Plan), §12 (Executive Metrics), §15 (Governance) | Own the process, review KPIs |
 | **Data Steward** | §6 (Funnels), §7 (Leads), §13 (Data Quality) | Monitor data quality, run analytics queries |
 | **DevOps Lead** | §3.4 (CI Integration), §11 (Performance), §13 (Data Quality) | Add CI pipeline checks, monitor uptime |
 | **SEO Specialist** | §9 (SEO Analytics), §2.5.11 (SEO Events) | Track keyword rankings, index coverage |
-| **Content Manager** | §10 (Content Analytics), §2.5.2§3 (Content Events) | Monitor content performance, optimize strategy |
+| **Content Manager** | §10 (Content Analytics), §2.5.2–3 (Content Events) | Monitor content performance, optimize strategy |
 
 ## 1.4 Relationship to Other Documents| Document | Section(s) | Relationship |
 
@@ -106,15 +106,15 @@ This registry is a human-readable companion that mirrors the Zod definitions.
 ## 2.3 Schema TemplateEvery event must define these fields:| Field | Type | Required | Description |
 
 |-------|------|----------|-------------|
-| `event_type` | `string` | ? | Fully qualified name: `domain_action_detail` |
-| `event_id` | `UUID v4` | ? | Globally unique event identifier |
-| `timestamp` | `ISO 8601 UTC` | ? | When the event occurred |
-| `session_id` | `UUID v4` | ? | Visitor session identifier |
-| `source` | `enum` | ? | One of: `web`, `api`, `ai`, `worker` |
-| `correlation_id` | `string` | ? | Request trace ID (from `22-OBSERVABILITY.md` §3.3) |
-| `actor` | `object` | ? | `{ id: string\|null, role: "admin"\|"visitor", ip: string }` |
-| `properties` | `object` | ? | Event-specific payload (see §2.4) |
-| `metadata` | `object` | ? | `{ version: string, environment: string }` |
+| `event_type` | `string` | ✅ | Fully qualified name: `domain_action_detail` |
+| `event_id` | `UUID v4` | ✅ | Globally unique event identifier |
+| `timestamp` | `ISO 8601 UTC` | ✅ | When the event occurred |
+| `session_id` | `UUID v4` | ✅ | Visitor session identifier |
+| `source` | `enum` | ✅ | One of: `web`, `api`, `ai`, `worker` |
+| `correlation_id` | `string` | ✅ | Request trace ID (from `22-OBSERVABILITY.md` §3.3) |
+| `actor` | `object` | ✅ | `{ id: string\|null, role: "admin"\|"visitor", ip: string }` |
+| `properties` | `object` | ✅ | Event-specific payload (see §2.4) |
+| `metadata` | `object` | ✅ | `{ version: string, environment: string }` |
 
 ## 2.4 Property Type SystemRefer to `AnalyticsArchitecture.md` §4.1 for the 8 property types (string, number, boolean, enum, UUID, timestamp, duration, nested).
 
@@ -130,110 +130,110 @@ Each entry includes: event name, source, properties schema, validation rules, an
 ## 2.5.1 Navigation & Page Events (Domain: `page`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `page_view` | web | `path`, `referrer`, `utm_source`, `utm_medium`, `utm_campaign` | `analytics.ts ? PageViewSchema` |
-| `page_scroll` | web | `path`, `scroll_depth_pct`, `section_id`, `time_on_page_ms` | `analytics.ts ? PageScrollSchema` |
-| `page_time_on_page` | web | `path`, `duration_ms`, `interaction_count` | `analytics.ts ? PageTimeSchema` |
-| `page_section_visible` | web | `path`, `section_id`, `section_type`, `viewport_pct` | `analytics.ts ? SectionVisibleSchema` |
-| `page_exit_intent` | web | `path`, `exit_x`, `exit_y`, `time_on_page_ms` | `analytics.ts ? ExitIntentSchema` |
-| `page_404` | web | `path`, `referrer`, `user_agent` | `analytics.ts ? Page404Schema` |**Validation Rules:**- `scroll_depth_pct`: integer 0§100- `duration_ms`: positive integer- `path`: must start with `/`- `utm_*`: optional, max 200 chars each#
+| `page_view` | web | `path`, `referrer`, `utm_source`, `utm_medium`, `utm_campaign` | `analytics.ts → PageViewSchema` |
+| `page_scroll` | web | `path`, `scroll_depth_pct`, `section_id`, `time_on_page_ms` | `analytics.ts → PageScrollSchema` |
+| `page_time_on_page` | web | `path`, `duration_ms`, `interaction_count` | `analytics.ts → PageTimeSchema` |
+| `page_section_visible` | web | `path`, `section_id`, `section_type`, `viewport_pct` | `analytics.ts → SectionVisibleSchema` |
+| `page_exit_intent` | web | `path`, `exit_x`, `exit_y`, `time_on_page_ms` | `analytics.ts → ExitIntentSchema` |
+| `page_404` | web | `path`, `referrer`, `user_agent` | `analytics.ts → Page404Schema` |**Validation Rules:**- `scroll_depth_pct`: integer 0–100- `duration_ms`: positive integer- `path`: must start with `/`- `utm_*`: optional, max 200 chars each#
 
 ## 2.5.2 Portfolio Content Events (Domain: `project`, `skill`, `experience`, `testimonial`, `case_study`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `project_click` | web | `project_id`, `project_title`, `category` | `analytics.ts ? ProjectClickSchema` |
-| `project_detail_view` | web | `project_id`, `project_title`, `duration_ms` | `analytics.ts ? ProjectDetailSchema` |
-| `skill_hover` | web | `skill_name`, `category`, `hover_duration_ms` | `analytics.ts ? SkillHoverSchema` |
-| `skill_filter` | web | `filter_category`, `result_count` | `analytics.ts ? SkillFilterSchema` |
-| `experience_click` | web | `experience_id`, `company`, `role` | `analytics.ts ? ExperienceClickSchema` |
-| `testimonial_next` | web | `testimonial_id`, `author_name`, `carousel_position` | `analytics.ts ? TestimonialNavSchema` |
-| `testimonial_prev` | web | `testimonial_id`, `author_name`, `carousel_position` | `analytics.ts ? TestimonialNavSchema` |
-| `case_study_view` | web | `case_study_id`, `title`, `industry` | `analytics.ts ? CaseStudyViewSchema` |**Validation Rules:**- `project_id`: UUID v4- `skill_name`: must exist in skills knowledge base- `hover_duration_ms`: 0§300000 (5 min max)- `carousel_position`: integer = 0#
+| `project_click` | web | `project_id`, `project_title`, `category` | `analytics.ts → ProjectClickSchema` |
+| `project_detail_view` | web | `project_id`, `project_title`, `duration_ms` | `analytics.ts → ProjectDetailSchema` |
+| `skill_hover` | web | `skill_name`, `category`, `hover_duration_ms` | `analytics.ts → SkillHoverSchema` |
+| `skill_filter` | web | `filter_category`, `result_count` | `analytics.ts → SkillFilterSchema` |
+| `experience_click` | web | `experience_id`, `company`, `role` | `analytics.ts → ExperienceClickSchema` |
+| `testimonial_next` | web | `testimonial_id`, `author_name`, `carousel_position` | `analytics.ts → TestimonialNavSchema` |
+| `testimonial_prev` | web | `testimonial_id`, `author_name`, `carousel_position` | `analytics.ts → TestimonialNavSchema` |
+| `case_study_view` | web | `case_study_id`, `title`, `industry` | `analytics.ts → CaseStudyViewSchema` |**Validation Rules:**- `project_id`: UUID v4- `skill_name`: must exist in skills knowledge base- `hover_duration_ms`: 0–300000 (5 min max)- `carousel_position`: integer = 0#
 
 ## 2.5.3 Blog & Content Events (Domain: `blog`, `article`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `blog_post_click` | web | `post_id`, `post_title`, `category` | `analytics.ts ? BlogPostClickSchema` |
-| `article_view` | web | `article_id`, `title`, `read_time_est_min`, `scroll_depth_pct` | `analytics.ts ? ArticleViewSchema` |
-| `article_read_complete` | web | `article_id`, `title`, `duration_ms` | `analytics.ts ? ArticleCompleteSchema` |
-| `article_share` | web | `article_id`, `platform` (enum), `share_method` | `analytics.ts ? ArticleShareSchema` |**Validation Rules:**- `platform`: one of `twitter`, `linkedin`, `email`, `copy_link`, `whatsapp`- `read_time_est_min`: positive integer- `scroll_depth_pct`: integer 0§100#
+| `blog_post_click` | web | `post_id`, `post_title`, `category` | `analytics.ts → BlogPostClickSchema` |
+| `article_view` | web | `article_id`, `title`, `read_time_est_min`, `scroll_depth_pct` | `analytics.ts → ArticleViewSchema` |
+| `article_read_complete` | web | `article_id`, `title`, `duration_ms` | `analytics.ts → ArticleCompleteSchema` |
+| `article_share` | web | `article_id`, `platform` (enum), `share_method` | `analytics.ts → ArticleShareSchema` |**Validation Rules:**- `platform`: one of `twitter`, `linkedin`, `email`, `copy_link`, `whatsapp`- `read_time_est_min`: positive integer- `scroll_depth_pct`: integer 0–100#
 
 ## 2.5.4 Lead Events (Domain: `lead`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `lead_created` | api, web | `lead_id`, `source` (enum), `inquiry_type` | `analytics.ts ? LeadCreatedSchema` (also in `46-EVENT-ARCHITECTURE.md` §1.1) |
-| `lead_status_changed` | api | `lead_id`, `previous_status`, `new_status`, `changed_by` | `analytics.ts ? LeadStatusSchema` |
-| `lead_qualified` | api | `lead_id`, `qualification_score`, `qualification_criteria` | `analytics.ts ? LeadQualifiedSchema` |
-| `lead_converted` | api | `lead_id`, `conversion_type`, `value` | `analytics.ts ? LeadConvertedSchema` |
-| `lead_exported` | api | `export_count`, `export_format`, `date_range` | `analytics.ts ? LeadExportedSchema` |**Validation Rules:**- `source`: one of `contact_form`, `ai_chat`, `referral`, `direct`, `social`, `email`- `inquiry_type`: one of `hiring`, `freelance`, `collaboration`, `general`, `other`- `qualification_score`: integer 0§100- `lead_id`: UUID v4#
+| `lead_created` | api, web | `lead_id`, `source` (enum), `inquiry_type` | `analytics.ts → LeadCreatedSchema` (also in `46-EVENT-ARCHITECTURE.md` §1.1) |
+| `lead_status_changed` | api | `lead_id`, `previous_status`, `new_status`, `changed_by` | `analytics.ts → LeadStatusSchema` |
+| `lead_qualified` | api | `lead_id`, `qualification_score`, `qualification_criteria` | `analytics.ts → LeadQualifiedSchema` |
+| `lead_converted` | api | `lead_id`, `conversion_type`, `value` | `analytics.ts → LeadConvertedSchema` |
+| `lead_exported` | api | `export_count`, `export_format`, `date_range` | `analytics.ts → LeadExportedSchema` |**Validation Rules:**- `source`: one of `contact_form`, `ai_chat`, `referral`, `direct`, `social`, `email`- `inquiry_type`: one of `hiring`, `freelance`, `collaboration`, `general`, `other`- `qualification_score`: integer 0–100- `lead_id`: UUID v4#
 
 ## 2.5.5 AI Chat Events (Domain: `chat`, `ai`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `chat_session_started` | web | `session_id`, `source_page`, `visitor_id` | `analytics.ts ? ChatSessionSchema` |
-| `chat_message_sent` | web | `session_id`, `message_length`, `intent_classification`, `sentiment` | `analytics.ts ? ChatMessageSchema` |
-| `chat_response_received` | ai | `session_id`, `response_time_ms`, `model`, `token_count`, `response_length` | `analytics.ts ? ChatResponseSchema` |
-| `chat_feedback` | web | `session_id`, `rating` (1§5), `feedback_text`, `resolved` | `analytics.ts ? ChatFeedbackSchema` |
-| `chat_abandoned` | web | `session_id`, `message_count`, `duration_s` | `analytics.ts ? ChatAbandonedSchema` |
-| `ai_cost_tracking` | ai | `model`, `prompt_tokens`, `completion_tokens`, `cost_usd`, `request_type` | `analytics.ts ? AICostSchema` |
-| `ai_model_fallback` | ai | `primary_model`, `fallback_model`, `reason`, `response_time_ms` | `analytics.ts ? ModelFallbackSchema` |
-| `ai_hallucination_flagged` | ai | `session_id`, `confidence_score`, `flagged_content_snippet` | `analytics.ts ? HallucinationSchema` |**Validation Rules:**- `rating`: integer 1§5- `response_time_ms`: positive integer- `cost_usd`: decimal, 6 decimal places max- `token_count`: positive integer- `model`: one of `gpt-4`, `gpt-3.5-turbo`, `gpt-4o-mini`, `claude-3-haiku`#
+| `chat_session_started` | web | `session_id`, `source_page`, `visitor_id` | `analytics.ts → ChatSessionSchema` |
+| `chat_message_sent` | web | `session_id`, `message_length`, `intent_classification`, `sentiment` | `analytics.ts → ChatMessageSchema` |
+| `chat_response_received` | ai | `session_id`, `response_time_ms`, `model`, `token_count`, `response_length` | `analytics.ts → ChatResponseSchema` |
+| `chat_feedback` | web | `session_id`, `rating` (1–5), `feedback_text`, `resolved` | `analytics.ts → ChatFeedbackSchema` |
+| `chat_abandoned` | web | `session_id`, `message_count`, `duration_s` | `analytics.ts → ChatAbandonedSchema` |
+| `ai_cost_tracking` | ai | `model`, `prompt_tokens`, `completion_tokens`, `cost_usd`, `request_type` | `analytics.ts → AICostSchema` |
+| `ai_model_fallback` | ai | `primary_model`, `fallback_model`, `reason`, `response_time_ms` | `analytics.ts → ModelFallbackSchema` |
+| `ai_hallucination_flagged` | ai | `session_id`, `confidence_score`, `flagged_content_snippet` | `analytics.ts → HallucinationSchema` |**Validation Rules:**- `rating`: integer 1–5- `response_time_ms`: positive integer- `cost_usd`: decimal, 6 decimal places max- `token_count`: positive integer- `model`: one of `gpt-4`, `gpt-3.5-turbo`, `gpt-4o-mini`, `claude-3-haiku`#
 
 ## 2.5.6 Agent Events (Domain: `agent`)Refer to `18-AGENTS.md` §13 Analytics Agent for context.| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `agent_routing` | ai | `agent_name`, `intent`, `confidence`, `response_time_ms` | `analytics.ts ? AgentRoutingSchema` |
-| `agent_handoff` | ai | `from_agent`, `to_agent`, `reason`, `context_size` | `analytics.ts ? AgentHandoffSchema` |
-| `agent_failure` | ai | `agent_name`, `failure_reason`, `fallback_triggered` | `analytics.ts ? AgentFailureSchema` |
-| `agent_evaluation` | ai | `agent_name`, `accuracy_score`, `completion_rate`, `avg_response_time` | `analytics.ts ? AgentEvalSchema` |**Validation Rules:**- `agent_name`: one of `portfolio`, `resume`, `projects`, `blog`, `case_study`, `career`, `lead_qualification`, `admin`, `analytics`, `knowledge`, `supervisor`- `confidence`: decimal 0.0§1.0- `accuracy_score`: decimal 0.0§1.0- `completion_rate`: decimal 0.0§1.0#
+| `agent_routing` | ai | `agent_name`, `intent`, `confidence`, `response_time_ms` | `analytics.ts → AgentRoutingSchema` |
+| `agent_handoff` | ai | `from_agent`, `to_agent`, `reason`, `context_size` | `analytics.ts → AgentHandoffSchema` |
+| `agent_failure` | ai | `agent_name`, `failure_reason`, `fallback_triggered` | `analytics.ts → AgentFailureSchema` |
+| `agent_evaluation` | ai | `agent_name`, `accuracy_score`, `completion_rate`, `avg_response_time` | `analytics.ts → AgentEvalSchema` |**Validation Rules:**- `agent_name`: one of `portfolio`, `resume`, `projects`, `blog`, `case_study`, `career`, `lead_qualification`, `admin`, `analytics`, `knowledge`, `supervisor`- `confidence`: decimal 0.0–1.0- `accuracy_score`: decimal 0.0–1.0- `completion_rate`: decimal 0.0–1.0#
 
 ## 2.5.7 RAG Events (Domain: `rag`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `rag_query` | ai | `query_text_hash`, `chunks_retrieved`, `avg_relevance_score`, `response_time_ms` | `analytics.ts ? RAGQuerySchema` |
-| `rag_embedding_generated` | ai | `source`, `chunk_count`, `embedding_model`, `duration_ms` | `analytics.ts ? RAGEmbeddingSchema` |
-| `rag_source_attribution` | ai | `source_name`, `chunk_id`, `relevance_score` | `analytics.ts ? RAGSourceSchema` |**Validation Rules:**- `query_text_hash`: SHA-256 hex string (privacy — never log raw query text)- `avg_relevance_score`: decimal 0.0§1.0- `chunks_retrieved`: integer 0§20#
+| `rag_query` | ai | `query_text_hash`, `chunks_retrieved`, `avg_relevance_score`, `response_time_ms` | `analytics.ts → RAGQuerySchema` |
+| `rag_embedding_generated` | ai | `source`, `chunk_count`, `embedding_model`, `duration_ms` | `analytics.ts → RAGEmbeddingSchema` |
+| `rag_source_attribution` | ai | `source_name`, `chunk_id`, `relevance_score` | `analytics.ts → RAGSourceSchema` |**Validation Rules:**- `query_text_hash`: SHA-256 hex string (privacy — never log raw query text)- `avg_relevance_score`: decimal 0.0–1.0- `chunks_retrieved`: integer 0–20#
 
 ## 2.5.8 Social & Engagement Events (Domain: `social`, `resume`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `social_link_click` | web | `platform` (enum), `url`, `placement` | `analytics.ts ? SocialClickSchema` |
-| `resume_download` | web | `format` (enum), `download_method` | `analytics.ts ? ResumeDownloadSchema` |
-| `contact_form_submit` | web | `form_type`, `field_count`, `validation_errors` | `analytics.ts ? ContactFormSchema` |**Validation Rules:**- `platform`: one of `github`, `linkedin`, `twitter`, `email`, `dribbble`, `medium`, `devto`, `stackoverflow`- `format`: one of `pdf`, `docx`, `json`- `form_type`: one of `contact`, `hire_me`, `freelance`, `feedback`- `field_count`: integer 1§20#
+| `social_link_click` | web | `platform` (enum), `url`, `placement` | `analytics.ts → SocialClickSchema` |
+| `resume_download` | web | `format` (enum), `download_method` | `analytics.ts → ResumeDownloadSchema` |
+| `contact_form_submit` | web | `form_type`, `field_count`, `validation_errors` | `analytics.ts → ContactFormSchema` |**Validation Rules:**- `platform`: one of `github`, `linkedin`, `twitter`, `email`, `dribbble`, `medium`, `devto`, `stackoverflow`- `format`: one of `pdf`, `docx`, `json`- `form_type`: one of `contact`, `hire_me`, `freelance`, `feedback`- `field_count`: integer 1–20#
 
 ## 2.5.9 Search & Filter Events (Domain: `search`, `filter`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `search_performed` | web | `query_length`, `result_count`, `search_type`, `filters_applied` | `analytics.ts ? SearchSchema` |
-| `filter_applied` | web | `filter_type`, `filter_value`, `result_count` | `analytics.ts ? FilterSchema` |
-| `search_no_results` | web | `query_length`, `search_type`, `suggestions_shown` | `analytics.ts ? SearchNoResultsSchema` |**Validation Rules:**- `query_length`: integer 1§500- `result_count`: integer = 0- `filter_type`: one of `category`, `skill`, `technology`, `year`, `industry`#
+| `search_performed` | web | `query_length`, `result_count`, `search_type`, `filters_applied` | `analytics.ts → SearchSchema` |
+| `filter_applied` | web | `filter_type`, `filter_value`, `result_count` | `analytics.ts → FilterSchema` |
+| `search_no_results` | web | `query_length`, `search_type`, `suggestions_shown` | `analytics.ts → SearchNoResultsSchema` |**Validation Rules:**- `query_length`: integer 1–500- `result_count`: integer = 0- `filter_type`: one of `category`, `skill`, `technology`, `year`, `industry`#
 
 ## 2.5.10 System & Build Events (Domain: `build`, `deploy`, `uptime`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `build_started` | ci | `build_id`, `branch`, `commit_hash`, `triggered_by` | `analytics.ts ? BuildSchema` |
-| `build_completed` | ci | `build_id`, `duration_s`, `status`, `error_count` | `analytics.ts ? BuildSchema` |
-| `deploy_started` | ci | `deploy_id`, `target_env`, `version` | `analytics.ts ? DeploySchema` |
-| `deploy_completed` | ci | `deploy_id`, `target_env`, `duration_s`, `status` | `analytics.ts ? DeploySchema` |
-| `uptime_check` | monitoring | `service`, `status`, `response_time_ms`, `region` | `analytics.ts ? UptimeSchema` |
-| `uptime_incident` | monitoring | `service`, `downtime_s`, `affected_users`, `root_cause` | `analytics.ts ? UptimeSchema` |#
+| `build_started` | ci | `build_id`, `branch`, `commit_hash`, `triggered_by` | `analytics.ts → BuildSchema` |
+| `build_completed` | ci | `build_id`, `duration_s`, `status`, `error_count` | `analytics.ts → BuildSchema` |
+| `deploy_started` | ci | `deploy_id`, `target_env`, `version` | `analytics.ts → DeploySchema` |
+| `deploy_completed` | ci | `deploy_id`, `target_env`, `duration_s`, `status` | `analytics.ts → DeploySchema` |
+| `uptime_check` | monitoring | `service`, `status`, `response_time_ms`, `region` | `analytics.ts → UptimeSchema` |
+| `uptime_incident` | monitoring | `service`, `downtime_s`, `affected_users`, `root_cause` | `analytics.ts → UptimeSchema` |#
 
 ## 2.5.11 SEO Events (Domain: `seo`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `seo_keyword_ranking` | api | `keyword`, `position`, `previous_position`, `search_volume` | `analytics.ts ? SEOKeywordSchema` |
-| `seo_indexed_pages` | api | `page_count`, `coverage_state`, `errors` | `analytics.ts ? SEOIndexSchema` |
-| `seo_backlink_discovered` | api | `source_domain`, `page_url`, `link_type`, `domain_authority` | `analytics.ts ? SEOBacklinkSchema` |**Validation Rules:**- `position`: integer 1§100- `search_volume`: integer = 0- `domain_authority`: integer 0§100- `coverage_state`: one of `submitted`, `indexed`, `excluded`, `error`#
+| `seo_keyword_ranking` | api | `keyword`, `position`, `previous_position`, `search_volume` | `analytics.ts → SEOKeywordSchema` |
+| `seo_indexed_pages` | api | `page_count`, `coverage_state`, `errors` | `analytics.ts → SEOIndexSchema` |
+| `seo_backlink_discovered` | api | `source_domain`, `page_url`, `link_type`, `domain_authority` | `analytics.ts → SEOBacklinkSchema` |**Validation Rules:**- `position`: integer 1–100- `search_volume`: integer = 0- `domain_authority`: integer 0–100- `coverage_state`: one of `submitted`, `indexed`, `excluded`, `error`#
 
 ## 2.5.12 Performance Events (Domain: `vital`, `lh`)| Event | Source | Key Properties | Zod Ref |
 
 |-------|--------|---------------|---------|
-| `vital_lcp` | web | `value_ms`, `rating`, `element`, `viewport_size` | `analytics.ts ? VitalSchema` |
-| `vital_cls` | web | `value`, `rating`, `cumulative_score` | `analytics.ts ? VitalSchema` |
-| `vital_inp` | web | `value_ms`, `rating`, `interaction_type` | `analytics.ts ? VitalSchema` |
-| `vital_ttfb` | web | `value_ms`, `rating` | `analytics.ts ? VitalSchema` |
-| `vital_fcp` | web | `value_ms`, `rating` | `analytics.ts ? VitalSchema` |
-| `lh_score` | ci | `performance_score`, `accessibility_score`, `seo_score`, `best_practices_score` | `analytics.ts ? LighthouseSchema` |
-| `lh_audit_failure` | ci | `audit_id`, `score`, `weight`, `category` | `analytics.ts ? LighthouseAuditSchema` |**Validation Rules:**- `rating`: one of `good`, `needs_improvement`, `poor`- `value_ms`: positive integer- `*_score`: integer 0§100- `cumulative_score`: decimal = 0
+| `vital_lcp` | web | `value_ms`, `rating`, `element`, `viewport_size` | `analytics.ts → VitalSchema` |
+| `vital_cls` | web | `value`, `rating`, `cumulative_score` | `analytics.ts → VitalSchema` |
+| `vital_inp` | web | `value_ms`, `rating`, `interaction_type` | `analytics.ts → VitalSchema` |
+| `vital_ttfb` | web | `value_ms`, `rating` | `analytics.ts → VitalSchema` |
+| `vital_fcp` | web | `value_ms`, `rating` | `analytics.ts → VitalSchema` |
+| `lh_score` | ci | `performance_score`, `accessibility_score`, `seo_score`, `best_practices_score` | `analytics.ts → LighthouseSchema` |
+| `lh_audit_failure` | ci | `audit_id`, `score`, `weight`, `category` | `analytics.ts → LighthouseAuditSchema` |**Validation Rules:**- `rating`: one of `good`, `needs_improvement`, `poor`- `value_ms`: positive integer- `*_score`: integer 0–100- `cumulative_score`: decimal = 0
 
 ## 2.6 Schema Registry Maintenance| Rule | Detail |
 
@@ -248,7 +248,7 @@ Each entry includes: event name, source, properties schema, validation rules, an
 
 Validation & Testing
 
-## 3.1 Validation ArchitectureEvents pass through **four validation layers** before their data is trusted for analysis:`textDeveloper is IDE  ?  CI Pipeline  ?  Staging Environment  ?  Production Monitoring     (layer 1)        (layer 2)          (layer 3)               (layer 4)`
+## 3.1 Validation ArchitectureEvents pass through **four validation layers** before their data is trusted for analysis:`textDeveloper is IDE → CI Pipeline → Staging Environment → Production Monitoring     (layer 1)        (layer 2)          (layer 3)               (layer 4)`
 
 ## 3.2 Layer 1 — Static Validation (IDE)**What:** TypeScript type checking + Zod schema inference during development.**Implementation:**- Every event emission uses a function typed by its Zod schema (from `packages/shared/src/schemas/analytics.ts`).- The compiler catches misnamed properties, wrong types, and missing required fields.**Example Pattern:**`typescript// packages/shared/src/schemas/analytics.tsimport { z } from 'zod';export const ProjectClickSchema = z.object({  event_type: z.literal('project_click'),  event_id: z.string().uuid(),  timestamp: z.string().datetime(),  session_id: z.string().uuid(),  source: z.literal('web'),  correlation_id: z.string(),  actor: z.object({    id: z.string().nullable(),    role: z.enum(['admin', 'visitor']),    ip: z.string(),  }),  properties: z.object({    project_id: z.string().uuid(),    project_title: z.string().min(1).max(200),    category: z.string().optional(),  }),  metadata: z.object({    version: z.literal('1.0'),    environment: z.enum(['development', 'staging', 'production']),  }),});export type ProjectClickEvent = z.infer<typeof ProjectClickSchema>;`
 
@@ -269,7 +269,7 @@ Validation & Testing
 | **Event emission** | Each SDK function emits the correct event shape | `apps/web/__tests__/analytics/emission.test.ts` |
 | **Backend event dispatch** | NestJS AnalyticsModule emits domain events with correct payload | `apps/api/__tests__/analytics/analytics-module.test.ts` |
 | **AI event logging** | FastAI event logger writes correct schema to PostHog + DB | `apps/ai/__tests__/analytics/event-logger.test.ts` |
-| **End-to-end event flow** | Browser action ? PostHog/DB ? dashboard renders correctly | `apps/web/__tests__/e2e/analytics-flow.test.ts` |#
+| **End-to-end event flow** | Browser action → PostHog/DB → dashboard renders correctly | `apps/web/__tests__/e2e/analytics-flow.test.ts` |#
 
 ## 3.3.3 Snapshot TestsMaintain a snapshot of the full event registry.
 
@@ -314,7 +314,7 @@ It is the **single source of truth** for what gets tracked and why.
 | **New destination** — Events now flow to a new analytics tool | Adding Amplitude as a destination | DevOps Lead |
 | **Privacy change** — A property now captures PII-adjacent data | Adding `city` from IP geolocation | Compliance Officer |
 
-## 4.3 Tracking Plan Template``markdown## Tracking Plan: [Event Name]### 1. Metadata- **Event Name:** `domain_action_detail`- **Version:** 2.0- **Owner:** [Name/Team]- **Created:** YYYY-MM-DD- **Last Updated:** YYYY-MM-DD- **Status:** `draft | in-review | approved | active | deprecated`### 2. Business Context- **Business Question:** [What question does this event answer?]- **Decision Impact:** [What decision will this data inform?]- **Success Metric:** [What KPI does this event feed into?]### 3. Trigger Specification- **Trigger:** [User action or system event that fires this event]- **Frequency:** [Per session | Per action | Timed interval]- **Priority:** [?? High | ?? Normal | ?? Low — per §16 of AnalyticsArchitecture.md]### 4. Event Properties| Property | Type | Required | Example | Notes ||----------|------|----------|---------|-------|| `project_id` | UUID | ? | `"550e8400-e29b..."` | Must match project DB ID || `project_title` | String | ? | `"E-Commerce Platform"` | Max 200 chars || `category` | Enum | ? | `"fullstack"` | One of defined categories |### 5. Data Flow- **Source:** [web | api | ai | worker]- **Transport:** [HTTP direct | Batch queue | SSE]- **Destination(s):** [PostHog | Custom DB | Both]- **Retention Period:** [Per §17.3 of AnalyticsArchitecture.md]### 6. Dashboard Usage- **Dashboard(s):** [Analytics Dashboard | AI Dashboard | etc.]- **Widget(s):** [Chart type and placement]- **Aggregation:** [Count | Unique | Sum | Avg | P95]### 7. Privacy Review- **PII in properties?** [Yes/No]- **Aggregation required?** [Yes/No]- **Anonymization method:** [If applicable]- **Privacy rule(s):** [Per §17.6 of AnalyticsArchitecture.md]### 8. Acceptance Criteria- [ ] Schema validated against Zod definition in `packages/shared/src/schemas/analytics.ts`- [ ] Event emitted from correct source with correct transport- [ ] Properties match registry definition exactly- [ ] Unit tests pass for schema validation- [ ] Integration test confirms end-to-end flow- [ ] Dashboard widget displays data correctly- [ ] Privacy review completed with no violations- [ ] Event listed in `AnalyticsArchitecture.md` §16 Event Catalog- [ ] Event added to registry snapshot in CI- [ ] Cost budget checked — within 1M/month ceiling### 9. QA Verification| Check | Pass/Fail | Tester | Date ||-------|-----------|--------|------|| Event appears in PostHog live events | | | || Properties match schema | | | || Event appears in Custom DB `analytics_events` table | | | || Dashboard widget shows data | | | || No duplicate events | | | || Privacy — no PII in properties | | | |``
+## 4.3 Tracking Plan Template``markdown## Tracking Plan: [Event Name]### 1. Metadata- **Event Name:** `domain_action_detail`- **Version:** 2.0- **Owner:** [Name/Team]- **Created:** YYYY-MM-DD- **Last Updated:** YYYY-MM-DD- **Status:** `draft | in-review | approved | active | deprecated`### 2. Business Context- **Business Question:** [What question does this event answer?]- **Decision Impact:** [What decision will this data inform?]- **Success Metric:** [What KPI does this event feed into?]### 3. Trigger Specification- **Trigger:** [User action or system event that fires this event]- **Frequency:** [Per session | Per action | Timed interval]- **Priority:** [🔴 High | 🟡 Normal | 🟢 Low — per §16 of AnalyticsArchitecture.md]### 4. Event Properties| Property | Type | Required | Example | Notes ||----------|------|----------|---------|-------|| `project_id` | UUID | ✅ | `"550e8400-e29b..."` | Must match project DB ID || `project_title` | String | ✅ | `"E-Commerce Platform"` | Max 200 chars || `category` | Enum | ✅ | `"fullstack"` | One of defined categories |### 5. Data Flow- **Source:** [web | api | ai | worker]- **Transport:** [HTTP direct | Batch queue | SSE]- **Destination(s):** [PostHog | Custom DB | Both]- **Retention Period:** [Per §17.3 of AnalyticsArchitecture.md]### 6. Dashboard Usage- **Dashboard(s):** [Analytics Dashboard | AI Dashboard | etc.]- **Widget(s):** [Chart type and placement]- **Aggregation:** [Count | Unique | Sum | Avg | P95]### 7. Privacy Review- **PII in properties?** [Yes/No]- **Aggregation required?** [Yes/No]- **Anonymization method:** [If applicable]- **Privacy rule(s):** [Per §17.6 of AnalyticsArchitecture.md]### 8. Acceptance Criteria- [ ] Schema validated against Zod definition in `packages/shared/src/schemas/analytics.ts`- [ ] Event emitted from correct source with correct transport- [ ] Properties match registry definition exactly- [ ] Unit tests pass for schema validation- [ ] Integration test confirms end-to-end flow- [ ] Dashboard widget displays data correctly- [ ] Privacy review completed with no violations- [ ] Event listed in `AnalyticsArchitecture.md` §16 Event Catalog- [ ] Event added to registry snapshot in CI- [ ] Cost budget checked — within 1M/month ceiling### 9. QA Verification| Check | Pass/Fail | Tester | Date ||-------|-----------|--------|------|| Event appears in PostHog live events | | | || Properties match schema | | | || Event appears in Custom DB `analytics_events` table | | | || Dashboard widget shows data | | | || No duplicate events | | | || Privacy — no PII in properties | | | |``
 
 ## 4.4 Tracking Plan Workflow`mermaidflowchart LR    A[Propose New Event] --> B{Draft Tracking Plan}    B --> C[Review by PO]    C -->|Approve| D[Add to Schema Registry]    C -->|Reject| E[Archive Plan]    D --> F[Implement Event]    F --> G[QA Verification]    G -->|Pass| H[Deploy to Production]    G -->|Fail| I[Fix & Re-test]    H --> J[Monitor for 7 Days]    J -->|Data OK| K[Mark Active]    J -->|Issues| L[Rollback or Fix]`
 
@@ -362,8 +362,8 @@ Implementation Patterns
 | **Correlation ID required** | EMIT-003 | Every event must carry a correlation_id per §6 of `22-OBSERVABILITY.md` | Cannot trace event to request |
 | **Session ID for visitors** | EMIT-004 | Anonymous visitor events must include session_id | Cannot build funnels |
 | **No PII in properties** | EMIT-005 | Never log email, name, IP (unless actor.ip), or raw query text | GDPR violation |
-| **Batch non-critical events** | EMIT-006 | Low priority events (??) should be batched every 5 min | Excessive API calls |
-| **Fire-and-forget critical** | EMIT-007 | High priority events (??) fire immediately, don't await response | Losing critical events |
+| **Batch non-critical events** | EMIT-006 | Low priority events (🟢) should be batched every 5 min | Excessive API calls |
+| **Fire-and-forget critical** | EMIT-007 | High priority events (🔴) fire immediately, don't await response | Losing critical events |
 | **Test in staging first** | EMIT-008 | All new events must be verified in staging before production | Corrupting production data |---
 
 ## 6.
@@ -405,16 +405,16 @@ The funnel specifications originate from `AnalyticsArchitecture.md` §14; this s
 ## 6.3.3 Funnel Conversion Rate Targets| Transition | Target Rate | Formula | Alert Threshold |
 
 |-----------|-------------|---------|-----------------|
-| Visitor ? Engaged | > 60% | `engaged / visitors § 100` | < 50% week-over-week |
-| Engaged ? Section Viewer | > 40% | `section_viewers / engaged § 100` | < 30% |
-| Section Viewer ? Project Viewer | > 25% | `project_viewers / section_viewers § 100` | < 15% |
-| Section Viewer ? Chat User | > 15% | `chat_users / section_viewers § 100` | < 10% |
-| Chat User ? Lead Intent | > 8% | `chat_leads / chat_users § 100` | < 5% |
-| Project Viewer ? Lead Intent | > 8% | `project_leads / project_viewers § 100` | < 4% |
-| Lead Intent ? Lead Contacted | > 60% | `leads_contacted / total_leads § 100` | < 40% |
-| Lead Contacted ? Qualified | > 30% | `leads_qualified / leads_contacted § 100` | < 20% |
-| Lead Qualified ? Hired | > 15% | `hired / leads_qualified § 100` | < 5% |
-| **Visitor ? Lead (overall)** | **> 3%** | `total_leads / total_visitors § 100` | **< 2%** |
+| Visitor → Engaged | > 60% | `engaged / visitors × 100` | < 50% week-over-week |
+| Engaged → Section Viewer | > 40% | `section_viewers / engaged × 100` | < 30% |
+| Section Viewer → Project Viewer | > 25% | `project_viewers / section_viewers × 100` | < 15% |
+| Section Viewer → Chat User | > 15% | `chat_users / section_viewers × 100` | < 10% |
+| Chat User → Lead Intent | > 8% | `chat_leads / chat_users × 100` | < 5% |
+| Project Viewer → Lead Intent | > 8% | `project_leads / project_viewers × 100` | < 4% |
+| Lead Intent → Lead Contacted | > 60% | `leads_contacted / total_leads × 100` | < 40% |
+| Lead Contacted → Qualified | > 30% | `leads_qualified / leads_contacted × 100` | < 20% |
+| Lead Qualified → Hired | > 15% | `hired / leads_qualified × 100` | < 5% |
+| **Visitor → Lead (overall)** | **> 3%** | `total_leads / total_visitors × 100` | **< 2%** |
 
 ## 6.4 AI Chat Sub-Funnel#
 
@@ -434,9 +434,9 @@ The funnel specifications originate from `AnalyticsArchitecture.md` §14; this s
 ## 6.4.3 AI Chat Funnel Targets| Stage | Target Rate | Alert Condition |
 
 |-------|-------------|-----------------|
-| Widget Open ? Message Sent | > 80% | < 70% |
-| Message Sent ? Follow-up (3+) | > 40% | < 30% |
-| Follow-up ? Lead Captured | > 10% | < 5% |
+| Widget Open → Message Sent | > 80% | < 70% |
+| Message Sent → Follow-up (3+) | > 40% | < 30% |
+| Follow-up → Lead Captured | > 10% | < 5% |
 
 ## 6.5 Funnel Dashboard Widgets| Widget | Type | Data Source | Refresh | SQL Ref |
 
@@ -451,12 +451,12 @@ The funnel specifications originate from `AnalyticsArchitecture.md` §14; this s
 ## 6.6 Funnel Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| FUN-ALR-001 | Any stage conversion drops > 20% week-over-week | ?? Critical | Telegram | Investigate UX regression, check recent deploys |
-| FUN-ALR-002 | Visitor ? Lead rate < 2% for 7 consecutive days | ?? Warning | Telegram | Review lead capture CTAs, chat enticement |
-| FUN-ALR-003 | Chat ? Lead rate < 5% for 7 consecutive days | ?? Warning | Telegram | Review lead qualification agent prompt |
-| FUN-ALR-004 | Engaged rate < 50% for 3 consecutive days | ?? Warning | Telegram | Review hero section, page load performance |
-| FUN-ALR-005 | Lead response SLA breach (> 24h without contact) | ?? High | Telegram | Auto-escalate to backup contact |
-| FUN-ALR-006 | Zero leads for 48 hours (during active period) | ?? Critical | Telegram + Email | Full pipeline investigation |---
+| FUN-ALR-001 | Any stage conversion drops > 20% week-over-week | 🔴 Critical | Telegram | Investigate UX regression, check recent deploys |
+| FUN-ALR-002 | Visitor → Lead rate < 2% for 7 consecutive days | 🟡 Warning | Telegram | Review lead capture CTAs, chat enticement |
+| FUN-ALR-003 | Chat → Lead rate < 5% for 7 consecutive days | 🟡 Warning | Telegram | Review lead qualification agent prompt |
+| FUN-ALR-004 | Engaged rate < 50% for 3 consecutive days | 🟡 Warning | Telegram | Review hero section, page load performance |
+| FUN-ALR-005 | Lead response SLA breach (> 24h without contact) | 🟠 High | Telegram | Auto-escalate to backup contact |
+| FUN-ALR-006 | Zero leads for 48 hours (during active period) | 🔴 Critical | Telegram + Email | Full pipeline investigation |---
 
 ## 7.
 
@@ -481,14 +481,14 @@ Lead event schemas are defined in §2.5.4; this section implements the analysis 
 |--------|---------|--------|------|-----------|--------------|
 | **Lead Volume** | `COUNT(lead_id)` per month | > 10/mo | Custom DB | Daily | `lead_created` |
 | **Lead Source Mix** | `COUNT(*) GROUP BY source` | Diversified | Custom DB | Weekly | `lead_created.properties.source` |
-| **Lead Response Time** | `AVG(first_reply_at - created_at)` | < 24h | Custom DB | Daily | `lead_status_changed` (? replied) |
+| **Lead Response Time** | `AVG(first_reply_at - created_at)` | < 24h | Custom DB | Daily | `lead_status_changed` (→ replied) |
 | **Lead Quality Score (Avg)** | `AVG(lead_score)` | > 0.5 | Custom DB | Weekly | `lead_qualified.properties.qualification_score` |
-| **Lead Qualification Rate** | `(qualified / total_leads) § 100` | > 30% | Custom DB | Weekly | `lead_qualified` / `lead_created` |
-| **Chat ? Lead Conversion** | `(chat_leads / chat_sessions) § 100` | > 10% | Custom DB | Weekly | `lead_created` (source = ai_chat) |
-| **Form ? Lead Completion** | `(form_submits / form_starts) § 100` | > 60% | PostHog | Weekly | `contact_form_submit` / `contact_form_start` |
-| **Lead ? Hired Rate** | `(hired / total_leads) § 100` | > 5% | Custom DB | Monthly | `lead_status_changed` (? hired) |
-| **Lead Score Accuracy** | `(admin_validated_high / scored_high) § 100` | > 80% | Custom DB | Monthly | Admin follow-up validation |
-| **Response SLA Compliance** | `(replied_within_24h / total_leads) § 100` | > 90% | Custom DB | Daily | Timestamp comparison |
+| **Lead Qualification Rate** | `(qualified / total_leads) × 100` | > 30% | Custom DB | Weekly | `lead_qualified` / `lead_created` |
+| **Chat → Lead Conversion** | `(chat_leads / chat_sessions) × 100` | > 10% | Custom DB | Weekly | `lead_created` (source = ai_chat) |
+| **Form → Lead Completion** | `(form_submits / form_starts) × 100` | > 60% | PostHog | Weekly | `contact_form_submit` / `contact_form_start` |
+| **Lead → Hired Rate** | `(hired / total_leads) × 100` | > 5% | Custom DB | Monthly | `lead_status_changed` (→ hired) |
+| **Lead Score Accuracy** | `(admin_validated_high / scored_high) × 100` | > 80% | Custom DB | Monthly | Admin follow-up validation |
+| **Response SLA Compliance** | `(replied_within_24h / total_leads) × 100` | > 90% | Custom DB | Daily | Timestamp comparison |
 
 ## 7.4 Lead Analytics SQL Queries#
 
@@ -508,17 +508,17 @@ Lead event schemas are defined in §2.5.4; this section implements the analysis 
 | **Qualification Rate** | StatCard with trend | §7.4.1 | Weekly |
 | **Lead Timeline** | TimeSeriesChart (daily leads) | §7.4.1 grouped by day | Daily |
 | **Inquiry Type Breakdown** | BarChart | `properties->>'inquiry_type'` GROUP BY | Weekly |
-| **Lead Status Funnel** | FunnelChart (Created ? Contacted ? Qualified ? Hired) | status_changed events | Weekly |
+| **Lead Status Funnel** | FunnelChart (Created → Contacted → Qualified → Hired) | status_changed events | Weekly |
 
 ## 7.6 Lead Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| LEAD-ALR-001 | New lead created | ?? Info | Telegram | Notify admin with lead details |
-| LEAD-ALR-002 | Lead score = 0.8 (high value) | ?? High | Telegram | Priority notification with lead details |
-| LEAD-ALR-003 | No leads for 48 hours | ?? Warning | Telegram | Check forms, chat, site traffic |
-| LEAD-ALR-004 | Response SLA breach (> 24h) | ?? High | Telegram | Escalate to backup admin contact |
-| LEAD-ALR-005 | Lead volume spike > 5x daily avg | ?? Warning | Telegram | Check for bot/submission abuse |
-| LEAD-ALR-006 | Qualification rate < 20% for 7 days | ?? Warning | Telegram | Review qualification criteria, agent scoring |
+| LEAD-ALR-001 | New lead created | 🔵 Info | Telegram | Notify admin with lead details |
+| LEAD-ALR-002 | Lead score = 0.8 (high value) | 🟠 High | Telegram | Priority notification with lead details |
+| LEAD-ALR-003 | No leads for 48 hours | 🟡 Warning | Telegram | Check forms, chat, site traffic |
+| LEAD-ALR-004 | Response SLA breach (> 24h) | 🟠 High | Telegram | Escalate to backup admin contact |
+| LEAD-ALR-005 | Lead volume spike > 5x daily avg | 🟡 Warning | Telegram | Check for bot/submission abuse |
+| LEAD-ALR-006 | Qualification rate < 20% for 7 days | 🟡 Warning | Telegram | Review qualification criteria, agent scoring |
 
 ## 7.7 Lead Scoring ReferenceThe ML lead scoring model (from `18-AGENTS.md` §12.10) assigns scores based on these weighted criteria.
 
@@ -536,7 +536,7 @@ AI & Agent Analytics
 
 ## 8.1 PurposeDefines the **analytical treatment of AI assistant performance, cost, quality, and agent system health** — tracking every dimension of the AI stack from individual chat interactions to multi-agent routing and RAG retrieval quality.
 
-Event schemas are defined in §2.5.5§2.5.7; this section implements the analysis layer and cross-references `17-AI_INSTRUCTIONS.md` §18§19 and `18-AGENTS.md` §13§20.
+Event schemas are defined in §2.5.5–2.5.7; this section implements the analysis layer and cross-references `17-AI_INSTRUCTIONS.md` §18–19 and `18-AGENTS.md` §13–20.
 
 ## 8.2 AI Performance Metrics| Metric | Formula | Target | Tool | Frequency | Event Source |
 
@@ -546,11 +546,11 @@ Event schemas are defined in §2.5.5§2.5.7; this section implements the analysi
 | **Response Time (p95)** | `PERCENTILE(0.95, response_time_ms)` | < 3s | Custom DB | Daily | `chat_response_received` |
 | **Response Time (first token)** | `PERCENTILE(0.95, tt_first_token_ms)` | < 1.5s | Custom DB | Daily | `chat_response_received` |
 | **Model Usage Distribution** | `COUNT(*) GROUP BY model` | GPT-4: > 80% | Custom DB | Weekly | `chat_response_received.properties.model` |
-| **Cache Hit Rate** | `cache_hits / total_lookups § 100` | > 40% | Custom DB | Daily | Response + embedding cache stats |
-| **Error Rate (AI)** | `error_count / total_requests § 100` | < 1% | Sentry | Real-time | `chat_response_error` |
-| **Model Fallback Rate** | `fallback_count / total_requests § 100` | < 5% | Custom DB | Daily | `ai_model_fallback` |
-| **Hallucination Flag Rate** | `flagged / total_responses § 100` | < 1% | Custom DB | Weekly | `ai_hallucination_flagged` |
-| **AI Uptime** | `(successful_checks / total_checks) § 100` | > 99.5% | Better Uptime | Real-time | Health endpoint |
+| **Cache Hit Rate** | `cache_hits / total_lookups × 100` | > 40% | Custom DB | Daily | Response + embedding cache stats |
+| **Error Rate (AI)** | `error_count / total_requests × 100` | < 1% | Sentry | Real-time | `chat_response_error` |
+| **Model Fallback Rate** | `fallback_count / total_requests × 100` | < 5% | Custom DB | Daily | `ai_model_fallback` |
+| **Hallucination Flag Rate** | `flagged / total_responses × 100` | < 1% | Custom DB | Weekly | `ai_hallucination_flagged` |
+| **AI Uptime** | `(successful_checks / total_checks) × 100` | > 99.5% | Better Uptime | Real-time | Health endpoint |
 
 ## 8.3 AI Cost Analytics#
 
@@ -563,23 +563,23 @@ Event schemas are defined in §2.5.5§2.5.7; this section implements the analysi
 | **Cost per Message** | `AVG(cost_usd)` per `chat_message_sent` | < $0.005 | Custom DB | Weekly |
 | **Model Cost Breakdown** | `SUM(cost_usd) GROUP BY model` | — | Custom DB | Weekly |
 | **Cost Trend (7-day avg)** | `AVG(SUM(cost_usd))` over 7 days | — | Custom DB | Daily |
-| **Budget Utilization** | `(monthly_cost / budget) § 100` | < 80% | Custom DB | Daily |#
+| **Budget Utilization** | `(monthly_cost / budget) × 100` | < 80% | Custom DB | Daily |#
 
-## 8.3.2 Cost Tracking SQL`sql-- Daily cost breakdown by model (last 30 days)SELECT  DATE(timestamp) AS day,  properties->>'model' AS model,  COUNT(*) AS requests,  SUM((properties->>'cost_usd')::numeric) AS total_cost_usd,  SUM((properties->>'prompt_tokens')::int) AS prompt_tokens,  SUM((properties->>'completion_tokens')::int) AS completion_tokens,  ROUND(AVG((properties->>'cost_usd')::numeric), 6) AS avg_cost_per_requestFROM analytics_eventsWHERE event_type = 'ai_cost_tracking'  AND timestamp >= NOW() - INTERVAL '30 days'GROUP BY DATE(timestamp), properties->>'model'ORDER BY day DESC, total_cost_usd DESC;``````sql-- Monthly spend vs. budgetSELECT  DATE_TRUNC('month', timestamp) AS month,  SUM((properties->>'cost_usd')::numeric) AS total_spend,  CASE    WHEN SUM((properties->>'cost_usd')::numeric) >= 10.00 THEN 'CRITICAL — Budget exhausted'    WHEN SUM((properties->>'cost_usd')::numeric) >= 8.00 THEN 'WARNING — Near limit'    WHEN SUM((properties->>'cost_usd')::numeric) >= 5.00 THEN 'CAUTION § 50% used'    ELSE 'OK'  END AS budget_status,  ROUND(SUM((properties->>'cost_usd')::numeric) / 10.00 * 100, 1) AS budget_utilization_pctFROM analytics_eventsWHERE event_type = 'ai_cost_tracking'  AND timestamp >= NOW() - INTERVAL '90 days'GROUP BY DATE_TRUNC('month', timestamp)ORDER BY month DESC;`
+## 8.3.2 Cost Tracking SQL`sql-- Daily cost breakdown by model (last 30 days)SELECT  DATE(timestamp) AS day,  properties->>'model' AS model,  COUNT(*) AS requests,  SUM((properties->>'cost_usd')::numeric) AS total_cost_usd,  SUM((properties->>'prompt_tokens')::int) AS prompt_tokens,  SUM((properties->>'completion_tokens')::int) AS completion_tokens,  ROUND(AVG((properties->>'cost_usd')::numeric), 6) AS avg_cost_per_requestFROM analytics_eventsWHERE event_type = 'ai_cost_tracking'  AND timestamp >= NOW() - INTERVAL '30 days'GROUP BY DATE(timestamp), properties->>'model'ORDER BY day DESC, total_cost_usd DESC;``````sql-- Monthly spend vs. budgetSELECT  DATE_TRUNC('month', timestamp) AS month,  SUM((properties->>'cost_usd')::numeric) AS total_spend,  CASE    WHEN SUM((properties->>'cost_usd')::numeric) >= 10.00 THEN 'CRITICAL — Budget exhausted'    WHEN SUM((properties->>'cost_usd')::numeric) >= 8.00 THEN 'WARNING — Near limit'    WHEN SUM((properties->>'cost_usd')::numeric) >= 5.00 THEN 'CAUTION — 50% used'    ELSE 'OK'  END AS budget_status,  ROUND(SUM((properties->>'cost_usd')::numeric) / 10.00 * 100, 1) AS budget_utilization_pctFROM analytics_eventsWHERE event_type = 'ai_cost_tracking'  AND timestamp >= NOW() - INTERVAL '90 days'GROUP BY DATE_TRUNC('month', timestamp)ORDER BY month DESC;`
 
 ## 8.4 Agent Performance Metrics| Metric | Formula | Target | Tool | Frequency | Event Source |
 
 |--------|---------|--------|------|-----------|--------------|
-| **Routing Accuracy** | `(correct_routes / total_routes) § 100` | > 98% | Custom DB | Weekly | `agent_routing` |
+| **Routing Accuracy** | `(correct_routes / total_routes) × 100` | > 98% | Custom DB | Weekly | `agent_routing` |
 | **Routing Latency** | `PERCENTILE(0.95, response_time_ms)` | < 50ms | Custom DB | Daily | `agent_routing` |
 | **Agent Response Accuracy** | Manual sampling score | > 95% | Review | Weekly | `18-AGENTS.md` §20 |
 | **Agent Response Time** | `PERCENTILE(0.95, response_time_ms)` | < 3s | Custom DB | Daily | `agent_routing` |
-| **Handoff Success Rate** | `(successful_handoffs / total_handoffs) § 100` | > 99% | Custom DB | Weekly | `agent_handoff` |
+| **Handoff Success Rate** | `(successful_handoffs / total_handoffs) × 100` | > 99% | Custom DB | Weekly | `agent_handoff` |
 | **Handoff Latency** | `PERCENTILE(0.95, context_size)` | < 100ms | Custom DB | Weekly | `agent_handoff` |
-| **Agent Failure Rate** | `failures / total_agent_requests § 100` | < 2% | Custom DB | Daily | `agent_failure` |
-| **Unhandled Query Rate** | `unhandled / total_queries § 100` | < 5% | Custom DB | Weekly | Fallback routing |
-| **Lead Capture Rate (Lead Agent)** | `captured_leads / lead_intents § 100` | > 60% | Custom DB | Weekly | Lead qualification agent |
-| **False Positive Rate (Lead Agent)** | `false_leads / total_captured § 100` | < 10% | Custom DB | Weekly | Admin validation feedback |
+| **Agent Failure Rate** | `failures / total_agent_requests × 100` | < 2% | Custom DB | Daily | `agent_failure` |
+| **Unhandled Query Rate** | `unhandled / total_queries × 100` | < 5% | Custom DB | Weekly | Fallback routing |
+| **Lead Capture Rate (Lead Agent)** | `captured_leads / lead_intents × 100` | > 60% | Custom DB | Weekly | Lead qualification agent |
+| **False Positive Rate (Lead Agent)** | `false_leads / total_captured × 100` | < 10% | Custom DB | Weekly | Admin validation feedback |
 
 ## 8.5 Agent Routing Distribution SQL`sql-- Agent routing distribution (last 30 days)SELECT  properties->>'agent_name' AS agent,  COUNT(*) AS total_routes,  ROUND(AVG((properties->>'confidence')::numeric), 3) AS avg_confidence,  ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY (properties->>'response_time_ms')::numeric), 1) AS p50_latency_ms,  ROUND(PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY (properties->>'response_time_ms')::numeric), 1) AS p95_latency_ms,  COUNT(*) FILTER (WHERE (properties->>'confidence')::numeric >= 0.8) AS high_confidence_routes,  ROUND(COUNT(*) FILTER (WHERE (properties->>'confidence')::numeric >= 0.8)::numeric / NULLIF(COUNT(*), 0) * 100, 1) AS high_confidence_pctFROM analytics_eventsWHERE event_type = 'agent_routing'  AND timestamp >= NOW() - INTERVAL '30 days'GROUP BY properties->>'agent_name'ORDER BY total_routes DESC;`
 
@@ -589,7 +589,7 @@ Event schemas are defined in §2.5.5§2.5.7; this section implements the analysi
 | **Avg Query Relevance** | `AVG(avg_relevance_score)` | > 0.7 | Custom DB | Weekly | `rag_query` |
 | **Chunks Retrieved** | `AVG(chunks_retrieved)` | 3 | Custom DB | Weekly | `rag_query` |
 | **RAG Response Time** | `PERCENTILE(0.95, response_time_ms)` | < 50ms | Custom DB | Daily | `rag_query` |
-| **Chunks with Relevance > 0.7** | `(high_relevance / total_chunks) § 100` | > 80% | Custom DB | Weekly | `rag_source_attribution` |
+| **Chunks with Relevance > 0.7** | `(high_relevance / total_chunks) × 100` | > 80% | Custom DB | Weekly | `rag_source_attribution` |
 | **Embedding Generation Time** | `PERCENTILE(0.95, duration_ms)` | < 200ms | Custom DB | Per index | `rag_embedding_generated` |
 
 ## 8.7 AI & Agent Dashboard Widgets| Widget | Type | Data Source | Refresh |
@@ -609,16 +609,16 @@ Event schemas are defined in §2.5.5§2.5.7; this section implements the analysi
 ## 8.8 AI & Agent Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| AI-ALR-001 | p95 response time > 5s for 5 min | ?? Critical | Telegram | Check model availability, trigger fallback |
-| AI-ALR-002 | Daily cost > $0.50 | ?? High | Telegram | Check for abuse, review logs |
-| AI-ALR-003 | Monthly cost > $10 | ?? Critical | Telegram | Disable AI chat, notify admin |
-| AI-ALR-004 | Error rate > 5% in 24h rolling window | ?? High | Telegram | Investigate Sentry issues |
-| AI-ALR-005 | AI service health non-200 for 1 min | ?? Critical | Telegram | Trigger fallback chain |
-| AI-ALR-006 | RAG avg relevance < 0.6 for 1h | ?? High | Telegram | Check knowledge base freshness |
-| AI-ALR-007 | Cache hit rate < 20% for 1h | ?? Warning | Telegram | Review cache TTL configuration |
-| AI-ALR-008 | Model fallback events > 3/day | ?? High | Telegram | Investigate primary model health |
-| AI-ALR-009 | Hallucination flag rate > 3% in 24h | ?? High | Telegram | Review RAG pipeline, prompt quality |
-| AI-ALR-010 | Rate limit 429 responses > 5/hour | ?? High | Telegram | Check rate limit configuration |---
+| AI-ALR-001 | p95 response time > 5s for 5 min | 🔴 Critical | Telegram | Check model availability, trigger fallback |
+| AI-ALR-002 | Daily cost > $0.50 | 🟠 High | Telegram | Check for abuse, review logs |
+| AI-ALR-003 | Monthly cost > $10 | 🔴 Critical | Telegram | Disable AI chat, notify admin |
+| AI-ALR-004 | Error rate > 5% in 24h rolling window | 🟠 High | Telegram | Investigate Sentry issues |
+| AI-ALR-005 | AI service health non-200 for 1 min | 🔴 Critical | Telegram | Trigger fallback chain |
+| AI-ALR-006 | RAG avg relevance < 0.6 for 1h | 🟠 High | Telegram | Check knowledge base freshness |
+| AI-ALR-007 | Cache hit rate < 20% for 1h | 🟡 Warning | Telegram | Review cache TTL configuration |
+| AI-ALR-008 | Model fallback events > 3/day | 🟠 High | Telegram | Investigate primary model health |
+| AI-ALR-009 | Hallucination flag rate > 3% in 24h | 🟠 High | Telegram | Review RAG pipeline, prompt quality |
+| AI-ALR-010 | Rate limit 429 responses > 5/hour | 🟠 High | Telegram | Check rate limit configuration |---
 
 ## 9.
 
@@ -641,14 +641,14 @@ Event schemas are defined in §2.5.11; this section implements the analysis laye
 ## 9.3 SEO Metrics Matrix| Metric | Formula | Target | Tool | Frequency | Event Source |
 
 |--------|---------|--------|------|-----------|--------------|
-| **Organic Traffic Share** | `(organic_sessions / total_sessions) § 100` | > 30% | Umami | Weekly | `page_view` + referrer classification |
+| **Organic Traffic Share** | `(organic_sessions / total_sessions) × 100` | > 30% | Umami | Weekly | `page_view` + referrer classification |
 | **Keywords in Top 10** | `COUNT(keyword WHERE position = 10)` | > 20 | GSC | Weekly | `seo_keyword_ranking` |
 | **Avg Keyword Position** | `AVG(position)` for keyword set | Top 10 | GSC | Weekly | `seo_keyword_ranking` |
-| **Organic CTR** | `(clicks / impressions) § 100` | > 5% | GSC | Weekly | GSC API |
-| **Index Coverage** | `(indexed / total_submitted) § 100` | 100% | GSC | Weekly | `seo_indexed_pages` |
+| **Organic CTR** | `(clicks / impressions) × 100` | > 5% | GSC | Weekly | GSC API |
+| **Index Coverage** | `(indexed / total_submitted) × 100` | 100% | GSC | Weekly | `seo_indexed_pages` |
 | **Crawl Errors** | `COUNT(crawl_errors)` | 0 | GSC | Weekly | Crawl log analysis |
-| **Pages with Valid Schema** | `(valid_schema / total_pages) § 100` | 100% | GSC + RH Test | Monthly | `structured_data_valid` |
-| **Core Web Vitals Pass Rate** | `(pages_good_cwv / total_pages) § 100` | > 90% | GSC + Vercel | Weekly | CWV events |
+| **Pages with Valid Schema** | `(valid_schema / total_pages) × 100` | 100% | GSC + RH Test | Monthly | `structured_data_valid` |
+| **Core Web Vitals Pass Rate** | `(pages_good_cwv / total_pages) × 100` | > 90% | GSC + Vercel | Weekly | CWV events |
 | **Backlinks (Domains)** | `COUNT(DISTINCT source_domain)` | > 10 | Free tools | Monthly | `seo_backlink_discovered` |
 | **Domain Authority (Avg)** | `AVG(domain_authority)` | > 30 | Free tools | Monthly | `seo_backlink_discovered` |
 
@@ -674,12 +674,12 @@ Event schemas are defined in §2.5.11; this section implements the analysis laye
 ## 9.6 SEO Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| SEO-ALR-001 | Indexed pages drops > 5% week-over-week | ?? Critical | Telegram | Investigate GSC for penalties/crawl issues |
-| SEO-ALR-002 | New crawl errors detected (404s, 500s) | ?? High | Telegram | Fix within 24h, check sitemap |
-| SEO-ALR-003 | Brand keyword position drops > 3 positions | ?? Warning | Email | Investigate within 48h |
-| SEO-ALR-004 | Core Web Vitals pass rate drops below 80% | ?? High | Telegram | Check Vercel Analytics, fix regressions |
-| SEO-ALR-005 | Structured data errors detected | ?? Warning | Email | Fix schema markup, re-test with RH validator |
-| SEO-ALR-006 | Sitemap submission error | ?? High | Telegram | Re-submit sitemap, check robots.txt |---
+| SEO-ALR-001 | Indexed pages drops > 5% week-over-week | 🔴 Critical | Telegram | Investigate GSC for penalties/crawl issues |
+| SEO-ALR-002 | New crawl errors detected (404s, 500s) | 🟠 High | Telegram | Fix within 24h, check sitemap |
+| SEO-ALR-003 | Brand keyword position drops > 3 positions | 🟡 Warning | Email | Investigate within 48h |
+| SEO-ALR-004 | Core Web Vitals pass rate drops below 80% | 🟠 High | Telegram | Check Vercel Analytics, fix regressions |
+| SEO-ALR-005 | Structured data errors detected | 🟡 Warning | Email | Fix schema markup, re-test with RH validator |
+| SEO-ALR-006 | Sitemap submission error | 🟠 High | Telegram | Re-submit sitemap, check robots.txt |---
 
 ## 10.
 
@@ -687,7 +687,7 @@ Content & Portfolio Analytics
 
 ## 10.1 PurposeDefines the **analytical treatment of portfolio content performance** — tracking how visitors interact with projects, skills, testimonials, case studies, blog articles, and the resume.
 
-Event schemas are defined in §2.5.1§2.5.3; this section implements the analysis layer and cross-references `AnalyticsArchitecture.md` §6§7.
+Event schemas are defined in §2.5.1–2.5.3; this section implements the analysis layer and cross-references `AnalyticsArchitecture.md` §6–7.
 
 ## 10.2 Business Questions Answered| # | Business Question | Decision Impact |
 
@@ -697,7 +697,7 @@ Event schemas are defined in §2.5.1§2.5.3; this section implements the analysi
 | 3 | Which skills generate the most interest (hover/click)? | Highlight in-demand skills in hero section |
 | 4 | How effective are project CTAs (GitHub, live demo)? | Improve CTA placement, text, or visibility |
 | 5 | Which traffic sources send the most engaged visitors? | Allocate content promotion spend |
-| 6 | What is the blog ? lead conversion rate and which posts convert best? | Focus content strategy on high-converting topics |
+| 6 | What is the blog → lead conversion rate and which posts convert best? | Focus content strategy on high-converting topics |
 
 ## 10.3 Content Metrics Matrix#
 
@@ -705,12 +705,12 @@ Event schemas are defined in §2.5.1§2.5.3; this section implements the analysi
 
 |--------|---------|--------|------|-----------|--------------|
 | **Projects Viewed per Session** | `AVG(project_clicks_per_session)` | > 2 | PostHog | Weekly | `project_click` |
-| **Project Detail Completion** | `(detail_views / card_clicks) § 100` | > 40% | PostHog | Weekly | `project_detail_view` / `project_click` |
-| **GitHub Link CTR** | `(github_clicks / project_views) § 100` | > 15% | PostHog | Weekly | `github_click` / `project_click` |
-| **Live Demo CTR** | `(demo_clicks / project_views) § 100` | > 25% | PostHog | Weekly | `live_demo_click` / `project_click` |
-| **Skills Interest Rate** | `(skill_interactions / skills_section_views) § 100` | > 50% | PostHog | Weekly | `skill_hover` / `page_section_visible` (skills) |
-| **Testimonial Engagement** | `(testimonial_nav_actions / section_views) § 100` | > 30% | PostHog | Weekly | `testimonial_next`/`prev` |
-| **Case Study Read Rate** | `(scroll_depth_75 / case_study_view) § 100` | > 50% | PostHog | Weekly | Scroll events on case study pages |
+| **Project Detail Completion** | `(detail_views / card_clicks) × 100` | > 40% | PostHog | Weekly | `project_detail_view` / `project_click` |
+| **GitHub Link CTR** | `(github_clicks / project_views) × 100` | > 15% | PostHog | Weekly | `github_click` / `project_click` |
+| **Live Demo CTR** | `(demo_clicks / project_views) × 100` | > 25% | PostHog | Weekly | `live_demo_click` / `project_click` |
+| **Skills Interest Rate** | `(skill_interactions / skills_section_views) × 100` | > 50% | PostHog | Weekly | `skill_hover` / `page_section_visible` (skills) |
+| **Testimonial Engagement** | `(testimonial_nav_actions / section_views) × 100` | > 30% | PostHog | Weekly | `testimonial_next`/`prev` |
+| **Case Study Read Rate** | `(scroll_depth_75 / case_study_view) × 100` | > 50% | PostHog | Weekly | Scroll events on case study pages |
 | **Section Engagement Ranking** | `AVG(time_on_section_ms) GROUP BY section` | — | PostHog | Weekly | `page_section_visible` |#
 
 ## 10.3.2 Blog & Article Metrics| Metric | Formula | Target | Tool | Frequency | Event Source |
@@ -719,11 +719,11 @@ Event schemas are defined in §2.5.1§2.5.3; this section implements the analysi
 | **Blog Post Views** | `COUNT(DISTINCT session) WHERE page ~ /blog/*` | > 500/mo | Umami | Weekly | `page_view` |
 | **Avg Read Time** | `AVG(time_on_page_ms) / 60000` where page is blog | > 3 min | PostHog | Weekly | `page_time_on_page` |
 | **Scroll Depth (Articles)** | `AVG(scroll_depth_pct)` | > 70% | PostHog | Weekly | `article_view` + `page_scroll` |
-| **Article Read Completion** | `(article_read_complete / article_view) § 100` | > 40% | PostHog | Weekly | `article_read_complete` |
+| **Article Read Completion** | `(article_read_complete / article_view) × 100` | > 40% | PostHog | Weekly | `article_read_complete` |
 | **Social Shares per Post** | `AVG(shares) GROUP BY article_id` | > 5 | PostHog | Monthly | `article_share` |
-| **Blog ? Lead Conversion** | `(blog_leads / blog_visitors) § 100` | > 2% | Custom DB | Monthly | Lead source attribution |
-| **Blog Return Reader Rate** | `(returning_blog_visitors / total_blog_visitors) § 100` | > 20% | PostHog | Monthly | Visitor return detection |
-| **Code Copy Rate** | `(code_copies / code_block_views) § 100` | > 10% | PostHog | Monthly | `code_copy` |
+| **Blog → Lead Conversion** | `(blog_leads / blog_visitors) × 100` | > 2% | Custom DB | Monthly | Lead source attribution |
+| **Blog Return Reader Rate** | `(returning_blog_visitors / total_blog_visitors) × 100` | > 20% | PostHog | Monthly | Visitor return detection |
+| **Code Copy Rate** | `(code_copies / code_block_views) × 100` | > 10% | PostHog | Monthly | `code_copy` |
 
 ## 10.4 Content SQL Queries#
 
@@ -746,11 +746,11 @@ Event schemas are defined in §2.5.1§2.5.3; this section implements the analysi
 ## 10.6 Content Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| CONT-ALR-001 | Project detail conversion drops below 25% | ?? Warning | Email | Check project detail page load, layout |
-| CONT-ALR-002 | Blog read time < 2 min avg for 7 days | ?? Warning | Email | Review content quality, readability |
-| CONT-ALR-003 | Blog views drop > 30% week-over-week | ?? Warning | Telegram | Check for indexing issues, promo gaps |
-| CONT-ALR-004 | Skills interest rate < 30% | ?? Info | Email | Review skills section visibility |
-| CONT-ALR-005 | Live demo CTR < 15% for any project | ?? Info | Email | Check demo link visibility, project page |---
+| CONT-ALR-001 | Project detail conversion drops below 25% | 🟡 Warning | Email | Check project detail page load, layout |
+| CONT-ALR-002 | Blog read time < 2 min avg for 7 days | 🟡 Warning | Email | Review content quality, readability |
+| CONT-ALR-003 | Blog views drop > 30% week-over-week | 🟡 Warning | Telegram | Check for indexing issues, promo gaps |
+| CONT-ALR-004 | Skills interest rate < 30% | 🔵 Info | Email | Review skills section visibility |
+| CONT-ALR-005 | Live demo CTR < 15% for any project | 🔵 Info | Email | Check demo link visibility, project page |---
 
 ## 11.
 
@@ -758,7 +758,7 @@ Performance Analytics
 
 ## 11.1 PurposeDefines the **analytical treatment of website and API performance** — tracking Core Web Vitals, Lighthouse scores, API latencies, error rates, uptime, build times, and bundle sizes.
 
-Event schemas are defined in §2.5.12; this section implements the analysis layer and cross-references `PerformanceArchitecture.md` §5§6 and `21-MONITORING.md` §3.
+Event schemas are defined in §2.5.12; this section implements the analysis layer and cross-references `PerformanceArchitecture.md` §5–6 and `21-MONITORING.md` §3.
 
 ## 11.2 Business Questions Answered| # | Business Question | Decision Impact |
 
@@ -780,7 +780,7 @@ Event schemas are defined in §2.5.12; this section implements the analysis laye
 | **INP (p75)** | PERCENTILE(0.75, value_ms) | < 50ms | < 200ms | Vercel Analytics | Per interaction |
 | **FCP (p75)** | PERCENTILE(0.75, value_ms) | < 1.2s | < 1.8s | Vercel Analytics | Per page load |
 | **TTFB (p75)** | PERCENTILE(0.75, value_ms) | < 200ms | < 800ms | Vercel Analytics | Per page load |
-| **CWV Pass Rate** | `(pages_all_good / total_pages) § 100` | > 90% | > 75% | GSC + Vercel | Weekly |#
+| **CWV Pass Rate** | `(pages_all_good / total_pages) × 100` | > 90% | > 75% | GSC + Vercel | Weekly |#
 
 ## 11.3.2 Lighthouse Scores| Metric | Formula | Aspirational Target | CI Block Threshold | Tool | Frequency |
 
@@ -794,10 +794,10 @@ Event schemas are defined in §2.5.12; this section implements the analysis laye
 
 |--------|---------|--------|------|-----------|
 | **API Response Time (p95)** | PERCENTILE(0.95, response_time_ms) | < 300ms | Sentry | Per request |
-| **API 5xx Error Rate** | `(5xx_count / total_requests) § 100` | < 0.1% | Sentry | Rolling 24h |
-| **Frontend Uptime** | `(successful_checks / total_checks) § 100` | > 99.9% | Better Uptime | Every 1 min |
-| **API Uptime** | `(successful_checks / total_checks) § 100` | > 99.9% | Better Uptime | Every 1 min |
-| **AI Uptime** | `(successful_checks / total_checks) § 100` | > 99.5% | Better Uptime | Every 1 min |
+| **API 5xx Error Rate** | `(5xx_count / total_requests) × 100` | < 0.1% | Sentry | Rolling 24h |
+| **Frontend Uptime** | `(successful_checks / total_checks) × 100` | > 99.9% | Better Uptime | Every 1 min |
+| **API Uptime** | `(successful_checks / total_checks) × 100` | > 99.9% | Better Uptime | Every 1 min |
+| **AI Uptime** | `(successful_checks / total_checks) × 100` | > 99.5% | Better Uptime | Every 1 min |
 | **Build Time** | Pipeline duration | < 10 min | GitHub Actions | Per deploy |
 | **Bundle Size (JS)** | Total JS per page | < 200KB | Bundle Analyzer | Per deploy |
 | **Database Query (p95)** | PERCENTILE(0.95, query_time_ms) | < 50ms | pg_stat_statements | Continuous |#
@@ -839,15 +839,15 @@ Event schemas are defined in §2.5.12; this section implements the analysis laye
 ## 11.6 Performance Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| PERF-ALR-001 | LCP (p75) > 2.5s for 1h | ?? High | Telegram | Check for performance regressions |
-| PERF-ALR-002 | CLS (p75) > 0.1 for 1h | ?? High | Telegram | Check layout shift sources |
-| PERF-ALR-003 | INP (p75) > 200ms for 1h | ?? High | Telegram | Check interaction handlers |
-| PERF-ALR-004 | Frontend uptime < 99.9% in 24h | ?? Critical | Telegram | Investigate Vercel outage |
-| PERF-ALR-005 | API uptime < 99.9% in 24h | ?? Critical | Telegram | Investigate API service |
-| PERF-ALR-006 | Error rate > 1% in 5 min | ?? Critical | Telegram | Investigate Sentry, rollback if needed |
-| PERF-ALR-007 | Lighthouse perf score < 90 on deploy | ?? High | Telegram | Block deploy, fix performance regression |
-| PERF-ALR-008 | Bundle size > 100KB initial JS | ?? Warning | Email | Optimize code splitting |
-| PERF-ALR-009 | Build time > 10 min | ?? Info | Email | Review CI pipeline efficiency |---
+| PERF-ALR-001 | LCP (p75) > 2.5s for 1h | 🟠 High | Telegram | Check for performance regressions |
+| PERF-ALR-002 | CLS (p75) > 0.1 for 1h | 🟠 High | Telegram | Check layout shift sources |
+| PERF-ALR-003 | INP (p75) > 200ms for 1h | 🟠 High | Telegram | Check interaction handlers |
+| PERF-ALR-004 | Frontend uptime < 99.9% in 24h | 🔴 Critical | Telegram | Investigate Vercel outage |
+| PERF-ALR-005 | API uptime < 99.9% in 24h | 🔴 Critical | Telegram | Investigate API service |
+| PERF-ALR-006 | Error rate > 1% in 5 min | 🔴 Critical | Telegram | Investigate Sentry, rollback if needed |
+| PERF-ALR-007 | Lighthouse perf score < 90 on deploy | 🟠 High | Telegram | Block deploy, fix performance regression |
+| PERF-ALR-008 | Bundle size > 100KB initial JS | 🟡 Warning | Email | Optimize code splitting |
+| PERF-ALR-009 | Build time > 10 min | 🔵 Info | Email | Review CI pipeline efficiency |---
 
 ## 12.
 
@@ -871,19 +871,19 @@ Cross-references `AnalyticsArchitecture.md` §1.4 and §5.
 
 |-----|---------|--------|------|-----------|------|
 | **Monthly Active Visitors (MAV)** | `COUNT(DISTINCT visitor_id)` per month | > 1,000 | Umami | Monthly | Strategic |
-| **Visitor Growth Rate (MoM)** | `((MAV_t - MAV_{t-1}) / MAV_{t-1}) § 100` | > 20% | Umami | Monthly | Strategic |
-| **Lead Conversion Rate** | `(Leads / Unique Visitors) § 100` | > 3% | Custom DB | Weekly | Strategic |
+| **Visitor Growth Rate (MoM)** | `((MAV_t - MAV_{t-1}) / MAV_{t-1}) × 100` | > 20% | Umami | Monthly | Strategic |
+| **Lead Conversion Rate** | `(Leads / Unique Visitors) × 100` | > 3% | Custom DB | Weekly | Strategic |
 | **Lead Volume (Monthly)** | `COUNT(lead_id)` per month | > 10 | Custom DB | Monthly | Strategic |
-| **Hire Rate** | `(Hired / Total Leads) § 100` | > 5% | Custom DB | Quarterly | Strategic |
+| **Hire Rate** | `(Hired / Total Leads) × 100` | > 5% | Custom DB | Quarterly | Strategic |
 | **Revenue Inquiries** | `COUNT(inquiry_type = 'hiring' OR 'freelance')` | — | Custom DB | Monthly | Strategic |
 | **Avg Session Duration** | `AVG(session_duration_s)` | > 3 min | Umami | Weekly | Tactical |
-| **Bounce Rate** | `(single_page_sessions / total_sessions) § 100` | < 50% | Umami | Weekly | Tactical |
-| **Engagement Rate** | `(visitors_with_interaction / total_visitors) § 100` | > 60% | PostHog | Weekly | Tactical |
-| **SEO Organic Share** | `(organic_sessions / total_sessions) § 100` | > 30% | Umami | Monthly | Tactical |
+| **Bounce Rate** | `(single_page_sessions / total_sessions) × 100` | < 50% | Umami | Weekly | Tactical |
+| **Engagement Rate** | `(visitors_with_interaction / total_visitors) × 100` | > 60% | PostHog | Weekly | Tactical |
+| **SEO Organic Share** | `(organic_sessions / total_sessions) × 100` | > 30% | Umami | Monthly | Tactical |
 | **Keywords in Top 10** | `COUNT(keyword WHERE position = 10)` | > 20 | GSC | Monthly | Tactical |
 | **AI Chat Sessions (Monthly)** | `COUNT(session_id)` per month | > 200 | Custom DB | Monthly | Tactical |
 | **AI Cost (Monthly)** | `SUM(cost_usd)` | < $10 | Custom DB | Monthly | Operational |
-| **CWV Pass Rate** | `(good_cwv_pages / total_pages) § 100` | > 90% | GSC + Vercel | Monthly | Operational |
+| **CWV Pass Rate** | `(good_cwv_pages / total_pages) × 100` | > 90% | GSC + Vercel | Monthly | Operational |
 | **Uptime (All Services)** | Minimum of FE/API/AI uptime | > 99.5% | Better Uptime | Monthly | Operational |
 
 ## 12.4 Executive Dashboard — Single Pane of Glass#
@@ -891,28 +891,28 @@ Cross-references `AnalyticsArchitecture.md` §1.4 and §5.
 ## 12.4.1 KPI Row (Top 8 Strategic Cards)| Card | Target | Color Rule |
 
 |------|--------|------------|
-| Monthly Active Visitors | > 1,000 | ?? > 1,000 ?? 700-1,000 ?? < 700 |
-| Visitor MoM Growth | > 20% | ?? > 20% ?? 10-20% ?? < 10% |
-| Lead Conversion Rate | > 3% | ?? > 3% ?? 2-3% ?? < 2% |
-| Monthly Lead Volume | > 10 | ?? > 10 ?? 5-10 ?? < 5 |
-| Bounce Rate | < 50% | ?? < 40% ?? 40-50% ?? > 50% |
-| Avg Session Duration | > 3 min | ?? > 3min ?? 2-3min ?? < 2min |
-| SEO Organic Share | > 30% | ?? > 30% ?? 20-30% ?? < 20% |
-| AI Monthly Cost | < $10 | ?? < $8 ?? $8-10 ?? > $10 |#
+| Monthly Active Visitors | > 1,000 | 🟢 > 1,000 🟡 700-1,000 🔴 < 700 |
+| Visitor MoM Growth | > 20% | 🟢 > 20% 🟡 10-20% 🔴 < 10% |
+| Lead Conversion Rate | > 3% | 🟢 > 3% 🟡 2-3% 🔴 < 2% |
+| Monthly Lead Volume | > 10 | 🟢 > 10 🟡 5-10 🔴 < 5 |
+| Bounce Rate | < 50% | 🟢 < 40% 🟡 40-50% 🔴 > 50% |
+| Avg Session Duration | > 3 min | 🟢 > 3min 🟡 2-3min 🔴 < 2min |
+| SEO Organic Share | > 30% | 🟢 > 30% 🟡 20-30% 🔴 < 20% |
+| AI Monthly Cost | < $10 | 🟢 < $8 🟡 $8-10 🔴 > $10 |#
 
 ## 12.4.2 Executive Metrics SQL`sql-- Executive summary (current month)WITH monthly_stats AS (  SELECT    DATE_TRUNC('month', timestamp) AS month,    COUNT(DISTINCT session_id) AS total_sessions,    COUNT(DISTINCT session_id) FILTER (WHERE event_type = 'page_view') AS visitors,    COUNT(DISTINCT session_id) FILTER (WHERE event_type IN ('page_scroll', 'section_view')) AS engaged,    COUNT(DISTINCT session_id) FILTER (WHERE event_type = 'lead_created') AS leads,    COUNT(DISTINCT session_id) FILTER (WHERE event_type = 'chat_session_started') AS chat_sessions  FROM analytics_events  WHERE timestamp >= DATE_TRUNC('month', NOW())  GROUP BY DATE_TRUNC('month', timestamp)),prev_month_stats AS (  SELECT    COUNT(DISTINCT session_id) AS prev_visitors,    COUNT(DISTINCT session_id) FILTER (WHERE event_type = 'lead_created') AS prev_leads  FROM analytics_events  WHERE timestamp >= DATE_TRUNC('month', NOW() - INTERVAL '1 month')    AND timestamp < DATE_TRUNC('month', NOW()))SELECT  ms.visitors AS monthly_visitors,  COALESCE(ps.prev_visitors, 0) AS prev_month_visitors,  ROUND(    (ms.visitors - COALESCE(ps.prev_visitors, 0))::numeric    / NULLIF(COALESCE(ps.prev_visitors, 0), 0) * 100, 1  ) AS visitor_growth_pct,  ms.leads AS monthly_leads,  COALESCE(ps.prev_leads, 0) AS prev_month_leads,  ROUND(ms.leads::numeric / NULLIF(ms.visitors, 0) * 100, 2) AS lead_conversion_rate,  ms.engaged AS engaged_visitors,  ROUND(ms.engaged::numeric / NULLIF(ms.visitors, 0) * 100, 1) AS engagement_rate,  ms.chat_sessions AS ai_chat_sessionsFROM monthly_stats msCROSS JOIN prev_month_stats ps;`#
 
-## 12.4.3 Portfolio Health ScoreA composite score (0§100) calculated monthly from weighted sub-scores:| Component | Weight | Metric | Scoring |
+## 12.4.3 Portfolio Health ScoreA composite score (0–100) calculated monthly from weighted sub-scores:| Component | Weight | Metric | Scoring |
 
 |-----------|--------|--------|---------|
-| **Traffic Health** | 20% | MAV vs. target (1,000) | `MIN(MAV / 1000, 1) § 100` |
-| **Growth Health** | 15% | MoM visitor growth | `MIN(growth_pct / 20, 1) § 100` |
-| **Conversion Health** | 20% | Lead conversion rate vs. 3% target | `MIN(conversion_pct / 3, 1) § 100` |
-| **Engagement Health** | 15% | Engagement rate vs. 60% target | `MIN(engagement / 60, 1) § 100` |
-| **SEO Health** | 10% | Organic share vs. 30% target | `MIN(organic_pct / 30, 1) § 100` |
-| **Performance Health** | 10% | CWV pass rate vs. 90% target | `MIN(cwv_pass_pct / 90, 1) § 100` |
-| **AI Health** | 5% | Budget utilization (inverse) | `MAX(1 - monthly_cost / 10, 0) § 100` |
-| **Reliability Health** | 5% | Uptime across services | `MIN(uptime_pct / 99.5, 1) § 100` |`sql-- Portfolio Health ScoreWITH components AS (  SELECT    LEAST(COUNT(DISTINCT session_id)::numeric / 1000.0, 1.0) * 20 AS traffic_health,    LEAST(      (COUNT(DISTINCT session_id) FILTER (WHERE timestamp >= NOW() - INTERVAL '30 days'))::numeric      / NULLIF(COUNT(DISTINCT session_id) FILTER (WHERE timestamp >= NOW() - INTERVAL '60 days' AND timestamp < NOW() - INTERVAL '30 days'), 0)      / 1.2, 1.0    ) * 15 AS growth_health,    LEAST(      (COUNT(DISTINCT session_id) FILTER (WHERE event_type = 'lead_created'))::numeric      / NULLIF(COUNT(DISTINCT session_id), 0) * 100 / 3.0, 1.0    ) * 20 AS conversion_health  FROM analytics_events  WHERE timestamp >= NOW() - INTERVAL '30 days')SELECT  ROUND(traffic_health + growth_health + conversion_health, 1) AS health_scoreFROM components;`
+| **Traffic Health** | 20% | MAV vs. target (1,000) | `MIN(MAV / 1000, 1) × 100` |
+| **Growth Health** | 15% | MoM visitor growth | `MIN(growth_pct / 20, 1) × 100` |
+| **Conversion Health** | 20% | Lead conversion rate vs. 3% target | `MIN(conversion_pct / 3, 1) × 100` |
+| **Engagement Health** | 15% | Engagement rate vs. 60% target | `MIN(engagement / 60, 1) × 100` |
+| **SEO Health** | 10% | Organic share vs. 30% target | `MIN(organic_pct / 30, 1) × 100` |
+| **Performance Health** | 10% | CWV pass rate vs. 90% target | `MIN(cwv_pass_pct / 90, 1) × 100` |
+| **AI Health** | 5% | Budget utilization (inverse) | `MAX(1 - monthly_cost / 10, 0) × 100` |
+| **Reliability Health** | 5% | Uptime across services | `MIN(uptime_pct / 99.5, 1) × 100` |`sql-- Portfolio Health ScoreWITH components AS (  SELECT    LEAST(COUNT(DISTINCT session_id)::numeric / 1000.0, 1.0) * 20 AS traffic_health,    LEAST(      (COUNT(DISTINCT session_id) FILTER (WHERE timestamp >= NOW() - INTERVAL '30 days'))::numeric      / NULLIF(COUNT(DISTINCT session_id) FILTER (WHERE timestamp >= NOW() - INTERVAL '60 days' AND timestamp < NOW() - INTERVAL '30 days'), 0)      / 1.2, 1.0    ) * 15 AS growth_health,    LEAST(      (COUNT(DISTINCT session_id) FILTER (WHERE event_type = 'lead_created'))::numeric      / NULLIF(COUNT(DISTINCT session_id), 0) * 100 / 3.0, 1.0    ) * 20 AS conversion_health  FROM analytics_events  WHERE timestamp >= NOW() - INTERVAL '30 days')SELECT  ROUND(traffic_health + growth_health + conversion_health, 1) AS health_scoreFROM components;`
 
 ## 12.5 Executive Dashboard Widgets| Widget | Type | Data Source | Refresh |
 
@@ -929,13 +929,13 @@ Cross-references `AnalyticsArchitecture.md` §1.4 and §5.
 ## 12.6 Executive Alert Rules| Rule ID | Condition | Severity | Channel | Runbook |
 
 |---------|-----------|----------|---------|---------|
-| EXEC-ALR-001 | Monthly visitors < 500 for 30 consecutive days | ?? High | Telegram + Email | Review traffic acquisition, SEO, content strategy |
-| EXEC-ALR-002 | Lead conversion rate < 1.5% for 30 days | ?? High | Telegram | Review lead capture funnels, CTAs, chat agent |
-| EXEC-ALR-003 | Bounce rate > 60% for 7 consecutive days | ?? Warning | Telegram | Check page load speed, content relevance |
-| EXEC-ALR-004 | Portfolio Health Score drops below 50 | ?? Critical | Telegram + Email | Full portfolio review, RCA |
-| EXEC-ALR-005 | Zero leads for 7 days | ?? High | Telegram | Full pipeline investigation |
-| EXEC-ALR-006 | Monthly cost > 80% of budget for any service | ?? Warning | Email | Review usage, optimize |
-| EXEC-ALR-007 | Engagement rate < 40% for 7 days | ?? Warning | Telegram | Review UX, content layout |---
+| EXEC-ALR-001 | Monthly visitors < 500 for 30 consecutive days | 🟠 High | Telegram + Email | Review traffic acquisition, SEO, content strategy |
+| EXEC-ALR-002 | Lead conversion rate < 1.5% for 30 days | 🟠 High | Telegram | Review lead capture funnels, CTAs, chat agent |
+| EXEC-ALR-003 | Bounce rate > 60% for 7 consecutive days | 🟡 Warning | Telegram | Check page load speed, content relevance |
+| EXEC-ALR-004 | Portfolio Health Score drops below 50 | 🔴 Critical | Telegram + Email | Full portfolio review, RCA |
+| EXEC-ALR-005 | Zero leads for 7 days | 🟠 High | Telegram | Full pipeline investigation |
+| EXEC-ALR-006 | Monthly cost > 80% of budget for any service | 🟡 Warning | Email | Review usage, optimize |
+| EXEC-ALR-007 | Engagement rate < 40% for 7 days | 🟡 Warning | Telegram | Review UX, content layout |---
 
 ## 13.
 
@@ -966,13 +966,13 @@ Data Quality Monitoring
 ## 13.2.2 Alert Rules| Alert | Condition | Severity | Channel | Runbook |
 
 |-------|-----------|----------|---------|---------|
-| **Schema compliance drop** | < 99% valid events in 1h | ?? Critical | Telegram | Investigate recent deploys |
-| **Missing events** | Expected event not seen for 24h | ?? Warning | Telegram | Check source service |
-| **Duplicate spike** | > 1% duplicate events in 1h | ?? Warning | Telegram | Check emit logic |
-| **Latency spike** | P95 latency > 30s for 5 min | ?? Warning | Telegram | Check event pipeline |
-| **Budget threshold** | > 80% of monthly budget used | ?? Warning | Email | Review + optimize events |
-| **Budget critical** | > 95% of monthly budget used | ?? Critical | Telegram | Disable non-critical events |
-| **No events from source** | 0 events from a source in 1h | ?? Warning | Telegram | Check source health |
+| **Schema compliance drop** | < 99% valid events in 1h | 🔴 Critical | Telegram | Investigate recent deploys |
+| **Missing events** | Expected event not seen for 24h | 🟡 Warning | Telegram | Check source service |
+| **Duplicate spike** | > 1% duplicate events in 1h | 🟡 Warning | Telegram | Check emit logic |
+| **Latency spike** | P95 latency > 30s for 5 min | 🟡 Warning | Telegram | Check event pipeline |
+| **Budget threshold** | > 80% of monthly budget used | 🟡 Warning | Email | Review + optimize events |
+| **Budget critical** | > 95% of monthly budget used | 🔴 Critical | Telegram | Disable non-critical events |
+| **No events from source** | 0 events from a source in 1h | 🟡 Warning | Telegram | Check source health |
 
 ## 13.3 Data Quality Checks (Scheduled)| Check | Frequency | SQL/Script | Owner |
 
@@ -1103,7 +1103,7 @@ If data quality drops below B-grade (§13.4), the event is rolled back or fixed.
 | Decision Log | Decision ID | Date                                                                                   | Decision                                                        | Rationale                                                               | Alternatives Considered | Outcome |
 | ------------ | ----------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------- | ------- |
 | D-AI-001     | Jun 2026    | Event Schema Registry with mandatory `event_name`, `properties`, `timestamp` structure | Ensures queryable, consistent events across 12 domains          | Free-form properties rejected — would break cross-domain analysis     | Adopted                 |
-| D-AI-002     | Jun 2026    | 4-layer validation model (Schema ? Required ? Type ? Business Rule)                    | Catches errors at build time, not in production                 | Runtime-only validation rejected as too late                            | Adopted                 |
+| D-AI-002     | Jun 2026    | 4-layer validation model (Schema → Required → Type → Business Rule)                    | Catches errors at build time, not in production                 | Runtime-only validation rejected as too late                            | Adopted                 |
 | D-AI-003     | Jun 2026    | Tracking Plan Process with PR-based approval workflow                                  | Brings change management rigor to analytics                     | Ad-hoc event creation rejected for causing schema drift                 | Adopted                 |
 | D-AI-004     | Jun 2026    | Standardized implementation patterns per platform (Browser SDK / NestJS / FastAPI)     | Reduces implementation variance and QA burden                   | Single universal emitter rejected — can't handle all runtime contexts | Adopted                 |
 | D-AI-005     | Jun 2026    | Domain Analysis sections covering 7 analytical domains                                 | Bridges gap between raw events and actionable business insights | Pure technical reference rejected — doesn't serve analytics consumers | Adopted                 |
@@ -1124,7 +1124,7 @@ If data quality drops below B-grade (§13.4), the event is rolled back or fixed.
 | ---------- | -------- | ------------------------------------------------------------------------------------------------- | ------- | ------ |
 | 2.0        | Jun 2026 | Added 7 analytical domain sections: Funnel, Lead, AI/Agent, SEO, Content, Performance, Executive. |
 
-Renumbered §6-9?13-16.
+Renumbered §6-9 → 13-16.
 Cross-referenced all domain event schemas. | Product Owner| 1.0 | Jun 2026 | Initial release — implementation companion to `AnalyticsArchitecture.md` v4.0.
 Covers: Event Schema Registry (90 events, 35 domains, 12 categories), Validation & Testing (4-layer model, CI integration), Tracking Plan Process (template + workflow), Implementation Patterns (browser SDK, NestJS module, FastAPI logger), Data Quality Monitoring (6 dimensions, dashboard, alerts, scorecard), Dashboard Implementation (4 dashboards, shared components, states), Enterprise Governance (ownership, cadences, cross-document standards, deprecation policy, training). | Product Owner |---
 

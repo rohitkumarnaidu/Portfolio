@@ -123,8 +123,12 @@ Agent capabilities are packaged as `SKILL.md` files under `.opencode/skills/` �
 | `docs/05-architecture/TECHSTACK.md`                            | The stack actually used, and the trade-offs behind it                         |
 | `docs/35-quality/QUALITY-GATES.md`                             | What CI enforces today (coverage floors, gates)                               |
 | `docs/27-decisions/`                                           | ADRs (decision records)                                                       |
-| `docs/archive/`                                                | Frozen pre-2.0 history — read for context, never update; see its `README.md`  |
+| `docs/archive/`                                                | Frozen pre-2.0 history — integrity repairs only; see its `README.md`          |
 
 Everything outside that list is archived. `docs/archive/` is frozen: read it for
-context, never update it. The CI link check covers the whole tree, archive
-included — the 2026-11-19 cleanup left it at zero broken relative links.
+context, never rewrite its content, decisions, or claims. The only permitted edits
+are mechanical integrity repairs — relative links rewritten by a directory move,
+and characters lost to an encoding conversion — and each repair is recorded in
+`docs/archive/README.md` and, where it affects a file, in that file's archive note.
+The CI link check covers the whole tree, archive included — the 2026-11-19 cleanup
+left it at zero broken relative links.
