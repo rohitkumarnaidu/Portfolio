@@ -968,7 +968,7 @@ export interface HeroProps {
 | **Scroll indicator**  | Bottom of hero: animated chevron or mouse icon indicating scrollable content. Click scrolls to next section (#about or first SectionWrapper). On reduced motion: static indicator, no bounce animation.                               |
 | **Background effect** | gradient: CSS gradient animation (--gradient-hero + animated hue shift). particles: Canvas-based particle system (lazy). 3d: Three.js scene via @react-three/fiber (lazy, heavy). `noise`: SVG noise overlay. `none`: solid gradient. |
 | **Responsive**        | Mobile: stacked layout, smaller headline (clamp 36-72px), CTAs full-width stacked. Tablet/Desktop: side-by-side or centered.                                                                                                          |
-| **3D fallback**       | See [08j-3D-USAGE-GUIDELINES.md](./08j-3D-USAGE-GUIDELINES.md) §14 for complete fallback chain. If WebGL unavailable → falls back to gradient effect. If GPU memory exceeded → `noise` effect.                                        |
+| **3D fallback**       | See 08j-3D-USAGE-GUIDELINES.md §14 for complete fallback chain. If WebGL unavailable → falls back to gradient effect. If GPU memory exceeded → `noise` effect.                                        |
 
 #### States
 
@@ -1218,7 +1218,7 @@ export interface Project {
 
 | Reference                                                            | Description                         |
 | -------------------------------------------------------------------- | ----------------------------------- |
-| [MASTER-INDEX.md](../MASTER-INDEX.md)                                | Documentation master index          |
+| [MASTER-INDEX.md](../../MASTER-INDEX.md)                                | Documentation master index          |
 | [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping             |
 | [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md)                 | Frontend architecture overview      |
 | [COMPONENT-STANDARDS.md](COMPONENT-STANDARDS.md)                     | Component design standards          |

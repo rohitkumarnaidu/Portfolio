@@ -122,18 +122,37 @@ Static inspection only — no feature was exercised for this table.
 
 ---
 
-## Documentation debt
+## Documentation debt — resolved 2026-11-19
 
-The 2026-11-18 docs audit measured 213 Markdown files: **11 live, 16 mixed, 157 stale, 24 archive**. Fixed in this PR: `MASTER-INDEX.md` is now generated from the tree by `scripts/generate-docs-index.js`; `ADR-INDEX.md` lists the 7 records that exist (it claimed 18); `QUALITY-GATES.md` describes only what CI enforces; phase-0 docs (spec, plan, `PROGRESS`, `DESIGN`, `AGENTS`, this file) are current.
+The 2026-11-18 audit measured 213 Markdown files: 11 live, 16 mixed, 157 stale, 24 in
+`docs/archive/`, with **561** broken relative links (the earlier 492 figure was an
+approximation), six U+FFFD-damaged files, and five overlapping duplicate clusters.
 
-Remaining, in priority order:
+The cleanup consolidated the tree instead of rewriting 157 aspirational documents:
 
-1. **Broken links:** 492 of 913 relative links resolve to nothing (187 distinct targets); the single biggest cause is the missing `docs/26-reference/CROSS-REFERENCE-INDEX.md` referenced from 147 places.
-2. **Stale stack:** 157 docs still describe Supabase/FastAPI/Redis/Rust-era architecture (security 20/22, devops 15/16, reference 5/5). Archive or rewrite; `docs/archive/` stays frozen.
-3. **False reference docs:** `docs/26-reference/FILE-STRUCTURE-REFERENCE.md` shows a deleted `apps/ai` tree; `ENV-VARIABLE-REFERENCE.md` documents removed `SUPABASE_*`/`OPENAI_API_KEY`.
-4. **Duplicates:** PRIVACY vs PRIVACY-POLICY, two code-review checklists, two incident-response runbooks, four CI/CD docs, MONITORING vs OBSERVABILITY.
-5. **Encoding corruption:** six files contain U+FFFD replacement characters (worst: `docs/14-observability/ANALYTICS-IMPLEMENTATION.md`).
-6. **Phantom tooling:** DOC-OPS-PLAN cites a 95/100 score and tools (`doc-quality.yml`, `validate-cross-refs.mjs`, `.markdownlint.json`) that do not exist.
+- **Archive.** Every stale category moved under `docs/archive/<same path>` (171 files),
+  preserving the old layout so links between archived documents still resolve. The live set
+  is now `AGENTS.md`, `DESIGN.md`, `PROGRESS.md`, `roadmap.md`, `README.md`, `CHANGELOG.md`,
+  `docs/MASTER-INDEX.md`, `docs/05-architecture/TECHSTACK.md`,
+  `docs/35-quality/QUALITY-GATES.md`, `docs/27-decisions/` and `docs/superpowers/`.
+- **Links.** 693 relative links were rewritten to their new locations; 218 links that used
+  pre-restructure names were re-pointed to the current filename
+  (e.g. `SecurityArchitecture.md` → `SECURITY-ARCHITECTURE.md`); 166 references to documents
+  that never existed in this repository were reduced to plain text. The whole tree now
+  reports **0 broken relative links** across 214 files and 876 links.
+- **Encoding.** 85 files of double-encoded UTF-8 were round-tripped back to the intended
+  characters; the six U+FFFD files were reconstructed from context (section signs, em dashes,
+  one degree sign) and carry an archive note. No U+FFFD or mojibake remains.
+- **Duplicates.** Each cluster got a canonical file plus "Superseded" banners, and
+  `docs/archive/README.md` maps all nine topics.
+- **False references and phantom tooling.** The Supabase/FastAPI-era reference docs,
+  `DOC-OPS-PLAN.md` and the invented tooling claims are archived with the rest; nothing in
+  the live set depends on them.
+- **Enforcement.** `scripts/check-docs-links.mjs` runs in CI and covers the whole tree,
+  archive included; `docs/MASTER-INDEX.md` is generated from the tree.
+
+`docs/archive/` stays frozen: it is history, not documentation. New material belongs in the
+live set, and the archive is never cited as a source of truth.
 
 ---
 

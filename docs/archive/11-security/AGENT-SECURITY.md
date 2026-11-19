@@ -1,8 +1,8 @@
-# Ã°Å¸Â¤â€“ Agent Security Model Ã¢â‚¬â€ Sandboxing, Auditing & Supply Chain Security
+# 🤖 Agent Security Model — Sandboxing, Auditing & Supply Chain Security
 
 > **Document:** `AGENT-SECURITY.md` | **Version:** 1.0 | **Last Updated:** July 2026  
-> **Status:** Ã¢Å“â€¦ Active | **Owner:** Chief Security Architect | **Review Cadence:** Quarterly  
-> **Related:** [SecurityArchitecture.md](./SecurityArchitecture.md) | [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md) | [18-AGENTS.md](../08-ai/18-AGENTS.md) | [AGENT.md](../08-ai/AGENT.md)
+> **Status:** âœ… Active | **Owner:** Chief Security Architect | **Review Cadence:** Quarterly  
+> **Related:** [SecurityArchitecture.md](SECURITY-ARCHITECTURE.md) | 17-AI_INSTRUCTIONS.md | 18-AGENTS.md | AGENT.md
 
 ---
 
@@ -29,12 +29,12 @@ This document defines the security model for AI agents within the Portfolio plat
 
 All agents run inside isolated sandboxes with the following characteristics:
 
-- **Process Isolation:** Each agent instance runs in a dedicated container (gVisor / Firecracker micro-VM) with no shared kernel state. Containers are ephemeral Ã¢â‚¬â€ destroyed after each execution or idle timeout of 15 minutes.
+- **Process Isolation:** Each agent instance runs in a dedicated container (gVisor / Firecracker micro-VM) with no shared kernel state. Containers are ephemeral — destroyed after each execution or idle timeout of 15 minutes.
 - **Network Restriction:** Outbound network access is blocked by default. Agents may only communicate with the API Gateway via a restricted internal endpoint. A per-agent allowlist defines any external API access (e.g., a weather agent calling OpenWeatherMap).
 - **Filesystem Isolation:** Each sandbox has a read-only base filesystem overlay. Writes are allowed only to a temporary scratch space (`/tmp`) that is wiped on container teardown. No persistent local storage.
 - **Resource Limits:** CPU (0.5 vCPU default), memory (256 MB default), execution timeout (30s default per action), and request rate (10 req/min) are enforced via cgroups and the sandbox runtime.
 
-The sandbox architecture is integrated with the agent runtime described in [18-AGENTS.md](../08-ai/18-AGENTS.md) and inherits the base security controls from [SecurityArchitecture.md](./SecurityArchitecture.md).
+The sandbox architecture is integrated with the agent runtime described in 18-AGENTS.md and inherits the base security controls from [SecurityArchitecture.md](SECURITY-ARCHITECTURE.md).
 
 ### 1.1 Agent Security Model
 
@@ -72,14 +72,14 @@ flowchart TD
 
 For agents that execute user-provided or dynamically generated code (e.g., a code-execution agent, data-analysis plugin):
 
-- **WebAssembly Sandbox:** Code is compiled to WASM and executed in a WebAssembly runtime (Wasmer/Wasmitime) with no host access Ã¢â‚¬â€ no filesystem, no network, no system calls except memory allocation.
+- **WebAssembly Sandbox:** Code is compiled to WASM and executed in a WebAssembly runtime (Wasmer/Wasmitime) with no host access — no filesystem, no network, no system calls except memory allocation.
 - **Polyglot Restriction:** Supported languages (Python, JavaScript, Rust) are restricted to a safe subset. Built-in functions like `eval()`, `exec()`, `os.system()`, and `subprocess` are either disabled or replaced with safe polyfills.
 - **Instruction Budget:** Each code execution is limited to 10M WASM instructions. Exceeding this terminates the sandbox and returns an error to the caller.
-- **Fallback Ã¢â‚¬â€ gVisor Container:** For agents requiring native system access (e.g., database migration agents), a gVisor sandbox with a tightly scoped seccomp profile is used. This is gated behind an explicit admin grant.
+- **Fallback — gVisor Container:** For agents requiring native system access (e.g., database migration agents), a gVisor sandbox with a tightly scoped seccomp profile is used. This is gated behind an explicit admin grant.
 
 ## 3. Permission & Scope Model
 
-Agents follow a capability-based security model derived from the platform's RBAC system [15-AUTHORIZATION.md](./15-AUTHORIZATION.md):
+Agents follow a capability-based security model derived from the platform's RBAC system 15-AUTHORIZATION.md:
 
 - **Agent Scopes:** Each agent is assigned one or more scopes at installation time (e.g., `analytics:read`, `content:write`, `contacts:read`). These scopes are enforced by the API Gateway via OAuth 2.0 token exchange.
 - **User Consent:** Before an agent acts on behalf of a user, explicit consent is obtained via the Agent Marketplace UI. Users can view, grant, or revoke individual scopes at any time.
@@ -88,7 +88,7 @@ Agents follow a capability-based security model derived from the platform's RBAC
 
 ## 4. Audit Logging for Agent Actions
 
-Every agent action is logged to the immutable audit trail defined in [AuditLogging.md](./AuditLogging.md):
+Every agent action is logged to the immutable audit trail defined in [AuditLogging.md](AUDIT-LOGGING.md):
 
 | Audit Event            | Data Captured                                             | Retention |
 | ---------------------- | --------------------------------------------------------- | --------- |
@@ -103,19 +103,19 @@ Audit events are forwarded to the central SIEM (if configured) via the event bus
 
 ## 5. Supply Chain Security
 
-Agent packages (published by first-party and third-party developers) are subject to the supply chain controls defined in [supply-chain-security-policy.md](./supply-chain-security-policy.md):
+Agent packages (published by first-party and third-party developers) are subject to the supply chain controls defined in supply-chain-security-policy.md:
 
 - **Package Signing:** All agent packages must be signed with a developer key (Sigstore / cosign). The package registry verifies signatures upon upload and upon installation.
 - **Dependency Scanning:** Agent manifests (Dockerfile, requirements.txt, package.json) are scanned for known CVEs at install time and on a daily cadence. Packages with critical or high-severity vulnerabilities are blocked from installation.
 - **SLSA Provenance:** Published agent builds include SLSA provenance attestations (SLSA Level 2+). The registry verifies the build chain before accepting the package.
-- **Manual Review Gate:** Third-party agent packages undergo a manual security review (checklist in [SecurityArchitecture.md](./SecurityArchitecture.md) Section 18 Ã¢â‚¬â€ Third-Party Risk) before publication. Review includes code audit, dependency audit, and penetration test results.
+- **Manual Review Gate:** Third-party agent packages undergo a manual security review (checklist in [SecurityArchitecture.md](SECURITY-ARCHITECTURE.md) Section 18 — Third-Party Risk) before publication. Review includes code audit, dependency audit, and penetration test results.
 - **Runtime Verification:** Agents are periodically rescanned at runtime. If a new CVE is disclosed for a dependency, the agent is quarantined and the owner is notified.
 
 ## 6. Secrets Management
 
-Agent credentials (API keys, database URLs, OAuth tokens) are managed via the platform's vault-backed secrets system, integrated with the [SecretsManagement.md](./SecretsManagement.md) framework:
+Agent credentials (API keys, database URLs, OAuth tokens) are managed via the platform's vault-backed secrets system, integrated with the [SecretsManagement.md](SECRETS-MANAGEMENT.md) framework:
 
-- **Vault Integration:** Secrets are stored in HashiCorp Vault (or equivalent) with automatic rotation. Agents never receive raw secrets Ã¢â‚¬â€ instead, they are injected as environment variables at container start time, scoped to the agent's execution environment.
+- **Vault Integration:** Secrets are stored in HashiCorp Vault (or equivalent) with automatic rotation. Agents never receive raw secrets — instead, they are injected as environment variables at container start time, scoped to the agent's execution environment.
 - **Short-Lived Tokens:** Agent API tokens are issued with a TTL of 1 hour. The agent must refresh via the token exchange endpoint, which re-validates the agent's scope and consent status.
 - **Just-In-Time Access:** Database credentials are fetched from Vault at container start and revoked on teardown. No persistent credential storage exists on the sandbox filesystem.
 - **Secret Audit:** Every secrets access is logged with the agent ID, requesting user, and purpose. Anomalous access patterns (e.g., an agent requesting a secret outside its normal execution window) trigger an alert.
@@ -125,22 +125,22 @@ Agent credentials (API keys, database URLs, OAuth tokens) are managed via the pl
 
 | Document                                                             | Purpose                                                                |
 | -------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [SecurityArchitecture.md](./SecurityArchitecture.md)                 | Base security controls, incident response, third-party risk assessment |
-| [15-AUTHORIZATION.md](./15-AUTHORIZATION.md)                         | RBAC / scope model used for agent permission enforcement               |
-| [AuditLogging.md](./AuditLogging.md)                                 | Immutable audit trail for all agent actions                            |
-| [SecretsManagement.md](./SecretsManagement.md)                       | Vault-backed secrets lifecycle, rotation, and access policies          |
-| [supply-chain-security-policy.md](./supply-chain-security-policy.md) | Package signing, CVE scanning, SLSA provenance for agent packages      |
-| [17-AI_INSTRUCTIONS.md](../08-ai/17-AI_INSTRUCTIONS.md)              | AI instruction framework and system prompt architecture                |
-| [18-AGENTS.md](../08-ai/18-AGENTS.md)                                | Agent lifecycle, registration, and execution runtime                   |
-| [AGENT.md](../08-ai/AGENT.md)                                        | Agent specification, API reference, and developer guide                |
+| [SecurityArchitecture.md](SECURITY-ARCHITECTURE.md)                 | Base security controls, incident response, third-party risk assessment |
+| 15-AUTHORIZATION.md                         | RBAC / scope model used for agent permission enforcement               |
+| [AuditLogging.md](AUDIT-LOGGING.md)                                 | Immutable audit trail for all agent actions                            |
+| [SecretsManagement.md](SECRETS-MANAGEMENT.md)                       | Vault-backed secrets lifecycle, rotation, and access policies          |
+| supply-chain-security-policy.md | Package signing, CVE scanning, SLSA provenance for agent packages      |
+| 17-AI_INSTRUCTIONS.md              | AI instruction framework and system prompt architecture                |
+| 18-AGENTS.md                                | Agent lifecycle, registration, and execution runtime                   |
+| AGENT.md                                        | Agent specification, API reference, and developer guide                |
 
 ## 8. Change Log
 
 | Version | Date      | Author                   | Changes                                                                       |
 | ------- | --------- | ------------------------ | ----------------------------------------------------------------------------- |
-| 1.0     | July 2026 | Chief Security Architect | Initial release Ã¢â‚¬â€ agent security model, sandboxing, and audit framework |
+| 1.0     | July 2026 | Chief Security Architect | Initial release — agent security model, sandboxing, and audit framework |
 
 ## Cross-References
 
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
+- [../MASTER-INDEX.md](../../MASTER-INDEX.md) — Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

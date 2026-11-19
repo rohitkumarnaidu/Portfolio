@@ -9,7 +9,7 @@
 > - 3D Usage Guidelines: `08j-USAGE-GUIDELINES.md`
 > - Motion System: `08l-MOTION-SYSTEM.md`
 > - Immersive Experience: `08o-IMMERSIVE-EXPERIENCE.md`
->   **Design System Cross-Reference:** [`08a-DESIGN-SYSTEM-EXTENDED.md`](./08a-DESIGN-SYSTEM-EXTENDED.md) §2.5 (Elevation & Shadow), [`DesignSystem.md`](./DesignSystem.md) (Components)
+>   **Design System Cross-Reference:** [`08a-DESIGN-SYSTEM-EXTENDED.md`](DESIGN-SYSTEM-EXTENDED.md) §2.5 (Elevation & Shadow), [`DesignSystem.md`](../04-design/DESIGN-SYSTEM.md) (Components)
 >   **Dependencies:** `DesignTokens.md` (Brand Identity), `08a-DESIGN-SYSTEM-EXTENDED.md` (Tokens), `AccessibilityArchitecture.md` (WCAG)
 >   **Implementation:** `apps/web/src/styles/globals.css` (CSS vars), `apps/web/tailwind.config.ts` (utilities), `packages/ui/src/` (components)
 
@@ -529,11 +529,11 @@ Neuomorphic elements must not have gradient backgrounds. The shadow illusion req
 
 | Document                                                           | Section                              | Relationship                                                                  |
 | ------------------------------------------------------------------ | ------------------------------------ | ----------------------------------------------------------------------------- |
-| [`DesignTokens.md`](./DesignTokens.md)                             | §12 Depth Rules, §13 Shadow Rules    | Neumorphism extends the elevation system with twin-shadow pairs               |
-| [`DesignSystem.md`](./DesignSystem.md)                             | §1.4 Shadow Tokens, §2 Components    | Neumorphism shadow tokens added to existing shadow system                     |
-| [`08a-DESIGN-SYSTEM-EXTENDED.md`](./08a-DESIGN-SYSTEM-EXTENDED.md) | §2.5 Elevation & Shadow, §2.6 Radius | Neumorphism CSS vars reference; shadow-glow replaced with shadow-accent-focus |
-| [`08o-IMMERSIVE-EXPERIENCE.md`](./08o-IMMERSIVE-EXPERIENCE.md)     | Visual Effects Catalog               | Neumorphism listed as additive visual effect for specific contexts            |
-| [`AccessibilityArchitecture.md`](./AccessibilityArchitecture.md)   | §4 Color & Contrast, §5 Motion       | Neumorphism accessibility constraints cross-referenced                        |
+| [`DesignTokens.md`](../04-design/DESIGN-TOKENS.md)                             | §12 Depth Rules, §13 Shadow Rules    | Neumorphism extends the elevation system with twin-shadow pairs               |
+| [`DesignSystem.md`](../04-design/DESIGN-SYSTEM.md)                             | §1.4 Shadow Tokens, §2 Components    | Neumorphism shadow tokens added to existing shadow system                     |
+| [`08a-DESIGN-SYSTEM-EXTENDED.md`](DESIGN-SYSTEM-EXTENDED.md) | §2.5 Elevation & Shadow, §2.6 Radius | Neumorphism CSS vars reference; shadow-glow replaced with shadow-accent-focus |
+| [`08o-IMMERSIVE-EXPERIENCE.md`](../04-design/IMMERSIVE-EXPERIENCE.md)     | Visual Effects Catalog               | Neumorphism listed as additive visual effect for specific contexts            |
+| [`AccessibilityArchitecture.md`](../16-accessibility/ACCESSIBILITY-ARCHITECTURE.md)   | §4 Color & Contrast, §5 Motion       | Neumorphism accessibility constraints cross-referenced                        |
 
 ---
 
@@ -811,7 +811,7 @@ _End of Document 08n — Neumorphism Design Language_
 
 | Reference                                                            | Description                    |
 | -------------------------------------------------------------------- | ------------------------------ |
-| [MASTER-INDEX.md](../MASTER-INDEX.md)                                | Documentation master index     |
+| [MASTER-INDEX.md](../../MASTER-INDEX.md)                                | Documentation master index     |
 | [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping        |
 | [3D-ARCHITECTURE.md](3D-ARCHITECTURE.md)                             | 3D architecture implementation |
 | [3D-USAGE-GUIDELINES.md](3D-USAGE-GUIDELINES.md)                     | 3D usage guidelines            |

@@ -4004,21 +4004,21 @@ graph TB
 
 | Term         | Definition                                                                 |
 | ------------ | -------------------------------------------------------------------------- |
-| P0           | Priority 0 â€” Critical feature, launch-blocking                           |
-| P1           | Priority 1 â€” High priority, required soon after launch                   |
-| P2           | Priority 2 â€” Medium priority, nice to have                               |
-| P3           | Priority 3 â€” Low priority, future consideration                          |
+| P0           | Priority 0 — Critical feature, launch-blocking                           |
+| P1           | Priority 1 — High priority, required soon after launch                   |
+| P2           | Priority 2 — Medium priority, nice to have                               |
+| P3           | Priority 3 — Low priority, future consideration                          |
 | Epic         | Large body of work broken into multiple features                           |
 | Feature Flag | Toggle that enables/disables functionality without deployment              |
 | A/B Testing  | Comparing two versions to determine which performs better                  |
-| RAG          | Retrieval-Augmented Generation â€” AI with document context                |
-| UTM          | Urchin Tracking Module â€” URL parameters for campaign tracking            |
-| CMS          | Content Management System â€” admin interface for content editing          |
-| SSG          | Static Site Generation â€” pre-built HTML pages                            |
-| ISR          | Incremental Static Regeneration â€” on-demand page rebuilding              |
-| SSR          | Server-Side Rendering â€” pages generated per request                      |
-| RLS          | Row-Level Security â€” database-level access control                       |
-| i18n         | Internationalization â€” adapting software for different languages/regions |
+| RAG          | Retrieval-Augmented Generation — AI with document context                |
+| UTM          | Urchin Tracking Module — URL parameters for campaign tracking            |
+| CMS          | Content Management System — admin interface for content editing          |
+| SSG          | Static Site Generation — pre-built HTML pages                            |
+| ISR          | Incremental Static Regeneration — on-demand page rebuilding              |
+| SSR          | Server-Side Rendering — pages generated per request                      |
+| RLS          | Row-Level Security — database-level access control                       |
+| i18n         | Internationalization — adapting software for different languages/regions |
 
 ---
 

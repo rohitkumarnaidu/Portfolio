@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Staff Frontend Architect, Principal UX Architect  
-> **Reference:** [10-TECHSTACK.md](../05-architecture/10-TECHSTACK.md) | [DesignSystem.md](../04-design/DesignSystem.md)
+> **Reference:** [10-TECHSTACK.md](../05-architecture/TECHSTACK.md) | [DesignSystem.md](../archive/04-design/DESIGN-SYSTEM.md)
 
 ## Context
 
@@ -57,4 +57,4 @@ flowchart LR
 ## Cross-References
 
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+- [CROSS-REFERENCE-INDEX.md](../archive/26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

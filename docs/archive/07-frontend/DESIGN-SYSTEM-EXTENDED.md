@@ -1,4 +1,8 @@
-# Design System � Enterprise Component Library & Token Reference
+# Design System — Enterprise Component Library & Token Reference
+
+> **Archive note:** this file was recovered from encoding damage. A small number
+> of characters had been replaced by `U+FFFD`; they were reconstructed from context
+> (section signs, dashes, and one degree sign). It remains historical material only.
 
 > **File:** DesignSystem.md | **Version:** 5.0 | **Last Updated:** June 2026  
 > **Status:** ? Active | **Framework:** React 18 + TypeScript 5 + Tailwind CSS 3.4  
@@ -63,11 +67,11 @@ This design system is the single source of truth for all visual components, desi
 | **1**  | **Purposeful Elegance**       | Every design decision serves a functional purpose. No decorative-only elements exist.           | All components define explicit states; all animations have a communication goal.                        | PR reviews reject decorative additions without functional justification.             |
 | **2**  | **Clarity Over Cleverness**   | Clear communication trumps creative gimmicks. Users never guess how to interact.                | Simple navigation, readable typography, descriptive labels, standard interaction patterns.              | Usability tests must show 100% task completion for first-time users.                 |
 | **3**  | **Performance Is Design**     | Fast load times and smooth interactions are UX features, not technical concerns.                | ISR for content, optimized images, minimal JS bundles, skeleton loading.                                | Lighthouse performance = 95, LCP &lt; 1.5s, TBT &lt; 100ms.                          |
-| **4**  | **Accessibility Is Default**  | Accessible design is not optional � it is the baseline. No user receives a degraded experience. | WCAG 2.2 AA is mandatory; semantic HTML is foundational; ARIA is progressive enhancement.               | CI pipeline gates on axe violations; zero violations allowed in production.          |
+| **4**  | **Accessibility Is Default**  | Accessible design is not optional — it is the baseline. No user receives a degraded experience. | WCAG 2.2 AA is mandatory; semantic HTML is foundational; ARIA is progressive enhancement.               | CI pipeline gates on axe violations; zero violations allowed in production.          |
 | **5**  | **Consistency Creates Trust** | Predictable patterns build user confidence. The same component behaves identically everywhere.  | One component, one implementation, one set of behaviors across all pages and contexts.                  | Component library is the single source of truth; no duplicated patterns allowed.     |
 | **6**  | **Whitespace Is Content**     | Empty space communicates importance and creates visual breathing room.                          | Generous section spacing, clean layouts, minimum 16px gutters on mobile.                                | Design reviews check spacing rhythm; no element touches another without defined gap. |
-| **7**  | **Motion Must Matter**        | Animations guide attention, provide feedback, and establish hierarchy � never distract.         | Every animation serves one of three purposes: guide, feedback, hierarchy.                               | Reduced motion preference disables all non-essential animation.                      |
-| **8**  | **Mobile Is Not Secondary**   | The mobile experience is equal in quality to desktop � not a degraded version.                  | Mobile-first breakpoints, touch targets = 44x44px, no horizontal scroll at 320px.                       | All screens tested at 320px, 768px, 1280px before release.                           |
+| **7**  | **Motion Must Matter**        | Animations guide attention, provide feedback, and establish hierarchy — never distract.         | Every animation serves one of three purposes: guide, feedback, hierarchy.                               | Reduced motion preference disables all non-essential animation.                      |
+| **8**  | **Mobile Is Not Secondary**   | The mobile experience is equal in quality to desktop — not a degraded version.                  | Mobile-first breakpoints, touch targets = 44x44px, no horizontal scroll at 320px.                       | All screens tested at 320px, 768px, 1280px before release.                           |
 | **9**  | **Progressive Enhancement**   | Core content and functionality work without JavaScript. JS enhances, never enables.             | Static HTML rendering, semantic elements, JS-free navigation. All animations are additive.              | Every page renders meaningful content with JS disabled.                              |
 | **10** | **Personality Over Template** | The design reflects a real person with unique taste, not a generic template.                    | Custom typefaces (Cabinet Grotesk), indigo accent signature, glassmorphism cards, subtle noise texture. | Brand audit quarterly ensures design remains distinctive.                            |
 
@@ -114,19 +118,19 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Token             | CSS Variable        | Light Hex | Dark Hex | HC Hex  | Usage                   | Contrast Ratio |
 | ----------------- | ------------------- | --------- | -------- | ------- | ----------------------- | -------------- |
-| surface-primary   | --surface-primary   | #FAFAFA   | #09090B  | #FFFFFF | Page background         | �              |
-| surface-secondary | --surface-secondary | #FFFFFF   | #18181B  | #F0F0F0 | Card background         | �              |
-| surface-elevated  | --surface-elevated  | #F4F4F5   | #27272A  | #E0E0E0 | Elevated card, dropdown | �              |
+| surface-primary   | --surface-primary   | #FAFAFA   | #09090B  | #FFFFFF | Page background         | —              |
+| surface-secondary | --surface-secondary | #FFFFFF   | #18181B  | #F0F0F0 | Card background         | —              |
+| surface-elevated  | --surface-elevated  | #F4F4F5   | #27272A  | #E0E0E0 | Elevated card, dropdown | —              |
 | surface-overlay   | --surface-overlay   |
 | gba(0,0,0,0.5)    |
 | gba(0,0,0,0.7)    |
-| gba(0,0,0,0.85)   | Modal backdrop      | �         |
-| border-primary    | --border-primary    | #E4E4E7   | #3F3F46  | #000000 | Subtle borders          | �              |
-| border-accent     | --border-accent     | #D4D4D8   | #52525B  | #000000 | Emphasized borders      | �              |
+| gba(0,0,0,0.85)   | Modal backdrop      | —         |
+| border-primary    | --border-primary    | #E4E4E7   | #3F3F46  | #000000 | Subtle borders          | —              |
+| border-accent     | --border-accent     | #D4D4D8   | #52525B  | #000000 | Emphasized borders      | —              |
 | text-primary      | --text-primary      | #18181B   | #FAFAFA  | #000000 | Main body               | 15.3:1         |
 | text-secondary    | --text-secondary    | #52525B   | #A1A1AA  | #1A1A1A | Secondary text          | 7.2:1          |
 | text-tertiary     | --text-tertiary     | #71717A   | #71717A  | #333333 | Caption, placeholder    | 4.8:1          |
-| text-inverse      | --text-inverse      | #FAFAFA   | #18181B  | #FFFFFF | Text on inverted        | �              |
+| text-inverse      | --text-inverse      | #FAFAFA   | #18181B  | #FFFFFF | Text on inverted        | —              |
 | text-link         | --text-link         | #4F46E5   | #818CF8  | #0000FF | Link text               | 4.9:1+         |
 | text-success      | --text-success      | #166534   | #22C55E  | #006600 | Success text            | 4.5:1+         |
 | text-error        | --text-error        | #991B1B   | #EF4444  | #CC0000 | Error text              | 4.5:1+         |
@@ -136,13 +140,13 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | Token      | CSS Variable          | Hex (Light/Dark)  | HC Hex  | Usage              | WCAG |
 | ---------- | --------------------- | ----------------- | ------- | ------------------ | ---- |
 | success    | --semantic-success    | #22C55E           | #008800 | Success states     | AA   |
-| success-bg | --semantic-success-bg | #F0FDF4 / #052E16 | #CCFFCC | Success background | �    |
+| success-bg | --semantic-success-bg | #F0FDF4 / #052E16 | #CCFFCC | Success background | —    |
 | warning    | --semantic-warning    | #F59E0B           | #AA6600 | Warning states     | AA   |
-| warning-bg | --semantic-warning-bg | #FFFBEB / #451A03 | #FFEEBB | Warning background | �    |
+| warning-bg | --semantic-warning-bg | #FFFBEB / #451A03 | #FFEEBB | Warning background | —    |
 | error      | --semantic-error      | #EF4444           | #CC0000 | Error states       | AA   |
-| error-bg   | --semantic-error-bg   | #FEF2F2 / #450A0A | #FFCCCC | Error background   | �    |
+| error-bg   | --semantic-error-bg   | #FEF2F2 / #450A0A | #FFCCCC | Error background   | —    |
 | info       | --semantic-info       | #3B82F6           | #0044CC | Info states        | AA   |
-| info-bg    | --semantic-info-bg    | #EFF6FF / #0C1929 | #CCDDFF | Info background    | �    |
+| info-bg    | --semantic-info-bg    | #EFF6FF / #0C1929 | #CCDDFF | Info background    | —    |
 
 #### 2.1.5 Gradient Tokens
 
@@ -225,10 +229,10 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Token      | Value | Tailwind | Usage                                   |
 | ---------- | ----- | -------- | --------------------------------------- |
-| space-0.25 | 1px   | �        | Hairline borders                        |
+| space-0.25 | 1px   | —        | Hairline borders                        |
 | space-0.5  | 2px   | p-0.5    | Hairline spacing                        |
 | space-1    | 4px   | p-1      | Base unit, icon padding                 |
-| space-1.5  | 6px   | �        | Compact input padding                   |
+| space-1.5  | 6px   | —        | Compact input padding                   |
 | space-2    | 8px   | p-2      | Icon padding, badge padding             |
 | space-3    | 12px  | p-3      | Input padding, small buttons            |
 | space-4    | 16px  | p-4      | Card padding (mobile), section margin   |
@@ -238,9 +242,9 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | space-10   | 40px  | p-10     | Section spacing (tablet), modal padding |
 | space-12   | 48px  | p-12     | Section spacing (desktop), hero margin  |
 | space-16   | 64px  | p-16     | Major section separation                |
-| space-20   | 80px  | �        | Page section spacing (tablet)           |
+| space-20   | 80px  | —        | Page section spacing (tablet)           |
 | space-24   | 96px  | p-24     | Page section spacing (desktop)          |
-| space-32   | 128px | �        | Full viewport section                   |
+| space-32   | 128px | —        | Full viewport section                   |
 
 #### 2.3.2 Spacing Rules
 
@@ -278,12 +282,12 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | Component | Height (sm) | Height (md) | Height (lg) | Height (xl) |
 | --------- | ----------- | ----------- | ----------- | ----------- |
 | Button    | 32px        | 40px        | 48px        | 56px        |
-| Input     | 36px        | 40px        | 48px        | �           |
-| Select    | 36px        | 40px        | 48px        | �           |
-| Badge     | 20px        | 24px        | 28px        | �           |
+| Input     | 36px        | 40px        | 48px        | —           |
+| Select    | 36px        | 40px        | 48px        | —           |
+| Badge     | 20px        | 24px        | 28px        | —           |
 | Avatar    | 32px        | 40px        | 56px        | 80px        |
-| Toggle    | 20px        | 24px        | 28px        | �           |
-| Tab       | �           | 40px        | 48px        | �           |
+| Toggle    | 20px        | 24px        | 28px        | —           |
+| Tab       | —           | 40px        | 48px        | —           |
 
 #### 2.4.3 Width Scale
 
@@ -303,11 +307,11 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Token                | Light                                                               | Dark                                                              | High Contrast                  | Name          | Usage                                              |
 | -------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------ | ------------- | -------------------------------------------------- |
-| shadow-sm            |   1px 2px rgba(0,0,0,0.05)                                           |   1px 2px rgba(0,0,0,0.3)                                          |   0 0 2px #000                  | Small         | Card border substitute, subtle separation          |
-| shadow-md            |   4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04)     |   4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -1px rgba(0,0,0,0.2)     |   0 0 2px #000                  | Medium        | Default card elevation                             |
-| shadow-lg            |   10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04)   |   10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.2)   |   0 0 3px #000, 0 0 0 6px #FFF  | Large         | Dropdown, popover                                  |
-| shadow-xl            |   20px 25px -5px rgba(0,0,0,0.09), 0 10px 10px -5px rgba(0,0,0,0.04) |   20px 25px -5px rgba(0,0,0,0.6), 0 10px 10px -5px rgba(0,0,0,0.2) |   0 0 4px #000, 0 0 0 8px #FFF  | Extra Large   | Modal, drawer                                      |
-| shadow-2xl           |   25px 50px -12px rgba(0,0,0,0.25)                                   |   25px 50px -12px rgba(0,0,0,0.8)                                  |   0 0 5px #000, 0 0 0 10px #FFF | 2XL           | Toast, notification                                |
+| shadow-sm            | • 1px 2px rgba(0,0,0,0.05)                                           | • 1px 2px rgba(0,0,0,0.3)                                          | • 0 0 2px #000                  | Small         | Card border substitute, subtle separation          |
+| shadow-md            | • 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04)     | • 4px 6px -1px rgba(0,0,0,0.4), 0 2px 4px -1px rgba(0,0,0,0.2)     | • 0 0 2px #000                  | Medium        | Default card elevation                             |
+| shadow-lg            | • 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04)   | • 10px 15px -3px rgba(0,0,0,0.5), 0 4px 6px -2px rgba(0,0,0,0.2)   | • 0 0 3px #000, 0 0 0 6px #FFF  | Large         | Dropdown, popover                                  |
+| shadow-xl            | • 20px 25px -5px rgba(0,0,0,0.09), 0 10px 10px -5px rgba(0,0,0,0.04) | • 20px 25px -5px rgba(0,0,0,0.6), 0 10px 10px -5px rgba(0,0,0,0.2) | • 0 0 4px #000, 0 0 0 8px #FFF  | Extra Large   | Modal, drawer                                      |
+| shadow-2xl           | • 25px 50px -12px rgba(0,0,0,0.25)                                   | • 25px 50px -12px rgba(0,0,0,0.8)                                  | • 0 0 5px #000, 0 0 0 10px #FFF | 2XL           | Toast, notification                                |
 | shadow-inner         | inset 0 2px 4px rgba(0,0,0,0.06)                                    | inset 0 2px 4px rgba(0,0,0,0.3)                                   | inset 0 0 0 1px #000           | Inner         | Input focus, inset                                 |
 | shadow-accent-focus  | 0 0 0 3px rgba(99,102,241,0.35)                                     | 0 0 0 3px rgba(129,140,248,0.5)                                   | 0 0 0 3px #4040FF              | Accent Focus  | Focus ring on interactive elements (replaces glow) |
 | shadow-accent-active | inset 0 0 0 2px rgba(99,102,241,0.2)                                | inset 0 0 0 2px rgba(129,140,248,0.3)                             | inset 0 0 0 2px #4040FF        | Accent Active | Active/pressed accent state                        |
@@ -324,13 +328,13 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | Maximum 5 shadow layers in any composition             | Prevents visual noise                                                           |
 | Shadows increase with z-index                          | Logical depth perception                                                        |
 | HC mode uses border-style shadows (no opacity)         | WCAG 1.4.11, visible on any background                                          |
-| Accent shadows only on focus/active/hover states       | Enterprise glow policy � no neon/bloom in UI; accent focus shadow replaces glow |
+| Accent shadows only on focus/active/hover states       | Enterprise glow policy — no neon/bloom in UI; accent focus shadow replaces glow |
 | No shadows on text (use text-shadow only for headings) | Readability                                                                     |
-| Neumorphism shadows use twin pairs (light + dark)      | Extruded depth effect � see [`08n-NEUMORPHISM.md`](./08n-NEUMORPHISM.md)        |
+| Neumorphism shadows use twin pairs (light + dark)      | Extruded depth effect — see [`08n-NEUMORPHISM.md`](NEUMORPHISM.md)        |
 
 ### 2.5.3 Neumorphism Shadow Tokens
 
-> **Full specification:** See [`08n-NEUMORPHISM.md`](./08n-NEUMORPHISM.md) �2 (Elevation Levels) and �6 (Implementation).
+> **Full specification:** See [`08n-NEUMORPHISM.md`](NEUMORPHISM.md) —2 (Elevation Levels) and —6 (Implementation).
 
 | Token                            | Light Theme                                 | Dark Theme                                   | Elevation      | Usage                                   |
 | -------------------------------- | ------------------------------------------- | -------------------------------------------- | -------------- | --------------------------------------- |
@@ -345,9 +349,9 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 **Implementation Rules:**
 
-- Hard variant: multiply blur radius and shadow opacity by 1.5�
+- Hard variant: multiply blur radius and shadow opacity by 1.5—
 - Neumorphism requires parent-child luminance difference = 1.3%
-- Never on `--surface-primary` � no depth reference
+- Never on `--surface-primary` — no depth reference
 - High contrast mode: remove all neumorphism shadows, replace with `1px solid border`
 
 ### 2.6 Radius System
@@ -372,7 +376,7 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | Default card radius     | 12px (xl)                 | Balanced modern look                   |
 | Button radius           | 6px (md)                  | Subtle but distinct                    |
 | Input radius            | 4px (sm)                  | Professional appearance                |
-| Interactive radius      | = 8px                     | Fitts law � larger targets easier      |
+| Interactive radius      | = 8px                     | Fitts law — larger targets easier      |
 | Consistent group radius | Use same radius on parent | Nested radius must match or be smaller |
 
 ### 2.7 Animation & Motion System
@@ -403,22 +407,22 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Name              | Property            | Duration        | Purpose                    |
 | ----------------- | ------------------- | --------------- | -------------------------- |
-| ade-in            | opacity             | 300ms           | Content entrance           |
-| ade-in-up         | opacity, translateY | 400ms           | Cards entering viewport    |
-| ade-in-down       | opacity, translateY | 300ms           | Dropdowns                  |
+| fade-in            | opacity             | 300ms           | Content entrance           |
+| fade-in-up         | opacity, translateY | 400ms           | Cards entering viewport    |
+| fade-in-down       | opacity, translateY | 300ms           | Dropdowns                  |
 | slide-in-left     | translateX          | 300ms           | Sidebar navigation         |
 | slide-in-right    | translateX          | 300ms           | Drawers, notifications     |
 | scale-in          | opacity, scale      | 200ms           | Modal, tooltip             |
 | spin              | rotate              | 1s (infinite)   | Loading spinner            |
 | pulse             | opacity             | 2s (infinite)   | Skeleton loading           |
 | shimmer           | background-position | 1.5s (infinite) | Skeleton shimmer           |
-| ounce             | translateY          | 0.5s            | Micro-interaction feedback |
+| bounce             | translateY          | 0.5s            | Micro-interaction feedback |
 | skeleton-loading  | background-position | 1.5s (infinite) | Content placeholder        |
-| ccordion-open     | max-height, opacity | 300ms           | Accordion expand           |
+| Accordion-open     | max-height, opacity | 300ms           | Accordion expand           |
 | counter-increment | transform           | 400ms           | Stat counter animation     |
 | progress-fill     | width               | 1s              | Progress bar fill          |
 | gradient-shift    | background-position | 3s (infinite)   | Gradient hero text         |
-| loat              | translateY          | 2s (infinite)   | Floating indicator         |
+| float              | translateY          | 2s (infinite)   | Floating indicator         |
 
 #### 2.7.4 Reduced Motion Rules
 
@@ -441,7 +445,7 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | otateX(2deg) rotateY(-2deg) | Card 3D hover      |
 | rotate-3d-active            | --rotate-3d-active |
 | otateX(4deg) rotateY(-4deg) | Card 3D press      |
-| glow-intensity              | --glow-intensity   |  .35    | Glow opacity on 3D hover  |
+| glow-intensity              | --glow-intensity   | 0.35    | Glow opacity on 3D hover  |
 | glass-blur                  | --glass-blur       | 12px   | Backdrop blur on glass    |
 | glass-saturate              | --glass-saturate   | 1.8    | Saturation boost on glass |
 
@@ -453,7 +457,7 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | gba(255, 255, 255, 0.05) |
 | glass-border             | --glass-border   |
 | gba(255, 255, 255, 0.1)  |
-| glass-shadow             | --glass-shadow   |   8px 32px rgba(0, 0, 0, 0.1) |
+| glass-shadow             | --glass-shadow   | • 8px 32px rgba(0, 0, 0, 0.1) |
 | glass-blur               | --glass-blur     | 12px                         |
 | glass-saturate           | --glass-saturate | 1.8                          |
 
@@ -472,9 +476,9 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Token             | CSS Variable        | Value                                                        | Usage                                  |
 | ----------------- | ------------------- | ------------------------------------------------------------ | -------------------------------------- |
-| focus-ring        | --focus-ring        |   0 0 2px var(--surface-primary), 0 0 0 4px var(--accent-500) | Visible focus indicator                |
+| focus-ring        | --focus-ring        | • 0 0 2px var(--surface-primary), 0 0 0 4px var(--accent-500) | Visible focus indicator                |
 | focus-ring-offset | --focus-ring-offset | 2px                                                          | Gap between element and ring           |
-| motion-factor     | --motion-factor     | 1 (reduced:  )                                                | Multiplier for all animation durations |
+| motion-factor     | --motion-factor     | 1 (reduced: •)                                                | Multiplier for all animation durations |
 | contrast-factor   | --contrast-factor   | 1 (HC: 1.5)                                                  | Multiplier for icon contrast           |
 | touch-target      | --touch-target      | 44px                                                         | Minimum touch target size              |
 | scrollbar-width   | --scrollbar-width   | hin                                                          | OS scrollbar preference                |
@@ -529,7 +533,7 @@ return 'light';
 ### 3.5 Theme Transition
 
 `css
-/* Prevent flash on initial load � no transition */
+/* Prevent flash on initial load — no transition */
 html.disable-transition * {
 transition: none !important;
 }
@@ -549,11 +553,11 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Transformation              | Token Change                      | Rationale                      |
 | --------------------------- | --------------------------------- | ------------------------------ |
-| All shadows ? solid borders | --shadow-* ?   0 0 2px #000        | WCAG 1.4.11, no opacity        |
+| All shadows ? solid borders | --shadow-* ? • 0 0 2px #000        | WCAG 1.4.11, no opacity        |
 | Transparency removed        | All                               |
 | gba() ? solid colors        | WCAG 1.4.1                        |
 | Accent ? Blue               | #6366F1 ? #4040FF                 | Blue is universally recognized |
-| Glass blur disabled         | ackdrop-filter: none              | Prevent rendering artifacts    |
+| Glass blur disabled         | backdrop-filter: none              | Prevent rendering artifacts    |
 | Focus ring ? high contrast  | Double ring (black + white)       | WCAG 2.4.13                    |
 | All text ? minimum 7:1      | Adjusts from 4.5:1 ? 7:1          | WCAG AAA text                  |
 | All icons ? minimum 3:1     | Removes low-contrast decorative   | WCAG 1.4.11                    |
@@ -604,22 +608,22 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion     | Implementation                                                                       |
 | ------------- | ------------------------------------------------------------------------------------ |
-| Role          | <button> always � never <div> styled as button                                       |
+| Role          | <button> always — never <div> styled as button                                       |
 | Focus         | Visible focus ring via --focus-ring, :focus-visible only (not :focus)                |
-| Label         | Icon-only buttons MUST have ria-label or ria-labelledby                              |
-| State         | ria-disabled="true" for disabled buttons (not just CSS), ria-busy="true" for loading |
-| Description   | ria-describedby for buttons with additional context                                  |
-| Screen reader | Loading state announces "Loading" via ria-live="polite"                              |
+| Label         | Icon-only buttons MUST have aria-label or aria-labelledby                              |
+| State         | aria-disabled="true" for disabled buttons (not just CSS), aria-busy="true" for loading |
+| Description   | aria-describedby for buttons with additional context                                  |
+| Screen reader | Loading state announces "Loading" via aria-live="polite"                              |
 
 **Interactions:**
 
 | Action         | Behavior                              | Duration | Rationale                            |
 | -------------- | ------------------------------------- | -------- | ------------------------------------ |
-| Click          | Execute action immediately            | instant  | No delay � immediate feedback        |
+| Click          | Execute action immediately            | instant  | No delay — immediate feedback        |
 | Hover          | Scale 1.02 + shadow increase          | 200ms    | Feedback, transforms feel tactile    |
 | Active         | Scale 0.98                            | 100ms    | Press feel                           |
 | Focus          | Show --focus-ring                     | 150ms    | Visible keyboard navigation          |
-| Loading        | Disable, show spinner, maintain width | �        | Prevents double-submit, layout shift |
+| Loading        | Disable, show spinner, maintain width | —        | Prevents double-submit, layout shift |
 | Reduced motion | No scale transform, only color change | 0.01ms   | Respects user preference             |
 
 **Animations:**
@@ -635,11 +639,11 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Rule                                | Explanation                                                           |
 | ----------------------------------- | --------------------------------------------------------------------- |
-| One primary per page/section        | Only one ariant="primary" per viewport section                        |
-| Button text always describes action | "Save", "Delete", "Submit" � never "Click Here"                       |
-| No disabled tooltips                | Disabled buttons explain why via adjacent text or ria-describedby     |
+| One primary per page/section        | Only one variant="primary" per viewport section                        |
+| Button text always describes action | "Save", "Delete", "Submit" — never "Click Here"                       |
+| No disabled tooltips                | Disabled buttons explain why via adjacent text or aria-describedby     |
 | Max one icon per button             | Icons to left of text (or only icon for icon buttons)                 |
-| Danger requires confirmation        | ariant="danger" MUST trigger a confirm dialog before executing        |
+| Danger requires confirmation        | variant="danger" MUST trigger a confirm dialog before executing        |
 | Loading width maintained            | Preserve original button width during loading to prevent layout shift |
 | No inline styles for variants       | Always use variant prop                                               |
 
@@ -668,7 +672,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | elevated | surface-secondary | border-primary | shadow-lg    | ?               | Featured cards          |
 | glass    | glass-bg          | glass-border   | glass-shadow | ? backdrop-blur | Hero sections, overlays |
 | outline  | transparent       | border-primary | none         | ?               | Settings panels         |
-| lat      | surface-primary   | none           | none         | ?               | Nested content          |
+| flat      | surface-primary   | none           | none         | ?               | Nested content          |
 
 **Sub-components:**
 
@@ -693,7 +697,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Heading                                                | Card Header uses <h2>-<h4> in proper hierarchy                        |
 | Interactive card                                       |
 | ole="button" + abindex="0" + onKeyDown for Enter/Space |
-| ARIA                                                   | ria-label for action buttons within card                              |
+| ARIA                                                   | aria-label for action buttons within card                              |
 | Color                                                  | Cards pass 3:1 border contrast (non-interactive), 4.5:1 text contrast |
 | Focus                                                  | Focus ring on interactive cards only                                  |
 
@@ -704,7 +708,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Hover  | Slight translateY(-2px), shadow-lg ? shadow-xl | 300ms    |
 | Click  | translateY(-1px)                               | 100ms    |
 | Focus  | Visible ring if interactive                    | 200ms    |
-| Touch  | No hover on touch devices                      | �        |
+| Touch  | No hover on touch devices                      | —        |
 
 **Animations:**
 
@@ -745,7 +749,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Variant   | Purpose             | Border             | Background       | Label Position |
 | --------- | ------------------- | ------------------ | ---------------- | -------------- |
 | default   | Standard form input | border-primary     | surface-primary  | Top (default)  |
-| illed     | Dense UI, toolbars  | none               | surface-elevated | Floating       |
+| filled     | Dense UI, toolbars  | none               | surface-elevated | Floating       |
 | glass     | Hero sections       | glass-border       | glass-bg         | Top            |
 | underline | Inline editing      | bottom border only | transparent      | Left or none   |
 
@@ -786,14 +790,14 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                               | Implementation                                                |
 | --------------------------------------- | ------------------------------------------------------------- |
 | Label                                   | <label> with htmlFor connecting to <input id>                 |
-| Error                                   | ria-invalid="true" + ria-describedby linking to error message |
+| Error                                   | aria-invalid="true" + aria-describedby linking to error message |
 | Required                                |
-| equired attribute + ria-required="true" |
-| Description                             | ria-describedby for helper text                               |
-| Autocomplete                            | utocomplete attribute for passwords, email, etc.              |
-| Programmatic focus                      | utoFocus prop with useEffect ref                              |
+| equired attribute + aria-required="true" |
+| Description                             | aria-describedby for helper text                               |
+| Autocomplete                            | autocomplete attribute for passwords, email, etc.              |
+| Programmatic focus                      | autoFocus prop with useEffect ref                              |
 | Screen reader                           | Error announces via                                           |
-| ole="alert" or ria-live="polite"        |
+| ole="alert" or aria-live="polite"        |
 | Touch target                            | Label is clickable and extends tap area                       |
 
 **Interactions:**
@@ -876,8 +880,8 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                     | Implementation                     |
 | ----------------------------- | ---------------------------------- |
 | Role                          |
-| ole="switch" with ria-checked |
-| Label                         | ria-labelledby or <label> wrapping |
+| ole="switch" with aria-checked |
+| Label                         | aria-labelledby or <label> wrapping |
 | Keyboard                      | Space to toggle, Enter to toggle   |
 | Screen reader                 | Announces "On/Off" state change    |
 | Touch target                  | Minimum 44x44px active area        |
@@ -935,8 +939,8 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion     | Implementation                                           |
 | ------------- | -------------------------------------------------------- |
-| Screen reader | ria-label for dismissible; semantic color not sole label |
-| Count badges  | ria-label="3 unread notifications"                       |
+| Screen reader | aria-label for dismissible; semantic color not sole label |
+| Count badges  | aria-label="3 unread notifications"                       |
 | Status badges | Text label identifies status, not just color             |
 
 **Usage Rules:**
@@ -957,7 +961,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Variant     | Display       | Source               |
 | ----------- | ------------- | -------------------- |
 | image       | <img>         | src prop             |
-| initials    | Text initials | irstName + lastName  |
+| initials    | Text initials | firstName + lastName  |
 | icon        | Icon          | icon prop (fallback) |
 | placeholder | Generic icon  | No data provided     |
 
@@ -985,9 +989,9 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion                | Implementation                     |
 | ------------------------ | ---------------------------------- |
-| ALT text                 | lt="User name" for image avatars   |
+| ALT text                 | alt="User name" for image avatars   |
 | Role                     |
-| ole="img" with ria-label |
+| ole="img" with aria-label |
 | Group                    | Avatars in list use <li> with <ul> |
 
 #### 4.1.7 Skeleton
@@ -1017,9 +1021,9 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion      | Implementation                             |
 | -------------- | ------------------------------------------ |
-| ARIA           | ria-busy="true" on parent container        |
+| ARIA           | aria-busy="true" on parent container        |
 | Reduced motion | Pulsing shimmer becomes opacity-only flash |
-| Content hidden | Use ria-hidden="true" on skeleton elements |
+| Content hidden | Use aria-hidden="true" on skeleton elements |
 
 **Usage Rules:**
 
@@ -1039,7 +1043,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Variant | Position         | Purpose           |
 | ------- | ---------------- | ----------------- |
 | op      | Above element    | Default           |
-| ottom   | Below element    | Space constraints |
+| bottom   | Below element    | Space constraints |
 | left    | Left of element  | Space constraints |
 |         |
 | ight    | Right of element | Space constraints |
@@ -1058,7 +1062,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion     | Implementation                       |
 | ------------- | ------------------------------------ |
-| ARIA          | ria-describedby on trigger element   |
+| ARIA          | aria-describedby on trigger element   |
 | Dismiss       | Press Escape to dismiss              |
 | Screen reader | Announce on show via                 |
 | ole="tooltip" |
@@ -1125,17 +1129,17 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion    | Implementation                                |
 | ------------ | --------------------------------------------- |
-| Semantic     | <nav> with ria-label="Main navigation"        |
-| Mobile       | Hamburger has ria-expanded, ria-controls      |
+| Semantic     | <nav> with aria-label="Main navigation"        |
+| Mobile       | Hamburger has aria-expanded, aria-controls      |
 | Skip link    | First focusable element: skip to main content |
-| Current page | ria-current="page" on active link             |
+| Current page | aria-current="page" on active link             |
 | Focus trap   | Mobile menu traps focus when open             |
 
 **Animations:**
 
 | Animation          | Trigger         | Duration | Easing       |
 | ------------------ | --------------- | -------- | ------------ |
-| Background opacity | scroll          | �        | linear       |
+| Background opacity | scroll          | —        | linear       |
 | Mobile menu slide  | toggle          | 300ms    | ease-out     |
 | Link underline     | hover (desktop) | 200ms    | ease-default |
 
@@ -1179,7 +1183,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | ole="tab" ?     |
 | ole="tabpanel"  |
 | Keyboard        | Left/Right arrow navigation, Home/End      |
-| ARIA            | ria-selected, ria-controls, ria-labelledby |
+| ARIA            | aria-selected, aria-controls, aria-labelledby |
 | Focus           | Focus ring on active tab only              |
 
 **Animations:**
@@ -1201,17 +1205,17 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Variant   | Separator | Collapse    | Usage        |
 | --------- | --------- | ----------- | ------------ |
 | default   | /         | Never       | Standard     |
-| collapsed | �         | At 4+ items | Deep nesting |
-| icon      | �         | Never       | With icons   |
+| collapsed | —         | At 4+ items | Deep nesting |
+| icon      | —         | Never       | With icons   |
 
 **Accessibility:**
 
 | Criterion                       | Implementation                                       |
 | ------------------------------- | ---------------------------------------------------- |
 | Role                            |
-| av with ria-label="Breadcrumbs" |
+| av with aria-label="Breadcrumbs" |
 | Structure                       | <ol> with <li> items                                 |
-| Current                         | ria-current="page" on last item                      |
+| Current                         | aria-current="page" on last item                      |
 | Screen reader                   | Visually hidden "Back to " prefix for screen readers |
 
 ### 4.3 Input Components
@@ -1238,11 +1242,11 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                              | Implementation                      |
 | -------------------------------------- | ----------------------------------- |
 | Combobox                               |
-| ole="combobox" with ria-expanded       |
+| ole="combobox" with aria-expanded       |
 | Listbox                                |
-| ole="listbox" with ria-multiselectable |
+| ole="listbox" with aria-multiselectable |
 | Search                                 | Type to filter in large option sets |
-| Selected                               | ria-selected="true" on option       |
+| Selected                               | aria-selected="true" on option       |
 
 #### 4.3.2 Checkbox
 
@@ -1260,10 +1264,10 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | State           | Box                   | Check       | Label          |
 | --------------- | --------------------- | ----------- | -------------- |
-| Unchecked       | border-primary        | �           | text-primary   |
+| Unchecked       | border-primary        | —           | text-primary   |
 | Checked         | accent-500 bg         | White check | text-primary   |
 | Indeterminate   | accent-500 bg         | White dash  | text-primary   |
-| Error unchecked | semantic-error border | �           | semantic-error |
+| Error unchecked | semantic-error border | —           | semantic-error |
 | Disabled        | opacity-50            | opacity-40  | text-tertiary  |
 
 #### 4.3.3 Radio Group
@@ -1277,16 +1281,16 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                            | Implementation                       |
 | ------------------------------------ | ------------------------------------ |
 | Role                                 |
-| ole="radiogroup" with ria-labelledby |
+| ole="radiogroup" with aria-labelledby |
 | Radio                                |
-| ole="radio" with ria-checked         |
+| ole="radio" with aria-checked         |
 | Keyboard                             | Up/Down to navigate, Space to select |
 
 #### 4.3.4 Textarea
 
 **Purpose:** Multi-line text input. Extends Input patterns with auto-resize.
 
-**Variants:** default, illed, glass (matching Input).
+**Variants:** default, filled, glass (matching Input).
 
 **Sizes:** sm (3 rows), md (5 rows, default), lg (8 rows).
 
@@ -1312,7 +1316,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                                 | Implementation                               |
 | ----------------------------------------- | -------------------------------------------- |
 | Role                                      |
-| ole="dialog" with ria-label="Date picker" |
+| ole="dialog" with aria-label="Date picker" |
 | Grid                                      |
 | ole="grid" for calendar days              |
 | Keyboard                                  | Arrow keys, Enter to select, Escape to close |
@@ -1339,9 +1343,9 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | ----------------------------------- | ---------------------------------------------- |
 | Input                               | Hidden <input type="file"> triggered by button |
 | Keyboard                            | Enter/Space to activate file dialog            |
-| Drop zone                           | ria-label="File upload area"                   |
+| Drop zone                           | aria-label="File upload area"                   |
 | Progress                            |
-| ole="progressbar" with ria-valuenow |
+| ole="progressbar" with aria-valuenow |
 | Error                               |
 | ole="alert" for upload failures     |
 
@@ -1369,8 +1373,8 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | ------------------ | ---------------------------------- | ------------------ |
 | op-right (default) | top-4 right-4                      | Desktop default    |
 | op-left            | top-4 left-4                       | Alternative        |
-| ottom-right        | bottom-4 right-4                   | Mobile default     |
-| ottom-center       | bottom-4 left-1/2 -translate-x-1/2 | Mobile alternative |
+| bottom-right        | bottom-4 right-4                   | Mobile default     |
+| bottom-center       | bottom-4 left-1/2 -translate-x-1/2 | Mobile alternative |
 
 **Sub-components:**
 
@@ -1397,7 +1401,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                           | Implementation                                        |
 | ----------------------------------- | ----------------------------------------------------- |
 | Live region                         |
-| ole="status" with ria-live="polite" |
+| ole="status" with aria-live="polite" |
 | Error                               |
 | ole="alert" for error toasts        |
 | Dismiss                             | Escape key, close button, or timeout                  |
@@ -1414,9 +1418,9 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Variant   | Size          | Backdrop     | Dismiss              | Usage            |
 | --------- | ------------- | ------------ | -------------------- | ---------------- |
-| lert      | 400px         | scrim-medium | No (button required) | Confirm, warning |
+| alert      | 400px         | scrim-medium | No (button required) | Confirm, warning |
 | dialog    | 560px         | scrim-medium | Yes (X + Escape)     | Forms, details   |
-| ullscreen | 100vw x 100vh | none         | Yes                  | Images, video    |
+| fullscreen | 100vw x 100vh | none         | Yes                  | Images, video    |
 | sheet     | 400px (side)  | scrim-medium | Yes (swipe + Escape) | Drawer actions   |
 
 **Sub-components:**
@@ -1452,10 +1456,10 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                          | Implementation                          |
 | ---------------------------------- | --------------------------------------- |
 | Role                               |
-| ole="dialog" with ria-modal="true" |
-| Label                              | ria-labelledby on header                |
-| Description                        | ria-describedby on body                 |
-| Focus trap                         | abindex cycle � Tab cycles within modal |
+| ole="dialog" with aria-modal="true" |
+| Label                              | aria-labelledby on header                |
+| Description                        | aria-describedby on body                 |
+| Focus trap                         | abindex cycle — Tab cycles within modal |
 | Keyboard                           | Escape to close (if dismissable)        |
 | Body scroll                        | overflow: hidden on <body> when open    |
 
@@ -1483,7 +1487,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Role                    |
 | ole="alert" for error,  |
 | ole="status" for others |
-| Icon                    | Decorative (alt="") � text is the message         |
+| Icon                    | Decorative (alt="") — text is the message         |
 | Dismiss                 | Focus moves to next logical element after dismiss |
 
 ---
@@ -1515,8 +1519,8 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Criterion                                                                 | Implementation                           |
 | ------------------------------------------------------------------------- | ---------------------------------------- |
 | Role                                                                      |
-| ole="progressbar" with ria-valuenow, ria-valuemin="0", ria-valuemax="100" |
-| Label                                                                     | ria-label describing what is progressing |
+| ole="progressbar" with aria-valuenow, aria-valuemin="0", aria-valuemax="100" |
+| Label                                                                     | aria-label describing what is progressing |
 
 #### 4.4.5 Spinner
 
@@ -1536,9 +1540,9 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion      | Implementation                                      |
 | -------------- | --------------------------------------------------- |
-| ARIA           | ria-label="Loading" with                            |
+| ARIA           | aria-label="Loading" with                            |
 | ole="status"   |
-| Announce       | ria-live="polite" with "Loading complete" on finish |
+| Announce       | aria-live="polite" with "Loading complete" on finish |
 | Reduced motion | Slowed rotation speed (2s instead of 1s)            |
 
 ### 4.5 Data Display Components
@@ -1587,10 +1591,10 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | ------------- | -------------------------------------------------------------- |
 | Semantic      | <table>, <thead>, <tbody>, <tr>, <th>, <td>                    |
 | Scope         | <th scope="col"> for columns, <th scope="row"> for rows        |
-| Sort          | ria-sort="ascending" / "descending" / "none"                   |
+| Sort          | aria-sort="ascending" / "descending" / "none"                   |
 | Caption       | <caption> for table description                                |
 | Scroll        | Horizontal scroll on overflow (not horizontal overflow hidden) |
-| Row selection | ria-selected on selected rows                                  |
+| Row selection | aria-selected on selected rows                                  |
 
 #### 4.5.2 List
 
@@ -1611,7 +1615,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 **Purpose:** Collapsible content sections. Saves vertical space.
 
-**Variants:** default (single expand), multiple (multiple open), ordered (visible borders).
+**Variants:** default (single expand), multiple (multiple open), bordered (visible borders).
 
 **States:**
 
@@ -1628,9 +1632,9 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | -------------------------------------------------- | ---------------------------------------- |
 | Role                                               |
 | ole="heading" on header                            |
-| Button                                             | <button> with ria-expanded, ria-controls |
+| Button                                             | <button> with aria-expanded, aria-controls |
 | Panel                                              |
-| ole="region" with ria-labelledby linking to button |
+| ole="region" with aria-labelledby linking to button |
 
 #### 4.5.4 Tag / Chip
 
@@ -1671,12 +1675,12 @@ emovable, clickable, disabled.
 
 | Criterion                                                              | Implementation                                |
 | ---------------------------------------------------------------------- | --------------------------------------------- |
-| ARIA                                                                   | ria-roledescription="carousel", ria-label     |
-| Live                                                                   | ria-live="polite" updates slide number        |
-| Controls                                                               | ria-controls on prev/next buttons             |
-| Pause                                                                  | Pause on focus/hover, ria-live on pause state |
+| ARIA                                                                   | aria-roledescription="carousel", aria-label     |
+| Live                                                                   | aria-live="polite" updates slide number        |
+| Controls                                                               | aria-controls on prev/next buttons             |
+| Pause                                                                  | Pause on focus/hover, aria-live on pause state |
 | Items                                                                  |
-| ole="group" with ria-roledescription="slide", ria-label="Slide X of Y" |
+| ole="group" with aria-roledescription="slide", aria-label="Slide X of Y" |
 
 #### 4.5.6 Timeline
 
@@ -1730,7 +1734,7 @@ emovable, clickable, disabled.
 
 | Variant | Purpose              | Input              | Context              |
 | ------- | -------------------- | ------------------ | -------------------- |
-| ull     | Full chat page       | Resizable textarea | Full history         |
+| full     | Full chat page       | Resizable textarea | Full history         |
 | inline  | Contextual chat      | Compact input      | Current context only |
 | overlay | Floating chat button | Slide-up panel     | Current session      |
 
@@ -1749,23 +1753,23 @@ emovable, clickable, disabled.
 
 | State    | User Message                        | AI Message                       |
 | -------- | ----------------------------------- | -------------------------------- |
-| Sent     | User avatar + bubble, right-aligned | �                                |
-| Received | �                                   | AI avatar + bubble, left-aligned |
-| Typing   | �                                   | Bouncing dots animation          |
-| Error    | �                                   | Red bubble + retry button        |
+| Sent     | User avatar + bubble, right-aligned | —                                |
+| Received | —                                   | AI avatar + bubble, left-aligned |
+| Typing   | —                                   | Bouncing dots animation          |
+| Error    | —                                   | Red bubble + retry button        |
 | Loading  | Disabled input                      | Skeleton for response            |
 
 **Accessibility:**
 
 | Criterion                                | Implementation                    |
 | ---------------------------------------- | --------------------------------- |
-| Live region                              | ria-live="polite" on message area |
+| Live region                              | aria-live="polite" on message area |
 | Input                                    | <textarea> with Enter to send     |
 | Markdown                                 | Rendered with                     |
 | ole="document"                           |
 | Code blocks                              |
-| ole="region" with ria-label="Code block" |
-| Copy button                              | ria-label="Copy code"             |
+| ole="region" with aria-label="Code block" |
+| Copy button                              | aria-label="Copy code"             |
 
 #### 4.6.2 AI Suggestion
 
@@ -1788,7 +1792,7 @@ emovable, clickable, disabled.
 
 **Purpose:** Shows AI system status (online, training, offline).
 
-**Variants:** dot (small dot), adge (with text), ull (detail panel).
+**Variants:** dot (small dot), badge (with text), full (detail panel).
 
 **States:** online (green), raining (yellow, pulsing), offline (red), error (red with icon).
 
@@ -1814,7 +1818,7 @@ emovable, clickable, disabled.
 | ------- | ---------- | --------------- | ---------------- |
 | default | 280px      | 64px            | Standard admin   |
 | compact | 240px      | 56px            | Dense admin      |
-| loating | 280px      | 0px (hidden)    | Slide-over admin |
+| floating | 280px      | 0px (hidden)    | Slide-over admin |
 
 **Sub-components:**
 
@@ -1841,9 +1845,9 @@ emovable, clickable, disabled.
 
 | Criterion    | Implementation                       |
 | ------------ | ------------------------------------ |
-| Navigation   | <nav> with ria-label="Admin sidebar" |
-| Collapsed    | ria-expanded on toggle button        |
-| Current page | ria-current="page" on active item    |
+| Navigation   | <nav> with aria-label="Admin sidebar" |
+| Collapsed    | aria-expanded on toggle button        |
+| Current page | aria-current="page" on active item    |
 | Keyboard     | Tab to navigate, Enter to activate   |
 
 #### 4.7.2 Data Table (Advanced)
@@ -1876,7 +1880,7 @@ emovable, clickable, disabled.
 
 **Purpose:** Chronological audit trail of user actions.
 
-**Variants:** imeline (visual), able (compact), eed (detailed).
+**Variants:** imeline (visual), able (compact), feed (detailed).
 
 **Features:** Filter by action type, date range, user; expand for details.
 
@@ -1884,8 +1888,8 @@ emovable, clickable, disabled.
 
 **Purpose:** Account and session management dropdown.
 
-**Variants:** vatar (avatar trigger),
-ame (name trigger), ull (avatar + name).
+**Variants:** avatar (avatar trigger),
+ame (name trigger), full (avatar + name).
 
 **Items:** Profile, Settings, Billing, Theme, Help, Sign Out.
 
@@ -1903,8 +1907,8 @@ ame (name trigger), ull (avatar + name).
 
 | Variant | Library  | Usage                        |
 | ------- | -------- | ---------------------------- |
-| rea     | recharts | Trends over time             |
-| ar      | recharts | Categorical comparison       |
+| area     | recharts | Trends over time             |
+| bar      | recharts | Categorical comparison       |
 | line    | recharts | Continuous data series       |
 | pie     | recharts | Proportion composition       |
 | donut   | recharts | Proportion with center value |
@@ -1927,7 +1931,7 @@ ame (name trigger), ull (avatar + name).
 | Criterion      | Implementation                                          |
 | -------------- | ------------------------------------------------------- |
 | Text fallback  | Data represented in <table> below chart                 |
-| Labels         | ria-label on SVG with data summary                      |
+| Labels         | aria-label on SVG with data summary                      |
 | Patterns       | Patterns + colors for differentiation (not color alone) |
 | Focus          | Interactive chart elements focusable                    |
 | Reduced motion | Disable entry animations                                |
@@ -1947,14 +1951,14 @@ ame (name trigger), ull (avatar + name).
 
 **Purpose:** Compact trend visualization for cards and tables.
 
-**Variants:** line (simple), rea (filled), ar (compact bars).
+**Variants:** line (simple), area (filled), bar (compact bars).
 **Sizing:** 120x32px (default), 200x48px (lg).
 
 #### 4.8.4 Gauge
 
 **Purpose:** Progress toward a target / KPI visualization.
 
-**Variants:** semicircle (180�), circle (360�), linear (horizontal bar).
+**Variants:** semicircle (180°), circle (360°), linear (horizontal bar).
 
 **States:** below-target (red), near-target (yellow), at-target (green), exceeded (blue).
 
@@ -2013,11 +2017,11 @@ Every component follows this TypeScript pattern:
 
 `	ypescript
 interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
-  /** Visual variant � maps to Tailwind variant classes */
+  /** Visual variant — maps to Tailwind variant classes */
   variant?: 'default' | 'primary' | 'secondary';
-  /** Size scale � maps to Tailwind size classes */
+  /** Size scale — maps to Tailwind size classes */
   size?: 'sm' | 'md' | 'lg';
-  /** Additional CSS classes � merged via cn() utility */
+  /** Additional CSS classes — merged via cn() utility */
   className?: string;
   /** Children content */
   children?: React.ReactNode;
@@ -2054,8 +2058,8 @@ return twMerge(clsx(inputs));
 `packages/ui/src/
 +-- index.ts              # Barrel exports
 +-- utils/
-�   +-- cn.ts             # Class merge utility
-�   +-- variants.ts       # CVA variant definitions
+│   +-- cn.ts             # Class merge utility
+│   +-- variants.ts       # CVA variant definitions
 +-- Button.tsx            # Individual component
 +-- Card.tsx
 +-- ...`
@@ -2075,7 +2079,7 @@ return twMerge(clsx(inputs));
 
 | WCAG Criterion                    | Level | Status     | Implementation                                           |
 | --------------------------------- | ----- | ---------- | -------------------------------------------------------- |
-| 1.1.1 Non-text Content            | A     | ?          | All icons have alt/aria-label; decorative ? ria-hidden   |
+| 1.1.1 Non-text Content            | A     | ?          | All icons have alt/aria-label; decorative ? aria-hidden   |
 | 1.3.1 Info and Relationships      | A     | ?          | Semantic HTML, ARIA landmarks                            |
 | 1.3.2 Meaningful Sequence         | A     | ?          | DOM order matches visual order                           |
 | 1.4.1 Use of Color                | A     | ?          | Color never sole indicator; icons + text accompany       |
@@ -2099,13 +2103,13 @@ return twMerge(clsx(inputs));
 | 3.3.2 Labels or Instructions      | A     | ?          | All inputs have labels                                   |
 | 3.3.3 Error Suggestion            | AA    | ?          | Specific error messages                                  |
 | 4.1.2 Name, Role, Value           | A     | ?          | ARIA attributes on custom components                     |
-| 4.1.3 Status Messages             | AA    | ?          | ria-live regions for dynamic content                     |
+| 4.1.3 Status Messages             | AA    | ?          | aria-live regions for dynamic content                     |
 | 2.1.4 Character Key Shortcuts     | A     | ?          | No single-key shortcuts                                  |
 | 2.3.3 Animation from Interactions | AAA   | ?          | prefers-reduced-motion respected                         |
 | 1.4.10 Contrast (Enhanced)        | AAA   | ? Targeted | HC mode targets 7:1                                      |
 | 2.4.11 Focus Appearance           | AAA   | ? Targeted | HC mode double-ring focus                                |
 
-**Legend:** ? Pass | ? In Progress | ? Not Started | � N/A
+**Legend:** ? Pass | ? In Progress | ? Not Started | — N/A
 
 ## 7. Testing Strategy
 
@@ -2188,9 +2192,9 @@ Every component PR must pass these checks (blocking):
 - [ ] Touch targets = 44x44px
 - [ ] cn() utility used for className merging
 - [ ] orwardRef implemented
-- [ ] TypeScript strict � no ny
+- [ ] TypeScript strict — no any
 - [ ] Unit tests cover all variants + states
-- [ ] a11y tests pass (xe � zero violations)
+- [ ] a11y tests pass (axe — zero violations)
 - [ ] Stories cover all variants (future)
 
 ### 8.3 Versioning & Changelog
@@ -2208,7 +2212,7 @@ Every component PR must pass these checks (blocking):
 | Design System (this file) | /DesignSystem.md                             | Markdown   | Monthly           |
 | Component API docs        | packages/ui/src/*.tsx                        | JSDoc      | With PR           |
 | Token definitions         | packages/ui/tailwind.config.ts               | TypeScript | With token change |
-| Theme variables           | pps/web/src/styles/globals.css               | CSS        | With theme change |
+| Theme variables           | apps/web/src/styles/globals.css               | CSS        | With theme change |
 | Accessibility audit       | docs/35-quality/AccessibilityArchitecture.md | Markdown   | Quarterly         |
 | Visual changelog          | docs/changelog/                              | Markdown   | With release      |
 
@@ -2287,7 +2291,7 @@ Every component PR must pass these checks (blocking):
 
 | Reference                                                            | Description                          |
 | -------------------------------------------------------------------- | ------------------------------------ |
-| [MASTER-INDEX.md](../MASTER-INDEX.md)                                | Documentation master index           |
+| [MASTER-INDEX.md](../../MASTER-INDEX.md)                                | Documentation master index           |
 | [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) | Cross-reference mapping              |
 | [FRONTEND-ARCHITECTURE.md](FRONTEND-ARCHITECTURE.md)                 | Frontend architecture overview       |
 | [COMPONENT-LIBRARY.md](COMPONENT-LIBRARY.md)                         | Component library reference          |

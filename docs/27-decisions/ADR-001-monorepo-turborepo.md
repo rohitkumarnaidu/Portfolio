@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal Frontend Architect, Staff Backend Architect, Principal Platform Engineer  
-> **Reference:** [SystemArchitecture.md §1.3](../05-architecture/SystemArchitecture.md) | [10-TECHSTACK.md](../05-architecture/10-TECHSTACK.md)
+> **Reference:** SystemArchitecture.md §1.3 | [10-TECHSTACK.md](../05-architecture/TECHSTACK.md)
 
 ## Context
 
@@ -71,4 +71,4 @@ flowchart LR
 ## Cross-References
 
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+- [CROSS-REFERENCE-INDEX.md](../archive/26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

@@ -3,7 +3,7 @@
 > **Document:** `60-FEATURE-FLAGS.md` | **Version:** 1.0 | **Last Updated:** June 2026  
 > **Status:** ✅ Active | **Owner:** Staff Platform Engineer | **Review Cadence:** Monthly  
 > **Platform:** PostHog (flags) + LaunchDarkly-compatible pattern | **Flag Count Target:** ≤ 50 active  
-> **Related:** [53-CI-CD-PIPELINE.md](./53-CI-CD-PIPELINE.md) | [AnalyticsArchitecture.md](./AnalyticsArchitecture.md) | [SystemArchitecture.md](./SystemArchitecture.md)
+> **Related:** [53-CI-CD-PIPELINE.md](../12-devops/CI-CD-PIPELINE.md) | [AnalyticsArchitecture.md](../14-observability/ANALYTICS-ARCHITECTURE.md) | SystemArchitecture.md
 
 ---
 
