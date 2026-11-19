@@ -1,7 +1,7 @@
 # PROGRESS.md
 
-> **Status:** PHASE 0 COMPLETE (9/9) on branch `feat/phase0-tokens`; §3.7 = 5/5 — criterion 1 closed (tokens are the only source; raw-hex CI guard) — PR pending merge → next: Phase 1 — Content path
-> **Updated:** 2026-11-18
+> **Status:** PHASE 0 COMPLETE (9/9) and merged as PR #140 (`150d4d7`); §3.7 = 5/5 with the raw-hex CI guard enforcing criterion 1. Docs debt cleared: archive consolidated, 0 broken relative links. → next: Phase 1 — Content path
+> **Updated:** 2026-11-19
 
 **File rules:** never delete a completed item — strike it through (`~~text~~`). Update the status line, phase table, and add a session-log entry at the **end of every work session**. Newest log entries first.
 
@@ -32,6 +32,13 @@
 ---
 
 ## Session log
+
+### 2026-11-19 — Docs debt cleared: one live set, zero broken links
+
+- **Shipped:** the documentation tree was consolidated instead of rewritten. 171 stale files moved to `docs/archive/<same path>`, preserving the old layout so archived cross-references still resolve. The live set is now `AGENTS.md`, `DESIGN.md`, `PROGRESS.md`, `roadmap.md`, `README.md`, `CHANGELOG.md`, `docs/MASTER-INDEX.md`, `docs/05-architecture/TECHSTACK.md`, `docs/35-quality/QUALITY-GATES.md`, `docs/27-decisions/` and `docs/superpowers/`. 693 relative links were rewritten on move; 218 that used pre-restructure filenames were re-pointed to the current name; 166 references to documents that never existed were reduced to plain text. Nine overlapping topic clusters got a canonical file plus a "Superseded" banner, mapped in `docs/archive/README.md`. 85 double-encoded files were round-tripped to correct UTF-8; the six U+FFFD files were reconstructed from context (section signs, em dashes, one degree sign, box-drawing prefixes) and carry an archive note.
+- **Evidence (this session):** `node scripts/check-docs-links.mjs` → 214 files · 876 relative links · **0 broken** (whole tree, archive included). Negative control: a deliberately broken link exits 1. `scripts/generate-docs-index.js` is idempotent (same SHA-256 across consecutive runs) and `MASTER-INDEX.md` matches the tree. Encoding scan reports 0 mojibake and 0 U+FFFD in `docs/` and the root docs.
+- **Enforcement:** `scripts/check-docs-links.mjs` is committed and runs as a CI `docs` job alongside an index-freshness check, so a future move cannot silently rot the tree. `AGENTS.md` records the link-check and index commands plus the archive policy; `README.md`'s docs table points at live documents only.
+- **Caveats:** (1) `docs/archive/` is frozen history — it is link-checked but never cited as truth and never updated. (2) Reconstructed U+FFFD characters are contextual, not recovered bytes; the two worst files are flagged with an archive note. (3) `docs/archive/14-observability/ANALYTICS-IMPLEMENTATION.md` also lost check-mark glyphs to `?` in an earlier non-Unicode conversion; those are unrecoverable and left as-is. (4) The move is one large commit by nature; review it with `git diff --stat` plus the link check rather than line-by-line.
 
 ### 2026-11-18 — §3.7 criterion 1 closed; whole-repo review
 

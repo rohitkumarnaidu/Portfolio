@@ -6,15 +6,17 @@ Working contract for AI agents and humans in this repository. Keep it short, cur
 
 Run from the repo root. This is an npm-workspaces + Turborepo monorepo.
 
-| Command             | What it does                                                     |
-| ------------------- | ---------------------------------------------------------------- |
-| `npm run dev`       | Start all services via Turbo (web + api)                         |
-| `npm run dev:web`   | Web only (Next.js, port 3000)                                    |
-| `npm run dev:api`   | API only, watch mode (NestJS, port 3001; Swagger at `/api/docs`) |
-| `npm run build`     | Build all workspaces (Turbo, respects `^build` dependency order) |
-| `npm run lint`      | Lint all workspaces                                              |
-| `npm run typecheck` | Type-check all workspaces (`tsc --noEmit`)                       |
-| `npm run format`    | Prettier write across the repo                                   |
+| Command                               | What it does                                                     |
+| ------------------------------------- | ---------------------------------------------------------------- |
+| `npm run dev`                         | Start all services via Turbo (web + api)                         |
+| `npm run dev:web`                     | Web only (Next.js, port 3000)                                    |
+| `npm run dev:api`                     | API only, watch mode (NestJS, port 3001; Swagger at `/api/docs`) |
+| `npm run build`                       | Build all workspaces (Turbo, respects `^build` dependency order) |
+| `npm run lint`                        | Lint all workspaces                                              |
+| `npm run typecheck`                   | Type-check all workspaces (`tsc --noEmit`)                       |
+| `npm run format`                      | Prettier write across the repo                                   |
+| `node scripts/check-docs-links.mjs`   | Verify every relative link in `docs/` and the root docs          |
+| `node scripts/generate-docs-index.js` | Regenerate `docs/MASTER-INDEX.md`                                |
 
 There is **no root `test` script**. Run tests per workspace:
 
@@ -90,7 +92,7 @@ There is **no public registration**: administrators create users with `POST /api
 
 ## Working rules for agents
 
-1. **Code is ground truth.** Much of `docs/` is archived history (`docs/archive/` = unmaintained). Live documents are listed in the map below.
+1. **Code is ground truth.** Much of `docs/` is archived history (`docs/archive/` = frozen). Live documents are listed in the map below.
 2. **Token discipline — the #1 rule.** Components never hardcode hex and never reference primitive tokens; semantic tokens only. Today that means the CSS variables in `globals.css`/the Tailwind bridge; after Phase 0 it means the DTCG semantic + component layers. Token drift is the documented #1 maintenance killer.
 3. **Design contract first.** Read root `DESIGN.md` before any visual/UI change. The locked redesign spec is `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md`.
 4. **Anti-generic checklist = PR criteria.** Every UI PR satisfies spec §7 (banned AI tells + required criteria) — reviewers check it, not vibes.
@@ -110,12 +112,19 @@ Agent capabilities are packaged as `SKILL.md` files under `.opencode/skills/` �
 
 ## Live docs map
 
-| Path                                                           | Role                                                                                    |
-| -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` | Approved redesign spec — source of truth for the redesign                               |
-| `DESIGN.md` (root)                                             | Design contract: token rules + current reality                                          |
-| `PROGRESS.md` (root)                                           | Phase status + session log                                                              |
-| `roadmap.md` (root)                                            | Phase-level roadmap: status table, sequencing rules, carried items                      |
-| `docs/MASTER-INDEX.md`                                         | Auto-generated index of the remaining docs tree (`node scripts/generate-docs-index.js`) |
-| `docs/27-decisions/`                                           | ADRs (decision records)                                                                 |
-| `docs/archive/`                                                | Unmaintained history — read for context, never update                                   |
+| Path                                                           | Role                                                                          |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` | Approved redesign spec — source of truth for the redesign                     |
+| `docs/superpowers/plans/2026-11-17-phase0-token-foundation.md` | Phase 0 implementation plan                                                   |
+| `DESIGN.md` (root)                                             | Design contract: token rules + current reality                                |
+| `PROGRESS.md` (root)                                           | Phase status + session log                                                    |
+| `roadmap.md` (root)                                            | Phase-level roadmap: status table, sequencing rules, carried items            |
+| `docs/MASTER-INDEX.md`                                         | Auto-generated index of the docs tree (`node scripts/generate-docs-index.js`) |
+| `docs/05-architecture/TECHSTACK.md`                            | The stack actually used, and the trade-offs behind it                         |
+| `docs/35-quality/QUALITY-GATES.md`                             | What CI enforces today (coverage floors, gates)                               |
+| `docs/27-decisions/`                                           | ADRs (decision records)                                                       |
+| `docs/archive/`                                                | Frozen pre-2.0 history — read for context, never update; see its `README.md`  |
+
+Everything outside that list is archived. `docs/archive/` is frozen: read it for
+context, never update it. The CI link check covers the whole tree, archive
+included — the 2026-11-19 cleanup left it at zero broken relative links.

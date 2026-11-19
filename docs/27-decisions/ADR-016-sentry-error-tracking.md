@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-07-11 | **Author:** Architecture Board
 > **Deciders:** Staff Frontend Architect, Principal DevOps Engineer, Enterprise Security Architect
-> **Reference:** [sentry.client.config.ts](../../apps/web/sentry.client.config.ts) | [sentry.server.config.ts](../../apps/web/sentry.server.config.ts) | [sentry.edge.config.ts](../../apps/web/sentry.edge.config.ts) | [next.config.mjs](../../apps/web/next.config.mjs)
+> **Reference:** [sentry.client.config.ts](../../apps/web/sentry.client.config.ts) | [sentry.server.config.ts](../../apps/web/sentry.server.config.ts) | [sentry.edge.config.ts](../../apps/web/sentry.edge.config.ts) | [next.config.mjs](../../apps/web/next.config.js)
 
 ## Context
 
@@ -102,4 +102,4 @@ flowchart LR
 ## Cross-References
 
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+- [CROSS-REFERENCE-INDEX.md](../archive/26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

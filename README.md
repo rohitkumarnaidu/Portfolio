@@ -116,14 +116,15 @@ which breaks the Linux CI install.
 
 ## Documentation
 
-| Document                                  | Description                            |
-| ----------------------------------------- | -------------------------------------- |
-| `docs/MASTER-INDEX.md`                    | Index of every document                |
-| `docs/05-architecture/TECHSTACK.md`       | The stack and the trade-offs behind it |
-| `docs/10-api/API-OVERVIEW.md`             | The API surface and conventions        |
-| `docs/19-admin/ADMIN-DASHBOARD.md`        | The admin dashboard                    |
-| `docs/04-design/DESIGN-SYSTEM.md`         | Design tokens, typography, components  |
-| `docs/13-testing/TESTING-ARCHITECTURE.md` | Test strategy and what is covered      |
+| Document                            | Description                                           |
+| ----------------------------------- | ----------------------------------------------------- |
+| `AGENTS.md`                         | Working contract: commands, architecture, conventions |
+| `docs/MASTER-INDEX.md`              | Index of every document                               |
+| `docs/05-architecture/TECHSTACK.md` | The stack and the trade-offs behind it                |
+| `docs/35-quality/QUALITY-GATES.md`  | What CI actually enforces                             |
+| `docs/27-decisions/`                | Architecture decision records                         |
+| `docs/superpowers/specs/`           | Approved redesign spec                                |
+| `docs/archive/`                     | Frozen pre-2.0 history (not current)                  |
 
 ## License
 

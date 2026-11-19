@@ -530,7 +530,7 @@ GLOW POLICY
 
 ### 8.2 3D Particle Specification
 
-See [`08k-3D-ARCHITECTURE.md`](./08k-3D-ARCHITECTURE.md) §4 (Particle System) for full specification. Summary:
+See `08k-3D-ARCHITECTURE.md` §4 (Particle System) for full specification. Summary:
 
 | Property | Value                                               |
 | -------- | --------------------------------------------------- |
@@ -598,7 +598,7 @@ See [`08k-3D-ARCHITECTURE.md`](./08k-3D-ARCHITECTURE.md) §4 (Particle System) f
 
 ### 9.1 3D Lighting
 
-See [`08k-3D-ARCHITECTURE.md`](./08k-3D-ARCHITECTURE.md) §5 (Lighting System). Summary:
+See `08k-3D-ARCHITECTURE.md` §5 (Lighting System). Summary:
 
 | Light        | Type               | Intensity | Position          |
 | ------------ | ------------------ | --------- | ----------------- |
@@ -895,14 +895,14 @@ GSAP is lazy-loaded via `next/dynamic` on pages where parallax is needed. It is 
 
 | Document                                                           | Section                                                           | Relationship                                                             |
 | ------------------------------------------------------------------ | ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [`DesignTokens.md`](./DesignTokens.md)                             | §8 Motion, §9 3D, §11 Glass, §12 Depth, §13 Shadow, §14 Animation | Immersive system implements these visual rules at the component level    |
-| [`08a-DESIGN-SYSTEM-EXTENDED.md`](./08a-DESIGN-SYSTEM-EXTENDED.md) | §2.1 Color, §2.5 Elevation, §2.7 Animation                        | Tokens extended with mesh gradients, depth, glow-accent-focus            |
-| [`08j-3D-USAGE-GUIDELINES.md`](./08j-3D-USAGE-GUIDELINES.md)       | §4 Device Tiers, §5 Fallback Chain                                | 3D tier detection reused; fallback chain extended with CSS particles     |
-| [`08k-3D-ARCHITECTURE.md`](./08k-3D-ARCHITECTURE.md)               | §4 Particles, §5 Lighting, §6 Effects                             | 3D particle count, lighting system, bloom specification                  |
-| [`08l-MOTION-SYSTEM.md`](./08l-MOTION-SYSTEM.md)                   | §9 Reduced Motion, §10 Performance                                | Parallax motion rules, GSAP lazy-load budget, reduced-motion kill-switch |
-| [`InteractionPatterns.md`](./InteractionPatterns.md)               | §8 Scroll, §10 3D Interaction                                     | Scroll-reactive parallax, 3D mouse-reactive interaction                  |
-| [`08n-NEUMORPHISM.md`](./08n-NEUMORPHISM.md)                       | §2 Elevation, §3 Color, §7 Composition                            | Neumorphism as additive effect for metric sections                       |
-| [`AccessibilityArchitecture.md`](./AccessibilityArchitecture.md)   | §4 Color, §5 Motion, §8 High Contrast                             | All immersive effects respect a11y constraints; HC mode overrides        |
+| [`DesignTokens.md`](DESIGN-TOKENS.md)                             | §8 Motion, §9 3D, §11 Glass, §12 Depth, §13 Shadow, §14 Animation | Immersive system implements these visual rules at the component level    |
+| [`08a-DESIGN-SYSTEM-EXTENDED.md`](../07-frontend/DESIGN-SYSTEM-EXTENDED.md) | §2.1 Color, §2.5 Elevation, §2.7 Animation                        | Tokens extended with mesh gradients, depth, glow-accent-focus            |
+| `08j-3D-USAGE-GUIDELINES.md`       | §4 Device Tiers, §5 Fallback Chain                                | 3D tier detection reused; fallback chain extended with CSS particles     |
+| `08k-3D-ARCHITECTURE.md`               | §4 Particles, §5 Lighting, §6 Effects                             | 3D particle count, lighting system, bloom specification                  |
+| [`08l-MOTION-SYSTEM.md`](../07-frontend/MOTION-SYSTEM.md)                   | §9 Reduced Motion, §10 Performance                                | Parallax motion rules, GSAP lazy-load budget, reduced-motion kill-switch |
+| [`InteractionPatterns.md`](INTERACTION-PATTERNS.md)               | §8 Scroll, §10 3D Interaction                                     | Scroll-reactive parallax, 3D mouse-reactive interaction                  |
+| [`08n-NEUMORPHISM.md`](../07-frontend/NEUMORPHISM.md)                       | §2 Elevation, §3 Color, §7 Composition                            | Neumorphism as additive effect for metric sections                       |
+| [`AccessibilityArchitecture.md`](../16-accessibility/ACCESSIBILITY-ARCHITECTURE.md)   | §4 Color, §5 Motion, §8 High Contrast                             | All immersive effects respect a11y constraints; HC mode overrides        |
 
 ---
 

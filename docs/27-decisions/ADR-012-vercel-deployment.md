@@ -2,7 +2,7 @@
 
 > **Status:** Accepted | **Date:** 2026-06-17 | **Author:** Architecture Board  
 > **Deciders:** Principal DevOps Engineer, Principal Platform Engineer, Enterprise Cloud Architect  
-> **Reference:** [DeploymentGuide.md](../21-operations/DeploymentGuide.md) | [SystemArchitecture.md §9](../05-architecture/SystemArchitecture.md)
+> **Reference:** [DeploymentGuide.md](../archive/12-devops/DEPLOYMENT-GUIDE.md) | SystemArchitecture.md §9
 
 ## Context
 
@@ -59,4 +59,4 @@ flowchart LR
 ## Cross-References
 
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+- [CROSS-REFERENCE-INDEX.md](../archive/26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

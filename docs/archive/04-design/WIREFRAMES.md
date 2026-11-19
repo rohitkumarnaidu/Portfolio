@@ -1,6 +1,6 @@
-# Wireframes Ã¢â‚¬â€ Design File Reference
+# Wireframes — Design File Reference
 
-> **Version:** 2.0 | **Status:** Ã¢Å“â€¦ Active | **Tool:** Pencil (.pen) | **Owner:** Design Lead
+> **Version:** 2.0 | **Status:** âœ… Active | **Tool:** Pencil (.pen) | **Owner:** Design Lead
 
 ## 1. Overview
 
@@ -87,14 +87,14 @@ graph TD
 
 ### User Flows (in `flows.pen`)
 
-| Flow              | Start Ã¢â€ â€™ Key Steps Ã¢â€ â€™ End                                                     | Edge Cases                                          |
+| Flow              | Start â†’ Key Steps â†’ End                                                     | Edge Cases                                          |
 | ----------------- | ----------------------------------------------------------------------------------------- | --------------------------------------------------- |
-| Project Browse    | Home Ã¢â€ â€™ Projects Grid Ã¢â€ â€™ Filter Ã¢â€ â€™ Detail Ã¢â€ â€™ Back                 | Empty filter results, slow image load               |
-| Blog Read         | Blog Listing Ã¢â€ â€™ Search Ã¢â€ â€™ Post Ã¢â€ â€™ Share Ã¢â€ â€™ Back                   | No results, long post with many code blocks         |
-| Contact Submit    | Any page Ã¢â€ â€™ Contact Form Ã¢â€ â€™ Validation Ã¢â€ â€™ Submit Ã¢â€ â€™ Success toast | Network error, invalid email, spam prevention       |
-| Admin Login       | Login page Ã¢â€ â€™ OAuth Ã¢â€ â€™ Dashboard Ã¢â€ â€™ Edit Project Ã¢â€ â€™ Save          | Expired session, permission denied, concurrent edit |
-| AI Chat           | Any page Ã¢â€ â€™ Chat FAB Ã¢â€ â€™ Type message Ã¢â€ â€™ AI response Ã¢â€ â€™ Dismiss    | Offline, slow response, message send failure        |
-| User Registration | Admin invite Ã¢â€ â€™ Sign up Ã¢â€ â€™ Create profile Ã¢â€ â€™ First login                | Expired invite, duplicate email, weak password      |
+| Project Browse    | Home â†’ Projects Grid â†’ Filter â†’ Detail â†’ Back                 | Empty filter results, slow image load               |
+| Blog Read         | Blog Listing â†’ Search â†’ Post â†’ Share â†’ Back                   | No results, long post with many code blocks         |
+| Contact Submit    | Any page â†’ Contact Form â†’ Validation â†’ Submit â†’ Success toast | Network error, invalid email, spam prevention       |
+| Admin Login       | Login page â†’ OAuth â†’ Dashboard â†’ Edit Project â†’ Save          | Expired session, permission denied, concurrent edit |
+| AI Chat           | Any page â†’ Chat FAB â†’ Type message â†’ AI response â†’ Dismiss    | Offline, slow response, message send failure        |
+| User Registration | Admin invite â†’ Sign up â†’ Create profile â†’ First login                | Expired invite, duplicate email, weak password      |
 
 ## 4. Wireframe Conventions
 
@@ -105,15 +105,15 @@ graph TD
 | Image/video placeholder | Gray `#9ca3af` fill at full opacity, aspect ratio maintained    | Space reserved for dynamic media content             |
 | Annotation              | Amber `#f59e0b` text, 10px font size                            | Behavior notes, design rationale, or developer notes |
 | Flow arrow              | Solid `#3b82f6` line, 1.5px stroke, arrowhead                   | Navigation path between screens                      |
-| State label             | `[State: Empty]` Ã¢â‚¬â€ bracket notation in bold               | Indicates an alternative visual state                |
-| Device indicator        | Device icon + label (e.g., "Ã°Å¸â€œÂ± Mobile") top-right corner | Which viewport variant this screen represents        |
+| State label             | `[State: Empty]` — bracket notation in bold               | Indicates an alternative visual state                |
+| Device indicator        | Device icon + label (e.g., "ðŸ“± Mobile") top-right corner | Which viewport variant this screen represents        |
 | Component ref           | `ref: Button/Primary` in blue italic                            | Reference to a component in the components library   |
 | Decision point          | Diamond shape, dashed orange `#f59e0b`                          | Conditional branch in user flow diagram              |
 
 **Annotation examples:**
 
 - "On click, expand to full-screen lightbox with swipe support"
-- "Show if no projects exist Ã¢â‚¬â€ empty state with CTA"
+- "Show if no projects exist — empty state with CTA"
 - "Hides on mobile, replaced by bottom sheet filter"
 - "Entrance: fade + slide up, stagger 80ms per card"
 
@@ -128,12 +128,12 @@ graph TD
 2. **Navigate** using the layer panel in the editor or search by section name (e.g., `admin/projects`)
 3. **Review** screen structure via `snapshot_layout` and visual fidelity via `get_screenshot`
 4. **Leave feedback** by adding annotation nodes prefixed with `[FEEDBACK]` in the design file
-5. **Edit** via `batch_design` MCP operations Ã¢â‚¬â€ always create a binding for new nodes
+5. **Edit** via `batch_design` MCP operations — always create a binding for new nodes
 6. **Export** specific screens for stakeholder review via `export_nodes` (PNG for digital, PDF for print)
 
 ### New Contributor Checklist
 
-- [ ] Open `wireframes.pen` and browse all screens listed in Ã‚Â§3
+- [ ] Open `wireframes.pen` and browse all screens listed in §3
 - [ ] Open `components.pen` to understand reusable component states
 - [ ] Review `flows.pen` to understand navigation patterns
 - [ ] Verify mobile variants exist for each public screen
@@ -143,5 +143,5 @@ graph TD
 
 ## Cross-References
 
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
+- [../MASTER-INDEX.md](../../MASTER-INDEX.md) — Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

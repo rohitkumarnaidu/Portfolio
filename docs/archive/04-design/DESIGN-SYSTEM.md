@@ -1,7 +1,7 @@
-# Design System Ã¢â‚¬â€ FAANG Enterprise Component Library & Token Reference
+# Design System — FAANG Enterprise Component Library & Token Reference
 
 > **Document:** `DesignSystem.md` | **Version:** 5.0 (Enterprise Upgrade) | **Last Updated:** July 2026  
-> **Status:** Ã¢Å“â€¦ Active | **Framework:** React 18 + Tailwind CSS 3.4 + TypeScript 5.4  
+> **Status:** âœ… Active | **Framework:** React 18 + Tailwind CSS 3.4 + TypeScript 5.4  
 > **Owner:** Principal Design Lead | **Review Cadence:** Quarterly  
 > **Components Documented:** 50+ | **Design Tokens:** 250+ | **Theme Modes:** 2 (Light/Dark)
 
@@ -93,15 +93,15 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Token             | CSS Variable          | Light Hex | Dark Hex  | Usage                   | Contrast Ratio |
 | ----------------- | --------------------- | --------- | --------- | ----------------------- | -------------- |
-| surface-primary   | `--surface-primary`   | `#FAFAFA` | `#09090B` | Page background         | Ã¢â‚¬â€        |
-| surface-secondary | `--surface-secondary` | `#FFFFFF` | `#18181B` | Card background         | Ã¢â‚¬â€        |
-| surface-elevated  | `--surface-elevated`  | `#F4F4F5` | `#27272A` | Elevated card, dropdown | Ã¢â‚¬â€        |
-| border-primary    | `--border-primary`    | `#E4E4E7` | `#3F3F46` | Subtle borders          | Ã¢â‚¬â€        |
-| border-accent     | `--border-accent`     | `#D4D4D8` | `#52525B` | Emphasized borders      | Ã¢â‚¬â€        |
+| surface-primary   | `--surface-primary`   | `#FAFAFA` | `#09090B` | Page background         | —        |
+| surface-secondary | `--surface-secondary` | `#FFFFFF` | `#18181B` | Card background         | —        |
+| surface-elevated  | `--surface-elevated`  | `#F4F4F5` | `#27272A` | Elevated card, dropdown | —        |
+| border-primary    | `--border-primary`    | `#E4E4E7` | `#3F3F46` | Subtle borders          | —        |
+| border-accent     | `--border-accent`     | `#D4D4D8` | `#52525B` | Emphasized borders      | —        |
 | text-primary      | `--text-primary`      | `#18181B` | `#FAFAFA` | Main body               | 15.3:1         |
 | text-secondary    | `--text-secondary`    | `#52525B` | `#A1A1AA` | Secondary text          | 7.2:1          |
 | text-tertiary     | `--text-tertiary`     | `#71717A` | `#71717A` | Caption, placeholder    | 4.8:1          |
-| text-inverse      | `--text-inverse`      | `#FAFAFA` | `#18181B` | Text on inverted        | Ã¢â‚¬â€        |
+| text-inverse      | `--text-inverse`      | `#FAFAFA` | `#18181B` | Text on inverted        | —        |
 | text-link         | `--text-link`         | `#4F46E5` | `#818CF8` | Link text               | 4.8:1+         |
 
 #### Semantic Palette
@@ -109,18 +109,18 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 | Token      | CSS Variable   | Hex       | Usage                     | WCAG    |
 | ---------- | -------------- | --------- | ------------------------- | ------- |
 | success    | `--success`    | `#22C55E` | Success states            | AA      |
-| success-bg | `--success-bg` | `#052E16` | Success background (dark) | Ã¢â‚¬â€ |
+| success-bg | `--success-bg` | `#052E16` | Success background (dark) | — |
 | warning    | `--warning`    | `#F59E0B` | Warning states            | AA      |
-| warning-bg | `--warning-bg` | `#451A03` | Warning background (dark) | Ã¢â‚¬â€ |
+| warning-bg | `--warning-bg` | `#451A03` | Warning background (dark) | — |
 | error      | `--error`      | `#EF4444` | Error states              | AA      |
-| error-bg   | `--error-bg`   | `#450A0A` | Error background (dark)   | Ã¢â‚¬â€ |
+| error-bg   | `--error-bg`   | `#450A0A` | Error background (dark)   | — |
 | info       | `--info`       | `#3B82F6` | Info states               | AA      |
-| info-bg    | `--info-bg`    | `#0C1929` | Info background (dark)    | Ã¢â‚¬â€ |
+| info-bg    | `--info-bg`    | `#0C1929` | Info background (dark)    | — |
 
 #### Tailwind Theme Extension
 
 ```typescript
-// tailwind.config.ts Ã¢â‚¬â€ Color Extension
+// tailwind.config.ts — Color Extension
 colors: {
   accent: {
     50:  'var(--accent-50)',
@@ -193,7 +193,7 @@ colors: {
 #### Tailwind Theme Extension
 
 ```typescript
-// tailwind.config.ts Ã¢â‚¬â€ Typography Extension
+// tailwind.config.ts — Typography Extension
 fontFamily: {
   display: ['Cabinet Grotesk', 'system-ui', 'sans-serif'],
   body:    ['Inter', 'system-ui', 'sans-serif'],
@@ -240,17 +240,17 @@ The spacing system uses a base unit of 4px with 8px increments for major decisio
 
 | Token      | CSS Variable   | Light Mode                     | Dark Mode                      | Elevation Level    | z-index Group |
 | ---------- | -------------- | ------------------------------ | ------------------------------ | ------------------ | ------------- |
-| shadow-xs  | `--shadow-xs`  | `0 1px 2px rgba(0,0,0,0.05)`   | `0 1px 2px rgba(0,0,0,0.3)`    | 0 Ã¢â‚¬â€ Flat     | auto          |
-| shadow-sm  | `--shadow-sm`  | `0 1px 2px rgba(0,0,0,0.05)`   | `0 1px 2px rgba(0,0,0,0.3)`    | 1 Ã¢â‚¬â€ Raised   | 10            |
-| shadow-md  | `--shadow-md`  | `0 4px 6px rgba(0,0,0,0.1)`    | `0 4px 6px rgba(0,0,0,0.35)`   | 2 Ã¢â‚¬â€ Elevated | 20            |
-| shadow-lg  | `--shadow-lg`  | `0 10px 15px rgba(0,0,0,0.15)` | `0 10px 15px rgba(0,0,0,0.4)`  | 3 Ã¢â‚¬â€ Floating | 40            |
-| shadow-xl  | `--shadow-xl`  | `0 20px 30px rgba(0,0,0,0.2)`  | `0 20px 30px rgba(0,0,0,0.45)` | 4 Ã¢â‚¬â€ Overlay  | 50            |
-| shadow-2xl | `--shadow-2xl` | `0 30px 50px rgba(0,0,0,0.3)`  | `0 30px 50px rgba(0,0,0,0.5)`  | 5 Ã¢â‚¬â€ Top      | 100           |
+| shadow-xs  | `--shadow-xs`  | `0 1px 2px rgba(0,0,0,0.05)`   | `0 1px 2px rgba(0,0,0,0.3)`    | 0 — Flat     | auto          |
+| shadow-sm  | `--shadow-sm`  | `0 1px 2px rgba(0,0,0,0.05)`   | `0 1px 2px rgba(0,0,0,0.3)`    | 1 — Raised   | 10            |
+| shadow-md  | `--shadow-md`  | `0 4px 6px rgba(0,0,0,0.1)`    | `0 4px 6px rgba(0,0,0,0.35)`   | 2 — Elevated | 20            |
+| shadow-lg  | `--shadow-lg`  | `0 10px 15px rgba(0,0,0,0.15)` | `0 10px 15px rgba(0,0,0,0.4)`  | 3 — Floating | 40            |
+| shadow-xl  | `--shadow-xl`  | `0 20px 30px rgba(0,0,0,0.2)`  | `0 20px 30px rgba(0,0,0,0.45)` | 4 — Overlay  | 50            |
+| shadow-2xl | `--shadow-2xl` | `0 30px 50px rgba(0,0,0,0.3)`  | `0 30px 50px rgba(0,0,0,0.5)`  | 5 — Top      | 100           |
 
 #### Tailwind Theme Extension
 
 ```typescript
-// tailwind.config.ts Ã¢â‚¬â€ Shadow Extension
+// tailwind.config.ts — Shadow Extension
 boxShadow: {
   'xs':  'var(--shadow-xs)',
   'sm':  'var(--shadow-sm)',
@@ -364,7 +364,7 @@ boxShadow: {
 #### Tailwind Theme Extension
 
 ```typescript
-// tailwind.config.ts Ã¢â‚¬â€ Animation Extension
+// tailwind.config.ts — Animation Extension
 transitionDuration: {
   'instant': '0ms',
   'micro':   '100ms',
@@ -404,7 +404,7 @@ animation: {
 #### Tailwind Plugin (Glassmorphism Utility)
 
 ```typescript
-// tailwind.config.ts Ã¢â‚¬â€ Glassmorphism Plugin
+// tailwind.config.ts — Glassmorphism Plugin
 plugin(function ({ addUtilities }) {
   addUtilities({
     '.glass-subtle': {
@@ -491,7 +491,7 @@ A versatile button with 5 visual variants, 4 sizes, icon support, and full loadi
 | State    | Visual                      | ARIA                   | Implementation                                                                   |
 | -------- | --------------------------- | ---------------------- | -------------------------------------------------------------------------------- |
 | Default  | Normal appearance           | `type="button"`        | Base styles                                                                      |
-| Hover    | Elevated bg + subtle lift   | Ã¢â‚¬â€                | `hover:` variant                                                                 |
+| Hover    | Elevated bg + subtle lift   | —                | `hover:` variant                                                                 |
 | Focus    | 2px accent ring, 2px offset | `:focus-visible`       | `focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2` |
 | Active   | Scale 0.97 (spring 100ms)   | `aria-pressed="true"`  | `active:scale-[0.97]`                                                            |
 | Loading  | Spinner replaces icon/text  | `aria-busy="true"`     | `disabled` + spinner SVG                                                         |
@@ -524,7 +524,7 @@ interface ButtonProps {
 | Icon alignment           | Left icon for leading, right for trailing   | Combined without text                |
 | Danger for destructive   | Use `variant="danger"` for delete actions   | Use primary for destructive          |
 
-**References:** `docs/04-design/DesignSystem.md Ã‚Â§5.1` (Micro-interaction Catalog)
+**References:** `docs/04-design/DesignSystem.md §5.1` (Micro-interaction Catalog)
 
 ---
 
@@ -556,8 +556,8 @@ A composable card component with 5 variants, sub-components (Header, Body, Foote
 
 | State               | Visual                                                 | Behavior                  |
 | ------------------- | ------------------------------------------------------ | ------------------------- |
-| Default             | Base variant styling                                   | Ã¢â‚¬â€                   |
-| Hover (interactive) | Lift 2px, shadow-md Ã¢â€ â€™ shadow-lg, cursor pointer | 200ms ease-out transition |
+| Default             | Base variant styling                                   | —                   |
+| Hover (interactive) | Lift 2px, shadow-md â†’ shadow-lg, cursor pointer | 200ms ease-out transition |
 | Focus (interactive) | 2px accent ring                                        | `focus-visible:ring-2`    |
 
 #### Props
@@ -582,7 +582,7 @@ interface CardProps {
 | Interactive = hover state | Use `variant="interactive"` for clickable | Use nested `<a>` inside non-interactive card |
 | Composable structure      | Card > Header + Body + Footer             | Flat content without structure               |
 
-**References:** `docs/04-design/DesignTokens.md Ã‚Â§17` (Component Rules), `docs/04-design/UserFlows.md` (Per-screen Card usage)
+**References:** `docs/04-design/DesignTokens.md §17` (Component Rules), `docs/04-design/UserFlows.md` (Per-screen Card usage)
 
 ---
 
@@ -610,14 +610,14 @@ A form input component with label, error, helper text, and icon slot support. Fo
 
 | State         | Visual                      | Border                   | ARIA                                                |
 | ------------- | --------------------------- | ------------------------ | --------------------------------------------------- |
-| Default       | Filled bg, subtle border    | `border-primary`         | Ã¢â‚¬â€                                             |
-| Hover         | Darker border               | `border-accent`          | Ã¢â‚¬â€                                             |
-| Focus         | Accent ring + border        | `ring-2 ring-accent-500` | Ã¢â‚¬â€                                             |
-| Focus (error) | Error ring                  | `ring-2 ring-error`      | Ã¢â‚¬â€                                             |
+| Default       | Filled bg, subtle border    | `border-primary`         | —                                             |
+| Hover         | Darker border               | `border-accent`          | —                                             |
+| Focus         | Accent ring + border        | `ring-2 ring-accent-500` | —                                             |
+| Focus (error) | Error ring                  | `ring-2 ring-error`      | —                                             |
 | Disabled      | Opacity 50%, no interaction | `border-primary`         | `aria-disabled="true"`                              |
 | Read-only     | Subtle bg, no border change | `border-primary`         | `readonly`                                          |
 | Error         | Error border + text         | `border-error`           | `aria-invalid="true"` `aria-describedby="error-id"` |
-| Success       | Green border                | `border-success`         | Ã¢â‚¬â€                                             |
+| Success       | Green border                | `border-success`         | —                                             |
 
 #### Composition
 
@@ -657,7 +657,7 @@ interface InputFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElemen
 | Autocomplete      | Set `autoComplete` attribute        | Leave empty or wrong value       |
 | Input mode        | Set `inputMode` for mobile keyboard | Use `type="text"` for email      |
 
-**References:** `docs/04-design/DesignSystem.md Ã‚Â§5.2` (Form Interaction Design), `docs/04-design/DesignSystem.md Ã‚Â§11` (Error UX)
+**References:** `docs/04-design/DesignSystem.md §5.2` (Form Interaction Design), `docs/04-design/DesignSystem.md §11` (Error UX)
 
 ---
 
@@ -723,15 +723,15 @@ A modal dialog with backdrop, focus trap, keyboard dismiss, and accessibility su
 | **md**         | 560px             | Forms, settings, details       |
 | **lg**         | 720px             | Rich content, analytics detail |
 | **xl**         | 960px             | Full content view              |
-| **fullscreen** | 100vw Ãƒâ€” 100vh | Image lightbox, mobile         |
+| **fullscreen** | 100vw × 100vh | Image lightbox, mobile         |
 
 #### States
 
 | State                 | Visual                                 | ARIA                                                            |
 | --------------------- | -------------------------------------- | --------------------------------------------------------------- |
-| Open                  | Scale 0.95Ã¢â€ â€™1 + fade in (200ms)  | `role="dialog" aria-modal="true" aria-labelledby="modal-title"` |
-| Closing               | Scale 1Ã¢â€ â€™0.95 + fade out (150ms) | Ã¢â‚¬â€                                                         |
-| Open (reduced motion) | No animation                           | Ã¢â‚¬â€                                                         |
+| Open                  | Scale 0.95â†’1 + fade in (200ms)  | `role="dialog" aria-modal="true" aria-labelledby="modal-title"` |
+| Closing               | Scale 1→0.95 + fade out (150ms) | —                                                         |
+| Open (reduced motion) | No animation                           | —                                                         |
 
 #### Sub-Components
 
@@ -748,7 +748,7 @@ A modal dialog with backdrop, focus trap, keyboard dismiss, and accessibility su
 | Action        | Behavior                                             |
 | ------------- | ---------------------------------------------------- |
 | Open          | Focus first focusable element (or close button)      |
-| Tab cycle     | Traps focus within modal (cycles first Ã¢â€ â€ last) |
+| Tab cycle     | Traps focus within modal (cycles first â†” last) |
 | Escape        | Closes modal                                         |
 | Close button  | Returns focus to trigger element                     |
 | Outside click | Closes modal (if allowed)                            |
@@ -768,7 +768,7 @@ interface ModalProps {
 }
 ```
 
-**References:** `docs/04-design/DesignSystem.md Ã‚Â§15.4` (Confirmation Dialog Pattern)
+**References:** `docs/04-design/DesignSystem.md §15.4` (Confirmation Dialog Pattern)
 
 ---
 
@@ -782,10 +782,10 @@ A non-blocking notification for success, error, warning, and info messages. Appe
 
 | Variant     | Icon                | Background   | Border                     | Usage               |
 | ----------- | ------------------- | ------------ | -------------------------- | ------------------- |
-| **success** | Ã¢Å“â€¦ Checkmark   | `success-bg` | `1px solid var(--success)` | Operation succeeded |
-| **error**   | Ã¢ÂÅ’ X             | `error-bg`   | `1px solid var(--error)`   | Operation failed    |
-| **warning** | Ã¢Å¡Â Ã¯Â¸Â Warning | `warning-bg` | `1px solid var(--warning)` | Attention needed    |
-| **info**    | Ã¢â€žÂ¹Ã¯Â¸Â Info   | `info-bg`    | `1px solid var(--info)`    | General information |
+| **success** | âœ… Checkmark   | `success-bg` | `1px solid var(--success)` | Operation succeeded |
+| **error**   | âŒ X             | `error-bg`   | `1px solid var(--error)`   | Operation failed    |
+| **warning** | âš ï¸ Warning | `warning-bg` | `1px solid var(--warning)` | Attention needed    |
+| **info**    | â„¹ï¸ Info   | `info-bg`    | `1px solid var(--info)`    | General information |
 
 #### States
 
@@ -938,7 +938,7 @@ A tab navigation component for switching between related content sections.
 | State    | Visual                           | ARIA                   |
 | -------- | -------------------------------- | ---------------------- |
 | Default  | Normal text, no active indicator | `role="tab"`           |
-| Hover    | Slight bg change                 | Ã¢â‚¬â€                |
+| Hover    | Slight bg change                 | —                |
 | Active   | Accent color, active indicator   | `aria-selected="true"` |
 | Focus    | Focus ring                       | `:focus-visible`       |
 | Disabled | Opacity 50%                      | `aria-disabled="true"` |
@@ -986,11 +986,11 @@ A user avatar component with image, initials fallback, status indicator, and siz
 
 | Size | Dimensions    | Font Size | Usage                       |
 | ---- | ------------- | --------- | --------------------------- |
-| sm   | 32Ãƒâ€”32px   | 12px      | Table rows, comment avatars |
-| md   | 40Ãƒâ€”40px   | 14px      | Nav, small cards            |
-| lg   | 56Ãƒâ€”56px   | 20px      | Profile, about section      |
-| xl   | 80Ãƒâ€”80px   | 28px      | Hero, profile page          |
-| xxl  | 128Ãƒâ€”128px | 44px      | About page hero             |
+| sm   | 32×32px   | 12px      | Table rows, comment avatars |
+| md   | 40×40px   | 14px      | Nav, small cards            |
+| lg   | 56×56px   | 20px      | Profile, about section      |
+| xl   | 80×80px   | 28px      | Hero, profile page          |
+| xxl  | 128×128px | 44px      | About page hero             |
 
 #### States
 
@@ -1000,9 +1000,9 @@ A user avatar component with image, initials fallback, status indicator, and siz
 | Image loading    | Skeleton circle        | `aria-busy="true"` |
 | Image error      | Initials fallback      | `alt="User name"`  |
 | No image         | Initials on accent bg  | `alt="User name"`  |
-| Status (online)  | Green dot bottom-right | Ã¢â‚¬â€            |
-| Status (away)    | Amber dot bottom-right | Ã¢â‚¬â€            |
-| Status (offline) | Gray dot bottom-right  | Ã¢â‚¬â€            |
+| Status (online)  | Green dot bottom-right | —            |
+| Status (away)    | Amber dot bottom-right | —            |
+| Status (offline) | Gray dot bottom-right  | —            |
 
 #### Props
 
@@ -1206,18 +1206,18 @@ This enables Tailwind's `dark:` variant to work with the `data-theme="dark"` att
 
 | Component | v1.0 Status           | Tests | A11y Reviewed | Responsive | SSR Compatible      | Bundle Size (Gzipped) |
 | --------- | --------------------- | ----- | ------------- | ---------- | ------------------- | --------------------- |
-| Button    | Ã¢Å“â€¦ Complete      | 15    | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 1.2KB                 |
-| Card      | Ã¢Å“â€¦ Complete      | 12    | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 0.8KB                 |
-| Input     | Ã¢Å“â€¦ Complete      | 18    | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 1.8KB                 |
-| Badge     | Ã¢Å“â€¦ Complete      | 8     | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 0.4KB                 |
-| Modal     | Ã°Å¸â€â€ž In Progress | 10    | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 2.1KB                 |
-| Toast     | Ã°Å¸â€â€ž In Progress | 8     | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢ÂÅ’ (client only) | 1.5KB                 |
-| Table     | Ã°Å¸â€â€ž In Progress | 14    | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 2.8KB                 |
-| Tabs      | Ã°Å¸â€â€ž In Progress | 10    | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 1.0KB                 |
-| Avatar    | Ã°Å¸â€â€ž In Progress | 8     | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 0.6KB                 |
-| Skeleton  | Ã¢Å“â€¦ Complete      | 6     | Ã¢Å“â€¦       | Ã¢Å“â€¦    | Ã¢Å“â€¦             | 0.3KB                 |
+| Button    | âœ… Complete      | 15    | âœ…       | âœ…    | âœ…             | 1.2KB                 |
+| Card      | âœ… Complete      | 12    | âœ…       | âœ…    | âœ…             | 0.8KB                 |
+| Input     | âœ… Complete      | 18    | âœ…       | âœ…    | âœ…             | 1.8KB                 |
+| Badge     | âœ… Complete      | 8     | âœ…       | âœ…    | âœ…             | 0.4KB                 |
+| Modal     | ðŸ”„ In Progress | 10    | âœ…       | âœ…    | âœ…             | 2.1KB                 |
+| Toast     | ðŸ”„ In Progress | 8     | âœ…       | âœ…    | âŒ (client only) | 1.5KB                 |
+| Table     | ðŸ”„ In Progress | 14    | âœ…       | âœ…    | âœ…             | 2.8KB                 |
+| Tabs      | ðŸ”„ In Progress | 10    | âœ…       | âœ…    | âœ…             | 1.0KB                 |
+| Avatar    | ðŸ”„ In Progress | 8     | âœ…       | âœ…    | âœ…             | 0.6KB                 |
+| Skeleton  | âœ… Complete      | 6     | âœ…       | âœ…    | âœ…             | 0.3KB                 |
 
-### 4.2 All Components Ã¢â‚¬â€ Shared Props
+### 4.2 All Components — Shared Props
 
 ```typescript
 // Every component accepts:
@@ -1414,16 +1414,16 @@ Every component must pass these test categories:
 
 | Component | Render Tests             | Interaction Tests                                    | A11y Tests                             | Visual Regression                              | Integration Tests                      |
 | --------- | ------------------------ | ---------------------------------------------------- | -------------------------------------- | ---------------------------------------------- | -------------------------------------- |
-| Button    | 6 (variants Ãƒâ€” sizes) | 4 (click, disabled, loading, focus)                  | 2 (keyboard, aria)                     | 5 variants Ãƒâ€” 4 sizes Ãƒâ€” 3 states        | 2 (in form, in nav)                    |
-| Card      | 5 (variants)             | 1 (hover effect)                                     | 2 (structure, heading)                 | 5 variants Ãƒâ€” hover/normal                  | 2 (in grid, with sub-components)       |
-| Input     | 4 (states Ãƒâ€” sizes)   | 5 (focus, blur, change, error, clear)                | 3 (label, error, helper)               | 4 states Ãƒâ€” 2 sizes Ãƒâ€” with/without icon | 2 (in form, with validation)           |
-| Badge     | 6 (variants Ãƒâ€” sizes) | 1 (dismissible)                                      | 1 (status text)                        | 6 variants Ãƒâ€” 3 sizes                       | 1 (in card header)                     |
-| Modal     | 2 (open/close)           | 4 (esc, overlay click, tab trap, close btn)          | 3 (focus, aria, announcements)         | 5 sizes Ãƒâ€” open state                       | 2 (triggered from button, form inside) |
-| Toast     | 4 (variants)             | 3 (auto-dismiss, manual close, action click)         | 2 (role, announcement)                 | 4 variants Ãƒâ€” enter/visible/dismiss         | 1 (with action button)                 |
-| Table     | 3 (variants)             | 5 (sort, select, paginate, row click, column toggle) | 3 (aria-sort, selected, empty)         | 3 variants Ãƒâ€” empty/data/loading            | 2 (with data, pagination)              |
-| Tabs      | 3 (variants)             | 4 (click, arrow keys, disabled, orientation)         | 3 (role, aria-selected, aria-controls) | 3 variants Ãƒâ€” default/active states         | 2 (content switching, lazy loading)    |
-| Avatar    | 4 (sizes)                | 2 (image error fallback, status indicator)           | 1 (alt text)                           | 4 sizes Ãƒâ€” image/initials/status            | 1 (in card with user info)             |
-| Skeleton  | 7 (variants)             | 1 (reduced motion)                                   | 0 (decorative)                         | 7 variants Ãƒâ€” shimmer/static                | 1 (replaced by content)                |
+| Button    | 6 (variants × sizes) | 4 (click, disabled, loading, focus)                  | 2 (keyboard, aria)                     | 5 variants × 4 sizes × 3 states        | 2 (in form, in nav)                    |
+| Card      | 5 (variants)             | 1 (hover effect)                                     | 2 (structure, heading)                 | 5 variants × hover/normal                  | 2 (in grid, with sub-components)       |
+| Input     | 4 (states × sizes)   | 5 (focus, blur, change, error, clear)                | 3 (label, error, helper)               | 4 states × 2 sizes × with/without icon | 2 (in form, with validation)           |
+| Badge     | 6 (variants × sizes) | 1 (dismissible)                                      | 1 (status text)                        | 6 variants × 3 sizes                       | 1 (in card header)                     |
+| Modal     | 2 (open/close)           | 4 (esc, overlay click, tab trap, close btn)          | 3 (focus, aria, announcements)         | 5 sizes × open state                       | 2 (triggered from button, form inside) |
+| Toast     | 4 (variants)             | 3 (auto-dismiss, manual close, action click)         | 2 (role, announcement)                 | 4 variants × enter/visible/dismiss         | 1 (with action button)                 |
+| Table     | 3 (variants)             | 5 (sort, select, paginate, row click, column toggle) | 3 (aria-sort, selected, empty)         | 3 variants × empty/data/loading            | 2 (with data, pagination)              |
+| Tabs      | 3 (variants)             | 4 (click, arrow keys, disabled, orientation)         | 3 (role, aria-selected, aria-controls) | 3 variants × default/active states         | 2 (content switching, lazy loading)    |
+| Avatar    | 4 (sizes)                | 2 (image error fallback, status indicator)           | 1 (alt text)                           | 4 sizes × image/initials/status            | 1 (in card with user info)             |
+| Skeleton  | 7 (variants)             | 1 (reduced motion)                                   | 0 (decorative)                         | 7 variants × shimmer/static                | 1 (replaced by content)                |
 
 ### 6.3 A11y Test Example
 
@@ -1469,7 +1469,7 @@ describe('Button Accessibility', () => {
 | Component      | Decision                                                     | Alternatives                             | Rationale                                                                                          | Date     |
 | -------------- | ------------------------------------------------------------ | ---------------------------------------- | -------------------------------------------------------------------------------------------------- | -------- |
 | **Button**     | 5 variants, 4 sizes, icon support                            | 3 variants, 2 sizes                      | Covers all use cases without overlapping with other components; icon slots enable flexible layouts | Jun 2026 |
-| **Button**     | Spring easing on press (scale 0.97 Ã¢â€ â€™ 1.0)             | Color change only                        | Physical press feedback feels alive; spring easing prevents jarring snap-back                      | Jun 2026 |
+| **Button**     | Spring easing on press (scale 0.97 â†’ 1.0)             | Color change only                        | Physical press feedback feels alive; spring easing prevents jarring snap-back                      | Jun 2026 |
 | **Button**     | Loading spinner replaces icon slot, keeps text width         | Spinner replaces entire content          | Button width doesn't change on loading; accessible with `aria-busy`                                | Jun 2026 |
 | **Card**       | 5 variants (default, glass, elevated, bordered, interactive) | 1 variant, all props                     | Clear use-case separation; each variant has different optical characteristics                      | Jun 2026 |
 | **Card**       | Sub-components (Header, Body, Footer)                        | Single `children` slot                   | Semantic structure; consistent spacing; flexible composition                                       | Jun 2026 |
@@ -1498,7 +1498,7 @@ describe('Button Accessibility', () => {
 | 4.0     | Jun 2026 | Complete restructure into design token reference (9 token categories), 10-component catalog (Button, Card, Input, Badge, Modal, Toast, Table, Tabs, Avatar, Skeleton) with full API docs, states, a11y patterns, and test matrices; added theme system with CSS custom properties for light/dark modes; added theme toggle component; added cn() utility; added 5 a11y hooks/patterns (focus trap, skip link, reduced motion, focus on mount, announcements); expanded decision records to 20 decisions | Design Lead |
 | 3.0     | Jun 2026 | Added executive summary, component decision records, component test matrix, expanded accessibility patterns (focus trap, skip link), theme performance budget, versioning strategy                                                                                                                                                                                                                                                                                                                      | Design Lead |
 | 2.0     | Jun 2026 | Aligned with enterprise monorepo structure; all tokens in CSS custom props                                                                                                                                                                                                                                                                                                                                                                                                                              | Design Lead |
-| 1.0     | Mar 2026 | Initial design system Ã¢â‚¬â€ 3 base components (Button, Card, Input)                                                                                                                                                                                                                                                                                                                                                                                                                                   | Design Lead |
+| 1.0     | Mar 2026 | Initial design system — 3 base components (Button, Card, Input)                                                                                                                                                                                                                                                                                                                                                                                                                                   | Design Lead |
 
 ---
 
@@ -1506,13 +1506,13 @@ describe('Button Accessibility', () => {
 
 | Reference                                             | Description                                                                     |
 | ----------------------------------------------------- | ------------------------------------------------------------------------------- |
-| `docs/04-design/UserFlows.md` (v5.0)                  | Screen specifications Ã¢â‚¬â€ component usage context per screen                |
-| `docs/04-design/DesignSystem.md` (v5.0)               | UI/UX architecture Ã¢â‚¬â€ interaction patterns, error UX, loading UX           |
-| `docs/04-design/DesignTokens.md` (v5.0)               | Creative direction Ã¢â‚¬â€ visual identity, color philosophy, typography system |
-| `docs/35-quality/AccessibilityArchitecture.md` (v3.0) | Full WCAG compliance Ã¢â‚¬â€ accessibility rules and verification               |
-| `docs/35-quality/TestingArchitecture.md` (v3.0)       | Testing strategy Ã¢â‚¬â€ component test coverage requirements                   |
-| `apps/web/tailwind.config.ts`                         | Tailwind CSS configuration Ã¢â‚¬â€ design token implementation                  |
-| `apps/web/src/styles/globals.css`                     | Global styles Ã¢â‚¬â€ CSS custom properties theme system                        |
+| `docs/04-design/UserFlows.md` (v5.0)                  | Screen specifications — component usage context per screen                |
+| `docs/04-design/DesignSystem.md` (v5.0)               | UI/UX architecture — interaction patterns, error UX, loading UX           |
+| `docs/04-design/DesignTokens.md` (v5.0)               | Creative direction — visual identity, color philosophy, typography system |
+| `docs/35-quality/AccessibilityArchitecture.md` (v3.0) | Full WCAG compliance — accessibility rules and verification               |
+| `docs/35-quality/TestingArchitecture.md` (v3.0)       | Testing strategy — component test coverage requirements                   |
+| `apps/web/tailwind.config.ts`                         | Tailwind CSS configuration — design token implementation                  |
+| `apps/web/src/styles/globals.css`                     | Global styles — CSS custom properties theme system                        |
 
 ---
 
@@ -1554,7 +1554,7 @@ describe('Button Accessibility', () => {
 
 ### 9.1 Design Tokens
 
-Design tokens are the atomic values needed to construct and maintain a design system Ã¢â‚¬â€ colors, typography, spacing, shadows, etc. These are stored in a centralized configuration and exported to platforms (CSS variables, JSON, etc.) to ensure consistency.
+Design tokens are the atomic values needed to construct and maintain a design system — colors, typography, spacing, shadows, etc. These are stored in a centralized configuration and exported to platforms (CSS variables, JSON, etc.) to ensure consistency.
 
 - **Semantic Tokens:** Maps core tokens to specific meanings (e.g., color-error-background).
 - **Component Tokens:** Scoped tokens used only within specific components to override semantics where necessary.
@@ -1563,7 +1563,7 @@ Design tokens are the atomic values needed to construct and maintain a design sy
 
 Motion tokens govern all animations and transitions to create a cohesive, physical feel.
 
-- **Durations:** micro (100ms), ast (200ms),
+- **Durations:** micro (100ms), fast (200ms),
   ormal (300ms), slow (500ms).
 - **Easings:** ease-in-out (smooth state changes), ease-spring (bouncy, playful feedback), ease-out (entrances).
 
@@ -1610,9 +1610,9 @@ Ensures UI compliance with WCAG 2.2 AA.
 | 2.0     | Jun 2026 | Added component documentation                                           | Frontend Lead |
 | 1.0     | Mar 2026 | Initial design system documentation                                     | Frontend Lead |
 
-_Document Version: 4.0 Ã¢â‚¬â€ Enterprise Edition_
+_Document Version: 4.0 — Enterprise Edition_
 
 ## Cross-References
 
-- [../MASTER-INDEX.md](../MASTER-INDEX.md) â€” Documentation master index
-- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) â€” Cross-reference system
+- [../MASTER-INDEX.md](../../MASTER-INDEX.md) — Documentation master index
+- [../26-reference/CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system

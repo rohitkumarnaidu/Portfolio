@@ -151,6 +151,26 @@ jobs:
         # dist is stale or a generated file is missing from the commit.
         run: test -z "$(git status --porcelain --ignored -- packages/tokens/dist)"
 
+  # Documentation is part of the product: a moved file must not silently rot
+  # the links into it, and the generated index must match the tree it indexes.
+  docs:
+    name: Docs Links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Check relative links
+        run: node scripts/check-docs-links.mjs
+
+      - name: Check docs index is current
+        run: |
+          node scripts/generate-docs-index.js
+          git diff --exit-code -- docs/MASTER-INDEX.md
+
   npm-audit:
     name: npm Audit
     runs-on: ubuntu-latest

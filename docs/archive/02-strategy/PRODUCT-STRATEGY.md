@@ -2,7 +2,7 @@
 
 > **Document:** `ProductStrategy.md` | **Version:** 2.0 | **Last Updated:** July 2026
 > **Status:** Active | **Owner:** Product Owner | **Review Cadence:** Quarterly
-> **Cross-References:** [OKRs](./okrs.md) | [ProductRequirements.md](./ProductRequirements.md) | [ProductRoadmap.md](./ProductRoadmap.md)
+> **Cross-References:** OKRs | ProductRequirements.md | ProductRoadmap.md
 
 ---
 

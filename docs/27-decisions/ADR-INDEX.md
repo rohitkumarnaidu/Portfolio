@@ -66,4 +66,4 @@ _Document Version: 1.0 — Enterprise Edition_
 ## Cross-References
 
 - [MASTER-INDEX.md](../MASTER-INDEX.md) — Documentation master index
-- [CROSS-REFERENCE-INDEX.md](../26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
+- [CROSS-REFERENCE-INDEX.md](../archive/26-reference/CROSS-REFERENCE-INDEX.md) — Cross-reference system
