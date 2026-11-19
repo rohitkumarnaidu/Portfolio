@@ -44,7 +44,7 @@ The platform maintains compliance with GDPR (EU) and CCPA (California). Key meas
 
 ## 3. PII Classification & Handling
 
-PII is classified into three tiers per [data-classification.md](./data-classification.md): **Tier 1 (Public)** — unrestricted portfolio content; **Tier 2 (Internal)** — pseudonymised analytics events encrypted at rest; **Tier 3 (Restricted)** — contact form submissions, OAuth profiles, and AI chat logs, encrypted at rest (AES-256-GCM) and in transit (TLS 1.3), access logged via [AuditLogging.md](AUDIT-LOGGING.md), and retained per strict schedules below. Access is restricted to authorized personnel via the RBAC model in 15-AUTHORIZATION.md.
+PII is classified into three tiers per [data-classification.md](./DATA-CLASSIFICATION.md): **Tier 1 (Public)** — unrestricted portfolio content; **Tier 2 (Internal)** — pseudonymised analytics events encrypted at rest; **Tier 3 (Restricted)** — contact form submissions, OAuth profiles, and AI chat logs, encrypted at rest (AES-256-GCM) and in transit (TLS 1.3), access logged via [AuditLogging.md](AUDIT-LOGGING.md), and retained per strict schedules below. Access is restricted to authorized personnel via the RBAC model in 15-AUTHORIZATION.md.
 
 ## 4. Cookie Consent & Tracking Governance
 
@@ -79,7 +79,7 @@ The incident response procedure is detailed in [SecurityArchitecture.md](SECURIT
 | [SecurityArchitecture.md](SECURITY-ARCHITECTURE.md)                  | Overall security posture, encryption, access control         |
 | [16-COMPLIANCE.md](COMPLIANCE.md)                                | Full compliance framework, DSAR process, breach notification |
 | [AnalyticsArchitecture.md](../14-observability/ANALYTICS-ARCHITECTURE.md) | Analytics event taxonomy, data flows, event schema           |
-| [data-classification.md](./data-classification.md)                    | Data classification tiers and handling requirements          |
+| [data-classification.md](./DATA-CLASSIFICATION.md)                    | Data classification tiers and handling requirements          |
 | 15-AUTHORIZATION.md                          | RBAC model governing PII access                              |
 | [AuditLogging.md](AUDIT-LOGGING.md)                                  | Audit trail for PII access events                            |
 

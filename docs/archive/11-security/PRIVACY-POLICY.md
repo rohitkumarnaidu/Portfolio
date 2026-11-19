@@ -22,7 +22,7 @@ We are committed to protecting your privacy and complying with applicable data p
 
 - **Usage analytics:** Page views, interactions, session duration, and referral sources via PostHog
 - **Device information:** Browser type, operating system, screen resolution, and IP address
-- **Cookies and similar tracking technologies** (see our [Cookie Policy](./cookie-policy.md))
+- **Cookies and similar tracking technologies** (see our [Cookie Policy](./COOKIE-POLICY.md))
 
 ### AI Chat Data
 
@@ -77,7 +77,7 @@ To exercise any of these rights, contact us at [privacy@portfolio.dev](mailto:pr
 
 ## Cookie Usage
 
-We use essential and analytics cookies. For detailed information, see our [Cookie Policy](./cookie-policy.md).
+We use essential and analytics cookies. For detailed information, see our [Cookie Policy](./COOKIE-POLICY.md).
 
 ## Data Security
 

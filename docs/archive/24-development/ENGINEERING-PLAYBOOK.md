@@ -740,7 +740,7 @@ Secrets must never be hardcoded. The policy is defined in [`docs/11-security/Sec
 
 ### 11.4 Data Classification
 
-Data is classified into four tiers per the [Data Classification Policy](../11-security/data-classification.md):
+Data is classified into four tiers per the [Data Classification Policy](../11-security/DATA-CLASSIFICATION.md):
 
 | Level  | Label        | Examples                                                      |
 | ------ | ------------ | ------------------------------------------------------------- |
@@ -842,9 +842,9 @@ The monorepo provides a unified dev experience through Turborepo:
 | Feature Flags                 | [`docs/21-operations/60-FEATURE-FLAGS.md`](../06-backend/FEATURE-FLAGS.md)                           |
 | Technical Debt Register       | `docs/21-operations/TechnicalDebtRegister.md`                 |
 | Secrets Management            | [`docs/11-security/SecretsManagement.md`](../11-security/SECRETS-MANAGEMENT.md)                             |
-| Data Classification           | [`docs/11-security/data-classification.md`](../11-security/data-classification.md)                         |
-| Error Budget Policy           | [`docs/24-development/error-budget-policy.md`](./error-budget-policy.md)                                     |
-| Debugging Guide               | [`docs/24-development/debugging-guide.md`](./debugging-guide.md)                                             |
+| Data Classification           | [`docs/11-security/data-classification.md`](../11-security/DATA-CLASSIFICATION.md)                         |
+| Error Budget Policy           | [`docs/24-development/error-budget-policy.md`](./ERROR-BUDGET-POLICY.md)                                     |
+| Debugging Guide               | [`docs/24-development/debugging-guide.md`](./DEBUGGING-GUIDE.md)                                             |
 
 ### Configuration Files
 

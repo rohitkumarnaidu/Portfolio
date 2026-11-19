@@ -10,7 +10,7 @@
 
 ## Before Asking for Help
 
-1. Check the [FAQ](./faq.md)
+1. Check the [FAQ](./FAQ.md)
 2. Check the Troubleshooting Guide
 3. Search existing GitHub issues
 4. Search the documentation

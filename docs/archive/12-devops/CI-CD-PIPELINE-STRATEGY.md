@@ -2,7 +2,7 @@
 
 > **Document:** `ci-cd-pipeline-strategy.md` | **Version:** 1.0 | **Last Updated:** July 2026
 > **Status:** Draft | **Owner:** DevOps Lead | **Review Cadence:** Quarterly
-> **Related:** [Environment Strategy](./environment-matrix.md) | [Container Strategy](./container-strategy.md) | [DORA Metrics](DORA-METRICS.md) | [Deployment Guide](DEPLOYMENT-GUIDE.md)
+> **Related:** [Environment Strategy](./ENVIRONMENT-MATRIX.md) | [Container Strategy](./CONTAINER-STRATEGY.md) | [DORA Metrics](DORA-METRICS.md) | [Deployment Guide](DEPLOYMENT-GUIDE.md)
 
 ---
 

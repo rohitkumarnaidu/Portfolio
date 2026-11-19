@@ -724,7 +724,7 @@ The FastAPI docs are only enabled in debug mode:
 | **Coding Standards**              | [`docs/23-governance/CodingStandards.md`](../23-governance/CODING-STANDARDS.md)                |
 | **Architecture Decision Records** | [`docs/27-decisions/`](../../27-decisions/) — 14 ADRs covering technology choices                      |
 | **CI/CD Pipeline**                | [`docs/21-operations/53-CI-CD-PIPELINE.md`](../12-devops/CI-CD-PIPELINE.md)         |
-| **Runbooks**                      | [`docs/30-runbooks/`](../../30-runbooks/) — Incident response, backup, recovery                  |
+| **Runbooks**                      | [`docs/30-runbooks/`](../30-runbooks/) — Incident response, backup, recovery                  |
 
 ### Team Communication
 

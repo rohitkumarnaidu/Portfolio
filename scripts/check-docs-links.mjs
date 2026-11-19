@@ -83,6 +83,28 @@ export function resolveTarget(file, target) {
   return path.resolve(path.dirname(file), clean);
 }
 
+/**
+ * True only when every path segment matches an entry's exact spelling.
+ * `fs.existsSync` is case-insensitive on Windows and macOS, so a link such as
+ * `./privacy-policy.md` would pass locally and fail on the Linux runner. This
+ * walks the segments and compares names exactly, making the check portable.
+ */
+export function existsExact(target) {
+  const parsed = path.parse(target);
+  let current = parsed.root;
+  for (const segment of target.slice(parsed.root.length).split(path.sep).filter(Boolean)) {
+    let entries;
+    try {
+      entries = fs.readdirSync(current);
+    } catch {
+      return false;
+    }
+    if (!entries.includes(segment)) return false;
+    current = path.join(current, segment);
+  }
+  return true;
+}
+
 export function scan() {
   const files = [
     ...walk(DOCS),
@@ -95,7 +117,7 @@ export function scan() {
       total += 1;
       const resolved = resolveTarget(file, link.target);
       if (!resolved) continue;
-      if (!fs.existsSync(resolved)) {
+      if (!existsExact(resolved)) {
         broken.push({
           file: path.relative(ROOT, file).replaceAll('\\', '/'),
           line: link.line,

@@ -101,7 +101,7 @@ We may update this Cookie Policy from time to time. Changes will be posted here 
 For questions about our use of cookies:
 
 - **Email:** [privacy@portfolio.dev](mailto:privacy@portfolio.dev)
-- **Privacy Policy:** [privacy-policy.md](./privacy-policy.md)
+- **Privacy Policy:** [privacy-policy.md](./PRIVACY-POLICY.md)
 
 ## Cross-References
 
