@@ -17,6 +17,14 @@ repaired by reconstructing `U+FFFD` runs from context (see the note at the top o
 `07-frontend/DESIGN-SYSTEM-EXTENDED.md`), and 85 files of double-encoded UTF-8
 were round-tripped back to the intended characters.
 
+On 2026-11-20 a second pass reconstructed the remaining glyph losses in those two
+documents: status marks, arrows, multiplication signs, and section/numeric range
+separators that an earlier non-Unicode conversion had left as `?` or `§`. As with
+the first pass, the replacements are contextual inference from the surviving
+tables, not recovered bytes; the documents' content, decisions, and claims are
+unchanged. This is the only kind of edit the archive accepts — see the rule in
+root `AGENTS.md`.
+
 Do not cite these documents as sources of truth, and do not link to them from
 maintained documentation.
 
