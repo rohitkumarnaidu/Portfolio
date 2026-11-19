@@ -1,11 +1,11 @@
 # Design System — Enterprise Component Library & Token Reference
 
-> **Archive note:** this file was recovered from encoding damage. A small number
-> of characters had been replaced by `U+FFFD`; they were reconstructed from context
-> (section signs, dashes, and one degree sign). It remains historical material only.
+> **Archive note:** this file was recovered from encoding damage. Some characters
+> had been replaced by `?` or `U+FFFD`; they were reconstructed from context
+> (arrows, status marks, section signs, and dashes). It remains historical material only.
 
 > **File:** DesignSystem.md | **Version:** 5.0 | **Last Updated:** June 2026  
-> **Status:** ? Active | **Framework:** React 18 + TypeScript 5 + Tailwind CSS 3.4  
+> **Status:** ✅ Active | **Framework:** React 18 + TypeScript 5 + Tailwind CSS 3.4  
 > **Owner:** Design Systems Lead | **Review Cadence:** Monthly  
 > **Components Documented:** 72+ across 9 categories | **Design Tokens:** 280+  
 > **Theme Modes:** 3 (Light, Dark, High Contrast) | **WCAG:** 2.2 AA+ (AAA where feasible)
@@ -104,15 +104,15 @@ All colors are exposed as CSS custom properties and Tailwind theme extensions. T
 
 | Token          | CSS Variable | Light Hex   | Dark Hex    | HC Hex      | Usage                    | Contrast (AA) |
 | -------------- | ------------ | ----------- | ----------- | ----------- | ------------------------ | ------------- |
-| accent-50      | --accent-50  | #EEF2FF     | #1E1B4B     | #E0E0E0     | Background tint          | ?             |
-| accent-100     | --accent-100 | #E0E7FF     | #312E81     | #C0C0C0     | Hover background         | ?             |
-| accent-200     | --accent-200 | #C7D2FE     | #3730A3     | #A0A0A0     | Active background        | ?             |
-| accent-300     | --accent-300 | #A5B4FC     | #4338CA     | #8080FF     | Border accent            | ?             |
-| accent-400     | --accent-400 | #818CF8     | #4F46E5     | #6060FF     | Soft accent              | ?             |
-| **accent-500** | --accent-500 | **#6366F1** | **#6366F1** | **#4040FF** | **Primary accent, CTAs** | ? 4.8:1+      |
-| accent-600     | --accent-600 | #4F46E5     | #818CF8     | #2020FF     | Hover on accent          | ?             |
-| accent-700     | --accent-700 | #4338CA     | #A5B4FC     | #0000DD     | Active on accent         | ?             |
-| accent-800     | --accent-800 | #3730A3     | #C7D2FE     | #0000AA     | Pressed accent           | ?             |
+| accent-50      | --accent-50  | #EEF2FF     | #1E1B4B     | #E0E0E0     | Background tint          | —             |
+| accent-100     | --accent-100 | #E0E7FF     | #312E81     | #C0C0C0     | Hover background         | —             |
+| accent-200     | --accent-200 | #C7D2FE     | #3730A3     | #A0A0A0     | Active background        | —             |
+| accent-300     | --accent-300 | #A5B4FC     | #4338CA     | #8080FF     | Border accent            | —             |
+| accent-400     | --accent-400 | #818CF8     | #4F46E5     | #6060FF     | Soft accent              | —             |
+| **accent-500** | --accent-500 | **#6366F1** | **#6366F1** | **#4040FF** | **Primary accent, CTAs** | ✅ 4.8:1+      |
+| accent-600     | --accent-600 | #4F46E5     | #818CF8     | #2020FF     | Hover on accent          | —             |
+| accent-700     | --accent-700 | #4338CA     | #A5B4FC     | #0000DD     | Active on accent         | —             |
+| accent-800     | --accent-800 | #3730A3     | #C7D2FE     | #0000AA     | Pressed accent           | —             |
 
 #### 2.1.3 Neutral Palette (Surface + Text)
 
@@ -553,14 +553,14 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Transformation              | Token Change                      | Rationale                      |
 | --------------------------- | --------------------------------- | ------------------------------ |
-| All shadows ? solid borders | --shadow-* ? • 0 0 2px #000        | WCAG 1.4.11, no opacity        |
+| All shadows → solid borders | --shadow-* → • 0 0 2px #000        | WCAG 1.4.11, no opacity        |
 | Transparency removed        | All                               |
-| gba() ? solid colors        | WCAG 1.4.1                        |
-| Accent ? Blue               | #6366F1 ? #4040FF                 | Blue is universally recognized |
+| rgba() → solid colors        | WCAG 1.4.1                        |
+| Accent → Blue               | #6366F1 → #4040FF                 | Blue is universally recognized |
 | Glass blur disabled         | backdrop-filter: none              | Prevent rendering artifacts    |
-| Focus ring ? high contrast  | Double ring (black + white)       | WCAG 2.4.13                    |
-| All text ? minimum 7:1      | Adjusts from 4.5:1 ? 7:1          | WCAG AAA text                  |
-| All icons ? minimum 3:1     | Removes low-contrast decorative   | WCAG 1.4.11                    |
+| Focus ring → high contrast  | Double ring (black + white)       | WCAG 2.4.13                    |
+| All text → minimum 7:1      | Adjusts from 4.5:1 → 7:1          | WCAG AAA text                  |
+| All icons → minimum 3:1     | Removes low-contrast decorative   | WCAG 1.4.11                    |
 | Underline all links         | Always visible, not just on hover | WCAG 1.4.1                     |
 | Borders on all cards        | Cards always have visible border  | Distinguishable                |
 
@@ -578,11 +578,11 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Variant   | Purpose                                | Token                       | Icon Support | Gradient?                 |
 | --------- | -------------------------------------- | --------------------------- | ------------ | ------------------------- |
-| primary   | Primary CTA, most important action     | accent-500 fill, white text | ?            | ? optional --gradient-cta |
-| secondary | Secondary actions, alternatives        | transparent, accent border  | ?            | ?                         |
-| outline   | Tertiary actions, ghost-like           | transparent, border-primary | ?            | ?                         |
-| ghost     | Lowest emphasis, toolbar, icon buttons | transparent, no border      | ?            | ?                         |
-| danger    | Destructive actions (delete, remove)   | semantic-error fill         | ?            | ?                         |
+| primary   | Primary CTA, most important action     | accent-500 fill, white text | ✅            | ✅ optional --gradient-cta |
+| secondary | Secondary actions, alternatives        | transparent, accent border  | ✅            | ❌                         |
+| outline   | Tertiary actions, ghost-like           | transparent, border-primary | ✅            | ❌                         |
+| ghost     | Lowest emphasis, toolbar, icon buttons | transparent, no border      | ✅            | ❌                         |
+| danger    | Destructive actions (delete, remove)   | semantic-error fill         | ✅            | ❌                         |
 
 **Sizes:**
 
@@ -668,11 +668,11 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Variant  | Background        | Border         | Shadow       | Glass Effect    | Usage                   |
 | -------- | ----------------- | -------------- | ------------ | --------------- | ----------------------- |
-| default  | surface-secondary | border-primary | shadow-md    | ?               | Standard cards          |
-| elevated | surface-secondary | border-primary | shadow-lg    | ?               | Featured cards          |
-| glass    | glass-bg          | glass-border   | glass-shadow | ? backdrop-blur | Hero sections, overlays |
-| outline  | transparent       | border-primary | none         | ?               | Settings panels         |
-| flat      | surface-primary   | none           | none         | ?               | Nested content          |
+| default  | surface-secondary | border-primary | shadow-md    | ❌               | Standard cards          |
+| elevated | surface-secondary | border-primary | shadow-lg    | ❌               | Featured cards          |
+| glass    | glass-bg          | glass-border   | glass-shadow | ✅ backdrop-blur | Hero sections, overlays |
+| outline  | transparent       | border-primary | none         | ❌               | Settings panels         |
+| flat      | surface-primary   | none           | none         | ❌               | Nested content          |
 
 **Sub-components:**
 
@@ -705,7 +705,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Action | Behavior                                       | Duration |
 | ------ | ---------------------------------------------- | -------- |
-| Hover  | Slight translateY(-2px), shadow-lg ? shadow-xl | 300ms    |
+| Hover  | Slight translateY(-2px), shadow-lg → shadow-xl | 300ms    |
 | Click  | translateY(-1px)                               | 100ms    |
 | Focus  | Visible ring if interactive                    | 200ms    |
 | Touch  | No hover on touch devices                      | —        |
@@ -932,7 +932,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | State       | Change                            |
 | ----------- | --------------------------------- |
 | Default     | As described in variants          |
-| Dismissible | Shows ? icon, onClick dismisses   |
+| Dismissible | Shows ✕ icon, onClick dismisses   |
 | Interactive | Hover: opacity-80, cursor pointer |
 
 **Accessibility:**
@@ -1012,7 +1012,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | State   | Animation                                   |
 | ------- | ------------------------------------------- |
-| Loading | Shimmer animation (base ? highlight ? base) |
+| Loading | Shimmer animation (base → highlight → base) |
 | Loaded  | Fade out with 200ms transition              |
 | Error   | Replace with error state component          |
 | Empty   | Replace with empty state component          |
@@ -1123,7 +1123,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 | Hover             | opacity-80                     | N/A               |
 | Scrolled (sticky) | shadow-sm added                | shadow-sm added   |
 | Menu open         | N/A                            | Drawer slides in  |
-| Over hero         | transparent ? sticky on scroll | Same              |
+| Over hero         | transparent → sticky on scroll | Same              |
 
 **Accessibility:**
 
@@ -1178,10 +1178,7 @@ High contrast mode transforms the visual system to meet WCAG AAA where possible:
 
 | Criterion       | Implementation                             |
 | --------------- | ------------------------------------------ |
-| Role            |
-| ole="tablist" ? |
-| ole="tab" ?     |
-| ole="tabpanel"  |
+| Role            | `role="tablist"` on container, `role="tab"` on each tab, `role="tabpanel"` on panels |
 | Keyboard        | Left/Right arrow navigation, Home/End      |
 | ARIA            | aria-selected, aria-controls, aria-labelledby |
 | Focus           | Focus ring on active tab only              |
@@ -1650,8 +1647,8 @@ emovable, clickable, disabled.
 | Default           | surface-elevated bg, text-secondary |
 | Hover (clickable) | accent-50 bg                        |
 | Selected          | accent-100 bg, accent-600 text      |
-| Removable         | Shows ? icon                        |
-| Removable hover   | ? icon becomes accent color         |
+| Removable         | Shows ✕ icon                        |
+| Removable hover   | ✕ icon becomes accent color         |
 
 #### 4.5.5 Carousel
 
@@ -1781,7 +1778,7 @@ emovable, clickable, disabled.
 
 | State     | Visual                               |
 | --------- | ------------------------------------ |
-| Available | Accent ghost button "? Suggest"      |
+| Available | Accent ghost button "⚡ Suggest"      |
 | Loading   | Skeleton cards                       |
 | Ready     | Card with suggestion + Apply/Dismiss |
 | Applied   | Green check + "Applied"              |
@@ -2032,7 +2029,7 @@ interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
 
 | Rule                        | Description                                                                   |
 | --------------------------- | ----------------------------------------------------------------------------- |
-| **Semantic HTML**           | Components extend native HTML attributes (Button ? <button>, Input ? <input>) |
+| **Semantic HTML**           | Components extend native HTML attributes (Button → <button>, Input → <input>) |
 | **forwardRef**              | All interactive components forward ref to their root DOM element              |
 | **className merge**         | Custom cn() utility merges Tailwind classes, resolving conflicts              |
 | **Variants**                | String union types, never booleans for visual variants                        |
@@ -2079,37 +2076,37 @@ return twMerge(clsx(inputs));
 
 | WCAG Criterion                    | Level | Status     | Implementation                                           |
 | --------------------------------- | ----- | ---------- | -------------------------------------------------------- |
-| 1.1.1 Non-text Content            | A     | ?          | All icons have alt/aria-label; decorative ? aria-hidden   |
-| 1.3.1 Info and Relationships      | A     | ?          | Semantic HTML, ARIA landmarks                            |
-| 1.3.2 Meaningful Sequence         | A     | ?          | DOM order matches visual order                           |
-| 1.4.1 Use of Color                | A     | ?          | Color never sole indicator; icons + text accompany       |
-| 1.4.3 Contrast (Text)             | AA    | ?          | Minimum 4.5:1 body, 3:1 large text                       |
-| 1.4.4 Resize Text                 | AA    | ?          | rem/em units, 200% zoom no overflow                      |
-| 1.4.10 Reflow                     | AA    | ?          | No horizontal scroll at 320px                            |
-| 1.4.11 Non-text Contrast          | AA    | ?          | 3:1 minimum for UI components                            |
-| 1.4.12 Text Spacing               | AA    | ?          | Line height 1.5, paragraph 2x, letter 0.12em             |
-| 2.1.1 Keyboard                    | A     | ?          | All interactive elements keyboard accessible             |
-| 2.1.2 No Keyboard Trap            | A     | ?          | Focus never trapped (exception: modals trap with Escape) |
-| 2.4.3 Focus Order                 | A     | ?          | Logical tab order                                        |
-| 2.4.4 Link Purpose                | A     | ?          | Descriptive link text                                    |
-| 2.4.6 Headings and Labels         | AA    | ?          | Descriptive headings/labels                              |
-| 2.4.7 Focus Visible               | AA    | ?          | --focus-ring on all interactive elements                 |
-| 2.4.11 Focus Not Obscured         | AA    | ?          | Focus ring fully visible, no clipping                    |
-| 2.5.3 Label in Name               | AA    | ?          | Visible label matches accessible name                    |
-| 2.5.8 Target Size                 | AA    | ?          | 44x44px minimum touch targets                            |
-| 3.2.1 On Focus                    | A     | ?          | No context change on focus                               |
-| 3.2.2 On Input                    | A     | ?          | No context change on input                               |
-| 3.3.1 Error Identification        | A     | ?          | Errors identified and described                          |
-| 3.3.2 Labels or Instructions      | A     | ?          | All inputs have labels                                   |
-| 3.3.3 Error Suggestion            | AA    | ?          | Specific error messages                                  |
-| 4.1.2 Name, Role, Value           | A     | ?          | ARIA attributes on custom components                     |
-| 4.1.3 Status Messages             | AA    | ?          | aria-live regions for dynamic content                     |
-| 2.1.4 Character Key Shortcuts     | A     | ?          | No single-key shortcuts                                  |
-| 2.3.3 Animation from Interactions | AAA   | ?          | prefers-reduced-motion respected                         |
-| 1.4.10 Contrast (Enhanced)        | AAA   | ? Targeted | HC mode targets 7:1                                      |
-| 2.4.11 Focus Appearance           | AAA   | ? Targeted | HC mode double-ring focus                                |
+| 1.1.1 Non-text Content            | A     | ✅          | All icons have alt/aria-label; decorative → aria-hidden   |
+| 1.3.1 Info and Relationships      | A     | ✅          | Semantic HTML, ARIA landmarks                            |
+| 1.3.2 Meaningful Sequence         | A     | ✅          | DOM order matches visual order                           |
+| 1.4.1 Use of Color                | A     | ✅          | Color never sole indicator; icons + text accompany       |
+| 1.4.3 Contrast (Text)             | AA    | ✅          | Minimum 4.5:1 body, 3:1 large text                       |
+| 1.4.4 Resize Text                 | AA    | ✅          | rem/em units, 200% zoom no overflow                      |
+| 1.4.10 Reflow                     | AA    | ✅          | No horizontal scroll at 320px                            |
+| 1.4.11 Non-text Contrast          | AA    | ✅          | 3:1 minimum for UI components                            |
+| 1.4.12 Text Spacing               | AA    | ✅          | Line height 1.5, paragraph 2x, letter 0.12em             |
+| 2.1.1 Keyboard                    | A     | ✅          | All interactive elements keyboard accessible             |
+| 2.1.2 No Keyboard Trap            | A     | ✅          | Focus never trapped (exception: modals trap with Escape) |
+| 2.4.3 Focus Order                 | A     | ✅          | Logical tab order                                        |
+| 2.4.4 Link Purpose                | A     | ✅          | Descriptive link text                                    |
+| 2.4.6 Headings and Labels         | AA    | ✅          | Descriptive headings/labels                              |
+| 2.4.7 Focus Visible               | AA    | ✅          | --focus-ring on all interactive elements                 |
+| 2.4.11 Focus Not Obscured         | AA    | ✅          | Focus ring fully visible, no clipping                    |
+| 2.5.3 Label in Name               | AA    | ✅          | Visible label matches accessible name                    |
+| 2.5.8 Target Size                 | AA    | ✅          | 44x44px minimum touch targets                            |
+| 3.2.1 On Focus                    | A     | ✅          | No context change on focus                               |
+| 3.2.2 On Input                    | A     | ✅          | No context change on input                               |
+| 3.3.1 Error Identification        | A     | ✅          | Errors identified and described                          |
+| 3.3.2 Labels or Instructions      | A     | ✅          | All inputs have labels                                   |
+| 3.3.3 Error Suggestion            | AA    | ✅          | Specific error messages                                  |
+| 4.1.2 Name, Role, Value           | A     | ✅          | ARIA attributes on custom components                     |
+| 4.1.3 Status Messages             | AA    | ✅          | aria-live regions for dynamic content                     |
+| 2.1.4 Character Key Shortcuts     | A     | ✅          | No single-key shortcuts                                  |
+| 2.3.3 Animation from Interactions | AAA   | ✅          | prefers-reduced-motion respected                         |
+| 1.4.10 Contrast (Enhanced)        | AAA   | ⬆️ Targeted | HC mode targets 7:1                                      |
+| 2.4.11 Focus Appearance           | AAA   | ⬆️ Targeted | HC mode double-ring focus                                |
 
-**Legend:** ? Pass | ? In Progress | ? Not Started | — N/A
+**Legend:** ✅ Pass | 🔄 In Progress | ⬜ Not Started | — N/A
 
 ## 7. Testing Strategy
 
@@ -2201,9 +2198,9 @@ Every component PR must pass these checks (blocking):
 
 | Change Type | Version Bump          | Changelog Entry      | Example                        |
 | ----------- | --------------------- | -------------------- | ------------------------------ |
-| Breaking    | Major (1.x ? 2.0)     | ### Breaking Changes | Renamed prop, removed variant  |
-| Feature     | Minor (1.0 ? 1.1)     | ### Added            | New variant, new sub-component |
-| Fix         | Patch (1.0.0 ? 1.0.1) | ### Fixed            | Bug fix, styling correction    |
+| Breaking    | Major (1.x → 2.0)     | ### Breaking Changes | Renamed prop, removed variant  |
+| Feature     | Minor (1.0 → 1.1)     | ### Added            | New variant, new sub-component |
+| Fix         | Patch (1.0.0 → 1.0.1) | ### Fixed            | Bug fix, styling correction    |
 
 ### 8.4 Documentation Requirements
 
