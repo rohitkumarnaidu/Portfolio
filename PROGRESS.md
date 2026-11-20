@@ -1,7 +1,7 @@
 # PROGRESS.md
 
-> **Status:** PHASE 0 COMPLETE (9/9) and merged as PR #140 (`150d4d7`); §3.7 = 5/5 with the raw-hex CI guard enforcing criterion 1. Docs debt cleared: archive consolidated, 0 broken relative links. → next: Phase 1 — Content path
-> **Updated:** 2026-11-19
+> **Status:** PHASE 0 COMPLETE (9/9) and merged as PR #140 (`150d4d7`); §3.7 = 5/5 with the raw-hex CI guard enforcing criterion 1. Docs debt cleared: archive consolidated, 0 broken relative links, encoding and collapsed-structure damage repaired. → next: Phase 1 — Content path
+> **Updated:** 2026-11-20
 
 **File rules:** never delete a completed item — strike it through (`~~text~~`). Update the status line, phase table, and add a session-log entry at the **end of every work session**. Newest log entries first.
 
@@ -32,6 +32,12 @@
 ---
 
 ## Session log
+
+### 2026-11-20 — Archive structural repair: collapsed headings, tables, and code blocks
+
+- **Shipped:** `docs/archive/14-observability/ANALYTICS-IMPLEMENTATION.md` (1,147 → 2,609 lines) and `docs/archive/07-frontend/DESIGN-SYSTEM-EXTENDED.md` (2,299 → 2,251 lines) on `fix/archive-structure-repair`. Restored lost line breaks: section headings split into `## N.` + title, table headers/separators fused with prose, rows split across lines, 31 code blocks repaired (collapsed lines, missing fences, and lost indentation), and the §17–20 tables whose titles had been absorbed into the header row. Design-doc table fragments were merged and missing first letters restored (`ole=` → `role=`, `gba(` → `rgba(`, `otateX` → `rotateX`); columns re-padded from parsed cells. No wording changed.
+- **Evidence (this session):** 83 tables / 560 rows with 0 header-row mismatches in analytics; 158 tables / 872 rows with 0 mismatches in design; 31 fences paired, all 31 code blocks parse (TypeScript incl. TSX, SQL via `sql-formatter`, YAML/Markdown via Prettier, Python via `py_compile`); 0 `U+FFFD`, 0 `??`, 0 stale `ole=`/`gba(` hits; `git diff --check` clean; `node scripts/check-docs-links.mjs` → 214 files · 876 relative links · 0 broken.
+- **Caveats:** (1) The repairs are contextual reconstruction, not recovered bytes — the earliest stored copy already has the same damage. (2) The analytics ToC lists 16 sections while the body has 17–20; that numbering mismatch predates the repair and was left alone. (3) §15.3's multi-line table cells are original authoring (present in the earliest blob), not conversion damage, so they were left as-is. (4) Two Markdown hard-break lines keep their intentional trailing spaces.
 
 ### 2026-11-20 — Archive glyph repair: lost marks and section references restored
 

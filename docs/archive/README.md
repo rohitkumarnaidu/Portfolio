@@ -25,6 +25,13 @@ tables, not recovered bytes; the documents' content, decisions, and claims are
 unchanged. This is the only kind of edit the archive accepts — see the rule in
 root `AGENTS.md`.
 
+On 2026-11-20 a third pass repaired the structural damage left by the same
+conversion in those two documents: headings and table rows had been fused or
+split across lines, and code blocks had lost their line breaks. The code was
+re-indented with its native formatter (Prettier, Black, `sql-formatter`) and each
+block was verified to parse; table cells were re-padded from the surviving
+content. Wording, decisions, and claims are unchanged.
+
 Do not cite these documents as sources of truth, and do not link to them from
 maintained documentation.
 
