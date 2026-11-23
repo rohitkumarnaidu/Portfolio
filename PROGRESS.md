@@ -1,7 +1,7 @@
 # PROGRESS.md
 
-> **Status:** PHASE 0 COMPLETE (9/9) and merged as PR #140 (`150d4d7`); §3.7 = 5/5 with the raw-hex CI guard enforcing criterion 1. Docs debt cleared: archive consolidated, 0 broken relative links, encoding and collapsed-structure damage repaired. → next: Phase 1 — Content path
-> **Updated:** 2026-11-20
+> **Status:** PHASE 0 COMPLETE (9/9) and merged as PR #140 (`150d4d7`); §3.7 = 5/5 with the raw-hex CI guard enforcing criterion 1. Docs debt cleared: archive consolidated, 0 broken relative links, encoding and collapsed-structure damage repaired. → next: Phase 1 — Content path; implementation plan written at `docs/superpowers/plans/2026-11-23-phase1-content-path.md` (not started).
+> **Updated:** 2026-11-23
 
 **File rules:** never delete a completed item — strike it through (`~~text~~`). Update the status line, phase table, and add a session-log entry at the **end of every work session**. Newest log entries first.
 
@@ -33,6 +33,13 @@
 
 ## Session log
 
+### 2026-11-23 — Phase 1 plan written after a code-level gap audit
+
+- **Shipped (docs only):** `docs/superpowers/plans/2026-11-23-phase1-content-path.md` — 10 tasks covering the funnel section extraction, `/resume` + committed PDF, shared contact section, honeypot + Zod + 3/hr/IP, the deferred `status.success` contrast resolution, `llms.txt`/`ProfilePage`/robots, the static OG image, cookieless PostHog + `?ref`, Phase 0 carried hardening, and the full gate/e2e/CWV evidence pass. The plan keeps the `--pf-*` alias bridge and `data-theme` mirror until Phase 3 and records that correction. `roadmap.md` now points at it.
+- **Verified against code (read-only, no features exercised):** `/` still renders hero → work → statement → capabilities → about → writing; no contact section or `/resume`; `SITE.availabilityLabel` is hard-coded and the availability module is admin-only; `robots.ts` blocks GPTBot/CCBot/anthropic-ai; no `llms.txt`, `ProfilePage`, OG image, `/public` directory, or app icon; `react-google-recaptcha-v3` is installed but unused; the lead throttle is 10/15 min; `ContactForm` has no honeypot; `posthog-js` has zero imports; `ThemeToggle` is admin-only; the legacy alias bridge and `data-theme` mirror are still active; Tailwind still hard-codes bounce easing; `public.css` still uses the serif role 20+ times.
+- **Evidence (this session):** `node scripts/check-docs-links.mjs` → 215 files · 876 relative links · 0 broken. No app code changed and no test suite was run, so there is no build/test evidence for Phase 1 yet.
+- **Caveats:** the plan's CWV targets are lab measurements (Lighthouse LCP/CLS/TBT), not field INP; the 12 pre-existing e2e failures remain untriaged; the plan uses Zod for web-side form validation and keeps class-validator on the API; `/resume` derives only from shipped public content, so education/employment blocks stay out until verified facts are supplied; the alias bridge, bounce easing and serif role remain out of scope (Phase 3).
+
 ### 2026-11-20 — Archive structural repair: collapsed headings, tables, and code blocks
 
 - **Shipped:** `docs/archive/14-observability/ANALYTICS-IMPLEMENTATION.md` (1,147 → 2,609 lines) and `docs/archive/07-frontend/DESIGN-SYSTEM-EXTENDED.md` (2,299 → 2,251 lines) on `fix/archive-structure-repair`. Restored lost line breaks: section headings split into `## N.` + title, table headers/separators fused with prose, rows split across lines, 31 code blocks repaired (collapsed lines, missing fences, and lost indentation), and the §17–20 tables whose titles had been absorbed into the header row. Design-doc table fragments were merged and missing first letters restored (`ole=` → `role=`, `gba(` → `rgba(`, `otateX` → `rotateX`); columns re-padded from parsed cells. No wording changed.
@@ -43,7 +50,7 @@
 
 - **Shipped:** `docs/archive/14-observability/ANALYTICS-IMPLEMENTATION.md` (`?` 340 → 50, `§` 223 → 133, `??` 85 → 0) and `docs/archive/07-frontend/DESIGN-SYSTEM-EXTENDED.md` (`?` 87 → 6) on `fix/archive-glyph-repair`. Restored status marks (✅/❌/🟡/🟠/🔴/🟢/🔵/⬆️), transition arrows, multiplication signs (`§ 100` → `× 100`), numeric and section ranges (`0§100` → `0–100`, `§6§12` → `§6–12`), and the design legend (✅ Pass / 🔄 In Progress / ⬜ Not Started). Reconstructed the tabs accessibility row (4 damaged lines → 1). Both archive notes now describe the actual `?` + `U+FFFD` damage.
 - **Evidence (this session):** `git diff --stat` 307 insertions / 310 deletions; target-file scan 0 `U+FFFD`, 0 `??`, 0 mojibake; the 50/6 residual `?` were audited line-by-line (prose questions, TypeScript optionals, the `Gradient?` header, the archive note); all 133 residual `§` audited as genuine section references; `node scripts/check-docs-links.mjs` → 214 files · 876 relative links · 0 broken.
-- **Contract fix (review):** `AGENTS.md` said the archive must never be updated, while `docs/archive/README.md` already documented the 2026-11-19 encoding repairs. The contract now freezes archive *content* but permits mechanical integrity repairs (link rewrites, encoding-damage reconstruction), each recorded in the archive README and the file's archive note; the README records this second glyph pass. Resolves the Devin review flag on PR #142.
+- **Contract fix (review):** `AGENTS.md` said the archive must never be updated, while `docs/archive/README.md` already documented the 2026-11-19 encoding repairs. The contract now freezes archive _content_ but permits mechanical integrity repairs (link rewrites, encoding-damage reconstruction), each recorded in the archive README and the file's archive note; the README records this second glyph pass. Resolves the Devin review flag on PR #142.
 - **Caveats:** (1) Reconstructed glyphs are contextual inference, not recovered bytes — every available commit already stored ASCII `?`. (2) Collapsed-line damage is untouched: analytics lines 317/403, the design `surface-overlay`/tooltip rows, and the widespread `ole=`/`gba(` first-letter losses need a separate mechanical repair. (3) Two Markdown hard-break lines keep their intentional trailing spaces, so `git diff --check` flags them.
 
 ### 2026-11-19 — Docs debt cleared: one live set, zero broken links

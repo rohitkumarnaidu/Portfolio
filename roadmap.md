@@ -6,7 +6,7 @@
 >
 > **Completion percentages are estimates, not promises.** Phase 0 is measured against its exit checklist; Phases 1–4 come from the 2026-11-18 static audit (code read, not features exercised), effort-weighted by the spec's delivery size. Re-measure at each phase gate.
 
-**Updated:** 2026-11-18
+**Updated:** 2026-11-23
 
 ---
 
@@ -52,6 +52,8 @@
 Exit §3.7: `tokens.json` single source · generated CSS · no-flash dual-attribute provider · AA both schemes · <8KB per skin · `DESIGN.md` current. All five check out; evidence in `PROGRESS.md`. Deferred hardening is listed under carried-forward items.
 
 ### Phase 1 · Content path — ≈33% (4.4/13 points)
+
+**Plan:** [2026-11-23-phase1-content-path.md](docs/superpowers/plans/2026-11-23-phase1-content-path.md) — 10 tasks; keeps the alias bridge (demolition is Phase 3) and carries the Phase 0 hardening items the 2026-11-18 audit did not list.
 
 **Exists:** public routes `/`, `/about`, `/projects`, `/projects/[slug]`, `/blog`, `/blog/[slug]`, `/contact`; contact creates real leads against `POST /portfolio/leads`; metadata helper, JSON-LD (Person/WebSite), sitemap, RSS, robots; curated content fallback in `lib/public-content.ts`; section order precursor (hero, work, statement, capabilities, about) already renders.
 
