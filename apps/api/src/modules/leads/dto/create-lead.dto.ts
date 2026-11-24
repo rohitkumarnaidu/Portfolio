@@ -21,7 +21,7 @@ export class CreateLeadDto {
   @IsEnum(['contact_form', 'ai_chat', 'referral', 'direct'])
   source?: string;
   @ApiPropertyOptional() @IsOptional() @IsObject() metadata?: Record<string, unknown>;
-  @ApiPropertyOptional() @IsOptional() @IsString() ipAddress?: string;
+  @ApiPropertyOptional() @IsOptional() @IsString() @MaxLength(200) website?: string;
 }
 
 export class UpdateLeadDto {
@@ -34,5 +34,4 @@ export class UpdateLeadDto {
   @IsEnum(['low', 'normal', 'high', 'urgent'])
   priority?: string;
   @ApiPropertyOptional() @IsOptional() @IsString() note?: string;
-  @ApiPropertyOptional() @IsOptional() @IsString() ipAddress?: string;
 }
