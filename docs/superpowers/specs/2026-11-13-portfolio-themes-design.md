@@ -395,15 +395,15 @@ Task 7 made §3.7's automated AA criterion real: `packages/tokens/src/check-cont
 
 **Before reconciliation** the checker measured **17/20 pair-scheme checks passing**, with exactly three failures, all `AA_NORMAL`: `text.muted.light` 2.07:1, `text.muted.dark` 3.00:1, `accent.link.light` 3.70:1. **After reconciliation: 20/20 pass** — `node packages/tokens/src/check-contrast.mjs` exits 0 (CI wiring is Task 9).
 
-| token            | scheme | was       | now                                        | pair                                    | ratio |
-| ---------------- | ------ | --------- | ------------------------------------------ | --------------------------------------- | ----- |
-| `text.muted`     | light  | `#A6ADBB` | `#565E6D`                                  | text.muted × surface.base               | 5.98  |
-| `text.secondary` | light  | `#565E6D` | `#262B35`                                  | text.secondary × surface.base           | 13.01 |
-| `text.muted`     | dark   | `#565E6D` | `#A6ADBB`                                  | text.muted × surface.base               | 8.68  |
-| `text.secondary` | dark   | `#A6ADBB` | `#E4E7EC`                                  | text.secondary × surface.base           | 15.79 |
-| `accent.link`    | light  | `#C1662E` | `#9A4E22`                                  | accent.link × surface.base              | 5.52  |
-| `accent.link`    | dark   | `#D68A54` | `#D68A54` _(unchanged — prose correction)_ | accent.link × surface.base              | 7.10  |
-| `status.success` | light  | `#2E9E6D` | `#2E9E6D` _(unchanged — deferred)_         | _(informational — not a declared pair)_ | 3.09  |
+| token            | scheme | was       | now                                                | pair                                    | ratio |
+| ---------------- | ------ | --------- | -------------------------------------------------- | --------------------------------------- | ----- |
+| `text.muted`     | light  | `#A6ADBB` | `#565E6D`                                          | text.muted × surface.base               | 5.98  |
+| `text.secondary` | light  | `#565E6D` | `#262B35`                                          | text.secondary × surface.base           | 13.01 |
+| `text.muted`     | dark   | `#565E6D` | `#A6ADBB`                                          | text.muted × surface.base               | 8.68  |
+| `text.secondary` | dark   | `#A6ADBB` | `#E4E7EC`                                          | text.secondary × surface.base           | 15.79 |
+| `accent.link`    | light  | `#C1662E` | `#9A4E22`                                          | accent.link × surface.base              | 5.52  |
+| `accent.link`    | dark   | `#D68A54` | `#D68A54` _(unchanged — prose correction)_         | accent.link × surface.base              | 7.10  |
+| `status.success` | light  | `#2E9E6D` | `#2E9E6D` _(unchanged in Phase 0 — closed by §16)_ | _(informational — not a declared pair)_ | 3.09  |
 
 **Rows 1–4 — the separation pattern.** Each scheme is one linked pair of moves: the failing `text.muted` takes the nearest same-family primitive that passes (graphite-500 light, graphite-300 dark), and `text.secondary` then shifts one graphite step toward **more prominence** (darker in light, lighter in dark) so muted ≠ secondary and the primary > secondary > muted hierarchy holds in both schemes. The graphite scale is sparse (300/500/800 on the light end, 100/300/500 on the dark end), so "one step" lands on graphite-800 (light) and graphite-100 (dark); no intermediate step exists and none was invented. `text.secondary` also holds its second declared pair: 14.20:1 on `surface.panel` light, 13.32:1 dark.
 
@@ -411,7 +411,7 @@ Task 7 made §3.7's automated AA criterion real: `packages/tokens/src/check-cont
 
 **Row 6 — prose correction, not a value change.** §3.2's `accent.link` row claims "base copper on `#0A0C10` ≈ 3.8:1 = AA fail". Measured: `#C1662E` on `#0A0C10` is 4.85:1 — a **pass**. The shipped dark value `#D68A54` measures 7.10:1. `accent.link.dark` therefore stays `#D68A54` (§3.3's "dark = illuminated signal" independently justifies ember-400 for links on dark); the ⚠️ note is superseded by this row and §3.2 is not edited.
 
-**Row 7 — informational, outside the declared matrix.** `status.success.light` (`#2E9E6D`) measures 3.09:1 on `surface.base` — below `AA_NORMAL`, but `status.*` is scheme-constant and no `contrastPairs` entry declares it, so Phase 0's gate does not apply. Its only planned consumer (the "Available for work" badge) is Phase 1 work; the resolution — darken within the status family, same-hue luminance shifts only, never hue changes — is **deferred to Phase 1**. Value unchanged in Phase 0.
+**Row 7 — informational, outside the declared matrix.** `status.success.light` (`#2E9E6D`) measures 3.09:1 on `surface.base` — below `AA_NORMAL`, but `status.*` is scheme-constant and no `contrastPairs` entry declares it, so Phase 0's gate does not apply. Its only planned consumer (the "Available for work" badge) is Phase 1 work; the resolution — darken within the status family, same-hue luminance shifts only, never hue changes — is **deferred to Phase 1**. Value unchanged in Phase 0. **Closed by §16 (Phase 1):** the badge now ships, so `status.success` moves to `#1F7A52` and the new `statusContrastPairs` row enforces the text-capable ratio.
 
 **Reconciliation rule (for future audits):** a failing token moves to the nearest primitive **of the same family** that passes; if that collides with a sibling in the hierarchy, the sibling shifts one step toward more prominence — and both moves get separate rows here. `status.*` may never change hue; luminance within the same hue only.
 
@@ -434,3 +434,33 @@ Task 7 made §3.7's automated AA criterion real: `packages/tokens/src/check-cont
 **Skin 1 value note:** §3.2's Skin 1 destination paper is `#F3EDE2`; the shipped `publicSurface.paper` is `#F4F0E7` (the value already live in `public.css`). `publicSurface` is the current public palette, **not** a finished Skin 1. Phase 3 must reconcile the two values when Skin 1 becomes a real skin; do not silently treat one as the other.
 
 **Evidence (Phase 0 close):** token tests 60/60, contrast 20/20, skin 3 budget 1,845 B, hex guard zero violations, `next build` 52 pages, typecheck/lint clean.
+
+---
+
+## 16 · Phase 1 contrast amendment — `status.success` (2026-11-24)
+
+§14 row 7 deferred this decision because no declared pair consumed it. Phase 1 Task 5 ships the live availability badge — the dot is `status.success` — so the value is resolved here and both sides become enforced pairs instead of an informational measurement.
+
+| token            | was       | now       | pair            | ratio |
+| ---------------- | --------- | --------- | --------------- | ----- |
+| `status.success` | `#2E9E6D` | `#1F7A52` | success × paper | 4.66  |
+
+**Measured evidence** (WCAG 2.x, full precision, `packages/tokens/src/wcag.mjs`): `#1F7A52` × `paper` **4.66** ✓ `AA_NORMAL` · × light base `#F4F5F7` **4.86** ✓ · × dark panel `#1B1F27` **3.12** ✓ `AA_LARGE` (non-text) · × dark base `#0A0C10` **3.69** ✓. The public green `#2F6B4A` was the alternative: × `paper` 5.56, × `paperDeep` 5.00, × light base 5.79, but × dark panel **2.61** — it fails the 3:1 non-text floor. No scheme-constant green passes `AA_NORMAL` on both light and dark panels.
+
+**Ruling.** `status.success` is a **non-text mark on dark panels** (≥3:1) and **text-capable on paper/light**. Status text uses `text.*` or `publicSurface.*`; `status.success` is never body text on graphite. The badge dot (0.42rem) is non-text, so the dark-panel 3:1 floor is the binding constraint there; its label is `--muted` (5.14:1 on paper). No `status.success` pair against graphite/dark is declared — the badge does not sit there.
+
+**Public pair matrix** — `publicContrastPairs`, all `AA_NORMAL`, scheme-constant:
+
+| pair             | ratio |
+| ---------------- | ----- |
+| ink/paper        | 16.15 |
+| inkSoft/paper    | 10.35 |
+| muted/paper      | 5.14  |
+| muted/paperDeep  | 4.62  |
+| accent/paper     | 4.56  |
+| accentDeep/paper | 7.27  |
+| green/paper      | 5.56  |
+| green/paperDeep  | 5.00  |
+| codeFg/codeBg    | 14.22 |
+
+**Mechanism.** `tokens.json` gains `publicContrastPairs` (fg/bg both resolve in `publicSurface`) and `statusContrastPairs` (fg resolves in `status`, bg in `publicSurface`). `validate.mjs` enforces those group boundaries; `check-contrast.mjs` gains `evaluatePublicPairs`/`evaluateStatusPairs`, which emit `scheme: 'constant'`, and `run()` appends them only when the arrays exist so fixtures keep their original counts. The gate now reports **30/30 pair-scheme checks pass** (20 semantic + 9 public + 1 status). `viz['3']` stays `#2E9E6D` — it is a data-viz slot, not status.

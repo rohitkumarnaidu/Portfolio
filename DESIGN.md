@@ -28,7 +28,7 @@ This file is the drift shield for every AI tool and human working on this repo. 
 - **Dual attributes on `<html>`:** `data-scheme="light|dark"` × `data-skin="1|2|3"`, applied by the no-flash script before first paint, persisted localStorage + cookie mirror.
 - **Skin 3 (flagship) palette:** Ember Copper `#C1662E` (primary) + Signal Cobalt `#2F5FD1` (secondary) on a 9-step cool graphite scale. Exact semantic token table (light/dark values, AA-checked): spec §3.2 as amended by §14.
 - **Accent behavior:** light scheme → copper is a **solid machined fill** (CTAs, badges); dark scheme → copper is an **illuminated signal** (glowing 1px trace; link text steps to ember-400 `#D68A54` for contrast). **70-20-10 discipline:** ≤10% copper, never an expansive background fill.
-- **Statuses are constant colors, never brand-colored:** success `#2E9E6D` · warning `#C98A2C` · danger `#C64545` · info `#2F5FD1`.
+- **Statuses are constant colors, never brand-colored:** success `#1F7A52` · warning `#C98A2C` · danger `#C64545` · info `#2F5FD1`. `status.success` is a **non-text mark on dark panels** (≥3:1) and **text-capable on paper/light** (4.66:1). Status text uses `text.*`/`publicSurface.*` — never `status.success` as body text on graphite. The public pair matrix and the success × paper pair are enforced by `check-contrast` (spec §16).
 - **Type:** one family across optical roles (locked: IBM Plex Sans, spec §12 Q1); mono for the technical alphabet (hero data, terminal, metadata).
 - **Space/radius/borders:** spacing `4·8·12·16·24·32·48·64·96`; radius `4/8/16px`, no pills; 1px hairlines; shadows light-scheme-only; dark = elevation-by-lightening.
 - **Motion:** mechanical, critically damped — taps 50–150ms · transitions 150–260ms · reveals 260–500ms · springs stiffness ~350 / damping ~25 / **zero bounce**; `prefers-reduced-motion` → 120ms opacity fades only.
@@ -44,17 +44,17 @@ This file is the drift shield for every AI tool and human working on this repo. 
 
 ## 5 · Where things live
 
-| Thing                                     | Path                                                                                  |
-| ----------------------------------------- | ------------------------------------------------------------------------------------- |
-| Exact locked token values                 | `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` §3.2 as amended by §14 |
-| Token source (DTCG)                       | `packages/tokens/tokens.json`                                                         |
-| Generator (`npm run tokens:build`)        | `packages/tokens/src/build.mjs`                                                       |
-| Generated token CSS (committed)           | `packages/tokens/dist/theme-tokens.css` (`@portfolio/tokens/theme.css`)               |
-| Literal-value bridge (WebGL/charts/meta)  | `apps/web/src/lib/design-tokens.ts`                                                   |
-| Raw-hex guard (CI)                        | `packages/tokens/src/check-no-hex.mjs`                                                |
-| Legacy alias bridge (Phase 0 scaffolding) | `apps/web/src/styles/globals.css`                                                     |
-| Public palette                            | `apps/web/src/styles/public.css`                                                      |
-| Tailwind bridge                           | `apps/web/tailwind.config.ts`                                                         |
-| Fonts                                     | `apps/web/src/lib/fonts.ts`                                                           |
-| Theme runtime + pre-paint script          | `apps/web/src/lib/theme.ts` · `apps/web/src/lib/theme-script.ts`                      |
-| Progress                                  | `PROGRESS.md` (root)                                                                  |
+| Thing                                     | Path                                                                                                           |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Exact locked token values                 | `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md` §3.2 as amended by §14; `status.success` by §16 |
+| Token source (DTCG)                       | `packages/tokens/tokens.json`                                                                                  |
+| Generator (`npm run tokens:build`)        | `packages/tokens/src/build.mjs`                                                                                |
+| Generated token CSS (committed)           | `packages/tokens/dist/theme-tokens.css` (`@portfolio/tokens/theme.css`)                                        |
+| Literal-value bridge (WebGL/charts/meta)  | `apps/web/src/lib/design-tokens.ts`                                                                            |
+| Raw-hex guard (CI)                        | `packages/tokens/src/check-no-hex.mjs`                                                                         |
+| Legacy alias bridge (Phase 0 scaffolding) | `apps/web/src/styles/globals.css`                                                                              |
+| Public palette                            | `apps/web/src/styles/public.css`                                                                               |
+| Tailwind bridge                           | `apps/web/tailwind.config.ts`                                                                                  |
+| Fonts                                     | `apps/web/src/lib/fonts.ts`                                                                                    |
+| Theme runtime + pre-paint script          | `apps/web/src/lib/theme.ts` · `apps/web/src/lib/theme-script.ts`                                               |
+| Progress                                  | `PROGRESS.md` (root)                                                                                           |
