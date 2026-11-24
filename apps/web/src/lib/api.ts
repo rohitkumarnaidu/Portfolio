@@ -370,6 +370,7 @@ export async function submitLead(data: {
   company?: string;
   subject?: string;
   message: string;
+  website?: string;
   source?: string;
   metadata?: Record<string, unknown>;
 }) {

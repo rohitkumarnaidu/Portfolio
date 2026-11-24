@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ApiError, submitLead } from '@/lib/api';
+import { contactSchema } from '@/lib/contact-schema';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -10,6 +11,7 @@ const INITIAL = {
   email: '',
   subject: '',
   message: '',
+  website: '',
 };
 
 export function ContactForm() {
@@ -25,6 +27,13 @@ export function ContactForm() {
     event.preventDefault();
     if (status === 'submitting') return;
 
+    const parsed = contactSchema.safeParse({ ...form });
+    if (!parsed.success) {
+      setStatus('error');
+      setFeedback(parsed.error.issues[0]?.message ?? 'Please check the form and try again.');
+      return;
+    }
+
     setStatus('submitting');
     setFeedback('');
 
@@ -34,6 +43,7 @@ export function ContactForm() {
         email: form.email.trim(),
         subject: form.subject.trim() || 'Portfolio enquiry',
         message: form.message.trim(),
+        website: form.website,
         source: 'contact_form',
       });
       setStatus('success');
@@ -103,6 +113,19 @@ export function ContactForm() {
             placeholder="The problem, the context, and what a good outcome looks like."
           />
         </div>
+      </div>
+
+      <div className="field field--honeypot">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.website}
+          onChange={(event) => update('website', event.target.value)}
+        />
       </div>
 
       {feedback ? (
