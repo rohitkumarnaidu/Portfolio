@@ -1,6 +1,6 @@
 import { getPublicAvailability, type PublicAvailability } from '@/lib/api';
-import { personSchema, websiteSchema } from '@/lib/json-ld';
-import { SITE } from '@/lib/public-content';
+import { profilePageSchema, websiteSchema } from '@/lib/json-ld';
+import { CAPABILITIES, SITE } from '@/lib/public-content';
 import { SiteFooter } from '@/components/public/SiteFooter';
 import { SiteHeader } from '@/components/public/SiteHeader';
 
@@ -35,7 +35,15 @@ export default async function PublicLayout({ children }: { children: React.React
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(personSchema(SITE.name, SITE.role, SITE.url)),
+          __html: JSON.stringify(
+            profilePageSchema({
+              name: SITE.name,
+              jobTitle: SITE.role,
+              url: SITE.url,
+              sameAs: [SITE.github, SITE.npm],
+              knowsAbout: CAPABILITIES.map((capability) => capability.title),
+            }),
+          ),
         }}
       />
     </div>

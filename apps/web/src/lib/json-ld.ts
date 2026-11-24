@@ -18,6 +18,27 @@ export function personSchema(name: string, jobTitle: string, url: string, image?
   };
 }
 
+export function profilePageSchema(person: {
+  name: string;
+  jobTitle: string;
+  url: string;
+  sameAs: string[];
+  knowsAbout: string[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: person.name,
+      jobTitle: person.jobTitle,
+      url: person.url,
+      sameAs: person.sameAs,
+      knowsAbout: person.knowsAbout,
+    },
+  };
+}
+
 export function blogPostingSchema(blogPost: {
   title: string;
   description?: string;
