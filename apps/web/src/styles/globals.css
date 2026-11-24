@@ -13,18 +13,6 @@
    are injected on the <html> element by layout.tsx.
    ────────────────────────────────────────────────────────── */
 
-/* ── Interim Serif Alias ───────────────────────────────────
-   The Phase 0 font swap (spec §12 Q1) ships IBM Plex Sans + Plex Mono
-   only, but public.css still resolves its --serif chain through
-   --font-serif. An undefined var() would invalidate that whole
-   font-family declaration to browser defaults, so the serif role
-   aliases the body face until Phase 1: public surface restyle
-   removes serif role.
-   ────────────────────────────────────────────────────────── */
-:root {
-  --font-serif: var(--font-body);
-}
-
 /* ══════════════════════════════════════════════════════════════
    THEME SYSTEM — CSS Custom Properties
    ══════════════════════════════════════════════════════════════ */

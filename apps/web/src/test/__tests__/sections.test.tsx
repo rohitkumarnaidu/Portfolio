@@ -1,0 +1,34 @@
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { HeroSection } from '@/components/public/sections/HeroSection';
+import { FlagshipWork } from '@/components/public/sections/FlagshipWork';
+import { Capabilities } from '@/components/public/sections/Capabilities';
+import { Principles } from '@/components/public/sections/Principles';
+
+describe('funnel sections', () => {
+  it('hero has one h1, an availability badge and two CTAs', () => {
+    render(<HeroSection />);
+    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
+    expect(screen.getByText(/open to work/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /view case studies/i })).toHaveAttribute(
+      'href',
+      '#work',
+    );
+    expect(screen.getByRole('link', { name: /r[eé]sum[eé]/i })).toHaveAttribute('href', '/resume');
+  });
+
+  it('flagship work renders exactly the three featured projects in order', () => {
+    const { container } = render(<FlagshipWork />);
+    expect(container.querySelectorAll('.work-row')).toHaveLength(3);
+    expect(screen.getByText('Forgevena')).toBeInTheDocument();
+    expect(screen.getByText('DRAXELYRA')).toBeInTheDocument();
+    expect(screen.getByText('Evidence Review Pipeline')).toBeInTheDocument();
+  });
+
+  it('capabilities and principles render every curated item', () => {
+    render(<Capabilities />);
+    expect(screen.getAllByRole('article')).toHaveLength(3);
+    render(<Principles />);
+    expect(screen.getAllByRole('listitem')).toHaveLength(4);
+  });
+});
