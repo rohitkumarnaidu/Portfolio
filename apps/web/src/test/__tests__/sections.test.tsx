@@ -40,5 +40,9 @@ describe('funnel sections', () => {
     expect(screen.getByText(/start with the problem/i)).toBeInTheDocument();
     expect(screen.getByLabelText('Name')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /send message/i })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('heading', { name: /start with the problem/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Response', level: 3 })).toBeInTheDocument();
   });
 });

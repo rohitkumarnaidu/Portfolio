@@ -1522,7 +1522,8 @@
   gap: 2rem;
 }
 
-.about-aside__group h2 {
+.about-aside__group h2,
+.about-aside__group h3 {
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--rule);
   margin-bottom: 0.9rem;
@@ -1643,7 +1644,7 @@
   align-content: start;
 }
 
-.contact-aside__title {
+.contact-aside .contact-aside__title {
   font-family: var(--sans);
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 400;

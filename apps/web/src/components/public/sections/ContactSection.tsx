@@ -11,7 +11,7 @@ export function ContactSection({ availabilityLabel }: { availabilityLabel?: stri
       <div className="contact-grid home-contact">
         <aside className="contact-aside">
           <div>
-            <h2 className="contact-aside__title">Start with the problem.</h2>
+            <p className="contact-aside__title">Start with the problem.</p>
             <p className="stack">
               What has to be right, what is fragile today, and what a good outcome looks like. A few
               sentences is enough to begin.
@@ -30,7 +30,7 @@ export function ContactSection({ availabilityLabel }: { availabilityLabel?: stri
           </div>
 
           <div className="about-aside__group">
-            <h2>Response</h2>
+            <h3>Response</h3>
             <p>Usually within a few days, with a direct answer either way.</p>
           </div>
         </aside>
