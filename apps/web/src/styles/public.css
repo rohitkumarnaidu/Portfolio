@@ -1632,6 +1632,11 @@
   padding-block: clamp(2.5rem, 5vw, 4.5rem);
 }
 
+/* Homepage variant: the surrounding .section already sets the vertical rhythm. */
+.home-contact {
+  padding-block: 0;
+}
+
 .contact-aside {
   display: grid;
   gap: 2rem;

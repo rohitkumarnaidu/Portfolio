@@ -4,6 +4,7 @@ import { HeroSection } from '@/components/public/sections/HeroSection';
 import { FlagshipWork } from '@/components/public/sections/FlagshipWork';
 import { Capabilities } from '@/components/public/sections/Capabilities';
 import { Principles } from '@/components/public/sections/Principles';
+import { ContactSection } from '@/components/public/sections/ContactSection';
 
 export const revalidate = 300;
 
@@ -22,6 +23,7 @@ export default async function HomePage() {
       <FlagshipWork />
       <Capabilities />
       <Principles />
+      <ContactSection />
     </>
   );
 }

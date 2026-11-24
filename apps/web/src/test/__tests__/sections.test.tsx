@@ -4,6 +4,7 @@ import { HeroSection } from '@/components/public/sections/HeroSection';
 import { FlagshipWork } from '@/components/public/sections/FlagshipWork';
 import { Capabilities } from '@/components/public/sections/Capabilities';
 import { Principles } from '@/components/public/sections/Principles';
+import { ContactSection } from '@/components/public/sections/ContactSection';
 
 describe('funnel sections', () => {
   it('hero has one h1, an availability badge and two CTAs', () => {
@@ -31,5 +32,13 @@ describe('funnel sections', () => {
     expect(within(caps.container).getAllByRole('list')).toHaveLength(3);
     const principles = render(<Principles />);
     expect(within(principles.container).getAllByRole('listitem')).toHaveLength(4);
+  });
+
+  it('contact section hosts the shared form', () => {
+    render(<ContactSection />);
+    expect(screen.getByRole('heading', { name: 'Contact' })).toBeInTheDocument();
+    expect(screen.getByText(/start with the problem/i)).toBeInTheDocument();
+    expect(screen.getByLabelText('Name')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /send message/i })).toBeInTheDocument();
   });
 });
