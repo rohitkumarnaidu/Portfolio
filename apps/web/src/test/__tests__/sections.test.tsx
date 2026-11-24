@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { HeroSection } from '@/components/public/sections/HeroSection';
 import { FlagshipWork } from '@/components/public/sections/FlagshipWork';
@@ -26,9 +26,10 @@ describe('funnel sections', () => {
   });
 
   it('capabilities and principles render every curated item', () => {
-    render(<Capabilities />);
-    expect(screen.getAllByRole('article')).toHaveLength(3);
-    render(<Principles />);
-    expect(screen.getAllByRole('listitem')).toHaveLength(4);
+    const caps = render(<Capabilities />);
+    expect(within(caps.container).getAllByRole('article')).toHaveLength(3);
+    expect(within(caps.container).getAllByRole('list')).toHaveLength(3);
+    const principles = render(<Principles />);
+    expect(within(principles.container).getAllByRole('listitem')).toHaveLength(4);
   });
 });

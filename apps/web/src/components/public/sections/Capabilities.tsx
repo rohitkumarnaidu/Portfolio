@@ -12,11 +12,11 @@ export function Capabilities() {
             <span className="cap__index">{capability.index}</span>
             <h3 className="cap__title">{capability.title}</h3>
             <p className="cap__body">{capability.body}</p>
-            <div className="cap__list">
+            <ul className="cap__list">
               {capability.detail.map((item) => (
-                <span key={item}>{item}</span>
+                <li key={item}>{item}</li>
               ))}
-            </div>
+            </ul>
           </article>
         ))}
       </div>
