@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { ApiError, submitLead } from '@/lib/api';
+import { track } from '@/lib/analytics';
 import { contactSchema } from '@/lib/contact-schema';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
@@ -48,6 +49,7 @@ export function ContactForm() {
       });
       setStatus('success');
       setFeedback('Message received. I will reply from the address you left.');
+      track('contact_submit', { source: 'contact_form' });
       setForm(INITIAL);
     } catch (error) {
       setStatus('error');
@@ -148,7 +150,7 @@ export function ContactForm() {
           {status === 'submitting' ? 'Sending…' : 'Send message'}
         </button>
         <p className="form-note">
-          Messages are stored as leads in the dashboard. No newsletter, no tracking pixel.
+          Messages are stored as leads in the dashboard. No newsletter, no tracking cookies.
         </p>
       </div>
     </form>

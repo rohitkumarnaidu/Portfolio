@@ -1,6 +1,7 @@
 import { getPublicAvailability, type PublicAvailability } from '@/lib/api';
 import { profilePageSchema, websiteSchema } from '@/lib/json-ld';
 import { CAPABILITIES, SITE } from '@/lib/public-content';
+import { AnalyticsProvider } from '@/components/public/AnalyticsProvider';
 import { SiteFooter } from '@/components/public/SiteFooter';
 import { SiteHeader } from '@/components/public/SiteHeader';
 
@@ -25,6 +26,7 @@ export default async function PublicLayout({ children }: { children: React.React
         {children}
       </main>
       <SiteFooter />
+      <AnalyticsProvider />
 
       <script
         type="application/ld+json"
