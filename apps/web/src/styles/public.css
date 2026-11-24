@@ -909,6 +909,34 @@
   color: var(--ink-soft);
 }
 
+/* ── Résumé ────────────────────────────────────────────────── */
+
+.resume__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.resume-system {
+  display: grid;
+  grid-template-columns: 3.5rem minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(1.35rem, 2.6vw, 2.1rem) 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.resume-system .work-row__summary {
+  max-width: 66ch;
+}
+
+.resume__contact {
+  max-width: 64ch;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+
 /* ── Project index ─────────────────────────────────────────── */
 
 .project-list {
@@ -2118,5 +2146,75 @@
 
   .article__meta {
     gap: 0.35rem 1rem;
+  }
+}
+
+/* ── Print ─────────────────────────────────────────────────── */
+
+@media print {
+  @page {
+    margin: 16mm;
+  }
+  .site-header,
+  .site-footer,
+  .skip-link,
+  .resume__actions {
+    display: none !important;
+  }
+  .site {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .section {
+    break-inside: avoid;
+  }
+}
+
+/* Résumé print tuning: tighter rhythm than the screen layout, and no link
+   destinations after every anchor (the global print rule appends them). */
+@media print {
+  .resume a[href]::after {
+    content: none;
+  }
+
+  .resume .page-head {
+    padding-top: 0;
+    padding-bottom: 1.25rem;
+  }
+
+  .resume .section {
+    padding-block: 1.25rem;
+  }
+
+  .resume .section-head {
+    margin-bottom: 1.25rem;
+  }
+
+  .resume .resume-system {
+    padding-block: 0.8rem;
+  }
+
+  .resume .fact-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .resume .toolkit {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .resume .toolkit__group {
+    padding-block: 1rem;
+  }
+
+  .resume .fact {
+    padding: 0.85rem 1rem;
+  }
+
+  .resume .principle {
+    padding-block: 1rem;
   }
 }

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import type { Project, BlogPost } from '@portfolio/shared';
-import { SITE, WORK } from '@/lib/public-content';
+import { CONTENT_UPDATED, SITE, WORK } from '@/lib/public-content';
 
 const API_BASE = `${process.env.API_PROXY_TARGET || process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api`;
 
@@ -33,25 +33,41 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const { projects, posts } = await getDashboardData();
 
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
+    {
+      url: baseUrl,
+      lastModified: new Date(CONTENT_UPDATED),
+      changeFrequency: 'weekly',
+      priority: 1.0,
+    },
     {
       url: `${baseUrl}/projects`,
-      lastModified: new Date(),
+      lastModified: new Date(CONTENT_UPDATED),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: new Date(CONTENT_UPDATED),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-    { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.7 },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(CONTENT_UPDATED),
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
     {
       url: `${baseUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: new Date(CONTENT_UPDATED),
       changeFrequency: 'monthly',
       priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/resume`,
+      lastModified: new Date(CONTENT_UPDATED),
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
   ];
 
