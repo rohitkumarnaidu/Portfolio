@@ -14,7 +14,8 @@
     "test:e2e": "npx playwright test",
     "test:e2e:ui": "npx playwright test --headed",
     "analyze": "ANALYZE=true next build",
-    "resume:pdf": "node scripts/generate-resume-pdf.mjs"
+    "resume:pdf": "node scripts/generate-resume-pdf.mjs",
+    "og:generate": "node scripts/generate-og.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

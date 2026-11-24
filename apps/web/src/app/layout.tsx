@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
 import { THEME_SCRIPT } from '@/lib/theme-script';
 import { SITE } from '@/lib/public-content';
+import { DEFAULT_OG_IMAGE, absoluteUrl } from '@/lib/seo';
 import { publicSurface } from '@/lib/design-tokens';
 import '@portfolio/tokens/theme.css';
 import '@/styles/globals.css';
@@ -33,11 +34,20 @@ export const metadata: Metadata = {
     locale: SITE.locale,
     url: SITE.url,
     siteName: SITE.shortName,
+    images: [
+      {
+        url: absoluteUrl(DEFAULT_OG_IMAGE),
+        width: 1200,
+        height: 630,
+        alt: 'Rohith Naidu — software engineer',
+      },
+    ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: `${SITE.shortName} — ${SITE.role}`,
     description: SITE.description,
+    images: [absoluteUrl(DEFAULT_OG_IMAGE)],
   },
   robots: {
     index: true,
