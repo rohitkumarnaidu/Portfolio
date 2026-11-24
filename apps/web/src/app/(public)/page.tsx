@@ -1,3 +1,4 @@
+import { getPublicAvailability, type PublicAvailability } from '@/lib/api';
 import { SITE } from '@/lib/public-content';
 import { pageMetadata } from '@/lib/seo';
 import { HeroSection } from '@/components/public/sections/HeroSection';
@@ -16,14 +17,24 @@ export const metadata = pageMetadata({
   socialTitle: `${SITE.shortName} — ${SITE.role}`,
 });
 
+async function getAvailability(): Promise<PublicAvailability | null> {
+  try {
+    return await getPublicAvailability();
+  } catch {
+    return null;
+  }
+}
+
 export default async function HomePage() {
+  const availability = await getAvailability();
+
   return (
     <>
-      <HeroSection />
+      <HeroSection availability={availability} />
       <FlagshipWork />
       <Capabilities />
       <Principles />
-      <ContactSection />
+      <ContactSection availability={availability} />
     </>
   );
 }

@@ -390,7 +390,12 @@
   height: 0.42rem;
   border-radius: 50%;
   background: var(--green);
-  box-shadow: 0 0 0 3px rgba(47, 107, 74, 0.12);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 12%, transparent);
+}
+
+.site-status[data-available='false'] .site-status__dot {
+  background: var(--muted);
+  box-shadow: none;
 }
 
 /* Mobile disclosure menu */

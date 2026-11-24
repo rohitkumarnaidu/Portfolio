@@ -1,12 +1,15 @@
 import { ContactForm } from '@/components/public/ContactForm';
 import { ArrowUpRight } from '@/components/public/icons';
 import { SectionHead } from '@/components/public/SectionHead';
+import type { PublicAvailability } from '@/lib/api';
 import { SITE } from '@/lib/public-content';
 
-export function ContactSection({ availabilityLabel }: { availabilityLabel?: string }) {
+export function ContactSection({ availability }: { availability?: PublicAvailability | null }) {
+  const availabilityLabel = availability?.statusLabel || SITE.availabilityLabel;
+
   return (
     <section className="section container-ed" id="contact">
-      <SectionHead index="04" title="Contact" aside={availabilityLabel ?? SITE.availabilityLabel} />
+      <SectionHead index="04" title="Contact" aside={availabilityLabel} />
 
       <div className="contact-grid home-contact">
         <aside className="contact-aside">

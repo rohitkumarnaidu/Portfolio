@@ -1,9 +1,13 @@
 import Link from 'next/link';
+import type { PublicAvailability } from '@/lib/api';
 import { SITE } from '@/lib/public-content';
 import { ArrowUpRight } from '@/components/public/icons';
 import { HeroSchematic } from './HeroSchematic';
 
-export function HeroSection({ availabilityLabel }: { availabilityLabel?: string }) {
+export function HeroSection({ availability }: { availability?: PublicAvailability | null }) {
+  const availabilityLabel = availability?.statusLabel || SITE.availabilityLabel;
+  const isAvailable = availability?.isAvailable ?? SITE.available;
+
   return (
     <section className="hero container-ed" id="hero">
       <div className="hero__top">
@@ -32,9 +36,9 @@ export function HeroSection({ availabilityLabel }: { availabilityLabel?: string 
         <HeroSchematic />
       </div>
 
-      <span className="site-status hero__status" data-available={SITE.available}>
+      <span className="site-status hero__status" data-available={isAvailable}>
         <span className="site-status__dot" aria-hidden="true" />
-        {availabilityLabel ?? SITE.availabilityLabel}
+        {availabilityLabel}
       </span>
     </section>
   );
