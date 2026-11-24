@@ -1650,6 +1650,7 @@
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.025em;
+  color: var(--ink);
   max-width: 18ch;
 }
 
