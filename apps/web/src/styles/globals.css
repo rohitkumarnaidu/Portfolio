@@ -20,7 +20,7 @@
 /* ── Light Theme (Default) ──────────────────────────────── */
 :root,
 [data-theme='light'] {
-  /* ── Legacy aliases → DTCG tokens (deleted in Phase 1 with per-section rebuild) ── */
+  /* ── Legacy aliases → DTCG tokens (deleted in Phase 3 with the alias bridge) ── */
   --accent-50: var(--pf-accent-tint);
   --accent-100: var(--pf-accent-tint);
   --accent-200: var(--pf-accent-tint);
@@ -101,12 +101,6 @@
     var(--pf-legacy-palette-emerald-500)
   );
 
-  /* Duration & Easing */
-  --duration-instant: 0ms;
-
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-smooth: cubic-bezier(0.25, 1, 0.5, 1);
-
   /* Blur & Overlays */
   --blur-sm: 8px;
   --blur-md: 16px;
@@ -134,7 +128,7 @@
 
 /* ── Dark Theme ─────────────────────────────────────────── */
 [data-theme='dark'] {
-  /* ── Legacy aliases → DTCG tokens (deleted in Phase 1 with per-section rebuild) ── */
+  /* ── Legacy aliases → DTCG tokens (deleted in Phase 3 with the alias bridge) ── */
   --accent-50: var(--pf-accent-tint);
   --accent-100: var(--pf-accent-tint);
   --accent-200: var(--pf-accent-tint);

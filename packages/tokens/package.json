@@ -10,6 +10,7 @@
   "scripts": {
     "build": "node src/build.mjs",
     "test": "node --test",
+    "lint": "node scripts/check-syntax.mjs src/*.mjs test/*.mjs",
     "check": "node src/check-contrast.mjs && node src/check-budget.mjs"
   }
 }

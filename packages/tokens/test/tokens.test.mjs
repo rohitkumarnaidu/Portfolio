@@ -113,6 +113,22 @@ test('semantic values may be rgba strings; non-strings rejected', () => {
   assert.throws(() => validateTokens(bad), /hex\/rgba string or null/);
 });
 
+test('rejects an empty semantic string', () => {
+  // The type check alone let '' through; an empty custom property is a
+  // silently dead token, so the validator must reject it explicitly.
+  const bad = structuredClone(tokens);
+  bad.skins['3'].semantic.text.primary.light = '';
+  assert.throws(() => validateTokens(bad), /non-empty/);
+});
+
+test('rejects any skin key other than "3"', () => {
+  // Skin 3 is the only implemented skin; an unimplemented skin key would be
+  // silently ignored by the generator and the contrast checker.
+  const bad = structuredClone(tokens);
+  bad.skins['1'] = {};
+  assert.throws(() => validateTokens(bad), /only skin "3"/);
+});
+
 test('rejects invalid DTCG color leaves', () => {
   const badHex = structuredClone(tokens);
   badHex.primitives.ember['500'].$value = '#GGGGGG';
@@ -141,26 +157,26 @@ test('rejects malformed roots', () => {
 test('primitives carry the locked spec 3.2 values', () => {
   assert.deepEqual(tokens.primitives, {
     graphite: {
-      '0': color('#FFFFFF'),
-      '50': color('#F4F5F7'),
-      '100': color('#E4E7EC'),
-      '300': color('#A6ADBB'),
-      '500': color('#565E6D'),
-      '800': color('#262B35'),
-      '850': color('#1B1F27'),
-      '900': color('#12151B'),
-      '950': color('#0A0C10'),
+      0: color('#FFFFFF'),
+      50: color('#F4F5F7'),
+      100: color('#E4E7EC'),
+      300: color('#A6ADBB'),
+      500: color('#565E6D'),
+      800: color('#262B35'),
+      850: color('#1B1F27'),
+      900: color('#12151B'),
+      950: color('#0A0C10'),
     },
     ember: {
-      '300': color('#E3A87C'),
-      '400': color('#D68A54'),
-      '500': color('#C1662E'),
-      '600': color('#9A4E22'),
-      '700': color('#7A3C18'),
+      300: color('#E3A87C'),
+      400: color('#D68A54'),
+      500: color('#C1662E'),
+      600: color('#9A4E22'),
+      700: color('#7A3C18'),
     },
     signal: {
-      '400': color('#5C82E0'),
-      '500': color('#2F5FD1'),
+      400: color('#5C82E0'),
+      500: color('#2F5FD1'),
     },
   });
 });
@@ -173,14 +189,14 @@ test('status and viz carry the locked constants', () => {
     info: color('#2F5FD1'),
   });
   assert.deepEqual(tokens.viz, {
-    '1': color('#2F5FD1'),
-    '2': color('#C1662E'),
-    '3': color('#2E9E6D'),
-    '4': color('#6B5CA5'),
-    '5': color('#2E8C8C'),
-    '6': color('#A34D74'),
-    '7': color('#C98A2C'),
-    '8': color('#565E6D'),
+    1: color('#2F5FD1'),
+    2: color('#C1662E'),
+    3: color('#2E9E6D'),
+    4: color('#6B5CA5'),
+    5: color('#2E8C8C'),
+    6: color('#A34D74'),
+    7: color('#C98A2C'),
+    8: color('#565E6D'),
   });
 });
 

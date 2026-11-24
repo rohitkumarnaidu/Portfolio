@@ -67,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-scheme="dark"
       data-skin="3"
+      data-theme="dark"
       className={fontVariables}
       suppressHydrationWarning
     >
@@ -76,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           intentionally fixed to its paper palette and does not read this value.
           THEME_SCRIPT below sets data-scheme + data-skin before paint and also
           writes the legacy data-theme mirror (kept in sync with data-scheme;
-          deleted in Phase 1 together with the alias bridge).
+          deleted in Phase 3 together with the alias bridge).
         */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>

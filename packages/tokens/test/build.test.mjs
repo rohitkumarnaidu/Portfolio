@@ -120,3 +120,11 @@ test('CLI regenerates the committed dist file byte-for-byte from any cwd', () =>
   assert.equal(after, before, 'CLI run must reproduce the committed dist byte-for-byte');
   assert.equal(after, build());
 });
+
+test('generated CSS never silently collapses', () => {
+  // Vacuity guard: a truncated or empty render would pass every regex
+  // assertion above by absence. Today's tokens.json emits 3417 characters
+  // (measured on this tree), so the floor sits at 3000 — high enough to catch
+  // a collapsed block, low enough to survive legitimate token edits.
+  assert.ok(build().length > 3000);
+});

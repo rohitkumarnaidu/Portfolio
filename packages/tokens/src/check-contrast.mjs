@@ -29,9 +29,9 @@
  *   runs `node src/check-contrast.mjs` and fails on non-zero exit.
  */
 
-import { pathToFileURL } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { contrastRatio, REQUIRED } from './wcag.mjs';
-import tokens from '../tokens.json' with { type: 'json' };
 
 const SKIN = '3';
 const SCHEMES = ['light', 'dark'];
@@ -242,6 +242,11 @@ const isDirectRun =
   Boolean(process.argv[1]) && import.meta.url === pathToFileURL(process.argv[1]).href;
 
 if (isDirectRun) {
-  const failures = run(tokens);
+  // The CLI checks a document, not a bundled constant: `PF_TOKENS_PATH`
+  // points it at a fixture (used by the failure-path test), and the default
+  // resolves next to this module so the command works from any cwd.
+  const tokensPath =
+    process.env.PF_TOKENS_PATH ?? fileURLToPath(new URL('../tokens.json', import.meta.url));
+  const failures = run(JSON.parse(readFileSync(tokensPath, 'utf8')));
   process.exitCode = failures > 0 ? 1 : 0;
 }

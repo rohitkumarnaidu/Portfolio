@@ -152,6 +152,8 @@ function assertSemantic(semantic) {
           }
         } else if (typeof value !== 'string') {
           fail(`${at}.${scheme} must be a hex/rgba string or null, got ${typeof value}`);
+        } else if (value.length === 0) {
+          fail(`${at}.${scheme} must be a non-empty string`);
         }
       }
     }
@@ -250,6 +252,13 @@ export function validateTokens(tokens) {
 
   if (!isObject(tokens.skins) || !isObject(tokens.skins['3'])) {
     fail('skins["3"] must be an object');
+  }
+  const skinKeys = Object.keys(tokens.skins);
+  if (skinKeys.some((key) => key !== '3')) {
+    fail(
+      `only skin "3" is implemented; found unimplemented skin key(s): ` +
+        skinKeys.filter((key) => key !== '3').join(', '),
+    );
   }
   assertSemantic(tokens.skins['3'].semantic);
   assertContrastPairs(tokens.contrastPairs, tokens.skins['3'].semantic);

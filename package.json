@@ -13,6 +13,10 @@
     ],
     "*.{js,jsx,json,md,css}": [
       "prettier --write"
+    ],
+    "*.mjs": [
+      "prettier --write",
+      "node packages/tokens/scripts/check-syntax.mjs"
     ]
   },
   "scripts": {

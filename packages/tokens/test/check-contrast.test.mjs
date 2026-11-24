@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
   evaluatePairs,
@@ -37,9 +40,7 @@ const seeded = {
       },
     },
   },
-  contrastPairs: [
-    { fg: 'text.muted', bg: 'surface.base', level: 'AA_NORMAL', schemes: ['light'] },
-  ],
+  contrastPairs: [{ fg: 'text.muted', bg: 'surface.base', level: 'AA_NORMAL', schemes: ['light'] }],
 };
 
 const collectIo = () => {
@@ -77,10 +78,16 @@ test('run() reports the failure in the required format and returns 1', () => {
 test('pair-level schemes override restricts the checked schemes', () => {
   const doc = structuredClone(seeded);
   doc.contrastPairs[0].schemes = ['dark'];
-  assert.deepEqual(evaluatePairs(doc).map((r) => r.scheme), ['dark']);
+  assert.deepEqual(
+    evaluatePairs(doc).map((r) => r.scheme),
+    ['dark'],
+  );
 
   doc.contrastPairs[0].schemes = ['light'];
-  assert.deepEqual(evaluatePairs(doc).map((r) => r.scheme), ['light']);
+  assert.deepEqual(
+    evaluatePairs(doc).map((r) => r.scheme),
+    ['light'],
+  );
 });
 
 test('NONE level always passes (no threshold)', () => {
@@ -179,6 +186,28 @@ test('CLI: guarded direct run exits 0 and prints the pass table', () => {
     { encoding: 'utf8' },
   );
   assert.match(stdout, /30\/30 pair-scheme checks pass/);
+});
+
+test('CLI: PF_TOKENS_PATH selects the checked document (failure path)', () => {
+  // The direct run must be able to check an arbitrary document, otherwise
+  // the CLI's non-zero exit contract can only be asserted through `run()`.
+  const dir = mkdtempSync(join(tmpdir(), 'pf-contrast-'));
+  try {
+    const file = join(dir, 'failing-tokens.json');
+    writeFileSync(file, JSON.stringify(seeded), 'utf8');
+    // execFileSync throws on exit 1; spawnSync lets us assert the status and
+    // stdout directly.
+    const result = spawnSync(
+      process.execPath,
+      [fileURLToPath(new URL('../src/check-contrast.mjs', import.meta.url))],
+      { encoding: 'utf8', env: { ...process.env, PF_TOKENS_PATH: file } },
+    );
+    assert.equal(result.status, 1);
+    assert.match(result.stdout, /FAIL {2}text\.muted × surface\.base × light/);
+    assert.match(result.stdout, /0\/1 pair-scheme checks pass/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 test('CLI guard: importing the module never runs the CLI', () => {
