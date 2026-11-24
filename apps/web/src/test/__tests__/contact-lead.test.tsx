@@ -85,6 +85,18 @@ describe('contactSchema', () => {
     const result = contactSchema.safeParse(valid);
     expect(result.success).toBe(true);
   });
+
+  it('trims a padded email before validating', () => {
+    const result = contactSchema.safeParse({
+      name: 'Ada',
+      email: '  ada@example.com  ',
+      subject: '',
+      message: 'A message long enough to pass.',
+      website: '',
+    });
+    expect(result.success).toBe(true);
+    expect(result.data?.email).toBe('ada@example.com');
+  });
 });
 
 describe('ContactForm honeypot', () => {
