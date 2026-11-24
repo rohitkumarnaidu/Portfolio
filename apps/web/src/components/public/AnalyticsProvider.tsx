@@ -10,7 +10,7 @@ import { initAnalytics } from '@/lib/analytics';
  */
 export function AnalyticsProvider() {
   useEffect(() => {
-    initAnalytics();
+    void initAnalytics();
   }, []);
 
   return null;
