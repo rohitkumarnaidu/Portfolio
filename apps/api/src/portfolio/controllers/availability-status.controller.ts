@@ -12,6 +12,15 @@ export class PortfolioAvailabilityStatusController {
   @CacheTTL(60000)
   @ApiOperation({ summary: 'Get the public availability status' })
   async find() {
-    return { data: await this.service.getStatus() };
+    const status = await this.service.getStatus();
+    return {
+      data: {
+        isAvailable: status.isAvailable,
+        statusLabel: status.statusLabel,
+        availableUntil: status.availableUntil,
+        preferredContact: status.preferredContact,
+        updatedAt: status.updatedAt,
+      },
+    };
   }
 }
