@@ -4,9 +4,10 @@ import { validateTokens } from '../src/validate.mjs';
 import tokens from '../tokens.json' with { type: 'json' };
 
 // Every literal below is transcribed verbatim from spec §3.2 (the task brief
-// copies it character for character). If Task 7's contrast reconciliation
-// amends a value, update the matching literal here in the same commit and
-// record the amendment in spec §14.
+// copies it character for character). If a reconciliation amends a value,
+// update the matching literal here in the same commit and record the
+// amendment in the spec: §14 for the Phase 0 contrast pass, §16 for the
+// Phase 1 `status.success` resolution.
 
 const color = ($value) => ({ $type: 'color', $value });
 
@@ -42,6 +43,26 @@ test('contrastPairs match the locked spec 3.2 matrix', () => {
   ]);
 });
 
+test('public and status contrast pairs are locked', () => {
+  assert.deepEqual(
+    tokens.publicContrastPairs.map((p) => `${p.fg}/${p.bg}`),
+    [
+      'ink/paper',
+      'inkSoft/paper',
+      'muted/paper',
+      'muted/paperDeep',
+      'accent/paper',
+      'accentDeep/paper',
+      'green/paper',
+      'green/paperDeep',
+      'codeFg/codeBg',
+    ],
+  );
+  assert.deepEqual(tokens.statusContrastPairs, [
+    { fg: 'success', bg: 'paper', level: 'AA_NORMAL' },
+  ]);
+});
+
 test('rejects a contrastPair with an unknown fg path', () => {
   const bad = structuredClone(tokens);
   bad.contrastPairs[0].fg = 'text.nope';
@@ -52,6 +73,26 @@ test('rejects a contrastPair with an invalid level', () => {
   const bad = structuredClone(tokens);
   bad.contrastPairs[0].level = 'AAA';
   assert.throws(() => validateTokens(bad), /level must be one of/);
+});
+
+test('rejects public/status pairs that do not resolve in their group', () => {
+  const badPublic = structuredClone(tokens);
+  badPublic.publicContrastPairs[0].fg = 'text.primary';
+  assert.throws(() => validateTokens(badPublic), /publicContrastPairs\[0\]\.fg/);
+
+  // A status pair's fg must resolve in `status`, not in `publicSurface`.
+  const badStatusFg = structuredClone(tokens);
+  badStatusFg.statusContrastPairs[0].fg = 'green';
+  assert.throws(() => validateTokens(badStatusFg), /statusContrastPairs\[0\]\.fg/);
+
+  // A public pair's bg must resolve in `publicSurface`, not in `status`.
+  const badPublicBg = structuredClone(tokens);
+  badPublicBg.publicContrastPairs[0].bg = 'success';
+  assert.throws(() => validateTokens(badPublicBg), /publicContrastPairs\[0\]\.bg/);
+
+  const badLevel = structuredClone(tokens);
+  badLevel.statusContrastPairs[0].level = 'AAA';
+  assert.throws(() => validateTokens(badLevel), /level must be one of/);
 });
 
 test('null is allowed only for accent.traceHalo.light', () => {
@@ -126,7 +167,7 @@ test('primitives carry the locked spec 3.2 values', () => {
 
 test('status and viz carry the locked constants', () => {
   assert.deepEqual(tokens.status, {
-    success: color('#2E9E6D'),
+    success: color('#1F7A52'),
     warning: color('#C98A2C'),
     danger: color('#C64545'),
     info: color('#2F5FD1'),
@@ -141,6 +182,12 @@ test('status and viz carry the locked constants', () => {
     '7': color('#C98A2C'),
     '8': color('#565E6D'),
   });
+});
+
+test('status.success is the Phase 1 amendment', () => {
+  // Spec §16: #2E9E6D measured 3.09:1 on the light surface base — below
+  // AA_NORMAL. The same-hue darkening to #1F7A52 measures 4.66:1 on paper.
+  assert.deepEqual(tokens.status.success, color('#1F7A52'));
 });
 
 test('semantic map matches spec 3.2 as amended by 14', () => {

@@ -55,7 +55,7 @@ test('status and viz constants appear in both scheme blocks', () => {
     assert.equal((block.match(/--pf-status-[a-z]+:/g) ?? []).length, 4);
     assert.equal((block.match(/--pf-viz-\d+:/g) ?? []).length, 8);
     // Spot-check one of each — values are scheme-constant.
-    assert.match(block, /--pf-status-success:\s*#2E9E6D/);
+    assert.match(block, /--pf-status-success:\s*#1F7A52/);
     assert.match(block, /--pf-viz-1:\s*#2F5FD1/);
   }
 });

@@ -2,7 +2,12 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { evaluatePairs, run } from '../src/check-contrast.mjs';
+import {
+  evaluatePairs,
+  evaluatePublicPairs,
+  evaluateStatusPairs,
+  run,
+} from '../src/check-contrast.mjs';
 import { contrastRatio, REQUIRED } from '../src/wcag.mjs';
 import tokens from '../tokens.json' with { type: 'json' };
 
@@ -134,13 +139,46 @@ test('run() returns 0 on the real tokens (exit-0 contract input)', () => {
   assert.equal(run(tokens, { log: () => {} }), 0);
 });
 
+test('public and status pairs evaluate scheme-constant', () => {
+  const publicResults = evaluatePublicPairs(tokens);
+  assert.equal(publicResults.length, tokens.publicContrastPairs.length);
+  assert.ok(publicResults.every((r) => r.scheme === 'constant' && r.kind === 'public'));
+
+  const inkPaper = publicResults.find((r) => r.fg === 'ink' && r.bg === 'paper');
+  assert.equal(inkPaper.level, 'AA_NORMAL');
+  assert.equal(inkPaper.required, REQUIRED.AA_NORMAL);
+  assert.equal(inkPaper.actual, contrastRatio('#17140F', '#F4F0E7'));
+  assert.equal(inkPaper.pass, true);
+
+  const statusResults = evaluateStatusPairs(tokens);
+  assert.deepEqual(
+    statusResults.map((r) => [r.fg, r.bg, r.kind, r.scheme]),
+    [['success', 'paper', 'status', 'constant']],
+  );
+  // Recomputes the amended status.success against publicSurface.paper.
+  assert.equal(statusResults[0].actual, contrastRatio('#1F7A52', '#F4F0E7'));
+  assert.equal(statusResults[0].pass, true);
+});
+
+test('run() appends public/status checks only when the matrices exist', () => {
+  const real = collectIo();
+  assert.equal(run(tokens, real.io), 0);
+  assert.equal(real.lines.at(-1), '30/30 pair-scheme checks pass');
+
+  // The seeded fixture has no public/status matrices, so its count stays at
+  // one pair × one scheme — the evaluators must not be called blindly.
+  const fixture = collectIo();
+  assert.equal(run(seeded, fixture.io), 1);
+  assert.equal(fixture.lines.at(-1), '0/1 pair-scheme checks pass');
+});
+
 test('CLI: guarded direct run exits 0 and prints the pass table', () => {
   const stdout = execFileSync(
     process.execPath,
     [fileURLToPath(new URL('../src/check-contrast.mjs', import.meta.url))],
     { encoding: 'utf8' },
   );
-  assert.match(stdout, /20\/20 pair-scheme checks pass/);
+  assert.match(stdout, /30\/30 pair-scheme checks pass/);
 });
 
 test('CLI guard: importing the module never runs the CLI', () => {
