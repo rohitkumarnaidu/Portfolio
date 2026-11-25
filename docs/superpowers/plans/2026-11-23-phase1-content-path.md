@@ -729,13 +729,20 @@ Every file/interface named above was re-read this session. Corrections the verif
 - The honeypot uses `display:none` + `tabIndex={-1}`, not `aria-hidden` (axe's aria-hidden-focus rule).
 - The token gate command is `npm run check -w @portfolio/tokens` (the script exists; a `check-contrast` script does not).
 
-## Post-plan closure (fill in when executed)
+## Post-plan closure (executed 2026-11-25, HEAD `da5b507` + Task 10)
 
-- Funnel e2e: `section[id]` order and CTA names —
-- Contact tests: honeypot / throttle / derived IP —
-- Availability fallback: API-down render —
-- Token gate: pairs pass count, budget bytes, hex guard —
-- Machine layer: `llms.txt` bytes, robots, sitemap, OG —
-- Full gate: typecheck / lint / API / web / tokens / build —
-- CWV: LCP — · CLS — · INP — (lab note)
-- Follow-ups discovered:
+- **Funnel e2e:** `e2e/homepage.spec.ts` pins `main section[id]` to exactly `['hero','work','capabilities','principles','contact']` in order, the hero CTAs (`View case studies` → `#work`, `Résumé` → `/resume`), the availability fallback text in `.hero__status`, the route-based primary nav (Work/About/Resume/Writing/Contact), and the mobile `<details>` menu at 375px. 4/4 pass.
+- **Contact tests:** e2e pins the honeypot (hidden, never keyboard-reachable, never a reCAPTCHA script) and each Zod validation message in order; the throttle (3/15 min/IP) and the derived-IP mutation are pinned by API Jest in Task 4. Contact e2e 5/5.
+- **Availability fallback:** with no API running, the homepage e2e pins `.hero__status` to `Open to work` (curated fallback); unit tests pin the `/portfolio/availability` contract and its 60 s revalidate. (Expected `ECONNREFUSED` noise appears in the e2e log on the submit test only.)
+- **Token gate:** `npm run check -w @portfolio/tokens` → **30/30** pair-scheme checks pass; skin 3 = 899 B light + 946 B dark = **1,845 B** < 8,192 B (+1,481 B shared `:root` overhead, not counted); raw-hex guard **0 violations**; `check-syntax` 30/30.
+- **Machine layer (production build, served by `next start`):** `/llms.txt` = **1,620 B** (limit 2,048); `/robots.txt` = 373 B, allows `GPTBot`/`CCBot`/`anthropic-ai`/`ClaudeBot`/`PerplexityBot` and never `Disallow: /`; `/sitemap.xml` = 2,317 B and lists `/resume`; `/og/og-default.png` = **44,629 B** (1200×630) referenced by absolute URL on `/`. e2e `machine-layer.spec.ts` 4/4.
+- **Full gate (all real, 0 cached):** `turbo run typecheck lint --force` → **9/9**; API Jest → **39 suites / 466 tests**; web Vitest → **14 files / 106 tests**; tokens → 30/30 + budget; `turbo run build --force` → **3/3** (1 m 50 s, SSR `<html lang="en" data-scheme="dark" data-skin="3" data-theme="dark">`); Playwright → **26/26** in 52.9 s.
+- **CWV (Lighthouse 13.6.0, mobile form factor, against the production build):** median of 5 runs — **LCP 1.075 s ✓ (gate ≤ 2.5 s), CLS 0.000 ✓ (gate ≤ 0.1), TBT 113 ms, FCP 1.075 s, score 99**. Observed LCP 175–370 ms; the LCP element is the hero `<h1>`. **INP not measured in lab.**
+  - _Caveat (upstream, Windows-only):_ Next 15.5.x's `NextFontManifestPlugin` matches the loader with a forward-slash literal (`includes('/next-font-loader/index.js?')`), so on Windows the font manifest is empty and **no font preloads are emitted**. Measured on this machine: without preloads LCP 2.65–2.92 s / CLS up to 0.041 (font-swap shift); with them, LCP 1.07–1.11 s / CLS 0.000. Patching the check to accept `\` reproduces the Linux output exactly — the manifest populates, Next itself emits the same four `<link rel=preload as=font>` tags, and they survive the 60 s ISR revalidation of `/`. Production (Linux) therefore ships the preloads; `apps/web/src` is unchanged and carries no workaround (a postbuild HTML patcher was prototyped and **rejected** — ISR re-renders strip static edits; see follow-ups). Re-measure CWV on Linux before treating any Windows number as a regression.
+- **Follow-ups discovered:**
+  1. **Next 15.5.x Windows font-preload defect** (above) — worth an upstream issue; track it so a future Windows CWV gate is not misread.
+  2. `next start` is incompatible with `output: 'standalone'` — measure with `node .next/standalone/apps/web/server.js` (and copy `.next/static` + `public` in, as deploy does).
+  3. `next dev` and the Playwright webServer share `.next`, so an e2e run **destroys** the production build (`Could not find a production build`); rebuild after e2e.
+  4. `.reveal` runs **850 ms** (`public.css`), outside DESIGN.md's 260–500 ms reveal band — pre-existing drift, carried to Phase 3 (motion), not changed here.
+  5. `e2e/` is excluded from `tsconfig` and outside `next lint`, so Playwright specs are verified by execution only — a type error in a spec cannot fail the gate.
+  6. `/` and `/resume` use `initialRevalidateSeconds: 60`, so any postbuild HTML patching is unreliable by design; render-time emission (the font manifest) is the only durable place for preloads.

@@ -3,48 +3,92 @@ import { test, expect } from '@playwright/test';
 /**
  * Contact page (`/contact`).
  *
- * Verifies the form renders, client-side validation blocks empty submissions,
- * and a valid submission ends in either the success state or the rate-limit
- * handling path (both are acceptable depending on backend availability).
+ * The form is the same component mounted on `/` and `/contact`. Labels carry no
+ * asterisks; validation messages come from `lib/contact-schema.ts` (Zod). The
+ * e2e webServer starts Next only — no API — so a valid submit must end in
+ * either the real success copy or the handled error state.
  */
 test.describe('Contact page', () => {
-  test('renders the contact form fields', async ({ page }) => {
+  test('renders the form fields and the honeypot is hidden', async ({ page }) => {
     await page.goto('/contact');
 
-    await expect(page.getByLabel('Name *')).toBeVisible();
-    await expect(page.getByLabel('Email *')).toBeVisible();
-    await expect(page.getByLabel('Message *')).toBeVisible();
-    await expect(page.getByRole('button', { name: /send message/i })).toBeVisible();
+    await expect(page.getByLabel('Name', { exact: true })).toBeVisible();
+    await expect(page.getByLabel('Email', { exact: true })).toBeVisible();
+    await expect(page.getByLabel('Subject', { exact: true })).toBeVisible();
+    await expect(page.getByLabel('Message', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Send message' })).toBeVisible();
+
+    // Honeypot: a labelled but `display:none` field (`.field--honeypot`).
+    await expect(page.locator('#contact-website')).toBeHidden();
   });
 
-  test('shows validation errors for an empty submission', async ({ page }) => {
+  test('honeypot is never reachable by keyboard', async ({ page }) => {
     await page.goto('/contact');
 
-    await page.getByRole('button', { name: /send message/i }).click();
+    await page.getByLabel('Name', { exact: true }).focus();
 
-    // Client-side validation surfaces a name error at minimum.
+    const visited: string[] = [];
+    for (let i = 0; i < 12; i += 1) {
+      await page.keyboard.press('Tab');
+      visited.push(
+        await page.evaluate(() => (document.activeElement as HTMLElement | null)?.id ?? ''),
+      );
+    }
+
+    expect(visited).not.toContain('contact-website');
+  });
+
+  test('loads no reCAPTCHA script', async ({ page }) => {
+    await page.goto('/contact');
+
+    await expect(page.locator('script[src*="recaptcha" i]')).toHaveCount(0);
+    expect(await page.content()).not.toMatch(/recaptcha/i);
+  });
+
+  test('surfaces each Zod validation message in order', async ({ page }) => {
+    await page.goto('/contact');
+
+    // The inputs carry native `required`/`type=email` constraints. Disable the
+    // browser's own validation so the Zod branch (the app's real validation
+    // layer) runs, exactly as it does for a client that bypasses native checks.
+    await page
+      .locator('form.contact-form')
+      .evaluate((form) => ((form as HTMLFormElement).noValidate = true));
+
+    const submit = page.getByRole('button', { name: 'Send message' });
+
+    await submit.click();
     await expect(page.getByText('Name must be at least 2 characters')).toBeVisible();
+
+    await page.getByLabel('Name', { exact: true }).fill('Ada Lovelace');
+    await submit.click();
     await expect(page.getByText('Please enter a valid email address')).toBeVisible();
+
+    await page.getByLabel('Email', { exact: true }).fill('ada@example.com');
+    await submit.click();
     await expect(page.getByText('Message must be at least 10 characters')).toBeVisible();
   });
 
-  test('submits a valid message and reaches success or rate-limit state', async ({ page }) => {
+  test('valid submit ends in success or the handled error state', async ({ page }) => {
     await page.goto('/contact');
 
-    await page.getByLabel('Name *').fill('Ada Lovelace');
-    await page.getByLabel('Email *').fill('ada@example.com');
-    await page.getByLabel('Subject').fill('Project inquiry');
+    await page.getByLabel('Name', { exact: true }).fill('Ada Lovelace');
+    await page.getByLabel('Email', { exact: true }).fill('ada@example.com');
+    await page.getByLabel('Subject', { exact: true }).fill('Project inquiry');
     await page
-      .getByLabel('Message *')
+      .getByLabel('Message', { exact: true })
       .fill('I would love to discuss a potential collaboration on an upcoming project.');
 
-    await page.getByRole('button', { name: /send message/i }).click();
+    await page.getByRole('button', { name: 'Send message' }).click();
 
-    // A successful send shows the confirmation; a rate-limited/backend error
-    // shows the error banner. Either outcome is a valid, handled end state.
-    const success = page.getByText(/Message sent!/i);
-    const errorBanner = page.getByText(/Something went wrong/i);
+    // Success copy is asserted exactly (never a loose regex that would also
+    // match a failure). With no API running, the form renders its handled
+    // error state instead — `status === 'error'` with feedback shown.
+    const success = page.getByText('Message received. I will reply from the address you left.', {
+      exact: true,
+    });
+    const handledError = page.locator('.form-status--error');
 
-    await expect(success.or(errorBanner)).toBeVisible({ timeout: 15000 });
+    await expect(success.or(handledError)).toBeVisible({ timeout: 15000 });
   });
 });

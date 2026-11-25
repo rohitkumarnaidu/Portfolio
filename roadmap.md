@@ -4,26 +4,26 @@
 >
 > **Division of labor:** spec = design source of truth · plans = execution source of truth · `PROGRESS.md` = session log · this file only _navigates_. If this file and the spec disagree, fix this file.
 >
-> **Completion percentages are estimates, not promises.** Phase 0 is measured against its exit checklist; Phases 1–4 come from the 2026-11-18 static audit (code read, not features exercised), effort-weighted by the spec's delivery size. Re-measure at each phase gate.
+> **Completion percentages are estimates, not promises.** Phase 0 is measured against its exit checklist and Phase 1 against its 2026-11-25 gate; Phases 2–4 come from the 2026-11-18 static audit (code read, not features exercised), effort-weighted by the spec's delivery size. Re-measure at each phase gate.
 
-**Updated:** 2026-11-23
+**Updated:** 2026-11-25
 
 ---
 
 ## At a glance
 
-| Phase                      | Status                       | Completion | Spec                                                | Delivers                                                                                                                                                                                                                                                             |
-| -------------------------- | ---------------------------- | ---------- | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Research (askA–askL)       | ✅ done                      | 100%       | evidence base (§ header)                            | 12 grounded passes; Skin 3 locked — Ember Copper `#C1662E` · Signal Cobalt `#2F5FD1` · 9-step graphite                                                                                                                                                               |
-| Spec                       | ✅ approved                  | 100%       | `2026-11-13-portfolio-themes-design.md` (+ §11–§15) | binding design contract; all decisions closed (§10)                                                                                                                                                                                                                  |
-| Groundwork                 | ✅ done                      | 100%       | §11 audit                                           | repo cleanup · docs archive · agent setup · tree repair (`chore/groundwork-cleanup`)                                                                                                                                                                                 |
-| Micro-decisions (askM)     | ✅ done                      | 100%       | §12, §12.1                                          | 8/8 resolved — fonts locked (IBM Plex), OG static, public switcher + MCP deferred                                                                                                                                                                                    |
-| **Phase 0 · Foundation**   | ✅ done · PR #140 open       | **100%**   | §3 (exit: §3.7 — 5/5)                               | `tokens.json` DTCG source · deterministic CSS generator · no-flash dual-attribute provider · legacy alias bridge · AA contrast checks · <8KB skin-CSS budget · raw-hex CI guard · docs                                                                               |
-| Phase 1 · Content path     | ⬜ next                      | **≈33%**   | §5, §6, §6.9                                        | Default-view funnel (hero-lite → flagship case studies → capabilities → principles → contact) · machine layer (static `llms.txt` + JSON-LD **only**, per Q3) · contact verify-then-align (A3 + Q7: drop reCAPTCHA, honeypot + 3/hr/IP) · SEO/OG · availability badge |
-| Phase 2 · Signature        | ⬜ blocked on Phase 1        | **≈7%**    | §4, §13                                             | 3D instrument hero (TSL/WebGPU, load-on-interaction) · AI-state trace binding (§4.3) · fallback tiers (§4.4, SVG tier is a deliverable) · perf pass                                                                                                                  |
-| Phase 3 · Skins & switcher | ⬜ blocked on Phase 1–2      | **≈10%**   | §2.2, §8                                            | Skin 1/2 token blocks (skins are data, not forks) · archive posture (§2.1) · public switcher ships only when skin 2 is fully realized (Q4)                                                                                                                           |
-| Phase 4 · Machine extras   | ⬜ blocked on pgvector audit | **≈12%**   | §6.2–§6.5                                           | AI console chat (**pgvector audit first**, A4) · GitHub activity feed · MCP endpoint **deferred post-stability** (Q6)                                                                                                                                                |
-| **Whole redesign**         | in flight                    | **≈39%**   | —                                                   | effort-weighted: P0 27% · P1 21% · P2 29% · P3 11% · P4 11%                                                                                                                                                                                                          |
+| Phase                      | Status                       | Completion | Spec                                                | Delivers                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------------------- | ---------------------------- | ---------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Research (askA–askL)       | ✅ done                      | 100%       | evidence base (§ header)                            | 12 grounded passes; Skin 3 locked — Ember Copper `#C1662E` · Signal Cobalt `#2F5FD1` · 9-step graphite                                                                                                                                                                                                                                                                          |
+| Spec                       | ✅ approved                  | 100%       | `2026-11-13-portfolio-themes-design.md` (+ §11–§15) | binding design contract; all decisions closed (§10)                                                                                                                                                                                                                                                                                                                             |
+| Groundwork                 | ✅ done                      | 100%       | §11 audit                                           | repo cleanup · docs archive · agent setup · tree repair (`chore/groundwork-cleanup`)                                                                                                                                                                                                                                                                                            |
+| Micro-decisions (askM)     | ✅ done                      | 100%       | §12, §12.1                                          | 8/8 resolved — fonts locked (IBM Plex), OG static, public switcher + MCP deferred                                                                                                                                                                                                                                                                                               |
+| **Phase 0 · Foundation**   | ✅ done · PR #140 merged     | **100%**   | §3 (exit: §3.7 — 5/5)                               | `tokens.json` DTCG source · deterministic CSS generator · no-flash dual-attribute provider · legacy alias bridge · AA contrast checks · <8KB skin-CSS budget · raw-hex CI guard · docs                                                                                                                                                                                          |
+| Phase 1 · Content path     | ✅ done                      | **100%**   | §5, §6, §6.9                                        | Default-view funnel (hero → flagship case studies → capabilities → principles → contact) · `/resume` + committed print PDF · machine layer (static `llms.txt` + ProfilePage JSON-LD **only**, per Q3; robots allow; static OG) · contact verify-then-align (A3 + Q7: drop reCAPTCHA, honeypot + 3/15 min/IP) · availability endpoint + badge · cookieless lazy PostHog + `?ref` |
+| Phase 2 · Signature        | ⬜ next                      | **≈7%**    | §4, §13                                             | 3D instrument hero (TSL/WebGPU, load-on-interaction) · AI-state trace binding (§4.3) · fallback tiers (§4.4, SVG tier is a deliverable) · perf pass                                                                                                                                                                                                                             |
+| Phase 3 · Skins & switcher | ⬜ blocked on Phase 2        | **≈10%**   | §2.2, §8                                            | Skin 1/2 token blocks (skins are data, not forks) · archive posture (§2.1) · public switcher ships only when skin 2 is fully realized (Q4)                                                                                                                                                                                                                                      |
+| Phase 4 · Machine extras   | ⬜ blocked on pgvector audit | **≈12%**   | §6.2–§6.5                                           | AI console chat (**pgvector audit first**, A4) · GitHub activity feed · MCP endpoint **deferred post-stability** (Q6)                                                                                                                                                                                                                                                           |
+| **Whole redesign**         | in flight                    | **≈52%**   | —                                                   | effort-weighted: P0 27/27 · P1 21/21 · P2 29 · P3 11 · P4 11 (Phases 2–4 still static-audit estimates)                                                                                                                                                                                                                                                                          |
 
 ---
 
@@ -37,10 +37,10 @@
 
 ---
 
-## Right now — Phase 0 complete (PR #140), Phase 1 next
+## Right now — Phase 1 complete, Phase 2 next
 
-- Branch `feat/phase0-tokens`, PR #140. All 9 plan tasks plus the §3.7 criterion-1 closure (tokenized CSS/3D/charts, raw-hex CI guard). Exit checklist 5/5.
-- Nothing in Phase 1 should start until this merges — the alias bridge and `--pf-*` contract are what Phase 1 rebuilds on top of.
+- Phase 1 ran all 10 plan tasks on `phase1-content-path` and passed its gate + CWV evidence (LCP 1.075 s / CLS 0.000, Lighthouse lab, mobile). Closure numbers live in the plan's closure block; session history in `PROGRESS.md`.
+- Next: the whole-branch review, then Phase 2 — Signature (blocked on the TSL/WebGPU verdict and a trace signal source; see prerequisites).
 - Phase status lives in `PROGRESS.md`; per-task detail lives in the plan.
 
 ---
@@ -51,20 +51,15 @@
 
 Exit §3.7: `tokens.json` single source · generated CSS · no-flash dual-attribute provider · AA both schemes · <8KB per skin · `DESIGN.md` current. All five check out; evidence in `PROGRESS.md`. Deferred hardening is listed under carried-forward items.
 
-### Phase 1 · Content path — ≈33% (4.4/13 points)
+### Phase 1 · Content path — 100% (13/13 points)
 
-**Plan:** [2026-11-23-phase1-content-path.md](docs/superpowers/plans/2026-11-23-phase1-content-path.md) — 10 tasks; keeps the alias bridge (demolition is Phase 3) and carries the Phase 0 hardening items the 2026-11-18 audit did not list.
+**Plan:** [2026-11-23-phase1-content-path.md](docs/superpowers/plans/2026-11-23-phase1-content-path.md) — 10 tasks, all executed 2026-11-23 → 2026-11-25; keeps the alias bridge (demolition is Phase 3) and carries the Phase 0 hardening items the 2026-11-18 audit did not list.
 
-**Exists:** public routes `/`, `/about`, `/projects`, `/projects/[slug]`, `/blog`, `/blog/[slug]`, `/contact`; contact creates real leads against `POST /portfolio/leads`; metadata helper, JSON-LD (Person/WebSite), sitemap, RSS, robots; curated content fallback in `lib/public-content.ts`; section order precursor (hero, work, statement, capabilities, about) already renders.
+**Shipped:** the locked five-section funnel on `/` (`hero → work → capabilities → principles → contact`, extracted into `components/public/sections/`); `/resume` + committed print PDF; the shared contact section; contact hardening (honeypot, Zod validation, 3/15 min/IP, reCAPTCHA gone); public availability endpoint + hero badge; machine layer (`llms.txt` 1,620 B, `ProfilePage` JSON-LD, robots **allow** for GPTBot/CCBot/anthropic-ai/ClaudeBot/PerplexityBot, static OG 44,629 B); cookieless PostHog behind a dynamic import (initial JS on `/` 952.0 KB → 599.7 KB) + stateless `?ref`.
 
-**Missing for exit:**
+**Gate evidence (all real):** typecheck+lint 9/9 (forced) · API 39 suites / 466 tests · web 14 files / 106 tests · tokens 30/30 pair-scheme + budget 1,845 B · build 3/3 (forced) · Playwright e2e **26/26** (the 12 pre-existing base failures are fixed by the rewritten specs) · CWV **LCP 1.075 s / CLS 0.000 / TBT 113 ms** (median of 5; INP not measured in lab). Windows-only Next font-preload caveat recorded in the plan's closure block — re-measure on Linux before treating a Windows CWV number as a regression.
 
-- The locked five-section funnel order and a contact section on `/`; no resume route.
-- Contact is spec-violating today: `react-google-recaptcha-v3` installed but unwired, throttle 10/15 min (~40/hr vs spec 3/hr/IP), no honeypot. Sanitization exists.
-- Availability is a hard-coded string; the module has no public controller.
-- Machine layer is inverted: `robots.ts` **blocks** GPTBot/CCBot/anthropic-ai; no `llms.txt`, no `ProfilePage`, no OG image.
-- PostHog installed with zero imports; no `?ref` handling.
-- Public `ThemeToggle` exists but is never mounted.
+**Still open (carried, none blocking):** `.reveal` 850 ms vs the 260–500 ms motion contract (Phase 3); `e2e/` outside `tsc`/lint; `next start` vs `output: 'standalone'`; the accepted minors listed in the per-task reviews.
 
 ### Phase 2 · Signature — ≈7% (1.3/18 points)
 
@@ -88,12 +83,12 @@ Exit §3.7: `tokens.json` single source · generated CSS · no-flash dual-attrib
 
 ## Prerequisites by phase
 
-| Phase | Must be true before starting                                                                                                                  | State (2026-11-18)                                                  |
-| ----- | --------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| 1     | Phase 0 merged; Q7 contact decision recorded (drop reCAPTCHA → honeypot + 3/hr/IP); availability needs a public read path                     | Phase 0 PR #140 open; decisions recorded in spec §12                |
-| 2     | Phase 1 exit green (funnel complete, CWV green); TSL/WebGPU + Safari verdict; a trace signal source (or a deliberate stub)                    | Blocked on Phase 1; EffectComposer ban must be resolved first       |
-| 3     | Skins 1–2 values reconciled (§15 Skin 1 note); generator generalized off the hard-coded `'3'`; skin CSS budget per skin                       | Open                                                                |
-| 4     | A4 pgvector audit written; decision on the AI backend (FastAPI service was removed); public chat auth + rate design before any endpoint ships | Blocked on A4; `chat.service.ts` currently points at a dead service |
+| Phase | Must be true before starting                                                                                                                  | State (latest 2026-11-25)                                                                                                                            |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1     | Phase 0 merged; Q7 contact decision recorded (drop reCAPTCHA → honeypot + 3/hr/IP); availability needs a public read path                     | Phase 0 merged as PR #140; decisions recorded in spec §12                                                                                            |
+| 2     | Phase 1 exit green (funnel complete, CWV green); TSL/WebGPU + Safari verdict; a trace signal source (or a deliberate stub)                    | Phase 1 exit green 2026-11-25 (CWV LCP 1.075 s / CLS 0.000); TSL/WebGPU verdict + trace source still open; EffectComposer ban must be resolved first |
+| 3     | Skins 1–2 values reconciled (§15 Skin 1 note); generator generalized off the hard-coded `'3'`; skin CSS budget per skin                       | Open                                                                                                                                                 |
+| 4     | A4 pgvector audit written; decision on the AI backend (FastAPI service was removed); public chat auth + rate design before any endpoint ships | Blocked on A4; `chat.service.ts` currently points at a dead service                                                                                  |
 
 ---
 
@@ -118,9 +113,10 @@ Static inspection only — no feature was exercised for this table.
 
 ## Carried-forward items
 
-- **Phase 1 hardening list (carried from Phase 0, none merge-blocking):** alias-drift test for the `--pf-*` bridge; validator non-empty-string guard; gate failure-path coverage (build CLI vacuity, contrast failure exit, token test isolation); skin validation narrowed to `'3'` until skin CSS exists; SSR `data-theme` mirror; removal of the three leftover timing literals (`--duration-instant`, `--ease-in`, `--ease-smooth`); a `lint` script for `packages/tokens` and `.mjs` in lint-staged (today the CI token job is the only enforcement).
+- ~~**Phase 1 hardening list (carried from Phase 0, none merge-blocking):** alias-drift test for the `--pf-*` bridge; validator non-empty-string guard; gate failure-path coverage (build CLI vacuity, contrast failure exit, token test isolation); skin validation narrowed to `'3'` until skin CSS exists; SSR `data-theme` mirror; removal of the three leftover timing literals (`--duration-instant`, `--ease-in`, `--ease-smooth`); a `lint` script for `packages/tokens` and `.mjs` in lint-staged (today the CI token job is the only enforcement).~~ **Shipped in Phase 1 Task 9 (2026-11-24, `da5b507`)** — all seven items landed; `check` now runs 30/30 with the build vacuity guard at >3,000 measured chars.
 - **Application gaps** (from the readiness snapshot): analytics ingest; public CTAs for the 10+ admin-only entities; media file serving; integration producers (queue, webhooks, notifications, flags); preview/revalidation coverage beyond projects/blog/case-studies; auth defaults (`env.config.ts` dev secret, `ADMIN_PASSWORD`, `COOKIE_SECURE` off, JWT-only role resolution); live availability.
-- **12 pre-existing e2e failures** — proven present on the base commit (title/content drift + specs requiring an API the e2e webServer doesn't start); triage is its own task, independent of any phase.
+- ~~**12 pre-existing e2e failures** — proven present on the base commit (title/content drift + specs requiring an API the e2e webServer doesn't start); triage is its own task, independent of any phase.~~ **Fixed in Phase 1 Task 10 (2026-11-25)** — the four stale specs were rewritten against the real DOM and two new specs added; the suite is now **26/26** and expected `ECONNREFUSED` noise on the contact-submit test is the only API absence signal.
+- **Next 15.5.x Windows font-preload defect** (found during the Phase 1 CWV pass): `NextFontManifestPlugin` matches the loader with a forward-slash literal, so Windows builds emit no font preloads and LCP measures 2.65–2.92 s instead of 1.07 s. Production (Linux) is unaffected. File an upstream issue; re-measure CWV on Linux before trusting a Windows number.
 
 ---
 

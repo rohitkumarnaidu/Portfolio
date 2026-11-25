@@ -1,55 +1,86 @@
 import { test, expect } from '@playwright/test';
 
+/**
+ * Homepage (`/`) — the Phase 1 Default-view funnel.
+ *
+ * The page is a single editorial funnel: hero → selected work → capabilities →
+ * principles → contact. Navigation is a route-based header nav (`Primary`), not
+ * in-page anchors, so link assertions check `href` rather than expecting the
+ * page to stay. There is no public theme toggle in Phase 1; the mobile menu is
+ * a native `<details>` disclosure labelled `Menu`.
+ */
 test.describe('Homepage', () => {
-  test('loads successfully with all sections', async ({ page }) => {
+  test('renders the five funnel sections in order', async ({ page }) => {
     await page.goto('/');
 
-    // Page loads with a title
-    await expect(page).toHaveTitle(/Portfolio/);
+    await expect(page).toHaveTitle(/Rohith Naidu/);
+    await expect(page.getByRole('navigation', { name: 'Primary' })).toBeVisible();
 
-    // Navbar is visible
-    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
+    // Exactly the five funnel landmarks, in funnel order.
+    const sections = page.locator('main section[id]');
+    await expect(sections).toHaveCount(5);
 
-    // Key sections are present
-    await expect(page.locator('#hero')).toBeVisible({ timeout: 10000 });
-    await expect(page.locator('#about')).toBeVisible();
-    await expect(page.locator('#skills')).toBeVisible();
-    await expect(page.locator('#contact')).toBeVisible();
+    const ids = await sections.evaluateAll((nodes) => nodes.map((node) => node.id));
+    expect(ids).toEqual(['hero', 'work', 'capabilities', 'principles', 'contact']);
+
+    for (const id of ids) {
+      await expect(page.locator(`#${id}`)).toBeVisible();
+    }
   });
 
-  test('navigation links work correctly', async ({ page }) => {
+  test('hero offers both CTAs and an availability label', async ({ page }) => {
     await page.goto('/');
 
-    // Click on a nav link should scroll to section
-    const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await nav.getByText('Projects').click();
+    await expect(page.getByRole('link', { name: 'View case studies' })).toHaveAttribute(
+      'href',
+      '#work',
+    );
+    await expect(page.getByRole('link', { name: /Résumé/ })).toHaveAttribute('href', '/resume');
 
-    // Should scroll to projects section
-    await expect(page.locator('#projects')).toBeVisible();
+    // No API in e2e, so the badge falls back to the curated availability label.
+    await expect(page.locator('.hero__status')).toContainText('Open to work');
   });
 
-  test('has working theme toggle', async ({ page }) => {
+  test('primary nav links to the public routes', async ({ page }) => {
     await page.goto('/');
 
-    // Theme toggle button should exist
-    const toggleButton = page
-      .locator('button')
-      .filter({ has: page.locator('[aria-label]') })
-      .first();
-    await expect(toggleButton).toBeVisible();
+    const nav = page.getByRole('navigation', { name: 'Primary' });
+    const routes = [
+      { label: 'Work', href: '/projects' },
+      { label: 'About', href: '/about' },
+      { label: 'Resume', href: '/resume' },
+      { label: 'Writing', href: '/blog' },
+      { label: 'Contact', href: '/contact' },
+    ] as const;
+
+    for (const route of routes) {
+      await expect(nav.getByRole('link', { name: route.label, exact: true })).toHaveAttribute(
+        'href',
+        route.href,
+      );
+    }
   });
 
-  test('mobile menu can be toggled', async ({ page }) => {
-    // Set viewport to mobile size
+  test('mobile menu opens as a details disclosure at 375px', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
 
-    // Mobile menu button should be visible
-    const menuButton = page.getByLabel('Toggle mobile menu');
-    await expect(menuButton).toBeVisible();
+    // The desktop nav is hidden below 900px; the `<details>` menu takes over.
+    await expect(page.getByRole('navigation', { name: 'Primary' })).toBeHidden();
 
-    // Open mobile menu
-    await menuButton.click();
-    await expect(page.getByRole('navigation').last()).toBeVisible();
+    const menu = page.locator('details.site-menu');
+    await expect(menu).toBeVisible();
+    await expect(menu.locator('summary')).toHaveText('Menu');
+    await expect(menu.locator('.site-menu__panel')).toBeHidden();
+
+    await menu.locator('summary').click();
+
+    const panel = menu.locator('.site-menu__panel');
+    await expect(panel).toBeVisible();
+    await expect(panel.getByRole('link', { name: 'Work', exact: true })).toHaveAttribute(
+      'href',
+      '/projects',
+    );
+    await expect(panel.getByRole('link', { name: 'Contact', exact: true })).toBeVisible();
   });
 });
