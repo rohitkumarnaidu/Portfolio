@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { fontVariables } from '@/lib/fonts';
 import { THEME_SCRIPT } from '@/lib/theme-script';
 import { SITE } from '@/lib/public-content';
+import { DEFAULT_OG_IMAGE, absoluteUrl } from '@/lib/seo';
 import { publicSurface } from '@/lib/design-tokens';
 import '@portfolio/tokens/theme.css';
 import '@/styles/globals.css';
@@ -33,11 +34,20 @@ export const metadata: Metadata = {
     locale: SITE.locale,
     url: SITE.url,
     siteName: SITE.shortName,
+    images: [
+      {
+        url: absoluteUrl(DEFAULT_OG_IMAGE),
+        width: 1200,
+        height: 630,
+        alt: 'Rohith Naidu — software engineer',
+      },
+    ],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: `${SITE.shortName} — ${SITE.role}`,
     description: SITE.description,
+    images: [absoluteUrl(DEFAULT_OG_IMAGE)],
   },
   robots: {
     index: true,
@@ -57,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       data-scheme="dark"
       data-skin="3"
+      data-theme="dark"
       className={fontVariables}
       suppressHydrationWarning
     >
@@ -66,7 +77,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           intentionally fixed to its paper palette and does not read this value.
           THEME_SCRIPT below sets data-scheme + data-skin before paint and also
           writes the legacy data-theme mirror (kept in sync with data-scheme;
-          deleted in Phase 1 together with the alias bridge).
+          deleted in Phase 3 together with the alias bridge).
         */}
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>

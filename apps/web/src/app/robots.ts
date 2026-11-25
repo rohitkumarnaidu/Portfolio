@@ -12,16 +12,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/admin/', '/api/', '/_next/', '/404', '/500'],
       },
       {
-        userAgent: 'GPTBot',
-        disallow: '/',
-      },
-      {
-        userAgent: 'CCBot',
-        disallow: '/',
-      },
-      {
-        userAgent: 'anthropic-ai',
-        disallow: '/',
+        userAgent: ['GPTBot', 'CCBot', 'anthropic-ai', 'ClaudeBot', 'PerplexityBot'],
+        allow: '/',
+        disallow: ['/admin/', '/api/', '/_next/', '/404', '/500'],
       },
     ],
     sitemap: `${siteUrl}/sitemap.xml`,

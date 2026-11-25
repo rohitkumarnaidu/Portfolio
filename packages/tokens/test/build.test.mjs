@@ -55,7 +55,7 @@ test('status and viz constants appear in both scheme blocks', () => {
     assert.equal((block.match(/--pf-status-[a-z]+:/g) ?? []).length, 4);
     assert.equal((block.match(/--pf-viz-\d+:/g) ?? []).length, 8);
     // Spot-check one of each — values are scheme-constant.
-    assert.match(block, /--pf-status-success:\s*#2E9E6D/);
+    assert.match(block, /--pf-status-success:\s*#1F7A52/);
     assert.match(block, /--pf-viz-1:\s*#2F5FD1/);
   }
 });
@@ -119,4 +119,12 @@ test('CLI regenerates the committed dist file byte-for-byte from any cwd', () =>
   const after = readFileSync(distCss, 'utf8');
   assert.equal(after, before, 'CLI run must reproduce the committed dist byte-for-byte');
   assert.equal(after, build());
+});
+
+test('generated CSS never silently collapses', () => {
+  // Vacuity guard: a truncated or empty render would pass every regex
+  // assertion above by absence. Today's tokens.json emits 3417 characters
+  // (measured on this tree), so the floor sits at 3000 — high enough to catch
+  // a collapsed block, low enough to survive legitimate token edits.
+  assert.ok(build().length > 3000);
 });

@@ -28,9 +28,13 @@ export const SITE = {
   locale: 'en_US',
 } as const;
 
+/** Last reviewed date for the curated public content. Stable sitemap dates. */
+export const CONTENT_UPDATED = '2026-11-23';
+
 export const PUBLIC_NAV = [
   { label: 'Work', href: '/projects' },
   { label: 'About', href: '/about' },
+  { label: 'Resume', href: '/resume' },
   { label: 'Writing', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ] as const;

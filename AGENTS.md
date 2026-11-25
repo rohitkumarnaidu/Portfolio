@@ -76,13 +76,13 @@ Configures Helmet, compression, CORS (from `CORS_ORIGIN`), a global `ValidationP
 
 ### Web: structure & data flow
 
-- App Router pages in `src/app/`: public sections under `(public)/` (about, blog, contact, projects), the admin dashboard under `src/app/admin`, and route handlers under `src/app/api` (admin auth, preview, revalidate, health, rss).
-- Components in `src/components/`: `3d/` (CanvasWrapper, Scene3D, SceneRegistry, effects/fallbacks/lighting/primitives/scenes), `admin/` (forms/panels + sandbox), `public/` (CaseStudy, ContactForm, SiteHeader/SiteFooter, SectionHead, icons), plus `ThemeToggle.tsx`. Reusable UI primitives live in `packages/ui` (`@portfolio/ui`) — there is **no** `src/components/ui/` or `src/components/sections/`.
+- App Router pages in `src/app/`: the public funnel at `/`, public sections under `(public)/` (about, blog, contact, projects, resume), the admin dashboard under `src/app/admin`, and route handlers at `src/app/api` (admin sandbox, preview, revalidate), `src/app/health`, `src/app/llms.txt`, `src/app/rss.xml`, plus root `robots.ts` and `sitemap.ts`.
+- Components in `src/components/`: `3d/` (CanvasWrapper, Scene3D, SceneRegistry, effects/fallbacks/lighting/primitives/scenes), `admin/` (forms/panels + sandbox), `public/` (CaseStudy, ContactForm, SiteHeader/SiteFooter, SectionHead, icons, analytics and tracked-link wrappers), `public/sections/` (the five funnel sections rendered by `/`), plus `ThemeToggle.tsx`. Reusable UI primitives live in `packages/ui` (`@portfolio/ui`) — there is **no** `src/components/ui/`.
 - **API access goes through `src/lib/api.ts`** — a typed `fetch` wrapper that unwraps the API's `{ data, meta }` envelope, throws `ApiError` on non-2xx, and sends cookies (`credentials: 'include'`). Browser calls use the same-origin `/api` base; Next.js rewrites `/api/:path*` to `API_PROXY_TARGET` (default `http://localhost:3001`) in `next.config.js`. Server-side calls go straight to `API_PROXY_TARGET`. On a 401 the client refreshes once via `/api/admin/auth/refresh` and replays.
 - **Server state is TanStack React Query** (`src/lib/query-provider.tsx`) with per-entity hooks in **`src/lib/hooks/`** (23 `use*` fetcher hooks - the higher-level fetching layer; there is **no** `src/lib/data/` or `use-api-query.ts`).
 - The public site also renders curated content straight from `src/lib/public-content.ts` — that is the fallback when the API has nothing published.
-- Other lib utilities: `cache-tags.ts`, `seo.ts`, `json-ld.ts`, `sanitize.ts`, `fonts.ts`, `webcontainer.ts`, `cn.ts`, `constants.ts`, `format-date.ts`, `3d/`.
-- Styling: the token system lives in `src/styles/globals.css` (CSS variables under `[data-theme]`, light + dark) plus `src/styles/public.css` (`.site` editorial palette), bridged to Tailwind in `tailwind.config.ts` (`darkMode: ['selector', '[data-theme="dark"]']`). Fonts load via `next/font` in `src/lib/fonts.ts`.
+- Other lib utilities: `analytics.ts`, `cache-tags.ts`, `contact-schema.ts`, `design-tokens.ts`, `llms.ts`, `seo.ts`, `json-ld.ts`, `sanitize.ts`, `fonts.ts`, `theme.ts`, `theme-script.ts`, `webcontainer.ts`, `cn.ts`, `constants.ts`, `format-date.ts`, `3d/`.
+- Styling: `packages/tokens/tokens.json` (DTCG) is the token source of truth → generated `packages/tokens/dist/theme-tokens.css`, imported by `layout.tsx`. `src/styles/globals.css` is the legacy alias bridge onto the generated `--pf-*` semantic variables (deleted in Phase 3) and `src/styles/public.css` carries the `.site` editorial palette against `--pf-public-*`; both are bridged to Tailwind in `tailwind.config.ts` (`darkMode: ['selector', '[data-theme="dark"]']`). Fonts load via `next/font` in `src/lib/fonts.ts`.
 
 ### Auth model
 
@@ -93,7 +93,7 @@ There is **no public registration**: administrators create users with `POST /api
 ## Working rules for agents
 
 1. **Code is ground truth.** Much of `docs/` is archived history (`docs/archive/` = frozen). Live documents are listed in the map below.
-2. **Token discipline — the #1 rule.** Components never hardcode hex and never reference primitive tokens; semantic tokens only. Today that means the CSS variables in `globals.css`/the Tailwind bridge; after Phase 0 it means the DTCG semantic + component layers. Token drift is the documented #1 maintenance killer.
+2. **Token discipline — the #1 rule.** Components never hardcode hex and never reference primitive tokens; semantic tokens only. Today that means the generated `--pf-*` semantic variables (through the legacy alias bridge until Phase 3) and the Tailwind bridge; the component layer lands with the Phase 3 demolition. Token drift is the documented #1 maintenance killer.
 3. **Design contract first.** Read root `DESIGN.md` before any visual/UI change. The locked redesign spec is `docs/superpowers/specs/2026-11-13-portfolio-themes-design.md`.
 4. **Anti-generic checklist = PR criteria.** Every UI PR satisfies spec §7 (banned AI tells + required criteria) — reviewers check it, not vibes.
 5. **Review gate.** Redesign work follows the chain: spec → plan (in `docs/superpowers/plans/`) → build. Don't improvise scope.

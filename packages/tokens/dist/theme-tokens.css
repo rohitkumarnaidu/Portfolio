@@ -42,7 +42,7 @@
 }
 
 [data-scheme='light'][data-skin='3'] {
-  --pf-status-success: #2E9E6D;
+  --pf-status-success: #1F7A52;
   --pf-status-warning: #C98A2C;
   --pf-status-danger: #C64545;
   --pf-status-info: #2F5FD1;
@@ -74,7 +74,7 @@
 }
 
 [data-scheme='dark'][data-skin='3'] {
-  --pf-status-success: #2E9E6D;
+  --pf-status-success: #1F7A52;
   --pf-status-warning: #C98A2C;
   --pf-status-danger: #C64545;
   --pf-status-info: #2F5FD1;

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { WORK, type WorkProject } from '@/lib/public-content';
+import { TrackedLink } from './TrackedLink';
 import { ArrowLeft, ArrowUpRight } from './icons';
 
 export function CaseStudy({ project }: { project: WorkProject }) {
@@ -59,12 +60,26 @@ export function CaseStudy({ project }: { project: WorkProject }) {
           <div className="case-aside__group">
             <h2>Links</h2>
             <div className="case-aside__links">
-              {project.links.map((link) => (
-                <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
-                  {link.label}
-                  <ArrowUpRight size={14} />
-                </a>
-              ))}
+              {project.links.map((link) =>
+                link.label === 'Live application' ? (
+                  <TrackedLink
+                    key={link.href}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    event="demo_click"
+                    properties={{ project: project.slug }}
+                  >
+                    {link.label}
+                    <ArrowUpRight size={14} />
+                  </TrackedLink>
+                ) : (
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
+                    {link.label}
+                    <ArrowUpRight size={14} />
+                  </a>
+                ),
+              )}
             </div>
           </div>
 

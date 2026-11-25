@@ -30,4 +30,22 @@ test.describe('Theme no-flash boot', () => {
     expect(attrs['scheme']).toBe('light');
     expect(attrs['skin']).toBe('3');
   });
+  test('SSR html carries the default theme mirror without JavaScript', async ({ browser }) => {
+    // With JS disabled the inline boot script never runs, so the SSR markup
+    // is all a reader gets. The static default must already expose the same
+    // data-theme mirror the script writes, or the no-JS state renders with
+    // an absent legacy attribute.
+    const baseURL = test.info().project.use.baseURL;
+    const context = await browser.newContext({ javaScriptEnabled: false, baseURL });
+    try {
+      const page = await context.newPage();
+      await page.goto('/');
+      const html = page.locator('html');
+      await expect(html).toHaveAttribute('data-theme', 'dark');
+      await expect(html).toHaveAttribute('data-scheme', 'dark');
+      await expect(html).toHaveAttribute('data-skin', '3');
+    } finally {
+      await context.close();
+    }
+  });
 });

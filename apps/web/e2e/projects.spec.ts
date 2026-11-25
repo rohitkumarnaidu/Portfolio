@@ -1,69 +1,48 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * Projects listing page (`/projects`).
+ * Projects index (`/projects`).
  *
- * Verifies the page renders, project cards appear, search filtering narrows the
- * results, and the category filter buttons toggle. Selectors favour roles and
- * visible text so they stay stable as styling evolves.
+ * This is an editorial index of the six curated systems in
+ * `lib/public-content.ts`, not a filterable dashboard: there is no search box,
+ * no result counter and no category buttons. The optional "From the dashboard"
+ * list only renders when the API returns extra projects, and e2e runs Next
+ * without the API — so it is deliberately not asserted here.
  */
 test.describe('Projects page', () => {
-  test('renders the projects listing with a heading', async ({ page }) => {
+  test('renders the editorial index heading', async ({ page }) => {
     await page.goto('/projects');
 
-    await expect(page.getByRole('heading', { level: 1, name: 'Projects' })).toBeVisible();
-
-    // The results counter is always rendered (Loading… then "N projects found").
-    await expect(page.getByText(/project(s)? found|Loading/i)).toBeVisible();
+    await expect(
+      page.getByRole('heading', { level: 1, name: 'Six systems, one standard.' }),
+    ).toBeVisible();
   });
 
-  test('shows project cards once data has loaded', async ({ page }) => {
+  test('lists the six curated systems as case-study cards', async ({ page }) => {
     await page.goto('/projects');
-
-    // Wait for the loading state to resolve into the results counter.
-    await expect(page.getByText(/\d+ project(s)? found/i)).toBeVisible({ timeout: 15000 });
 
     const cards = page.locator('a[href^="/projects/"]');
-    const emptyState = page.getByText('No projects found.');
+    await expect(cards).toHaveCount(6);
+    await expect(cards.first()).toBeVisible();
+  });
 
-    // Either project cards render, or the explicit empty state is shown.
-    if (await emptyState.isVisible().catch(() => false)) {
-      await expect(emptyState).toBeVisible();
-    } else {
-      await expect(cards.first()).toBeVisible();
-      expect(await cards.count()).toBeGreaterThan(0);
+  test('every card resolves to a case-study page with an h1', async ({ page, request }) => {
+    await page.goto('/projects');
+
+    const hrefs = await page
+      .locator('a[href^="/projects/"]')
+      .evaluateAll((nodes) => nodes.map((node) => node.getAttribute('href')));
+
+    expect(hrefs).toHaveLength(6);
+    for (const href of hrefs) {
+      expect(href).toMatch(/^\/projects\/[a-z0-9-]+$/);
+      const response = await request.get(href as string);
+      expect(response.status()).toBe(200);
     }
-  });
 
-  test('filters projects via the search input', async ({ page }) => {
-    await page.goto('/projects');
-    await expect(page.getByText(/\d+ project(s)? found/i)).toBeVisible({ timeout: 15000 });
-
-    const search = page.getByPlaceholder('Search projects...');
-    await expect(search).toBeVisible();
-
-    // A query that is extremely unlikely to match should produce the empty state.
-    await search.fill('zzz-nonexistent-query-xyz');
-    await expect(page.getByText('No projects found.')).toBeVisible();
-
-    // Clearing the filters restores the listing.
-    await page.getByRole('button', { name: 'Clear filters' }).click();
-    await expect(search).toHaveValue('');
-  });
-
-  test('toggles category filters', async ({ page }) => {
-    await page.goto('/projects');
-    await expect(page.getByText(/\d+ project(s)? found/i)).toBeVisible({ timeout: 15000 });
-
-    const webFilter = page.getByRole('button', { name: 'Web', exact: true });
-    await expect(webFilter).toBeVisible();
-    await webFilter.click();
-
-    // After filtering, the results counter still reflects a (possibly smaller) count.
-    await expect(page.getByText(/\d+ project(s)? found/i)).toBeVisible();
-
-    // The "All" filter resets the category selection.
-    await page.getByRole('button', { name: 'All', exact: true }).click();
-    await expect(page.getByText(/\d+ project(s)? found/i)).toBeVisible();
+    // Navigate the first card and confirm the case study renders its own h1.
+    await page.locator('a[href^="/projects/"]').first().click();
+    await expect(page).toHaveURL(/\/projects\/[a-z0-9-]+$/);
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 });

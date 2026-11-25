@@ -2,14 +2,17 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import type { PublicAvailability } from '@/lib/api';
 import { PUBLIC_NAV, SITE } from '@/lib/public-content';
 
 function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function SiteHeader() {
+export function SiteHeader({ availability }: { availability?: PublicAvailability | null }) {
   const pathname = usePathname();
+  const availabilityLabel = availability?.statusLabel || SITE.availabilityLabel;
+  const isAvailable = availability?.isAvailable ?? SITE.available;
 
   return (
     <header className="site-header">
@@ -32,9 +35,9 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <span className="site-status">
+        <span className="site-status" data-available={isAvailable}>
           <span className="site-status__dot" aria-hidden="true" />
-          {SITE.availabilityLabel}
+          {availabilityLabel}
         </span>
 
         <details className="site-menu">

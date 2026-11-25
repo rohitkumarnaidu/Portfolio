@@ -308,6 +308,20 @@ export interface AvailabilityStatus {
   updatedAt: string;
 }
 
+/** The public projection of the availability status (no internal id). */
+export type PublicAvailability = Pick<
+  AvailabilityStatus,
+  'isAvailable' | 'statusLabel' | 'availableUntil' | 'preferredContact' | 'updatedAt'
+>;
+
+export async function getPublicAvailability() {
+  return request<PublicAvailability>(
+    '/portfolio/availability-status',
+    { next: { revalidate: 60, tags: [CACHE_TAGS.AVAILABILITY_STATUS] } },
+    true,
+  );
+}
+
 // ── Public: Media ───────────────────────────────────────────
 
 export interface MediaAsset {
@@ -370,6 +384,7 @@ export async function submitLead(data: {
   company?: string;
   subject?: string;
   message: string;
+  website?: string;
   source?: string;
   metadata?: Record<string, unknown>;
 }) {

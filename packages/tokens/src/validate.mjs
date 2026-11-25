@@ -19,6 +19,10 @@
  *   token path (ruling 2), and an optional `schemes` array ⊆ {light, dark}
  *   restricting the schemes a pair is checked in (checked in both unless
  *   restricted).
+ * - publicContrastPairs / statusContrastPairs: the scheme-constant matrices.
+ *   `publicContrastPairs` refs are `publicSurface` names (fg and bg);
+ *   `statusContrastPairs` fg refs are `status` names and bg refs are
+ *   `publicSurface` names. Both flatten to a DTCG `$value` hex.
  *
  * Throws a descriptive Error on the first violation; returns `true` when
  * the document satisfies the contract.
@@ -40,6 +44,8 @@ const TOP_LEVEL_KEYS = [
   'motion',
   'skins',
   'contrastPairs',
+  'publicContrastPairs',
+  'statusContrastPairs',
 ];
 
 const fail = (message) => {
@@ -146,6 +152,8 @@ function assertSemantic(semantic) {
           }
         } else if (typeof value !== 'string') {
           fail(`${at}.${scheme} must be a hex/rgba string or null, got ${typeof value}`);
+        } else if (value.length === 0) {
+          fail(`${at}.${scheme} must be a non-empty string`);
         }
       }
     }
@@ -191,6 +199,35 @@ function assertContrastPairs(pairs, semantic) {
   });
 }
 
+/**
+ * Validate one of the scheme-constant matrices. `groups` maps the pair side to
+ * the DTCG group it must resolve in (`{ fg, bg }`) — public pairs resolve both
+ * sides in `publicSurface`; status pairs resolve `fg` in `status` and `bg` in
+ * `publicSurface`.
+ */
+function assertDtcgPairs(pairs, groups, name) {
+  if (!Array.isArray(pairs) || pairs.length === 0) fail(`${name} must be a non-empty array`);
+  pairs.forEach((pair, index) => {
+    const at = `${name}[${index}]`;
+    if (!isObject(pair)) fail(`${at} must be an object`);
+    for (const key of ['fg', 'bg']) {
+      const ref = pair[key];
+      if (typeof ref !== 'string' || ref.length === 0) {
+        fail(`${at}.${key} must be a non-empty token name`);
+      }
+      const leaf = groups[key][ref];
+      if (!isObject(leaf) || typeof leaf.$value !== 'string') {
+        fail(`${at}.${key} "${ref}" does not resolve to a ${name} token`);
+      }
+    }
+    if (!LEVELS.has(pair.level)) {
+      fail(
+        `${at}.level must be one of AA_NORMAL, AA_LARGE, NONE — got ${JSON.stringify(pair.level)}`,
+      );
+    }
+  });
+}
+
 export function validateTokens(tokens) {
   if (!isObject(tokens)) fail('expected a JSON object at the root');
   for (const key of TOP_LEVEL_KEYS) {
@@ -216,8 +253,25 @@ export function validateTokens(tokens) {
   if (!isObject(tokens.skins) || !isObject(tokens.skins['3'])) {
     fail('skins["3"] must be an object');
   }
+  const skinKeys = Object.keys(tokens.skins);
+  if (skinKeys.some((key) => key !== '3')) {
+    fail(
+      `only skin "3" is implemented; found unimplemented skin key(s): ` +
+        skinKeys.filter((key) => key !== '3').join(', '),
+    );
+  }
   assertSemantic(tokens.skins['3'].semantic);
   assertContrastPairs(tokens.contrastPairs, tokens.skins['3'].semantic);
+  assertDtcgPairs(
+    tokens.publicContrastPairs,
+    { fg: tokens.publicSurface, bg: tokens.publicSurface },
+    'publicContrastPairs',
+  );
+  assertDtcgPairs(
+    tokens.statusContrastPairs,
+    { fg: tokens.status, bg: tokens.publicSurface },
+    'statusContrastPairs',
+  );
 
   return true;
 }

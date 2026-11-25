@@ -11,13 +11,8 @@
  * - Body: IBM Plex Sans (300–700) — body text and UI elements
  * - Mono: IBM Plex Mono — code blocks, inline code, technical content
  *
- * The serif role was removed with this swap. The public stylesheet
- * (apps/web/src/styles/public.css) still resolves its --serif chain through
- * --font-serif, so an interim :root alias in apps/web/src/styles/globals.css
- * maps --font-serif to var(--font-body). next/font cannot emit that alias
- * without instantiating Plex Sans a second time (duplicate @font-face
- * output), which is why it lives in CSS. Phase 1: public surface restyle
- * removes serif role.
+ * The serif role was removed in Phase 1; the public stylesheet
+ * (apps/web/src/styles/public.css) uses the sans and mono roles only.
  */
 
 import { IBM_Plex_Sans, IBM_Plex_Mono } from 'next/font/google';
@@ -41,9 +36,7 @@ export const fontDisplay = IBM_Plex_Sans({
 /**
  * Body font — Used for body text, H3-H4, buttons, and UI elements.
  * Same family as the display face (IBM Plex Sans) per the locked Q1 stack,
- * carrying the full 300–700 weight coverage the body role needs. The
- * interim --font-serif alias (apps/web/src/styles/globals.css) resolves
- * through this variable until the serif role is removed in Phase 1.
+ * carrying the full 300–700 weight coverage the body role needs.
  *
  * @see DESIGN.md (repo root) §Typography — font-body token
  */

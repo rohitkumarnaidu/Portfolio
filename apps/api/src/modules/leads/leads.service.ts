@@ -47,11 +47,12 @@ export class LeadsService {
     return item;
   }
 
-  async create(dto: CreateLeadDto) {
-    const sanitized = sanitizeStrings(dto);
+  async create(dto: CreateLeadDto, ipAddress?: string) {
+    const { website: _website, ...sanitized } = sanitizeStrings(dto);
     const lead = await this.prisma.lead.create({
       data: {
         ...sanitized,
+        ipAddress,
         source: sanitized.source || 'contact_form',
         status: 'new',
         priority: 'normal',

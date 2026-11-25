@@ -93,6 +93,24 @@ describe('LeadsService', () => {
       expect(result).toHaveProperty('id');
       expect(mockNotifier.sendNewLeadNotification).toHaveBeenCalled();
     });
+
+    it('should strip the honeypot field and persist the server-derived IP', async () => {
+      mockPrisma.lead.create.mockResolvedValue(mockLead);
+
+      await service.create(
+        {
+          name: 'Ada',
+          email: 'ada@example.com',
+          message: 'A long enough message',
+          website: 'https://spam.example',
+        },
+        '203.0.113.7',
+      );
+
+      const data = mockPrisma.lead.create.mock.calls[0][0].data;
+      expect(data).not.toHaveProperty('website');
+      expect(data.ipAddress).toBe('203.0.113.7');
+    });
   });
 
   describe('findAll', () => {

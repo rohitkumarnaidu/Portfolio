@@ -236,4 +236,5 @@ set is listed in the root `AGENTS.md` docs map.
 ## Superpowers (spec + plans) (`superpowers`)
 
 - [plans/2026-11-17-phase0-token-foundation](superpowers/plans/2026-11-17-phase0-token-foundation.md)
+- [plans/2026-11-23-phase1-content-path](superpowers/plans/2026-11-23-phase1-content-path.md)
 - [specs/2026-11-13-portfolio-themes-design](superpowers/specs/2026-11-13-portfolio-themes-design.md)

@@ -5,7 +5,7 @@ test.describe('Accessibility checks', () => {
     await page.goto('/');
 
     // Main navigation
-    const nav = page.getByRole('navigation', { name: 'Main navigation' });
+    const nav = page.getByRole('navigation', { name: 'Primary' });
     await expect(nav).toBeAttached();
 
     // Main content area
